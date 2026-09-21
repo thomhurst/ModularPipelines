@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,99 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "custom-jobs", "local-run")]
-public record GcloudAiCustomJobsLocalRunOptions : GcloudOptions
+public record GcloudAiCustomJobsLocalRunOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// run a custom training locally
+    /// </summary>
+    /// <param name="ExecutorImageUri">URI or ID of the container image in either the Container Registry or local that will run the application. See https://cloud.google.com/vertex-ai/docs/training/pre-built-containers for available pre-built container images provided by Vertex AI for training.</param>
+    public GcloudAiCustomJobsLocalRunOptions(
+        string ExecutorImageUri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExecutorImageUri);
+        this.ExecutorImageUri = ExecutorImageUri;
+    }
+
+    public void Deconstruct(out string ExecutorImageUri)
+    {
+        ExecutorImageUri = this.ExecutorImageUri;
+    }
+
+    /// <summary>
+    /// URI or ID of the container image in either the Container Registry or local that will run the application. See https://cloud.google.com/vertex-ai/docs/training/pre-built-containers for available pre-built container images provided by Vertex AI for training.
+    /// </summary>
+    [CliOption("--executor-image-uri", Format = OptionFormat.EqualsSeparated)]
+    public string ExecutorImageUri { get; private init; }
+
+    /// <summary>
+    /// Extra directories under the working directory to include, besides the one that contains the main executable. By default, only the parent directory of the main script or python module is copied to the container. For example, if the module is "training.task" or the script is "training/task.py", the whole "training" directory, including its sub-directories, will always be copied to the container. You may specify this flag to also copy other directories if necessary. Note: if no parent is specified in 'python_module' or 'scirpt', the whole working directory is copied, then you don't need to specify this flag. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--extra-dirs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ExtraDirs { get; set; }
+
+    /// <summary>
+    /// Local paths to Python archives used as training dependencies in the image container. These can be absolute or relative paths. However, they have to be under the work_dir; Otherwise, this tool will not be able to access it. Example: 'dep1.tar.gz, ./downloads/dep2.whl' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--extra-packages", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ExtraPackages { get; set; }
+
+    /// <summary>
+    /// Enable to use GPU.
+    /// </summary>
+    [CliFlag("--gpu")]
+    public bool? Gpu { get; set; }
+
+    /// <summary>
+    /// local path of the directory where the python-module or script exists. If not specified, it use the directory where you run the this command. Only the contents of this directory will be accessible to the built container image.
+    /// </summary>
+    [CliOption("--local-package-path", Format = OptionFormat.EqualsSeparated)]
+    public string? LocalPackagePath { get; set; }
+
+    /// <summary>
+    /// Uri of the custom container image to be built with the your application packed in.
+    /// </summary>
+    [CliOption("--output-image-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? OutputImageUri { get; set; }
+
+    /// <summary>
+    /// Python dependencies from PyPI to be used when running the application. If this is not specified, and there is no "setup.py" or "requirements.txt" in the working directory, your application will only have access to what exists in the base image with on other dependencies. Example: 'tensorflow-cpu, pandas==1.2.0, matplotlib&gt;=3.0.2' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--requirements", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Requirements { get; set; }
+
+    /// <summary>
+    /// The JSON file of a Google Cloud service account private key. When specified, the corresponding service account will be used to authenticate the local container to access Google Cloud services. Note that the key file won't be copied to the container, it will be mounted during running time.
+    /// </summary>
+    [CliOption("--service-account-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccountKeyFile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Name of the python module to execute, in 'trainer.train' or 'train' format. Its path should be relative to the work_dir.
+    /// </summary>
+    [CliOption("--python-module", Format = OptionFormat.EqualsSeparated)]
+    public string? PythonModule { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The relative path of the file to execute. Accepets a Python file or an arbitrary bash script. This path should be relative to the work_dir.
+    /// </summary>
+    [CliOption("--script", Format = OptionFormat.EqualsSeparated)]
+    public string? Script { get; set; }
+
+    /// <summary>
+    /// Additional user arguments to be forwarded to your application. The '--' argument must be specified between gcloud specific args on the left and ARGS on the right. Example: $ gcloud ai custom-jobs local-run --script=my_run.sh \ --base-image=gcr.io/my/image -- --my-arg bar --enable_foo
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
+    public IEnumerable<string>? Args { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(PythonModule) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Script) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of PythonModule or Script may be specified.", [nameof(PythonModule), nameof(Script)]);
+        }
+        yield break;
+    }
+
 }

@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dataplex", "entries", "update-aspects")]
 public record GcloudDataplexEntriesUpdateAspectsOptions : GcloudOptions
 {
+    /// <summary>
+    /// add or update aspects for a     Dataplex Entry
+    /// </summary>
+    /// <param name="Aspects">Path to a YAML or JSON file containing Aspects to add or update. When this flag is specified, only Aspects referenced in the file are going to be added or updated. Specifying this flag does not remove any Aspects from the entry. In other words, specifying this flag will not lead to a full replacement of Aspects with a contents of the provided file. Content of the file contains a map, where keys are in the format ASPECT_TYPE@PATH, or just ASPECT_TYPE, if the Aspect is attached to an entry itself rather than to a specific column defined in the schema. Values in the map represent Aspect's content, which must conform to a template defined for a given ASPECT_TYPE. Each Aspect will be replaced fully by the provided content. That means data in the Aspect will be replaced and not merged with existing contents of that Aspect in the Entry. ASPECT_TYPE is expected to be in a format PROJECT_ID.LOCATION.ASPECT_TYPE_ID. PATH can be either empty (which means a 'root' path, such that Aspect is attached to the entry itself) or point to a specific column defined in the schema. For example: Schema.some_column. Example YAML format: project-id1.us-central1.my-aspect-type1: data: aspectField1: someValue aspectField2: someOtherValue project-id2.us-central1.my-aspect-type2@Schema.column1: data: aspectField3: someValue3 Example JSON format: { "project-id1.us-central1.my-aspect-type1": { "data": { "aspectField1": "someValue", "aspectField2": "someOtherValue" } }, "project-id2.us-central1.my-aspect-type2@Schema.column1": { "data": { "aspectField3": "someValue3" } } }</param>
+    /// <param name="Entry">Entry resource - Arguments and flags that define the Dataplex Entry you want to reference. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the entry or fully qualified identifier for the entry. To set the entry attribute: ▸ provide the argument entry on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexEntriesUpdateAspectsOptions(
+        string Aspects,
+        string Entry
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Aspects);
+        this.Aspects = Aspects;
+        global::System.ArgumentNullException.ThrowIfNull(Entry);
+        this.Entry = Entry;
+    }
+
+    public void Deconstruct(out string Aspects, out string Entry)
+    {
+        Aspects = this.Aspects;
+        Entry = this.Entry;
+    }
+
+    /// <summary>
+    /// Path to a YAML or JSON file containing Aspects to add or update. When this flag is specified, only Aspects referenced in the file are going to be added or updated. Specifying this flag does not remove any Aspects from the entry. In other words, specifying this flag will not lead to a full replacement of Aspects with a contents of the provided file. Content of the file contains a map, where keys are in the format ASPECT_TYPE@PATH, or just ASPECT_TYPE, if the Aspect is attached to an entry itself rather than to a specific column defined in the schema. Values in the map represent Aspect's content, which must conform to a template defined for a given ASPECT_TYPE. Each Aspect will be replaced fully by the provided content. That means data in the Aspect will be replaced and not merged with existing contents of that Aspect in the Entry. ASPECT_TYPE is expected to be in a format PROJECT_ID.LOCATION.ASPECT_TYPE_ID. PATH can be either empty (which means a 'root' path, such that Aspect is attached to the entry itself) or point to a specific column defined in the schema. For example: Schema.some_column. Example YAML format: project-id1.us-central1.my-aspect-type1: data: aspectField1: someValue aspectField2: someOtherValue project-id2.us-central1.my-aspect-type2@Schema.column1: data: aspectField3: someValue3 Example JSON format: { "project-id1.us-central1.my-aspect-type1": { "data": { "aspectField1": "someValue", "aspectField2": "someOtherValue" } }, "project-id2.us-central1.my-aspect-type2@Schema.column1": { "data": { "aspectField3": "someValue3" } } }
+    /// </summary>
+    [CliOption("--aspects", Format = OptionFormat.EqualsSeparated)]
+    public string Aspects { get; private init; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the Dataplex Entry you want to reference. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Entry group containing Dataplex Entries. To set the entry-group attribute: ▸ provide the argument entry on the command line with a fully specified name; ▸ provide the argument --entry-group on the command line.
+    /// </summary>
+    [CliOption("--entry-group", Format = OptionFormat.EqualsSeparated)]
+    public string? EntryGroup { get; set; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the Dataplex Entry you want to reference. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the Dataplex resource. To set the location attribute: ▸ provide the argument entry on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the Dataplex Entry you want to reference. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the entry or fully qualified identifier for the entry. To set the entry attribute: ▸ provide the argument entry on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Entry { get; private init; }
+
 }

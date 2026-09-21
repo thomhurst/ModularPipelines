@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "firewall-rules", "describe")]
-public record GcloudAppFirewallRulesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
-) : GcloudOptions
+public record GcloudAppFirewallRulesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// prints the fields of a specified     firewall rule
+    /// </summary>
+    /// <param name="Priority">An integer between 1 and 2^32-1 which indicates the evaluation order of rules. Lowest priority rules are evaluated first. The handle default may also be used to refer to the final rule at priority 2^32-1 which is always present in a set of rules.</param>
+    public GcloudAppFirewallRulesDescribeOptions(
+        string Priority
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Priority);
+        this.Priority = Priority;
+    }
+
+    public void Deconstruct(out string Priority)
+    {
+        Priority = this.Priority;
+    }
+
+    /// <summary>
+    /// An integer between 1 and 2^32-1 which indicates the evaluation order of rules. Lowest priority rules are evaluated first. The handle default may also be used to refer to the final rule at priority 2^32-1 which is always present in a set of rules.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Priority { get; private init; }
+
 }

@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-connectivity", "hubs", "reject-spoke")]
 public record GcloudNetworkConnectivityHubsRejectSpokeOptions : GcloudOptions
 {
+    /// <summary>
+    /// reject a spoke from a hub
+    /// </summary>
+    /// <param name="Spoke">URI of the spoke to reject</param>
+    /// <param name="Hub">Hub resource - Name of the hub to reject the spoke from. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hub on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hub or fully qualified identifier for the hub. To set the hub attribute: ▸ provide the argument hub on the command line.</param>
+    public GcloudNetworkConnectivityHubsRejectSpokeOptions(
+        string Spoke,
+        string Hub
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Spoke);
+        this.Spoke = Spoke;
+        global::System.ArgumentNullException.ThrowIfNull(Hub);
+        this.Hub = Hub;
+    }
+
+    public void Deconstruct(out string Spoke, out string Hub)
+    {
+        Spoke = this.Spoke;
+        Hub = this.Hub;
+    }
+
+    /// <summary>
+    /// URI of the spoke to reject
+    /// </summary>
+    [CliOption("--spoke", Format = OptionFormat.EqualsSeparated)]
+    public string Spoke { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Additional details behind the rejection
+    /// </summary>
+    [CliOption("--details", Format = OptionFormat.EqualsSeparated)]
+    public string? Details { get; set; }
+
+    /// <summary>
+    /// Hub resource - Name of the hub to reject the spoke from. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hub on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hub or fully qualified identifier for the hub. To set the hub attribute: ▸ provide the argument hub on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Hub { get; private init; }
+
 }

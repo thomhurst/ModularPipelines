@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("iap", "oauth-clients", "list")]
 public record GcloudIapOauthClientsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list Cloud IAP OAuth clients in the Cloud     OAuth brand
+    /// </summary>
+    /// <param name="Name">Brand resource - Name of the Cloud OAuth brand to list Cloud IAP OAuth clients under. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the brand or fully qualified identifier for the brand. To set the brand attribute: ▸ provide the argument name on the command line.</param>
+    public GcloudIapOauthClientsListOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Brand resource - Name of the Cloud OAuth brand to list Cloud IAP OAuth clients under. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the brand or fully qualified identifier for the brand. To set the brand attribute: ▸ provide the argument name on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

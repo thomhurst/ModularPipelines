@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,28 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "delivery-pipelines", "describe")]
-public record GcloudDeployDeliveryPipelinesDescribeOptions : GcloudOptions
+public record GcloudDeployDeliveryPipelinesDescribeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Delivery pipeline resource - The name of the Delivery Pipeline. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument delivery_pipeline on the command line with a fully specified name; ◆ set the property deploy/delivery_pipeline with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The Cloud region for the delivery_pipeline. Alternatively, set the property [deploy/region]. To set the region attribute: ◆ provide the argument delivery_pipeline on the command line with a fully specified name; ◆ set the property deploy/delivery_pipeline with a fully specified name; ◆ provide the argument --region on the command line; ◆ set the property deploy/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Delivery pipeline resource - The name of the Delivery Pipeline. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument delivery_pipeline on the command line with a fully specified name; ◆ set the property deploy/delivery_pipeline with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the delivery_pipeline or fully qualified identifier for the delivery_pipeline. To set the delivery-pipeline attribute: ◆ provide the argument delivery_pipeline on the command line; ◆ set the property deploy/delivery_pipeline.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? DeliveryPipeline { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DeliveryPipeline) || !string.IsNullOrWhiteSpace(Region)) && (!(!string.IsNullOrWhiteSpace(Region))))
+        {
+            yield return new ValidationResult("Region must be specified when other arguments in this group are specified.", [nameof(Region)]);
+        }
+        yield break;
+    }
+
 }

@@ -28,9 +28,9 @@ public record GcloudAccessContextManagerCloudBindingsCreateOptions : GcloudOptio
     public string? BindingFile { get; set; }
 
     /// <summary>
-    /// The dry run access level that binds to the given group. The dry run access level will be evaluated but won't be enforced. Denial on dry run access level will be logged. The input must be the full identifier of an access level, such as accessPolicies/123/accessLevels/new-def.
+    /// The dry run access level that binds to the given group. The dry run access level will be evaluated but won't be enforced. Denial on dry run access level will be logged. The input must be the full identifier of an access level, such as accessPolicies/123/accessLevels/new-def. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--dry-run-level", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--dry-run-level", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DryRunLevel { get; set; }
 
     /// <summary>
@@ -46,9 +46,9 @@ public record GcloudAccessContextManagerCloudBindingsCreateOptions : GcloudOptio
     public string? GroupKey { get; set; }
 
     /// <summary>
-    /// The access level that binds to the given group. The input must be the full identifier of an access level, such as accessPolicies/123/accessLevels/abc.
+    /// The access level that binds to the given group. The input must be the full identifier of an access level, such as accessPolicies/123/accessLevels/abc. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--level", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--level", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Level { get; set; }
 
     /// <summary>

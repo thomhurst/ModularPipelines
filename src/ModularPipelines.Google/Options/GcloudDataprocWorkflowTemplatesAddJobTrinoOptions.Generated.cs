@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,116 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataproc", "workflow-templates", "add-job", "trino")]
-public record GcloudDataprocWorkflowTemplatesAddJobTrinoOptions : GcloudOptions
+public record GcloudDataprocWorkflowTemplatesAddJobTrinoOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// add a Trino job to the     workflow template
+    /// </summary>
+    /// <param name="StepId">The step ID of the job in the workflow template.</param>
+    /// <param name="WorkflowTemplate">Template resource - The name of the workflow template to add job to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --workflow-template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument --workflow-template on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataprocWorkflowTemplatesAddJobTrinoOptions(
+        string StepId,
+        string WorkflowTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StepId);
+        this.StepId = StepId;
+        global::System.ArgumentNullException.ThrowIfNull(WorkflowTemplate);
+        this.WorkflowTemplate = WorkflowTemplate;
+    }
+
+    public void Deconstruct(out string StepId, out string WorkflowTemplate)
+    {
+        StepId = this.StepId;
+        WorkflowTemplate = this.WorkflowTemplate;
+    }
+
+    /// <summary>
+    /// The step ID of the job in the workflow template.
+    /// </summary>
+    [CliOption("--step-id", Format = OptionFormat.EqualsSeparated)]
+    public string StepId { get; private init; }
+
+    /// <summary>
+    /// Template resource - The name of the workflow template to add job to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --workflow-template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument --workflow-template on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--workflow-template", Format = OptionFormat.EqualsSeparated)]
+    public string WorkflowTemplate { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: A Trino query to execute.
+    /// </summary>
+    [CliOption("--execute", Format = OptionFormat.EqualsSeparated)]
+    public string? Execute { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: HCFS URI of file containing the Trino script to execute.
+    /// </summary>
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public string? File { get; set; }
+
+    /// <summary>
+    /// Template resource - The name of the workflow template to add job to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --workflow-template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Dataproc region for the template. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. Overrides the default dataproc/region property value for this command invocation. To set the region attribute: ▸ provide the argument --workflow-template on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property dataproc/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// A list of Trino client tags to attach to this query. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--client-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ClientTags { get; set; }
+
+    /// <summary>
+    /// Whether to continue if a query fails.
+    /// </summary>
+    [CliFlag("--continue-on-failure")]
+    public bool? ContinueOnFailure { get; set; }
+
+    /// <summary>
+    /// A list of package-to-log4j log level pairs to configure driver logging. For example: root=FATAL,com.example=INFO Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--driver-log-levels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? DriverLogLevels { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// A list of key value pairs to set Trino session properties. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--properties", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Properties { get; set; }
+
+    /// <summary>
+    /// Path to a local file or a file in a Cloud Storage bucket containing configuration properties for the job. The client machine running this command must have read permission to the file. Specify properties in the form of property=value in the text file. For example: # Properties to set for the job: key1=value1 key2=value2 # Comment out properties not used. # key3=value3 If a property is set in both --properties and --properties-file, the value defined in --properties takes precedence.
+    /// </summary>
+    [CliOption("--properties-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesFile { get; set; }
+
+    /// <summary>
+    /// The query output display format. See the Trino documentation for supported output formats.
+    /// </summary>
+    [CliOption("--query-output-format", Format = OptionFormat.EqualsSeparated)]
+    public string? QueryOutputFormat { get; set; }
+
+    /// <summary>
+    /// (Optional) List of step IDs to start this job after. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--start-after", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? StartAfter { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Execute) ? 1 : 0) + (!string.IsNullOrWhiteSpace(File) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Execute or File must be specified.", [nameof(Execute), nameof(File)]);
+        }
+        yield break;
+    }
+
 }

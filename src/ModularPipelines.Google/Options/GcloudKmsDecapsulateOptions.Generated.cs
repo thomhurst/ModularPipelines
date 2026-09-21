@@ -21,4 +21,68 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("kms", "decapsulate")]
 public record GcloudKmsDecapsulateOptions : GcloudOptions
 {
+    /// <summary>
+    /// decapsulate an input file using a     key-encapsulation key version
+    /// </summary>
+    /// <param name="CiphertextFile">File path of the ciphertext file to decapsulate.</param>
+    /// <param name="SharedSecretFile">File path of the shared secret file to output.</param>
+    public GcloudKmsDecapsulateOptions(
+        string CiphertextFile,
+        string SharedSecretFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CiphertextFile);
+        this.CiphertextFile = CiphertextFile;
+        global::System.ArgumentNullException.ThrowIfNull(SharedSecretFile);
+        this.SharedSecretFile = SharedSecretFile;
+    }
+
+    public void Deconstruct(out string CiphertextFile, out string SharedSecretFile)
+    {
+        CiphertextFile = this.CiphertextFile;
+        SharedSecretFile = this.SharedSecretFile;
+    }
+
+    /// <summary>
+    /// File path of the ciphertext file to decapsulate.
+    /// </summary>
+    [CliOption("--ciphertext-file", Format = OptionFormat.EqualsSeparated)]
+    public string CiphertextFile { get; private init; }
+
+    /// <summary>
+    /// File path of the shared secret file to output.
+    /// </summary>
+    [CliOption("--shared-secret-file", Format = OptionFormat.EqualsSeparated)]
+    public string SharedSecretFile { get; private init; }
+
+    /// <summary>
+    /// to use for decapsulation.
+    /// </summary>
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
+    public string? Key { get; set; }
+
+    /// <summary>
+    /// Key ring of the key.
+    /// </summary>
+    [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? Keyring { get; set; }
+
+    /// <summary>
+    /// Location of the keyring.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Skip integrity verification on request and response API fields.
+    /// </summary>
+    [CliFlag("--skip-integrity-verification")]
+    public bool? SkipIntegrityVerification { get; set; }
+
+    /// <summary>
+    /// Version to use for decapsulation.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string? Version { get; set; }
+
 }

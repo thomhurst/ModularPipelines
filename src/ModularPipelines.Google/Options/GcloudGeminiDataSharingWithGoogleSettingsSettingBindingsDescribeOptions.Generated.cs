@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("gemini", "data-sharing-with-google-settings", "setting-bindings", "describe")]
 public record GcloudGeminiDataSharingWithGoogleSettingsSettingBindingsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe settingBindings
+    /// </summary>
+    /// <param name="SettingBinding">SettingBinding resource - Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument setting_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the settingBinding or fully qualified identifier for the settingBinding. To set the setting_binding attribute: ▸ provide the argument setting_binding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudGeminiDataSharingWithGoogleSettingsSettingBindingsDescribeOptions(
+        string SettingBinding
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SettingBinding);
+        this.SettingBinding = SettingBinding;
+    }
+
+    public void Deconstruct(out string SettingBinding)
+    {
+        SettingBinding = this.SettingBinding;
+    }
+
+    /// <summary>
+    /// SettingBinding resource - Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument setting_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The dataSharingWithGoogleSetting id of the settingBinding resource. To set the data-sharing-with-google-setting attribute: ▸ provide the argument setting_binding on the command line with a fully specified name; ▸ provide the argument --data-sharing-with-google-setting on the command line.
+    /// </summary>
+    [CliOption("--data-sharing-with-google-setting", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSharingWithGoogleSetting { get; set; }
+
+    /// <summary>
+    /// SettingBinding resource - Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument setting_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the settingBinding resource. To set the location attribute: ▸ provide the argument setting_binding on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// SettingBinding resource - Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument setting_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the settingBinding or fully qualified identifier for the settingBinding. To set the setting_binding attribute: ▸ provide the argument setting_binding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SettingBinding { get; private init; }
+
 }

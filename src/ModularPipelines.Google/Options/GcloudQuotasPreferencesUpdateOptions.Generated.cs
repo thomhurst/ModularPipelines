@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,132 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quotas", "preferences", "update")]
-public record GcloudQuotasPreferencesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PreferenceId
-) : GcloudOptions
+public record GcloudQuotasPreferencesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update the parameters of a single     QuotaPreference
+    /// </summary>
+    /// <param name="PreferredValue">Preferred value. Must be greater than or equal to -1. If set to -1, it means the value is "unlimited".</param>
+    /// <param name="QuotaId">ID of the quota, which is unique within the service.</param>
+    /// <param name="Service">Name of the service in which the quota is defined.</param>
+    /// <param name="PreferenceId">ID of the Quota Preference object, must be unique under its parent.</param>
+    public GcloudQuotasPreferencesUpdateOptions(
+        string PreferredValue,
+        string QuotaId,
+        string Service,
+        string PreferenceId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PreferredValue);
+        this.PreferredValue = PreferredValue;
+        global::System.ArgumentNullException.ThrowIfNull(QuotaId);
+        this.QuotaId = QuotaId;
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+        global::System.ArgumentNullException.ThrowIfNull(PreferenceId);
+        this.PreferenceId = PreferenceId;
+    }
+
+    public void Deconstruct(out string PreferredValue, out string QuotaId, out string Service, out string PreferenceId)
+    {
+        PreferredValue = this.PreferredValue;
+        QuotaId = this.QuotaId;
+        Service = this.Service;
+        PreferenceId = this.PreferenceId;
+    }
+
+    /// <summary>
+    /// Preferred value. Must be greater than or equal to -1. If set to -1, it means the value is "unlimited".
+    /// </summary>
+    [CliOption("--preferred-value", Format = OptionFormat.EqualsSeparated)]
+    public string PreferredValue { get; private init; }
+
+    /// <summary>
+    /// ID of the quota, which is unique within the service.
+    /// </summary>
+    [CliOption("--quota-id", Format = OptionFormat.EqualsSeparated)]
+    public string QuotaId { get; private init; }
+
+    /// <summary>
+    /// Name of the service in which the quota is defined.
+    /// </summary>
+    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    public string Service { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Folder of the quota preference to update.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization of the quota preference to update.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Project of the quota preference to update.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// If specified, allows you to reduce your effective limit by more than 10 percent. Default is false.
+    /// </summary>
+    [CliFlag("--allow-high-percentage-quota-decrease")]
+    public bool? AllowHighPercentageQuotaDecrease { get; set; }
+
+    /// <summary>
+    /// If specified and the quota preference is not found, a new one will be created. Default is false.
+    /// </summary>
+    [CliFlag("--allow-missing")]
+    public bool? AllowMissing { get; set; }
+
+    /// <summary>
+    /// If specified, allows you to reduce your effective limit below your quota usage. Default is false.
+    /// </summary>
+    [CliFlag("--allow-quota-decrease-below-usage")]
+    public bool? AllowQuotaDecreaseBelowUsage { get; set; }
+
+    /// <summary>
+    /// Dimensions of the quota. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--dimensions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Dimensions { get; set; }
+
+    /// <summary>
+    /// An optional email address that can be used for quota related communication between the Google Cloud and the user in case the Google Cloud needs further information to make a decision on whether the user preferred quota can be granted. The Google account for the email address must have quota update permission for the project, folder or organization this quota preference is for. If no contact email address is provided, or the provided email address does not have the required quota update permission, the quota preference request will be denied in case further information is required to make a decision.
+    /// </summary>
+    [CliOption("--email", Format = OptionFormat.EqualsSeparated)]
+    public string? Email { get; set; }
+
+    /// <summary>
+    /// A short statement to justify quota increase requests.
+    /// </summary>
+    [CliOption("--justification", Format = OptionFormat.EqualsSeparated)]
+    public string? Justification { get; set; }
+
+    /// <summary>
+    /// If specified, only validates the request, but does not actually update. Note that a request being valid does not mean that the request is guaranteed to be fulfilled. Default is false.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// ID of the Quota Preference object, must be unique under its parent.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PreferenceId { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder, Organization, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

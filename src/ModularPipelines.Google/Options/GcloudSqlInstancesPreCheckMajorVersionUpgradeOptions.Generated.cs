@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "pre-check-major-version-upgrade")]
-public record GcloudSqlInstancesPreCheckMajorVersionUpgradeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudSqlInstancesPreCheckMajorVersionUpgradeOptions : GcloudOptions
 {
+    /// <summary>
+    /// checks     for a major version upgrade of a Cloud SQL instance
+    /// </summary>
+    /// <param name="TargetDatabaseVersion">Target database version for the upgrade.</param>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    public GcloudSqlInstancesPreCheckMajorVersionUpgradeOptions(
+        string TargetDatabaseVersion,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetDatabaseVersion);
+        this.TargetDatabaseVersion = TargetDatabaseVersion;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string TargetDatabaseVersion, out string Instance)
+    {
+        TargetDatabaseVersion = this.TargetDatabaseVersion;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Target database version for the upgrade.
+    /// </summary>
+    [CliOption("--target-database-version", Format = OptionFormat.EqualsSeparated)]
+    public string TargetDatabaseVersion { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
 }

@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAccessContextManagerAuthorizedOrgsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete an authorized     organizations description
+    /// </summary>
+    /// <param name="AuthorizedOrgsDesc">Authorized orgs desc resource - The authorized organizations description you want to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the authorized-orgs-desc or fully qualified identifier for the authorized-orgs-desc. To set the authorized_orgs_desc attribute: ▸ provide the argument authorized_orgs_desc on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAccessContextManagerAuthorizedOrgsDeleteOptions(
+        string AuthorizedOrgsDesc
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizedOrgsDesc);
+        this.AuthorizedOrgsDesc = AuthorizedOrgsDesc;
+    }
+
+    public void Deconstruct(out string AuthorizedOrgsDesc)
+    {
+        AuthorizedOrgsDesc = this.AuthorizedOrgsDesc;
+    }
+
+    /// <summary>
+    /// Authorized orgs desc resource - The authorized organizations description you want to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The ID of the access policy. To set the policy attribute: ▸ provide the argument authorized_orgs_desc on the command line with a fully specified name; ▸ provide the argument --policy on the command line; ▸ set the property access_context_manager/policy; ▸ automatically, if the current account belongs to an organization with exactly one access policy..
+    /// </summary>
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
+    public string? Policy { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Authorized orgs desc resource - The authorized organizations description you want to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the authorized-orgs-desc or fully qualified identifier for the authorized-orgs-desc. To set the authorized_orgs_desc attribute: ▸ provide the argument authorized_orgs_desc on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AuthorizedOrgsDesc { get; private init; }
 
 }

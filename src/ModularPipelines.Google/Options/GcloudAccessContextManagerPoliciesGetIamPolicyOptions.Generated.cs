@@ -21,4 +21,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("access-context-manager", "policies", "get-iam-policy")]
 public record GcloudAccessContextManagerPoliciesGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// Policy resource - The access policy for which to display the IAM policy. This represents a Cloud resource. ID of the policy or fully qualified identifier for the policy. To set the policy attribute: ◆ provide the argument policy on the command line; ◆ set the property access_context_manager/policy; ◆ automatically, if the current account belongs to an organization with exactly one access policy..
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Policy { get; set; }
+
 }

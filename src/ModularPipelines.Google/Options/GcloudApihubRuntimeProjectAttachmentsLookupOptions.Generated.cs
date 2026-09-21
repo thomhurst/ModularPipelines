@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apihub", "runtime-project-attachments", "lookup")]
 public record GcloudApihubRuntimeProjectAttachmentsLookupOptions : GcloudOptions
 {
+    /// <summary>
+    /// lookup a runtime project     attachment
+    /// </summary>
+    /// <param name="Location">The location of the runtime project attachment.</param>
+    /// <param name="ServiceProject">The service project ID to lookup attachment for.</param>
+    public GcloudApihubRuntimeProjectAttachmentsLookupOptions(
+        string Location,
+        string ServiceProject
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceProject);
+        this.ServiceProject = ServiceProject;
+    }
+
+    public void Deconstruct(out string Location, out string ServiceProject)
+    {
+        Location = this.Location;
+        ServiceProject = this.ServiceProject;
+    }
+
+    /// <summary>
+    /// The location of the runtime project attachment.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The service project ID to lookup attachment for.
+    /// </summary>
+    [CliOption("--service-project", Format = OptionFormat.EqualsSeparated)]
+    public string ServiceProject { get; private init; }
+
 }

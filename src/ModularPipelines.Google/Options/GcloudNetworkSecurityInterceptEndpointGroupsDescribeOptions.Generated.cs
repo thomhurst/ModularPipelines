@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-security", "intercept-endpoint-groups", "describe")]
 public record GcloudNetworkSecurityInterceptEndpointGroupsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a     Intercept Endpoint Group
+    /// </summary>
+    /// <param name="InterceptEndpointGroup">Intercept endpoint group resource - Intercept Endpoint Group. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument INTERCEPT_ENDPOINT_GROUP on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the intercept endpoint group or fully qualified identifier for the intercept endpoint group. To set the endpoint-group-id attribute: ▸ provide the argument INTERCEPT_ENDPOINT_GROUP on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecurityInterceptEndpointGroupsDescribeOptions(
+        string InterceptEndpointGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InterceptEndpointGroup);
+        this.InterceptEndpointGroup = InterceptEndpointGroup;
+    }
+
+    public void Deconstruct(out string InterceptEndpointGroup)
+    {
+        InterceptEndpointGroup = this.InterceptEndpointGroup;
+    }
+
+    /// <summary>
+    /// Intercept endpoint group resource - Intercept Endpoint Group. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument INTERCEPT_ENDPOINT_GROUP on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the intercept endpoint group. To set the location attribute: ▸ provide the argument INTERCEPT_ENDPOINT_GROUP on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Intercept endpoint group resource - Intercept Endpoint Group. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument INTERCEPT_ENDPOINT_GROUP on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the intercept endpoint group or fully qualified identifier for the intercept endpoint group. To set the endpoint-group-id attribute: ▸ provide the argument INTERCEPT_ENDPOINT_GROUP on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InterceptEndpointGroup { get; private init; }
+
 }

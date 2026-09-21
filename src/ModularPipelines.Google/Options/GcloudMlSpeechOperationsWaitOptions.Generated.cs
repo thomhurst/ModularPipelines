@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("ml", "speech", "operations", "wait")]
 public record GcloudMlSpeechOperationsWaitOptions : GcloudOptions
 {
+    /// <summary>
+    /// running speech recognition     operation until it completes
+    /// </summary>
+    /// <param name="Operation">Operation resource - The ID of the operation to wait for. This represents a Cloud resource. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument operation on the command line.</param>
+    public GcloudMlSpeechOperationsWaitOptions(
+        string Operation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+    }
+
+    public void Deconstruct(out string Operation)
+    {
+        Operation = this.Operation;
+    }
+
+    /// <summary>
+    /// Operation resource - The ID of the operation to wait for. This represents a Cloud resource. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument operation on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Operation { get; private init; }
+
 }

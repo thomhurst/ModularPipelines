@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("artifacts", "sbom", "export")]
 public record GcloudArtifactsSbomExportOptions : GcloudOptions
 {
+    /// <summary>
+    /// export SBOM files to Google Cloud Storage
+    /// </summary>
+    /// <param name="Uri">The URI of the Artifact Registry image the SBOM is exported for. A 'gcr.io' image can also be used if redirection is enabled in Artifact Registry. Make sure 'artifactregistry.projectsettings.get' permission is granted to the current gcloud user to verify the redirection status.</param>
+    public GcloudArtifactsSbomExportOptions(
+        string Uri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Uri);
+        this.Uri = Uri;
+    }
+
+    public void Deconstruct(out string Uri)
+    {
+        Uri = this.Uri;
+    }
+
+    /// <summary>
+    /// The URI of the Artifact Registry image the SBOM is exported for. A 'gcr.io' image can also be used if redirection is enabled in Artifact Registry. Make sure 'artifactregistry.projectsettings.get' permission is granted to the current gcloud user to verify the redirection status.
+    /// </summary>
+    [CliOption("--uri", Format = OptionFormat.EqualsSeparated)]
+    public string Uri { get; private init; }
+
+    /// <summary>
+    /// If specified, all requests to Artifact Analysis for occurrences will go to location specified
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

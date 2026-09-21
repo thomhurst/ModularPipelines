@@ -21,4 +21,79 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("database-migration", "conversion-workspaces", "import-rules")]
 public record GcloudDatabaseMigrationConversionWorkspacesImportRulesOptions : GcloudOptions
 {
+    /// <summary>
+    /// import     mapping rules in a Database Migration Service conversion workspace
+    /// </summary>
+    /// <param name="ConfigFiles">A list of files to import rules from. Either provide a single file path or if multiple files are to be provided, each file should correspond to one schema. Provide file paths as a comma separated list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="ConversionWorkspace">Conversion workspace resource - The conversion workspace to import rules. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument conversion_workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the conversion_workspace or fully qualified identifier for the conversion_workspace. To set the conversion_workspace attribute: ▸ provide the argument conversion_workspace on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatabaseMigrationConversionWorkspacesImportRulesOptions(
+        IEnumerable<string> ConfigFiles,
+        string ConversionWorkspace
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ConfigFiles);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ConfigFiles));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ConfigFiles));
+            }
+
+            ConfigFiles = materialized;
+        }
+        this.ConfigFiles = ConfigFiles;
+        global::System.ArgumentNullException.ThrowIfNull(ConversionWorkspace);
+        this.ConversionWorkspace = ConversionWorkspace;
+    }
+
+    public void Deconstruct(out IEnumerable<string> ConfigFiles, out string ConversionWorkspace)
+    {
+        ConfigFiles = this.ConfigFiles;
+        ConversionWorkspace = this.ConversionWorkspace;
+    }
+
+    /// <summary>
+    /// A list of files to import rules from. Either provide a single file path or if multiple files are to be provided, each file should correspond to one schema. Provide file paths as a comma separated list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--config-files", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> ConfigFiles { get; private init; }
+
+    /// <summary>
+    /// Conversion workspace resource - The conversion workspace to import rules. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument conversion_workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the conversion_workspace. To set the region attribute: ▸ provide the argument conversion_workspace on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Auto-commit the conversion workspace (default: True). Use --auto-commit to enable and --no-auto-commit to disable.
+    /// </summary>
+    [CliFlag("--auto-commit")]
+    public bool? AutoCommit { get; set; }
+
+    /// <summary>
+    /// Negates --auto-commit. Auto-commit the conversion workspace (default: True). Use --auto-commit to enable and --no-auto-commit to disable.
+    /// </summary>
+    [CliFlag("--no-auto-commit")]
+    public bool? NoAutoCommit { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// File format type to import rules from. FILE_FORMAT must be (only one value is supported): ORA2PG.
+    /// </summary>
+    [CliOption("--file-format", Format = OptionFormat.EqualsSeparated)]
+    public string? FileFormat { get; set; }
+
+    /// <summary>
+    /// Conversion workspace resource - The conversion workspace to import rules. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument conversion_workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the conversion_workspace or fully qualified identifier for the conversion_workspace. To set the conversion_workspace attribute: ▸ provide the argument conversion_workspace on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConversionWorkspace { get; private init; }
+
 }

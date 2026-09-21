@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -21,6 +22,35 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("iam", "oauth-clients", "credentials", "update")]
 public record GcloudIamOauthClientsCredentialsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update an OAuth client     credential
+    /// </summary>
+    /// <param name="Credential">Oauth client credential resource - The OAuth client credential to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument credential on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the oauth client credential or fully qualified identifier for the oauth client credential. To set the credential attribute: ▸ provide the argument credential on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamOauthClientsCredentialsUpdateOptions(
+        string Credential
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Credential);
+        this.Credential = Credential;
+    }
+
+    public void Deconstruct(out string Credential)
+    {
+        Credential = this.Credential;
+    }
+
+    /// <summary>
+    /// Oauth client credential resource - The OAuth client credential to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument credential on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location name. To set the location attribute: ▸ provide the argument credential on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Oauth client credential resource - The OAuth client credential to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument credential on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID to use for the OAuth client, which becomes the final component of the resource name. This value should be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix gcp- is reserved for use by Google, and may not be specified. To set the oauth-client attribute: ▸ provide the argument credential on the command line with a fully specified name; ▸ provide the argument --oauth-client on the command line.
+    /// </summary>
+    [CliOption("--oauth-client", Format = OptionFormat.EqualsSeparated)]
+    public string? OauthClient { get; set; }
+
     /// <summary>
     /// Disables the OAuth client credential. You cannot use a disabled OAuth client credential for OAuth. Include --no-disabled to enable a disabled OAuth client credential.
     /// </summary>
@@ -38,5 +68,12 @@ public record GcloudIamOauthClientsCredentialsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Oauth client credential resource - The OAuth client credential to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument credential on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the oauth client credential or fully qualified identifier for the oauth client credential. To set the credential attribute: ▸ provide the argument credential on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [SecretValue]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Credential { get; private init; }
 
 }

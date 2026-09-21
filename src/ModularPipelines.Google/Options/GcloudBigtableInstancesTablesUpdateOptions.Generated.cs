@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "instances", "tables", "update")]
-public record GcloudBigtableInstancesTablesUpdateOptions : GcloudOptions
+public record GcloudBigtableInstancesTablesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update an existing Cloud Bigtable     table
+    /// </summary>
+    /// <param name="Table">Table resource - Cloud Bigtable table to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument table on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the table or fully qualified identifier for the table. To set the table attribute: ▸ provide the argument table on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBigtableInstancesTablesUpdateOptions(
+        string Table
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Table);
+        this.Table = Table;
+    }
+
+    public void Deconstruct(out string Table)
+    {
+        Table = this.Table;
+    }
+
+    /// <summary>
+    /// Table resource - Cloud Bigtable table to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument table on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable instance. To set the instance attribute: ▸ provide the argument table on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -52,10 +76,32 @@ public record GcloudBigtableInstancesTablesUpdateOptions : GcloudOptions
     public string? AutomatedBackupRetentionPeriod { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Group for automated backup policy parameters. At most one of these can be specified: List of Cloud Bigtable zones where automated backups are allowed to be created. If empty, automated backups will be created in all zones of the instance. Locations are in the format projects/{project}/locations/{zone}. Setting this flag will enable automated backup for the table.
+    /// At most one of these can be specified: Group for automated backup policy parameters. At most one of these can be specified: List of Cloud Bigtable zones where automated backups are allowed to be created. If empty, automated backups will be created in all zones of the instance. Locations are in the format projects/{project}/locations/{zone}. Setting this flag will enable automated backup for the table. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--automated-backup-locations", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AutomatedBackupLocations { get; set; }
+    [CliOption("--automated-backup-locations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AutomatedBackupLocations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AutomatedBackupLocationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AutomatedBackupLocationsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Group for automated backup policy parameters. At most one of these can be specified: Empty the automated backup locations list if populated.
@@ -98,5 +144,37 @@ public record GcloudBigtableInstancesTablesUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--row-key-schema-definition-file", Format = OptionFormat.EqualsSeparated)]
     public string? RowKeySchemaDefinitionFile { get; set; }
+
+    /// <summary>
+    /// Table resource - Cloud Bigtable table to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument table on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the table or fully qualified identifier for the table. To set the table attribute: ▸ provide the argument table on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Table { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(AutomatedBackupRetentionPeriod) || ((object?)AutomatedBackupLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutomatedBackupLocations is not string || !string.IsNullOrWhiteSpace(AutomatedBackupLocations?.ToString()) : ((object?)AutomatedBackupLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutomatedBackupLocations, static item => item is not null) : (AutomatedBackupLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutomatedBackupLocations), static item => item is not null)))) || ClearAutomatedBackupLocations == true) ? 1 : 0) + ((DisableAutomatedBackup == true || EnableAutomatedBackup == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (AutomatedBackupRetentionPeriod, AutomatedBackupLocations, or ClearAutomatedBackupLocations) or (DisableAutomatedBackup or EnableAutomatedBackup) may be specified.", [nameof(AutomatedBackupRetentionPeriod), nameof(AutomatedBackupLocations), nameof(ClearAutomatedBackupLocations), nameof(DisableAutomatedBackup), nameof(EnableAutomatedBackup)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AutomatedBackupRetentionPeriod) || ((object?)AutomatedBackupLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutomatedBackupLocations is not string || !string.IsNullOrWhiteSpace(AutomatedBackupLocations?.ToString()) : ((object?)AutomatedBackupLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutomatedBackupLocations, static item => item is not null) : (AutomatedBackupLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutomatedBackupLocations), static item => item is not null)))) || ClearAutomatedBackupLocations == true || DisableAutomatedBackup == true || EnableAutomatedBackup == true) && (!string.IsNullOrWhiteSpace(AutomatedBackupRetentionPeriod) || ((object?)AutomatedBackupLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutomatedBackupLocations is not string || !string.IsNullOrWhiteSpace(AutomatedBackupLocations?.ToString()) : ((object?)AutomatedBackupLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutomatedBackupLocations, static item => item is not null) : (AutomatedBackupLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutomatedBackupLocations), static item => item is not null)))) || ClearAutomatedBackupLocations == true) && ((((object?)AutomatedBackupLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutomatedBackupLocations is not string || !string.IsNullOrWhiteSpace(AutomatedBackupLocations?.ToString()) : ((object?)AutomatedBackupLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutomatedBackupLocations, static item => item is not null) : (AutomatedBackupLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutomatedBackupLocations), static item => item is not null)))) ? 1 : 0) + (ClearAutomatedBackupLocations == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of AutomatedBackupLocations or ClearAutomatedBackupLocations may be specified.", [nameof(AutomatedBackupLocations), nameof(ClearAutomatedBackupLocations)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AutomatedBackupRetentionPeriod) || ((object?)AutomatedBackupLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutomatedBackupLocations is not string || !string.IsNullOrWhiteSpace(AutomatedBackupLocations?.ToString()) : ((object?)AutomatedBackupLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutomatedBackupLocations, static item => item is not null) : (AutomatedBackupLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutomatedBackupLocations), static item => item is not null)))) || ClearAutomatedBackupLocations == true || DisableAutomatedBackup == true || EnableAutomatedBackup == true) && (DisableAutomatedBackup == true || EnableAutomatedBackup == true) && ((DisableAutomatedBackup == true ? 1 : 0) + (EnableAutomatedBackup == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of DisableAutomatedBackup or EnableAutomatedBackup may be specified.", [nameof(DisableAutomatedBackup), nameof(EnableAutomatedBackup)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ChangeStreamRetentionPeriod) ? 1 : 0) + (ClearChangeStreamRetentionPeriod == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ChangeStreamRetentionPeriod or ClearChangeStreamRetentionPeriod may be specified.", [nameof(ChangeStreamRetentionPeriod), nameof(ClearChangeStreamRetentionPeriod)]);
+        }
+        if ((ClearRowKeySchema == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RowKeySchemaDefinitionFile) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearRowKeySchema or RowKeySchemaDefinitionFile may be specified.", [nameof(ClearRowKeySchema), nameof(RowKeySchemaDefinitionFile)]);
+        }
+        yield break;
+    }
 
 }

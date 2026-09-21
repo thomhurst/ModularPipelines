@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,349 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("model-armor", "floorsettings", "update")]
-public record GcloudModelArmorFloorsettingsUpdateOptions : GcloudOptions
+public record GcloudModelArmorFloorsettingsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Model Armor floor     setting
+    /// </summary>
+    /// <param name="FullUri">Full uri of the floor setting</param>
+    public GcloudModelArmorFloorsettingsUpdateOptions(
+        string FullUri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FullUri);
+        this.FullUri = FullUri;
+    }
+
+    public void Deconstruct(out string FullUri)
+    {
+        FullUri = this.FullUri;
+    }
+
+    /// <summary>
+    /// Full uri of the floor setting
+    /// </summary>
+    [CliOption("--full-uri", Format = OptionFormat.EqualsSeparated)]
+    public string FullUri { get; private init; }
+
+    /// <summary>
+    /// Enable or disable the floor setting enforcement. Set the value to "TRUE" to enable the floor setting enforcement, "FALSE" to disable it.
+    /// </summary>
+    [CliOption("--enable-floor-setting-enforcement", Format = OptionFormat.EqualsSeparated)]
+    public string? EnableFloorSettingEnforcement { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Enable multi-language detection for floor setting, allowing Model Armor to process content in multiple languages. Use --enable-multi-language-detection to enable and --no-enable-multi-language-detection to disable.
+    /// </summary>
+    [CliFlag("--enable-multi-language-detection")]
+    public bool? EnableMultiLanguageDetection { get; set; }
+
+    /// <summary>
+    /// Negates --enable-multi-language-detection. Multi language detection enablement. Enable multi-language detection for floor setting, allowing Model Armor to process content in multiple languages. Use --enable-multi-language-detection to enable and --no-enable-multi-language-detection to disable.
+    /// </summary>
+    [CliFlag("--no-enable-multi-language-detection")]
+    public bool? NoEnableMultiLanguageDetection { get; set; }
+
+    /// <summary>
+    /// Malicious uri filter settings. Malicious URI filter settings.
+    /// </summary>
+    [CliOption("--malicious-uri-filter-settings-enforcement", Format = OptionFormat.EqualsSeparated)]
+    public string? MaliciousUriFilterSettingsEnforcement { get; set; }
+
+    /// <summary>
+    /// Manage list of MCP servers for which the Google MCP server floor setting is applicable. Empty list indicates that the floor setting is applicable to all Google MCP servers. APIs need to be valid MCP resources, for example:"bigquery.googleapis.com/mcp", "run.googleapis.com/mcp" At most one of these can be specified: Appends the given APIs to the list of Google MCP server APIs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--add-google-mcp-server-apis", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddGoogleMcpServerApis
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddGoogleMcpServerApisSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddGoogleMcpServerApisSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Manage list of MCP servers for which the Google MCP server floor setting is applicable. Empty list indicates that the floor setting is applicable to all Google MCP servers. APIs need to be valid MCP resources, for example:"bigquery.googleapis.com/mcp", "run.googleapis.com/mcp" At most one of these can be specified: Removes all APIs from the list of Google MCP server APIs. Empty list indicates that the floor setting is applicable to all Google MCP servers.
+    /// </summary>
+    [CliFlag("--clear-google-mcp-server-apis")]
+    public bool? ClearGoogleMcpServerApis { get; set; }
+
+    /// <summary>
+    /// Manage list of MCP servers for which the Google MCP server floor setting is applicable. Empty list indicates that the floor setting is applicable to all Google MCP servers. APIs need to be valid MCP resources, for example:"bigquery.googleapis.com/mcp", "run.googleapis.com/mcp" At most one of these can be specified: Replaces the current list of Google MCP server APIs with the provided list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--google-mcp-server-apis", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? GoogleMcpServerApis
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __GoogleMcpServerApisSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __GoogleMcpServerApisSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Manage list of MCP servers for which the Google MCP server floor setting is applicable. Empty list indicates that the floor setting is applicable to all Google MCP servers. APIs need to be valid MCP resources, for example:"bigquery.googleapis.com/mcp", "run.googleapis.com/mcp" At most one of these can be specified: Removes the given APIs from the list of Google MCP server APIs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--remove-google-mcp-server-apis", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveGoogleMcpServerApis
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveGoogleMcpServerApisSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveGoogleMcpServerApisSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Manage integrated services to apply Model Armor floor settings. Integrated services will have Model Armor sanitization enabled project-wide. At most one of these can be specified: Set the list of integrated services for the floor setting. This can be used to enable project-wide Model Armor sanitization for the respective services. This flag can be repeated to specify multiple services, or a comma-separated list can be provided.
+    /// </summary>
+    [CliOption("--add-integrated-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddIntegratedServices
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddIntegratedServicesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddIntegratedServicesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddIntegratedServicesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddIntegratedServicesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Manage integrated services to apply Model Armor floor settings. Integrated services will have Model Armor sanitization enabled project-wide. At most one of these can be specified: Clear all integrated services from the floor setting.
+    /// </summary>
+    [CliFlag("--clear-integrated-services")]
+    public bool? ClearIntegratedServices { get; set; }
+
+    /// <summary>
+    /// Manage integrated services to apply Model Armor floor settings. Integrated services will have Model Armor sanitization enabled project-wide. At most one of these can be specified: Remove specified service(s) from the list of integrated services. This flag can be repeated to specify multiple services, or a comma-separated list can be provided.
+    /// </summary>
+    [CliOption("--remove-integrated-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveIntegratedServices
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveIntegratedServicesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveIntegratedServicesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveIntegratedServicesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveIntegratedServicesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// RAI filter settings. At most one of these can be specified: Add rai filter settings. Sets add_rai_settings_filters value. Shorthand Example: --add-rai-settings-filters=string,string JSON Example: --add-rai-settings-filters=["string"] File Example: --add-rai-settings-filters=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-rai-settings-filters", Format = OptionFormat.EqualsSeparated)]
+    public string? AddRaiSettingsFilters { get; set; }
+
+    /// <summary>
+    /// RAI filter settings. At most one of these can be specified: Clear all rai filter settings.
+    /// </summary>
+    [CliFlag("--clear-rai-settings-filters")]
+    public bool? ClearRaiSettingsFilters { get; set; }
+
+    /// <summary>
+    /// RAI filter settings. At most one of these can be specified: Set rai_settings_filters to new value. List of Responsible AI filters enabled for floor setting. Sets rai_settings_filters value. Shorthand Example: --rai-settings-filters=string,string JSON Example: --rai-settings-filters=["string"] File Example: --rai-settings-filters=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--rai-settings-filters", Format = OptionFormat.EqualsSeparated)]
+    public string? RaiSettingsFilters { get; set; }
+
+    /// <summary>
+    /// RAI filter settings. At most one of these can be specified: Remove rai filter settings. Sets remove_rai_settings_filters value. Shorthand Example: --remove-rai-settings-filters=string,string JSON Example: --remove-rai-settings-filters=["string"] File Example: --remove-rai-settings-filters=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--remove-rai-settings-filters", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveRaiSettingsFilters { get; set; }
+
+    /// <summary>
+    /// SDP filter settings. The sdp filter settings enforcement. The value has to be a valid template name. e.g. projects/{project}/locations/{location}/deidentifyTemplates/{deidentify_template}
+    /// </summary>
+    [CliOption("--advanced-config-deidentify-template", Format = OptionFormat.EqualsSeparated)]
+    public string? AdvancedConfigDeidentifyTemplate { get; set; }
+
+    /// <summary>
+    /// SDP filter settings. The sdp filter settings enforcement. The value has to be a valid template name. e.g. projects/{project}/locations/{location}/inspectTemplates/{inspect_template}
+    /// </summary>
+    [CliOption("--advanced-config-inspect-template", Format = OptionFormat.EqualsSeparated)]
+    public string? AdvancedConfigInspectTemplate { get; set; }
+
+    /// <summary>
+    /// SDP filter settings. The sdp filter settings enforcement. The value can be either ENABLED or DISABLED.
+    /// </summary>
+    [CliOption("--basic-config-filter-enforcement", Format = OptionFormat.EqualsSeparated)]
+    public string? BasicConfigFilterEnforcement { get; set; }
+
+    /// <summary>
+    /// Options for Google MCP server sanitization. Enable Cloud Logging for Google MCP server sanitization to log Model Armor sanitization results. Use --enable-google-mcp-server-cloud-logging to enable and --no-enable-google-mcp-server-cloud-logging to disable.
+    /// </summary>
+    [CliFlag("--enable-google-mcp-server-cloud-logging")]
+    public bool? EnableGoogleMcpServerCloudLogging { get; set; }
+
+    /// <summary>
+    /// Negates --enable-google-mcp-server-cloud-logging. Options for Google MCP server sanitization. Enable Cloud Logging for Google MCP server sanitization to log Model Armor sanitization results. Use --enable-google-mcp-server-cloud-logging to enable and --no-enable-google-mcp-server-cloud-logging to disable.
+    /// </summary>
+    [CliFlag("--no-enable-google-mcp-server-cloud-logging")]
+    public bool? NoEnableGoogleMcpServerCloudLogging { get; set; }
+
+    /// <summary>
+    /// Options for Google MCP server sanitization. Specifies the enforcement mode for Google MCP server sanitization, such as "INSPECT_ONLY" or "INSPECT_AND_BLOCK". Default is "INSPECT_ONLY".
+    /// </summary>
+    [CliOption("--google-mcp-server-enforcement-type", Format = OptionFormat.EqualsSeparated)]
+    public string? GoogleMcpServerEnforcementType { get; set; }
+
+    /// <summary>
+    /// Options for Vertex AI sanitization. Enable Cloud Logging for Vertex AI sanitization to log Model Armor sanitization results. Use --enable-vertex-ai-cloud-logging to enable and --no-enable-vertex-ai-cloud-logging to disable.
+    /// </summary>
+    [CliFlag("--enable-vertex-ai-cloud-logging")]
+    public bool? EnableVertexAiCloudLogging { get; set; }
+
+    /// <summary>
+    /// Negates --enable-vertex-ai-cloud-logging. Options for Vertex AI sanitization. Enable Cloud Logging for Vertex AI sanitization to log Model Armor sanitization results. Use --enable-vertex-ai-cloud-logging to enable and --no-enable-vertex-ai-cloud-logging to disable.
+    /// </summary>
+    [CliFlag("--no-enable-vertex-ai-cloud-logging")]
+    public bool? NoEnableVertexAiCloudLogging { get; set; }
+
+    /// <summary>
+    /// Options for Vertex AI sanitization. Specifies the enforcement mode for Vertex AI sanitization, such as "INSPECT_ONLY" or "INSPECT_AND_BLOCK". Default is "INSPECT_ONLY".
+    /// </summary>
+    [CliOption("--vertex-ai-enforcement-type", Format = OptionFormat.EqualsSeparated)]
+    public string? VertexAiEnforcementType { get; set; }
+
+    /// <summary>
+    /// PI and jailbreak filter settings. The pi and jailbreak filter settings confidence level. The value can be either "high", "medium-and-above" or "low-and-above"
+    /// </summary>
+    [CliOption("--pi-and-jailbreak-filter-settings-confidence-level", Format = OptionFormat.EqualsSeparated)]
+    public string? PiAndJailbreakFilterSettingsConfidenceLevel { get; set; }
+
+    /// <summary>
+    /// PI and jailbreak filter settings. The pi and jailbreak filter settings enforcement. The value can be either "enable" or "disable".
+    /// </summary>
+    [CliOption("--pi-and-jailbreak-filter-settings-enforcement", Format = OptionFormat.EqualsSeparated)]
+    public string? PiAndJailbreakFilterSettingsEnforcement { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)AddGoogleMcpServerApis is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddGoogleMcpServerApis is not string || !string.IsNullOrWhiteSpace(AddGoogleMcpServerApis?.ToString()) : ((object?)AddGoogleMcpServerApis is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddGoogleMcpServerApis, static item => item is not null) : (AddGoogleMcpServerApis is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddGoogleMcpServerApis), static item => item is not null)))) ? 1 : 0) + (ClearGoogleMcpServerApis == true ? 1 : 0) + (((object?)GoogleMcpServerApis is global::System.Collections.Generic.IEnumerable<char> ? (object?)GoogleMcpServerApis is not string || !string.IsNullOrWhiteSpace(GoogleMcpServerApis?.ToString()) : ((object?)GoogleMcpServerApis is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)GoogleMcpServerApis, static item => item is not null) : (GoogleMcpServerApis is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GoogleMcpServerApis), static item => item is not null)))) ? 1 : 0) + (((object?)RemoveGoogleMcpServerApis is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveGoogleMcpServerApis is not string || !string.IsNullOrWhiteSpace(RemoveGoogleMcpServerApis?.ToString()) : ((object?)RemoveGoogleMcpServerApis is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveGoogleMcpServerApis, static item => item is not null) : (RemoveGoogleMcpServerApis is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveGoogleMcpServerApis), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AddGoogleMcpServerApis, ClearGoogleMcpServerApis, GoogleMcpServerApis, or RemoveGoogleMcpServerApis may be specified.", [nameof(AddGoogleMcpServerApis), nameof(ClearGoogleMcpServerApis), nameof(GoogleMcpServerApis), nameof(RemoveGoogleMcpServerApis)]);
+        }
+        if ((((object?)AddIntegratedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddIntegratedServices, static item => item is not null) : ((object?)AddIntegratedServices is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddIntegratedServices is not string || !string.IsNullOrWhiteSpace(AddIntegratedServices?.ToString()) : ((object?)AddIntegratedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddIntegratedServices, static item => item is not null) : (AddIntegratedServices is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddIntegratedServices), static item => item is not null))))) ? 1 : 0) + (ClearIntegratedServices == true ? 1 : 0) + (((object?)RemoveIntegratedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveIntegratedServices, static item => item is not null) : ((object?)RemoveIntegratedServices is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveIntegratedServices is not string || !string.IsNullOrWhiteSpace(RemoveIntegratedServices?.ToString()) : ((object?)RemoveIntegratedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveIntegratedServices, static item => item is not null) : (RemoveIntegratedServices is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveIntegratedServices), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AddIntegratedServices, ClearIntegratedServices, or RemoveIntegratedServices may be specified.", [nameof(AddIntegratedServices), nameof(ClearIntegratedServices), nameof(RemoveIntegratedServices)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AddRaiSettingsFilters) ? 1 : 0) + (ClearRaiSettingsFilters == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RaiSettingsFilters) ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveRaiSettingsFilters) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AddRaiSettingsFilters, ClearRaiSettingsFilters, RaiSettingsFilters, or RemoveRaiSettingsFilters may be specified.", [nameof(AddRaiSettingsFilters), nameof(ClearRaiSettingsFilters), nameof(RaiSettingsFilters), nameof(RemoveRaiSettingsFilters)]);
+        }
+        yield break;
+    }
+
 }

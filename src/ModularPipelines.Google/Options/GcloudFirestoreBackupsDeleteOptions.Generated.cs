@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("firestore", "backups", "delete")]
 public record GcloudFirestoreBackupsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// deletes a Cloud Firestore backup
+    /// </summary>
+    /// <param name="Backup">The backup to operate on. For example, to operate on backup cf9f748a-7980-4703-b1a1-d1ffff591db0: $ gcloud firestore backups delete \ --backup='cf9f748a-7980-4703-b1a1-d1ffff591db0'</param>
+    /// <param name="Location">The location to operate on. Available locations are listed at https://cloud.google.com/firestore/docs/locations. For example, to operate on location us-east1: $ gcloud firestore backups delete --location='us-east1'</param>
+    public GcloudFirestoreBackupsDeleteOptions(
+        string Backup,
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Backup);
+        this.Backup = Backup;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Backup, out string Location)
+    {
+        Backup = this.Backup;
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// The backup to operate on. For example, to operate on backup cf9f748a-7980-4703-b1a1-d1ffff591db0: $ gcloud firestore backups delete \ --backup='cf9f748a-7980-4703-b1a1-d1ffff591db0'
+    /// </summary>
+    [CliOption("--backup", Format = OptionFormat.EqualsSeparated)]
+    public string Backup { get; private init; }
+
+    /// <summary>
+    /// The location to operate on. Available locations are listed at https://cloud.google.com/firestore/docs/locations. For example, to operate on location us-east1: $ gcloud firestore backups delete --location='us-east1'
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
 }

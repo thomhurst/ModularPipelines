@@ -42,6 +42,7 @@ public static class GcloudExtensions
         services.TryAddScoped<IGcloudApihub, GcloudApihub>();
         services.TryAddScoped<IGcloudApp, GcloudApp>();
         services.TryAddScoped<IGcloudApphub, GcloudApphub>();
+        services.TryAddScoped<IGcloudAppTopology, GcloudAppTopology>();
         services.TryAddScoped<IGcloudArtifacts, GcloudArtifacts>();
         services.TryAddScoped<IGcloudAsset, GcloudAsset>();
         services.TryAddScoped<IGcloudAssured, GcloudAssured>();

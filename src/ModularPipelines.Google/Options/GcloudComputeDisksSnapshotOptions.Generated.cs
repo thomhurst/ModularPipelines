@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,10 +21,36 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "disks", "snapshot")]
-public record GcloudComputeDisksSnapshotOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> DiskName
-) : GcloudOptions
+public record GcloudComputeDisksSnapshotOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create snapshots of Compute Engine     persistent disks
+    /// </summary>
+    /// <param name="DiskName">Names of the disks to operate on.</param>
+    public GcloudComputeDisksSnapshotOptions(
+        IEnumerable<string> DiskName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DiskName);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DiskName));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DiskName));
+            }
+
+            DiskName = materialized;
+        }
+        this.DiskName = DiskName;
+    }
+
+    public void Deconstruct(out IEnumerable<string> DiskName)
+    {
+        DiskName = this.DiskName;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -55,15 +82,15 @@ public record GcloudComputeDisksSnapshotOptions(
     public bool? GuestFlush { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Names to assign to the created snapshots. Without this option, the name of each snapshot will be a random 12-character alphanumeric string that starts with a letter. The values of this option run parallel to the disks specified. For example, gcloud compute disks snapshot my-disk-1 my-disk-2 my-disk-3 --snapshot-names snapshot-1,snapshot-2,snapshot-3 will result in my-disk-1 being snapshotted as snapshot-1, my-disk-2 as snapshot-2, and so on. The name must match the (?:[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?) regular expression, which means it must start with an alphabetic character followed by one or more alphanumeric characters or dashes. The name must not exceed 63 characters and must not contain special symbols. All characters must be lowercase.
+    /// Names to assign to the created snapshots. Without this option, the name of each snapshot will be a random 12-character alphanumeric string that starts with a letter. The values of this option run parallel to the disks specified. For example, gcloud compute disks snapshot my-disk-1 my-disk-2 my-disk-3 --snapshot-names snapshot-1,snapshot-2,snapshot-3 will result in my-disk-1 being snapshotted as snapshot-1, my-disk-2 as snapshot-2, and so on. The name must match the (?:[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?) regular expression, which means it must start with an alphabetic character followed by one or more alphanumeric characters or dashes. The name must not exceed 63 characters and must not contain special symbols. All characters must be lowercase. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--snapshot-names", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--snapshot-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SnapshotNames { get; set; }
 
     /// <summary>
@@ -83,5 +110,21 @@ public record GcloudComputeDisksSnapshotOptions(
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Names of the disks to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> DiskName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Region or Zone may be specified.", [nameof(Region), nameof(Zone)]);
+        }
+        yield break;
+    }
 
 }

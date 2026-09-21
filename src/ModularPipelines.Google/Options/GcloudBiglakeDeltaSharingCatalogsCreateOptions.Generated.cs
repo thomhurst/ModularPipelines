@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,62 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("biglake", "delta-sharing", "catalogs", "create")]
 public record GcloudBiglakeDeltaSharingCatalogsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a BigLake Delta     Sharing catalog
+    /// </summary>
+    /// <param name="Location">The location of the catalog.</param>
+    /// <param name="Catalog">Catalog resource - The Delta Sharing catalog to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▸ provide the argument catalog on the command line.</param>
+    public GcloudBiglakeDeltaSharingCatalogsCreateOptions(
+        string Location,
+        string Catalog
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+    }
+
+    public void Deconstruct(out string Location, out string Catalog)
+    {
+        Location = this.Location;
+        Catalog = this.Catalog;
+    }
+
+    /// <summary>
+    /// The location of the catalog.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Whether to enable caching of remote data on Google Cloud. This may result in data being temporarily persisted on Google Cloud. MODE must be one of: disabled, enabled.
+    /// </summary>
+    [CliOption("--cross-cloud-cache", Format = OptionFormat.EqualsSeparated)]
+    public GcloudBiglakeDeltaSharingCatalogsCreateCrossCloudCache? CrossCloudCache { get; set; }
+
+    /// <summary>
+    /// Cloud KMS key name for encryption of resources in the catalog.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// The interval for refreshing metadata from the remote catalog (e.g. 300s or 5m).
+    /// </summary>
+    [CliOption("--refresh-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? RefreshInterval { get; set; }
+
+    /// <summary>
+    /// The service directory resource name for private networking.
+    /// </summary>
+    [CliOption("--service-directory-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceDirectoryName { get; set; }
+
+    /// <summary>
+    /// Catalog resource - The Delta Sharing catalog to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▸ provide the argument catalog on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Catalog { get; private init; }
+
 }

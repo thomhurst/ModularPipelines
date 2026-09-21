@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComplianceManagerFrameworksCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// The category of the framework. CATEGORY must be one of: assured-workloads An Assured Workloads framework. custom-framework A user-created framework. data-security A data security posture framework. google-best-practices A Google's best practices framework. industry-defined-standard An industry-defined framework.
+    /// create a framework
     /// </summary>
-    [CliOption("--category", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Framework">Framework resource - Identifier. The name of the framework, in one of the following formats: organizations/{organization}/locations/{location}/frameworks/{framework} or projects/{project}/locations/{location}/frameworks/{framework}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument framework on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.frameworks, cloudsecuritycompliance.projects.locations.frameworks]. This must be specified. ID of the framework or fully qualified identifier for the framework. To set the framework attribute: ▸ provide the argument framework on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComplianceManagerFrameworksCreateOptions(
+        string Framework
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Framework);
+        this.Framework = Framework;
+    }
+
+    public void Deconstruct(out string Framework)
+    {
+        Framework = this.Framework;
+    }
+
+    /// <summary>
+    /// Framework resource - Identifier. The name of the framework, in one of the following formats: organizations/{organization}/locations/{location}/frameworks/{framework} or projects/{project}/locations/{location}/frameworks/{framework}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument framework on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.frameworks, cloudsecuritycompliance.projects.locations.frameworks]. This must be specified. The location id of the framework resource. To set the location attribute: ▸ provide the argument framework on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Framework resource - Identifier. The name of the framework, in one of the following formats: organizations/{organization}/locations/{location}/frameworks/{framework} or projects/{project}/locations/{location}/frameworks/{framework}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument framework on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.frameworks, cloudsecuritycompliance.projects.locations.frameworks]. This must be specified. The organization id of the framework resource. To set the organization attribute: ▸ provide the argument framework on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [cloudsecuritycompliance.organizations.locations.frameworks].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// The category of the framework. CATEGORY must be one of: assured-workloads An Assured Workloads framework. custom-framework A user-created framework. data-security A data security posture framework. google-best-practices A Google's best practices framework. industry-defined-standard An industry-defined framework. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--category", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Category { get; set; }
 
     /// <summary>
@@ -44,5 +73,11 @@ public record GcloudComplianceManagerFrameworksCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Framework resource - Identifier. The name of the framework, in one of the following formats: organizations/{organization}/locations/{location}/frameworks/{framework} or projects/{project}/locations/{location}/frameworks/{framework}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument framework on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.frameworks, cloudsecuritycompliance.projects.locations.frameworks]. This must be specified. ID of the framework or fully qualified identifier for the framework. To set the framework attribute: ▸ provide the argument framework on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Framework { get; private init; }
 
 }

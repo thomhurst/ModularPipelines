@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "set-iam-policy")]
-public record GcloudIamServiceAccountsSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ServiceAccount
-) : GcloudOptions
+public record GcloudIamServiceAccountsSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set IAM policy for a service     account
+    /// </summary>
+    /// <param name="ServiceAccount">The service account whose policy to set. The account should be formatted either as a numeric service account ID or as an email, like this: 123456789876543212345 or my-iam-account@somedomain.com.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy.</param>
+    public GcloudIamServiceAccountsSetIamPolicyOptions(
+        string ServiceAccount,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceAccount);
+        this.ServiceAccount = ServiceAccount;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string ServiceAccount, out string PolicyFile)
+    {
+        ServiceAccount = this.ServiceAccount;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// The service account whose policy to set. The account should be formatted either as a numeric service account ID or as an email, like this: 123456789876543212345 or my-iam-account@somedomain.com.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ServiceAccount { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

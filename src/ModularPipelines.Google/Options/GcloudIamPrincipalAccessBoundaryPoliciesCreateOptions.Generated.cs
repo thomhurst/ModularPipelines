@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,37 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "principal-access-boundary-policies", "create")]
-public record GcloudIamPrincipalAccessBoundaryPoliciesCreateOptions : GcloudOptions
+public record GcloudIamPrincipalAccessBoundaryPoliciesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create     PrincipalAccessBoundaryPolicy instance
+    /// </summary>
+    /// <param name="PrincipalAccessBoundaryPolicy">PrincipalAccessBoundaryPolicy resource - Identifier. The resource name of the principal access boundary policy. The following format is supported: organizations/{organization_id}/locations/{location}/principalAccessBoundaryPolicies/{policy_id} The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the principalAccessBoundaryPolicy or fully qualified identifier for the principalAccessBoundaryPolicy. To set the principal_access_boundary_policy attribute: ▸ provide the argument principal_access_boundary_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamPrincipalAccessBoundaryPoliciesCreateOptions(
+        string PrincipalAccessBoundaryPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalAccessBoundaryPolicy);
+        this.PrincipalAccessBoundaryPolicy = PrincipalAccessBoundaryPolicy;
+    }
+
+    public void Deconstruct(out string PrincipalAccessBoundaryPolicy)
+    {
+        PrincipalAccessBoundaryPolicy = this.PrincipalAccessBoundaryPolicy;
+    }
+
+    /// <summary>
+    /// PrincipalAccessBoundaryPolicy resource - Identifier. The resource name of the principal access boundary policy. The following format is supported: organizations/{organization_id}/locations/{location}/principalAccessBoundaryPolicies/{policy_id} The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location id of the principalAccessBoundaryPolicy resource. To set the location attribute: ▸ provide the argument principal_access_boundary_policy on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// PrincipalAccessBoundaryPolicy resource - Identifier. The resource name of the principal access boundary policy. The following format is supported: organizations/{organization_id}/locations/{location}/principalAccessBoundaryPolicies/{policy_id} The arguments in this group can be used to specify the attributes of this resource. This must be specified. The organization id of the principalAccessBoundaryPolicy resource. To set the organization attribute: ▸ provide the argument principal_access_boundary_policy on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
     /// <summary>
     /// User defined annotations. See https://google.aip.dev/148#annotations for more details such as format and size limitations. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --annotations=string=string JSON Example: --annotations='{"string": "string"}' File Example: --annotations=path_to_file.(yaml|json)
     /// </summary>
@@ -49,12 +79,68 @@ public record GcloudIamPrincipalAccessBoundaryPoliciesCreateOptions : GcloudOpti
     /// Principal access boundary policy details Required, A list of principal access boundary policy rules. The number of rules in a policy is limited to 500. description The description of the principal access boundary policy rule. Must be less than or equal to 256 characters. effect The access relationship of principals to the resources in this rule. resources A list of Resource Manager resources. If a resource is listed in the rule, then the rule applies for that resource and its descendants. The number of resources in a policy is limited to 500 across all rules in the policy. The following resource types are supported: ▸ Organizations, such as //cloudresourcemanager.googleapis.com/organizations/123. ▸ Folders, such as //cloudresourcemanager.googleapis.com/folders/123. ▸ Projects, such as //cloudresourcemanager.googleapis.com/projects/123 or //cloudresourcemanager.googleapis.com/projects/my-project-id. Shorthand Example: --details-rules=description=string,effect=string,resources=[string] --details-rules=description=string,effect=string,resources=[string] JSON Example: --details-rules='[{"description": "string", "effect": "string", "resources": ["string"]}]' File Example: --details-rules=path_to_file.(yaml|json) This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--details-rules", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? DetailsRules { get; set; }
+    public IEnumerable<string>? DetailsRules
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __DetailsRulesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __DetailsRulesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __DetailsRulesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __DetailsRulesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Principal access boundary policy details The version number (for example, 1 or latest) that indicates which permissions are able to be blocked by the policy. If empty, the PAB policy version will be set to the most recent version number at the time of the policy's creation.
     /// </summary>
     [CliOption("--details-enforcement-version", Format = OptionFormat.EqualsSeparated)]
     public string? DetailsEnforcementVersion { get; set; }
+
+    /// <summary>
+    /// PrincipalAccessBoundaryPolicy resource - Identifier. The resource name of the principal access boundary policy. The following format is supported: organizations/{organization_id}/locations/{location}/principalAccessBoundaryPolicies/{policy_id} The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the principalAccessBoundaryPolicy or fully qualified identifier for the principalAccessBoundaryPolicy. To set the principal_access_boundary_policy attribute: ▸ provide the argument principal_access_boundary_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PrincipalAccessBoundaryPolicy { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)DetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)DetailsRules, static item => item is not null) : ((object?)DetailsRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)DetailsRules is not string || !string.IsNullOrWhiteSpace(DetailsRules?.ToString()) : ((object?)DetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DetailsRules, static item => item is not null) : (DetailsRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DetailsRules), static item => item is not null))))) || !string.IsNullOrWhiteSpace(DetailsEnforcementVersion)) && (!(((object?)DetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)DetailsRules, static item => item is not null) : ((object?)DetailsRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)DetailsRules is not string || !string.IsNullOrWhiteSpace(DetailsRules?.ToString()) : ((object?)DetailsRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DetailsRules, static item => item is not null) : (DetailsRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DetailsRules), static item => item is not null))))))))
+        {
+            yield return new ValidationResult("DetailsRules must be specified when other arguments in this group are specified.", [nameof(DetailsRules)]);
+        }
+        yield break;
+    }
 
 }

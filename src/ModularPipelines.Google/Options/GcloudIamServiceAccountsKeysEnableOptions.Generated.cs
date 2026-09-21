@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("iam", "service-accounts", "keys", "enable")]
 public record GcloudIamServiceAccountsKeysEnableOptions : GcloudOptions
 {
+    /// <summary>
+    /// enable a service account key
+    /// </summary>
+    /// <param name="IamKey">IamKey resource - The id of the key to disable. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument iam_key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the iamKey or fully qualified identifier for the iamKey. To set the iam_key attribute: ▸ provide the argument iam_key on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamServiceAccountsKeysEnableOptions(
+        string IamKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IamKey);
+        this.IamKey = IamKey;
+    }
+
+    public void Deconstruct(out string IamKey)
+    {
+        IamKey = this.IamKey;
+    }
+
+    /// <summary>
+    /// IamKey resource - The id of the key to disable. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument iam_key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the IAM ServiceAccount. To set the iam-account attribute: ▸ provide the argument iam_key on the command line with a fully specified name; ▸ provide the argument --iam-account on the command line.
+    /// </summary>
+    [CliOption("--iam-account", Format = OptionFormat.EqualsSeparated)]
+    public string? IamAccount { get; set; }
+
+    /// <summary>
+    /// IamKey resource - The id of the key to disable. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument iam_key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the iamKey or fully qualified identifier for the iamKey. To set the iam_key attribute: ▸ provide the argument iam_key on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string IamKey { get; private init; }
+
 }

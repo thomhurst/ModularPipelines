@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "org-security-policies", "rules", "describe")]
-public record GcloudPreviewComputeOrgSecurityPoliciesRulesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
-) : GcloudOptions
+public record GcloudPreviewComputeOrgSecurityPoliciesRulesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a     Compute Engine organization security policy rule
+    /// </summary>
+    /// <param name="SecurityPolicy">short name of the security policy into which the rule should be described.</param>
+    /// <param name="Priority">Priority of the security policy rule to describe.</param>
+    public GcloudPreviewComputeOrgSecurityPoliciesRulesDescribeOptions(
+        string SecurityPolicy,
+        string Priority
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityPolicy);
+        this.SecurityPolicy = SecurityPolicy;
+        global::System.ArgumentNullException.ThrowIfNull(Priority);
+        this.Priority = Priority;
+    }
+
+    public void Deconstruct(out string SecurityPolicy, out string Priority)
+    {
+        SecurityPolicy = this.SecurityPolicy;
+        Priority = this.Priority;
+    }
+
+    /// <summary>
+    /// short name of the security policy into which the rule should be described.
+    /// </summary>
+    [CliOption("--security-policy", Format = OptionFormat.EqualsSeparated)]
+    public string SecurityPolicy { get; private init; }
+
+    /// <summary>
+    /// Organization which the organization security policy belongs to. Must be set if SECURITY_POLICY is short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Priority of the security policy rule to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Priority { get; private init; }
+
 }

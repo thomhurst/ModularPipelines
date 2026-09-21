@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("oracle-database", "odb-networks", "odb-subnets", "describe")]
 public record GcloudOracleDatabaseOdbNetworksOdbSubnetsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get details of     an OdbSubnet
+    /// </summary>
+    /// <param name="OdbSubnet">OdbSubnet resource - The name of the OdbSubnet in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument odb_subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the odbSubnet or fully qualified identifier for the odbSubnet. To set the odb_subnet attribute: ▸ provide the argument odb_subnet on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudOracleDatabaseOdbNetworksOdbSubnetsDescribeOptions(
+        string OdbSubnet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OdbSubnet);
+        this.OdbSubnet = OdbSubnet;
+    }
+
+    public void Deconstruct(out string OdbSubnet)
+    {
+        OdbSubnet = this.OdbSubnet;
+    }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument odb_subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the odbSubnet resource. To set the location attribute: ▸ provide the argument odb_subnet on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument odb_subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The odbNetwork id of the odbSubnet resource. To set the odb-network attribute: ▸ provide the argument odb_subnet on the command line with a fully specified name; ▸ provide the argument --odb-network on the command line.
+    /// </summary>
+    [CliOption("--odb-network", Format = OptionFormat.EqualsSeparated)]
+    public string? OdbNetwork { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument odb_subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the odbSubnet or fully qualified identifier for the odbSubnet. To set the odb_subnet attribute: ▸ provide the argument odb_subnet on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OdbSubnet { get; private init; }
+
 }

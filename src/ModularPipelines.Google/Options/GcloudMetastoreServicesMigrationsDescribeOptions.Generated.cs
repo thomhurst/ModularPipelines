@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("metastore", "services", "migrations", "describe")]
 public record GcloudMetastoreServicesMigrationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a migration
+    /// </summary>
+    /// <param name="Migration">Migration resource - Arguments and flags that specify the migration you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument migration on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the migration or fully qualified identifier for the migration. To set the migration attribute: ▸ provide the argument migration on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMetastoreServicesMigrationsDescribeOptions(
+        string Migration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Migration);
+        this.Migration = Migration;
+    }
+
+    public void Deconstruct(out string Migration)
+    {
+        Migration = this.Migration;
+    }
+
+    /// <summary>
+    /// Migration resource - Arguments and flags that specify the migration you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument migration on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataproc Metastore service. If not specified, will use default metastore/location. To set the location attribute: ▸ provide the argument migration on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property metastore/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Migration resource - Arguments and flags that specify the migration you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument migration on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The identifier of the Dataproc Metastore service To set the service attribute: ▸ provide the argument migration on the command line with a fully specified name; ▸ provide the argument --service on the command line.
+    /// </summary>
+    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    public string? Service { get; set; }
+
+    /// <summary>
+    /// Migration resource - Arguments and flags that specify the migration you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument migration on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the migration or fully qualified identifier for the migration. To set the migration attribute: ▸ provide the argument migration on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Migration { get; private init; }
+
 }

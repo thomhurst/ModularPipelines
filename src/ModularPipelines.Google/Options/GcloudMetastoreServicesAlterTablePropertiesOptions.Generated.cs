@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,83 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("metastore", "services", "alter-table-properties")]
 public record GcloudMetastoreServicesAlterTablePropertiesOptions : GcloudOptions
 {
+    /// <summary>
+    /// alter metadata table     properties
+    /// </summary>
+    /// <param name="Properties">A string where field names are separated by a comma. Describes the desired values to mutate. If update-mask is empty, the properties will not update. Otherwise, the properties only alter the values whose associated paths exist in the update mask. For example, the desired key-value pairs. a=2,b=3,c=4 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="TableName">The name of the table containing the properties you're altering in the following format. databases/{database_id}/tables/{table_id}</param>
+    /// <param name="UpdateMask">A string where field names are separated by a comma. Specifies the metadata table properties fields that are overwritten by the update. Fields specified in the update-mask are relative to the resource (not to the full request). A field is overwritten if it is in the mask. For example, given the target properties: properties { a: 1 b: 2 } And an update properties: properties { a: 2 b: 3 c: 4 } then if the field mask is: properties.b,properties.c then the updated result will be: properties { a: 1 b: 3 c: 4 }</param>
+    /// <param name="Service">Service resource - Arguments and flags that specify the table you want to alter. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMetastoreServicesAlterTablePropertiesOptions(
+        IReadOnlyList<KeyValue> Properties,
+        string TableName,
+        string UpdateMask,
+        string Service
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Properties);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Properties));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Properties));
+            }
+
+            Properties = materialized;
+        }
+        this.Properties = Properties;
+        global::System.ArgumentNullException.ThrowIfNull(TableName);
+        this.TableName = TableName;
+        global::System.ArgumentNullException.ThrowIfNull(UpdateMask);
+        this.UpdateMask = UpdateMask;
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out IReadOnlyList<KeyValue> Properties, out string TableName, out string UpdateMask, out string Service)
+    {
+        Properties = this.Properties;
+        TableName = this.TableName;
+        UpdateMask = this.UpdateMask;
+        Service = this.Service;
+    }
+
+    /// <summary>
+    /// A string where field names are separated by a comma. Describes the desired values to mutate. If update-mask is empty, the properties will not update. Otherwise, the properties only alter the values whose associated paths exist in the update mask. For example, the desired key-value pairs. a=2,b=3,c=4 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--properties", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue> Properties { get; private init; }
+
+    /// <summary>
+    /// The name of the table containing the properties you're altering in the following format. databases/{database_id}/tables/{table_id}
+    /// </summary>
+    [CliOption("--table-name", Format = OptionFormat.EqualsSeparated)]
+    public string TableName { get; private init; }
+
+    /// <summary>
+    /// A string where field names are separated by a comma. Specifies the metadata table properties fields that are overwritten by the update. Fields specified in the update-mask are relative to the resource (not to the full request). A field is overwritten if it is in the mask. For example, given the target properties: properties { a: 1 b: 2 } And an update properties: properties { a: 2 b: 3 c: 4 } then if the field mask is: properties.b,properties.c then the updated result will be: properties { a: 1 b: 3 c: 4 }
+    /// </summary>
+    [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated)]
+    public string UpdateMask { get; private init; }
+
+    /// <summary>
+    /// Service resource - Arguments and flags that specify the table you want to alter. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataproc Metastore service. If not specified, will use default metastore/location. To set the location attribute: ▸ provide the argument service on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property metastore/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Service resource - Arguments and flags that specify the table you want to alter. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Service { get; private init; }
+
 }

@@ -55,11 +55,11 @@ public class GcloudAuthEnterpriseCertificateConfigCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> LinuxAsync(
-        GcloudAuthEnterpriseCertificateConfigCreateLinuxOptions? options = null,
+        GcloudAuthEnterpriseCertificateConfigCreateLinuxOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAuthEnterpriseCertificateConfigCreateLinuxOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class GcloudAuthEnterpriseCertificateConfigCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MacosAsync(
-        GcloudAuthEnterpriseCertificateConfigCreateMacosOptions? options = null,
+        GcloudAuthEnterpriseCertificateConfigCreateMacosOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAuthEnterpriseCertificateConfigCreateMacosOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class GcloudAuthEnterpriseCertificateConfigCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> WindowsAsync(
-        GcloudAuthEnterpriseCertificateConfigCreateWindowsOptions? options = null,
+        GcloudAuthEnterpriseCertificateConfigCreateWindowsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAuthEnterpriseCertificateConfigCreateWindowsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

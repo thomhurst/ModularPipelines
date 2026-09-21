@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "autokey-config", "update")]
-public record GcloudKmsAutokeyConfigUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ConfigFile
-) : GcloudOptions
+public record GcloudKmsAutokeyConfigUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update the AutokeyConfig for a folder or     project
+    /// </summary>
+    /// <param name="ConfigFile">The file containing the AutokeyConfig resource.</param>
+    public GcloudKmsAutokeyConfigUpdateOptions(
+        string ConfigFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigFile);
+        this.ConfigFile = ConfigFile;
+    }
+
+    public void Deconstruct(out string ConfigFile)
+    {
+        ConfigFile = this.ConfigFile;
+    }
+
+    /// <summary>
+    /// The file containing the AutokeyConfig resource.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConfigFile { get; private init; }
+
 }

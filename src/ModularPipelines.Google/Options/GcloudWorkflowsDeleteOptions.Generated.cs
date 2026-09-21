@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudWorkflowsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a workflow
+    /// </summary>
+    /// <param name="Workflow">Workflow resource - The name of the workflow to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workflow on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workflow or fully qualified identifier for the workflow. To set the workflow attribute: ▸ provide the argument workflow on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudWorkflowsDeleteOptions(
+        string Workflow
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Workflow);
+        this.Workflow = Workflow;
+    }
+
+    public void Deconstruct(out string Workflow)
+    {
+        Workflow = this.Workflow;
+    }
+
+    /// <summary>
+    /// Workflow resource - The name of the workflow to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workflow on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the workflow. Alternatively, set the property [workflows/location]. To set the location attribute: ▸ provide the argument workflow on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property workflows/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Workflow resource - The name of the workflow to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workflow on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workflow or fully qualified identifier for the workflow. To set the workflow attribute: ▸ provide the argument workflow on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Workflow { get; private init; }
 
 }

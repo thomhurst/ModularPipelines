@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,12 +20,34 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-services", "route-views", "list")]
-public record GcloudNetworkServicesRouteViewsListOptions : GcloudOptions
+public record GcloudNetworkServicesRouteViewsListOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Parent of the Route View Exactly one of these must be specified: Gateway resource - Parent Gateway This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --gateway on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --gateway on the command line with a fully specified name; ▸ provide the argument --location on the command line. ID of the gateway or fully qualified identifier for the gateway. To set the gateway attribute: ▸ provide the argument --gateway on the command line.
+    /// </summary>
+    [CliOption("--gateway", Format = OptionFormat.EqualsSeparated)]
+    public string? Gateway { get; set; }
+
+    /// <summary>
+    /// Parent of the Route View Exactly one of these must be specified: Mesh resource - Parent Mesh This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --mesh on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --mesh on the command line with a fully specified name; ▸ provide the argument --location on the command line. ID of the mesh or fully qualified identifier for the mesh. To set the mesh attribute: ▸ provide the argument --mesh on the command line.
+    /// </summary>
+    [CliOption("--mesh", Format = OptionFormat.EqualsSeparated)]
+    public string? Mesh { get; set; }
+
     /// <summary>
     /// Location resource - Location of the parent This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(Gateway)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Mesh)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (Gateway) or (Mesh) must be specified.", [nameof(Gateway), nameof(Mesh)]);
+        }
+        yield break;
+    }
 
 }

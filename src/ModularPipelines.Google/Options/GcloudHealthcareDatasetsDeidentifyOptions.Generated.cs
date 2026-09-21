@@ -21,4 +21,68 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("healthcare", "datasets", "deidentify")]
 public record GcloudHealthcareDatasetsDeidentifyOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new Cloud Healthcare API     dataset containing de-identified data from the source dataset
+    /// </summary>
+    /// <param name="DestinationDataSet">The name of the dataset resource to which the redacted data should be written (e.g., projects/{projectId}/locations/{locationId}/datasets/{datasetId}). The new dataset must not exist, or the request will fail.</param>
+    /// <param name="DataSet">Dataset resource - Source Cloud Healthcare API dataset to deidentify. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dataset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dataset or fully qualified identifier for the dataset. To set the dataset attribute: ▸ provide the argument dataset on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudHealthcareDatasetsDeidentifyOptions(
+        string DestinationDataSet,
+        string DataSet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestinationDataSet);
+        this.DestinationDataSet = DestinationDataSet;
+        global::System.ArgumentNullException.ThrowIfNull(DataSet);
+        this.DataSet = DataSet;
+    }
+
+    public void Deconstruct(out string DestinationDataSet, out string DataSet)
+    {
+        DestinationDataSet = this.DestinationDataSet;
+        DataSet = this.DataSet;
+    }
+
+    /// <summary>
+    /// The name of the dataset resource to which the redacted data should be written (e.g., projects/{projectId}/locations/{locationId}/datasets/{datasetId}). The new dataset must not exist, or the request will fail.
+    /// </summary>
+    [CliOption("--destination-dataset", Format = OptionFormat.EqualsSeparated)]
+    public string DestinationDataSet { get; private init; }
+
+    /// <summary>
+    /// Dataset resource - Source Cloud Healthcare API dataset to deidentify. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dataset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location. To set the location attribute: ▸ provide the argument dataset on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property healthcare/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Deidentify FHIR data with default configurations.
+    /// </summary>
+    [CliFlag("--default-fhir-config")]
+    public bool? DefaultFhirConfig { get; set; }
+
+    /// <summary>
+    /// Tags to be filtered. Tags must be DICOM Data Elements, File Meta Elements, or Directory Structuring Elements, as defined at: http://dicom.nema.org/medical/dicom/current/output/html/part06.html#table_6-1,. They may be provided by "Keyword" or "Tag". For example "PatientID", "0010,0010". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--dicom-filter-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? DicomFilterTags { get; set; }
+
+    /// <summary>
+    /// Determines how to redact text from image. TEXT_REDACTION_MODE must be (only one value is supported): all Redact all text.
+    /// </summary>
+    [CliOption("--text-redaction-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? TextRedactionMode { get; set; }
+
+    /// <summary>
+    /// Dataset resource - Source Cloud Healthcare API dataset to deidentify. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dataset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dataset or fully qualified identifier for the dataset. To set the dataset attribute: ▸ provide the argument dataset on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DataSet { get; private init; }
+
 }

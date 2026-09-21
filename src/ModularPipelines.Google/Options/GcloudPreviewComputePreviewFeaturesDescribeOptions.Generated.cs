@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("preview", "compute", "preview-features", "describe")]
 public record GcloudPreviewComputePreviewFeaturesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a preview     feature
+    /// </summary>
+    /// <param name="PreviewFeature">Preview feature resource - Name of the preview feature you want to inspect. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument preview_feature on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the preview feature or fully qualified identifier for the preview feature. To set the preview_feature attribute: ▸ provide the argument preview_feature on the command line.</param>
+    public GcloudPreviewComputePreviewFeaturesDescribeOptions(
+        string PreviewFeature
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PreviewFeature);
+        this.PreviewFeature = PreviewFeature;
+    }
+
+    public void Deconstruct(out string PreviewFeature)
+    {
+        PreviewFeature = this.PreviewFeature;
+    }
+
+    /// <summary>
+    /// Preview feature resource - Name of the preview feature you want to inspect. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument preview_feature on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the preview feature or fully qualified identifier for the preview feature. To set the preview_feature attribute: ▸ provide the argument preview_feature on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PreviewFeature { get; private init; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,117 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datastream", "connection-profiles", "discover")]
-public record GcloudDatastreamConnectionProfilesDiscoverOptions : GcloudOptions
+public record GcloudDatastreamConnectionProfilesDiscoverOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// discover a Datastream     connection profile
+    /// </summary>
+    /// <param name="Location">Location resource - The location you want to list the connection profiles for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.</param>
+    public GcloudDatastreamConnectionProfilesDiscoverOptions(
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Location)
+    {
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// Location resource - The location you want to list the connection profiles for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Connection profile resource - Resource ID of the connection profile. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --connection-profile-name on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --connection-profile-name on the command line with a fully specified name; ▸ provide the argument --location on the command line. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute:
+    /// </summary>
+    [CliOption("--connection-profile-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ConnectionProfileName { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: ▸ provide the argument --connection-profile-name on the command line. Path to a YAML (or JSON) file containing the configuration for a connection profile object. If you pass - as the value of the flag the file content will be read from stdin.
+    /// </summary>
+    [CliOption("--connection-profile-object-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ConnectionProfileObjectFile { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Whether to retrieve the full hierarchy of data objects (TRUE) or only the current level (FALSE).
+    /// </summary>
+    [CliFlag("--full-hierarchy")]
+    public bool? FullHierarchy { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The number of hierarchy levels below the current level to be retrieved.
+    /// </summary>
+    [CliOption("--hierarchy-depth", Format = OptionFormat.EqualsSeparated)]
+    public string? HierarchyDepth { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Path to a YAML (or JSON) file containing the MySQL RDBMS to enrich with child data objects and metadata. If you pass - as the value of the flag the file content will be read from stdin.
+    /// </summary>
+    [CliOption("--mysql-rdbms-file", Format = OptionFormat.EqualsSeparated)]
+    public string? MysqlRdbmsFile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Path to a YAML (or JSON) file containing the Oracle RDBMS to enrich with child data objects and metadata. If you pass - as the value of the flag the file content will be read from stdin.
+    /// </summary>
+    [CliOption("--oracle-rdbms-file", Format = OptionFormat.EqualsSeparated)]
+    public string? OracleRdbmsFile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Path to a YAML (or JSON) file containing the PostgreSQL RDBMS to enrich with child data objects and metadata. If you pass - as the value of the flag the file content will be read from stdin.
+    /// </summary>
+    [CliOption("--postgresql-rdbms-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PostgresqlRdbmsFile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Path to a YAML (or JSON) file containing the SQL Server RDBMS to enrich with child data objects and metadata. If you pass - as the value of the flag the file content will be read from stdin.
+    /// </summary>
+    [CliOption("--sqlserver-rdbms-file", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlServerRdbmsFile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: (DEPRECATED) Whether to retrieve the full hierarchy of data objects (TRUE) or only the current level (FALSE). The --recursive option is deprecated; use --full-hierarchy instead.
+    /// </summary>
+    [CliFlag("--recursive")]
+    public bool? Recursive { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: (DEPRECATED) The number of hierarchy levels below the current level to be retrieved. The --recursive-depth option is deprecated; use --hierarchy-depth instead.
+    /// </summary>
+    [CliOption("--recursive-depth", Format = OptionFormat.EqualsSeparated)]
+    public string? RecursiveDepth { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(ConnectionProfileName)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(ConnectionProfileObjectFile)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (ConnectionProfileName) or (ConnectionProfileObjectFile) must be specified.", [nameof(ConnectionProfileName), nameof(ConnectionProfileObjectFile)]);
+        }
+        if ((FullHierarchy == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(HierarchyDepth) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of FullHierarchy or HierarchyDepth may be specified.", [nameof(FullHierarchy), nameof(HierarchyDepth)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MysqlRdbmsFile) ? 1 : 0) + (!string.IsNullOrWhiteSpace(OracleRdbmsFile) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PostgresqlRdbmsFile) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SqlServerRdbmsFile) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of MysqlRdbmsFile, OracleRdbmsFile, PostgresqlRdbmsFile, or SqlServerRdbmsFile may be specified.", [nameof(MysqlRdbmsFile), nameof(OracleRdbmsFile), nameof(PostgresqlRdbmsFile), nameof(SqlServerRdbmsFile)]);
+        }
+        if ((Recursive == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RecursiveDepth) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Recursive or RecursiveDepth may be specified.", [nameof(Recursive), nameof(RecursiveDepth)]);
+        }
+        yield break;
+    }
+
 }

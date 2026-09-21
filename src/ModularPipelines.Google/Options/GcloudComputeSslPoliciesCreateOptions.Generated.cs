@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,14 +20,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "ssl-policies", "create")]
-public record GcloudComputeSslPoliciesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SslPolicy
-) : GcloudOptions
+public record GcloudComputeSslPoliciesCreateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// A comma-separated list of custom features, required when the profile being used is CUSTOM. Using CUSTOM profile allows customization of the features that are part of the SSL policy. This flag allows specifying those custom features. The list of all supported custom features can be obtained using: gcloud compute ssl-policies list-available-features
+    /// create a new Compute Engine SSL policy
     /// </summary>
-    [CliOption("--custom-features", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="SslPolicy">Name of the SSL policy to create.</param>
+    public GcloudComputeSslPoliciesCreateOptions(
+        string SslPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SslPolicy);
+        this.SslPolicy = SslPolicy;
+    }
+
+    public void Deconstruct(out string SslPolicy)
+    {
+        SslPolicy = this.SslPolicy;
+    }
+
+    /// <summary>
+    /// A comma-separated list of custom features, required when the profile being used is CUSTOM. Using CUSTOM profile allows customization of the features that are part of the SSL policy. This flag allows specifying those custom features. The list of all supported custom features can be obtained using: gcloud compute ssl-policies list-available-features Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--custom-features", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? CustomFeatures { get; set; }
 
     /// <summary>
@@ -64,5 +80,21 @@ public record GcloudComputeSslPoliciesCreateOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the SSL policy to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SslPolicy { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
 
 }

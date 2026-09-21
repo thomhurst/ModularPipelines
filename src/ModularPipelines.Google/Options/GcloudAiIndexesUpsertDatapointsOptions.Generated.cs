@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("ai", "indexes", "upsert-datapoints")]
 public record GcloudAiIndexesUpsertDatapointsOptions : GcloudOptions
 {
+    /// <summary>
+    /// upsert data points into the specified     index
+    /// </summary>
+    /// <param name="DatapointsFromFile">Path to a local JSON file that contains the data points that need to be added to the index.</param>
+    /// <param name="Index">Index resource - Index to upsert data points from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the index or fully qualified identifier for the index. To set the name attribute: ▸ provide the argument index on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAiIndexesUpsertDatapointsOptions(
+        string DatapointsFromFile,
+        string Index
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatapointsFromFile);
+        this.DatapointsFromFile = DatapointsFromFile;
+        global::System.ArgumentNullException.ThrowIfNull(Index);
+        this.Index = Index;
+    }
+
+    public void Deconstruct(out string DatapointsFromFile, out string Index)
+    {
+        DatapointsFromFile = this.DatapointsFromFile;
+        Index = this.Index;
+    }
+
+    /// <summary>
+    /// Path to a local JSON file that contains the data points that need to be added to the index.
+    /// </summary>
+    [CliOption("--datapoints-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string DatapointsFromFile { get; private init; }
+
+    /// <summary>
+    /// Index resource - Index to upsert data points from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud region for the index. To set the region attribute: ▸ provide the argument index on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property ai/region; ▸ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Update mask is used to specify the fields to be overwritten in the datapoints by the update. The fields specified in the update_mask are relative to each IndexDatapoint inside datapoints, not the full request. Updatable fields: ◆ Use --update-mask=all_restricts to update both restricts and numeric_restricts. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? UpdateMask { get; set; }
+
+    /// <summary>
+    /// Index resource - Index to upsert data points from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the index or fully qualified identifier for the index. To set the name attribute: ▸ provide the argument index on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Index { get; private init; }
+
 }

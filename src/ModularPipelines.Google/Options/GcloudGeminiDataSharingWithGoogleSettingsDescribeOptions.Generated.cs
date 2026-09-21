@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("gemini", "data-sharing-with-google-settings", "describe")]
 public record GcloudGeminiDataSharingWithGoogleSettingsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe     dataSharingWithGoogleSettings
+    /// </summary>
+    /// <param name="DataSharingWithGoogleSetting">DataSharingWithGoogleSetting resource - Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument data_sharing_with_google_setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dataSharingWithGoogleSetting or fully qualified identifier for the dataSharingWithGoogleSetting. To set the data_sharing_with_google_setting attribute: ▸ provide the argument data_sharing_with_google_setting on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudGeminiDataSharingWithGoogleSettingsDescribeOptions(
+        string DataSharingWithGoogleSetting
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSharingWithGoogleSetting);
+        this.DataSharingWithGoogleSetting = DataSharingWithGoogleSetting;
+    }
+
+    public void Deconstruct(out string DataSharingWithGoogleSetting)
+    {
+        DataSharingWithGoogleSetting = this.DataSharingWithGoogleSetting;
+    }
+
+    /// <summary>
+    /// DataSharingWithGoogleSetting resource - Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument data_sharing_with_google_setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the dataSharingWithGoogleSetting resource. To set the location attribute: ▸ provide the argument data_sharing_with_google_setting on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// DataSharingWithGoogleSetting resource - Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument data_sharing_with_google_setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dataSharingWithGoogleSetting or fully qualified identifier for the dataSharingWithGoogleSetting. To set the data_sharing_with_google_setting attribute: ▸ provide the argument data_sharing_with_google_setting on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DataSharingWithGoogleSetting { get; private init; }
+
 }

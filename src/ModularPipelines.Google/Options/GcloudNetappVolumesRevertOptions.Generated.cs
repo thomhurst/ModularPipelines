@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("netapp", "volumes", "revert")]
 public record GcloudNetappVolumesRevertOptions : GcloudOptions
 {
+    /// <summary>
+    /// revert a Cloud NetApp Volume back to a     specified Snapshot
+    /// </summary>
+    /// <param name="Snapshot">Snapshot resource - The Snapshot to revert the Volume back to. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --snapshot on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --snapshot on the command line with a fully specified name; ◆ set the property netapp/location. To set the volume attribute: ◆ provide the argument --snapshot on the command line with a fully specified name. This must be specified. ID of the snapshot or fully qualified identifier for the snapshot. To set the snapshot attribute: ▸ provide the argument --snapshot on the command line.</param>
+    /// <param name="Volume">Volume resource - The Volume to revert. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the volume or fully qualified identifier for the volume. To set the volume attribute: ▸ provide the argument volume on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetappVolumesRevertOptions(
+        string Snapshot,
+        string Volume
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Snapshot);
+        this.Snapshot = Snapshot;
+        global::System.ArgumentNullException.ThrowIfNull(Volume);
+        this.Volume = Volume;
+    }
+
+    public void Deconstruct(out string Snapshot, out string Volume)
+    {
+        Snapshot = this.Snapshot;
+        Volume = this.Volume;
+    }
+
+    /// <summary>
+    /// Snapshot resource - The Snapshot to revert the Volume back to. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --snapshot on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --snapshot on the command line with a fully specified name; ◆ set the property netapp/location. To set the volume attribute: ◆ provide the argument --snapshot on the command line with a fully specified name. This must be specified. ID of the snapshot or fully qualified identifier for the snapshot. To set the snapshot attribute: ▸ provide the argument --snapshot on the command line.
+    /// </summary>
+    [CliOption("--snapshot", Format = OptionFormat.EqualsSeparated)]
+    public string Snapshot { get; private init; }
+
+    /// <summary>
+    /// Volume resource - The Volume to revert. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the volume. To set the location attribute: ▸ provide the argument volume on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Volume resource - The Volume to revert. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the volume or fully qualified identifier for the volume. To set the volume attribute: ▸ provide the argument volume on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Volume { get; private init; }
+
 }

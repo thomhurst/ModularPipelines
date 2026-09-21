@@ -21,4 +21,66 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("active-directory", "domains", "trusts", "update")]
 public record GcloudActiveDirectoryDomainsTrustsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update target DNS IP     addresses for a Managed Microsoft AD trust
+    /// </summary>
+    /// <param name="TargetDnsIpAddresses">DNS server IP addresses that can resolve the target domain. Only IPv4 is supported. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="TargetDomainName">Target domain name for the Managed Microsoft AD trust you want to update.</param>
+    /// <param name="Domain">Domain resource - Name of the Managed Microsoft AD trust for which you want to update target DNS IP Addresses. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument domain on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the domain or fully qualified identifier for the domain. To set the domain attribute: ▸ provide the argument domain on the command line.</param>
+    public GcloudActiveDirectoryDomainsTrustsUpdateOptions(
+        IEnumerable<string> TargetDnsIpAddresses,
+        string TargetDomainName,
+        string Domain
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TargetDnsIpAddresses);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TargetDnsIpAddresses));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TargetDnsIpAddresses));
+            }
+
+            TargetDnsIpAddresses = materialized;
+        }
+        this.TargetDnsIpAddresses = TargetDnsIpAddresses;
+        global::System.ArgumentNullException.ThrowIfNull(TargetDomainName);
+        this.TargetDomainName = TargetDomainName;
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+    }
+
+    public void Deconstruct(out IEnumerable<string> TargetDnsIpAddresses, out string TargetDomainName, out string Domain)
+    {
+        TargetDnsIpAddresses = this.TargetDnsIpAddresses;
+        TargetDomainName = this.TargetDomainName;
+        Domain = this.Domain;
+    }
+
+    /// <summary>
+    /// DNS server IP addresses that can resolve the target domain. Only IPv4 is supported. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--target-dns-ip-addresses", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> TargetDnsIpAddresses { get; private init; }
+
+    /// <summary>
+    /// Target domain name for the Managed Microsoft AD trust you want to update.
+    /// </summary>
+    [CliOption("--target-domain-name", Format = OptionFormat.EqualsSeparated)]
+    public string TargetDomainName { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Domain resource - Name of the Managed Microsoft AD trust for which you want to update target DNS IP Addresses. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument domain on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the domain or fully qualified identifier for the domain. To set the domain attribute: ▸ provide the argument domain on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Domain { get; private init; }
+
 }

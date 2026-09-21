@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment-manager", "deployments", "cancel-preview")]
-public record GcloudDeploymentManagerDeploymentsCancelPreviewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DeploymentName
-) : GcloudOptions
+public record GcloudDeploymentManagerDeploymentsCancelPreviewOptions : GcloudOptions
 {
+    /// <summary>
+    /// cancel a pending or     running deployment preview
+    /// </summary>
+    /// <param name="DeploymentName">Deployment name.</param>
+    public GcloudDeploymentManagerDeploymentsCancelPreviewOptions(
+        string DeploymentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentName);
+        this.DeploymentName = DeploymentName;
+    }
+
+    public void Deconstruct(out string DeploymentName)
+    {
+        DeploymentName = this.DeploymentName;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudDeploymentManagerDeploymentsCancelPreviewOptions(
     /// </summary>
     [CliOption("--fingerprint", Format = OptionFormat.EqualsSeparated)]
     public string? Fingerprint { get; set; }
+
+    /// <summary>
+    /// Deployment name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DeploymentName { get; private init; }
 
 }

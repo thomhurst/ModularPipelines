@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudEdgeCacheOriginsImportOptions : GcloudOptions
 {
     /// <summary>
+    /// import an EdgeCacheOrigin resource
+    /// </summary>
+    /// <param name="Origin">Origin resource - The EdgeCacheOrigin resource you want to import. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument origin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the origin or fully qualified identifier for the origin. To set the origin attribute: ▸ provide the argument origin on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEdgeCacheOriginsImportOptions(
+        string Origin
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Origin);
+        this.Origin = Origin;
+    }
+
+    public void Deconstruct(out string Origin)
+    {
+        Origin = this.Origin;
+    }
+
+    /// <summary>
+    /// Origin resource - The EdgeCacheOrigin resource you want to import. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument origin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument origin on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ use global location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -32,5 +55,11 @@ public record GcloudEdgeCacheOriginsImportOptions : GcloudOptions
     /// </summary>
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }
+
+    /// <summary>
+    /// Origin resource - The EdgeCacheOrigin resource you want to import. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument origin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the origin or fully qualified identifier for the origin. To set the origin attribute: ▸ provide the argument origin on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Origin { get; private init; }
 
 }

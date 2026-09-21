@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-management", "vpc-flow-logs-configs", "describe")]
 public record GcloudNetworkManagementVpcFlowLogsConfigsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe the     details of a specific VPC Flow Logs configuration
+    /// </summary>
+    /// <param name="VpcFlowLogsConfig">VpcFlowLogsConfig resource - The resource name of the VpcFlowLogsConfig, in one of the following formats: ◆ For project-level resources: projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id} ◆ For organization-level resources: organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument vpc_flow_logs_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [networkmanagement.organizations.locations.vpcFlowLogsConfigs, networkmanagement.projects.locations.vpcFlowLogsConfigs]. This must be specified. ID of the vpcFlowLogsConfig or fully qualified identifier for the vpcFlowLogsConfig. To set the vpc_flow_logs_config attribute: ▸ provide the argument vpc_flow_logs_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkManagementVpcFlowLogsConfigsDescribeOptions(
+        string VpcFlowLogsConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VpcFlowLogsConfig);
+        this.VpcFlowLogsConfig = VpcFlowLogsConfig;
+    }
+
+    public void Deconstruct(out string VpcFlowLogsConfig)
+    {
+        VpcFlowLogsConfig = this.VpcFlowLogsConfig;
+    }
+
+    /// <summary>
+    /// VpcFlowLogsConfig resource - The resource name of the VpcFlowLogsConfig, in one of the following formats: ◆ For project-level resources: projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id} ◆ For organization-level resources: organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument vpc_flow_logs_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [networkmanagement.organizations.locations.vpcFlowLogsConfigs, networkmanagement.projects.locations.vpcFlowLogsConfigs]. This must be specified. The location id of the vpcFlowLogsConfig resource. To set the location attribute: ▸ provide the argument vpc_flow_logs_config on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// VpcFlowLogsConfig resource - The resource name of the VpcFlowLogsConfig, in one of the following formats: ◆ For project-level resources: projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id} ◆ For organization-level resources: organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument vpc_flow_logs_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [networkmanagement.organizations.locations.vpcFlowLogsConfigs, networkmanagement.projects.locations.vpcFlowLogsConfigs]. This must be specified. The organization id of the vpcFlowLogsConfig resource. To set the organization attribute: ▸ provide the argument vpc_flow_logs_config on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [networkmanagement.organizations.locations.vpcFlowLogsConfigs].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// VpcFlowLogsConfig resource - The resource name of the VpcFlowLogsConfig, in one of the following formats: ◆ For project-level resources: projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id} ◆ For organization-level resources: organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument vpc_flow_logs_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [networkmanagement.organizations.locations.vpcFlowLogsConfigs, networkmanagement.projects.locations.vpcFlowLogsConfigs]. This must be specified. ID of the vpcFlowLogsConfig or fully qualified identifier for the vpcFlowLogsConfig. To set the vpc_flow_logs_config attribute: ▸ provide the argument vpc_flow_logs_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string VpcFlowLogsConfig { get; private init; }
+
 }

@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("pubsub", "schemas", "rollback")]
 public record GcloudPubsubSchemasRollbackOptions : GcloudOptions
 {
+    /// <summary>
+    /// roll back a Pub/Sub schema to a specified     revision
+    /// </summary>
+    /// <param name="RevisionId">The revision to roll back to.</param>
+    /// <param name="Schema">Schema resource - Name of the schema to rollback. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the schema or fully qualified identifier for the schema. To set the schema attribute: ▸ provide the argument schema on the command line.</param>
+    public GcloudPubsubSchemasRollbackOptions(
+        string RevisionId,
+        string Schema
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RevisionId);
+        this.RevisionId = RevisionId;
+        global::System.ArgumentNullException.ThrowIfNull(Schema);
+        this.Schema = Schema;
+    }
+
+    public void Deconstruct(out string RevisionId, out string Schema)
+    {
+        RevisionId = this.RevisionId;
+        Schema = this.Schema;
+    }
+
+    /// <summary>
+    /// The revision to roll back to.
+    /// </summary>
+    [CliOption("--revision-id", Format = OptionFormat.EqualsSeparated)]
+    public string RevisionId { get; private init; }
+
+    /// <summary>
+    /// Schema resource - Name of the schema to rollback. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the schema or fully qualified identifier for the schema. To set the schema attribute: ▸ provide the argument schema on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Schema { get; private init; }
+
 }

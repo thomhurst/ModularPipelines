@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instance-groups", "managed", "update-autoscaling")]
-public record GcloudPreviewComputeInstanceGroupsManagedUpdateAutoscalingOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInstanceGroupsManagedUpdateAutoscalingOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update     autoscaling parameters of a managed instance group
+    /// </summary>
+    /// <param name="Name">Name of the managed instance group to operate on.</param>
+    public GcloudPreviewComputeInstanceGroupsManagedUpdateAutoscalingOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Indicates whether to use a predictive algorithm when scaling based on CPU. CPU_UTILIZATION_PREDICTIVE_METHOD must be one of: none (Default) No predictions are made when calculating the number of VM instances. optimize-availability Predictive autoscaling predicts the future values of the scaling metric and scales the group in advance to ensure that new VM instances are ready in time to cover the predicted peak.
     /// </summary>
@@ -136,5 +152,29 @@ public record GcloudPreviewComputeInstanceGroupsManagedUpdateAutoscalingOptions(
     /// </summary>
     [CliOption("--schedule-time-zone", Format = OptionFormat.EqualsSeparated)]
     public string? ScheduleTimeZone { get; set; }
+
+    /// <summary>
+    /// Name of the managed instance group to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearScaleInControl == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(ScaleInControl) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearScaleInControl or ScaleInControl may be specified.", [nameof(ClearScaleInControl), nameof(ScaleInControl)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DisableSchedule) ? 1 : 0) + (!string.IsNullOrWhiteSpace(EnableSchedule) ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveSchedule) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SetSchedule) ? 1 : 0) + (!string.IsNullOrWhiteSpace(UpdateSchedule) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisableSchedule, EnableSchedule, RemoveSchedule, SetSchedule, or UpdateSchedule may be specified.", [nameof(DisableSchedule), nameof(EnableSchedule), nameof(RemoveSchedule), nameof(SetSchedule), nameof(UpdateSchedule)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Region or Zone may be specified.", [nameof(Region), nameof(Zone)]);
+        }
+        yield break;
+    }
 
 }

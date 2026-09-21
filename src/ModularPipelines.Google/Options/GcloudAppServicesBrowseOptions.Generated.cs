@@ -19,10 +19,36 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "services", "browse")]
-public record GcloudAppServicesBrowseOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Services
-) : GcloudOptions
+public record GcloudAppServicesBrowseOptions : GcloudOptions
 {
+    /// <summary>
+    /// open the specified service(s) in a browser
+    /// </summary>
+    /// <param name="Services">The services to open (optionally filtered by the --version flag).</param>
+    public GcloudAppServicesBrowseOptions(
+        IEnumerable<string> Services
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Services);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Services));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Services));
+            }
+
+            Services = materialized;
+        }
+        this.Services = Services;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Services)
+    {
+        Services = this.Services;
+    }
+
     /// <summary>
     /// Launch a browser if possible. When disabled, only displays the URL. Enabled by default, use --no-launch-browser to disable.
     /// </summary>
@@ -40,5 +66,11 @@ public record GcloudAppServicesBrowseOptions(
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
+
+    /// <summary>
+    /// The services to open (optionally filtered by the --version flag).
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Services { get; private init; }
 
 }

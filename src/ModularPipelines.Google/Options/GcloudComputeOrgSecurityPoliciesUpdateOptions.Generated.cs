@@ -20,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "org-security-policies", "update")]
-public record GcloudComputeOrgSecurityPoliciesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SecurityPolicy
-) : GcloudOptions
+public record GcloudComputeOrgSecurityPoliciesUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a Compute Engine     organization security policy
+    /// </summary>
+    /// <param name="SecurityPolicy">Short name or ID of the security policy to update.</param>
+    public GcloudComputeOrgSecurityPoliciesUpdateOptions(
+        string SecurityPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityPolicy);
+        this.SecurityPolicy = SecurityPolicy;
+    }
+
+    public void Deconstruct(out string SecurityPolicy)
+    {
+        SecurityPolicy = this.SecurityPolicy;
+    }
+
     /// <summary>
     /// An optional, textual description for the organization security policy.
     /// </summary>
@@ -31,22 +46,22 @@ public record GcloudComputeOrgSecurityPoliciesUpdateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// A comma-separated list of custom Content-Type header values to apply JSON parsing for preconfigured WAF rules. Only applicable when JSON parsing is enabled, like --json-parsing=STANDARD. When configuring a Content-Type header value, only the type/subtype needs to be specified, and the parameters should be excluded.
+    /// A comma-separated list of custom Content-Type header values to apply JSON parsing for preconfigured WAF rules. Only applicable when JSON parsing is enabled, like --json-parsing=STANDARD. When configuring a Content-Type header value, only the type/subtype needs to be specified, and the parameters should be excluded. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--json-custom-content-types", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--json-custom-content-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? JsonCustomContentTypes { get; set; }
 
     /// <summary>
     /// The JSON parsing behavior for this rule. Must be one of the following values: [DISABLED, STANDARD, STANDARD_WITH_GRAPHQL]. JSON_PARSING must be one of: DISABLED, STANDARD, STANDARD_WITH_GRAPHQL.
     /// </summary>
     [CliOption("--json-parsing", Format = OptionFormat.EqualsSeparated)]
-    public GcloudJsonParsing? JsonParsing { get; set; }
+    public GcloudComputeOrgSecurityPoliciesUpdateJsonParsing? JsonParsing { get; set; }
 
     /// <summary>
     /// The level of detail to display for WAF logging. LOG_LEVEL must be one of: NORMAL, VERBOSE.
     /// </summary>
     [CliOption("--log-level", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLogLevel? LogLevel { get; set; }
+    public GcloudComputeOrgSecurityPoliciesUpdateLogLevel? LogLevel { get; set; }
 
     /// <summary>
     /// Organization in which the organization security policy is to be updated. Must be set if SECURITY_POLICY is the short name.
@@ -55,9 +70,15 @@ public record GcloudComputeOrgSecurityPoliciesUpdateOptions(
     public string? Organization { get; set; }
 
     /// <summary>
-    /// A comma-separated list of request header names to use for resolving the caller's user IP address.
+    /// A comma-separated list of request header names to use for resolving the caller's user IP address. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--user-ip-request-headers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--user-ip-request-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? UserIpRequestHeaders { get; set; }
+
+    /// <summary>
+    /// Short name or ID of the security policy to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SecurityPolicy { get; private init; }
 
 }

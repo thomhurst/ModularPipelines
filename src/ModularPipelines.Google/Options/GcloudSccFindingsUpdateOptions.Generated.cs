@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,10 +22,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "findings", "update")]
-public record GcloudSccFindingsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Finding
-) : GcloudOptions
+public record GcloudSccFindingsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Security Command Center finding
+    /// </summary>
+    /// <param name="Finding">ID of the finding or fully qualified identifier for the finding.</param>
+    public GcloudSccFindingsUpdateOptions(
+        string Finding
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Finding);
+        this.Finding = Finding;
+    }
+
+    public void Deconstruct(out string Finding)
+    {
+        Finding = this.Finding;
+    }
+
     /// <summary>
     /// Time at which the event took place. For example, if the finding represents an open firewall it would capture the time the open firewall was detected. If event-time is not provided, it will default to UTC version of NOW. See $ gcloud topic datetimes for information on supported time formats.
     /// </summary>
@@ -50,16 +66,16 @@ public record GcloudSccFindingsUpdateOptions(
     public string? Source { get; set; }
 
     /// <summary>
-    /// Source specific properties. These properties are managed by the source that writes the finding. The key names in the source_properties map must be between 1 and 255 characters, and must start with a letter and contain alphanumeric characters or underscores only. For example "key1=val1,key2=val2"
+    /// Source specific properties. These properties are managed by the source that writes the finding. The key names in the source_properties map must be between 1 and 255 characters, and must start with a letter and contain alphanumeric characters or underscores only. For example "key1=val1,key2=val2" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--source-properties", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--source-properties", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? SourceProperties { get; set; }
 
     /// <summary>
     /// State is one of: [ACTIVE, INACTIVE]. STATE must be one of: active, inactive, state-unspecified.
     /// </summary>
     [CliOption("--state", Format = OptionFormat.EqualsSeparated)]
-    public GcloudState? State { get; set; }
+    public GcloudSccFindingsUpdateState? State { get; set; }
 
     /// <summary>
     /// Optional: If left unspecified (default), an update-mask is automatically created using the flags specified in the command and only those values are updated. For example: --external-uri='&lt;some-uri&gt;' --event-time='&lt;some-time&gt;' would automatically generate --update-mask='external_uri,event_time'. Note that as a result, only external-uri and event-time are updated for the given finding and everything else remains untouched. If you want to delete attributes/properties (that are not being changed in the update command) use an empty update-mask (''). That will delete all the mutable properties/attributes that aren't specified as flags in the update command. In the above example it would delete source-properties. State can be toggled from ACTIVE to INACTIVE and vice-versa but it cannot be deleted.
@@ -84,5 +100,21 @@ public record GcloudSccFindingsUpdateOptions(
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
+
+    /// <summary>
+    /// ID of the finding or fully qualified identifier for the finding.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Finding { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Folder, Organization, or Project may be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,30 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-buckets", "set-iam-policy")]
-public record GcloudComputeBackendBucketsSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendBucket
-) : GcloudOptions
+public record GcloudComputeBackendBucketsSetIamPolicyOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// set the IAM policy binding     for a Compute Engine backend bucket
+    /// </summary>
+    /// <param name="BackendBucket">ID of the backend bucket or fully qualified identifier for the backend bucket. To set the backend_bucket attribute: + provide the argument backend_bucket on the command line.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudComputeBackendBucketsSetIamPolicyOptions(
+        string BackendBucket,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackendBucket);
+        this.BackendBucket = BackendBucket;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string BackendBucket, out string PolicyFile)
+    {
+        BackendBucket = this.BackendBucket;
+        PolicyFile = this.PolicyFile;
+    }
+
     /// <summary>
     /// At most one of these can be specified: If set, the backend bucket is global.
     /// </summary>
@@ -34,5 +55,27 @@ public record GcloudComputeBackendBucketsSetIamPolicyOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// ID of the backend bucket or fully qualified identifier for the backend bucket. To set the backend_bucket attribute: + provide the argument backend_bucket on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackendBucket { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
 
 }

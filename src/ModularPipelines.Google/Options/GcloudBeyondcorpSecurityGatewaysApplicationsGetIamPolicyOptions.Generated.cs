@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("beyondcorp", "security-gateways", "applications", "get-iam-policy")]
 public record GcloudBeyondcorpSecurityGatewaysApplicationsGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the     IAM policy for a security gateway application
+    /// </summary>
+    /// <param name="Application">Application resource - The security gateway application for which to get the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the application or fully qualified identifier for the application. To set the application attribute: ▸ provide the argument application on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBeyondcorpSecurityGatewaysApplicationsGetIamPolicyOptions(
+        string Application
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Application);
+        this.Application = Application;
+    }
+
+    public void Deconstruct(out string Application)
+    {
+        Application = this.Application;
+    }
+
+    /// <summary>
+    /// Application resource - The security gateway application for which to get the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the application resource. We support only global location. To set the location attribute: ▸ provide the argument application on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Application resource - The security gateway application for which to get the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The securityGateway id of the application resource. To set the security-gateway attribute: ▸ provide the argument application on the command line with a fully specified name; ▸ provide the argument --security-gateway on the command line.
+    /// </summary>
+    [CliOption("--security-gateway", Format = OptionFormat.EqualsSeparated)]
+    public string? SecurityGateway { get; set; }
+
+    /// <summary>
+    /// Application resource - The security gateway application for which to get the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the application or fully qualified identifier for the application. To set the application attribute: ▸ provide the argument application on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Application { get; private init; }
+
 }

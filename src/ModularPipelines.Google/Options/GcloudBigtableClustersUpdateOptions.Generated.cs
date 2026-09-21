@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,91 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "clusters", "update")]
-public record GcloudBigtableClustersUpdateOptions : GcloudOptions
+public record GcloudBigtableClustersUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Bigtable cluster's number of     nodes
+    /// </summary>
+    /// <param name="Cluster">Cluster resource - The cluster to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBigtableClustersUpdateOptions(
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Cluster)
+    {
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Cluster resource - The cluster to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Bigtable instance for the cluster. To set the instance attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Autoscaling The target CPU utilization percentage for autoscaling. Accepted values are from 10 to 80.
+    /// </summary>
+    [CliOption("--autoscaling-cpu-target", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingCpuTarget { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Autoscaling The maximum number of nodes for autoscaling.
+    /// </summary>
+    [CliOption("--autoscaling-max-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMaxNodes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Autoscaling The minimum number of nodes for autoscaling.
+    /// </summary>
+    [CliOption("--autoscaling-min-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMinNodes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Autoscaling The target storage utilization gibibytes per node for autoscaling. Accepted values are from 2560 to 5120 for SSD clusters and 8192 to 16384 for HDD clusters.
+    /// </summary>
+    [CliOption("--autoscaling-storage-target", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingStorageTarget { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Manual Scaling Number of nodes to serve. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--num-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? NumNodes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Manual Scaling Set this flag and --num-nodes to disable autoscaling. If autoscaling is currently not enabled, setting this flag does nothing.
+    /// </summary>
+    [CliFlag("--disable-autoscaling")]
+    public bool? DisableAutoscaling { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Cluster resource - The cluster to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(AutoscalingCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(NumNodes) || DisableAutoscaling == true) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (AutoscalingCpuTarget, AutoscalingMaxNodes, AutoscalingMinNodes, or AutoscalingStorageTarget) or (NumNodes or DisableAutoscaling) must be specified.", [nameof(AutoscalingCpuTarget), nameof(AutoscalingMaxNodes), nameof(AutoscalingMinNodes), nameof(AutoscalingStorageTarget), nameof(NumNodes), nameof(DisableAutoscaling)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AutoscalingCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(NumNodes) || DisableAutoscaling == true) && (!string.IsNullOrWhiteSpace(NumNodes) || DisableAutoscaling == true) && (!(!string.IsNullOrWhiteSpace(NumNodes))))
+        {
+            yield return new ValidationResult("NumNodes must be specified when other arguments in this group are specified.", [nameof(NumNodes)]);
+        }
+        yield break;
+    }
+
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,8 +22,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventarc", "pipelines", "update")]
-public record GcloudEventarcPipelinesUpdateOptions : GcloudOptions
+public record GcloudEventarcPipelinesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update an Eventarc pipeline
+    /// </summary>
+    /// <param name="Pipeline">Pipeline resource - The pipeline to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument pipeline on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the pipeline or fully qualified identifier for the pipeline. To set the pipeline attribute: ▸ provide the argument pipeline on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEventarcPipelinesUpdateOptions(
+        string Pipeline
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Pipeline);
+        this.Pipeline = Pipeline;
+    }
+
+    public void Deconstruct(out string Pipeline)
+    {
+        Pipeline = this.Pipeline;
+    }
+
+    /// <summary>
+    /// Pipeline resource - The pipeline to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument pipeline on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location for the Eventarc pipeline, which should be one of the supported regions. Alternatively, set the [eventarc/location] property. To set the location attribute: ▸ provide the argument pipeline on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property eventarc/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -39,7 +63,7 @@ public record GcloudEventarcPipelinesUpdateOptions : GcloudOptions
     /// The logging config of the pipeline. LOGGING_CONFIG must be one of: NONE, DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY.
     /// </summary>
     [CliOption("--logging-config", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLoggingConfig? LoggingConfig { get; set; }
+    public GcloudEventarcPipelinesUpdateLoggingConfig? LoggingConfig { get; set; }
 
     /// <summary>
     /// The different ways to modify the pipeline. Currently, only one mediation is supported per pipeline. A mediation is specified in a dict format. Currently, the only valid choice is transformation_template. This is the template to apply to transform messages. For complex transformations, shell parameter processing may fail to parse the CEL expressions. Please see gcloud topic flags-file for how to use https://cloud.google.com/sdk/gcloud/reference/topic/flags-file feature of gcloud to pass in CEL expressions. Examples: $ gcloud eventarc pipelines create example-pipeline \ --mediations=transformation_template='message.removeFields(["dat\ a.credit_card_number","data.ssn"])'
@@ -48,9 +72,9 @@ public record GcloudEventarcPipelinesUpdateOptions : GcloudOptions
     public string? Mediations { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
@@ -72,10 +96,32 @@ public record GcloudEventarcPipelinesUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: The pipeline's input payload Avro schema definition. If this is set, then any messages not matching this format will be treated as persistent errors.
@@ -112,5 +158,29 @@ public record GcloudEventarcPipelinesUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--min-retry-delay", Format = OptionFormat.EqualsSeparated)]
     public string? MinRetryDelay { get; set; }
+
+    /// <summary>
+    /// Pipeline resource - The pipeline to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument pipeline on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the pipeline or fully qualified identifier for the pipeline. To set the pipeline attribute: ▸ provide the argument pipeline on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Pipeline { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearCryptoKey == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(CryptoKey) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearCryptoKey or CryptoKey may be specified.", [nameof(ClearCryptoKey), nameof(CryptoKey)]);
+        }
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(InputPayloadFormatAvroSchemaDefinition) ? 1 : 0) + (!string.IsNullOrWhiteSpace(InputPayloadFormatJson) ? 1 : 0) + (!string.IsNullOrWhiteSpace(InputPayloadFormatProtobufSchemaDefinition) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of InputPayloadFormatAvroSchemaDefinition, InputPayloadFormatJson, or InputPayloadFormatProtobufSchemaDefinition may be specified.", [nameof(InputPayloadFormatAvroSchemaDefinition), nameof(InputPayloadFormatJson), nameof(InputPayloadFormatProtobufSchemaDefinition)]);
+        }
+        yield break;
+    }
 
 }

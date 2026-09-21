@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source", "repos", "get-iam-policy")]
-public record GcloudSourceReposGetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RepositoryName
-) : GcloudOptions
+public record GcloudSourceReposGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the IAM policy for the named cloud     source repository
+    /// </summary>
+    /// <param name="RepositoryName">Name of the repository.</param>
+    public GcloudSourceReposGetIamPolicyOptions(
+        string RepositoryName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+    }
+
+    public void Deconstruct(out string RepositoryName)
+    {
+        RepositoryName = this.RepositoryName;
+    }
+
+    /// <summary>
+    /// Name of the repository.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RepositoryName { get; private init; }
+
 }

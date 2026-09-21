@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -44,8 +43,13 @@ public record GcloudAuthPrintIdentityTokenOptions : GcloudOptions
     /// <summary>
     /// Parameters for Google Compute Engine instance identity tokens. Specify whether or not the project and instance details are included in the identity token payload. This flag only applies to Google Compute Engine instance identity tokens. See https://cloud.google.com/compute/docs/instances/verifying-instance-identity#token_format for more details on token format. TOKEN_FORMAT must be one of: standard, full.
     /// </summary>
-    [SecretValue]
     [CliOption("--token-format", Format = OptionFormat.EqualsSeparated)]
-    public GcloudTokenFormat? TokenFormat { get; set; }
+    public GcloudAuthPrintIdentityTokenTokenFormat? TokenFormat { get; set; }
+
+    /// <summary>
+    /// Account to print the identity token for. If not specified, the current active account will be used.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Account { get; set; }
 
 }

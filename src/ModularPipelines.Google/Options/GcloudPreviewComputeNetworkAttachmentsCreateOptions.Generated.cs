@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,87 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "network-attachments", "create")]
-public record GcloudPreviewComputeNetworkAttachmentsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeNetworkAttachmentsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Google Compute     Engine network attachment
+    /// </summary>
+    /// <param name="Subnets">The subnetworks provided by the consumer for the producers Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Name">Name of the network attachment to create.</param>
+    public GcloudPreviewComputeNetworkAttachmentsCreateOptions(
+        IEnumerable<string> Subnets,
+        string Name
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Subnets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Subnets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Subnets));
+            }
+
+            Subnets = materialized;
+        }
+        this.Subnets = Subnets;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Subnets, out string Name)
+    {
+        Subnets = this.Subnets;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The subnetworks provided by the consumer for the producers Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--subnets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Subnets { get; private init; }
+
+    /// <summary>
+    /// The connection preference of network attachment. The value can be set to ACCEPT_AUTOMATIC or ACCEPT_MANUAL. An ACCEPT_AUTOMATIC network attachment is one that always accepts the connection from producer NIC. An ACCEPT_MANUAL network attachment is one that requires an explicit addition of the producer project id or project number to the producer accept list. CONNECTION_PREFERENCE must be one of: ACCEPT_AUTOMATIC, ACCEPT_MANUAL.
+    /// </summary>
+    [CliOption("--connection-preference", Format = OptionFormat.EqualsSeparated)]
+    public GcloudPreviewComputeNetworkAttachmentsCreateConnectionPreference? ConnectionPreference { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the network attachment.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Projects that are allowed to connect to this network attachment. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--producer-accept-list", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ProducerAcceptList { get; set; }
+
+    /// <summary>
+    /// Projects that are not allowed to connect to this network attachment. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--producer-reject-list", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ProducerRejectList { get; set; }
+
+    /// <summary>
+    /// Region of the network attachment to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Region of the subnetworks to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--subnets-region", Format = OptionFormat.EqualsSeparated)]
+    public string? SubnetsRegion { get; set; }
+
+    /// <summary>
+    /// Name of the network attachment to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

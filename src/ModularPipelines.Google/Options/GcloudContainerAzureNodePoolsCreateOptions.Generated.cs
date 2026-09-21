@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,211 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "azure", "node-pools", "create")]
-public record GcloudContainerAzureNodePoolsCreateOptions : GcloudOptions
+public record GcloudContainerAzureNodePoolsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a node pool in an Anthos     cluster on Azure
+    /// </summary>
+    /// <param name="MaxPodsPerNode">Maximum number of pods per node.</param>
+    /// <param name="NodeVersion">Kubernetes version to use for the node pool.</param>
+    /// <param name="SshPublicKey">SSH public key to use for authentication.</param>
+    /// <param name="SubnetId">Subnet ID of an existing VNET to use for the node pool.</param>
+    /// <param name="MaxNodes">Node pool autoscaling This must be specified. Maximum number of nodes in the node pool. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="MinNodes">Node pool autoscaling This must be specified. Minimum number of nodes in the node pool. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="NodePool">Nodepool resource - node pool to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the nodepool or fully qualified identifier for the nodepool. To set the nodepool attribute: ▸ provide the argument node_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerAzureNodePoolsCreateOptions(
+        string MaxPodsPerNode,
+        string NodeVersion,
+        string SshPublicKey,
+        string SubnetId,
+        string MaxNodes,
+        string MinNodes,
+        string NodePool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MaxPodsPerNode);
+        this.MaxPodsPerNode = MaxPodsPerNode;
+        global::System.ArgumentNullException.ThrowIfNull(NodeVersion);
+        this.NodeVersion = NodeVersion;
+        global::System.ArgumentNullException.ThrowIfNull(SshPublicKey);
+        this.SshPublicKey = SshPublicKey;
+        global::System.ArgumentNullException.ThrowIfNull(SubnetId);
+        this.SubnetId = SubnetId;
+        global::System.ArgumentNullException.ThrowIfNull(MaxNodes);
+        this.MaxNodes = MaxNodes;
+        global::System.ArgumentNullException.ThrowIfNull(MinNodes);
+        this.MinNodes = MinNodes;
+        global::System.ArgumentNullException.ThrowIfNull(NodePool);
+        this.NodePool = NodePool;
+    }
+
+    public void Deconstruct(out string MaxPodsPerNode, out string NodeVersion, out string SshPublicKey, out string SubnetId, out string MaxNodes, out string MinNodes, out string NodePool)
+    {
+        MaxPodsPerNode = this.MaxPodsPerNode;
+        NodeVersion = this.NodeVersion;
+        SshPublicKey = this.SshPublicKey;
+        SubnetId = this.SubnetId;
+        MaxNodes = this.MaxNodes;
+        MinNodes = this.MinNodes;
+        NodePool = this.NodePool;
+    }
+
+    /// <summary>
+    /// Maximum number of pods per node.
+    /// </summary>
+    [CliOption("--max-pods-per-node", Format = OptionFormat.EqualsSeparated)]
+    public string MaxPodsPerNode { get; private init; }
+
+    /// <summary>
+    /// Kubernetes version to use for the node pool.
+    /// </summary>
+    [CliOption("--node-version", Format = OptionFormat.EqualsSeparated)]
+    public string NodeVersion { get; private init; }
+
+    /// <summary>
+    /// SSH public key to use for authentication.
+    /// </summary>
+    [CliOption("--ssh-public-key", Format = OptionFormat.EqualsSeparated)]
+    public string SshPublicKey { get; private init; }
+
+    /// <summary>
+    /// Subnet ID of an existing VNET to use for the node pool.
+    /// </summary>
+    [CliOption("--subnet-id", Format = OptionFormat.EqualsSeparated)]
+    public string SubnetId { get; private init; }
+
+    /// <summary>
+    /// Node pool autoscaling This must be specified. Maximum number of nodes in the node pool. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--max-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string MaxNodes { get; private init; }
+
+    /// <summary>
+    /// Node pool autoscaling This must be specified. Minimum number of nodes in the node pool. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--min-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string MinNodes { get; private init; }
+
+    /// <summary>
+    /// Nodepool resource - node pool to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. cluster of the nodepool. To set the cluster attribute: ▸ provide the argument node_pool on the command line with a fully specified name; ▸ provide the argument --cluster on the command line.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Nodepool resource - node pool to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the nodepool. To set the location attribute: ▸ provide the argument node_pool on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Annotations for the node pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Annotations { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Azure availability zone where the node pool will be created.
+    /// </summary>
+    [CliOption("--azure-availability-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? AzureAvailabilityZone { get; set; }
+
+    /// <summary>
+    /// URL the of the Azure Key Vault key (with its version) to use to encrypt / decrypt config data.
+    /// </summary>
+    [CliOption("--config-encryption-key-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigEncryptionKeyId { get; set; }
+
+    /// <summary>
+    /// RSA key of the Azure Key Vault public key to use for encrypting config data.
+    /// </summary>
+    [CliOption("--config-encryption-public-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigEncryptionPublicKey { get; set; }
+
+    /// <summary>
+    /// Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable. $ gcloud container azure node-pools create --enable-autorepair Node autorepair is disabled by default.
+    /// </summary>
+    [CliFlag("--enable-autorepair")]
+    public bool? EnableAutorepair { get; set; }
+
+    /// <summary>
+    /// Negates --enable-autorepair. Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable. $ gcloud container azure node-pools create --enable-autorepair Node autorepair is disabled by default.
+    /// </summary>
+    [CliFlag("--no-enable-autorepair")]
+    public bool? NoEnableAutorepair { get; set; }
+
+    /// <summary>
+    /// Labels assigned to the node pool's nodes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NodeLabels { get; set; }
+
+    /// <summary>
+    /// Taints assigned to nodes of the node pool. Node taint is of format key=value:effect. Effect must be one of: NoExecute, NoSchedule, PreferNoSchedule.
+    /// </summary>
+    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudContainerAzureNodePoolsCreateNodeTaints>? NodeTaints { get; set; }
+
+    /// <summary>
+    /// Size of the root volume. The value must be a whole number followed by a size unit of GB for gigabyte, or TB for terabyte. If no size unit is specified, GB is assumed.
+    /// </summary>
+    [CliOption("--root-volume-size", Format = OptionFormat.EqualsSeparated)]
+    public int? RootVolumeSize { get; set; }
+
+    /// <summary>
+    /// Applies the given tags (comma separated) on the node pool. Example: $ gcloud container azure node-pools create EXAMPLE_NODE_POOL \ --tags=tag1=one,tag2=two Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Validate the creation of the node pool, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Azure Virtual Machine Size (e.g. Standard_DS1_v).
+    /// </summary>
+    [CliOption("--vm-size", Format = OptionFormat.EqualsSeparated)]
+    public int? VmSize { get; set; }
+
+    /// <summary>
+    /// Proxy config The ARM ID the of the resource group containing proxy keyvault. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--proxy-resource-group-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxyResourceGroupId { get; set; }
+
+    /// <summary>
+    /// Proxy config The URL the of the proxy setting secret with its version. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--proxy-secret-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretId { get; set; }
+
+    /// <summary>
+    /// Nodepool resource - node pool to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the nodepool or fully qualified identifier for the nodepool. To set the nodepool attribute: ▸ provide the argument node_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NodePool { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ProxyResourceGroupId) || !string.IsNullOrWhiteSpace(ProxySecretId)) && (!(!string.IsNullOrWhiteSpace(ProxyResourceGroupId))))
+        {
+            yield return new ValidationResult("ProxyResourceGroupId must be specified when other arguments in this group are specified.", [nameof(ProxyResourceGroupId)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ProxyResourceGroupId) || !string.IsNullOrWhiteSpace(ProxySecretId)) && (!(!string.IsNullOrWhiteSpace(ProxySecretId))))
+        {
+            yield return new ValidationResult("ProxySecretId must be specified when other arguments in this group are specified.", [nameof(ProxySecretId)]);
+        }
+        yield break;
+    }
+
 }

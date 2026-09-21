@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iap", "tcp", "dest-groups", "delete")]
-public record GcloudIapTcpDestGroupsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string GroupName
-) : GcloudOptions
+public record GcloudIapTcpDestGroupsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete the IAP TCP Destination Group     resource
+    /// </summary>
+    /// <param name="Region">Region of the Destination Group.</param>
+    /// <param name="GroupName">Name of the Destination Group.</param>
+    public GcloudIapTcpDestGroupsDeleteOptions(
+        string Region,
+        string GroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(GroupName);
+        this.GroupName = GroupName;
+    }
+
+    public void Deconstruct(out string Region, out string GroupName)
+    {
+        Region = this.Region;
+        GroupName = this.GroupName;
+    }
+
+    /// <summary>
+    /// Region of the Destination Group.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// Name of the Destination Group.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GroupName { get; private init; }
+
 }

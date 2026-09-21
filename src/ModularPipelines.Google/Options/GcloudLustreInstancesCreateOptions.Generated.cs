@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,292 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lustre", "instances", "create")]
-public record GcloudLustreInstancesCreateOptions : GcloudOptions
+public record GcloudLustreInstancesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// creates a Managed Lustre instance
+    /// </summary>
+    /// <param name="CapacityGib">The storage capacity of the instance in gibibytes (GiB). Allowed values depend on the perUnitStorageThroughput. See Performance tiers (https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for specific minimums, maximums, and step sizes for each performance tier.</param>
+    /// <param name="Filesystem">The filesystem name for this instance. This name is used by client-side tools, including when mounting the instance. Must be eight characters or less and can only contain letters and numbers.</param>
+    /// <param name="Network">Network resource - The full name of the VPC network to which the instance is connected. Must be in the format projects/{project_id}/global/networks/{network_name}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the network or fully qualified identifier for the network. To set the network attribute: ▸ provide the argument --network on the command line.</param>
+    /// <param name="Instance">Instance resource - Identifier. The name of the instance. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudLustreInstancesCreateOptions(
+        string CapacityGib,
+        string Filesystem,
+        string Network,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CapacityGib);
+        this.CapacityGib = CapacityGib;
+        global::System.ArgumentNullException.ThrowIfNull(Filesystem);
+        this.Filesystem = Filesystem;
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string CapacityGib, out string Filesystem, out string Network, out string Instance)
+    {
+        CapacityGib = this.CapacityGib;
+        Filesystem = this.Filesystem;
+        Network = this.Network;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// The storage capacity of the instance in gibibytes (GiB). Allowed values depend on the perUnitStorageThroughput. See Performance tiers (https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for specific minimums, maximums, and step sizes for each performance tier.
+    /// </summary>
+    [CliOption("--capacity-gib", Format = OptionFormat.EqualsSeparated)]
+    public string CapacityGib { get; private init; }
+
+    /// <summary>
+    /// The filesystem name for this instance. This name is used by client-side tools, including when mounting the instance. Must be eight characters or less and can only contain letters and numbers.
+    /// </summary>
+    [CliOption("--filesystem", Format = OptionFormat.EqualsSeparated)]
+    public string Filesystem { get; private init; }
+
+    /// <summary>
+    /// Network resource - The full name of the VPC network to which the instance is connected. Must be in the format projects/{project_id}/global/networks/{network_name}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the network or fully qualified identifier for the network. To set the network attribute: ▸ provide the argument --network on the command line.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// Instance resource - Identifier. The name of the instance. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the instance resource. To set the location attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A user-readable description of the instance.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. The dynamic tier mode of the instance. DYNAMIC_TIER_OPTIONS_MODE must be one of: default-cache The dynamic tier is enabled. disabled The dynamic tier is explicitly disabled.
+    /// </summary>
+    [CliOption("--dynamic-tier-options-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? DynamicTierOptionsMode { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. Deprecated: No longer required for GKE instance creation. Indicates whether you want to enable support for GKE clients. By default, GKE clients are not supported.
+    /// </summary>
+    [CliFlag("--gke-support-enabled")]
+    public bool? GkeSupportEnabled { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. The Cloud KMS key name to use for data encryption. If not set, the instance will use Google-managed encryption keys. If set, the instance will use customer-managed encryption keys. The key must be in the same region as the instance. The key format is: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{key}
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. The throughput of the instance in MBps per TiB. Valid values are 0, 125, 250, 500, 1000. See Performance tiers (https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for more information. If the instance is using the Dynamic tier, this field must not be set or must be set to zero.
+    /// </summary>
+    [CliOption("--per-unit-storage-throughput", Format = OptionFormat.EqualsSeparated)]
+    public string? PerUnitStorageThroughput { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. The placement policy name for the instance in the format of projects/{project}/locations/{location}/resourcePolicies/{resource_policy}
+    /// </summary>
+    [CliOption("--placement-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? PlacementPolicy { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The squash mode for the default access rule. DEFAULT_SQUASH_MODE must be one of: no-squash Squash is disabled. If set inside an [AccessRule][google.cloud.lustre.v1.AccessRulesOptions.AccessRule], root users matching the [ip_ranges][AccessRule.ip_ranges] are not squashed. If set as the [default_squash_mode][google.cloud.lustre.v1.AccessRulesOptions.default_squash_mode], root squash is disabled for this instance. If the default squash mode is NO_SQUASH, do not set the [default_squash_uid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_uid] or [default_squash_gid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_gid], or an invalid argument error is returned. root-squash Root user squash is enabled. Not supported inside an [AccessRule][google.cloud.lustre.v1.AccessRulesOptions.AccessRule]. If set as the [default_squash_mode][google.cloud.lustre.v1.AccessRulesOptions.default_squash_mode], root users not matching any of the [access_rules][google.cloud.lustre.v1.AccessRulesOptions.access_rules] are squashed to the [default_squash_uid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_uid] and [default_squash_gid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_gid]. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--default-squash-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultSquashMode { get; set; }
+
+    /// <summary>
+    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The access rules for the instance. ipAddressRanges The IP address ranges to which to apply this access rule. Accepts non-overlapping CIDR ranges (e.g., 192.168.1.0/24) and IP addresses (e.g., 192.168.1.0). name The name of the access rule policy group. Must be 16 characters or less and include only alphanumeric characters or ''. squashMode Squash mode for the access rule. Shorthand Example: --access-rules=ipAddressRanges=[string],name=string,squashMode=string --access-rules=ipAddressRanges=[string],name=string,squashMode=string JSON Example: --access-rules='[{"ipAddressRanges": ["string"], "name": "string", "squashMode": "string"}]' File Example: --access-rules=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--access-rules", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AccessRules
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AccessRulesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AccessRulesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AccessRulesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AccessRulesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The user squash GID for the default access rule. This user squash GID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no GID squash).
+    /// </summary>
+    [CliOption("--default-squash-gid", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultSquashGid { get; set; }
+
+    /// <summary>
+    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The user squash UID for the default access rule. This user squash UID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no UID squash).
+    /// </summary>
+    [CliOption("--default-squash-uid", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultSquashUid { get; set; }
+
+    /// <summary>
+    /// Defines a maintenance policy for a resource. Required, The weekly maintenance windows for the instance. Currently limited to 1 window. dayOfWeek Day of the week for the maintenance window. startTime Start time of the maintenance window in UTC time zone. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --maintenance-policy-weekly-windows=dayOfWeek=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --maintenance-policy-weekly-windows=dayOfWeek=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --maintenance-policy-weekly-windows='[{"dayOfWeek": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --maintenance-policy-weekly-windows=path_to_file.(yaml|json) This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--maintenance-policy-weekly-windows", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? MaintenancePolicyWeeklyWindows
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __MaintenancePolicyWeeklyWindowsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __MaintenancePolicyWeeklyWindowsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __MaintenancePolicyWeeklyWindowsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __MaintenancePolicyWeeklyWindowsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Defines a maintenance policy for a resource. The exclusion windows for the instance. Currently limited to 1 window. endDate End date of the exclusion period in UTC time zone. This date is inclusive. day Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. month Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. year Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. startDate Start date of the exclusion period in UTC time zone. This date is inclusive. day Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. month Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. year Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. time Time in UTC when the exclusion window starts on start_date and ends on end_date. This can be: ▸ Full time OR ▸ All zeros for 00:00:00 UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --maintenance-policy-exclusion-window=endDate={day=int,month=int,year=int},startDate={day=int,month=int,year=int},time={hours=int,minutes=int,nanos=int,seconds=int} --maintenance-policy-exclusion-window=endDate={day=int,month=int,year=int},startDate={day=int,month=int,year=int},time={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --maintenance-policy-exclusion-window='[{"endDate": {"day": int, "month": int, "year": int}, "startDate": {"day": int, "month": int, "year": int}, "time": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --maintenance-policy-exclusion-window=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--maintenance-policy-exclusion-window", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? MaintenancePolicyExclusionWindow
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __MaintenancePolicyExclusionWindowSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __MaintenancePolicyExclusionWindowSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __MaintenancePolicyExclusionWindowSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __MaintenancePolicyExclusionWindowSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Instance resource - Identifier. The name of the instance. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DefaultSquashMode) || ((object?)AccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AccessRules, static item => item is not null) : ((object?)AccessRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)AccessRules is not string || !string.IsNullOrWhiteSpace(AccessRules?.ToString()) : ((object?)AccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AccessRules, static item => item is not null) : (AccessRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AccessRules), static item => item is not null))))) || !string.IsNullOrWhiteSpace(DefaultSquashGid) || !string.IsNullOrWhiteSpace(DefaultSquashUid)) && (!(!string.IsNullOrWhiteSpace(DefaultSquashMode))))
+        {
+            yield return new ValidationResult("DefaultSquashMode must be specified when other arguments in this group are specified.", [nameof(DefaultSquashMode)]);
+        }
+        if ((((object?)MaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)MaintenancePolicyWeeklyWindows, static item => item is not null) : ((object?)MaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<char> ? (object?)MaintenancePolicyWeeklyWindows is not string || !string.IsNullOrWhiteSpace(MaintenancePolicyWeeklyWindows?.ToString()) : ((object?)MaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MaintenancePolicyWeeklyWindows, static item => item is not null) : (MaintenancePolicyWeeklyWindows is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MaintenancePolicyWeeklyWindows), static item => item is not null))))) || ((object?)MaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)MaintenancePolicyExclusionWindow, static item => item is not null) : ((object?)MaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<char> ? (object?)MaintenancePolicyExclusionWindow is not string || !string.IsNullOrWhiteSpace(MaintenancePolicyExclusionWindow?.ToString()) : ((object?)MaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MaintenancePolicyExclusionWindow, static item => item is not null) : (MaintenancePolicyExclusionWindow is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MaintenancePolicyExclusionWindow), static item => item is not null)))))) && (!(((object?)MaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)MaintenancePolicyWeeklyWindows, static item => item is not null) : ((object?)MaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<char> ? (object?)MaintenancePolicyWeeklyWindows is not string || !string.IsNullOrWhiteSpace(MaintenancePolicyWeeklyWindows?.ToString()) : ((object?)MaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MaintenancePolicyWeeklyWindows, static item => item is not null) : (MaintenancePolicyWeeklyWindows is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MaintenancePolicyWeeklyWindows), static item => item is not null))))))))
+        {
+            yield return new ValidationResult("MaintenancePolicyWeeklyWindows must be specified when other arguments in this group are specified.", [nameof(MaintenancePolicyWeeklyWindows)]);
+        }
+        yield break;
+    }
+
 }

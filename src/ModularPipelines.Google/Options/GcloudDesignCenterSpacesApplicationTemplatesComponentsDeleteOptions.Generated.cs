@@ -22,9 +22,50 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDesignCenterSpacesApplicationTemplatesComponentsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a component
+    /// </summary>
+    /// <param name="Component">Component resource - The component name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument component on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the component or fully qualified identifier for the component. To set the component attribute: ▸ provide the argument component on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDesignCenterSpacesApplicationTemplatesComponentsDeleteOptions(
+        string Component
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Component);
+        this.Component = Component;
+    }
+
+    public void Deconstruct(out string Component)
+    {
+        Component = this.Component;
+    }
+
+    /// <summary>
+    /// Component resource - The component name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument component on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The applicationTemplate id of the component resource. To set the application-template attribute: ▸ provide the argument component on the command line with a fully specified name; ▸ provide the argument --application-template on the command line.
+    /// </summary>
+    [CliOption("--application-template", Format = OptionFormat.EqualsSeparated)]
+    public string? ApplicationTemplate { get; set; }
+
+    /// <summary>
+    /// Component resource - The component name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument component on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the component resource. To set the location attribute: ▸ provide the argument component on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Component resource - The component name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument component on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The space id of the component resource. To set the space attribute: ▸ provide the argument component on the command line with a fully specified name; ▸ provide the argument --space on the command line.
+    /// </summary>
+    [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
+    public string? Space { get; set; }
+
+    /// <summary>
     /// If set to true, the component's children are also deleted. If false, the component is only deleted if it has no children.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// Component resource - The component name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument component on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the component or fully qualified identifier for the component. To set the component attribute: ▸ provide the argument component on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Component { get; private init; }
 
 }

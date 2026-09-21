@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,74 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "addresses", "move")]
-public record GcloudPreviewComputeAddressesMoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeAddressesMoveOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// move an address to another project
+    /// </summary>
+    /// <param name="TargetProject">The target project to move address to. It can be either a project name or a project numerical ID. It must not be the same as the current project.</param>
+    /// <param name="Name">Name of the address to operate on.</param>
+    public GcloudPreviewComputeAddressesMoveOptions(
+        string TargetProject,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetProject);
+        this.TargetProject = TargetProject;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string TargetProject, out string Name)
+    {
+        TargetProject = this.TargetProject;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The target project to move address to. It can be either a project name or a project numerical ID. It must not be the same as the current project.
+    /// </summary>
+    [CliOption("--target-project", Format = OptionFormat.EqualsSeparated)]
+    public string TargetProject { get; private init; }
+
+    /// <summary>
+    /// Description of moved new address.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Name of moved new address. If not specified, current address's name is used.
+    /// </summary>
+    [CliOption("--new-name", Format = OptionFormat.EqualsSeparated)]
+    public string? NewName { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the address is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the address to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the address to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
+
 }

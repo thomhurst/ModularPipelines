@@ -19,8 +19,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "sign-blob")]
-public record GcloudIamServiceAccountsSignBlobOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Input
-) : GcloudOptions
+public record GcloudIamServiceAccountsSignBlobOptions : GcloudOptions
 {
+    /// <summary>
+    /// sign a blob with a managed service     account key
+    /// </summary>
+    /// <param name="IamAccount">The service account to sign as.</param>
+    /// <param name="InputFile">A path to the blob file to be signed.</param>
+    /// <param name="OutputFile">A path the resulting signed blob will be written to.</param>
+    public GcloudIamServiceAccountsSignBlobOptions(
+        string IamAccount,
+        string InputFile,
+        string OutputFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IamAccount);
+        this.IamAccount = IamAccount;
+        global::System.ArgumentNullException.ThrowIfNull(InputFile);
+        this.InputFile = InputFile;
+        global::System.ArgumentNullException.ThrowIfNull(OutputFile);
+        this.OutputFile = OutputFile;
+    }
+
+    public void Deconstruct(out string IamAccount, out string InputFile, out string OutputFile)
+    {
+        IamAccount = this.IamAccount;
+        InputFile = this.InputFile;
+        OutputFile = this.OutputFile;
+    }
+
+    /// <summary>
+    /// The service account to sign as.
+    /// </summary>
+    [CliOption("--iam-account", Format = OptionFormat.EqualsSeparated)]
+    public string IamAccount { get; private init; }
+
+    /// <summary>
+    /// A path to the blob file to be signed.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InputFile { get; private init; }
+
+    /// <summary>
+    /// A path the resulting signed blob will be written to.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OutputFile { get; private init; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,14 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run", "services", "update-traffic")]
-public record GcloudRunServicesUpdateTrafficOptions : GcloudOptions
+public record GcloudRunServicesUpdateTrafficOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Service resource - Service to update the configuration of. The arguments in this group can be used to specify the attributes of this resource. Specific to Cloud Run for Anthos: Kubernetes namespace for the service. To set the namespace attribute: ◆ provide the argument SERVICE on the command line with a fully specified name; ◆ specify the service name from an interactive prompt with a fully specified name; ◆ provide the argument --namespace on the command line; ◆ set the property run/namespace; ◆ For Cloud Run on Kubernetes Engine, defaults to "default". Otherwise, defaults to project ID.; ◆ provide the argument project on the command line; ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? Namespace { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -40,39 +47,151 @@ public record GcloudRunServicesUpdateTrafficOptions : GcloudOptions
     public string? SetTags { get; set; }
 
     /// <summary>
-    /// Specify traffic tags. Traffic tags can be assigned to a revision by name or to the latest ready revision. Assigning a tag to a revision generates a URL prefixed with the tag that allows addressing that revision directly, regardless of the percent traffic specified. Keys are tags. Values are revision names or "LATEST" for the latest ready revision. For example, "candidate" to the latest ready revision and the tag "current" to the revision with name "myservice-v1" and clears any existing tags. Changing tags does not affect the traffic percentage assigned to revisions. When using a tags flag and one or more of --to-latest and --to-revisions in the same command, the tags change occurs first then the traffic percentage change occurs. At most one of these can be specified: Remove all tags.
+    /// "candidate" to the latest ready revision and the tag "current" to the revision with name "myservice-v1" and clears any existing tags. Changing tags does not affect the traffic percentage assigned to revisions. When using a tags flag and one or more of --to-latest and --to-revisions in the same command, the tags change occurs first then the traffic percentage change occurs. At most one of these can be specified: Remove all tags.
     /// </summary>
     [CliFlag("--clear-tags")]
     public bool? ClearTags { get; set; }
 
     /// <summary>
-    /// Specify traffic tags. Traffic tags can be assigned to a revision by name or to the latest ready revision. Assigning a tag to a revision generates a URL prefixed with the tag that allows addressing that revision directly, regardless of the percent traffic specified. Keys are tags. Values are revision names or "LATEST" for the latest ready revision. For example, "candidate" to the latest ready revision and the tag "current" to the revision with name "myservice-v1" and clears any existing tags. Changing tags does not affect the traffic percentage assigned to revisions. When using a tags flag and one or more of --to-latest and --to-revisions in the same command, the tags change occurs first then the traffic percentage change occurs. At most one of these can be specified: Or at least one of these can be specified: Only --update-tags and --remove-tags can be used together. If both are specified, --remove-tags will be applied first. List of tags to be removed.
+    /// "candidate" to the latest ready revision and the tag "current" to the revision with name "myservice-v1" and clears any existing tags. Changing tags does not affect the traffic percentage assigned to revisions. When using a tags flag and one or more of --to-latest and --to-revisions in the same command, the tags change occurs first then the traffic percentage change occurs. At most one of these can be specified: Or at least one of these can be specified: Only --update-tags and --remove-tags can be used together. If both are specified, --remove-tags will be applied first. List of tags to be removed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-tags", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveTags { get; set; }
+    [CliOption("--remove-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveTags
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveTagsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveTagsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Specify traffic tags. Traffic tags can be assigned to a revision by name or to the latest ready revision. Assigning a tag to a revision generates a URL prefixed with the tag that allows addressing that revision directly, regardless of the percent traffic specified. Keys are tags. Values are revision names or "LATEST" for the latest ready revision. For example, "candidate" to the latest ready revision and the tag "current" to the revision with name "myservice-v1" and clears any existing tags. Changing tags does not affect the traffic percentage assigned to revisions. When using a tags flag and one or more of --to-latest and --to-revisions in the same command, the tags change occurs first then the traffic percentage change occurs. At most one of these can be specified: Or at least one of these can be specified: Only --update-tags and --remove-tags can be used together. If both are specified, --remove-tags will be applied first. List of key-value pairs to set as tags.
+    /// "candidate" to the latest ready revision and the tag "current" to the revision with name "myservice-v1" and clears any existing tags. Changing tags does not affect the traffic percentage assigned to revisions. When using a tags flag and one or more of --to-latest and --to-revisions in the same command, the tags change occurs first then the traffic percentage change occurs. At most one of these can be specified: Or at least one of these can be specified: Only --update-tags and --remove-tags can be used together. If both are specified, --remove-tags will be applied first. List of key-value pairs to set as tags. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-tags", Format = OptionFormat.EqualsSeparated)]
-    public string? UpdateTags { get; set; }
+    [CliOption("--update-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? UpdateTags
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateTagsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UpdateTagsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Specify traffic tags. Traffic tags can be assigned to a revision by name or to the latest ready revision. Assigning a tag to a revision generates a URL prefixed with the tag that allows addressing that revision directly, regardless of the percent traffic specified. Keys are tags. Values are revision names or "LATEST" for the latest ready revision. For example, At most one of these can be specified: True to assign 100 percent of traffic to the 'latest' revision of this service. Note that when a new revision is created, it will become the 'latest' and traffic will be directed to it. Defaults to False. Synonymous with '--to-revisions=LATEST=100'.
+    /// At most one of these can be specified: True to assign 100 percent of traffic to the 'latest' revision of this service. Note that when a new revision is created, it will become the 'latest' and traffic will be directed to it. Defaults to False. Synonymous with '--to-revisions=LATEST=100'.
     /// </summary>
     [CliFlag("--to-latest")]
     public bool? ToLatest { get; set; }
 
     /// <summary>
-    /// Specify traffic tags. Traffic tags can be assigned to a revision by name or to the latest ready revision. Assigning a tag to a revision generates a URL prefixed with the tag that allows addressing that revision directly, regardless of the percent traffic specified. Keys are tags. Values are revision names or "LATEST" for the latest ready revision. For example, At most one of these can be specified: Comma separated list of traffic assignments in the form REVISION-NAME=PERCENTAGE. REVISION-NAME must be the name for a revision for the service as returned by 'gcloud beta run list revisions'. PERCENTAGE must be an integer percentage between 0 and 100 inclusive. Ex service-nw9hs=10,service-nw9hs=20 Up to 100 percent of traffic may be assigned. If 100 percent of traffic is assigned, the Service traffic is updated as specified. If under 100 percent of traffic is assigned, the Service traffic is updated as specified for revisions with assignments and traffic is scaled up or down down proportionally as needed for revision that are currently serving traffic but that do not have new assignments. For example assume revision-1 is serving 40 percent of traffic and revision-2 is serving 60 percent. If revision-1 is assigned 45 percent of traffic and no assignment is made for revision-2, the service is updated with revsion-1 assigned 45 percent of traffic and revision-2 scaled down to 55 percent. You can use "LATEST" as a special revision name to always put the given percentage of traffic on the latest ready revision.
+    /// At most one of these can be specified: Comma separated list of traffic assignments in the form REVISION-NAME=PERCENTAGE. REVISION-NAME must be the name for a revision for the service as returned by 'gcloud beta run list revisions'. PERCENTAGE must be an integer percentage between 0 and 100 inclusive. Ex service-nw9hs=10,service-nw9hs=20 Up to 100 percent of traffic may be assigned. If 100 percent of traffic is assigned, the Service traffic is updated as specified. If under 100 percent of traffic is assigned, the Service traffic is updated as specified for revisions with assignments and traffic is scaled up or down down proportionally as needed for revision that are currently serving traffic but that do not have new assignments. For example assume revision-1 is serving 40 percent of traffic and revision-2 is serving 60 percent. If revision-1 is assigned 45 percent of traffic and no assignment is made for revision-2, the service is updated with revsion-1 assigned 45 percent of traffic and revision-2 scaled down to 55 percent. You can use "LATEST" as a special revision name to always put the given percentage of traffic on the latest ready revision. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--to-revisions", Format = OptionFormat.EqualsSeparated)]
-    public string? ToRevisions { get; set; }
+    [CliOption("--to-revisions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ToRevisions
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ToRevisionsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ToRevisionsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Specify traffic tags. Traffic tags can be assigned to a revision by name or to the latest ready revision. Assigning a tag to a revision generates a URL prefixed with the tag that allows addressing that revision directly, regardless of the percent traffic specified. Keys are tags. Values are revision names or "LATEST" for the latest ready revision. For example, At most one of these can be specified: Comma separated list of traffic assignments in the form TAG=PERCENTAGE. TAG must match a traffic tag on a revision of the service. It may match a previously-set tag, or one assigned using the --set-tags or --update-tags flags on this command. PERCENTAGE must be an integer percentage between 0 and 100 inclusive. Up to 100 percent of traffic may be assigned. If 100 percent of traffic is assigned, the service traffic is updated as specified. If under 100 percent of traffic is assigned, the service traffic is updated as specified to the given tags, and other traffic is scaled up or down proportionally. For example, assume the revision tagged next is serving 40 percent of traffic and the revision tagged current is serving 60 percent. If next is assigned 45 percent of traffic and no assignment is made for current, the service is updated with next assigned 45 percent of traffic and current scaled down to 55 percent.
+    /// At most one of these can be specified: Comma separated list of traffic assignments in the form TAG=PERCENTAGE. TAG must match a traffic tag on a revision of the service. It may match a previously-set tag, or one assigned using the --set-tags or --update-tags flags on this command. PERCENTAGE must be an integer percentage between 0 and 100 inclusive. Up to 100 percent of traffic may be assigned. If 100 percent of traffic is assigned, the service traffic is updated as specified. If under 100 percent of traffic is assigned, the service traffic is updated as specified to the given tags, and other traffic is scaled up or down proportionally. For example, assume the revision tagged next is serving 40 percent of traffic and the revision tagged current is serving 60 percent. If next is assigned 45 percent of traffic and no assignment is made for current, the service is updated with next assigned 45 percent of traffic and current scaled down to 55 percent. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--to-tags", Format = OptionFormat.EqualsSeparated)]
-    public string? ToTags { get; set; }
+    [CliOption("--to-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ToTags
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ToTagsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ToTagsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Service resource - Service to update the configuration of. The arguments in this group can be used to specify the attributes of this resource. ID of the service or fully qualified identifier for the service. To set the service attribute: ◆ provide the argument SERVICE on the command line; ◆ specify the service name from an interactive prompt.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Service { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearTags == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SetTags) ? 1 : 0) + ((((object?)RemoveTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveTags is not string || !string.IsNullOrWhiteSpace(RemoveTags?.ToString()) : ((object?)RemoveTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveTags, static item => item is not null) : (RemoveTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveTags), static item => item is not null)))) || ((object?)UpdateTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateTags is not string || !string.IsNullOrWhiteSpace(UpdateTags?.ToString()) : ((object?)UpdateTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateTags, static item => item is not null) : (UpdateTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateTags), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearTags, SetTags, or (RemoveTags or UpdateTags) may be specified.", [nameof(ClearTags), nameof(SetTags), nameof(RemoveTags), nameof(UpdateTags)]);
+        }
+        if ((ToLatest == true ? 1 : 0) + (((object?)ToRevisions is global::System.Collections.Generic.IEnumerable<char> ? (object?)ToRevisions is not string || !string.IsNullOrWhiteSpace(ToRevisions?.ToString()) : ((object?)ToRevisions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ToRevisions, static item => item is not null) : (ToRevisions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ToRevisions), static item => item is not null)))) ? 1 : 0) + (((object?)ToTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)ToTags is not string || !string.IsNullOrWhiteSpace(ToTags?.ToString()) : ((object?)ToTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ToTags, static item => item is not null) : (ToTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ToTags), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ToLatest, ToRevisions, or ToTags may be specified.", [nameof(ToLatest), nameof(ToRevisions), nameof(ToTags)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Service) || !string.IsNullOrWhiteSpace(Namespace)) && (!(!string.IsNullOrWhiteSpace(Namespace))))
+        {
+            yield return new ValidationResult("Namespace must be specified when other arguments in this group are specified.", [nameof(Namespace)]);
+        }
+        yield break;
+    }
 
 }

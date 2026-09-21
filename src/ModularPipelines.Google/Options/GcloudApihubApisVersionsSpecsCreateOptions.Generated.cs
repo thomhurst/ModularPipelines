@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,374 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "apis", "versions", "specs", "create")]
-public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions
+public record GcloudApihubApisVersionsSpecsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Spec
+    /// </summary>
+    /// <param name="DisplayName">The display name of the spec. This can contain the file name of the spec.</param>
+    /// <param name="Spec">Spec resource - Identifier. The name of the spec. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version}/specs/{spec} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument spec on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the spec or fully qualified identifier for the spec. To set the spec attribute: ▸ provide the argument spec on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubApisVersionsSpecsCreateOptions(
+        string DisplayName,
+        string Spec
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(Spec);
+        this.Spec = Spec;
+    }
+
+    public void Deconstruct(out string DisplayName, out string Spec)
+    {
+        DisplayName = this.DisplayName;
+        Spec = this.Spec;
+    }
+
+    /// <summary>
+    /// The display name of the spec. This can contain the file name of the spec.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Spec resource - Identifier. The name of the spec. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version}/specs/{spec} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument spec on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The api id of the spec resource. To set the api attribute: ▸ provide the argument spec on the command line with a fully specified name; ▸ provide the argument --api on the command line.
+    /// </summary>
+    [CliOption("--api", Format = OptionFormat.EqualsSeparated)]
+    public string? Api { get; set; }
+
+    /// <summary>
+    /// Spec resource - Identifier. The name of the spec. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version}/specs/{spec} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument spec on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the spec resource. To set the location attribute: ▸ provide the argument spec on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Spec resource - Identifier. The name of the spec. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version}/specs/{spec} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument spec on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The version id of the spec resource. To set the version attribute: ▸ provide the argument spec on the command line with a fully specified name; ▸ provide the argument --version on the command line.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string? Version { get; set; }
+
+    /// <summary>
+    /// The attribute values associated with resource. This must be specified. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. Required, The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ◇ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ◇ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. Shorthand Example: --spec-type-enum-values=description=string,displayName=string,id=string,immutable=boolean --spec-type-enum-values=description=string,displayName=string,id=string,immutable=boolean JSON Example: --spec-type-enum-values='[{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]' File Example: --spec-type-enum-values=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--spec-type-enum-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SpecTypeEnumValues
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __SpecTypeEnumValuesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SpecTypeEnumValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SpecTypeEnumValuesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __SpecTypeEnumValuesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// The attribute values associated with resource. This must be specified. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--spec-type-json-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SpecTypeJsonValues
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SpecTypeJsonValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SpecTypeJsonValuesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// The attribute values associated with resource. This must be specified. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--spec-type-string-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SpecTypeStringValues
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SpecTypeStringValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SpecTypeStringValuesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// The attribute values associated with resource. This must be specified. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--spec-type-uri-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SpecTypeUriValues
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SpecTypeUriValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SpecTypeUriValuesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// The list of user defined attributes associated with the spec. The key is the attribute name. It will be of the format: projects/{project}/locations/{location}/attributes/{attribute}. The value is the attribute values associated with the resource. KEY Sets KEY value. VALUE Sets VALUE value. enumValues The attribute values associated with a resource in case attribute data type is enum. values The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ▹ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ▹ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. jsonValues The attribute values associated with a resource in case attribute data type is JSON. values The attribute values in case attribute data type is string or JSON. stringValues The attribute values associated with a resource in case attribute data type is string. values The attribute values in case attribute data type is string or JSON. uriValues The attribute values associated with a resource in case attribute data type is URL, URI or IP, like gs://bucket-name/object-name. values The attribute values in case attribute data type is string or JSON. Shorthand Example: --attributes=string={enumValues={values=[{description=string,displayName=string,id=string,immutable=boolean}]},jsonValues={values=[string]},stringValues={values=[string]},uriValues={values=[string]}} JSON Example: --attributes='{"string": {"enumValues": {"values": [{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]}, "jsonValues": {"values": ["string"]}, "stringValues": {"values": ["string"]}, "uriValues": {"values": ["string"]}}}' File Example: --attributes=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Attributes { get; set; }
+
+    /// <summary>
+    /// Documentation details. The uri of the externally hosted documentation.
+    /// </summary>
+    [CliOption("--documentation-external-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? DocumentationExternalUri { get; set; }
+
+    /// <summary>
+    /// Documentation details. Enum specifying the parsing mode for OpenAPI Specification (OAS) parsing. PARSING_MODE must be one of: relaxed Parsing of the Spec on create and update is relaxed, meaning that parsing errors the spec contents will not fail the API call. strict Parsing of the Spec on create and update is strict, meaning that parsing errors in the spec contents will fail the API call.
+    /// </summary>
+    [CliOption("--parsing-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? ParsingMode { get; set; }
+
+    /// <summary>
+    /// Documentation details. The URI of the spec source in case file is uploaded from an external version control system.
+    /// </summary>
+    [CliOption("--source-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceUri { get; set; }
+
+    /// <summary>
+    /// The spec contents. The contents of the spec. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--contents", Format = OptionFormat.EqualsSeparated)]
+    public string? Contents { get; set; }
+
+    /// <summary>
+    /// The spec contents. The mime type of the content for example application/json, application/yaml, application/wsdl etc. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--contents-mime-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ContentsMimeType { get; set; }
+
+    /// <summary>
+    /// LintResponse contains the response from the linter. Timestamp when the linting response was generated. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lint-response-create-time", Format = OptionFormat.EqualsSeparated)]
+    public string? LintResponseCreateTime { get; set; }
+
+    /// <summary>
+    /// LintResponse contains the response from the linter. Name of the linter used. LINT_RESPONSE_LINTER must be one of: other Linter type other. spectral Linter type spectral. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lint-response-linter", Format = OptionFormat.EqualsSeparated)]
+    public string? LintResponseLinter { get; set; }
+
+    /// <summary>
+    /// LintResponse contains the response from the linter. Name of the linting application. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lint-response-source", Format = OptionFormat.EqualsSeparated)]
+    public string? LintResponseSource { get; set; }
+
+    /// <summary>
+    /// LintResponse contains the response from the linter. Lint state represents success or failure for linting. LINT_RESPONSE_STATE must be one of: lint-state-error Linting encountered errors. lint-state-success Linting was completed successfully. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lint-response-state", Format = OptionFormat.EqualsSeparated)]
+    public string? LintResponseState { get; set; }
+
+    /// <summary>
+    /// LintResponse contains the response from the linter. Array of issues found in the analyzed document. code Rule code unique to each rule defined in linter. message Human-readable message describing the issue found by the linter. path An array of strings indicating the location in the analyzed document where the rule was triggered. range Object describing where in the file the issue was found. end End of the issue. character Character position within the line (zero-indexed). line Line number (zero-indexed). start Start of the issue. character Character position within the line (zero-indexed). line Line number (zero-indexed). severity Severity level of the rule violation. Shorthand Example: --lint-response-issues=code=string,message=string,path=[string],range={end={character=int,line=int},start={character=int,line=int}},severity=string --lint-response-issues=code=string,message=string,path=[string],range={end={character=int,line=int},start={character=int,line=int}},severity=string JSON Example: --lint-response-issues='[{"code": "string", "message": "string", "path": ["string"], "range": {"end": {"character": int, "line": int}, "start": {"character": int, "line": int}}, "severity": "string"}]' File Example: --lint-response-issues=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--lint-response-issues", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? LintResponseIssues
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __LintResponseIssuesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __LintResponseIssuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __LintResponseIssuesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __LintResponseIssuesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// LintResponse contains the response from the linter. Summary of all issue types and counts for each severity level. count Count of issues with the given severity. severity Severity of the issue. Shorthand Example: --lint-response-summary=count=int,severity=string --lint-response-summary=count=int,severity=string JSON Example: --lint-response-summary='[{"count": int, "severity": "string"}]' File Example: --lint-response-summary=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--lint-response-summary", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? LintResponseSummary
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __LintResponseSummarySnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __LintResponseSummarySnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __LintResponseSummarySnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __LintResponseSummarySnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Spec resource - Identifier. The name of the spec. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version}/specs/{spec} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument spec on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the spec or fully qualified identifier for the spec. To set the spec attribute: ▸ provide the argument spec on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Spec { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((((object?)SpecTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)SpecTypeEnumValues, static item => item is not null) : ((object?)SpecTypeEnumValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)SpecTypeEnumValues is not string || !string.IsNullOrWhiteSpace(SpecTypeEnumValues?.ToString()) : ((object?)SpecTypeEnumValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SpecTypeEnumValues, static item => item is not null) : (SpecTypeEnumValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SpecTypeEnumValues), static item => item is not null)))))) ? 1 : 0) + ((((object?)SpecTypeJsonValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)SpecTypeJsonValues is not string || !string.IsNullOrWhiteSpace(SpecTypeJsonValues?.ToString()) : ((object?)SpecTypeJsonValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SpecTypeJsonValues, static item => item is not null) : (SpecTypeJsonValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SpecTypeJsonValues), static item => item is not null))))) ? 1 : 0) + ((((object?)SpecTypeStringValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)SpecTypeStringValues is not string || !string.IsNullOrWhiteSpace(SpecTypeStringValues?.ToString()) : ((object?)SpecTypeStringValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SpecTypeStringValues, static item => item is not null) : (SpecTypeStringValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SpecTypeStringValues), static item => item is not null))))) ? 1 : 0) + ((((object?)SpecTypeUriValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)SpecTypeUriValues is not string || !string.IsNullOrWhiteSpace(SpecTypeUriValues?.ToString()) : ((object?)SpecTypeUriValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SpecTypeUriValues, static item => item is not null) : (SpecTypeUriValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SpecTypeUriValues), static item => item is not null))))) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (SpecTypeEnumValues), (SpecTypeJsonValues), (SpecTypeStringValues), or (SpecTypeUriValues) must be specified.", [nameof(SpecTypeEnumValues), nameof(SpecTypeJsonValues), nameof(SpecTypeStringValues), nameof(SpecTypeUriValues)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Contents) || !string.IsNullOrWhiteSpace(ContentsMimeType)) && (!(!string.IsNullOrWhiteSpace(Contents))))
+        {
+            yield return new ValidationResult("Contents must be specified when other arguments in this group are specified.", [nameof(Contents)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Contents) || !string.IsNullOrWhiteSpace(ContentsMimeType)) && (!(!string.IsNullOrWhiteSpace(ContentsMimeType))))
+        {
+            yield return new ValidationResult("ContentsMimeType must be specified when other arguments in this group are specified.", [nameof(ContentsMimeType)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(LintResponseCreateTime) || !string.IsNullOrWhiteSpace(LintResponseLinter) || !string.IsNullOrWhiteSpace(LintResponseSource) || !string.IsNullOrWhiteSpace(LintResponseState) || ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)LintResponseIssues, static item => item is not null) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseIssues is not string || !string.IsNullOrWhiteSpace(LintResponseIssues?.ToString()) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LintResponseIssues, static item => item is not null) : (LintResponseIssues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseIssues), static item => item is not null))))) || ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)LintResponseSummary, static item => item is not null) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseSummary is not string || !string.IsNullOrWhiteSpace(LintResponseSummary?.ToString()) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LintResponseSummary, static item => item is not null) : (LintResponseSummary is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseSummary), static item => item is not null)))))) && (!(!string.IsNullOrWhiteSpace(LintResponseCreateTime))))
+        {
+            yield return new ValidationResult("LintResponseCreateTime must be specified when other arguments in this group are specified.", [nameof(LintResponseCreateTime)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(LintResponseCreateTime) || !string.IsNullOrWhiteSpace(LintResponseLinter) || !string.IsNullOrWhiteSpace(LintResponseSource) || !string.IsNullOrWhiteSpace(LintResponseState) || ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)LintResponseIssues, static item => item is not null) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseIssues is not string || !string.IsNullOrWhiteSpace(LintResponseIssues?.ToString()) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LintResponseIssues, static item => item is not null) : (LintResponseIssues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseIssues), static item => item is not null))))) || ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)LintResponseSummary, static item => item is not null) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseSummary is not string || !string.IsNullOrWhiteSpace(LintResponseSummary?.ToString()) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LintResponseSummary, static item => item is not null) : (LintResponseSummary is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseSummary), static item => item is not null)))))) && (!(!string.IsNullOrWhiteSpace(LintResponseLinter))))
+        {
+            yield return new ValidationResult("LintResponseLinter must be specified when other arguments in this group are specified.", [nameof(LintResponseLinter)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(LintResponseCreateTime) || !string.IsNullOrWhiteSpace(LintResponseLinter) || !string.IsNullOrWhiteSpace(LintResponseSource) || !string.IsNullOrWhiteSpace(LintResponseState) || ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)LintResponseIssues, static item => item is not null) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseIssues is not string || !string.IsNullOrWhiteSpace(LintResponseIssues?.ToString()) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LintResponseIssues, static item => item is not null) : (LintResponseIssues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseIssues), static item => item is not null))))) || ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)LintResponseSummary, static item => item is not null) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseSummary is not string || !string.IsNullOrWhiteSpace(LintResponseSummary?.ToString()) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LintResponseSummary, static item => item is not null) : (LintResponseSummary is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseSummary), static item => item is not null)))))) && (!(!string.IsNullOrWhiteSpace(LintResponseSource))))
+        {
+            yield return new ValidationResult("LintResponseSource must be specified when other arguments in this group are specified.", [nameof(LintResponseSource)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(LintResponseCreateTime) || !string.IsNullOrWhiteSpace(LintResponseLinter) || !string.IsNullOrWhiteSpace(LintResponseSource) || !string.IsNullOrWhiteSpace(LintResponseState) || ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)LintResponseIssues, static item => item is not null) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseIssues is not string || !string.IsNullOrWhiteSpace(LintResponseIssues?.ToString()) : ((object?)LintResponseIssues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LintResponseIssues, static item => item is not null) : (LintResponseIssues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseIssues), static item => item is not null))))) || ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)LintResponseSummary, static item => item is not null) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<char> ? (object?)LintResponseSummary is not string || !string.IsNullOrWhiteSpace(LintResponseSummary?.ToString()) : ((object?)LintResponseSummary is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LintResponseSummary, static item => item is not null) : (LintResponseSummary is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LintResponseSummary), static item => item is not null)))))) && (!(!string.IsNullOrWhiteSpace(LintResponseState))))
+        {
+            yield return new ValidationResult("LintResponseState must be specified when other arguments in this group are specified.", [nameof(LintResponseState)]);
+        }
+        yield break;
+    }
+
 }

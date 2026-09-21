@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "taxonomies", "export")]
-public record GcloudDataCatalogTaxonomiesExportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Taxonomies
-) : GcloudOptions
+public record GcloudDataCatalogTaxonomiesExportOptions : GcloudOptions
 {
+    /// <summary>
+    /// export a list of taxonomies from a     certain project
+    /// </summary>
+    /// <param name="Location">Location resource - Location to export taxonomies from. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.</param>
+    /// <param name="Taxonomies">List of taxonomies to bring.</param>
+    public GcloudDataCatalogTaxonomiesExportOptions(
+        string Location,
+        string Taxonomies
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Taxonomies);
+        this.Taxonomies = Taxonomies;
+    }
+
+    public void Deconstruct(out string Location, out string Taxonomies)
+    {
+        Location = this.Location;
+        Taxonomies = this.Taxonomies;
+    }
+
+    /// <summary>
+    /// Location resource - Location to export taxonomies from. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// List of taxonomies to bring.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Taxonomies { get; private init; }
+
 }

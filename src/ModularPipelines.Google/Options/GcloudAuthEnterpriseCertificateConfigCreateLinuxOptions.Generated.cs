@@ -21,4 +21,79 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("auth", "enterprise-certificate-config", "create", "linux")]
 public record GcloudAuthEnterpriseCertificateConfigCreateLinuxOptions : GcloudOptions
 {
+    /// <summary>
+    /// create an     enterprise-certificate configuration file for Linux
+    /// </summary>
+    /// <param name="Label">The PKCS #11 label for the target credentials. The certificate, public key, and private key MUST have the same label. enterprise-certificate-proxy will use all three objects.</param>
+    /// <param name="Module">The full file path to the PKCS #11 module.</param>
+    /// <param name="Slot">The PKCS #11 slot containing the target credentials.</param>
+    public GcloudAuthEnterpriseCertificateConfigCreateLinuxOptions(
+        string Label,
+        string Module,
+        string Slot
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Label);
+        this.Label = Label;
+        global::System.ArgumentNullException.ThrowIfNull(Module);
+        this.Module = Module;
+        global::System.ArgumentNullException.ThrowIfNull(Slot);
+        this.Slot = Slot;
+    }
+
+    public void Deconstruct(out string Label, out string Module, out string Slot)
+    {
+        Label = this.Label;
+        Module = this.Module;
+        Slot = this.Slot;
+    }
+
+    /// <summary>
+    /// The PKCS #11 label for the target credentials. The certificate, public key, and private key MUST have the same label. enterprise-certificate-proxy will use all three objects.
+    /// </summary>
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
+    public string Label { get; private init; }
+
+    /// <summary>
+    /// The full file path to the PKCS #11 module.
+    /// </summary>
+    [CliOption("--module", Format = OptionFormat.EqualsSeparated)]
+    public string Module { get; private init; }
+
+    /// <summary>
+    /// The PKCS #11 slot containing the target credentials.
+    /// </summary>
+    [CliOption("--slot", Format = OptionFormat.EqualsSeparated)]
+    public string Slot { get; private init; }
+
+    /// <summary>
+    /// Provide a custom path to the enterprise-certificate-proxy binary. This flag must be the full path to the binary.
+    /// </summary>
+    [CliOption("--ecp", Format = OptionFormat.EqualsSeparated)]
+    public string? Ecp { get; set; }
+
+    /// <summary>
+    /// Provide a custom path to the enterprise-certificate-proxy shared client library. This flag must be the full path to the shared library.
+    /// </summary>
+    [CliOption("--ecp-client", Format = OptionFormat.EqualsSeparated)]
+    public string? EcpClient { get; set; }
+
+    /// <summary>
+    /// Provide a custom path to the ECP HTTP proxy binary. This flag must be the full path to the binary.
+    /// </summary>
+    [CliOption("--ecp-http-proxy", Format = OptionFormat.EqualsSeparated)]
+    public string? EcpHttpProxy { get; set; }
+
+    /// <summary>
+    /// Override the file path that the enterprise-certificate-proxy configuration is written to.
+    /// </summary>
+    [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
+    public string? OutputFile { get; set; }
+
+    /// <summary>
+    /// The user pin used to login to the PKCS #11 module. If there is no user pin leave this field empty.
+    /// </summary>
+    [CliOption("--user-pin", Format = OptionFormat.EqualsSeparated)]
+    public string? UserPin { get; set; }
+
 }

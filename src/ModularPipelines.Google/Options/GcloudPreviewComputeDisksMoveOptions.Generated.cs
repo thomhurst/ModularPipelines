@@ -19,8 +19,52 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "disks", "move")]
-public record GcloudPreviewComputeDisksMoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DiskName
-) : GcloudOptions
+public record GcloudPreviewComputeDisksMoveOptions : GcloudOptions
 {
+    /// <summary>
+    /// move a disk between zones
+    /// </summary>
+    /// <param name="DestinationZone">The zone to move the disk to.</param>
+    /// <param name="DiskName">Name of the disk to operate on.</param>
+    public GcloudPreviewComputeDisksMoveOptions(
+        string DestinationZone,
+        string DiskName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestinationZone);
+        this.DestinationZone = DestinationZone;
+        global::System.ArgumentNullException.ThrowIfNull(DiskName);
+        this.DiskName = DiskName;
+    }
+
+    public void Deconstruct(out string DestinationZone, out string DiskName)
+    {
+        DestinationZone = this.DestinationZone;
+        DiskName = this.DiskName;
+    }
+
+    /// <summary>
+    /// The zone to move the disk to.
+    /// </summary>
+    [CliOption("--destination-zone", Format = OptionFormat.EqualsSeparated)]
+    public string DestinationZone { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Zone of the disk to operate on. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the disk to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DiskName { get; private init; }
+
 }

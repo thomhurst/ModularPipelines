@@ -21,4 +21,45 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("service-directory", "endpoints", "delete")]
 public record GcloudServiceDirectoryEndpointsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// deletes an endpoint
+    /// </summary>
+    /// <param name="Endpoint">Endpoint resource - The Service Directory endpoint to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the endpoint or fully qualified identifier for the endpoint. To set the endpoint attribute: ▸ provide the argument endpoint on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudServiceDirectoryEndpointsDeleteOptions(
+        string Endpoint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Endpoint);
+        this.Endpoint = Endpoint;
+    }
+
+    public void Deconstruct(out string Endpoint)
+    {
+        Endpoint = this.Endpoint;
+    }
+
+    /// <summary>
+    /// Endpoint resource - The Service Directory endpoint to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The name of the region for the endpoint. To set the location attribute: ▸ provide the argument endpoint on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Endpoint resource - The Service Directory endpoint to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The name of the namespace for the endpoint. To set the namespace attribute: ▸ provide the argument endpoint on the command line with a fully specified name; ▸ provide the argument --namespace on the command line.
+    /// </summary>
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? Namespace { get; set; }
+
+    /// <summary>
+    /// Endpoint resource - The Service Directory endpoint to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The name of the service for the endpoint. To set the service attribute: ▸ provide the argument endpoint on the command line with a fully specified name; ▸ provide the argument --service on the command line.
+    /// </summary>
+    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    public string? Service { get; set; }
+
+    /// <summary>
+    /// Endpoint resource - The Service Directory endpoint to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the endpoint or fully qualified identifier for the endpoint. To set the endpoint attribute: ▸ provide the argument endpoint on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Endpoint { get; private init; }
+
 }

@@ -19,14 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "docker", "images", "scan")]
-public record GcloudArtifactsDockerImagesScanOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ResourceUri
-) : GcloudOptions
+public record GcloudArtifactsDockerImagesScanOptions : GcloudOptions
 {
     /// <summary>
-    /// (DEPRECATED) A comma-separated list of package types to scan in addition to OS packages. This flag is deprecated as scanning for all package types is now the default. To skip scanning for specific package types, use --skip-package-types. ADDITIONAL_PACKAGE_TYPES must be one of: COMPOSER PHP Composer package. GO Go standard library and third party packages. MAVEN Maven package. NPM NPM package. NUGET NuGet package. PYTHON Python package. RUBYGEMS RubyGems package. RUST Rust package.
+    /// perform a vulnerability scan on a     container image
     /// </summary>
-    [CliOption("--additional-package-types", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="ResourceUri">A container image in a Google Cloud registry (Artifact Registry or Container Registry), or a local container image.</param>
+    public GcloudArtifactsDockerImagesScanOptions(
+        string ResourceUri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceUri);
+        this.ResourceUri = ResourceUri;
+    }
+
+    public void Deconstruct(out string ResourceUri)
+    {
+        ResourceUri = this.ResourceUri;
+    }
+
+    /// <summary>
+    /// (DEPRECATED) A comma-separated list of package types to scan in addition to OS packages. This flag is deprecated as scanning for all package types is now the default. To skip scanning for specific package types, use --skip-package-types. ADDITIONAL_PACKAGE_TYPES must be one of: COMPOSER PHP Composer package. GO Go standard library and third party packages. MAVEN Maven package. NPM NPM package. NUGET NuGet package. PYTHON Python package. RUBYGEMS RubyGems package. RUST Rust package. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--additional-package-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AdditionalPackageTypes { get; set; }
 
     /// <summary>
@@ -48,9 +63,15 @@ public record GcloudArtifactsDockerImagesScanOptions(
     public bool? Remote { get; set; }
 
     /// <summary>
-    /// A comma-separated list of package types to skip when scanning. SKIP_PACKAGE_TYPES must be one of: COMPOSER PHP Composer package. GO Go standard library and third party packages. MAVEN Maven package. NPM NPM package. NUGET NuGet package. PYTHON Python package. RUBYGEMS RubyGems package. RUST Rust package.
+    /// A comma-separated list of package types to skip when scanning. SKIP_PACKAGE_TYPES must be one of: COMPOSER PHP Composer package. GO Go standard library and third party packages. MAVEN Maven package. NPM NPM package. NUGET NuGet package. PYTHON Python package. RUBYGEMS RubyGems package. RUST Rust package. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--skip-package-types", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--skip-package-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SkipPackageTypes { get; set; }
+
+    /// <summary>
+    /// A container image in a Google Cloud registry (Artifact Registry or Container Registry), or a local container image.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ResourceUri { get; private init; }
 
 }

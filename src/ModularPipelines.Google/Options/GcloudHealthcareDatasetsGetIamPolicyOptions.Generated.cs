@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("healthcare", "datasets", "get-iam-policy")]
 public record GcloudHealthcareDatasetsGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// retrieve the IAM policy for a     Cloud Healthcare API dataset
+    /// </summary>
+    /// <param name="DataSet">Dataset resource - Cloud Healthcare API dataset whose IAM policy to fetch. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dataset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dataset or fully qualified identifier for the dataset. To set the dataset attribute: ▸ provide the argument dataset on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudHealthcareDatasetsGetIamPolicyOptions(
+        string DataSet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSet);
+        this.DataSet = DataSet;
+    }
+
+    public void Deconstruct(out string DataSet)
+    {
+        DataSet = this.DataSet;
+    }
+
+    /// <summary>
+    /// Dataset resource - Cloud Healthcare API dataset whose IAM policy to fetch. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dataset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location. To set the location attribute: ▸ provide the argument dataset on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property healthcare/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Dataset resource - Cloud Healthcare API dataset whose IAM policy to fetch. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dataset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dataset or fully qualified identifier for the dataset. To set the dataset attribute: ▸ provide the argument dataset on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DataSet { get; private init; }
+
 }

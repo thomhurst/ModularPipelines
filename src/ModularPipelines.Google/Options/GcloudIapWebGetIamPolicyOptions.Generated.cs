@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iap", "web", "get-iam-policy")]
-public record GcloudIapWebGetIamPolicyOptions : GcloudOptions
+public record GcloudIapWebGetIamPolicyOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// Region name. Not applicable for resource-type=app-engine. Required when resource-type=backend-services and regional scoped. Not applicable for global backend-services. Required when resource-type=cloud-run.
@@ -32,7 +33,7 @@ public record GcloudIapWebGetIamPolicyOptions : GcloudOptions
     /// Resource type of the IAP resource. RESOURCE_TYPE must be one of: app-engine, backend-services, forwarding-rule, cloud-run, agent-registry.
     /// </summary>
     [CliOption("--resource-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudResourceType? ResourceType { get; set; }
+    public GcloudIapWebGetIamPolicyResourceType? ResourceType { get; set; }
 
     /// <summary>
     /// Service name.
@@ -63,5 +64,15 @@ public record GcloudIapWebGetIamPolicyOptions : GcloudOptions
     /// </summary>
     [CliOption("--mcp-server", Format = OptionFormat.EqualsSeparated)]
     public string? McpServer { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Agent) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Endpoint) ? 1 : 0) + (!string.IsNullOrWhiteSpace(McpServer) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Agent, Endpoint, or McpServer may be specified.", [nameof(Agent), nameof(Endpoint), nameof(McpServer)]);
+        }
+        yield break;
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,98 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service-extensions", "wasm-plugin-versions", "create")]
-public record GcloudServiceExtensionsWasmPluginVersionsCreateOptions : GcloudOptions
+public record GcloudServiceExtensionsWasmPluginVersionsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a     WasmPluginVersion resource
+    /// </summary>
+    /// <param name="Image">URI of the image containing the plugin's Wasm module, stored in the Artifact Registry.</param>
+    /// <param name="WasmPluginVersion">WasmPluginVersion resource - The ID of the WasmPluginVersion resource to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument wasm_plugin_version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the WasmPluginVersion or fully qualified identifier for the WasmPluginVersion. To set the wasm_plugin_version attribute: ▸ provide the argument wasm_plugin_version on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudServiceExtensionsWasmPluginVersionsCreateOptions(
+        string Image,
+        string WasmPluginVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+        global::System.ArgumentNullException.ThrowIfNull(WasmPluginVersion);
+        this.WasmPluginVersion = WasmPluginVersion;
+    }
+
+    public void Deconstruct(out string Image, out string WasmPluginVersion)
+    {
+        Image = this.Image;
+        WasmPluginVersion = this.WasmPluginVersion;
+    }
+
+    /// <summary>
+    /// URI of the image containing the plugin's Wasm module, stored in the Artifact Registry.
+    /// </summary>
+    [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
+    public string Image { get; private init; }
+
+    /// <summary>
+    /// WasmPluginVersion resource - The ID of the WasmPluginVersion resource to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument wasm_plugin_version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location ID. To set the location attribute: ▸ provide the argument wasm_plugin_version on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ use global location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// WasmPluginVersion resource - The ID of the WasmPluginVersion resource to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument wasm_plugin_version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The ID of the WasmPlugin. To set the wasm-plugin attribute: ▸ provide the argument wasm_plugin_version on the command line with a fully specified name; ▸ provide the argument --wasm-plugin on the command line.
+    /// </summary>
+    [CliOption("--wasm-plugin", Format = OptionFormat.EqualsSeparated)]
+    public string? WasmPlugin { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A human-readable description of the resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of KEY=VALUE labels to attach to this resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Configuration for the plugin, provided at runtime by the on_configure function (Rust Proxy-Wasm SDK) or the onConfigure method (C++ Proxy-Wasm SDK). At most one of these can be specified: Plugin configuration in the textual format.
+    /// </summary>
+    [CliOption("--plugin-config", Format = OptionFormat.EqualsSeparated)]
+    public string? PluginConfig { get; set; }
+
+    /// <summary>
+    /// Configuration for the plugin, provided at runtime by the on_configure function (Rust Proxy-Wasm SDK) or the onConfigure method (C++ Proxy-Wasm SDK). At most one of these can be specified: Path to a file containing the plugin configuration. Use a full or relative path to a local file containing the value of plugin_config_file.
+    /// </summary>
+    [CliOption("--plugin-config-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PluginConfigFile { get; set; }
+
+    /// <summary>
+    /// Configuration for the plugin, provided at runtime by the on_configure function (Rust Proxy-Wasm SDK) or the onConfigure method (C++ Proxy-Wasm SDK). At most one of these can be specified: URI of the image containing the plugin's configuration, stored in the Artifact Registry.
+    /// </summary>
+    [CliOption("--plugin-config-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? PluginConfigUri { get; set; }
+
+    /// <summary>
+    /// WasmPluginVersion resource - The ID of the WasmPluginVersion resource to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument wasm_plugin_version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the WasmPluginVersion or fully qualified identifier for the WasmPluginVersion. To set the wasm_plugin_version attribute: ▸ provide the argument wasm_plugin_version on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WasmPluginVersion { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(PluginConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PluginConfigFile) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PluginConfigUri) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of PluginConfig, PluginConfigFile, or PluginConfigUri may be specified.", [nameof(PluginConfig), nameof(PluginConfigFile), nameof(PluginConfigUri)]);
+        }
+        yield break;
+    }
+
 }

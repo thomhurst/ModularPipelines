@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,78 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "disks", "start-async-replication")]
-public record GcloudComputeDisksStartAsyncReplicationOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DiskName
-) : GcloudOptions
+public record GcloudComputeDisksStartAsyncReplicationOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// start asynchronous     replication on a Compute Engine persistent disk
+    /// </summary>
+    /// <param name="SecondaryDisk">Secondary disk for asynchronous replication. This flag is required when starting replication.</param>
+    /// <param name="DiskName">Name of the disk to operate on.</param>
+    public GcloudComputeDisksStartAsyncReplicationOptions(
+        string SecondaryDisk,
+        string DiskName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecondaryDisk);
+        this.SecondaryDisk = SecondaryDisk;
+        global::System.ArgumentNullException.ThrowIfNull(DiskName);
+        this.DiskName = DiskName;
+    }
+
+    public void Deconstruct(out string SecondaryDisk, out string DiskName)
+    {
+        SecondaryDisk = this.SecondaryDisk;
+        DiskName = this.DiskName;
+    }
+
+    /// <summary>
+    /// Secondary disk for asynchronous replication. This flag is required when starting replication.
+    /// </summary>
+    [CliOption("--secondary-disk", Format = OptionFormat.EqualsSeparated)]
+    public string SecondaryDisk { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Region of the disk to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Zone of the disk to operate on. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Region of the secondary disk for asynchronous replication. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--secondary-disk-region", Format = OptionFormat.EqualsSeparated)]
+    public string? SecondaryDiskRegion { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Zone of the secondary disk for asynchronous replication. Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--secondary-disk-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? SecondaryDiskZone { get; set; }
+
+    /// <summary>
+    /// Name of the disk to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DiskName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Region or Zone must be specified.", [nameof(Region), nameof(Zone)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SecondaryDiskRegion) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SecondaryDiskZone) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of SecondaryDiskRegion or SecondaryDiskZone must be specified.", [nameof(SecondaryDiskRegion), nameof(SecondaryDiskZone)]);
+        }
+        yield break;
+    }
+
 }

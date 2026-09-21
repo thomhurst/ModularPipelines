@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "shared-templates", "revisions", "list")]
-public record GcloudDesignCenterSpacesSharedTemplatesRevisionsListOptions : GcloudOptions
+public record GcloudDesignCenterSpacesSharedTemplatesRevisionsListOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// list shared     template revisions
+    /// </summary>
+    /// <param name="SharedTemplate">ID of the sharedTemplate or fully qualified identifier for the sharedTemplate. To set the shared-template attribute: ◆ provide the argument --shared-template on the command line.</param>
+    public GcloudDesignCenterSpacesSharedTemplatesRevisionsListOptions(
+        string SharedTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SharedTemplate);
+        this.SharedTemplate = SharedTemplate;
+    }
+
+    public void Deconstruct(out string SharedTemplate)
+    {
+        SharedTemplate = this.SharedTemplate;
+    }
+
+    /// <summary>
+    /// ID of the sharedTemplate or fully qualified identifier for the sharedTemplate. To set the shared-template attribute: ◆ provide the argument --shared-template on the command line.
+    /// </summary>
+    [CliOption("--shared-template", Format = OptionFormat.EqualsSeparated)]
+    public string SharedTemplate { get; private init; }
+
     /// <summary>
     /// The location id of the sharedTemplate resource. To set the location attribute: ◆ provide the argument --shared-template on the command line with a fully specified name; ◆ provide the argument --location on the command line.
     /// </summary>
@@ -44,5 +68,15 @@ public record GcloudDesignCenterSpacesSharedTemplatesRevisionsListOptions : Gclo
     /// </summary>
     [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
     public string? Space { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((GoogleCatalog == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Project) || !string.IsNullOrWhiteSpace(Space)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GoogleCatalog or (Project or Space) may be specified.", [nameof(GoogleCatalog), nameof(Project), nameof(Space)]);
+        }
+        yield break;
+    }
 
 }

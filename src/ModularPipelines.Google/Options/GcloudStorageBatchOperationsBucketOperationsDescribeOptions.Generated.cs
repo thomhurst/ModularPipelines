@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("storage", "batch-operations", "bucket-operations", "describe")]
 public record GcloudStorageBatchOperationsBucketOperationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a     bucket operation for a batch operation job
+    /// </summary>
+    /// <param name="BucketOperation">Bucket operation resource - The bucket operation to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument bucket_operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument bucket_operation on the command line with a fully specified name; ◆ The default is global. This must be specified. ID of the bucket-operation or fully qualified identifier for the bucket-operation. To set the bucket-operation attribute: ▸ provide the argument bucket_operation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudStorageBatchOperationsBucketOperationsDescribeOptions(
+        string BucketOperation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BucketOperation);
+        this.BucketOperation = BucketOperation;
+    }
+
+    public void Deconstruct(out string BucketOperation)
+    {
+        BucketOperation = this.BucketOperation;
+    }
+
+    /// <summary>
+    /// Bucket operation resource - The bucket operation to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument bucket_operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument bucket_operation on the command line with a fully specified name; ◆ The default is global. This must be specified. Batch Job ID for the bucket-operation. To set the job attribute: ▸ provide the argument bucket_operation on the command line with a fully specified name; ▸ provide the argument --job on the command line.
+    /// </summary>
+    [CliOption("--job", Format = OptionFormat.EqualsSeparated)]
+    public string? Job { get; set; }
+
+    /// <summary>
+    /// Bucket operation resource - The bucket operation to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument bucket_operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument bucket_operation on the command line with a fully specified name; ◆ The default is global. This must be specified. ID of the bucket-operation or fully qualified identifier for the bucket-operation. To set the bucket-operation attribute: ▸ provide the argument bucket_operation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BucketOperation { get; private init; }
+
 }

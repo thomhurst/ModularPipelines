@@ -19,14 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "vision", "detect-text-pdf")]
-public record GcloudMlVisionDetectTextPdfOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InputFile
-) : GcloudOptions
+public record GcloudMlVisionDetectTextPdfOptions : GcloudOptions
 {
+    /// <summary>
+    /// detect and transcribe text from PDF     files stored in Google Cloud Storage
+    /// </summary>
+    /// <param name="InputFile">Google Cloud Storage location to read the input from. It must be in Google Cloud Storage format (gs://bucket/object)</param>
+    /// <param name="OutputPath">Google Cloud Storage location to store the output file. It must be in Google Cloud Storage format (gs://bucket/object)</param>
+    public GcloudMlVisionDetectTextPdfOptions(
+        string InputFile,
+        string OutputPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InputFile);
+        this.InputFile = InputFile;
+        global::System.ArgumentNullException.ThrowIfNull(OutputPath);
+        this.OutputPath = OutputPath;
+    }
+
+    public void Deconstruct(out string InputFile, out string OutputPath)
+    {
+        InputFile = this.InputFile;
+        OutputPath = this.OutputPath;
+    }
+
     /// <summary>
     /// Maximum number of response protos to put into each output JSON file on Google Cloud Storage. The valid range is [1, 100]. If not specified, the default value is 20.
     /// </summary>
     [CliOption("--batch-size", Format = OptionFormat.EqualsSeparated)]
     public int? BatchSize { get; set; }
+
+    /// <summary>
+    /// Google Cloud Storage location to read the input from. It must be in Google Cloud Storage format (gs://bucket/object)
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InputFile { get; private init; }
+
+    /// <summary>
+    /// Google Cloud Storage location to store the output file. It must be in Google Cloud Storage format (gs://bucket/object)
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OutputPath { get; private init; }
 
 }

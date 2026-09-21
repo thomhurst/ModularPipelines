@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "network-edge-security-services", "create")]
-public record GcloudComputeNetworkEdgeSecurityServicesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeNetworkEdgeSecurityServicesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Compute     Engine network edge security service
+    /// </summary>
+    /// <param name="Name">Name of the network edge security service to create.</param>
+    public GcloudComputeNetworkEdgeSecurityServicesCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// An optional, textual description for the network edge security service.
     /// </summary>
@@ -46,5 +61,11 @@ public record GcloudComputeNetworkEdgeSecurityServicesCreateOptions(
     /// </summary>
     [CliOption("--security-policy-region", Format = OptionFormat.EqualsSeparated)]
     public string? SecurityPolicyRegion { get; set; }
+
+    /// <summary>
+    /// Name of the network edge security service to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("domains", "registrations", "search-domains")]
-public record GcloudDomainsRegistrationsSearchDomainsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DomainQuery
-) : GcloudOptions
+public record GcloudDomainsRegistrationsSearchDomainsOptions : GcloudOptions
 {
+    /// <summary>
+    /// search for available domains
+    /// </summary>
+    /// <param name="DomainQuery">Domain search query. May be a domain name or arbitrary search terms.</param>
+    public GcloudDomainsRegistrationsSearchDomainsOptions(
+        string DomainQuery
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DomainQuery);
+        this.DomainQuery = DomainQuery;
+    }
+
+    public void Deconstruct(out string DomainQuery)
+    {
+        DomainQuery = this.DomainQuery;
+    }
+
+    /// <summary>
+    /// Domain search query. May be a domain name or arbitrary search terms.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DomainQuery { get; private init; }
+
 }

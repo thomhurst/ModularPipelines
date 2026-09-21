@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "firewall-policies", "clone-rules")]
-public record GcloudPreviewComputeFirewallPoliciesCloneRulesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FirewallPolicy
-) : GcloudOptions
+public record GcloudPreviewComputeFirewallPoliciesCloneRulesOptions : GcloudOptions
 {
+    /// <summary>
+    /// replace the rules of     a Compute Engine organization firewall policy with rules from another     policy
+    /// </summary>
+    /// <param name="SourceFirewallPolicy">The URL of the source firewall policy to copy the rules from.</param>
+    /// <param name="FirewallPolicy">Short name or ID of the firewall policy to clone the rules to.</param>
+    public GcloudPreviewComputeFirewallPoliciesCloneRulesOptions(
+        string SourceFirewallPolicy,
+        string FirewallPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceFirewallPolicy);
+        this.SourceFirewallPolicy = SourceFirewallPolicy;
+        global::System.ArgumentNullException.ThrowIfNull(FirewallPolicy);
+        this.FirewallPolicy = FirewallPolicy;
+    }
+
+    public void Deconstruct(out string SourceFirewallPolicy, out string FirewallPolicy)
+    {
+        SourceFirewallPolicy = this.SourceFirewallPolicy;
+        FirewallPolicy = this.FirewallPolicy;
+    }
+
+    /// <summary>
+    /// The URL of the source firewall policy to copy the rules from.
+    /// </summary>
+    [CliOption("--source-firewall-policy", Format = OptionFormat.EqualsSeparated)]
+    public string SourceFirewallPolicy { get; private init; }
+
+    /// <summary>
+    /// Organization in which the organization firewall policy to copy the rules to. Must be set if firewall-policy is short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Short name or ID of the firewall policy to clone the rules to.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FirewallPolicy { get; private init; }
+
 }

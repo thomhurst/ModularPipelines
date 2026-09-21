@@ -19,10 +19,58 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "routers", "list-bgp-routes")]
-public record GcloudComputeRoutersListBgpRoutesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeRoutersListBgpRoutesOptions : GcloudOptions
 {
+    /// <summary>
+    /// list routes advertised and learned     on individual BGP sessions, both pre- and post-policy evaluation
+    /// </summary>
+    /// <param name="AddressFamily">Limit results to routes learned for this Address Family Identifier. ADDRESS_FAMILY must be one of: IPV4 Interface with IPv4-based BGP. IPV6 Interface with IPv6-based BGP.</param>
+    /// <param name="Peer">Limit results to routes learned from this peer (name).</param>
+    /// <param name="RouteDirection">Limit results to routes in this direction. ROUTE_DIRECTION must be one of: INBOUND Learned routes. OUTBOUND Advertised routes.</param>
+    /// <param name="Name">Name of the router to list.</param>
+    public GcloudComputeRoutersListBgpRoutesOptions(
+        string AddressFamily,
+        string Peer,
+        string RouteDirection,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AddressFamily);
+        this.AddressFamily = AddressFamily;
+        global::System.ArgumentNullException.ThrowIfNull(Peer);
+        this.Peer = Peer;
+        global::System.ArgumentNullException.ThrowIfNull(RouteDirection);
+        this.RouteDirection = RouteDirection;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string AddressFamily, out string Peer, out string RouteDirection, out string Name)
+    {
+        AddressFamily = this.AddressFamily;
+        Peer = this.Peer;
+        RouteDirection = this.RouteDirection;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Limit results to routes learned for this Address Family Identifier. ADDRESS_FAMILY must be one of: IPV4 Interface with IPv4-based BGP. IPV6 Interface with IPv6-based BGP.
+    /// </summary>
+    [CliOption("--address-family", Format = OptionFormat.EqualsSeparated)]
+    public string AddressFamily { get; private init; }
+
+    /// <summary>
+    /// Limit results to routes learned from this peer (name).
+    /// </summary>
+    [CliOption("--peer", Format = OptionFormat.EqualsSeparated)]
+    public string Peer { get; private init; }
+
+    /// <summary>
+    /// Limit results to routes in this direction. ROUTE_DIRECTION must be one of: INBOUND Learned routes. OUTBOUND Advertised routes.
+    /// </summary>
+    [CliOption("--route-direction", Format = OptionFormat.EqualsSeparated)]
+    public string RouteDirection { get; private init; }
+
     /// <summary>
     /// Limit results to prefixes.
     /// </summary>
@@ -46,5 +94,11 @@ public record GcloudComputeRoutersListBgpRoutesOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the router to list.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

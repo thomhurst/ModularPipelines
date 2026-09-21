@@ -21,4 +21,62 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("healthcare", "fhir-stores", "import", "gcs")]
 public record GcloudHealthcareFhirStoresImportGcsOptions : GcloudOptions
 {
+    /// <summary>
+    /// import FHIR resources from     Google Cloud Storage into a Cloud Healthcare API FHIR store
+    /// </summary>
+    /// <param name="GcsUri">Cloud Storage source data locations. Each Cloud Storage object should be a text file that contains newline-delimited JSON structures conforming to the FHIR standard. You can use wildcards to import multiple files from one or more directories. ◆ Use * to match 0 or more non-separator characters. For example, gs://BUCKET/DIRECTORY/Example*.ndjson matches Example.ndjson and Example22.ndjson in DIRECTORY. ◆ Use ** to match 0 or more characters (including separators). Must be used at the end of a path and with no other wildcards in the path. Can also be used with a filename extension (such as .ndjson), which imports all files with the filename extension in the specified directory and its subdirectories. For example, gs://BUCKET/DIRECTORY/**.ndjson imports all files with the .ndjson filename extension in DIRECTORY and its subdirectories. ◆ Use ? to match 1 character. For example, gs://BUCKET/DIRECTORY/Example?.ndjson matches Example1.ndjson but does not match Example.ndjson or Example01.ndjson.</param>
+    /// <param name="FhirStore">FhirStore resource - Cloud Healthcare API FHIR store into which the data is imported. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument fhir_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the fhirStore or fully qualified identifier for the fhirStore. To set the fhir_store attribute: ▸ provide the argument fhir_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudHealthcareFhirStoresImportGcsOptions(
+        string GcsUri,
+        string FhirStore
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GcsUri);
+        this.GcsUri = GcsUri;
+        global::System.ArgumentNullException.ThrowIfNull(FhirStore);
+        this.FhirStore = FhirStore;
+    }
+
+    public void Deconstruct(out string GcsUri, out string FhirStore)
+    {
+        GcsUri = this.GcsUri;
+        FhirStore = this.FhirStore;
+    }
+
+    /// <summary>
+    /// Cloud Storage source data locations. Each Cloud Storage object should be a text file that contains newline-delimited JSON structures conforming to the FHIR standard. You can use wildcards to import multiple files from one or more directories. ◆ Use * to match 0 or more non-separator characters. For example, gs://BUCKET/DIRECTORY/Example*.ndjson matches Example.ndjson and Example22.ndjson in DIRECTORY. ◆ Use ** to match 0 or more characters (including separators). Must be used at the end of a path and with no other wildcards in the path. Can also be used with a filename extension (such as .ndjson), which imports all files with the filename extension in the specified directory and its subdirectories. For example, gs://BUCKET/DIRECTORY/**.ndjson imports all files with the .ndjson filename extension in DIRECTORY and its subdirectories. ◆ Use ? to match 1 character. For example, gs://BUCKET/DIRECTORY/Example?.ndjson matches Example1.ndjson but does not match Example.ndjson or Example01.ndjson.
+    /// </summary>
+    [CliOption("--gcs-uri", Format = OptionFormat.EqualsSeparated)]
+    public string GcsUri { get; private init; }
+
+    /// <summary>
+    /// FhirStore resource - Cloud Healthcare API FHIR store into which the data is imported. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument fhir_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud Healthcare dataset. To set the dataset attribute: ▸ provide the argument fhir_store on the command line with a fully specified name; ▸ provide the argument --dataset on the command line.
+    /// </summary>
+    [CliOption("--dataset", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSet { get; set; }
+
+    /// <summary>
+    /// FhirStore resource - Cloud Healthcare API FHIR store into which the data is imported. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument fhir_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location. To set the location attribute: ▸ provide the argument fhir_store on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property healthcare/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Content structure in the source location. The default is BUNDLE. CONTENT_STRUCTURE must be one of: bundle Each unit is a bundle, which contains one or more resources. bundle-pretty The entire file is one JSON bundle. The JSON can span multiple lines. resource Each unit is a single resource. resource-pretty The entire file is one JSON resource. The JSON can span multiple lines.
+    /// </summary>
+    [CliOption("--content-structure", Format = OptionFormat.EqualsSeparated)]
+    public string? ContentStructure { get; set; }
+
+    /// <summary>
+    /// FhirStore resource - Cloud Healthcare API FHIR store into which the data is imported. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument fhir_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the fhirStore or fully qualified identifier for the fhirStore. To set the fhir_store attribute: ▸ provide the argument fhir_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FhirStore { get; private init; }
+
 }

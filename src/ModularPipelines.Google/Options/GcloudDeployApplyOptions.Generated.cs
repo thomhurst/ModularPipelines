@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("deploy", "apply")]
 public record GcloudDeployApplyOptions : GcloudOptions
 {
+    /// <summary>
+    /// applies a yaml configuration containing Delivery     Pipeline(s), Target(s), Custom Target Type(s), Deploy Policy(ies), and     Automation(s) declarative definitions
+    /// </summary>
+    /// <param name="File">Path to yaml file containing Delivery Pipeline(s), Target(s) declarative definitions.</param>
+    public GcloudDeployApplyOptions(
+        string File
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+    }
+
+    public void Deconstruct(out string File)
+    {
+        File = this.File;
+    }
+
+    /// <summary>
+    /// Path to yaml file containing Delivery Pipeline(s), Target(s) declarative definitions.
+    /// </summary>
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public string File { get; private init; }
+
+    /// <summary>
+    /// Location resource - The Cloud region of {resource}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property deploy/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property deploy/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

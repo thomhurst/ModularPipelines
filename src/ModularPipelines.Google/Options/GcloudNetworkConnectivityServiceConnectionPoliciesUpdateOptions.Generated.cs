@@ -23,9 +23,26 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivityServiceConnectionPoliciesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// List of projects, folders, or orgs where the producer instance can be located in the form "projects/123456789", folders/123456789", or "organizations/123456789".
+    /// update a     service connection policy
     /// </summary>
-    [CliOption("--allowed-google-producers-resource-hierarchy-level", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="ServiceConnectionPolicy">Service connection policy resource - Name of the Service Connection Policy to be updated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service_connection_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument service_connection_policy on the command line with a fully specified name; ◆ provide the argument --region on the command line. This must be specified. ID of the service connection policy or fully qualified identifier for the service connection policy. To set the service_connection_policy attribute: ▸ provide the argument service_connection_policy on the command line.</param>
+    public GcloudNetworkConnectivityServiceConnectionPoliciesUpdateOptions(
+        string ServiceConnectionPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceConnectionPolicy);
+        this.ServiceConnectionPolicy = ServiceConnectionPolicy;
+    }
+
+    public void Deconstruct(out string ServiceConnectionPolicy)
+    {
+        ServiceConnectionPolicy = this.ServiceConnectionPolicy;
+    }
+
+    /// <summary>
+    /// List of projects, folders, or orgs where the producer instance can be located in the form "projects/123456789", folders/123456789", or "organizations/123456789". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--allowed-google-producers-resource-hierarchy-level", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AllowedGoogleProducersResourceHierarchyLevel { get; set; }
 
     /// <summary>
@@ -41,9 +58,9 @@ public record GcloudNetworkConnectivityServiceConnectionPoliciesUpdateOptions : 
     public string? Description { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.
+    /// List of label KEY=VALUE pairs to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -65,9 +82,15 @@ public record GcloudNetworkConnectivityServiceConnectionPoliciesUpdateOptions : 
     public string? Region { get; set; }
 
     /// <summary>
-    /// Subnetwork resource - Subnetwork to use for IP address management. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnets on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --subnets on the command line with a fully specified name; ◆ provide the argument --region on the command line. IDs of the subnetworks or fully qualified identifiers for the subnetworks. To set the subnetwork attribute: ◆ provide the argument --subnets on the command line.
+    /// Subnetwork resource - Subnetwork to use for IP address management. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnets on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --subnets on the command line with a fully specified name; ◆ provide the argument --region on the command line. IDs of the subnetworks or fully qualified identifiers for the subnetworks. To set the subnetwork attribute: ◆ provide the argument --subnets on the command line. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--subnets", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--subnets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Subnets { get; set; }
+
+    /// <summary>
+    /// Service connection policy resource - Name of the Service Connection Policy to be updated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service_connection_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument service_connection_policy on the command line with a fully specified name; ◆ provide the argument --region on the command line. This must be specified. ID of the service connection policy or fully qualified identifier for the service connection policy. To set the service_connection_policy attribute: ▸ provide the argument service_connection_policy on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ServiceConnectionPolicy { get; private init; }
 
 }

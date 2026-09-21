@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkServicesAgentConnectivityTemplatesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete an     Agent Connectivity Template
+    /// </summary>
+    /// <param name="AgentConnectivityTemplate">Agent connectivity template resource - Name of the agent connectivity template to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument agent_connectivity_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the agent connectivity template or fully qualified identifier for the agent connectivity template. To set the agent_connectivity_template attribute: ▸ provide the argument agent_connectivity_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkServicesAgentConnectivityTemplatesDeleteOptions(
+        string AgentConnectivityTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentConnectivityTemplate);
+        this.AgentConnectivityTemplate = AgentConnectivityTemplate;
+    }
+
+    public void Deconstruct(out string AgentConnectivityTemplate)
+    {
+        AgentConnectivityTemplate = this.AgentConnectivityTemplate;
+    }
+
+    /// <summary>
+    /// Agent connectivity template resource - Name of the agent connectivity template to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument agent_connectivity_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument agent_connectivity_template on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Agent connectivity template resource - Name of the agent connectivity template to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument agent_connectivity_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the agent connectivity template or fully qualified identifier for the agent connectivity template. To set the agent_connectivity_template attribute: ▸ provide the argument agent_connectivity_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AgentConnectivityTemplate { get; private init; }
 
 }

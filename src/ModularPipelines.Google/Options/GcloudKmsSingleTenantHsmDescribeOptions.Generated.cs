@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("kms", "single-tenant-hsm", "describe")]
 public record GcloudKmsSingleTenantHsmDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get metadata for a single tenant     HSM instance
+    /// </summary>
+    /// <param name="SingleTenantHsmInstance">SingleTenantHsmInstance resource - The KMS single tenant HSM instance resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument single_tenant_hsm_instance on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the singleTenantHsmInstance or fully qualified identifier for the singleTenantHsmInstance. To set the single_tenant_hsm_instance attribute: ▸ provide the argument single_tenant_hsm_instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudKmsSingleTenantHsmDescribeOptions(
+        string SingleTenantHsmInstance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SingleTenantHsmInstance);
+        this.SingleTenantHsmInstance = SingleTenantHsmInstance;
+    }
+
+    public void Deconstruct(out string SingleTenantHsmInstance)
+    {
+        SingleTenantHsmInstance = this.SingleTenantHsmInstance;
+    }
+
+    /// <summary>
+    /// SingleTenantHsmInstance resource - The KMS single tenant HSM instance resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument single_tenant_hsm_instance on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The Google Cloud location for the singleTenantHsmInstance. To set the location attribute: ▸ provide the argument single_tenant_hsm_instance on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// SingleTenantHsmInstance resource - The KMS single tenant HSM instance resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument single_tenant_hsm_instance on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the singleTenantHsmInstance or fully qualified identifier for the singleTenantHsmInstance. To set the single_tenant_hsm_instance attribute: ▸ provide the argument single_tenant_hsm_instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SingleTenantHsmInstance { get; private init; }
+
 }

@@ -21,4 +21,44 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apihub", "host-project-registrations", "create")]
 public record GcloudApihubHostProjectRegistrationsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Host Project     Registration
+    /// </summary>
+    /// <param name="GcpProject">Google cloud project name in the format: "projects/abc" or "projects/123". As input, project name with either project id or number are accepted. As output, this field will contain project number.</param>
+    /// <param name="HostProjectRegistration">HostProjectRegistration resource - Identifier. The name of the host project registration. Format: "projects/{project}/locations/{location}/hostProjectRegistrations/{host_project_registration}". The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument host_project_registration on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hostProjectRegistration or fully qualified identifier for the hostProjectRegistration. To set the host_project_registration attribute: ▸ provide the argument host_project_registration on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubHostProjectRegistrationsCreateOptions(
+        string GcpProject,
+        string HostProjectRegistration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GcpProject);
+        this.GcpProject = GcpProject;
+        global::System.ArgumentNullException.ThrowIfNull(HostProjectRegistration);
+        this.HostProjectRegistration = HostProjectRegistration;
+    }
+
+    public void Deconstruct(out string GcpProject, out string HostProjectRegistration)
+    {
+        GcpProject = this.GcpProject;
+        HostProjectRegistration = this.HostProjectRegistration;
+    }
+
+    /// <summary>
+    /// Google cloud project name in the format: "projects/abc" or "projects/123". As input, project name with either project id or number are accepted. As output, this field will contain project number.
+    /// </summary>
+    [CliOption("--gcp-project", Format = OptionFormat.EqualsSeparated)]
+    public string GcpProject { get; private init; }
+
+    /// <summary>
+    /// HostProjectRegistration resource - Identifier. The name of the host project registration. Format: "projects/{project}/locations/{location}/hostProjectRegistrations/{host_project_registration}". The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument host_project_registration on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the hostProjectRegistration resource. To set the location attribute: ▸ provide the argument host_project_registration on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// HostProjectRegistration resource - Identifier. The name of the host project registration. Format: "projects/{project}/locations/{location}/hostProjectRegistrations/{host_project_registration}". The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument host_project_registration on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hostProjectRegistration or fully qualified identifier for the hostProjectRegistration. To set the host_project_registration attribute: ▸ provide the argument host_project_registration on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string HostProjectRegistration { get; private init; }
+
 }

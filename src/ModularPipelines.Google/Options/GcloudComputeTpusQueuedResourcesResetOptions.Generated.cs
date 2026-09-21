@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComputeTpusQueuedResourcesResetOptions : GcloudOptions
 {
     /// <summary>
+    /// reset a Queued Resource
+    /// </summary>
+    /// <param name="QueuedResource">Queued resource resource - The Queued Resource you want to reset. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument queued_resource on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the queued_resource or fully qualified identifier for the queued_resource. To set the queued_resource attribute: ▸ provide the argument queued_resource on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeTpusQueuedResourcesResetOptions(
+        string QueuedResource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QueuedResource);
+        this.QueuedResource = QueuedResource;
+    }
+
+    public void Deconstruct(out string QueuedResource)
+    {
+        QueuedResource = this.QueuedResource;
+    }
+
+    /// <summary>
+    /// Queued resource resource - The Queued Resource you want to reset. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument queued_resource on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The compute/zone of the Cloud TPU. If not specified, will use default compute/zone. To set the zone attribute: ▸ provide the argument queued_resource on the command line with a fully specified name; ▸ provide the argument --zone on the command line; ▸ set the property compute/zone.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Queued resource resource - The Queued Resource you want to reset. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument queued_resource on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the queued_resource or fully qualified identifier for the queued_resource. To set the queued_resource attribute: ▸ provide the argument queued_resource on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string QueuedResource { get; private init; }
 
 }

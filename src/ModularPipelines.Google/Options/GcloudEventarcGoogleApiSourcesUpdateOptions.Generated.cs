@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,8 +22,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventarc", "google-api-sources", "update")]
-public record GcloudEventarcGoogleApiSourcesUpdateOptions : GcloudOptions
+public record GcloudEventarcGoogleApiSourcesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update an Eventarc Google API     source
+    /// </summary>
+    /// <param name="GoogleApiSource">Google API source resource - The Google API source to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument google_api_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Google API source or fully qualified identifier for the Google API source. To set the google-api-source attribute: ▸ provide the argument google_api_source on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEventarcGoogleApiSourcesUpdateOptions(
+        string GoogleApiSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GoogleApiSource);
+        this.GoogleApiSource = GoogleApiSource;
+    }
+
+    public void Deconstruct(out string GoogleApiSource)
+    {
+        GoogleApiSource = this.GoogleApiSource;
+    }
+
+    /// <summary>
+    /// Google API source resource - The Google API source to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument google_api_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location for the Eventarc Google API source, which should be one of the supported regions. Alternatively, set the [eventarc/location] property. To set the location attribute: ▸ provide the argument google_api_source on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property eventarc/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -33,12 +57,12 @@ public record GcloudEventarcGoogleApiSourcesUpdateOptions : GcloudOptions
     /// The logging config of the Google API source. LOGGING_CONFIG must be one of: NONE, DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY.
     /// </summary>
     [CliOption("--logging-config", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLoggingConfig? LoggingConfig { get; set; }
+    public GcloudEventarcGoogleApiSourcesUpdateLoggingConfig? LoggingConfig { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
@@ -60,10 +84,32 @@ public record GcloudEventarcGoogleApiSourcesUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Clear the project subscriptions for the resource.
@@ -84,10 +130,32 @@ public record GcloudEventarcGoogleApiSourcesUpdateOptions : GcloudOptions
     public bool? NoOrganizationSubscription { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: The project subscriptions for the resource.
+    /// At most one of these can be specified: The project subscriptions for the resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--project-subscriptions", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ProjectSubscriptions { get; set; }
+    [CliOption("--project-subscriptions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ProjectSubscriptions
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ProjectSubscriptionsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ProjectSubscriptionsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Message bus resource - The destination message bus of the Google API source. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the location attribute: ◆ provide the argument --destination-message-bus on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. ID of the message bus or fully qualified identifier for the message bus. To set the message-bus attribute: ◆ provide the argument --destination-message-bus on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
@@ -100,5 +168,37 @@ public record GcloudEventarcGoogleApiSourcesUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--destination-message-bus-project", Format = OptionFormat.EqualsSeparated)]
     public string? DestinationMessageBusProject { get; set; }
+
+    /// <summary>
+    /// Google API source resource - The Google API source to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument google_api_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Google API source or fully qualified identifier for the Google API source. To set the google-api-source attribute: ▸ provide the argument google_api_source on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GoogleApiSource { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearCryptoKey == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(CryptoKey) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearCryptoKey or CryptoKey may be specified.", [nameof(ClearCryptoKey), nameof(CryptoKey)]);
+        }
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((ClearProjectSubscriptions == true ? 1 : 0) + (((object?)ProjectSubscriptions is global::System.Collections.Generic.IEnumerable<char> ? (object?)ProjectSubscriptions is not string || !string.IsNullOrWhiteSpace(ProjectSubscriptions?.ToString()) : ((object?)ProjectSubscriptions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ProjectSubscriptions, static item => item is not null) : (ProjectSubscriptions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ProjectSubscriptions), static item => item is not null)))) ? 1 : 0) + ((OrganizationSubscription == true || NoOrganizationSubscription == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearProjectSubscriptions, ProjectSubscriptions, or (OrganizationSubscription or NoOrganizationSubscription) may be specified.", [nameof(ClearProjectSubscriptions), nameof(ProjectSubscriptions), nameof(OrganizationSubscription), nameof(NoOrganizationSubscription)]);
+        }
+        if ((ClearProjectSubscriptions == true || ((object?)ProjectSubscriptions is global::System.Collections.Generic.IEnumerable<char> ? (object?)ProjectSubscriptions is not string || !string.IsNullOrWhiteSpace(ProjectSubscriptions?.ToString()) : ((object?)ProjectSubscriptions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ProjectSubscriptions, static item => item is not null) : (ProjectSubscriptions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ProjectSubscriptions), static item => item is not null)))) || OrganizationSubscription == true || NoOrganizationSubscription == true) && ((OrganizationSubscription == true ? 1 : 0) + (NoOrganizationSubscription == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of OrganizationSubscription or NoOrganizationSubscription may be specified.", [nameof(OrganizationSubscription), nameof(NoOrganizationSubscription)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DestinationMessageBus) || !string.IsNullOrWhiteSpace(DestinationMessageBusProject)) && (!(!string.IsNullOrWhiteSpace(DestinationMessageBus))))
+        {
+            yield return new ValidationResult("DestinationMessageBus must be specified when other arguments in this group are specified.", [nameof(DestinationMessageBus)]);
+        }
+        yield break;
+    }
 
 }

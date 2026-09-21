@@ -21,4 +21,45 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("infra-manager", "resources", "describe")]
 public record GcloudInfraManagerResourcesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe resources
+    /// </summary>
+    /// <param name="Resource">Resource resource - The resource to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument resource on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the resource or fully qualified identifier for the resource. To set the resource attribute: ▸ provide the argument resource on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudInfraManagerResourcesDescribeOptions(
+        string Resource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+    }
+
+    public void Deconstruct(out string Resource)
+    {
+        Resource = this.Resource;
+    }
+
+    /// <summary>
+    /// Resource resource - The resource to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument resource on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. deployments TBD To set the deployment attribute: ▸ provide the argument resource on the command line with a fully specified name; ▸ provide the argument --deployment on the command line.
+    /// </summary>
+    [CliOption("--deployment", Format = OptionFormat.EqualsSeparated)]
+    public string? Deployment { get; set; }
+
+    /// <summary>
+    /// Resource resource - The resource to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument resource on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. locations TBD To set the location attribute: ▸ provide the argument resource on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property infra-manager/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Resource resource - The resource to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument resource on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. revisions TBD To set the revision attribute: ▸ provide the argument resource on the command line with a fully specified name; ▸ provide the argument --revision on the command line.
+    /// </summary>
+    [CliOption("--revision", Format = OptionFormat.EqualsSeparated)]
+    public string? Revision { get; set; }
+
+    /// <summary>
+    /// Resource resource - The resource to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument resource on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the resource or fully qualified identifier for the resource. To set the resource attribute: ▸ provide the argument resource on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Resource { get; private init; }
+
 }

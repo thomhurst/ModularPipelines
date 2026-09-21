@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run", "worker-pools", "logs", "tail")]
-public record GcloudRunWorkerPoolsLogsTailOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string WorkerPool
-) : GcloudOptions
+public record GcloudRunWorkerPoolsLogsTailOptions : GcloudOptions
 {
+    /// <summary>
+    /// tail logs for a Cloud Run worker pool
+    /// </summary>
+    /// <param name="WorkerPool">Name for a Cloud Run worker pool.</param>
+    public GcloudRunWorkerPoolsLogsTailOptions(
+        string WorkerPool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkerPool);
+        this.WorkerPool = WorkerPool;
+    }
+
+    public void Deconstruct(out string WorkerPool)
+    {
+        WorkerPool = this.WorkerPool;
+    }
+
     /// <summary>
     /// Filter expression that specifies the log entries to return. Detailed information about filters can be found at: https://cloud.google.com/logging/docs/view/logging-query-language
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudRunWorkerPoolsLogsTailOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Name for a Cloud Run worker pool.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WorkerPool { get; private init; }
 
 }

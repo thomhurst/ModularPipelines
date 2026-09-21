@@ -23,6 +23,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamServiceAccountsKeysListOptions : GcloudOptions
 {
     /// <summary>
+    /// list the keys for a service account
+    /// </summary>
+    /// <param name="IamAccount">A textual name to display for the account.</param>
+    public GcloudIamServiceAccountsKeysListOptions(
+        string IamAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IamAccount);
+        this.IamAccount = IamAccount;
+    }
+
+    public void Deconstruct(out string IamAccount)
+    {
+        IamAccount = this.IamAccount;
+    }
+
+    /// <summary>
+    /// A textual name to display for the account.
+    /// </summary>
+    [CliOption("--iam-account", Format = OptionFormat.EqualsSeparated)]
+    public string IamAccount { get; private init; }
+
+    /// <summary>
     /// Return only keys created before the specified time. Common time formats are accepted. This is equivalent to --filter="validAfterTime&lt;DATE_TIME". See $ gcloud topic datetimes for information on time formats.
     /// </summary>
     [CliOption("--created-before", Format = OptionFormat.EqualsSeparated)]
@@ -32,6 +55,6 @@ public record GcloudIamServiceAccountsKeysListOptions : GcloudOptions
     /// The types of keys to list. MANAGED_BY must be one of: user, system, any.
     /// </summary>
     [CliOption("--managed-by", Format = OptionFormat.EqualsSeparated)]
-    public GcloudManagedBy? ManagedBy { get; set; }
+    public GcloudIamServiceAccountsKeysListManagedBy? ManagedBy { get; set; }
 
 }

@@ -20,15 +20,42 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "network-policies", "external-access-rules", "update")]
-public record GcloudVmwareNetworkPoliciesExternalAccessRulesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Vm
-) : GcloudOptions
+public record GcloudVmwareNetworkPoliciesExternalAccessRulesUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a     VMware Engine network policy
+    /// </summary>
+    /// <param name="ExternalAccessRule">VMware Engine External Access Rule resource - external_access_rule. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument external_access_rule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the VMware Engine External Access Rule or fully qualified identifier for the VMware Engine External Access Rule. To set the external-access-rule attribute: ▸ provide the argument external_access_rule on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVmwareNetworkPoliciesExternalAccessRulesUpdateOptions(
+        string ExternalAccessRule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExternalAccessRule);
+        this.ExternalAccessRule = ExternalAccessRule;
+    }
+
+    public void Deconstruct(out string ExternalAccessRule)
+    {
+        ExternalAccessRule = this.ExternalAccessRule;
+    }
+
+    /// <summary>
+    /// VMware Engine External Access Rule resource - external_access_rule. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument external_access_rule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The resource name of the location. To set the location attribute: ▸ provide the argument external_access_rule on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// VMware Engine External Access Rule resource - external_access_rule. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument external_access_rule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. VMware Engine network policy To set the network-policy attribute: ▸ provide the argument external_access_rule on the command line with a fully specified name; ▸ provide the argument --network-policy on the command line.
+    /// </summary>
+    [CliOption("--network-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkPolicy { get; set; }
+
     /// <summary>
     /// Whether the firewall rule allows or denies traffic based on a successful rule match. ACTION must be one of: ALLOW, DENY.
     /// </summary>
     [CliOption("--action", Format = OptionFormat.EqualsSeparated)]
-    public GcloudAction? Action { get; set; }
+    public GcloudVmwareNetworkPoliciesExternalAccessRulesUpdateAction? Action { get; set; }
 
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
@@ -49,22 +76,22 @@ public record GcloudVmwareNetworkPoliciesExternalAccessRulesUpdateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// List of allowed destination ports. Each entry must be either an integer or a range.
+    /// List of allowed destination ports. Each entry must be either an integer or a range. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--destination-ports", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--destination-ports", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DestinationPorts { get; set; }
 
     /// <summary>
-    /// A list of destination IP addresses that the rule applies to. Each entry in the list be an ExternalAddress resource name or 0.0.0.0/0. When the value is set to 0.0.0.0/0, all IP addresses are allowed.
+    /// A list of destination IP addresses that the rule applies to. Each entry in the list be an ExternalAddress resource name or 0.0.0.0/0. When the value is set to 0.0.0.0/0, all IP addresses are allowed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--destination-ranges", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--destination-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DestinationRanges { get; set; }
 
     /// <summary>
     /// Internet protocol covered by the rule. Valid values are TCP, UDP, and ICMP. IP_PROTOCOL must be one of: TCP, UDP, ICMP.
     /// </summary>
     [CliOption("--ip-protocol", Format = OptionFormat.EqualsSeparated)]
-    public GcloudIpProtocol? IpProtocol { get; set; }
+    public GcloudVmwareNetworkPoliciesExternalAccessRulesUpdateIpProtocol? IpProtocol { get; set; }
 
     /// <summary>
     /// Priority of this external access rule. Valid values are numbers between 100 and 4096, with 100 being the highest priority. Firewall rules are processed from highest to lowest priority.
@@ -73,15 +100,21 @@ public record GcloudVmwareNetworkPoliciesExternalAccessRulesUpdateOptions(
     public string? Priority { get; set; }
 
     /// <summary>
-    /// List of allowed source ports. Each entry must be either an integer or a range.
+    /// List of allowed source ports. Each entry must be either an integer or a range. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--source-ports", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--source-ports", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SourcePorts { get; set; }
 
     /// <summary>
-    /// A list of source IP addresses that the rule applies to. Each entry in the list can be a CIDR notation or a single IP address. When the value is set to 0.0.0.0/0, all IP addresses are allowed.
+    /// A list of source IP addresses that the rule applies to. Each entry in the list can be a CIDR notation or a single IP address. When the value is set to 0.0.0.0/0, all IP addresses are allowed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--source-ranges", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--source-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SourceRanges { get; set; }
+
+    /// <summary>
+    /// VMware Engine External Access Rule resource - external_access_rule. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument external_access_rule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the VMware Engine External Access Rule or fully qualified identifier for the VMware Engine External Access Rule. To set the external-access-rule attribute: ▸ provide the argument external_access_rule on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ExternalAccessRule { get; private init; }
 
 }

@@ -23,9 +23,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDnsRecordSetsChangesListOptions : GcloudOptions
 {
     /// <summary>
+    /// view the list of changes that have     been made to your record-sets
+    /// </summary>
+    /// <param name="Zone">Name of the managed zone whose record sets you want to manage.</param>
+    public GcloudDnsRecordSetsChangesListOptions(
+        string Zone
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+    }
+
+    public void Deconstruct(out string Zone)
+    {
+        Zone = this.Zone;
+    }
+
+    /// <summary>
+    /// Name of the managed zone whose record sets you want to manage.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
+    /// <summary>
     /// Sort order for listing. SORT_ORDER must be one of: ascending, descending.
     /// </summary>
     [CliOption("--sort-order", Format = OptionFormat.EqualsSeparated)]
-    public GcloudSortOrder? SortOrder { get; set; }
+    public GcloudDnsRecordSetsChangesListSortOrder? SortOrder { get; set; }
 
 }

@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -21,4 +22,51 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("identity", "groups", "memberships", "search-transitive-groups")]
 public record GcloudIdentityGroupsMembershipsSearchTransitiveGroupsOptions : GcloudOptions
 {
+    /// <summary>
+    /// search     transitive groups of a member
+    /// </summary>
+    /// <param name="Labels">The labels of the transitive groups.</param>
+    /// <param name="MemberEmail">The email address of the member to search transitive groups for.</param>
+    public GcloudIdentityGroupsMembershipsSearchTransitiveGroupsOptions(
+        string Labels,
+        string MemberEmail
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Labels);
+        this.Labels = Labels;
+        global::System.ArgumentNullException.ThrowIfNull(MemberEmail);
+        this.MemberEmail = MemberEmail;
+    }
+
+    public void Deconstruct(out string Labels, out string MemberEmail)
+    {
+        Labels = this.Labels;
+        MemberEmail = this.MemberEmail;
+    }
+
+    /// <summary>
+    /// The labels of the transitive groups.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public string Labels { get; private init; }
+
+    /// <summary>
+    /// The email address of the member to search transitive groups for.
+    /// </summary>
+    [CliOption("--member-email", Format = OptionFormat.EqualsSeparated)]
+    public string MemberEmail { get; private init; }
+
+    /// <summary>
+    /// The maximum number of results to return.
+    /// </summary>
+    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
+    public int? PageSize { get; set; }
+
+    /// <summary>
+    /// The next_page_token value returned from a previous search request, if any.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--page-token", Format = OptionFormat.EqualsSeparated)]
+    public string? PageToken { get; set; }
+
 }

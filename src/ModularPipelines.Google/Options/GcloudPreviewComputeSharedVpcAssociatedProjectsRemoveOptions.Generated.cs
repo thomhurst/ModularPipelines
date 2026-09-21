@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "shared-vpc", "associated-projects", "remove")]
-public record GcloudPreviewComputeSharedVpcAssociatedProjectsRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ProjectId
-) : GcloudOptions
+public record GcloudPreviewComputeSharedVpcAssociatedProjectsRemoveOptions : GcloudOptions
 {
+    /// <summary>
+    /// disassociate     the given project from the given shared VPC host project
+    /// </summary>
+    /// <param name="HostProject">The XPN host to remove the associated project from</param>
+    /// <param name="ProjectId">ID for the project to remove from the host project</param>
+    public GcloudPreviewComputeSharedVpcAssociatedProjectsRemoveOptions(
+        string HostProject,
+        string ProjectId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HostProject);
+        this.HostProject = HostProject;
+        global::System.ArgumentNullException.ThrowIfNull(ProjectId);
+        this.ProjectId = ProjectId;
+    }
+
+    public void Deconstruct(out string HostProject, out string ProjectId)
+    {
+        HostProject = this.HostProject;
+        ProjectId = this.ProjectId;
+    }
+
+    /// <summary>
+    /// The XPN host to remove the associated project from
+    /// </summary>
+    [CliOption("--host-project", Format = OptionFormat.EqualsSeparated)]
+    public string HostProject { get; private init; }
+
+    /// <summary>
+    /// ID for the project to remove from the host project
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ProjectId { get; private init; }
+
 }

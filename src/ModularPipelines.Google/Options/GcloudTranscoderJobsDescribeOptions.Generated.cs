@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("transcoder", "jobs", "describe")]
 public record GcloudTranscoderJobsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe transcoder jobs
+    /// </summary>
+    /// <param name="JobName">Job resource - Transcoder Job name The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the job or fully qualified identifier for the job. To set the job_name attribute: ▸ provide the argument job_name on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudTranscoderJobsDescribeOptions(
+        string JobName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobName);
+        this.JobName = JobName;
+    }
+
+    public void Deconstruct(out string JobName)
+    {
+        JobName = this.JobName;
+    }
+
+    /// <summary>
+    /// Job resource - Transcoder Job name The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Transcoder location for resources To set the location attribute: ▸ provide the argument job_name on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property transcoder/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Job resource - Transcoder Job name The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the job or fully qualified identifier for the job. To set the job_name attribute: ▸ provide the argument job_name on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string JobName { get; private init; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,119 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "rolloutsequences", "upgrade")]
-public record GcloudContainerFleetRolloutsequencesUpgradeOptions : GcloudOptions
+public record GcloudContainerFleetRolloutsequencesUpgradeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// upgrade the clusters in a     rollout sequence resource
+    /// </summary>
+    /// <param name="Rolloutsequence">RolloutSequence resource - The group of arguments defining a Rollout Sequence. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rolloutSequence on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument rolloutSequence on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the rolloutSequence or fully qualified identifier for the rolloutSequence. To set the rollout_sequence attribute: ▸ provide the argument rolloutSequence on the command line.</param>
+    public GcloudContainerFleetRolloutsequencesUpgradeOptions(
+        string Rolloutsequence
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Rolloutsequence);
+        this.Rolloutsequence = Rolloutsequence;
+    }
+
+    public void Deconstruct(out string Rolloutsequence)
+    {
+        Rolloutsequence = this.Rolloutsequence;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The GKE cluster version to upgrade the control plane to.
+    /// </summary>
+    [CliOption("--control-plane-version", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneVersion { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The GKE version to upgrade the nodes to.
+    /// </summary>
+    [CliOption("--node-version", Format = OptionFormat.EqualsSeparated)]
+    public string? NodeVersion { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Force rollout creation even if an active rollout exists on the first stage of the sequence.
+    /// </summary>
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
+
+    /// <summary>
+    /// If set, the rollout will ignore the disruption budgets of the clusters.
+    /// </summary>
+    [CliFlag("--ignore-cluster-disruption-budgets")]
+    public bool? IgnoreClusterDisruptionBudgets { get; set; }
+
+    /// <summary>
+    /// If set, the rollout will ignore any maintenance policies (Maintenance Windows and Maintenance Exclusions) set on the clusters.
+    /// </summary>
+    [CliFlag("--ignore-maintenance-policies")]
+    public bool? IgnoreMaintenancePolicies { get; set; }
+
+    /// <summary>
+    /// If set, the rollout will only upgrade clusters that are already on the minor version of the target version, but are on an earlier patch version.
+    /// </summary>
+    [CliFlag("--patch-only")]
+    public bool? PatchOnly { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Overrides the soak duration for all stages of the rollout.
+    /// </summary>
+    [CliOption("--soak-duration-override-all-stages", Format = OptionFormat.EqualsSeparated)]
+    public string? SoakDurationOverrideAllStages { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Overrides the soak duration for specific stages of the rollout, in the format STAGE_NUMBER=DURATION (e.g., 1=1h,2=30m). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--soak-duration-overrides-per-stage", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SoakDurationOverridesPerStage
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SoakDurationOverridesPerStageSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SoakDurationOverridesPerStageSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// RolloutSequence resource - The group of arguments defining a Rollout Sequence. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rolloutSequence on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument rolloutSequence on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the rolloutSequence or fully qualified identifier for the rolloutSequence. To set the rollout_sequence attribute: ▸ provide the argument rolloutSequence on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Rolloutsequence { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ControlPlaneVersion) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NodeVersion) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ControlPlaneVersion or NodeVersion must be specified.", [nameof(ControlPlaneVersion), nameof(NodeVersion)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SoakDurationOverrideAllStages) ? 1 : 0) + (((object?)SoakDurationOverridesPerStage is global::System.Collections.Generic.IEnumerable<char> ? (object?)SoakDurationOverridesPerStage is not string || !string.IsNullOrWhiteSpace(SoakDurationOverridesPerStage?.ToString()) : ((object?)SoakDurationOverridesPerStage is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SoakDurationOverridesPerStage, static item => item is not null) : (SoakDurationOverridesPerStage is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SoakDurationOverridesPerStage), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SoakDurationOverrideAllStages or SoakDurationOverridesPerStage may be specified.", [nameof(SoakDurationOverrideAllStages), nameof(SoakDurationOverridesPerStage)]);
+        }
+        yield break;
+    }
+
 }

@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetappVolumesReplicationsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a Cloud NetApp Volume     Replication
+    /// </summary>
+    /// <param name="Replication">Replication resource - The Replication to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument replication on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the volume attribute: ◆ provide the argument replication on the command line with a fully specified name; ◆ provide the argument --volume on the command line. This must be specified. ID of the replication or fully qualified identifier for the replication. To set the replication attribute: ▸ provide the argument replication on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetappVolumesReplicationsDeleteOptions(
+        string Replication
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Replication);
+        this.Replication = Replication;
+    }
+
+    public void Deconstruct(out string Replication)
+    {
+        Replication = this.Replication;
+    }
+
+    /// <summary>
+    /// Replication resource - The Replication to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument replication on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the volume attribute: ◆ provide the argument replication on the command line with a fully specified name; ◆ provide the argument --volume on the command line. This must be specified. The location of the replication. To set the location attribute: ▸ provide the argument replication on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -32,5 +55,11 @@ public record GcloudNetappVolumesReplicationsDeleteOptions : GcloudOptions
     /// </summary>
     [CliOption("--volume", Format = OptionFormat.EqualsSeparated)]
     public string? Volume { get; set; }
+
+    /// <summary>
+    /// Replication resource - The Replication to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument replication on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the volume attribute: ◆ provide the argument replication on the command line with a fully specified name; ◆ provide the argument --volume on the command line. This must be specified. ID of the replication or fully qualified identifier for the replication. To set the replication attribute: ▸ provide the argument replication on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Replication { get; private init; }
 
 }

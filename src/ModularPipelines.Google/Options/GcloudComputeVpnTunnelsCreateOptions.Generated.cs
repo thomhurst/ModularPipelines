@@ -6,10 +6,13 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +22,205 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "vpn-tunnels", "create")]
-public record GcloudComputeVpnTunnelsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeVpnTunnelsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a VPN tunnel
+    /// </summary>
+    /// <param name="SharedSecret">Shared secret consisting of printable characters. Valid arguments match the regular expression [ -~]+</param>
+    /// <param name="Name">Name of the VPN Tunnel to create.</param>
+    public GcloudComputeVpnTunnelsCreateOptions(
+        string SharedSecret,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SharedSecret);
+        this.SharedSecret = SharedSecret;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string SharedSecret, out string Name)
+    {
+        SharedSecret = this.SharedSecret;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Shared secret consisting of printable characters. Valid arguments match the regular expression [ -~]+
+    /// </summary>
+    [SecretValue]
+    [CliOption("--shared-secret", Format = OptionFormat.EqualsSeparated)]
+    public string SharedSecret { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Valid IPV4 address representing the remote tunnel endpoint, the peer address must be specified when creating Classic VPN tunnels from Classic Target VPN gateway
+    /// </summary>
+    [CliOption("--peer-address", Format = OptionFormat.EqualsSeparated)]
+    public string? PeerAddress { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Peer side external VPN gateway representing the remote tunnel endpoint, this flag is used when creating HA VPN tunnels from Google Cloud to your external VPN gateway.Either --peer-external-gateway or --peer-gcp-gateway must be specified when creating VPN tunnels from High Available VPN gateway.
+    /// </summary>
+    [CliOption("--peer-external-gateway", Format = OptionFormat.EqualsSeparated)]
+    public string? PeerExternalGateway { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Reference to the peer side Highly Available VPN gateway.
+    /// </summary>
+    [CliOption("--peer-gcp-gateway", Format = OptionFormat.EqualsSeparated)]
+    public string? PeerGcpGateway { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Region of the VPN Gateway to operate on. Should be the same as region, if not specified, it will be automatically set. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--peer-gcp-gateway-region", Format = OptionFormat.EqualsSeparated)]
+    public string? PeerGcpGatewayRegion { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: A reference to a Cloud VPN Classic Target VPN Gateway.
+    /// </summary>
+    [CliOption("--target-vpn-gateway", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetVpnGateway { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Region of the Target VPN Gateway to operate on. Should be the same as region, if not specified, it will be automatically set. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--target-vpn-gateway-region", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetVpnGatewayRegion { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Reference to a Highly Available VPN gateway.
+    /// </summary>
+    [CliOption("--vpn-gateway", Format = OptionFormat.EqualsSeparated)]
+    public string? VpnGateway { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Region of the VPN Gateway to operate on. Should be the same as region, if not specified, it will be automatically set. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--vpn-gateway-region", Format = OptionFormat.EqualsSeparated)]
+    public string? VpnGatewayRegion { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the VPN tunnel.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Internet Key Exchange protocol version number. Default is 2. IKE_VERSION must be one of: 1, 2.
+    /// </summary>
+    [CliOption("--ike-version", Format = OptionFormat.EqualsSeparated)]
+    public string? IkeVersion { get; set; }
+
+    /// <summary>
+    /// Numeric interface ID of the VPN gateway with which this VPN tunnel is associated. This flag is required if the tunnel is being attached to a Highly Available VPN gateway. This option is only available for use with Highly Available VPN gateway and must be omitted if the tunnel is going to be connected to a Classic VPN gateway. INTERFACE must be one of: 0, 1.
+    /// </summary>
+    [CliOption("--interface", Format = OptionFormat.EqualsSeparated)]
+    public string? Interface { get; set; }
+
+    /// <summary>
+    /// Traffic selector is an agreement between IKE peers to permit traffic through a tunnel if the traffic matches a specified pair of local and remote addresses. --local-traffic-selector allows to configure the local addresses that are permitted. The value should be a comma separated list of CIDR formatted strings. Example: 192.168.0.0/16,10.0.0.0/24. Local traffic selector must be specified only for VPN tunnels that do not use dynamic routing with a Cloud Router. Omit this flag when creating a tunnel using dynamic routing, including a tunnel for a Highly Available VPN gateway. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--local-traffic-selector", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? LocalTrafficSelector { get; set; }
+
+    /// <summary>
+    /// Interface ID of the external VPN gateway to which this VPN tunnel is connected to. This flag is required if the tunnel is being created from a Highly Available VPN gateway to an External Vpn Gateway. PEER_EXTERNAL_GATEWAY_INTERFACE must be one of: 0, 1, 2, 3.
+    /// </summary>
+    [CliOption("--peer-external-gateway-interface", Format = OptionFormat.EqualsSeparated)]
+    public string? PeerExternalGatewayInterface { get; set; }
+
+    /// <summary>
+    /// Phase 1 Diffie-Hellman groups. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--phase1-dh", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Phase1Dh { get; set; }
+
+    /// <summary>
+    /// Phase 1 encryption algorithms. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--phase1-encryption", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Phase1Encryption { get; set; }
+
+    /// <summary>
+    /// Phase 1 integrity algorithms. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--phase1-integrity", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Phase1Integrity { get; set; }
+
+    /// <summary>
+    /// Phase 1 pseudorandom functions. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--phase1-prf", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Phase1Prf { get; set; }
+
+    /// <summary>
+    /// Phase 2 encryption algorithms. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--phase2-encryption", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Phase2Encryption { get; set; }
+
+    /// <summary>
+    /// Phase 2 integrity algorithms. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--phase2-integrity", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Phase2Integrity { get; set; }
+
+    /// <summary>
+    /// Phase 2 perfect forward secrecy algorithms. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--phase2-pfs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Phase2Pfs { get; set; }
+
+    /// <summary>
+    /// Region of the VPN Tunnel to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Traffic selector is an agreement between IKE peers to permit traffic through a tunnel if the traffic matches a specified pair of local and remote addresses. --remote-traffic-selector allows to configure the remote addresses that are permitted. The value should be a comma separated list of CIDR formatted strings. Example: 192.168.0.0/16,10.0.0.0/24. Remote traffic selector must be specified for VPN tunnels that do not use dynamic routing with a Cloud Router. Omit this flag when creating a tunnel using dynamic routing, including a tunnel for a Highly Available VPN gateway. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--remote-traffic-selector", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoteTrafficSelector { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of Resource Manager tags to apply to the VPN tunnel. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
+
+    /// <summary>
+    /// Router to use for dynamic routing.
+    /// </summary>
+    [CliOption("--router", Format = OptionFormat.EqualsSeparated)]
+    public string? Router { get; set; }
+
+    /// <summary>
+    /// Region of the router to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--router-region", Format = OptionFormat.EqualsSeparated)]
+    public string? RouterRegion { get; set; }
+
+    /// <summary>
+    /// Name of the VPN Tunnel to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(PeerAddress) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PeerExternalGateway) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PeerGcpGateway) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PeerGcpGatewayRegion) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of PeerAddress, PeerExternalGateway, PeerGcpGateway, or PeerGcpGatewayRegion must be specified.", [nameof(PeerAddress), nameof(PeerExternalGateway), nameof(PeerGcpGateway), nameof(PeerGcpGatewayRegion)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(TargetVpnGateway) ? 1 : 0) + (!string.IsNullOrWhiteSpace(TargetVpnGatewayRegion) ? 1 : 0) + (!string.IsNullOrWhiteSpace(VpnGateway) ? 1 : 0) + (!string.IsNullOrWhiteSpace(VpnGatewayRegion) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of TargetVpnGateway, TargetVpnGatewayRegion, VpnGateway, or VpnGatewayRegion must be specified.", [nameof(TargetVpnGateway), nameof(TargetVpnGatewayRegion), nameof(VpnGateway), nameof(VpnGatewayRegion)]);
+        }
+        yield break;
+    }
+
 }

@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "restore-backup")]
-public record GcloudSqlInstancesRestoreBackupOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudSqlInstancesRestoreBackupOptions : GcloudOptions
 {
+    /// <summary>
+    /// restores a backup of a Cloud SQL     instance
+    /// </summary>
+    /// <param name="Instance">Cloud SQL instance ID that will be restored.</param>
+    public GcloudSqlInstancesRestoreBackupOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -40,5 +55,11 @@ public record GcloudSqlInstancesRestoreBackupOptions(
     /// </summary>
     [CliOption("--backup-instance", Format = OptionFormat.EqualsSeparated)]
     public string? BackupInstance { get; set; }
+
+    /// <summary>
+    /// Cloud SQL instance ID that will be restored.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
 
 }

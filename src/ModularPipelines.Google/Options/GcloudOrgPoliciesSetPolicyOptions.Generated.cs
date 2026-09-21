@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org-policies", "set-policy")]
-public record GcloudOrgPoliciesSetPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudOrgPoliciesSetPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set an organization policy from a JSON or     YAML file
+    /// </summary>
+    /// <param name="PolicyFile">Path to JSON or YAML file that contains the organization policy.</param>
+    public GcloudOrgPoliciesSetPolicyOptions(
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string PolicyFile)
+    {
+        PolicyFile = this.PolicyFile;
+    }
+
     /// <summary>
     /// Field mask used to specify the fields to be overwritten in the policy by the set. The fields specified in the update_mask are relative to the policy, not the full request. The update-mask flag can be empty, or have values policy.spec, policy.dry_run_spec or *. If the policy does not contain the dry_run_spec and update-mask flag is not provided, then it defaults to policy.spec.
     /// </summary>
     [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated)]
     public string? UpdateMask { get; set; }
+
+    /// <summary>
+    /// Path to JSON or YAML file that contains the organization policy.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
 
 }

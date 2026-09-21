@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,155 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "service-attachments", "create")]
-public record GcloudPreviewComputeServiceAttachmentsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeServiceAttachmentsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Google Compute     Engine service attachment
+    /// </summary>
+    /// <param name="NatSubnets">The subnetworks provided by service producer to use for NAT Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Name">Name of the service attachment to create.</param>
+    public GcloudPreviewComputeServiceAttachmentsCreateOptions(
+        IEnumerable<string> NatSubnets,
+        string Name
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(NatSubnets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(NatSubnets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(NatSubnets));
+            }
+
+            NatSubnets = materialized;
+        }
+        this.NatSubnets = NatSubnets;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out IEnumerable<string> NatSubnets, out string Name)
+    {
+        NatSubnets = this.NatSubnets;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The subnetworks provided by service producer to use for NAT Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--nat-subnets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> NatSubnets { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Target forwarding rule that receives forwarded traffic.
+    /// </summary>
+    [CliOption("--producer-forwarding-rule", Format = OptionFormat.EqualsSeparated)]
+    public string? ProducerForwardingRule { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: URL of the target service that receives forwarded traffic.
+    /// </summary>
+    [CliOption("--target-service", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetService { get; set; }
+
+    /// <summary>
+    /// This defines the service attachment's connection preference. CONNECTION_PREFERENCE must be one of: ACCEPT_AUTOMATIC Always accept connection requests from consumers automatically. ACCEPT_MANUAL Only accept connection requests from consumers with the approval of the service provider.
+    /// </summary>
+    [CliOption("--connection-preference", Format = OptionFormat.EqualsSeparated)]
+    public string? ConnectionPreference { get; set; }
+
+    /// <summary>
+    /// Specifies which consumer projects or networks are allowed to connect to the service attachment. Each project or network has a connection limit. A given service attachment can manage connections at either the project or network level. Therefore, both the accept and reject lists for a given service attachment must contain either only projects or only networks. For example, --consumer-accept-list myProjectId1=20 accepts a consumer project myProjectId1 with connection limit 20; --consumer-accept-list projects/myProjectId1/global/networks/myNet1=20 accepts a consumer network myNet1 with connection limit 20 ◆ PROJECT_OR_NETWORK - Consumer project ID, project number or network URL. ◆ CONNECTION_LIMIT - The maximum number of allowed connections. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--consumer-accept-list", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ConsumerAcceptList { get; set; }
+
+    /// <summary>
+    /// Specifies a comma-separated list of projects/networks/endpoints that are not allowed to connect to this service attachment. The project can be specified using its project ID or project number and the network or endpoint can be specified using its URL. For a given service attachment, consumer accept and reject lists must contain entries of the same type: all projects, all networks, or all endpoints. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--consumer-reject-list", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ConsumerRejectList { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the service attachment.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Specifies a comma separated list of DNS domain names that are used during DNS integration on PSC connected endpoints. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--domain-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? DomainNames { get; set; }
+
+    /// <summary>
+    /// If True, then enable the proxy protocol which is for supplying client TCP/IP address data in TCP connections that traverse proxies on their way to destination servers.
+    /// </summary>
+    [CliFlag("--enable-proxy-protocol")]
+    public bool? EnableProxyProtocol { get; set; }
+
+    /// <summary>
+    /// The number of NAT IP addresses to be allocated per connected endpoint.
+    /// </summary>
+    [CliOption("--nat-ips-per-endpoint", Format = OptionFormat.EqualsSeparated)]
+    public string? NatIpsPerEndpoint { get; set; }
+
+    /// <summary>
+    /// Region of the subnetworks to operate on. If not specified, it will be set to the region of the service attachment. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--nat-subnets-region", Format = OptionFormat.EqualsSeparated)]
+    public string? NatSubnetsRegion { get; set; }
+
+    /// <summary>
+    /// The number of consumer spokes that connected Private Service Connect endpoints can be propagated to through Network Connectivity Center. This limit lets the service producer limit how many propagated Private Service Connect connections can be established to this service attachment from a single consumer. If the connection preference of the service attachment is ACCEPT_MANUAL, the limit applies to each project or network that is listed in the consumer accept list. If the connection preference of the service attachment is ACCEPT_AUTOMATIC, the limit applies to each project that contains a connected endpoint. If unspecified, the default propagated connection limit is 250.
+    /// </summary>
+    [CliOption("--propagated-connection-limit", Format = OptionFormat.EqualsSeparated)]
+    public string? PropagatedConnectionLimit { get; set; }
+
+    /// <summary>
+    /// Determines whether to apply changes to consumer accept or reject lists to existing connections or only to new connections. If false, existing endpoints with a connection status of ACCEPTED or REJECTED are not updated. If true, existing endpoints with a connection status of ACCEPTED or REJECTED are updated based on the connection policy update. For example, if a project or network is removed from the --consumer-accept-list and added to --consumer-reject-list, all the endpoints in that project or network with the ACCEPTED state are set to REJECTED.
+    /// </summary>
+    [CliFlag("--reconcile-connections")]
+    public bool? ReconcileConnections { get; set; }
+
+    /// <summary>
+    /// Region of the service attachment to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the forwarding rule is global.
+    /// </summary>
+    [CliFlag("--global-producer-forwarding-rule")]
+    public bool? GlobalProducerForwardingRule { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the forwarding rule to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--producer-forwarding-rule-region", Format = OptionFormat.EqualsSeparated)]
+    public string? ProducerForwardingRuleRegion { get; set; }
+
+    /// <summary>
+    /// Name of the service attachment to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ProducerForwardingRule) ? 1 : 0) + (!string.IsNullOrWhiteSpace(TargetService) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ProducerForwardingRule or TargetService must be specified.", [nameof(ProducerForwardingRule), nameof(TargetService)]);
+        }
+        if ((GlobalProducerForwardingRule == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(ProducerForwardingRuleRegion) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GlobalProducerForwardingRule or ProducerForwardingRuleRegion may be specified.", [nameof(GlobalProducerForwardingRule), nameof(ProducerForwardingRuleRegion)]);
+        }
+        yield break;
+    }
+
 }

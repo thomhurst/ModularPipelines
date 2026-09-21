@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,12 +21,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "triggers", "run")]
-public record GcloudBuildsTriggersRunOptions : GcloudOptions
+public record GcloudBuildsTriggersRunOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// Parameters to be substituted in the build specification. For example: $ gcloud builds triggers run ... \ --substitutions _FAVORITE_COLOR=blue,_NUM_CANDIES=10 This will result in a build where every occurrence of ${_FAVORITE_COLOR} in certain fields is replaced by "blue", and similarly for ${_NUM_CANDIES} and "10". Substitutions can be applied to user-defined variables (starting with an underscore) and to the following built-in variables: REPO_NAME, BRANCH_NAME, TAG_NAME, REVISION_ID, COMMIT_SHA, SHORT_SHA. For more details, see: https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values
+    /// run a build trigger
     /// </summary>
-    [CliOption("--substitutions", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Trigger">Trigger resource - Build Trigger. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument TRIGGER on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the trigger or fully qualified identifier for the trigger. To set the trigger attribute: ▸ provide the argument TRIGGER on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBuildsTriggersRunOptions(
+        string Trigger
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Trigger);
+        this.Trigger = Trigger;
+    }
+
+    public void Deconstruct(out string Trigger)
+    {
+        Trigger = this.Trigger;
+    }
+
+    /// <summary>
+    /// Trigger resource - Build Trigger. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument TRIGGER on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the trigger. To set the region attribute: ▸ provide the argument TRIGGER on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property builds/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Parameters to be substituted in the build specification. For example: $ gcloud builds triggers run ... \ --substitutions _FAVORITE_COLOR=blue,_NUM_CANDIES=10 This will result in a build where every occurrence of ${_FAVORITE_COLOR} in certain fields is replaced by "blue", and similarly for ${_NUM_CANDIES} and "10". Substitutions can be applied to user-defined variables (starting with an underscore) and to the following built-in variables: REPO_NAME, BRANCH_NAME, TAG_NAME, REVISION_ID, COMMIT_SHA, SHORT_SHA. For more details, see: https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--substitutions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Substitutions { get; set; }
 
     /// <summary>
@@ -45,5 +69,21 @@ public record GcloudBuildsTriggersRunOptions : GcloudOptions
     /// </summary>
     [CliOption("--tag", Format = OptionFormat.EqualsSeparated)]
     public string? Tag { get; set; }
+
+    /// <summary>
+    /// Trigger resource - Build Trigger. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument TRIGGER on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the trigger or fully qualified identifier for the trigger. To set the trigger attribute: ▸ provide the argument TRIGGER on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Trigger { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Branch) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Sha) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Tag) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Branch, Sha, or Tag may be specified.", [nameof(Branch), nameof(Sha), nameof(Tag)]);
+        }
+        yield break;
+    }
 
 }

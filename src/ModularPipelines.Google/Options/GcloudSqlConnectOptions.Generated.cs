@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "connect")]
-public record GcloudSqlConnectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudSqlConnectOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// connects to a Cloud SQL instance
+    /// </summary>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    public GcloudSqlConnectOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
     /// <summary>
     /// The PostgreSQL or SQL Server database to connect to.
     /// </summary>
@@ -82,5 +98,25 @@ public record GcloudSqlConnectOptions(
     /// </summary>
     [CliFlag("--psc")]
     public bool? Psc { get; set; }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((AutoIamAuthn == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(User) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AutoIamAuthn or User may be specified.", [nameof(AutoIamAuthn), nameof(User)]);
+        }
+        if ((AutoIp == true ? 1 : 0) + (PrivateIp == true ? 1 : 0) + (Psc == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AutoIp, PrivateIp, or Psc may be specified.", [nameof(AutoIp), nameof(PrivateIp), nameof(Psc)]);
+        }
+        yield break;
+    }
 
 }

@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apihub", "runtime-project-attachments", "describe")]
 public record GcloudApihubRuntimeProjectAttachmentsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Runtime     Project Attachment
+    /// </summary>
+    /// <param name="RuntimeProjectAttachment">RuntimeProjectAttachment resource - The name of the API resource to retrieve. Format: projects/{project}/locations/{location}/runtimeProjectAttachments/{runtime_project_attachment} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime_project_attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the runtimeProjectAttachment or fully qualified identifier for the runtimeProjectAttachment. To set the runtime_project_attachment attribute: ▸ provide the argument runtime_project_attachment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubRuntimeProjectAttachmentsDescribeOptions(
+        string RuntimeProjectAttachment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuntimeProjectAttachment);
+        this.RuntimeProjectAttachment = RuntimeProjectAttachment;
+    }
+
+    public void Deconstruct(out string RuntimeProjectAttachment)
+    {
+        RuntimeProjectAttachment = this.RuntimeProjectAttachment;
+    }
+
+    /// <summary>
+    /// RuntimeProjectAttachment resource - The name of the API resource to retrieve. Format: projects/{project}/locations/{location}/runtimeProjectAttachments/{runtime_project_attachment} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime_project_attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the runtimeProjectAttachment resource. To set the location attribute: ▸ provide the argument runtime_project_attachment on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// RuntimeProjectAttachment resource - The name of the API resource to retrieve. Format: projects/{project}/locations/{location}/runtimeProjectAttachments/{runtime_project_attachment} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime_project_attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the runtimeProjectAttachment or fully qualified identifier for the runtimeProjectAttachment. To set the runtime_project_attachment attribute: ▸ provide the argument runtime_project_attachment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RuntimeProjectAttachment { get; private init; }
+
 }

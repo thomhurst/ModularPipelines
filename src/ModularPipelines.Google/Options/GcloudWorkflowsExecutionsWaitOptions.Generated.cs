@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("workflows", "executions", "wait")]
 public record GcloudWorkflowsExecutionsWaitOptions : GcloudOptions
 {
+    /// <summary>
+    /// wait for an execution to complete
+    /// </summary>
+    /// <param name="Execution">Execution resource - Name of the execution to wait on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument execution on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the execution or fully qualified identifier for the execution. To set the execution attribute: ▸ provide the argument execution on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudWorkflowsExecutionsWaitOptions(
+        string Execution
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Execution);
+        this.Execution = Execution;
+    }
+
+    public void Deconstruct(out string Execution)
+    {
+        Execution = this.Execution;
+    }
+
+    /// <summary>
+    /// Execution resource - Name of the execution to wait on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument execution on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud location for the execution. Alternatively, set the property [workflows/location]. To set the location attribute: ▸ provide the argument execution on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property workflows/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Execution resource - Name of the execution to wait on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument execution on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Workflow for the execution. To set the workflow attribute: ▸ provide the argument execution on the command line with a fully specified name; ▸ provide the argument --workflow on the command line.
+    /// </summary>
+    [CliOption("--workflow", Format = OptionFormat.EqualsSeparated)]
+    public string? Workflow { get; set; }
+
+    /// <summary>
+    /// Execution resource - Name of the execution to wait on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument execution on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the execution or fully qualified identifier for the execution. To set the execution attribute: ▸ provide the argument execution on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Execution { get; private init; }
+
 }

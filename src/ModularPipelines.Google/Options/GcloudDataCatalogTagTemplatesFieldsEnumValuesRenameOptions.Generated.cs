@@ -21,4 +21,56 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("data-catalog", "tag-templates", "fields", "enum-values", "rename")]
 public record GcloudDataCatalogTagTemplatesFieldsEnumValuesRenameOptions : GcloudOptions
 {
+    /// <summary>
+    /// rename an     enum value in Data Catalog tag template enum field
+    /// </summary>
+    /// <param name="NewId">New display name of the enum value.</param>
+    /// <param name="EnumValue">Enum value resource - Enum value to rename. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument enum_value on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the enum value or fully qualified identifier for the enum value. To set the enum_value attribute: ▸ provide the argument enum_value on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataCatalogTagTemplatesFieldsEnumValuesRenameOptions(
+        string NewId,
+        string EnumValue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NewId);
+        this.NewId = NewId;
+        global::System.ArgumentNullException.ThrowIfNull(EnumValue);
+        this.EnumValue = EnumValue;
+    }
+
+    public void Deconstruct(out string NewId, out string EnumValue)
+    {
+        NewId = this.NewId;
+        EnumValue = this.EnumValue;
+    }
+
+    /// <summary>
+    /// New display name of the enum value.
+    /// </summary>
+    [CliOption("--new-id", Format = OptionFormat.EqualsSeparated)]
+    public string NewId { get; private init; }
+
+    /// <summary>
+    /// Enum value resource - Enum value to rename. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument enum_value on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Tag template field that contains enum value. To set the field attribute: ▸ provide the argument enum_value on the command line with a fully specified name; ▸ provide the argument --field on the command line.
+    /// </summary>
+    [CliOption("--field", Format = OptionFormat.EqualsSeparated)]
+    public string? Field { get; set; }
+
+    /// <summary>
+    /// Enum value resource - Enum value to rename. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument enum_value on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the enum value. To set the location attribute: ▸ provide the argument enum_value on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Enum value resource - Enum value to rename. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument enum_value on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Tag template that contains enum value. To set the tag-template attribute: ▸ provide the argument enum_value on the command line with a fully specified name; ▸ provide the argument --tag-template on the command line.
+    /// </summary>
+    [CliOption("--tag-template", Format = OptionFormat.EqualsSeparated)]
+    public string? TagTemplate { get; set; }
+
+    /// <summary>
+    /// Enum value resource - Enum value to rename. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument enum_value on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the enum value or fully qualified identifier for the enum value. To set the enum_value attribute: ▸ provide the argument enum_value on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EnumValue { get; private init; }
+
 }

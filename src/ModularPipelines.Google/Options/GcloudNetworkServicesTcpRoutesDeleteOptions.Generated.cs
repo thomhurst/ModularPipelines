@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkServicesTcpRoutesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete tcp route
+    /// </summary>
+    /// <param name="TcpRoute">Tcp route resource - Name of the tcp route you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tcp_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tcp route or fully qualified identifier for the tcp route. To set the tcp_route attribute: ▸ provide the argument tcp_route on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkServicesTcpRoutesDeleteOptions(
+        string TcpRoute
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TcpRoute);
+        this.TcpRoute = TcpRoute;
+    }
+
+    public void Deconstruct(out string TcpRoute)
+    {
+        TcpRoute = this.TcpRoute;
+    }
+
+    /// <summary>
+    /// Tcp route resource - Name of the tcp route you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tcp_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument tcp_route on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Tcp route resource - Name of the tcp route you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tcp_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tcp route or fully qualified identifier for the tcp route. To set the tcp_route attribute: ▸ provide the argument tcp_route on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string TcpRoute { get; private init; }
 
 }

@@ -23,6 +23,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetappBackupVaultsCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// create a Cloud NetApp Backup Vault
+    /// </summary>
+    /// <param name="BackupVault">Backup vault resource - The Backup Vault to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup_vault or fully qualified identifier for the backup_vault. To set the backup_vault attribute: ▸ provide the argument backup_vault on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetappBackupVaultsCreateOptions(
+        string BackupVault
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupVault);
+        this.BackupVault = BackupVault;
+    }
+
+    public void Deconstruct(out string BackupVault)
+    {
+        BackupVault = this.BackupVault;
+    }
+
+    /// <summary>
+    /// Backup vault resource - The Backup Vault to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the backup_vault. To set the location attribute: ▸ provide the argument backup_vault on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -47,9 +70,15 @@ public record GcloudNetappBackupVaultsCreateOptions : GcloudOptions
     public string? KmsConfig { get; set; }
 
     /// <summary>
-    /// Kms config resource - The resource name of the KMS Config to use for encrypting backups within this backup vault. Format: projects/{project_id}/locations/{location}/kmsConfigs/{kms_config_id} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// Kms config resource - The resource name of the KMS Config to use for encrypting backups within this backup vault. Format: projects/{project_id}/locations/{location}/kmsConfigs/{kms_config_id} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Backup vault resource - The Backup Vault to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup_vault or fully qualified identifier for the backup_vault. To set the backup_vault attribute: ▸ provide the argument backup_vault on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackupVault { get; private init; }
 
 }

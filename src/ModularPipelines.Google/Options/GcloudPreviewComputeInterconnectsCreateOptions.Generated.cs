@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,126 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "create")]
-public record GcloudPreviewComputeInterconnectsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInterconnectsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Compute Engine     interconnect
+    /// </summary>
+    /// <param name="InterconnectType">Type of the interconnect. INTERCONNECT_TYPE must be one of: DEDICATED Dedicated private interconnect. IT_PRIVATE Dedicated private interconnect. (Warning: IT_PRIVATE is deprecated, use DEDICATED instead.) PARTNER Partner interconnect. Only available to approved partners.</param>
+    /// <param name="LinkType">Type of the link for the interconnect. LINK_TYPE must be one of: LINK_TYPE_ETHERNET_100G_LR 100Gbps Ethernet, LR Optics. LINK_TYPE_ETHERNET_10G_LR 10Gbps Ethernet, LR Optics. LINK_TYPE_ETHERNET_400G_LR4 400Gbps Ethernet, LR4 Optics.</param>
+    /// <param name="Location">The location for the interconnect. The locations can be listed by using the gcloud preview compute interconnects locations list command to find the appropriate location to use when creating an interconnect.</param>
+    /// <param name="RequestedLinkCount">Target number of physical links in the link bundle.</param>
+    /// <param name="Name">Name of the interconnect to create.</param>
+    public GcloudPreviewComputeInterconnectsCreateOptions(
+        string InterconnectType,
+        string LinkType,
+        string Location,
+        int RequestedLinkCount,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InterconnectType);
+        this.InterconnectType = InterconnectType;
+        global::System.ArgumentNullException.ThrowIfNull(LinkType);
+        this.LinkType = LinkType;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        this.RequestedLinkCount = RequestedLinkCount;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string InterconnectType, out string LinkType, out string Location, out int RequestedLinkCount, out string Name)
+    {
+        InterconnectType = this.InterconnectType;
+        LinkType = this.LinkType;
+        Location = this.Location;
+        RequestedLinkCount = this.RequestedLinkCount;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Type of the interconnect. INTERCONNECT_TYPE must be one of: DEDICATED Dedicated private interconnect. IT_PRIVATE Dedicated private interconnect. (Warning: IT_PRIVATE is deprecated, use DEDICATED instead.) PARTNER Partner interconnect. Only available to approved partners.
+    /// </summary>
+    [CliOption("--interconnect-type", Format = OptionFormat.EqualsSeparated)]
+    public string InterconnectType { get; private init; }
+
+    /// <summary>
+    /// Type of the link for the interconnect. LINK_TYPE must be one of: LINK_TYPE_ETHERNET_100G_LR 100Gbps Ethernet, LR Optics. LINK_TYPE_ETHERNET_10G_LR 10Gbps Ethernet, LR Optics. LINK_TYPE_ETHERNET_400G_LR4 400Gbps Ethernet, LR4 Optics.
+    /// </summary>
+    [CliOption("--link-type", Format = OptionFormat.EqualsSeparated)]
+    public string LinkType { get; private init; }
+
+    /// <summary>
+    /// The location for the interconnect. The locations can be listed by using the gcloud preview compute interconnects locations list command to find the appropriate location to use when creating an interconnect.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Target number of physical links in the link bundle.
+    /// </summary>
+    [CliOption("--requested-link-count", Format = OptionFormat.EqualsSeparated)]
+    public int RequestedLinkCount { get; private init; }
+
+    /// <summary>
+    /// Administrative status of the interconnect. If not provided on creation, defaults to enabled. When this is enabled, the interconnect is operational and will carry traffic across any functioning linked interconnect attachments. Use --no-admin-enabled to disable it.
+    /// </summary>
+    [CliFlag("--admin-enabled")]
+    public bool? AdminEnabled { get; set; }
+
+    /// <summary>
+    /// Negates --admin-enabled. Administrative status of the interconnect. If not provided on creation, defaults to enabled. When this is enabled, the interconnect is operational and will carry traffic across any functioning linked interconnect attachments. Use --no-admin-enabled to disable it.
+    /// </summary>
+    [CliFlag("--no-admin-enabled")]
+    public bool? NoAdminEnabled { get; set; }
+
+    /// <summary>
+    /// Customer name to put in the Letter of Authorization as the party authorized to request an interconnect. This field is required for most interconnects, however it is prohibited when creating a Cross-Cloud Interconnect.
+    /// </summary>
+    [CliOption("--customer-name", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomerName { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the interconnect.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Email address to contact the customer NOC for operations and maintenance notifications regarding this interconnect.
+    /// </summary>
+    [CliOption("--noc-contact-email", Format = OptionFormat.EqualsSeparated)]
+    public string? NocContactEmail { get; set; }
+
+    /// <summary>
+    /// The remote location for a Cross-Cloud Interconnect. The remote locations can be listed by using the gcloud preview compute interconnects remote-locations list command to find the appropriate remote location to use when creating a Cross-Cloud Interconnect.
+    /// </summary>
+    [CliOption("--remote-location", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoteLocation { get; set; }
+
+    /// <summary>
+    /// List of features requested for this interconnect. FEATURES must be one of: CROSS_SITE_NETWORK If specified then the interconnect is created on Cross-Site Network capable hardware ports. This parameter can only be provided during interconnect INSERT and cannot be changed using interconnect PATCH. L2_FORWARDING If specified then the interconnect is created on L2 forwarding capable hardware ports. This parameter can only be provided during interconnect INSERT and cannot be changed using interconnect PATCH. MACSEC If specified then the interconnect is created on MACsec capable hardware ports. If not specified, the interconnect is created on non-MACsec capable ports first, if available. This parameter can only be provided during interconnect INSERT and cannot be changed using interconnect PATCH. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--requested-features", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RequestedFeatures { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of Resource Manager tags to apply to the interconnect. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
+
+    /// <summary>
+    /// (DEPRECATED) Subzone in the LOCATION specified by the --location flag. The --subzone flag is deprecated and will be removed in a future release. SUBZONE must be one of: a Subzone a. b Subzone b.
+    /// </summary>
+    [CliOption("--subzone", Format = OptionFormat.EqualsSeparated)]
+    public string? Subzone { get; set; }
+
+    /// <summary>
+    /// Name of the interconnect to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

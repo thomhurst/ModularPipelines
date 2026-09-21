@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-connectivity", "hubs", "route-tables", "routes", "describe")]
 public record GcloudNetworkConnectivityHubsRouteTablesRoutesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a     route
+    /// </summary>
+    /// <param name="Route">Route resource - Name of the route to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the route or fully qualified identifier for the route. To set the route attribute: ▸ provide the argument route on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkConnectivityHubsRouteTablesRoutesDescribeOptions(
+        string Route
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Route);
+        this.Route = Route;
+    }
+
+    public void Deconstruct(out string Route)
+    {
+        Route = this.Route;
+    }
+
+    /// <summary>
+    /// Route resource - Name of the route to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Id of the hub. To set the hub attribute: ▸ provide the argument route on the command line with a fully specified name; ▸ provide the argument --hub on the command line.
+    /// </summary>
+    [CliOption("--hub", Format = OptionFormat.EqualsSeparated)]
+    public string? Hub { get; set; }
+
+    /// <summary>
+    /// Route resource - Name of the route to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Id of the route table. To set the route_table attribute: ▸ provide the argument route on the command line with a fully specified name; ▸ provide the argument --route_table on the command line.
+    /// </summary>
+    [CliOption("--route_table", Format = OptionFormat.EqualsSeparated)]
+    public string? RouteTable { get; set; }
+
+    /// <summary>
+    /// Route resource - Name of the route to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the route or fully qualified identifier for the route. To set the route attribute: ▸ provide the argument route on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Route { get; private init; }
+
 }
