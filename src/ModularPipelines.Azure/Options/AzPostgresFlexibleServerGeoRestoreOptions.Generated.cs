@@ -109,7 +109,7 @@ public record AzPostgresFlexibleServerGeoRestoreOptions : AzOptions
     public bool? PrivateDnsZone { get; set; }
 
     /// <summary>
-    /// The point in time in UTC to restore from (ISO8601 format), e.g., 2026-03-22T18:20:22+00:00 The default value is set to current time.  Default: 2026-09-20T12:17:02+00:00.
+    /// The point in time in UTC to restore from (ISO8601 format), e.g., 2026-03-22T18:20:22+00:00 The default value is set to current time.  Default: 2026-09-21T12:31:58+00:00.
     /// </summary>
     [CliOption("--restore-time")]
     public string? RestoreTime { get; set; }
