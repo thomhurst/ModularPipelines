@@ -401,6 +401,10 @@ public partial class SnykCliScraper : CliScraperBase
     {
         var longForm = match.Groups["long"].Value.Trim();
         var rawValueHint = match.Groups["value"].Value;
+        if (match.Groups["optional"].Success && rawValueHint.EndsWith(']'))
+        {
+            rawValueHint = rawValueHint[..^1];
+        }
         var valueHint = OptionEnumFactory.UnwrapChoiceHint(rawValueHint);
         if (!seenOptions.Add(longForm))
         {
@@ -423,6 +427,11 @@ public partial class SnykCliScraper : CliScraperBase
             isBoolean);
         var enumDefinition = CreateEnumDefinition(propertyName, longForm, valueHint, isBoolean);
         var scalarType = GetScalarType(enumDefinition, isFlag, isBoolean, isNumeric);
+        if (rawValueHint.Length > 0 && valueHint.Length == 0)
+        {
+            // Here the token is an explicit value placeholder, not a table's default cell.
+            description = $"{description} [value type: {rawValueHint}]".Trim();
+        }
 
         return new CliOptionDefinition
         {
@@ -823,7 +832,7 @@ public partial class SnykCliScraper : CliScraperBase
     /// --severity-threshold=&lt;low|medium|high|critical&gt;
     /// --json
     /// </summary>
-    [GeneratedRegex(@"(?<long>--[\w-]+)(?:=(?:(?<value><[^>\s]+>?)|(?<value>[^\s,]+)))?")]
+    [GeneratedRegex(@"(?<optional>\[)?(?<long>--[\w-]+)(?:=(?:(?<value><[^>\s]+>?)|(?<value>[^\s,]+)))?")]
     private static partial Regex SnykOptionPattern();
 
     [GeneratedRegex(@"\bUse (?:the )?-d(?: option)?\b", RegexOptions.IgnoreCase)]
