@@ -65,8 +65,7 @@ internal static partial class CliArgumentGroupParser
             // argument from an established constraint group without an explicit heading.
             var preludeStartsGroup = StartsArgumentGroup(preludeLines, prelude)
                 || (preludeIndentation <= declaration.Argument.Indentation
-                    && (Classify(stack.Peek().Description)
-                        & (CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne)) == 0);
+                    && Classify(stack.Peek().Description) == CliArgumentGroupKind.None);
             var parsedArgument = declaration.Argument with
             {
                 Description = description,
@@ -351,6 +350,7 @@ internal static partial class CliArgumentGroupParser
         string? description) =>
         Classify(description) != CliArgumentGroupKind.None
         || DescribesRequiredBundle(description)
+        || ConfigurationHeadingPattern().IsMatch(description ?? string.Empty)
         || lines.Any(line => SectionHeadingPattern().IsMatch(line.Trim()));
 
     private sealed class ArgumentGroupBuilder(int indentation, string? description)
@@ -390,6 +390,9 @@ internal static partial class CliArgumentGroupParser
 
     [GeneratedRegex(@"^(?:(?:Defines the )?configuration for|(?:Bearer token|Basic) authentication with)\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex NamedBundleHeadingPattern();
+
+    [GeneratedRegex(@"^(?:(?:[\w-]+\s+)*configuration for\b|options for\b)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex ConfigurationHeadingPattern();
 
     [GeneratedRegex(@"\s+", RegexOptions.CultureInvariant)]
     private static partial Regex WhitespacePattern();
