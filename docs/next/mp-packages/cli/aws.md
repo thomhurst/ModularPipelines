@@ -4297,6 +4297,7 @@ var aws = context.Tools.Aws;
 | `aws connect list-routing-profiles`                                                  | `AwsConnectListRoutingProfilesOptions`                                              |
 | `aws connect list-rules`                                                             | `AwsConnectListRulesOptions`                                                        |
 | `aws connect list-security-keys`                                                     | `AwsConnectListSecurityKeysOptions`                                                 |
+| `aws connect list-security-profile-ai-agents`                                        | `AwsConnectListSecurityProfileAiAgentsOptions`                                      |
 | `aws connect list-security-profile-applications`                                     | `AwsConnectListSecurityProfileApplicationsOptions`                                  |
 | `aws connect list-security-profile-flow-modules`                                     | `AwsConnectListSecurityProfileFlowModulesOptions`                                   |
 | `aws connect list-security-profile-permissions`                                      | `AwsConnectListSecurityProfilePermissionsOptions`                                   |
@@ -4734,6 +4735,7 @@ var aws = context.Tools.Aws;
 | `aws customer-profiles put-profile-object-type`                                      | `AwsCustomerProfilesPutProfileObjectTypeOptions`                                    |
 | `aws customer-profiles put-segment-subscription`                                     | `AwsCustomerProfilesPutSegmentSubscriptionOptions`                                  |
 | `aws customer-profiles search-profiles`                                              | `AwsCustomerProfilesSearchProfilesOptions`                                          |
+| `aws customer-profiles search-recommendations`                                       | `AwsCustomerProfilesSearchRecommendationsOptions`                                   |
 | `aws customer-profiles start-recommender`                                            | `AwsCustomerProfilesStartRecommenderOptions`                                        |
 | `aws customer-profiles start-upload-job`                                             | `AwsCustomerProfilesStartUploadJobOptions`                                          |
 | `aws customer-profiles stop-recommender`                                             | `AwsCustomerProfilesStopRecommenderOptions`                                         |
@@ -12952,6 +12954,7 @@ var aws = context.Tools.Aws;
 | `aws notifications tag-resource`                                                     | `AwsNotificationsTagResourceOptions`                                                |
 | `aws notifications untag-resource`                                                   | `AwsNotificationsUntagResourceOptions`                                              |
 | `aws notifications update-event-rule`                                                | `AwsNotificationsUpdateEventRuleOptions`                                            |
+| `aws notifications update-managed-notification-channel-association`                  | `AwsNotificationsUpdateManagedNotificationChannelAssociationOptions`                |
 | `aws notifications update-notification-configuration`                                | `AwsNotificationsUpdateNotificationConfigurationOptions`                            |
 | `aws notificationscontacts activate-email-contact`                                   | `AwsNotificationscontactsActivateEmailContactOptions`                               |
 | `aws notificationscontacts create-email-contact`                                     | `AwsNotificationscontactsCreateEmailContactOptions`                                 |
@@ -15297,6 +15300,7 @@ var aws = context.Tools.Aws;
 | `aws resiliencehubv2 delete-test`                                                    | `AwsResiliencehubv2DeleteTestOptions`                                               |
 | `aws resiliencehubv2 delete-test-sources`                                            | `AwsResiliencehubv2DeleteTestSourcesOptions`                                        |
 | `aws resiliencehubv2 delete-user-journey`                                            | `AwsResiliencehubv2DeleteUserJourneyOptions`                                        |
+| `aws resiliencehubv2 get-dependency-insights`                                        | `AwsResiliencehubv2GetDependencyInsightsOptions`                                    |
 | `aws resiliencehubv2 get-failure-mode-finding`                                       | `AwsResiliencehubv2GetFailureModeFindingOptions`                                    |
 | `aws resiliencehubv2 get-policy`                                                     | `AwsResiliencehubv2GetPolicyOptions`                                                |
 | `aws resiliencehubv2 get-service`                                                    | `AwsResiliencehubv2GetServiceOptions`                                               |
@@ -15313,6 +15317,7 @@ var aws = context.Tools.Aws;
 | `aws resiliencehubv2 list-failure-mode-findings`                                     | `AwsResiliencehubv2ListFailureModeFindingsOptions`                                  |
 | `aws resiliencehubv2 list-input-sources`                                             | `AwsResiliencehubv2ListInputSourcesOptions`                                         |
 | `aws resiliencehubv2 list-policies`                                                  | `AwsResiliencehubv2ListPoliciesOptions`                                             |
+| `aws resiliencehubv2 list-policy-events`                                             | `AwsResiliencehubv2ListPolicyEventsOptions`                                         |
 | `aws resiliencehubv2 list-reports`                                                   | `AwsResiliencehubv2ListReportsOptions`                                              |
 | `aws resiliencehubv2 list-resolved-test-run-target-resources`                        | `AwsResiliencehubv2ListResolvedTestRunTargetResourcesOptions`                       |
 | `aws resiliencehubv2 list-resources`                                                 | `AwsResiliencehubv2ListResourcesOptions`                                            |
@@ -15333,6 +15338,7 @@ var aws = context.Tools.Aws;
 | `aws resiliencehubv2 list-tests`                                                     | `AwsResiliencehubv2ListTestsOptions`                                                |
 | `aws resiliencehubv2 list-user-journeys`                                             | `AwsResiliencehubv2ListUserJourneysOptions`                                         |
 | `aws resiliencehubv2 put-test-sources`                                               | `AwsResiliencehubv2PutTestSourcesOptions`                                           |
+| `aws resiliencehubv2 start-dependency-insights`                                      | `AwsResiliencehubv2StartDependencyInsightsOptions`                                  |
 | `aws resiliencehubv2 start-failure-mode-assessment`                                  | `AwsResiliencehubv2StartFailureModeAssessmentOptions`                               |
 | `aws resiliencehubv2 start-test-run`                                                 | `AwsResiliencehubv2StartTestRunOptions`                                             |
 | `aws resiliencehubv2 stop-test-run`                                                  | `AwsResiliencehubv2StopTestRunOptions`                                              |
@@ -17487,6 +17493,7 @@ var aws = context.Tools.Aws;
 | `aws socialmessaging get-linked-whatsapp-business-account`                           | `AwsSocialmessagingGetLinkedWhatsappBusinessAccountOptions`                         |
 | `aws socialmessaging get-linked-whatsapp-business-account-phone-number`              | `AwsSocialmessagingGetLinkedWhatsappBusinessAccountPhoneNumberOptions`              |
 | `aws socialmessaging get-whatsapp-business-public-key`                               | `AwsSocialmessagingGetWhatsappBusinessPublicKeyOptions`                             |
+| `aws socialmessaging get-whatsapp-call-permission`                                   | `AwsSocialmessagingGetWhatsappCallPermissionOptions`                                |
 | `aws socialmessaging get-whatsapp-flow`                                              | `AwsSocialmessagingGetWhatsappFlowOptions`                                          |
 | `aws socialmessaging get-whatsapp-flow-preview`                                      | `AwsSocialmessagingGetWhatsappFlowPreviewOptions`                                   |
 | `aws socialmessaging get-whatsapp-message-media`                                     | `AwsSocialmessagingGetWhatsappMessageMediaOptions`                                  |
@@ -17501,10 +17508,12 @@ var aws = context.Tools.Aws;
 | `aws socialmessaging publish-whatsapp-flow`                                          | `AwsSocialmessagingPublishWhatsappFlowOptions`                                      |
 | `aws socialmessaging put-whatsapp-business-account-event-destinations`               | `AwsSocialmessagingPutWhatsappBusinessAccountEventDestinationsOptions`              |
 | `aws socialmessaging put-whatsapp-business-public-key`                               | `AwsSocialmessagingPutWhatsappBusinessPublicKeyOptions`                             |
+| `aws socialmessaging send-whatsapp-call-event`                                       | `AwsSocialmessagingSendWhatsappCallEventOptions`                                    |
 | `aws socialmessaging send-whatsapp-conversion-event`                                 | `AwsSocialmessagingSendWhatsappConversionEventOptions`                              |
 | `aws socialmessaging send-whatsapp-message`                                          | `AwsSocialmessagingSendWhatsappMessageOptions`                                      |
 | `aws socialmessaging tag-resource`                                                   | `AwsSocialmessagingTagResourceOptions`                                              |
 | `aws socialmessaging untag-resource`                                                 | `AwsSocialmessagingUntagResourceOptions`                                            |
+| `aws socialmessaging update-linked-whatsapp-business-account-phone-number`           | `AwsSocialmessagingUpdateLinkedWhatsappBusinessAccountPhoneNumberOptions`           |
 | `aws socialmessaging update-whatsapp-flow`                                           | `AwsSocialmessagingUpdateWhatsappFlowOptions`                                       |
 | `aws socialmessaging update-whatsapp-flow-assets`                                    | `AwsSocialmessagingUpdateWhatsappFlowAssetsOptions`                                 |
 | `aws socialmessaging update-whatsapp-message-template`                               | `AwsSocialmessagingUpdateWhatsappMessageTemplateOptions`                            |
@@ -18340,6 +18349,7 @@ var aws = context.Tools.Aws;
 | `aws transcribe tag-resource`                                                        | `AwsTranscribeTagResourceOptions`                                                   |
 | `aws transcribe untag-resource`                                                      | `AwsTranscribeUntagResourceOptions`                                                 |
 | `aws transcribe update-call-analytics-category`                                      | `AwsTranscribeUpdateCallAnalyticsCategoryOptions`                                   |
+| `aws transcribe update-language-model`                                               | `AwsTranscribeUpdateLanguageModelOptions`                                           |
 | `aws transcribe update-medical-vocabulary`                                           | `AwsTranscribeUpdateMedicalVocabularyOptions`                                       |
 | `aws transcribe update-vocabulary`                                                   | `AwsTranscribeUpdateVocabularyOptions`                                              |
 | `aws transcribe update-vocabulary-filter`                                            | `AwsTranscribeUpdateVocabularyFilterOptions`                                        |
