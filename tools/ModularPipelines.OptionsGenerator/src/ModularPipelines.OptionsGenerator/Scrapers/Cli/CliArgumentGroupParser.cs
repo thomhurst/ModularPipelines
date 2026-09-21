@@ -258,10 +258,13 @@ internal static partial class CliArgumentGroupParser
         bool namedBundle = false, int? headingIndentation = null)
     {
         var current = stack.Peek();
-        if (indentation == current.Indentation && current.IsNamedBundle && preludeStartsGroup && !namedBundle)
+        var resourceWithinChoice = Classify(prelude).HasFlag(CliArgumentGroupKind.Resource)
+            && (Classify(current.Description) & (CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne)) != 0;
+        if (indentation == current.Indentation && (current.IsNamedBundle || resourceWithinChoice)
+            && preludeStartsGroup && !namedBundle)
         {
-            // Resource prose can sit at the same depth as its provider heading.
-            // End this resource before the next peer flag, while retaining the provider.
+            // Resource prose can share a provider's or choice's flag indentation.
+            // End this resource before the next peer flag while retaining its parent.
             indentation++;
         }
         if (indentation > current.Indentation)
@@ -443,7 +446,7 @@ internal static partial class CliArgumentGroupParser
     [GeneratedRegex(@"^\s*\S\s+provide the argument\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex WrappedArgumentReferencePattern();
 
-    [GeneratedRegex(@"^(?:(?:Defines the )?configuration for|(?:Bearer token|Basic) authentication with)\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    [GeneratedRegex(@"^(?:(?:Defines the )?configuration for|config for|parameters to support|(?:Bearer token|Basic) authentication with)\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex NamedBundleHeadingPattern();
 
     [GeneratedRegex(@"^(?:(?:[\w-]+\s+)*configuration for\b|options for\b)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]

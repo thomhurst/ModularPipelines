@@ -1392,9 +1392,15 @@ public static class UsageSynopsisParser
 
                 // Selectors after ':' belong to the optional side of this resource bundle.
                 // Their own nested requirements still apply when they are selected.
-                foreach (var selector in tokens.Skip(colon + 1).Where(item => item is not (":" or "|")))
+                var selectors = tokens.Skip(colon + 1).ToArray();
+                // Alternatives select whole branches. Splitting their members would
+                // make required children within the selected branch optional too.
+                var optionalSelectors = selectors.Contains("|")
+                    ? SplitTopLevelAlternatives(string.Join(" ", selectors))
+                    : selectors.Where(item => item != ":");
+                foreach (var selector in optionalSelectors)
                 {
-                    yield return EnumerateInlineOptionSwitches([selector]).ToHashSet(StringComparer.Ordinal);
+                    yield return EnumerateInlineOptionSwitches(TokenizeOptionGroup(selector)).ToHashSet(StringComparer.Ordinal);
                 }
             }
 
