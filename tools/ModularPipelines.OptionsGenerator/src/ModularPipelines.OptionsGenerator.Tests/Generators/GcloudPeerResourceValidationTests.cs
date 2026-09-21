@@ -7,6 +7,42 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public partial class RequiredConstructorValidationTests
 {
     [Test]
+    public async Task Gcloud_Mysql_Tls_Is_Optional_And_Requires_A_Complete_Certificate_Bundle()
+    {
+        var command = await GcloudCapturedSemanticsTests.Scrape("datastream connection-profiles create");
+        var group = Descendants(command.RequiredAlternativeGroups)
+            .Single(group => group.Members.Any(member => member.PropertyName == "MysqlHostname"));
+        const string connection = "MysqlHostname,MysqlPort,MysqlUsername,MysqlPassword";
+        await ValidateCapturedGroup(command, group,
+        [
+            ("", true),
+            (connection, true),
+            ("MysqlPort,MysqlUsername,MysqlPassword", false),
+            (connection + ",CaCertificate", false),
+            (connection + ",CaCertificate,ClientCertificate,ClientKey", true),
+        ]);
+    }
+
+    [Test]
+    public async Task Gcloud_Postgresql_Client_Certificates_Are_Optional_Within_Tls()
+    {
+        var command = await GcloudCapturedSemanticsTests.Scrape("datastream connection-profiles create");
+        var group = Descendants(command.RequiredAlternativeGroups)
+            .Single(group => group.Members.Any(member => member.PropertyName == "PostgresqlHostname"));
+        const string connection = "PostgresqlDatabase,PostgresqlHostname,PostgresqlPort,PostgresqlUsername,PostgresqlPassword";
+        await ValidateCapturedGroup(command, group,
+        [
+            ("", true),
+            (connection, true),
+            (connection + ",PostgresqlCaCertificate", true),
+            (connection + ",PostgresqlCaCertificate,PostgresqlServerCertificateHostname", true),
+            (connection + ",PostgresqlClientCertificate,PostgresqlClientKey", false),
+            (connection + ",PostgresqlCaCertificate,PostgresqlClientCertificate", false),
+            (connection + ",PostgresqlCaCertificate,PostgresqlClientCertificate,PostgresqlClientKey", true),
+        ]);
+    }
+
+    [Test]
     public async Task Gcloud_Kerberos_Choice_Keeps_Its_Resource_Bundle_Optional()
     {
         var command = await GcloudCapturedSemanticsTests.Scrape("dataproc clusters create");
@@ -102,7 +138,16 @@ public partial class RequiredConstructorValidationTests
             foreach (var name in properties.Split(',', StringSplitOptions.RemoveEmptyEntries))
             {
                 var property = optionsType.GetProperty(name)!;
-                property.SetValue(instance, property.PropertyType == typeof(bool?) ? true : "value");
+                object value = "value";
+                if (property.PropertyType == typeof(bool?))
+                {
+                    value = true;
+                }
+                else if (property.PropertyType == typeof(int?))
+                {
+                    value = 1;
+                }
+                property.SetValue(instance, value);
             }
 
             var errors = new List<ValidationResult>();
