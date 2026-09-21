@@ -5,9 +5,10 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 internal static class GcloudSynopsisGroupReconciler
 {
     public static CliArgumentGroup Reconcile(CliArgumentGroup group,
-        IReadOnlyList<IReadOnlyList<IReadOnlySet<string>>> synopsisChoices)
+        IReadOnlyList<IReadOnlyList<IReadOnlySet<string>>> synopsisChoices,
+        IReadOnlyList<IReadOnlySet<string>> resourceBundles)
     {
-        group = group with { Groups = [.. group.Groups.Select(child => Reconcile(child, synopsisChoices))] };
+        group = group with { Groups = [.. group.Groups.Select(child => Reconcile(child, synopsisChoices, resourceBundles))] };
         if ((group.Kind & (CliArgumentGroupKind.AtMostOne | CliArgumentGroupKind.AtLeastOne)) == 0)
         {
             return group;
@@ -47,14 +48,18 @@ internal static class GcloudSynopsisGroupReconciler
             return group;
         }
 
+        var reconciled = branches.Select(branch => Bundle(Filter(group, branch) with
+        {
+            Description = null,
+            Kind = CliArgumentGroupKind.None,
+        }, resourceBundles)).ToArray();
+        bool IsDirectMember(CliArgumentGroup branch) => branch.Arguments.Count == 1 && branch.Groups.Count == 0
+            && group.Arguments.Contains(branch.Arguments[0]);
+
         return group with
         {
-            Arguments = [],
-            Groups = [.. branches.Select(branch => Bundle(Filter(group, branch) with
-            {
-                Description = null,
-                Kind = CliArgumentGroupKind.None,
-            }))],
+            Arguments = [.. reconciled.Where(IsDirectMember).Select(branch => branch.Arguments[0])],
+            Groups = [.. reconciled.Where(branch => !IsDirectMember(branch))],
         };
     }
 
@@ -68,23 +73,39 @@ internal static class GcloudSynopsisGroupReconciler
             .Where(child => child.Arguments.Count > 0 || child.Groups.Count > 0)],
     };
 
-    private static CliArgumentGroup Bundle(CliArgumentGroup branch)
+    private static CliArgumentGroup Bundle(CliArgumentGroup branch, IReadOnlyList<IReadOnlySet<string>> resourceBundles)
     {
-        if (branch.Groups.Count != 1)
+        branch = AttachResourceSelectors(branch, resourceBundles);
+        return branch.Arguments.Count == 0 && branch.Groups.Count == 1 ? branch.Groups[0] : branch;
+    }
+
+    private static CliArgumentGroup AttachResourceSelectors(CliArgumentGroup branch, IReadOnlyList<IReadOnlySet<string>> resourceBundles)
+    {
+        var arguments = branch.Arguments.ToList();
+        var groups = branch.Groups.Select(child => AttachResourceSelectors(child, resourceBundles)).ToList();
+        for (var index = 0; index < groups.Count; index++)
         {
-            return branch;
+            var child = groups[index];
+            if (!child.Kind.HasFlag(CliArgumentGroupKind.Resource))
+            {
+                continue;
+            }
+
+            var childSwitches = child.FlattenArguments().Select(argument => argument.SwitchName).ToArray();
+            var resource = resourceBundles.OrderBy(bundle => bundle.Count)
+                .FirstOrDefault(bundle => childSwitches.All(bundle.Contains));
+            if (resource is null)
+            {
+                continue;
+            }
+
+            // Only move selectors confirmed by the resource's own synopsis bundle.
+            // Other flags in the outer branch do not activate this optional resource.
+            var selectors = arguments.Where(argument => resource.Contains(argument.SwitchName)).ToArray();
+            groups[index] = child with { Arguments = [.. child.Arguments, .. selectors] };
+            arguments.RemoveAll(argument => resource.Contains(argument.SwitchName));
         }
 
-        var child = branch.Groups[0];
-        if (branch.Arguments.Count == 0)
-        {
-            return child;
-        }
-
-        // Resource selectors can share their parent's indentation. A synopsis-confirmed
-        // branch keeps those selectors with the resource's conditionally required name.
-        return child.Kind.HasFlag(CliArgumentGroupKind.Resource)
-            ? child with { Arguments = [.. child.Arguments, .. branch.Arguments] }
-            : branch;
+        return branch with { Arguments = arguments, Groups = groups };
     }
 }
