@@ -400,7 +400,7 @@ public partial class SnykCliScraper : CliScraperBase
         HashSet<string> seenOptions)
     {
         var longForm = match.Groups["long"].Value.Trim();
-        var valueHint = match.Groups["value"].Value.Trim().Trim('<', '>', '[', ']');
+        var valueHint = OptionEnumFactory.UnwrapChoiceHint(match.Groups["value"].Value);
         if (!seenOptions.Add(longForm))
         {
             return null;
@@ -429,7 +429,7 @@ public partial class SnykCliScraper : CliScraperBase
             ShortForm = null,
             PropertyName = propertyName,
             CSharpType = AsCSharpType(scalarType, acceptsMultipleValues),
-            Description = description,
+            Description = isBoolean ? description : OptionEnumFactory.PreserveValueHint(enumDefinition, description, valueHint),
             IsFlag = isFlag,
             IsRequired = description is not null && DescriptionDeclaresRequiredOption(description),
             AcceptsMultipleValues = acceptsMultipleValues,
@@ -481,19 +481,8 @@ public partial class SnykCliScraper : CliScraperBase
             return null;
         }
 
-        var values = valueHint.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        return values.Length < 2
-            ? null
-            : new CliEnumDefinition
-            {
-                EnumName = $"Snyk{propertyName}",
-                Values = values.Select(value => new CliEnumValue
-                {
-                    MemberName = GeneratorUtils.ToEnumMemberName(value),
-                    CliValue = value,
-                }).ToList(),
-                Description = $"Allowed values for --{longForm.TrimStart('-')}",
-            };
+        var values = valueHint.Split('|', StringSplitOptions.TrimEntries);
+        return OptionEnumFactory.TryCreateFromHint("Snyk", propertyName, longForm, values);
     }
 
     private static bool IsKnownScalarValueOption(
@@ -582,7 +571,7 @@ public partial class SnykCliScraper : CliScraperBase
 
     private static bool IsBooleanValueHint(string valueHint)
     {
-        var values = valueHint.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        var values = valueHint.Split('|', StringSplitOptions.TrimEntries);
         return values.Length == 2 &&
                values.Contains("true", StringComparer.OrdinalIgnoreCase) &&
                values.Contains("false", StringComparer.OrdinalIgnoreCase);
