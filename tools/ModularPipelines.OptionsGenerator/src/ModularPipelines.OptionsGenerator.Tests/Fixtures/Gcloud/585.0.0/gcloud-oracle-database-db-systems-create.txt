@@ -1,0 +1,540 @@
+NAME
+    gcloud oracle-database db-systems create - create a new DbSystem
+
+SYNOPSIS
+    gcloud oracle-database db-systems create DB_SYSTEM
+        --display-name=DISPLAY_NAME --odb-subnet=ODB_SUBNET [--async]
+        [--gcp-oracle-zone=GCP_ORACLE_ZONE] [--labels=[LABELS,...]]
+        [--location=LOCATION] [--odb-network=ODB_NETWORK]
+        [--request-id=REQUEST_ID] [--secret=SECRET]
+        [[--properties-compute-count=PROPERTIES_COMPUTE_COUNT
+          --properties-database-edition=PROPERTIES_DATABASE_EDITION
+          --properties-initial-data-storage-size-gb=PROPERTIES_INITIAL_DATA_STORAGE_SIZE_GB --properties-license-model=PROPERTIES_LICENSE_MODEL --properties-shape=PROPERTIES_SHAPE --properties-ssh-public-keys=[PROPERTIES_SSH_PUBLIC_KEYS,
+          ...]
+          : --db-system-options-storage-management=DB_SYSTEM_OPTIONS_STORAGE_MANAGEMENT --properties-compute-model=PROPERTIES_COMPUTE_MODEL --properties-data-storage-size-gb=PROPERTIES_DATA_STORAGE_SIZE_GB --properties-domain=PROPERTIES_DOMAIN --properties-hostname-prefix=PROPERTIES_HOSTNAME_PREFIX --properties-memory-size-gb=PROPERTIES_MEMORY_SIZE_GB --properties-node-count=PROPERTIES_NODE_COUNT --properties-private-ip=PROPERTIES_PRIVATE_IP --properties-reco-storage-size-gb=PROPERTIES_RECO_STORAGE_SIZE_GB --data-collection-options-is-diagnostics-events-enabled --data-collection-options-is-incident-logs-enabled [--db-home-version=DB_HOME_VERSION (--database-admin-password=DATABASE_ADMIN_PASSWORD --database-admin-password-secret-version=DATABASE_ADMIN_PASSWORD_SECRET_VERSION --database-character-set=DATABASE_CHARACTER_SET --database-db-home-name=DATABASE_DB_HOME_NAME --database-db-name=DATABASE_DB_NAME --database-db-unique-name=DATABASE_DB_UNIQUE_NAME --database-id=DATABASE_ID --database-name=DATABASE_NAME --database-ncharacter-set=DATABASE_NCHARACTER_SET --database-pluggable-id=DATABASE_PLUGGABLE_ID --database-pluggable-name=DATABASE_PLUGGABLE_NAME --database-tde-wallet-password=DATABASE_TDE_WALLET_PASSWORD --database-tde-wallet-password-secret-version=DATABASE_TDE_WALLET_PASSWORD_SECRET_VERSION [--properties-db-version=PROPERTIES_DB_VERSION : --db-backup-config-auto-enabled --db-backup-config-auto-full-day=DB_BACKUP_CONFIG_AUTO_FULL_DAY --db-backup-config-auto-full-window=DB_BACKUP_CONFIG_AUTO_FULL_WINDOW --db-backup-config-auto-incremental-window=DB_BACKUP_CONFIG_AUTO_INCREMENTAL_WINDOW --db-backup-config-deletion-policy=DB_BACKUP_CONFIG_DELETION_POLICY --db-backup-config-destination-details=[type=TYPE] --db-backup-config-retention-period-days=DB_BACKUP_CONFIG_RETENTION_PERIOD_DAYS]) : --db-home-display-name=DB_HOME_DISPLAY_NAME --db-home-is-unified-auditing-enabled] --time-zone-id=TIME_ZONE_ID --time-zone-version=TIME_ZONE_VERSION]]
+        [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Create a new DbSystem.
+
+EXAMPLES
+    Choose an available db-version in your location by running gcloud
+    oracle-database db-versions list --location=us-east4. Choose an available
+    db-system-initial-storage-size in your location by running gcloud
+    oracle-database db-system-initial-storage-sizes list --location=us-east4.
+    Choose an available shape in your location by running gcloud
+    oracle-database db-system-shapes list --location=us-east4. To create
+    DbSystem with id my-db-system in the location us-east4 with display-name my
+    db system, run:
+
+        $ gcloud oracle-database db-systems create my-db-system \
+            --location=us-east4 --display-name="my db system" \
+            --properties-db-home-db-version=xx.0.0.0 \
+            --properties-db-system-initial-storage-size=1000 \
+            --properties-shape=VM.FOO
+
+    To create a DbSystem with pluggable database parameters specified, run:
+
+        $ gcloud oracle-database db-systems create my-db-system \
+            --location=us-east4 --display-name="my db system" \
+            --properties-db-home-db-version=xx.0.0.0 \
+            --properties-db-system-initial-storage-size=1000 \
+            --properties-shape=VM.FOO --database-pluggable-id=my-pdb-id \
+            --database-pluggable-name=my_pdb_name
+
+POSITIONAL ARGUMENTS
+     DbSystem resource - Identifier. The name of the DbSystem resource in the
+     following format:
+     projects/{project}/locations/{region}/dbSystems/{db_system} This
+     represents a Cloud resource. (NOTE) Some attributes are not given
+     arguments in this group but can be set in other ways.
+
+     To set the project attribute:
+      * provide the argument db_system on the command line with a fully
+        specified name;
+      * provide the argument --project on the command line;
+      * set the property core/project.
+
+     To set the location attribute:
+      * provide the argument db_system on the command line with a fully
+        specified name;
+      * provide the argument --location on the command line.
+
+     This must be specified.
+
+       DB_SYSTEM
+          ID of the dbSystem or fully qualified identifier for the dbSystem.
+
+          To set the db_system attribute:
+          + provide the argument db_system on the command line.
+
+REQUIRED FLAGS
+     --display-name=DISPLAY_NAME
+        The display name for the System db. The name does not have to be unique
+        within your project.
+
+     OdbSubnet resource - The name of the OdbSubnet associated with the
+     DbSystem for IP allocation. Format:
+     projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet}
+     This represents a Cloud resource. (NOTE) Some attributes are not given
+     arguments in this group but can be set in other ways.
+
+     To set the project attribute:
+      * provide the argument --odb-subnet on the command line with a fully
+        specified name;
+      * provide the argument --project on the command line;
+      * set the property core/project.
+
+     To set the location attribute:
+      * provide the argument --odb-subnet on the command line with a fully
+        specified name;
+      * provide the argument --location on the command line.
+
+     To set the odb-network attribute:
+      * provide the argument --odb-subnet on the command line with a fully
+        specified name;
+      * provide the argument --odb-network on the command line.
+
+     This must be specified.
+
+       --odb-subnet=ODB_SUBNET
+          ID of the odbSubnet or fully qualified identifier for the odbSubnet.
+
+          To set the odb-subnet attribute:
+          + provide the argument --odb-subnet on the command line.
+
+OPTIONAL FLAGS
+     --async
+        Return immediately, without waiting for the operation in progress to
+        complete.
+
+     --gcp-oracle-zone=GCP_ORACLE_ZONE
+        The GCP Oracle zone where Oracle DbSystem is hosted. Example:
+        us-east4-b-r2. If not specified, the system will pick a zone based on
+        availability.
+
+     --labels=[LABELS,...]
+        The labels or tags associated with the DbSystem.
+
+         KEY
+            Keys must start with a lowercase character and contain only hyphens
+            (-), underscores (_), lowercase characters, and numbers.
+
+         VALUE
+            Values must contain only hyphens (-), underscores (_), lowercase
+            characters, and numbers.
+
+        Shorthand Example:
+
+            --labels=string=string
+
+        JSON Example:
+
+            --labels='{"string": "string"}'
+
+        File Example:
+
+            --labels=path_to_file.(yaml|json)
+
+     --location=LOCATION
+        For resources [db_system, odb-network, odb-subnet], provides fallback
+        value for resource location attribute. When the resource's full URI
+        path is not provided, location will fallback to this flag value.
+
+     --odb-network=ODB_NETWORK
+        For resources [odb-network, odb-subnet], provides fallback value for
+        resource odb-network attribute. When the resource's full URI path is
+        not provided, odb-network will fallback to this flag value.
+
+     --request-id=REQUEST_ID
+        An optional request ID to identify requests. Specify a unique request
+        ID so that if you must retry your request, the server will know to
+        ignore the request if it has already been completed. The server will
+        guarantee that for at least 60 minutes since the first request.
+
+        For example, consider a situation where you make an initial request and
+        the request times out. If you make the request again with the same
+        request ID, the server can check if original operation with the same
+        request ID was received, and if so, will ignore the second request.
+        This prevents clients from accidentally creating duplicate commitments.
+
+        The request ID must be a valid UUID with the exception that zero UUID
+        is not supported (00000000-0000-0000-0000-000000000000).
+
+     --secret=SECRET
+        For resources [database-admin-password-secret-version,
+        database-tde-wallet-password-secret-version], provides fallback value
+        for resource secret attribute. When the resource's full URI path is not
+        provided, secret will fallback to this flag value.
+
+     The properties of a DbSystem.
+
+     --properties-compute-count=PROPERTIES_COMPUTE_COUNT
+        The number of CPU cores to enable for the DbSystem.
+
+        This flag argument must be specified if any of the other arguments in
+        this group are specified.
+
+     --properties-database-edition=PROPERTIES_DATABASE_EDITION
+        The database edition of the DbSystem. PROPERTIES_DATABASE_EDITION must
+        be one of:
+
+         enterprise-edition
+            The database edition is Enterprise.
+         enterprise-edition-high-performance
+            The database edition is Enterprise Edition.
+         standard-edition
+            The database edition is Standard.
+
+        This flag argument must be specified if any of the other arguments in
+        this group are specified.
+
+     --properties-initial-data-storage-size-gb=PROPERTIES_INITIAL_DATA_STORAGE_SIZE_GB
+        The initial data storage size in GB.
+
+        This flag argument must be specified if any of the other arguments in
+        this group are specified.
+
+     --properties-license-model=PROPERTIES_LICENSE_MODEL
+        The license model of the DbSystem. PROPERTIES_LICENSE_MODEL must be one
+        of:
+
+         bring-your-own-license
+            The license model is bring your own license.
+         license-included
+            The license model is included.
+
+        This flag argument must be specified if any of the other arguments in
+        this group are specified.
+
+     --properties-shape=PROPERTIES_SHAPE
+        Shape of DB System.
+
+        This flag argument must be specified if any of the other arguments in
+        this group are specified.
+
+     --properties-ssh-public-keys=[PROPERTIES_SSH_PUBLIC_KEYS,...]
+        SSH public keys to be stored with the DbSystem.
+
+        This flag argument must be specified if any of the other arguments in
+        this group are specified.
+
+     Details of the DbSystem Options.
+
+     --db-system-options-storage-management=DB_SYSTEM_OPTIONS_STORAGE_MANAGEMENT
+        The storage option used in DB system.
+        DB_SYSTEM_OPTIONS_STORAGE_MANAGEMENT must be one of:
+
+         asm
+            Automatic storage management. This option is not supported. Only
+            LVM is supported.
+         lvm
+            Logical Volume management.
+
+     --properties-compute-model=PROPERTIES_COMPUTE_MODEL
+        The compute model of the DbSystem. PROPERTIES_COMPUTE_MODEL must be one
+        of:
+
+         ecpu
+            The compute model is virtual.
+         ocpu
+            Deprecated: This option is not supported. Please use ECPU instead.
+            The compute model is physical.
+
+     --properties-data-storage-size-gb=PROPERTIES_DATA_STORAGE_SIZE_GB
+        The data storage size in GB that is currently available to DbSystems.
+        The value is same as initial_data_storage_size_gb. This can be modified
+        from OCI console.
+
+     --properties-domain=PROPERTIES_DOMAIN
+        The host domain name of the DbSystem.
+
+     --properties-hostname-prefix=PROPERTIES_HOSTNAME_PREFIX
+        Prefix for DB System host names.
+
+     --properties-memory-size-gb=PROPERTIES_MEMORY_SIZE_GB
+        The memory size in GB. This value can not be set and is automatically
+        calculated based on the number of ECPUs allocated to the DbSystem.
+
+     --properties-node-count=PROPERTIES_NODE_COUNT
+        The number of nodes to launch for a virtual machine DbSystem. By
+        default this will be set to 1.
+
+     --properties-private-ip=PROPERTIES_PRIVATE_IP
+        The private IP address of the DbSystem.
+
+     --properties-reco-storage-size-gb=PROPERTIES_RECO_STORAGE_SIZE_GB
+        The reco/redo storage size in GB. The value for recovery storage size
+        is based on the available data storage size.
+
+     Data collection options for DbSystem.
+
+     --data-collection-options-is-diagnostics-events-enabled
+        Indicates whether to enable data collection for diagnostics.
+
+     --data-collection-options-is-incident-logs-enabled
+        Indicates whether to enable incident logs and trace collection.
+
+     Details of the Database Home resource.
+
+     --db-home-version=DB_HOME_VERSION
+        A valid Oracle Database version. For a list of supported versions, use
+        the ListDbVersions operation.
+
+        This flag argument must be specified if any of the other arguments in
+        this group are specified.
+
+     --db-home-display-name=DB_HOME_DISPLAY_NAME
+        The display name for the Database Home. The name does not have to be
+        unique within your project.
+
+     --db-home-is-unified-auditing-enabled
+        Whether unified auditing is enabled for the Database Home.
+
+     Details of the Database resource.
+     https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/Database/
+
+     At least one of these must be specified:
+
+       --database-admin-password=DATABASE_ADMIN_PASSWORD
+          The password for the default ADMIN user. Note: Only one of
+          admin_password_secret_version or admin_password can be populated.
+
+       SecretVersion resource - The resource name of a secret version in Secret
+       Manager which contains the database admin user's password. Format:
+       projects/{project}/secrets/{secret}/versions/{version}. Note: Only one
+       of admin_password_secret_version or admin_password can be populated.
+       This represents a Cloud resource. (NOTE) Some attributes are not given
+       arguments in this group but can be set in other ways.
+
+       To set the project attribute:
+        + provide the argument --database-admin-password-secret-version on
+          the command line with a fully specified name;
+        + provide the argument --project on the command line;
+        + set the property core/project.
+
+       To set the secret attribute:
+        + provide the argument --database-admin-password-secret-version on
+          the command line with a fully specified name;
+        + provide the argument --secret on the command line.
+
+       --database-admin-password-secret-version=DATABASE_ADMIN_PASSWORD_SECRET_VERSION
+          ID of the secretVersion or fully qualified identifier for the
+          secretVersion.
+
+          To set the secret-version attribute:
+          + provide the argument --database-admin-password-secret-version on
+            the command line.
+
+       --database-character-set=DATABASE_CHARACTER_SET
+          The character set for the database. The default is AL32UTF8.
+
+       --database-db-home-name=DATABASE_DB_HOME_NAME
+          The name of the DbHome resource associated with the Database.
+
+       --database-db-name=DATABASE_DB_NAME
+          The database name. The name must begin with an alphabetic character
+          and can contain a maximum of eight alphanumeric characters. Special
+          characters are not permitted.
+
+       --database-db-unique-name=DATABASE_DB_UNIQUE_NAME
+          The DB_UNIQUE_NAME of the Oracle Database being backed up.
+
+       --database-id=DATABASE_ID
+          The database ID of the Database.
+
+       --database-name=DATABASE_NAME
+          Identifier. The name of the Database resource in the following
+          format: projects/{project}/locations/{region}/databases/{database}
+
+       --database-ncharacter-set=DATABASE_NCHARACTER_SET
+          The national character set for the database. The default is
+          AL16UTF16.
+
+       --database-pluggable-id=DATABASE_PLUGGABLE_ID
+          The ID of the pluggable database associated with the Database. The ID
+          must be unique within the project and location.
+
+       --database-pluggable-name=DATABASE_PLUGGABLE_NAME
+          The pluggable database associated with the Database. The name must
+          begin with an alphabetic character and can contain a maximum of
+          thirty alphanumeric characters.
+
+       --database-tde-wallet-password=DATABASE_TDE_WALLET_PASSWORD
+          The TDE wallet password for the database. Note: Only one of
+          tde_wallet_password_secret_version or tde_wallet_password can be
+          populated.
+
+       SecretVersion resource - The resource name of a secret version in Secret
+       Manager which contains the TDE wallet password for the database. Format:
+       projects/{project}/secrets/{secret}/versions/{version}. Note: Only one
+       of tde_wallet_password_secret_version or tde_wallet_password can be
+       populated. This represents a Cloud resource. (NOTE) Some attributes are
+       not given arguments in this group but can be set in other ways.
+
+       To set the project attribute:
+        + provide the argument --database-tde-wallet-password-secret-version
+          on the command line with a fully specified name;
+        + provide the argument --project on the command line;
+        + set the property core/project.
+
+       To set the secret attribute:
+        + provide the argument --database-tde-wallet-password-secret-version
+          on the command line with a fully specified name;
+        + provide the argument --secret on the command line.
+
+       --database-tde-wallet-password-secret-version=DATABASE_TDE_WALLET_PASSWORD_SECRET_VERSION
+          ID of the secretVersion or fully qualified identifier for the
+          secretVersion.
+
+          To set the secret-version attribute:
+          + provide the argument
+            --database-tde-wallet-password-secret-version on the command line.
+
+       The properties of a Database.
+
+       --properties-db-version=PROPERTIES_DB_VERSION
+          The Oracle Database version.
+
+          This flag argument must be specified if any of the other arguments in
+          this group are specified.
+
+       Backup Options for the Database.
+
+       --db-backup-config-auto-enabled
+          If set to true, enables automatic backups on the database.
+
+       --db-backup-config-auto-full-day=DB_BACKUP_CONFIG_AUTO_FULL_DAY
+          The day of the week on which the full backup should be performed on
+          the database. If no value is provided, it will default to Sunday.
+          DB_BACKUP_CONFIG_AUTO_FULL_DAY must be one of:
+
+           friday
+              Friday
+           monday
+              Monday
+           saturday
+              Saturday
+           sunday
+              Sunday
+           thursday
+              Thursday
+           tuesday
+              Tuesday
+           wednesday
+              Wednesday
+
+       --db-backup-config-auto-full-window=DB_BACKUP_CONFIG_AUTO_FULL_WINDOW
+          The window in which the full backup should be performed on the
+          database. If no value is provided, the default is anytime.
+          DB_BACKUP_CONFIG_AUTO_FULL_WINDOW must be one of:
+
+           slot-eight
+              2:00 PM - 4:00 PM
+           slot-eleven
+              8:00 PM - 10:00 PM
+           slot-five
+              8:00 AM - 10:00 AM
+           slot-four
+              6:00 AM - 8:00 AM
+           slot-nine
+              4:00 PM - 6:00 PM
+           slot-one
+              12:00 AM - 2:00 AM
+           slot-seven
+              12:00 PM - 2:00 PM
+           slot-six
+              10:00 AM - 12:00 PM
+           slot-ten
+              6:00 PM - 8:00 PM
+           slot-three
+              4:00 AM - 6:00 AM
+           slot-twelve
+              10:00 PM - 12:00 AM
+           slot-two
+              2:00 AM - 4:00 AM
+
+       --db-backup-config-auto-incremental-window=DB_BACKUP_CONFIG_AUTO_INCREMENTAL_WINDOW
+          The window in which the incremental backup should be performed on the
+          database. If no value is provided, the default is anytime except the
+          auto full backup day. DB_BACKUP_CONFIG_AUTO_INCREMENTAL_WINDOW must
+          be one of:
+
+           slot-eight
+              2:00 PM - 4:00 PM
+           slot-eleven
+              8:00 PM - 10:00 PM
+           slot-five
+              8:00 AM - 10:00 AM
+           slot-four
+              6:00 AM - 8:00 AM
+           slot-nine
+              4:00 PM - 6:00 PM
+           slot-one
+              12:00 AM - 2:00 AM
+           slot-seven
+              12:00 PM - 2:00 PM
+           slot-six
+              10:00 AM - 12:00 PM
+           slot-ten
+              6:00 PM - 8:00 PM
+           slot-three
+              4:00 AM - 6:00 AM
+           slot-twelve
+              10:00 PM - 12:00 AM
+           slot-two
+              2:00 AM - 4:00 AM
+
+       --db-backup-config-deletion-policy=DB_BACKUP_CONFIG_DELETION_POLICY
+          This defines when the backups will be deleted after Database
+          termination. DB_BACKUP_CONFIG_DELETION_POLICY must be one of:
+
+           delete-after-retention-period
+              Keeps the backups as per the policy defined for database backups.
+           delete-immediately
+              Keeps the backup for predefined time i.e. 72 hours and then
+              delete permanently.
+
+       --db-backup-config-destination-details=[type=TYPE]
+          Details of the database backup destinations.
+
+           type
+              The type of the database backup destination.
+
+          Shorthand Example:
+
+              --db-backup-config-destination-details=type=string --db-backup-config-destination-details=type=string
+
+          JSON Example:
+
+              --db-backup-config-destination-details='[{"type": "string"}]'
+
+          File Example:
+
+              --db-backup-config-destination-details=path_to_file.(yaml|json)
+
+       --db-backup-config-retention-period-days=DB_BACKUP_CONFIG_RETENTION_PERIOD_DAYS
+          The number of days an automatic backup is retained before being
+          automatically deleted. This value determines the earliest point in
+          time to which a database can be restored. Min: 1, Max: 60.
+
+     Represents a time zone from the IANA Time Zone Database
+     (https://www.iana.org/time-zones).
+
+     --time-zone-id=TIME_ZONE_ID
+        IANA Time Zone Database time zone. For example "America/New_York".
+
+     --time-zone-version=TIME_ZONE_VERSION
+        IANA Time Zone Database version number. For example "2019a".
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.
+
+API REFERENCE
+    This command uses the oracledatabase/v1 API. The full documentation for
+    this API can be found at: https://cloud.google.com/oracle/database/docs

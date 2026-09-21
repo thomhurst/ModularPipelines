@@ -1369,11 +1369,12 @@ public static class UsageSynopsisParser
         return result.Append(synopsis, offset, synopsis.Length - offset).ToString();
     }
 
-    internal static IEnumerable<IReadOnlySet<string>> GetOptionalResourceOptionGroups(string? synopsis)
+    internal static IEnumerable<IReadOnlySet<string>> GetOptionalResourceOptionGroups(string? synopsis,
+        IReadOnlyList<CliArgumentGroup>? documentedGroups = null)
     {
         return synopsis is null ? [] : Tokenize(synopsis).SelectMany(token => Visit(token, false));
 
-        static IEnumerable<IReadOnlySet<string>> Visit(string token, bool optional)
+        IEnumerable<IReadOnlySet<string>> Visit(string token, bool optional)
         {
             if (!IsWrapped(token))
             {
@@ -1392,9 +1393,32 @@ public static class UsageSynopsisParser
 
                 // Selectors after ':' belong to the optional side of this resource bundle.
                 // Their own nested requirements still apply when they are selected.
-                foreach (var selector in tokens.Skip(colon + 1).Where(item => item is not (":" or "|")))
+                var selectors = tokens.Skip(colon + 1).ToArray();
+                // Alternatives select whole branches. Splitting their members would
+                // make required children within the selected branch optional too.
+                var optionalSelectors = selectors.Contains("|")
+                    ? SplitTopLevelAlternatives(string.Join(" ", selectors))
+                    : selectors.Where(item => item != ":");
+                foreach (var selector in optionalSelectors)
                 {
-                    yield return EnumerateInlineOptionSwitches([selector]).ToHashSet(StringComparer.Ordinal);
+                    var selectorTokens = TokenizeOptionGroup(selector);
+                    var switches = EnumerateInlineOptionSwitches(selectorTokens).ToHashSet(StringComparer.Ordinal);
+                    // gcloud can print common optional selectors before a nested choice
+                    // without wrapping that choice. Keep a whole branch only when its
+                    // documented group confirms the same members.
+                    if (documentedGroups is not null && selectorTokens.Count > 1
+                        && !EnumerateArgumentGroups(documentedGroups).Any(group => switches.SetEquals(
+                            group.FlattenArguments().Select(argument => argument.SwitchName))))
+                    {
+                        foreach (var selectorToken in selectorTokens.Where(item => item is not (":" or "|")))
+                        {
+                            yield return EnumerateInlineOptionSwitches([selectorToken]).ToHashSet(StringComparer.Ordinal);
+                        }
+                    }
+                    else
+                    {
+                        yield return switches;
+                    }
                 }
             }
 

@@ -6,6 +6,14 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class GcloudCapturedSemanticsTests
 {
     [Test]
+    public async Task Captured_Api_Key_Http_Location_Is_Not_Secret_Material()
+    {
+        var command = await Scrape("apihub plugins instances create");
+        var location = command.Options.Single(option => option.PropertyName == "ApiKeyConfigHttpElementLocation");
+        await Assert.That(location.IsSecret).IsFalse();
+    }
+
+    [Test]
     public async Task Captured_Command_Enums_Preserve_Different_Edition_Values()
     {
         var firestore = await Scrape("firestore databases create");

@@ -10,6 +10,64 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class UsageSynopsisParserTests
 {
     [Test]
+    public async Task Optional_Common_Selectors_Remain_Independent_Of_Nested_Alternatives()
+    {
+        var documentedGroup = new CliArgumentGroup
+        {
+            Arguments =
+            [
+                new() { SwitchName = "--host" },
+                new() { SwitchName = "--directory" },
+                new() { SwitchName = "--certificate" },
+            ],
+            Groups =
+            [
+                new()
+                {
+                    Kind = CliArgumentGroupKind.AtMostOne,
+                    Groups =
+                    [
+                        new() { Arguments = [new() { SwitchName = "--token" }] },
+                        new() { Arguments = [new() { SwitchName = "--username" }, new() { SwitchName = "--password" }] },
+                    ],
+                },
+            ],
+        };
+        var groups = UsageSynopsisParser.GetOptionalResourceOptionGroups(
+            "tool run [--host=HOST : --directory=DIR --certificate=CERT --token=TOKEN | [--username=USER : --password=PASSWORD]]",
+            [documentedGroup]).ToArray();
+
+        await Assert.That(groups.Any(group => group.SetEquals(["--directory"]))).IsTrue();
+        await Assert.That(groups.Any(group => group.SetEquals(["--certificate"]))).IsTrue();
+        await Assert.That(groups.Any(group => group.SetEquals(["--token"]))).IsTrue();
+        await Assert.That(groups.Any(group => group.SetEquals(["--username", "--password"]))).IsTrue();
+        await Assert.That(groups.Any(group => group.SetEquals(["--password"]))).IsTrue();
+        await Assert.That(groups.Any(group => group.SetEquals(["--directory", "--certificate", "--token"]))).IsFalse();
+    }
+
+    [Test]
+    public async Task Optional_Selectors_Preserve_Whole_Alternative_Branches()
+    {
+        var groups = UsageSynopsisParser.GetOptionalResourceOptionGroups(
+            "tool run [--kind=KIND : --id=ID --secret=SECRET | --user=USER --password=PASSWORD]")
+            .ToArray();
+        await Assert.That(groups).Count().IsEqualTo(3);
+        await Assert.That(groups[1]).IsEquivalentTo(["--id", "--secret"]);
+        await Assert.That(groups[2]).IsEquivalentTo(["--user", "--password"]);
+    }
+
+    [Test]
+    public async Task Alternative_Branches_Preserve_Explicitly_Optional_Nested_Resources()
+    {
+        var groups = UsageSynopsisParser.GetOptionalResourceOptionGroups(
+            "tool run [--kind=KIND : --id=ID [--secret=SECRET : --secret-project=PROJECT] | --user=USER]")
+            .ToArray();
+        await Assert.That(groups.Any(group => group.SetEquals(["--id", "--secret", "--secret-project"]))).IsTrue();
+        await Assert.That(groups.Any(group => group.SetEquals(["--secret", "--secret-project"]))).IsTrue();
+        await Assert.That(groups.Any(group => group.SetEquals(["--secret-project"]))).IsTrue();
+    }
+
+    [Test]
     [Arguments("(RESOURCE --parent=PARENT)")]
     [Arguments("(RESOURCE --parent=PARENT [--optional=VALUE])")]
     [Arguments("((RESOURCE --parent=PARENT) [--optional=VALUE])")]

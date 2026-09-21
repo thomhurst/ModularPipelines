@@ -1013,6 +1013,7 @@ public static partial class GeneratorUtils
         }
 
         return SecretMetadataSuffixes.Any(suffix => EndsWithIdentifierSegment(propertyName, suffix))
+               || (EndsWithIdentifierSegment(propertyName, "Location") && !DescriptionIdentifiesSecretValue(description))
                || (!string.IsNullOrWhiteSpace(description) && CountDescriptionPattern().IsMatch(description));
     }
 
