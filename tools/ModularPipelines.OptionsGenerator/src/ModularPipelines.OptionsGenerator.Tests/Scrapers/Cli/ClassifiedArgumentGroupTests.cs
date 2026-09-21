@@ -5,6 +5,35 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public partial class NestedArgumentGroupParsingTests
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Choice_Heading_Depth_Determines_Peer_Or_Nested_Group(bool nested)
+    {
+        var indentation = nested ? "    " : "  ";
+        var section = $"""
+              Options for configuring the instance.
+
+            {indentation}--size=SIZE
+            {indentation}   The instance size.
+
+            {indentation}At most one of these can be specified:
+
+            {indentation}  --region=REGION
+            {indentation}     The region.
+
+            {indentation}  --zone=ZONE
+            {indentation}     The zone.
+            """;
+        var root = TestArgumentGroupScraper.ParseGroups(section);
+        await Assert.That(root.Groups).Count().IsEqualTo(nested ? 1 : 2);
+        var choice = nested ? root.Groups.Single().Groups.Single() : root.Groups[1];
+        await Assert.That(choice.Kind).IsEqualTo(CliArgumentGroupKind.AtMostOne);
+        await Assert.That(choice.Arguments.Select(argument => argument.SwitchName))
+            .IsEquivalentTo(["--region", "--zone"]);
+        await Assert.That(root.Groups[0].Arguments.Single().SwitchName).IsEqualTo("--size");
+    }
+
+    [Test]
     public async Task Classifiable_Sibling_Headings_Preserve_The_Outer_Choice()
     {
         const string section = """

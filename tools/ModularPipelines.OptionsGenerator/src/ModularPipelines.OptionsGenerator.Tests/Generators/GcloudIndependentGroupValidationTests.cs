@@ -6,6 +6,17 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public partial class RequiredConstructorValidationTests
 {
     [Test]
+    public async Task Gcloud_Sql_Region_Does_Not_Inherit_Autoscaling_Description()
+    {
+        var command = await GcloudCapturedSemanticsTests.Scrape("sql instances create");
+        foreach (var name in new[] { "Region", "GceZone", "SecondaryZone", "Zone" })
+        {
+            await Assert.That(command.Options.Single(option => option.PropertyName == name).Description)
+                .DoesNotContain("auto scale");
+        }
+    }
+
+    [Test]
     public async Task Gcloud_Sql_Independent_Groups_Validate_Only_Their_Own_Members()
     {
         var command = await GcloudCapturedSemanticsTests.Scrape("sql instances create");
