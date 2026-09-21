@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,63 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("certificate-manager", "maps", "entries", "create")]
-public record GcloudCertificateManagerMapsEntriesCreateOptions : GcloudOptions
+public record GcloudCertificateManagerMapsEntriesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a certificate map     entry
+    /// </summary>
+    /// <param name="Entry">Certificate map entry resource - The certificate map entry to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the certificate map entry or fully qualified identifier for the certificate map entry. To set the entry attribute: ▸ provide the argument entry on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudCertificateManagerMapsEntriesCreateOptions(
+        string Entry
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Entry);
+        this.Entry = Entry;
+    }
+
+    public void Deconstruct(out string Entry)
+    {
+        Entry = this.Entry;
+    }
+
+    /// <summary>
+    /// Certificate map entry resource - The certificate map entry to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the certificate map entry. To set the location attribute: ▸ provide the argument entry on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ default value of location is [global].
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Certificate map entry resource - The certificate map entry to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The certificate map for the certificate map entry. To set the map attribute: ▸ provide the argument entry on the command line with a fully specified name; ▸ provide the argument --map on the command line.
+    /// </summary>
+    [CliOption("--map", Format = OptionFormat.EqualsSeparated)]
+    public string? Map { get; set; }
+
+    /// <summary>
+    /// Arguments to configure matcher for the certificate map entry. Exactly one of these must be specified: A domain name (FQDN), which controls when list of certificates specified in the resource will be taken under consideration for certificate selection.
+    /// </summary>
+    [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]
+    public string? Hostname { get; set; }
+
+    /// <summary>
+    /// Arguments to configure matcher for the certificate map entry. Exactly one of these must be specified: The certificate will be used as the default cert if no other certificate in the map matches on SNI.
+    /// </summary>
+    [CliFlag("--set-primary")]
+    public bool? SetPrimary { get; set; }
+
+    /// <summary>
+    /// Certificate map entry resource - The certificate map entry to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the certificate map entry or fully qualified identifier for the certificate map entry. To set the entry attribute: ▸ provide the argument entry on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Entry { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Hostname) ? 1 : 0) + (SetPrimary == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Hostname or SetPrimary must be specified.", [nameof(Hostname), nameof(SetPrimary)]);
+        }
+        yield break;
+    }
+
 }

@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("infra-manager", "deployments", "import-statefile")]
 public record GcloudInfraManagerDeploymentsImportStatefileOptions : GcloudOptions
 {
+    /// <summary>
+    /// import a terraform     state file
+    /// </summary>
+    /// <param name="LockId">Lock ID of the lock file to verify person importing owns lock.</param>
+    /// <param name="Deployment">Deployment resource - the deployment to be used as parent. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument DEPLOYMENT on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the deployment or fully qualified identifier for the deployment. To set the deployment attribute: ▸ provide the argument DEPLOYMENT on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudInfraManagerDeploymentsImportStatefileOptions(
+        string LockId,
+        string Deployment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LockId);
+        this.LockId = LockId;
+        global::System.ArgumentNullException.ThrowIfNull(Deployment);
+        this.Deployment = Deployment;
+    }
+
+    public void Deconstruct(out string LockId, out string Deployment)
+    {
+        LockId = this.LockId;
+        Deployment = this.Deployment;
+    }
+
+    /// <summary>
+    /// Lock ID of the lock file to verify person importing owns lock.
+    /// </summary>
+    [CliOption("--lock-id", Format = OptionFormat.EqualsSeparated)]
+    public string LockId { get; private init; }
+
+    /// <summary>
+    /// Deployment resource - the deployment to be used as parent. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument DEPLOYMENT on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the deployment. To set the location attribute: ▸ provide the argument DEPLOYMENT on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property infra-manager/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// File path for importing statefile into a deployment. It specifies the local file path of an existing Terraform statefile to directly upload for a deployment.
+    /// </summary>
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public string? File { get; set; }
+
+    /// <summary>
+    /// Deployment resource - the deployment to be used as parent. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument DEPLOYMENT on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the deployment or fully qualified identifier for the deployment. To set the deployment attribute: ▸ provide the argument DEPLOYMENT on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Deployment { get; private init; }
+
 }

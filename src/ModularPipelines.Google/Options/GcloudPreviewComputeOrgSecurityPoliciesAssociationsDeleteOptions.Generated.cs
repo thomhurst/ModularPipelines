@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "org-security-policies", "associations", "delete")]
-public record GcloudPreviewComputeOrgSecurityPoliciesAssociationsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeOrgSecurityPoliciesAssociationsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a     Compute Engine organization security policy association
+    /// </summary>
+    /// <param name="SecurityPolicy">short name or ID of the security policy ID of the association.</param>
+    /// <param name="Name">Name of the association to delete.</param>
+    public GcloudPreviewComputeOrgSecurityPoliciesAssociationsDeleteOptions(
+        string SecurityPolicy,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityPolicy);
+        this.SecurityPolicy = SecurityPolicy;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string SecurityPolicy, out string Name)
+    {
+        SecurityPolicy = this.SecurityPolicy;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// short name or ID of the security policy ID of the association.
+    /// </summary>
+    [CliOption("--security-policy", Format = OptionFormat.EqualsSeparated)]
+    public string SecurityPolicy { get; private init; }
+
+    /// <summary>
+    /// ID of the organization in which the security policy is to be detached. Must be set if SECURITY_POLICY is short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Name of the association to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

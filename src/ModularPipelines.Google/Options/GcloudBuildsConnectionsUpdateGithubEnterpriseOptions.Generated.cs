@@ -23,6 +23,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBuildsConnectionsUpdateGithubEnterpriseOptions : GcloudOptions
 {
     /// <summary>
+    /// update a Cloud Build     Connection of type GitHub Enterprise
+    /// </summary>
+    /// <param name="Connection">Connection resource - Connection to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection or fully qualified identifier for the connection. To set the connection attribute: ▸ provide the argument connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBuildsConnectionsUpdateGithubEnterpriseOptions(
+        string Connection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Connection);
+        this.Connection = Connection;
+    }
+
+    public void Deconstruct(out string Connection)
+    {
+        Connection = this.Connection;
+    }
+
+    /// <summary>
+    /// Connection resource - Connection to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Google Cloud region. To set the region attribute: ▸ provide the argument connection on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property builds/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
     /// App ID of the GitHub App in the GitHub Enterprise server.
     /// </summary>
     [CliOption("--app-id", Format = OptionFormat.EqualsSeparated)]
@@ -77,5 +100,11 @@ public record GcloudBuildsConnectionsUpdateGithubEnterpriseOptions : GcloudOptio
     [SecretValue]
     [CliOption("--webhook-secret-secret-version", Format = OptionFormat.EqualsSeparated)]
     public string? WebhookSecretSecretVersion { get; set; }
+
+    /// <summary>
+    /// Connection resource - Connection to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection or fully qualified identifier for the connection. To set the connection attribute: ▸ provide the argument connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Connection { get; private init; }
 
 }

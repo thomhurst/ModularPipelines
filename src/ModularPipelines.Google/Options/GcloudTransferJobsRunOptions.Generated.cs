@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "jobs", "run")]
-public record GcloudTransferJobsRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudTransferJobsRunOptions : GcloudOptions
 {
+    /// <summary>
+    /// run a Transfer Service transfer job
+    /// </summary>
+    /// <param name="Name">The name of the job you want to run.</param>
+    public GcloudTransferJobsRunOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Blocks other tasks in your terminal until the transfer operation has completed. If not included, tasks will run asynchronously.
     /// </summary>
     [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// The name of the job you want to run.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

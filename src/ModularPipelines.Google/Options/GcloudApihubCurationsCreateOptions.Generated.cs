@@ -21,4 +21,72 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apihub", "curations", "create")]
 public record GcloudApihubCurationsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Curation
+    /// </summary>
+    /// <param name="DisplayName">The display name of the curation.</param>
+    /// <param name="ApplicationIntegrationEndpointDetailsTriggerId">The endpoint to be triggered for curation. The endpoint will be invoked with a request payload containing [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Response should contain curated data in the form of [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. This must be specified. Arguments for the endpoint details. The details of the Application Integration endpoint to be triggered for curation. This must be specified. The API trigger ID of the Application Integration workflow. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="ApplicationIntegrationEndpointDetailsUri">The endpoint to be triggered for curation. The endpoint will be invoked with a request payload containing [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Response should contain curated data in the form of [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. This must be specified. Arguments for the endpoint details. The details of the Application Integration endpoint to be triggered for curation. This must be specified. The endpoint URI should be a valid REST URI for triggering an Application Integration. Format: https://integrations.googleapis.com/v1/{name=projects/*/locations/*/integrations/*}:execute or https://{location}-integrations.googleapis.com/v1/{name=projects/*/locations/*/integrations/*}:execute This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="Curation">Curation resource - Identifier. The name of the curation. Format: projects/{project}/locations/{location}/curations/{curation} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument curation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the curation or fully qualified identifier for the curation. To set the curation attribute: ▸ provide the argument curation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubCurationsCreateOptions(
+        string DisplayName,
+        string ApplicationIntegrationEndpointDetailsTriggerId,
+        string ApplicationIntegrationEndpointDetailsUri,
+        string Curation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationIntegrationEndpointDetailsTriggerId);
+        this.ApplicationIntegrationEndpointDetailsTriggerId = ApplicationIntegrationEndpointDetailsTriggerId;
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationIntegrationEndpointDetailsUri);
+        this.ApplicationIntegrationEndpointDetailsUri = ApplicationIntegrationEndpointDetailsUri;
+        global::System.ArgumentNullException.ThrowIfNull(Curation);
+        this.Curation = Curation;
+    }
+
+    public void Deconstruct(out string DisplayName, out string ApplicationIntegrationEndpointDetailsTriggerId, out string ApplicationIntegrationEndpointDetailsUri, out string Curation)
+    {
+        DisplayName = this.DisplayName;
+        ApplicationIntegrationEndpointDetailsTriggerId = this.ApplicationIntegrationEndpointDetailsTriggerId;
+        ApplicationIntegrationEndpointDetailsUri = this.ApplicationIntegrationEndpointDetailsUri;
+        Curation = this.Curation;
+    }
+
+    /// <summary>
+    /// The display name of the curation.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// The endpoint to be triggered for curation. The endpoint will be invoked with a request payload containing [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Response should contain curated data in the form of [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. This must be specified. Arguments for the endpoint details. The details of the Application Integration endpoint to be triggered for curation. This must be specified. The API trigger ID of the Application Integration workflow. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--application-integration-endpoint-details-trigger-id", Format = OptionFormat.EqualsSeparated)]
+    public string ApplicationIntegrationEndpointDetailsTriggerId { get; private init; }
+
+    /// <summary>
+    /// The endpoint to be triggered for curation. The endpoint will be invoked with a request payload containing [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Response should contain curated data in the form of [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. This must be specified. Arguments for the endpoint details. The details of the Application Integration endpoint to be triggered for curation. This must be specified. The endpoint URI should be a valid REST URI for triggering an Application Integration. Format: https://integrations.googleapis.com/v1/{name=projects/*/locations/*/integrations/*}:execute or https://{location}-integrations.googleapis.com/v1/{name=projects/*/locations/*/integrations/*}:execute This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--application-integration-endpoint-details-uri", Format = OptionFormat.EqualsSeparated)]
+    public string ApplicationIntegrationEndpointDetailsUri { get; private init; }
+
+    /// <summary>
+    /// Curation resource - Identifier. The name of the curation. Format: projects/{project}/locations/{location}/curations/{curation} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument curation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the curation resource. To set the location attribute: ▸ provide the argument curation on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// The description of the curation.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Curation resource - Identifier. The name of the curation. Format: projects/{project}/locations/{location}/curations/{curation} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument curation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the curation or fully qualified identifier for the curation. To set the curation attribute: ▸ provide the argument curation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Curation { get; private init; }
+
 }

@@ -21,4 +21,73 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("metastore", "services", "import", "gcs")]
 public record GcloudMetastoreServicesImportGcsOptions : GcloudOptions
 {
+    /// <summary>
+    /// import metadata into a Dataproc     Metastore service from Google Cloud Storage
+    /// </summary>
+    /// <param name="DatabaseDump">A Cloud Storage object URI that specifies a database dump from which to import metadata. It must begin with gs://.</param>
+    /// <param name="ImportId">The ID of this metadata import.</param>
+    /// <param name="Service">Service resource - Arguments and flags that specify the Dataproc Metastore service you want to import. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMetastoreServicesImportGcsOptions(
+        string DatabaseDump,
+        string ImportId,
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseDump);
+        this.DatabaseDump = DatabaseDump;
+        global::System.ArgumentNullException.ThrowIfNull(ImportId);
+        this.ImportId = ImportId;
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string DatabaseDump, out string ImportId, out string Service)
+    {
+        DatabaseDump = this.DatabaseDump;
+        ImportId = this.ImportId;
+        Service = this.Service;
+    }
+
+    /// <summary>
+    /// A Cloud Storage object URI that specifies a database dump from which to import metadata. It must begin with gs://.
+    /// </summary>
+    [CliOption("--database-dump", Format = OptionFormat.EqualsSeparated)]
+    public string DatabaseDump { get; private init; }
+
+    /// <summary>
+    /// The ID of this metadata import.
+    /// </summary>
+    [CliOption("--import-id", Format = OptionFormat.EqualsSeparated)]
+    public string ImportId { get; private init; }
+
+    /// <summary>
+    /// Service resource - Arguments and flags that specify the Dataproc Metastore service you want to import. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataproc Metastore service. If not specified, will use default metastore/location. To set the location attribute: ▸ provide the argument service on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property metastore/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The description of this metadata import.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The type of the database dump;. If unspecified, defaults to mysql. DUMP_TYPE must be one of: avro Database dump contains AVRO files. mysql Database dump is a MYSQL dump file.
+    /// </summary>
+    [CliOption("--dump-type", Format = OptionFormat.EqualsSeparated)]
+    public string? DumpType { get; set; }
+
+    /// <summary>
+    /// Service resource - Arguments and flags that specify the Dataproc Metastore service you want to import. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Service { get; private init; }
+
 }

@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source", "repos", "create")]
-public record GcloudSourceReposCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RepositoryName
-) : GcloudOptions
+public record GcloudSourceReposCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a cloud source repository
+    /// </summary>
+    /// <param name="RepositoryName">Name of the repository. May contain between 3 and 63 (inclusive) lowercase letters, digits, and hyphens. Must start with a letter, and may not end with a hyphen.</param>
+    public GcloudSourceReposCreateOptions(
+        string RepositoryName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+    }
+
+    public void Deconstruct(out string RepositoryName)
+    {
+        RepositoryName = this.RepositoryName;
+    }
+
+    /// <summary>
+    /// Name of the repository. May contain between 3 and 63 (inclusive) lowercase letters, digits, and hyphens. Must start with a letter, and may not end with a hyphen.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RepositoryName { get; private init; }
+
 }

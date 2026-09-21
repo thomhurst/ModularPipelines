@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org-policies", "set-custom-constraint")]
-public record GcloudOrgPoliciesSetCustomConstraintOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string CustomConstraintFile
-) : GcloudOptions
+public record GcloudOrgPoliciesSetCustomConstraintOptions : GcloudOptions
 {
+    /// <summary>
+    /// set a custom constraint from a     JSON or YAML file
+    /// </summary>
+    /// <param name="CustomConstraintFile">Path to JSON or YAML file that contains the organization policy.</param>
+    public GcloudOrgPoliciesSetCustomConstraintOptions(
+        string CustomConstraintFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CustomConstraintFile);
+        this.CustomConstraintFile = CustomConstraintFile;
+    }
+
+    public void Deconstruct(out string CustomConstraintFile)
+    {
+        CustomConstraintFile = this.CustomConstraintFile;
+    }
+
+    /// <summary>
+    /// Path to JSON or YAML file that contains the organization policy.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CustomConstraintFile { get; private init; }
+
 }

@@ -21,10 +21,36 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "sign-url")]
-public record GcloudStorageSignUrlOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Url
-) : GcloudOptions
+public record GcloudStorageSignUrlOptions : GcloudOptions
 {
+    /// <summary>
+    /// generate a URL with embedded authentication that     can be used by anyone
+    /// </summary>
+    /// <param name="Url">The URLs to be signed. May contain wildcards.</param>
+    public GcloudStorageSignUrlOptions(
+        IEnumerable<string> Url
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Url);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Url));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Url));
+            }
+
+            Url = materialized;
+        }
+        this.Url = Url;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Url)
+    {
+        Url = this.Url;
+    }
+
     /// <summary>
     /// Specifies the duration that the signed url should be valid for, default duration is 1 hour. For example 10s for 10 seconds. See $ gcloud topic datetimes for information on duration formats. The max duration allowed is 12 hours. This limitation exists because the system-managed key used to sign the URL may not remain valid after 12 hours. Alternatively, the max duration allowed is 7 days when signing with either the --private-key-file flag or an account that authorized with gcloud auth activate-service-account.
     /// </summary>
@@ -32,9 +58,9 @@ public record GcloudStorageSignUrlOptions(
     public string? Duration { get; set; }
 
     /// <summary>
-    /// Specifies the headers to be used in the signed request. Possible headers are listed in the XML API's documentation: https://cloud.google.com/storage/docs/xml-api/reference-headers#headers
+    /// Specifies the headers to be used in the signed request. Possible headers are listed in the XML API's documentation: https://cloud.google.com/storage/docs/xml-api/reference-headers#headers Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--headers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Headers { get; set; }
 
     /// <summary>
@@ -63,9 +89,9 @@ public record GcloudStorageSignUrlOptions(
     public string? PrivateKeyPassword { get; set; }
 
     /// <summary>
-    /// Specifies the query parameters to be used in the signed request. Possible query parameters are listed in the XML API's documentation: https://cloud.google.com/storage/docs/xml-api/reference-headers#query
+    /// Specifies the query parameters to be used in the signed request. Possible query parameters are listed in the XML API's documentation: https://cloud.google.com/storage/docs/xml-api/reference-headers#query Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--query-params", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--query-params", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? QueryParams { get; set; }
 
     /// <summary>
@@ -73,5 +99,11 @@ public record GcloudStorageSignUrlOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// The URLs to be signed. May contain wildcards.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Url { get; private init; }
 
 }

@@ -21,4 +21,56 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("policy-intelligence", "query-activity")]
 public record GcloudPolicyIntelligenceQueryActivityOptions : GcloudOptions
 {
+    /// <summary>
+    /// query activities on cloud     resource
+    /// </summary>
+    /// <param name="ActivityType">Type of the activities. ACTIVITY_TYPE must be one of: serviceAccountLastAuthentication, serviceAccountKeyLastAuthentication.</param>
+    /// <param name="Project">The project ID or number to query the activities.</param>
+    public GcloudPolicyIntelligenceQueryActivityOptions(
+        string ActivityType,
+        string Project
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActivityType);
+        this.ActivityType = ActivityType;
+        global::System.ArgumentNullException.ThrowIfNull(Project);
+        this.Project = Project;
+    }
+
+    public void Deconstruct(out string ActivityType, out string Project)
+    {
+        ActivityType = this.ActivityType;
+        Project = this.Project;
+    }
+
+    /// <summary>
+    /// Type of the activities. ACTIVITY_TYPE must be one of: serviceAccountLastAuthentication, serviceAccountKeyLastAuthentication.
+    /// </summary>
+    [CliOption("--activity-type", Format = OptionFormat.EqualsSeparated)]
+    public string ActivityType { get; private init; }
+
+    /// <summary>
+    /// The project ID or number to query the activities.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string Project { get; private init; }
+
+    /// <summary>
+    /// Max number of query result. Default to be 1000 and max to be unlimited, i.e., --limit=unlimited.
+    /// </summary>
+    [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
+    public string? Limit { get; set; }
+
+    /// <summary>
+    /// Max page size for each http response. Default to be 500 and max to be 1000.
+    /// </summary>
+    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
+    public int? PageSize { get; set; }
+
+    /// <summary>
+    /// Filter on activities, separated by "OR" if multiple filters are specified. At most 10 filter restrictions are supported in the query-filter. e.g. --query-filter='activities.full_resource_name="//iam.googleapis.com/projects/project-id/serviceAccounts/service-account-name-1@project-id.iam.gserviceaccount.com" OR activities.full_resource_name="//iam.googleapis.com/projects/project-id/serviceAccounts/service-account-name-2@project-id.iam.gserviceaccount.com"'
+    /// </summary>
+    [CliOption("--query-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? QueryFilter { get; set; }
+
 }

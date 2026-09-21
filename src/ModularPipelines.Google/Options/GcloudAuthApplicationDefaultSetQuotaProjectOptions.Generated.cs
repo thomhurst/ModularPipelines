@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auth", "application-default", "set-quota-project")]
-public record GcloudAuthApplicationDefaultSetQuotaProjectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string QuotaProjectId
-) : GcloudOptions
+public record GcloudAuthApplicationDefaultSetQuotaProjectOptions : GcloudOptions
 {
+    /// <summary>
+    /// update or add a quota     project in application default credentials (ADC)
+    /// </summary>
+    /// <param name="QuotaProjectId">Quota project ID to add to application default credentials. If a quota project already exists, it will be updated.</param>
+    public GcloudAuthApplicationDefaultSetQuotaProjectOptions(
+        string QuotaProjectId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QuotaProjectId);
+        this.QuotaProjectId = QuotaProjectId;
+    }
+
+    public void Deconstruct(out string QuotaProjectId)
+    {
+        QuotaProjectId = this.QuotaProjectId;
+    }
+
+    /// <summary>
+    /// Quota project ID to add to application default credentials. If a quota project already exists, it will be updated.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string QuotaProjectId { get; private init; }
+
 }

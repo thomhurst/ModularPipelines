@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,97 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment-manager", "deployments", "create")]
-public record GcloudDeploymentManagerDeploymentsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DeploymentName
-) : GcloudOptions
+public record GcloudDeploymentManagerDeploymentsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a deployment
+    /// </summary>
+    /// <param name="DeploymentName">Deployment name.</param>
+    public GcloudDeploymentManagerDeploymentsCreateOptions(
+        string DeploymentName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentName);
+        this.DeploymentName = DeploymentName;
+    }
+
+    public void Deconstruct(out string DeploymentName)
+    {
+        DeploymentName = this.DeploymentName;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Name of a composite type to deploy. For an example of creating and deploying a composite type, see: https://cloud.google.com/deployment-manager/docs/configuration/templates/create-composite-types#examplecompositetype
+    /// </summary>
+    [CliOption("--composite-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CompositeType { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Filename of a top-level yaml config that specifies resources to deploy. For a guide to creating a configuration, refer to https://cloud.google.com/deployment-manager/docs/configuration/create-basic-configuration
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Filename of a top-level jinja or python config template.
+    /// </summary>
+    [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
+    public string? Template { get; set; }
+
+    /// <summary>
+    /// Optional description of the deployment to insert.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Preview the requested create without actually instantiating the underlying resources. (default=False)
+    /// </summary>
+    [CliFlag("--preview")]
+    public bool? Preview { get; set; }
+
+    /// <summary>
+    /// A comma separated, key:value, map to be used when deploying a template file or composite type directly. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--properties", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Properties { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If the create request results in a deployment with resource errors, delete that deployment immediately after creation. (default=False)
+    /// </summary>
+    [CliFlag("--automatic-rollback-on-error")]
+    public bool? AutomaticRollbackOnError { get; set; }
+
+    /// <summary>
+    /// Deployment name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DeploymentName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(CompositeType) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Config) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Template) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of CompositeType, Config, or Template must be specified.", [nameof(CompositeType), nameof(Config), nameof(Template)]);
+        }
+        if ((Async == true ? 1 : 0) + (AutomaticRollbackOnError == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Async or AutomaticRollbackOnError may be specified.", [nameof(Async), nameof(AutomaticRollbackOnError)]);
+        }
+        yield break;
+    }
+
 }

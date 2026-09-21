@@ -21,4 +21,80 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("kms", "single-tenant-hsm", "proposal", "create")]
 public record GcloudKmsSingleTenantHsmProposalCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a single tenant HSM     instance proposal
+    /// </summary>
+    /// <param name="OperationType">The type of operation for the single tenant HSM instance proposal.</param>
+    /// <param name="SingleTenantHsmInstance">SingleTenantHsmInstance resource - The KMS single tenant HSM instance resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument single_tenant_hsm_instance on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the singleTenantHsmInstance or fully qualified identifier for the singleTenantHsmInstance. To set the single_tenant_hsm_instance attribute: ▸ provide the argument single_tenant_hsm_instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudKmsSingleTenantHsmProposalCreateOptions(
+        string OperationType,
+        string SingleTenantHsmInstance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OperationType);
+        this.OperationType = OperationType;
+        global::System.ArgumentNullException.ThrowIfNull(SingleTenantHsmInstance);
+        this.SingleTenantHsmInstance = SingleTenantHsmInstance;
+    }
+
+    public void Deconstruct(out string OperationType, out string SingleTenantHsmInstance)
+    {
+        OperationType = this.OperationType;
+        SingleTenantHsmInstance = this.SingleTenantHsmInstance;
+    }
+
+    /// <summary>
+    /// The type of operation for the single tenant HSM instance proposal.
+    /// </summary>
+    [CliOption("--operation-type", Format = OptionFormat.EqualsSeparated)]
+    public string OperationType { get; private init; }
+
+    /// <summary>
+    /// SingleTenantHsmInstance resource - The KMS single tenant HSM instance resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument single_tenant_hsm_instance on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The Google Cloud location for the singleTenantHsmInstance. To set the location attribute: ▸ provide the argument single_tenant_hsm_instance on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// ID to use for the crypto key version. This field is required for upgrade_key_trust operation type.
+    /// </summary>
+    [CliOption("--crypto-key-version-name", Format = OptionFormat.EqualsSeparated)]
+    public string? CryptoKeyVersionName { get; set; }
+
+    /// <summary>
+    /// The PEM file containing the public key of the quorum member to add or remove. This field is required for add_quorum_member and remove_quorum_member operation types.
+    /// </summary>
+    [CliOption("--member-public-key-pem", Format = OptionFormat.EqualsSeparated)]
+    public string? MemberPublicKeyPem { get; set; }
+
+    /// <summary>
+    /// The number of approvers required for the single tenant HSM instance. This is the M value used for M of N quorum. Must be greater than or equal to 1 and less than or equal to the total approver count of the single tenant HSM instance minus 1. This field is required for the register_2fa_keys operation type.
+    /// </summary>
+    [CliOption("--required-approver-count", Format = OptionFormat.EqualsSeparated)]
+    public int? RequiredApproverCount { get; set; }
+
+    /// <summary>
+    /// The ID to use for the single tenant HSM instance proposal, which will become the final component of the single tenant HSM instance resource name.
+    /// </summary>
+    [CliOption("--single-tenant-hsm-instance-proposal-id", Format = OptionFormat.EqualsSeparated)]
+    public string? SingleTenantHsmInstanceProposalId { get; set; }
+
+    /// <summary>
+    /// PEM file containing the two-factor public key. This field is required for upgrade_key_trust operation type.
+    /// </summary>
+    [CliOption("--two-factor-public-key-pem", Format = OptionFormat.EqualsSeparated)]
+    public string? TwoFactorPublicKeyPem { get; set; }
+
+    /// <summary>
+    /// The PEM files containing the two factor public keys 2FA keys for M of N quorum auth tenant HSM instance. This field is required for register_2fa_keys operation type. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--two-factor-public-key-pems", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? TwoFactorPublicKeyPems { get; set; }
+
+    /// <summary>
+    /// SingleTenantHsmInstance resource - The KMS single tenant HSM instance resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument single_tenant_hsm_instance on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the singleTenantHsmInstance or fully qualified identifier for the singleTenantHsmInstance. To set the single_tenant_hsm_instance attribute: ▸ provide the argument single_tenant_hsm_instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SingleTenantHsmInstance { get; private init; }
+
 }

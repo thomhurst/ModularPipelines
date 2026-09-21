@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,91 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identity", "groups", "create")]
-public record GcloudIdentityGroupsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Email
-) : GcloudOptions
+public record GcloudIdentityGroupsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new group
+    /// </summary>
+    /// <param name="Email">The email address of the group to be created.</param>
+    public GcloudIdentityGroupsCreateOptions(
+        string Email
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Email);
+        this.Email = Email;
+    }
+
+    public void Deconstruct(out string Email)
+    {
+        Email = this.Email;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The customer ID for the customer\'s G Suite account. Example of customer: "C01k1e9nw"
+    /// </summary>
+    [CliOption("--customer", Format = OptionFormat.EqualsSeparated)]
+    public string? Customer { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The organization the Group being created belongs to. This can be specified either as an ID ("123456789") or as the associated domain ("example.com").
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// An extended description to help users determine the purpose of a Group. For example, you can include information about who should join the Group, the types of messages to send to the Group, links to FAQs about the Group, or related Groups. Maximum length is 4,096 characters.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The Group's display name.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Query that determines the memberships of the dynamic group. Example of a query: --dynamic-user-query="user.organizations.exists(org,org.title=='SWE')"
+    /// </summary>
+    [CliOption("--dynamic-user-query", Format = OptionFormat.EqualsSeparated)]
+    public string? DynamicUserQuery { get; set; }
+
+    /// <summary>
+    /// If specified the user making the request will be added as the initial owner of the group being created. WITH_INITIAL_OWNER must be one of: empty The creator of the group will not be the owner of the group. This is the default for dynamic groups. with-initial-owner The creator of the group will be the owner of the group. This is the default for non-dynamic groups.
+    /// </summary>
+    [CliOption("--with-initial-owner", Format = OptionFormat.EqualsSeparated)]
+    public string? WithInitialOwner { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The type of group to create. Setting group-type will add the appropriate labels for the type of group being created. GROUP_TYPE must be one of: discussion Creates a Google Groups discussion group. dynamic Creates a dynamic group. security Creates a security group.
+    /// </summary>
+    [CliOption("--group-type", Format = OptionFormat.EqualsSeparated)]
+    public string? GroupType { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Labels for group resource. Example of labels "--labels cloudidentity.googleapis.com/groups.discussion_forum"
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public string? Labels { get; set; }
+
+    /// <summary>
+    /// The email address of the group to be created.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Email { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Customer) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Customer or Organization must be specified.", [nameof(Customer), nameof(Organization)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(GroupType) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Labels) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GroupType or Labels may be specified.", [nameof(GroupType), nameof(Labels)]);
+        }
+        yield break;
+    }
+
 }

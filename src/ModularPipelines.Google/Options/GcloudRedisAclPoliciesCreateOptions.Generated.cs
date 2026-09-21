@@ -21,4 +21,61 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("redis", "acl-policies", "create")]
 public record GcloudRedisAclPoliciesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Redis ACL Policy
+    /// </summary>
+    /// <param name="Rules">Required, The ACL rules within the ACL policy. Specify this flag multiple times for multiple rules. Each rule consists of 'username' and 'rule'. rule The Redis ACL rule string. username The username for the ACL rule. Shorthand Example: --rules=rule=string,username=string --rules=rule=string,username=string JSON Example: --rules='[{"rule": "string", "username": "string"}]' File Example: --rules=path_to_file.(yaml|json)</param>
+    /// <param name="AclPolicy">Acl policy resource - The ACL Policy to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the acl policy or fully qualified identifier for the acl policy. To set the acl_policy attribute: ▸ provide the argument acl_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudRedisAclPoliciesCreateOptions(
+        IEnumerable<string> Rules,
+        string AclPolicy
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Rules);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Rules));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Rules));
+            }
+
+            Rules = materialized;
+        }
+        this.Rules = Rules;
+        global::System.ArgumentNullException.ThrowIfNull(AclPolicy);
+        this.AclPolicy = AclPolicy;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Rules, out string AclPolicy)
+    {
+        Rules = this.Rules;
+        AclPolicy = this.AclPolicy;
+    }
+
+    /// <summary>
+    /// Required, The ACL rules within the ACL policy. Specify this flag multiple times for multiple rules. Each rule consists of 'username' and 'rule'. rule The Redis ACL rule string. username The username for the ACL rule. Shorthand Example: --rules=rule=string,username=string --rules=rule=string,username=string JSON Example: --rules='[{"rule": "string", "username": "string"}]' File Example: --rules=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--rules", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string> Rules { get; private init; }
+
+    /// <summary>
+    /// Acl policy resource - The ACL Policy to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Redis region of the acl policy. Overrides the default redis/region property value for this command invocation. To set the region attribute: ▸ provide the argument acl_policy on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property redis/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Idempotent request UUID.
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Acl policy resource - The ACL Policy to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the acl policy or fully qualified identifier for the acl policy. To set the acl_policy attribute: ▸ provide the argument acl_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AclPolicy { get; private init; }
+
 }

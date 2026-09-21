@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSpannerDatabasesDdlDescribeOptions : GcloudOptions
 {
     /// <summary>
+    /// describe the DDL for a Cloud     Spanner database
+    /// </summary>
+    /// <param name="Database">Database resource - The Cloud Spanner database of which the ddl to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the database or fully qualified identifier for the database. To set the database attribute: ▸ provide the argument database on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSpannerDatabasesDdlDescribeOptions(
+        string Database
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+    }
+
+    public void Deconstruct(out string Database)
+    {
+        Database = this.Database;
+    }
+
+    /// <summary>
+    /// Database resource - The Cloud Spanner database of which the ddl to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud Spanner instance for the database. To set the instance attribute: ▸ provide the argument database on the command line with a fully specified name; ▸ provide the argument --instance on the command line; ▸ set the property spanner/instance.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
     /// Include debug string of proto bundle descriptors in the output. The output is information only and not meant to be parsed.
     /// </summary>
     [CliFlag("--include-proto-descriptors")]
     public bool? IncludeProtoDescriptors { get; set; }
+
+    /// <summary>
+    /// Database resource - The Cloud Spanner database of which the ddl to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the database or fully qualified identifier for the database. To set the database attribute: ▸ provide the argument database on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Database { get; private init; }
 
 }

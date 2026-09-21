@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,62 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "network-firewall-policies", "clone-rules")]
-public record GcloudComputeNetworkFirewallPoliciesCloneRulesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FirewallPolicy
-) : GcloudOptions
+public record GcloudComputeNetworkFirewallPoliciesCloneRulesOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// replace the rules of     a Compute Engine network firewall policy with rules from another policy
+    /// </summary>
+    /// <param name="SourceFirewallPolicy">Name of the source network firewall policy to copy the rules from.</param>
+    /// <param name="FirewallPolicy">name of the network firewall policy to clone the rules to.</param>
+    public GcloudComputeNetworkFirewallPoliciesCloneRulesOptions(
+        string SourceFirewallPolicy,
+        string FirewallPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceFirewallPolicy);
+        this.SourceFirewallPolicy = SourceFirewallPolicy;
+        global::System.ArgumentNullException.ThrowIfNull(FirewallPolicy);
+        this.FirewallPolicy = FirewallPolicy;
+    }
+
+    public void Deconstruct(out string SourceFirewallPolicy, out string FirewallPolicy)
+    {
+        SourceFirewallPolicy = this.SourceFirewallPolicy;
+        FirewallPolicy = this.FirewallPolicy;
+    }
+
+    /// <summary>
+    /// Name of the source network firewall policy to copy the rules from.
+    /// </summary>
+    [CliOption("--source-firewall-policy", Format = OptionFormat.EqualsSeparated)]
+    public string SourceFirewallPolicy { get; private init; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the firewall policy is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the firewall policy to clone-rules. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// name of the network firewall policy to clone the rules to.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FirewallPolicy { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
+
 }

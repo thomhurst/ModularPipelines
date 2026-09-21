@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services", "api-keys", "lookup")]
-public record GcloudServicesApiKeysLookupOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string KeyString
-) : GcloudOptions
+public record GcloudServicesApiKeysLookupOptions : GcloudOptions
 {
+    /// <summary>
+    /// look up resource name of a key string
+    /// </summary>
+    /// <param name="KeyString">Key string of the key</param>
+    public GcloudServicesApiKeysLookupOptions(
+        string KeyString
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyString);
+        this.KeyString = KeyString;
+    }
+
+    public void Deconstruct(out string KeyString)
+    {
+        KeyString = this.KeyString;
+    }
+
+    /// <summary>
+    /// Key string of the key
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string KeyString { get; private init; }
+
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "entry-types", "create")]
-public record GcloudDataplexEntryTypesCreateOptions : GcloudOptions
+public record GcloudDataplexEntryTypesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Dataplex Entry Type
+    /// </summary>
+    /// <param name="EntryType">Entry type resource - Arguments and flags that define the Dataplex entry type you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry_type on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the entry type or fully qualified identifier for the entry type. To set the entry_type attribute: ▸ provide the argument entry_type on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexEntryTypesCreateOptions(
+        string EntryType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EntryType);
+        this.EntryType = EntryType;
+    }
+
+    public void Deconstruct(out string EntryType)
+    {
+        EntryType = this.EntryType;
+    }
+
+    /// <summary>
+    /// Entry type resource - Arguments and flags that define the Dataplex entry type you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry_type on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataplex resource. To set the location attribute: ▸ provide the argument entry_type on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Description of the Entry Type.
     /// </summary>
@@ -35,9 +59,9 @@ public record GcloudDataplexEntryTypesCreateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -59,9 +83,9 @@ public record GcloudDataplexEntryTypesCreateOptions : GcloudOptions
     public string? System { get; set; }
 
     /// <summary>
-    /// Indicates the class this Entry Type belongs to.
+    /// Indicates the class this Entry Type belongs to. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--type-aliases", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--type-aliases", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? TypeAliases { get; set; }
 
     /// <summary>
@@ -75,5 +99,21 @@ public record GcloudDataplexEntryTypesCreateOptions : GcloudOptions
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Entry type resource - Arguments and flags that define the Dataplex entry type you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry_type on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the entry type or fully qualified identifier for the entry type. To set the entry_type attribute: ▸ provide the argument entry_type on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EntryType { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Async == true ? 1 : 0) + (ValidateOnly == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Async or ValidateOnly may be specified.", [nameof(Async), nameof(ValidateOnly)]);
+        }
+        yield break;
+    }
 
 }

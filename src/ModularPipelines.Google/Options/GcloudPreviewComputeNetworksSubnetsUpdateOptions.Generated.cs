@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,21 +22,36 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "networks", "subnets", "update")]
-public record GcloudPreviewComputeNetworksSubnetsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeNetworksSubnetsUpdateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// Adds secondary IP ranges that are associated with internal range resources. For example, --add-secondary-ranges-with-reserved-internal-range range1=//networkconnectivity.googleapis.com/projects/PROJECT/locations/global/internalRanges/RANGE adds a secondary range with the reserved internal range resource. ◆ RANGE_NAME - Name of the secondary range. ◆ INTERNAL_RANGE_URL - URL of an internal range resource.
+    /// updates properties of an     existing Compute Engine subnetwork
     /// </summary>
-    [CliOption("--add-secondary-ranges-with-reserved-internal-range", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Name">Name of the subnetwork to update.</param>
+    public GcloudPreviewComputeNetworksSubnetsUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Adds secondary IP ranges that are associated with internal range resources. For example, --add-secondary-ranges-with-reserved-internal-range range1=//networkconnectivity.googleapis.com/projects/PROJECT/locations/global/internalRanges/RANGE adds a secondary range with the reserved internal range resource. ◆ RANGE_NAME - Name of the secondary range. ◆ INTERNAL_RANGE_URL - URL of an internal range resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--add-secondary-ranges-with-reserved-internal-range", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddSecondaryRangesWithReservedInternalRange { get; set; }
 
     /// <summary>
     /// The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used.
     /// </summary>
     [CliOption("--drain-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? DrainTimeout { get; set; }
+    public string? DrainTimeout { get; set; }
 
     /// <summary>
     /// The /64 external IPv6 CIDR range to assign to this subnet. The range must be associated with an IPv6 BYOIP sub-prefix that is defined by the --ip-collection flag. If you specify --ip-collection but not --external-ipv6-prefix, a random /64 range is allocated from the sub-prefix. For example, --external-ipv6-prefix=2600:1901:0:0:0:0:0:0/64
@@ -65,7 +81,7 @@ public record GcloudPreviewComputeNetworksSubnetsUpdateOptions(
     /// Can only be specified if VPC Flow Logs for this subnetwork is enabled. Toggles the aggregation interval for collecting flow logs. Increasing the interval time will reduce the amount of generated flow logs for long lasting connections. Default is an interval of 5 seconds per connection. LOGGING_AGGREGATION_INTERVAL must be one of: interval-10-min, interval-15-min, interval-1-min, interval-30-sec, interval-5-min, interval-5-sec.
     /// </summary>
     [CliOption("--logging-aggregation-interval", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLoggingAggregationInterval? LoggingAggregationInterval { get; set; }
+    public GcloudPreviewComputeNetworksSubnetsUpdateLoggingAggregationInterval? LoggingAggregationInterval { get; set; }
 
     /// <summary>
     /// Can only be specified if VPC Flow Logs for this subnetwork is enabled. Export filter used to define which logs should be generated.
@@ -83,12 +99,12 @@ public record GcloudPreviewComputeNetworksSubnetsUpdateOptions(
     /// Can only be specified if VPC Flow Logs for this subnetwork is enabled. Configures whether metadata fields should be added to the reported logs. Default is to exclude all metadata. LOGGING_METADATA must be one of: custom, exclude-all, include-all.
     /// </summary>
     [CliOption("--logging-metadata", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLoggingMetadata? LoggingMetadata { get; set; }
+    public GcloudPreviewComputeNetworksSubnetsUpdateLoggingMetadata? LoggingMetadata { get; set; }
 
     /// <summary>
-    /// Can only be specified if VPC Flow Logs for this subnetwork is enabled and "metadata" is set to CUSTOM_METADATA. The comma-separated list of metadata fields that should be added to reported logs.
+    /// Can only be specified if VPC Flow Logs for this subnetwork is enabled and "metadata" is set to CUSTOM_METADATA. The comma-separated list of metadata fields that should be added to reported logs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--logging-metadata-fields", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--logging-metadata-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? LoggingMetadataFields { get; set; }
 
     /// <summary>
@@ -104,10 +120,14 @@ public record GcloudPreviewComputeNetworksSubnetsUpdateOptions(
     public string? StackType { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Adds secondary IP ranges to the subnetwork for use in IP aliasing. For example, --add-secondary-ranges range1=192.168.64.0/24 adds a secondary range 192.168.64.0/24 with name range1. ▸ RANGE_NAME - Name of the secondary range. ▸ RANGE - IP range in CIDR format.
+    /// At most one of these can be specified: Adds secondary IP ranges to the subnetwork for use in IP aliasing. For example, --add-secondary-ranges range1=192.168.64.0/24 adds a secondary range 192.168.64.0/24 with name range1. ▸ RANGE_NAME - Name of the secondary range. ▸ RANGE - IP range in CIDR format. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-secondary-ranges", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? AddSecondaryRanges { get; set; }
+    [CliOption("--add-secondary-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? AddSecondaryRanges
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
     /// At most one of these can be specified: Allow/disallow this subnetwork's IP address ranges to conflict with existing custom routes. Use --allow-cidr-routes-overlap to enable and --no-allow-cidr-routes-overlap to disable.
@@ -158,15 +178,65 @@ public record GcloudPreviewComputeNetworksSubnetsUpdateOptions(
     public string? Purpose { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Removes secondary ranges from the subnetwork. For example, --remove-secondary-ranges range2,range3 removes the secondary ranges with names range2 and range3.
+    /// At most one of these can be specified: Removes secondary ranges from the subnetwork. For example, --remove-secondary-ranges range2,range3 removes the secondary ranges with names range2 and range3. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-secondary-ranges", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveSecondaryRanges { get; set; }
+    [CliOption("--remove-secondary-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveSecondaryRanges
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveSecondaryRangesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveSecondaryRangesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: The role is set to ACTIVE to update a BACKUP reserved address range to be the new ACTIVE address range. Note that the only supported value for this flag is ACTIVE since setting an address range to BACKUP is not supported. This field is only valid when updating a reserved IP address range used for the purpose of Internal HTTP(S) Load Balancer. ROLE must be (only one value is supported): ACTIVE The ACTIVE subnet that is currently used.
     /// </summary>
     [CliOption("--role", Format = OptionFormat.EqualsSeparated)]
     public string? Role { get; set; }
+
+    /// <summary>
+    /// Name of the subnetwork to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)AddSecondaryRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddSecondaryRanges is not string || !string.IsNullOrWhiteSpace(AddSecondaryRanges?.ToString()) : ((object?)AddSecondaryRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddSecondaryRanges, static item => item is not null) : (AddSecondaryRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddSecondaryRanges), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PrivateIpv6GoogleAccessType) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Purpose) ? 1 : 0) + (((object?)RemoveSecondaryRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveSecondaryRanges is not string || !string.IsNullOrWhiteSpace(RemoveSecondaryRanges?.ToString()) : ((object?)RemoveSecondaryRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveSecondaryRanges, static item => item is not null) : (RemoveSecondaryRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveSecondaryRanges), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Role) ? 1 : 0) + ((AllowCidrRoutesOverlap == true || NoAllowCidrRoutesOverlap == true) ? 1 : 0) + ((EnableFlowLogs == true || NoEnableFlowLogs == true) ? 1 : 0) + ((EnablePrivateIpGoogleAccess == true || NoEnablePrivateIpGoogleAccess == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AddSecondaryRanges, PrivateIpv6GoogleAccessType, Purpose, RemoveSecondaryRanges, Role, (AllowCidrRoutesOverlap or NoAllowCidrRoutesOverlap), (EnableFlowLogs or NoEnableFlowLogs), or (EnablePrivateIpGoogleAccess or NoEnablePrivateIpGoogleAccess) may be specified.", [nameof(AddSecondaryRanges), nameof(PrivateIpv6GoogleAccessType), nameof(Purpose), nameof(RemoveSecondaryRanges), nameof(Role), nameof(AllowCidrRoutesOverlap), nameof(NoAllowCidrRoutesOverlap), nameof(EnableFlowLogs), nameof(NoEnableFlowLogs), nameof(EnablePrivateIpGoogleAccess), nameof(NoEnablePrivateIpGoogleAccess)]);
+        }
+        if ((((object?)AddSecondaryRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddSecondaryRanges is not string || !string.IsNullOrWhiteSpace(AddSecondaryRanges?.ToString()) : ((object?)AddSecondaryRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddSecondaryRanges, static item => item is not null) : (AddSecondaryRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddSecondaryRanges), static item => item is not null)))) || !string.IsNullOrWhiteSpace(PrivateIpv6GoogleAccessType) || !string.IsNullOrWhiteSpace(Purpose) || ((object?)RemoveSecondaryRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveSecondaryRanges is not string || !string.IsNullOrWhiteSpace(RemoveSecondaryRanges?.ToString()) : ((object?)RemoveSecondaryRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveSecondaryRanges, static item => item is not null) : (RemoveSecondaryRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveSecondaryRanges), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Role) || AllowCidrRoutesOverlap == true || NoAllowCidrRoutesOverlap == true || EnableFlowLogs == true || NoEnableFlowLogs == true || EnablePrivateIpGoogleAccess == true || NoEnablePrivateIpGoogleAccess == true) && ((AllowCidrRoutesOverlap == true ? 1 : 0) + (NoAllowCidrRoutesOverlap == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of AllowCidrRoutesOverlap or NoAllowCidrRoutesOverlap may be specified.", [nameof(AllowCidrRoutesOverlap), nameof(NoAllowCidrRoutesOverlap)]);
+        }
+        if ((((object?)AddSecondaryRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddSecondaryRanges is not string || !string.IsNullOrWhiteSpace(AddSecondaryRanges?.ToString()) : ((object?)AddSecondaryRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddSecondaryRanges, static item => item is not null) : (AddSecondaryRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddSecondaryRanges), static item => item is not null)))) || !string.IsNullOrWhiteSpace(PrivateIpv6GoogleAccessType) || !string.IsNullOrWhiteSpace(Purpose) || ((object?)RemoveSecondaryRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveSecondaryRanges is not string || !string.IsNullOrWhiteSpace(RemoveSecondaryRanges?.ToString()) : ((object?)RemoveSecondaryRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveSecondaryRanges, static item => item is not null) : (RemoveSecondaryRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveSecondaryRanges), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Role) || AllowCidrRoutesOverlap == true || NoAllowCidrRoutesOverlap == true || EnableFlowLogs == true || NoEnableFlowLogs == true || EnablePrivateIpGoogleAccess == true || NoEnablePrivateIpGoogleAccess == true) && ((EnableFlowLogs == true ? 1 : 0) + (NoEnableFlowLogs == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of EnableFlowLogs or NoEnableFlowLogs may be specified.", [nameof(EnableFlowLogs), nameof(NoEnableFlowLogs)]);
+        }
+        if ((((object?)AddSecondaryRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddSecondaryRanges is not string || !string.IsNullOrWhiteSpace(AddSecondaryRanges?.ToString()) : ((object?)AddSecondaryRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddSecondaryRanges, static item => item is not null) : (AddSecondaryRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddSecondaryRanges), static item => item is not null)))) || !string.IsNullOrWhiteSpace(PrivateIpv6GoogleAccessType) || !string.IsNullOrWhiteSpace(Purpose) || ((object?)RemoveSecondaryRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveSecondaryRanges is not string || !string.IsNullOrWhiteSpace(RemoveSecondaryRanges?.ToString()) : ((object?)RemoveSecondaryRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveSecondaryRanges, static item => item is not null) : (RemoveSecondaryRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveSecondaryRanges), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Role) || AllowCidrRoutesOverlap == true || NoAllowCidrRoutesOverlap == true || EnableFlowLogs == true || NoEnableFlowLogs == true || EnablePrivateIpGoogleAccess == true || NoEnablePrivateIpGoogleAccess == true) && ((EnablePrivateIpGoogleAccess == true ? 1 : 0) + (NoEnablePrivateIpGoogleAccess == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of EnablePrivateIpGoogleAccess or NoEnablePrivateIpGoogleAccess may be specified.", [nameof(EnablePrivateIpGoogleAccess), nameof(NoEnablePrivateIpGoogleAccess)]);
+        }
+        yield break;
+    }
 
 }

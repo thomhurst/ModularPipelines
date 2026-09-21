@@ -19,10 +19,48 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workstations", "start-tcp-tunnel")]
-public record GcloudWorkstationsStartTcpTunnelOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string WorkstationPort
-) : GcloudOptions
+public record GcloudWorkstationsStartTcpTunnelOptions : GcloudOptions
 {
+    /// <summary>
+    /// start a tunnel through which a local     process can forward TCP traffic to the workstation
+    /// </summary>
+    /// <param name="Workstation">Workstation resource - The group of arguments defining a workstation The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workstation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workstation or fully qualified identifier for the workstation. To set the workstation attribute: ▸ provide the argument workstation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="WorkstationPort">The port on the workstation to which traffic should be sent.</param>
+    public GcloudWorkstationsStartTcpTunnelOptions(
+        string Workstation,
+        string WorkstationPort
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Workstation);
+        this.Workstation = Workstation;
+        global::System.ArgumentNullException.ThrowIfNull(WorkstationPort);
+        this.WorkstationPort = WorkstationPort;
+    }
+
+    public void Deconstruct(out string Workstation, out string WorkstationPort)
+    {
+        Workstation = this.Workstation;
+        WorkstationPort = this.WorkstationPort;
+    }
+
+    /// <summary>
+    /// Workstation resource - The group of arguments defining a workstation The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workstation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The cluster for the workstation. To set the cluster attribute: ▸ provide the argument workstation on the command line with a fully specified name; ▸ provide the argument --cluster on the command line; ▸ set the property workstations/cluster.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Workstation resource - The group of arguments defining a workstation The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workstation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The config for the workstation. To set the config attribute: ▸ provide the argument workstation on the command line with a fully specified name; ▸ provide the argument --config on the command line; ▸ set the property workstations/config.
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
+
+    /// <summary>
+    /// Workstation resource - The group of arguments defining a workstation The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workstation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The region for the workstation. To set the region attribute: ▸ provide the argument workstation on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property workstations/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// LOCAL_HOST:LOCAL_PORT on which gcloud should bind and listen for connections that should be tunneled. LOCAL_PORT may be omitted, in which case it is treated as 0 and an arbitrary unused local port is chosen. The colon also may be omitted in that case. If LOCAL_PORT is 0, an arbitrary unused local port is chosen.
     /// </summary>
@@ -34,5 +72,17 @@ public record GcloudWorkstationsStartTcpTunnelOptions(
     /// </summary>
     [CliFlag("--start-workstation")]
     public bool? StartWorkstation { get; set; }
+
+    /// <summary>
+    /// Workstation resource - The group of arguments defining a workstation The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workstation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workstation or fully qualified identifier for the workstation. To set the workstation attribute: ▸ provide the argument workstation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Workstation { get; private init; }
+
+    /// <summary>
+    /// The port on the workstation to which traffic should be sent.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WorkstationPort { get; private init; }
 
 }

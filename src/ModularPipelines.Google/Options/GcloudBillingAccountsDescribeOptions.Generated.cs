@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "accounts", "describe")]
-public record GcloudBillingAccountsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AccountId
-) : GcloudOptions
+public record GcloudBillingAccountsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show metadata for a billing account
+    /// </summary>
+    /// <param name="AccountId">Specify a billing account ID. Billing account IDs are of the form 0X0X0X-0X0X0X-0X0X0X. To see available IDs, run $ gcloud billing accounts list.</param>
+    public GcloudBillingAccountsDescribeOptions(
+        string AccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+    }
+
+    public void Deconstruct(out string AccountId)
+    {
+        AccountId = this.AccountId;
+    }
+
+    /// <summary>
+    /// Specify a billing account ID. Billing account IDs are of the form 0X0X0X-0X0X0X-0X0X0X. To see available IDs, run $ gcloud billing accounts list.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AccountId { get; private init; }
+
 }

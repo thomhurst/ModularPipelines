@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -22,6 +23,30 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSecretsVersionsEnableOptions : GcloudOptions
 {
     /// <summary>
+    /// enable the version of the provided secret
+    /// </summary>
+    /// <param name="Version">Version resource - Numeric secret version to enable. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument VERSION on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the version or fully qualified identifier for the version. To set the version attribute: ▸ provide the argument VERSION on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSecretsVersionsEnableOptions(
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string Version)
+    {
+        Version = this.Version;
+    }
+
+    /// <summary>
+    /// Version resource - Numeric secret version to enable. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument VERSION on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The secret of the version. To set the secret attribute: ▸ provide the argument VERSION on the command line with a fully specified name; ▸ provide the argument --secret on the command line.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--secret", Format = OptionFormat.EqualsSeparated)]
+    public string? Secret { get; set; }
+
+    /// <summary>
     /// Current entity tag (ETag) of the secret version. If specified, the version is enabled only if the ETag provided matches the current version's ETag.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
@@ -32,5 +57,11 @@ public record GcloudSecretsVersionsEnableOptions : GcloudOptions
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// Version resource - Numeric secret version to enable. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument VERSION on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the version or fully qualified identifier for the version. To set the version attribute: ▸ provide the argument VERSION on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Version { get; private init; }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,10 +22,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instance-templates", "create-with-container")]
-public record GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// creates a     Compute Engine a virtual machine instance template that runs a Docker     container
+    /// </summary>
+    /// <param name="Name">Name of the instance template to create.</param>
+    public GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Automatically delete boot disks when their instances are deleted. Enabled by default, use --no-boot-disk-auto-delete to disable.
     /// </summary>
@@ -92,9 +108,9 @@ public record GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions(
     public string? ContainerCommand { get; set; }
 
     /// <summary>
-    /// Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file.
+    /// Declare environment variables KEY with value VALUE passed to container. Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--container-env", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--container-env", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ContainerEnv { get; set; }
 
     /// <summary>
@@ -143,7 +159,7 @@ public record GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions(
     /// Specify whether to restart a container on exit. POLICY must be one of: never, on-failure, always.
     /// </summary>
     [CliOption("--container-restart-policy", Format = OptionFormat.EqualsSeparated)]
-    public GcloudContainerRestartPolicy? ContainerRestartPolicy { get; set; }
+    public GcloudPreviewComputeInstanceTemplatesCreateWithContainerContainerRestartPolicy? ContainerRestartPolicy { get; set; }
 
     /// <summary>
     /// Keep container STDIN open even if not attached. Default: --no-container-stdin.
@@ -170,10 +186,10 @@ public record GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions(
     public bool? NoContainerTty { get; set; }
 
     /// <summary>
-    /// Creates and attaches persistent disks to the instances. name Specifies the name of the disk. This option cannot be specified if more than one instance is being created. Must specify this option if attaching the disk to a container with --container-mount-disk. description Optional textual description for the disk being created. mode Specifies the mode of the disk. Supported options are ro for read-only and rw for read-write. If omitted, rw is used as a default. It is an error to create a disk in ro mode if attaching it to a container with --container-mount-disk. image Specifies the name of the image that the disk will be initialized with. A new disk will be created based on the given image. To view a list of public images and projects, run $ gcloud compute images list. It is best practice to use image when a specific version of an image is needed. If both image and image-family flags are omitted a blank disk will be created. image-family The image family for the operating system that the boot disk will be initialized with. Compute Engine offers multiple Linux distributions, some of which are available as both regular and Shielded VM images. When a family is specified instead of an image, the latest non-deprecated image associated with that family is used. It is best practice to use --image-family when the latest version of an image is needed. image-project The Google Cloud project against which all image and image family references will be resolved. It is best practice to define image-project. A full list of available image projects can be generated by running gcloud compute images list. ▸ If specifying one of our public images, image-project must be provided. ▸ If there are several of the same image-family value in multiple projects, image-project must be specified to clarify the image to be used. ▸ If not specified and either image or image-family is provided, the current default project is used. size The size of the disk. The value must be a whole number followed by a size unit of KB for kilobyte, MB for megabyte, GB for gigabyte, or TB for terabyte. For example, 10GB will produce a 10 gigabyte disk. Disk size must be a multiple of 1 GB. If not specified, the default image size will be used for the new disk. type The type of the disk. To get a list of available disk types, run $ gcloud compute disk-types list. The default disk type is pd-standard. device-name An optional name to display the disk name in the guest operating system. Must be the same as name if used with --container-mount-disk. If omitted, a device name of the form persistent-disk-N is used. If omitted and used with --container-mount-disk (where the name of the container mount disk is the same as in this flag), a device name equal to disk name is used. provisioned-iops Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Value must be between 10,000 and 120,000. provisioned-throughput Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. disk-resource-policy Resource policy to apply to the disk. Specify a full or partial URL. For example: ▸ https://www.googleapis.com/compute/v1/projects/my-project/regions/us-central1/resourcePolicies/my-resource-policy ▸ projects/my-project/regions/us-central1/resourcePolicies/my-resource-policy For more information, see the following docs: ▸ https://cloud.google.com/sdk/gcloud/reference/beta/compute/resource-policies/ ▸ https://cloud.google.com/compute/docs/disks/scheduled-snapshots auto-delete If yes, this persistent disk will be automatically deleted when the instance is deleted. However, if the disk is later detached from the instance, this option won't apply. The default value for this is yes. architecture Specifies the architecture or processor type that this disk can support. For available processor types on Compute Engine, see https://cloud.google.com/compute/docs/cpu-platforms. storage-pool The name of the storage pool in which the new disk is created. The new disk and the storage pool must be in the same location. interface The interface to use with the disk. The value must be one of the following: ▸ SCSI ▸ NVME on-update-action Specifies the action to take on instance update with this disk. The default action is to use the existing disk. The value must be one of the following: ▸ USE_EXISTING_DISK ▸ RECREATE_DISK ▸ RECREATE_DISK_IF_SOURCE_CHANGED replica-zones Required for each regional disk associated with the instance. Specify the URLs of the zones where the disk should be replicated to. You must provide exactly two replica zones, and one zone must be the same as the instance zone.
+    /// Creates and attaches persistent disks to the instances. name Specifies the name of the disk. This option cannot be specified if more than one instance is being created. Must specify this option if attaching the disk to a container with --container-mount-disk. description Optional textual description for the disk being created. mode Specifies the mode of the disk. Supported options are ro for read-only and rw for read-write. If omitted, rw is used as a default. It is an error to create a disk in ro mode if attaching it to a container with --container-mount-disk. image Specifies the name of the image that the disk will be initialized with. A new disk will be created based on the given image. To view a list of public images and projects, run $ gcloud compute images list. It is best practice to use image when a specific version of an image is needed. If both image and image-family flags are omitted a blank disk will be created. image-family The image family for the operating system that the boot disk will be initialized with. Compute Engine offers multiple Linux distributions, some of which are available as both regular and Shielded VM images. When a family is specified instead of an image, the latest non-deprecated image associated with that family is used. It is best practice to use --image-family when the latest version of an image is needed. image-project The Google Cloud project against which all image and image family references will be resolved. It is best practice to define image-project. A full list of available image projects can be generated by running gcloud compute images list. ▸ If specifying one of our public images, image-project must be provided. ▸ If there are several of the same image-family value in multiple projects, image-project must be specified to clarify the image to be used. ▸ If not specified and either image or image-family is provided, the current default project is used. size The size of the disk. The value must be a whole number followed by a size unit of KB for kilobyte, MB for megabyte, GB for gigabyte, or TB for terabyte. For example, 10GB will produce a 10 gigabyte disk. Disk size must be a multiple of 1 GB. If not specified, the default image size will be used for the new disk. type The type of the disk. To get a list of available disk types, run $ gcloud compute disk-types list. The default disk type is pd-standard. device-name An optional name to display the disk name in the guest operating system. Must be the same as name if used with --container-mount-disk. If omitted, a device name of the form persistent-disk-N is used. If omitted and used with --container-mount-disk (where the name of the container mount disk is the same as in this flag), a device name equal to disk name is used. provisioned-iops Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Value must be between 10,000 and 120,000. provisioned-throughput Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. disk-resource-policy Resource policy to apply to the disk. Specify a full or partial URL. For example: ▸ https://www.googleapis.com/compute/v1/projects/my-project/regions/us-central1/resourcePolicies/my-resource-policy ▸ projects/my-project/regions/us-central1/resourcePolicies/my-resource-policy For more information, see the following docs: ▸ https://cloud.google.com/sdk/gcloud/reference/beta/compute/resource-policies/ ▸ https://cloud.google.com/compute/docs/disks/scheduled-snapshots auto-delete If yes, this persistent disk will be automatically deleted when the instance is deleted. However, if the disk is later detached from the instance, this option won't apply. The default value for this is yes. architecture Specifies the architecture or processor type that this disk can support. For available processor types on Compute Engine, see https://cloud.google.com/compute/docs/cpu-platforms. storage-pool The name of the storage pool in which the new disk is created. The new disk and the storage pool must be in the same location. interface The interface to use with the disk. The value must be one of the following: ▸ SCSI ▸ NVME on-update-action Specifies the action to take on instance update with this disk. The default action is to use the existing disk. The value must be one of the following: ▸ USE_EXISTING_DISK ▸ RECREATE_DISK ▸ RECREATE_DISK_IF_SOURCE_CHANGED replica-zones Required for each regional disk associated with the instance. Specify the URLs of the zones where the disk should be replicated to. You must provide exactly two replica zones, and one zone must be the same as the instance zone. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--create-disk", Format = OptionFormat.EqualsSeparated)]
-    public string? CreateDisk { get; set; }
+    [CliOption("--create-disk", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CreateDisk { get; set; }
 
     /// <summary>
     /// Specifies a textual description for the instance template.
@@ -191,7 +207,7 @@ public record GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions(
     /// Assigns the given external IPv6 address to the instance that is created. The address must be the first IP address in the range. This option can be used only when creating a single instance.
     /// </summary>
     [CliOption("--external-ipv6-address", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ExternalIpv6Address { get; set; }
+    public string? ExternalIpv6Address { get; set; }
 
     /// <summary>
     /// The prefix length of the external IPv6 address range. This field should be used together with --external-ipv6-address. Only the /96 IP address range is supported, and the default value is 96.
@@ -236,9 +252,9 @@ public record GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions(
     public string? Ipv6NetworkTier { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -254,15 +270,15 @@ public record GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions(
     public string? MaintenancePolicy { get; set; }
 
     /// <summary>
-    /// Metadata to be made available to the guest operating system running on the instances. Each metadata entry is a key/value pair separated by an equals sign. Each metadata key must be unique and have a max of 128 bytes in length. Each value must have a max of 256 KB in length. Multiple arguments can be passed to this flag, e.g., --metadata key-1=value-1,key-2=value-2,key-3=value-3. The combined total size for all metadata entries is 512 KB. In images that have Compute Engine tools installed on them, such as the official images (https://cloud.google.com/compute/docs/images), the following metadata keys have special meanings: startup-script Specifies a script that will be executed by the instances once they start running. For convenience, --metadata-from-file can be used to pull the value from a file. startup-script-url Same as startup-script except that the script contents are pulled from a publicly-accessible location on the web. For startup scripts on Windows instances, the following metadata keys have special meanings: windows-startup-script-url, windows-startup-script-cmd, windows-startup-script-bat, windows-startup-script-ps1, sysprep-specialize-script-url, sysprep-specialize-script-cmd, sysprep-specialize-script-bat, and sysprep-specialize-script-ps1. For more information, see Running startup scripts (https://cloud.google.com/compute/docs/startupscript).
+    /// Metadata to be made available to the guest operating system running on the instances. Each metadata entry is a key/value pair separated by an equals sign. Each metadata key must be unique and have a max of 128 bytes in length. Each value must have a max of 256 KB in length. Multiple arguments can be passed to this flag, e.g., --metadata key-1=value-1,key-2=value-2,key-3=value-3. The combined total size for all metadata entries is 512 KB. In images that have Compute Engine tools installed on them, such as the official images (https://cloud.google.com/compute/docs/images), the following metadata keys have special meanings: startup-script Specifies a script that will be executed by the instances once they start running. For convenience, --metadata-from-file can be used to pull the value from a file. startup-script-url Same as startup-script except that the script contents are pulled from a publicly-accessible location on the web. For startup scripts on Windows instances, the following metadata keys have special meanings: windows-startup-script-url, windows-startup-script-cmd, windows-startup-script-bat, windows-startup-script-ps1, sysprep-specialize-script-url, sysprep-specialize-script-cmd, sysprep-specialize-script-bat, and sysprep-specialize-script-ps1. For more information, see Running startup scripts (https://cloud.google.com/compute/docs/startupscript). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// Same as --metadata except that the value for the entry will be read from a local file. This is useful for values that are too large such as startup-script contents.
+    /// Same as --metadata except that the value for the entry will be read from a local file. This is useful for values that are too large such as startup-script contents. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MetadataFromFile { get; set; }
 
     /// <summary>
@@ -287,7 +303,7 @@ public record GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions(
     /// Specifies the network tier that will be used to configure the instance. NETWORK_TIER must be one of: PREMIUM, STANDARD. The default value is PREMIUM.
     /// </summary>
     [CliOption("--network-tier", Format = OptionFormat.EqualsSeparated)]
-    public GcloudNetworkTier? NetworkTier { get; set; }
+    public GcloudPreviewComputeInstanceTemplatesCreateWithContainerNetworkTier? NetworkTier { get; set; }
 
     /// <summary>
     /// If provided, instances will be preemptible and time-limited. Instances might be preempted to free up resources for standard VM instances, and will only be able to run for a limited amount of time. Preemptible instances can not be restarted and will not migrate.
@@ -320,9 +336,9 @@ public record GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions(
     public string? Region { get; set; }
 
     /// <summary>
-    /// A list of resource policy names (not URLs) to be added to each instance created using this instance template. If you attach any resource policies to an instance template, you can only use that instance template to create instances that are in the same region as the resource policies. Do not include resource policies that are located in different regions in the same instance template.
+    /// A list of resource policy names (not URLs) to be added to each instance created using this instance template. If you attach any resource policies to an instance template, you can only use that instance template to create instances that are in the same region as the resource policies. Do not include resource policies that are located in different regions in the same instance template. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--resource-policies", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--resource-policies", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ResourcePolicies { get; set; }
 
     /// <summary>
@@ -380,9 +396,9 @@ public record GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions(
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// Specifies a list of tags to apply to the instance. These tags allow network firewall rules and routes to be applied to specified VM instances. See gcloud compute firewall-rules create(1) for more details. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags To list instances with their respective status and tags, run: $ gcloud compute instances list \ --format='table(name,status,tags.list())' To list instances tagged with a specific tag, tag1, run: $ gcloud compute instances list --filter='tags:tag1'
+    /// Specifies a list of tags to apply to the instance. These tags allow network firewall rules and routes to be applied to specified VM instances. See gcloud compute firewall-rules create(1) for more details. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags To list instances with their respective status and tags, run: $ gcloud compute instances list \ --format='table(name,status,tags.list())' To list instances tagged with a specific tag, tag1, run: $ gcloud compute instances list --filter='tags:tag1' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -440,13 +456,13 @@ public record GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions(
     public string? ImageProject { get; set; }
 
     /// <summary>
-    /// Custom machine type extensions. At most one of these can be specified: Specifies the boot image for the instances. For each instance, a new boot disk will be created from the given image. Each boot disk will have the same name as the instance. To view a list of public images and projects, run $ gcloud compute images list. It is best practice to use --image when a specific version of an image is needed. When using this option, --boot-disk-device-name and --boot-disk-size can be used to override the boot disk's device name and size, respectively.
+    /// At most one of these can be specified: Specifies the boot image for the instances. For each instance, a new boot disk will be created from the given image. Each boot disk will have the same name as the instance. To view a list of public images and projects, run $ gcloud compute images list. It is best practice to use --image when a specific version of an image is needed. When using this option, --boot-disk-device-name and --boot-disk-size can be used to override the boot disk's device name and size, respectively.
     /// </summary>
     [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
     public string? Image { get; set; }
 
     /// <summary>
-    /// Custom machine type extensions. At most one of these can be specified: The image family for the operating system that the boot disk will be initialized with. Compute Engine offers multiple Linux distributions, some of which are available as both regular and Shielded VM images. When a family is specified instead of an image, the latest non-deprecated image associated with that family is used. It is best practice to use --image-family when the latest version of an image is needed. By default, debian-12 is assumed for this flag.
+    /// At most one of these can be specified: The image family for the operating system that the boot disk will be initialized with. Compute Engine offers multiple Linux distributions, some of which are available as both regular and Shielded VM images. When a family is specified instead of an image, the latest non-deprecated image associated with that family is used. It is best practice to use --image-family when the latest version of an image is needed. By default, debian-12 is assumed for this flag.
     /// </summary>
     [CliOption("--image-family", Format = OptionFormat.EqualsSeparated)]
     public string? ImageFamily { get; set; }
@@ -464,27 +480,89 @@ public record GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions(
     public string? ReservationAffinity { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for instances created from this template. At most one of these can be specified: If not provided, the instance will be assigned the default scopes, described below. SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances.
+    /// At most one of these can be specified: If not provided, the instance will be assigned the default scopes, described below. SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Scopes { get; set; }
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Scopes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ScopesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ScopesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Specifies the reservation for instances created from this template. At most one of these can be specified: Create instance without scopes
+    /// At most one of these can be specified: Create instance without scopes
     /// </summary>
     [CliFlag("--no-scopes")]
     public bool? NoScopes { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for instances created from this template. At most one of these can be specified: A service account is an identity attached to the instance. Its access tokens can be accessed through the instance metadata server and are used to authenticate applications on the instance. The account can be set using an email address corresponding to the required service account. If not provided, the instance will use the project's default service account.
+    /// At most one of these can be specified: A service account is an identity attached to the instance. Its access tokens can be accessed through the instance metadata server and are used to authenticate applications on the instance. The account can be set using an email address corresponding to the required service account. If not provided, the instance will use the project's default service account.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceAccount { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for instances created from this template. At most one of these can be specified: Create instance without service account
+    /// At most one of these can be specified: Create instance without service account
     /// </summary>
     [CliFlag("--no-service-account")]
     public bool? NoServiceAccount { get; set; }
+
+    /// <summary>
+    /// Name of the instance template to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Address) ? 1 : 0) + (NoAddress == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Address or NoAddress may be specified.", [nameof(Address), nameof(NoAddress)]);
+        }
+        if ((ConfidentialCompute == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(ConfidentialComputeType) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ConfidentialCompute or ConfidentialComputeType may be specified.", [nameof(ConfidentialCompute), nameof(ConfidentialComputeType)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CustomCpu) || !string.IsNullOrWhiteSpace(CustomMemory) || CustomExtensions == true || !string.IsNullOrWhiteSpace(CustomVmType) || !string.IsNullOrWhiteSpace(ImageProject)) && (!(!string.IsNullOrWhiteSpace(CustomCpu))))
+        {
+            yield return new ValidationResult("CustomCpu must be specified when other arguments in this group are specified.", [nameof(CustomCpu)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CustomCpu) || !string.IsNullOrWhiteSpace(CustomMemory) || CustomExtensions == true || !string.IsNullOrWhiteSpace(CustomVmType) || !string.IsNullOrWhiteSpace(ImageProject)) && (!(!string.IsNullOrWhiteSpace(CustomMemory))))
+        {
+            yield return new ValidationResult("CustomMemory must be specified when other arguments in this group are specified.", [nameof(CustomMemory)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Image) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ImageFamily) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Image or ImageFamily may be specified.", [nameof(Image), nameof(ImageFamily)]);
+        }
+        if ((((object?)Scopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)Scopes is not string || !string.IsNullOrWhiteSpace(Scopes?.ToString()) : ((object?)Scopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Scopes, static item => item is not null) : (Scopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Scopes), static item => item is not null)))) ? 1 : 0) + (NoScopes == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Scopes or NoScopes may be specified.", [nameof(Scopes), nameof(NoScopes)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ServiceAccount) ? 1 : 0) + (NoServiceAccount == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ServiceAccount or NoServiceAccount may be specified.", [nameof(ServiceAccount), nameof(NoServiceAccount)]);
+        }
+        yield break;
+    }
 
 }

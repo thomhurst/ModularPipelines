@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("redis", "clusters", "backup-collections", "describe")]
 public record GcloudRedisClustersBackupCollectionsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show metadata for a     backup collection
+    /// </summary>
+    /// <param name="BackupCollection">Backup collection resource - Arguments and flags that specify the backup collection you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup collection or fully qualified identifier for the backup collection. To set the backup_collection attribute: ▸ provide the argument backup_collection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudRedisClustersBackupCollectionsDescribeOptions(
+        string BackupCollection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupCollection);
+        this.BackupCollection = BackupCollection;
+    }
+
+    public void Deconstruct(out string BackupCollection)
+    {
+        BackupCollection = this.BackupCollection;
+    }
+
+    /// <summary>
+    /// Backup collection resource - Arguments and flags that specify the backup collection you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Redis region of the backup collection. Overrides the default redis/region property value for this command invocation. To set the region attribute: ▸ provide the argument backup_collection on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property redis/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Backup collection resource - Arguments and flags that specify the backup collection you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup collection or fully qualified identifier for the backup collection. To set the backup_collection attribute: ▸ provide the argument backup_collection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackupCollection { get; private init; }
+
 }

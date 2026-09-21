@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "instance-configs", "describe")]
-public record GcloudSpannerInstanceConfigsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceConfig
-) : GcloudOptions
+public record GcloudSpannerInstanceConfigsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Cloud Spanner     instance configuration
+    /// </summary>
+    /// <param name="InstanceConfig">Cloud Spanner instance config.</param>
+    public GcloudSpannerInstanceConfigsDescribeOptions(
+        string InstanceConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceConfig);
+        this.InstanceConfig = InstanceConfig;
+    }
+
+    public void Deconstruct(out string InstanceConfig)
+    {
+        InstanceConfig = this.InstanceConfig;
+    }
+
+    /// <summary>
+    /// Cloud Spanner instance config.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceConfig { get; private init; }
+
 }

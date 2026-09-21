@@ -21,4 +21,74 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("healthcare", "fhir-stores", "create")]
 public record GcloudHealthcareFhirStoresCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Cloud Healthcare API FHIR     store
+    /// </summary>
+    /// <param name="Version">The FHIR specification version that this FHIR store supports natively. This field is immutable after store creation. Requests are rejected if they contain FHIR resources of a different version. An empty value is treated as STU3. VERSION must be one of: dstu2 Draft Standard for Trial Use, Release 2 (https://www.hl7.org/fhir/DSTU2) r4 Release 4 (https://www.hl7.org/fhir/R4) stu3 Standard for Trial Use, Release 3 (https://www.hl7.org/fhir/STU3)</param>
+    /// <param name="FhirStore">FhirStore resource - Cloud Healthcare API FHIR store to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument fhir_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the fhirStore or fully qualified identifier for the fhirStore. To set the fhir_store attribute: ▸ provide the argument fhir_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudHealthcareFhirStoresCreateOptions(
+        string Version,
+        string FhirStore
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+        global::System.ArgumentNullException.ThrowIfNull(FhirStore);
+        this.FhirStore = FhirStore;
+    }
+
+    public void Deconstruct(out string Version, out string FhirStore)
+    {
+        Version = this.Version;
+        FhirStore = this.FhirStore;
+    }
+
+    /// <summary>
+    /// The FHIR specification version that this FHIR store supports natively. This field is immutable after store creation. Requests are rejected if they contain FHIR resources of a different version. An empty value is treated as STU3. VERSION must be one of: dstu2 Draft Standard for Trial Use, Release 2 (https://www.hl7.org/fhir/DSTU2) r4 Release 4 (https://www.hl7.org/fhir/R4) stu3 Standard for Trial Use, Release 3 (https://www.hl7.org/fhir/STU3)
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string Version { get; private init; }
+
+    /// <summary>
+    /// FhirStore resource - Cloud Healthcare API FHIR store to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument fhir_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud Healthcare dataset. To set the dataset attribute: ▸ provide the argument fhir_store on the command line with a fully specified name; ▸ provide the argument --dataset on the command line.
+    /// </summary>
+    [CliOption("--dataset", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSet { get; set; }
+
+    /// <summary>
+    /// FhirStore resource - Cloud Healthcare API FHIR store to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument fhir_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location. To set the location attribute: ▸ provide the argument fhir_store on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property healthcare/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Whether to disable referential integrity in this FHIR store. Default value is false, meaning that the API will enforce referential integrity and fail the requests that will result in inconsistent state in the FHIR store. When this field is set to true, the API will skip referential integrity check. This field is immutable after store creation.
+    /// </summary>
+    [CliFlag("--disable-referential-integrity")]
+    public bool? DisableReferentialIntegrity { get; set; }
+
+    /// <summary>
+    /// Whether to disable resource versioning for this FHIR store. If set to false, which is the default behavior, all write operations will cause historical versions to be recorded automatically. Historical versions can be fetched through the history APIs, but cannot be updated. This field is immutable after store creation.
+    /// </summary>
+    [CliFlag("--disable-resource-versioning")]
+    public bool? DisableResourceVersioning { get; set; }
+
+    /// <summary>
+    /// Whether this FHIR store has the [updateCreate] (https://www.hl7.org/fhir/capabilitystatement-definitions.html#CapabilityStatement.rest.resource.updateCreate) capability. Determines if the client can use an Update operation to create a new resource with a client-specified ID. If false, all IDs are server-assigned through the Create operation and attempts to Update a non-existent resource will return errors.
+    /// </summary>
+    [CliFlag("--enable-update-create")]
+    public bool? EnableUpdateCreate { get; set; }
+
+    /// <summary>
+    /// Google Cloud Pub/Sub topic to send updates to. Note, a topic needs to be created before publishing or subscribing to it. For instructions on creating topics, refer to: https://cloud.google.com/pubsub/docs/admin#create_a_topic
+    /// </summary>
+    [CliOption("--pubsub-topic", Format = OptionFormat.EqualsSeparated)]
+    public string? PubsubTopic { get; set; }
+
+    /// <summary>
+    /// FhirStore resource - Cloud Healthcare API FHIR store to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument fhir_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the fhirStore or fully qualified identifier for the fhirStore. To set the fhir_store attribute: ▸ provide the argument fhir_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FhirStore { get; private init; }
+
 }

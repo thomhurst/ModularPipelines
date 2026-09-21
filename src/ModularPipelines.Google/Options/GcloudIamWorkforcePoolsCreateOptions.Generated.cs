@@ -21,4 +21,86 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("iam", "workforce-pools", "create")]
 public record GcloudIamWorkforcePoolsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new workforce pool under an     organization
+    /// </summary>
+    /// <param name="Organization">The parent organization of the workforce pool to create.</param>
+    /// <param name="WorkforcePool">Workforce pool resource - The workforce pool to create. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workforce pool or fully qualified identifier for the workforce pool. To set the workforce_pool attribute: ▸ provide the argument workforce_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamWorkforcePoolsCreateOptions(
+        string Organization,
+        string WorkforcePool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Organization);
+        this.Organization = Organization;
+        global::System.ArgumentNullException.ThrowIfNull(WorkforcePool);
+        this.WorkforcePool = WorkforcePool;
+    }
+
+    public void Deconstruct(out string Organization, out string WorkforcePool)
+    {
+        Organization = this.Organization;
+        WorkforcePool = this.WorkforcePool;
+    }
+
+    /// <summary>
+    /// The parent organization of the workforce pool to create.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string Organization { get; private init; }
+
+    /// <summary>
+    /// Workforce pool resource - The workforce pool to create. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location for the workforce pool. To set the location attribute: ▸ provide the argument workforce_pool on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Services allowed for web sign-in with the workforce pool. The flag accepts multiple values with the key as domain and value as the domain of the service allowed for web sign-in. If not set, by default all the services are allowed.
+    /// </summary>
+    [CliOption("--allowed-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AllowedServices { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A description for the workforce pool. Cannot exceed 256 characters in length.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Disable programmatic sign-in for workforce pool users.
+    /// </summary>
+    [CliFlag("--disable-programmatic-signin")]
+    public bool? DisableProgrammaticSignin { get; set; }
+
+    /// <summary>
+    /// Whether or not the workforce pool is disabled.
+    /// </summary>
+    [CliFlag("--disabled")]
+    public bool? Disabled { get; set; }
+
+    /// <summary>
+    /// A display name for the workforce pool. Cannot exceed 32 characters in length.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// How long the Google Cloud access tokens, console sign-in sessions, and gcloud sign-in sessions from this workforce pool are valid. Must be greater than 15 minutes (900s) and less than 12 hours (43200s). If not configured, minted credentials will have a default duration of one hour (3600s).
+    /// </summary>
+    [CliOption("--session-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? SessionDuration { get; set; }
+
+    /// <summary>
+    /// Workforce pool resource - The workforce pool to create. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workforce pool or fully qualified identifier for the workforce pool. To set the workforce_pool attribute: ▸ provide the argument workforce_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WorkforcePool { get; private init; }
+
 }

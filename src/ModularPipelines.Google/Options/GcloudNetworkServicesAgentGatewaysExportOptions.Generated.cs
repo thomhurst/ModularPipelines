@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkServicesAgentGatewaysExportOptions : GcloudOptions
 {
     /// <summary>
+    /// export an AgentGateway
+    /// </summary>
+    /// <param name="AgentGateway">Agent gateway resource - Name of the agent gateway to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument agent_gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the agent gateway or fully qualified identifier for the agent gateway. To set the agent_gateway attribute: ▸ provide the argument agent_gateway on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkServicesAgentGatewaysExportOptions(
+        string AgentGateway
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AgentGateway);
+        this.AgentGateway = AgentGateway;
+    }
+
+    public void Deconstruct(out string AgentGateway)
+    {
+        AgentGateway = this.AgentGateway;
+    }
+
+    /// <summary>
+    /// Agent gateway resource - Name of the agent gateway to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument agent_gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument agent_gateway on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Path to a YAML file where the configuration will be exported. The exported data will not contain any output-only fields. Alternatively, you may omit this flag to write to standard output. For a schema describing the export/import format, see $CLOUDSDKROOT/lib/googlecloudsdk/schemas/...
     /// </summary>
     [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
     public string? Destination { get; set; }
+
+    /// <summary>
+    /// Agent gateway resource - Name of the agent gateway to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument agent_gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the agent gateway or fully qualified identifier for the agent gateway. To set the agent_gateway attribute: ▸ provide the argument agent_gateway on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AgentGateway { get; private init; }
 
 }

@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "operations", "delete")]
-public record GcloudFirestoreOperationsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudFirestoreOperationsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a completed Cloud Firestore     admin operation
+    /// </summary>
+    /// <param name="Name">The unique name of the operation to delete, formatted as either the full or relative resource path: projects/my-app-id/databases/(default)/operations/foo or: foo</param>
+    public GcloudFirestoreOperationsDeleteOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// The database to operate on. The default value is (default). For example, to operate on database foo: $ gcloud firestore operations delete --database='foo'
     /// </summary>
     [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
     public string? Database { get; set; }
+
+    /// <summary>
+    /// The unique name of the operation to delete, formatted as either the full or relative resource path: projects/my-app-id/databases/(default)/operations/foo or: foo
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

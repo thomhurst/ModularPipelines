@@ -21,4 +21,84 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apihub", "attributes", "create")]
 public record GcloudApihubAttributesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create an Attribute
+    /// </summary>
+    /// <param name="DataType">The type of the data of the attribute. DATA_TYPE must be one of: enum Attribute's value is of type enum. json Attribute's value is of type json. string Attribute's value is of type string. uri Attribute's value is of type uri.</param>
+    /// <param name="DisplayName">The display name of the attribute.</param>
+    /// <param name="Scope">The scope of the attribute. It represents the resource in the API Hub to which the attribute can be linked. SCOPE must be one of: api Attribute can be linked to an API. api-operation Attribute can be linked to an API Operation. definition Attribute can be linked to a definition. dependency Attribute can be linked to a Dependency. deployment Attribute can be linked to a Deployment. external-api Attribute can be linked to a ExternalAPI. plugin Attribute can be linked to a Plugin. spec Attribute can be linked to a Spec. version Attribute can be linked to an API version.</param>
+    /// <param name="Attribute">Attribute resource - Identifier. The name of the attribute in the API Hub. Format: projects/{project}/locations/{location}/attributes/{attribute} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument attribute on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the attribute or fully qualified identifier for the attribute. To set the attribute attribute: ▸ provide the argument attribute on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubAttributesCreateOptions(
+        string DataType,
+        string DisplayName,
+        string Scope,
+        string Attribute
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataType);
+        this.DataType = DataType;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+        global::System.ArgumentNullException.ThrowIfNull(Attribute);
+        this.Attribute = Attribute;
+    }
+
+    public void Deconstruct(out string DataType, out string DisplayName, out string Scope, out string Attribute)
+    {
+        DataType = this.DataType;
+        DisplayName = this.DisplayName;
+        Scope = this.Scope;
+        Attribute = this.Attribute;
+    }
+
+    /// <summary>
+    /// The type of the data of the attribute. DATA_TYPE must be one of: enum Attribute's value is of type enum. json Attribute's value is of type json. string Attribute's value is of type string. uri Attribute's value is of type uri.
+    /// </summary>
+    [CliOption("--data-type", Format = OptionFormat.EqualsSeparated)]
+    public string DataType { get; private init; }
+
+    /// <summary>
+    /// The display name of the attribute.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// The scope of the attribute. It represents the resource in the API Hub to which the attribute can be linked. SCOPE must be one of: api Attribute can be linked to an API. api-operation Attribute can be linked to an API Operation. definition Attribute can be linked to a definition. dependency Attribute can be linked to a Dependency. deployment Attribute can be linked to a Deployment. external-api Attribute can be linked to a ExternalAPI. plugin Attribute can be linked to a Plugin. spec Attribute can be linked to a Spec. version Attribute can be linked to an API version.
+    /// </summary>
+    [CliOption("--scope", Format = OptionFormat.EqualsSeparated)]
+    public string Scope { get; private init; }
+
+    /// <summary>
+    /// Attribute resource - Identifier. The name of the attribute in the API Hub. Format: projects/{project}/locations/{location}/attributes/{attribute} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument attribute on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the attribute resource. To set the location attribute: ▸ provide the argument attribute on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// The list of allowed values when the attribute value is of type enum. This is required when the data_type of the attribute is ENUM. The maximum number of allowed values of an attribute will be 1000. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ▸ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ▸ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. Shorthand Example: --allowed-values=description=string,displayName=string,id=string,immutable=boolean --allowed-values=description=string,displayName=string,id=string,immutable=boolean JSON Example: --allowed-values='[{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]' File Example: --allowed-values=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--allowed-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AllowedValues { get; set; }
+
+    /// <summary>
+    /// The maximum number of values that the attribute can have when associated with an API Hub resource. Cardinality 1 would represent a single-valued attribute. It must not be less than 1 or greater than 20. If not specified, the cardinality would be set to 1 by default and represent a single-valued attribute.
+    /// </summary>
+    [CliOption("--cardinality", Format = OptionFormat.EqualsSeparated)]
+    public string? Cardinality { get; set; }
+
+    /// <summary>
+    /// The description of the attribute.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Attribute resource - Identifier. The name of the attribute in the API Hub. Format: projects/{project}/locations/{location}/attributes/{attribute} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument attribute on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the attribute or fully qualified identifier for the attribute. To set the attribute attribute: ▸ provide the argument attribute on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Attribute { get; private init; }
+
 }

@@ -19,8 +19,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "attachments", "groups", "remove-members")]
-public record GcloudPreviewComputeInterconnectsAttachmentsGroupsRemoveMembersOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInterconnectsAttachmentsGroupsRemoveMembersOptions : GcloudOptions
 {
+    /// <summary>
+    /// remove member interconnect attachments from a Compute Engine     interconnect attachment group
+    /// </summary>
+    /// <param name="Attachments">Member interconnect attachments to add to or remove from the interconnect attachment group. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Name">Name of the interconnect attachment group to update.</param>
+    public GcloudPreviewComputeInterconnectsAttachmentsGroupsRemoveMembersOptions(
+        IEnumerable<string> Attachments,
+        string Name
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Attachments);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Attachments));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Attachments));
+            }
+
+            Attachments = materialized;
+        }
+        this.Attachments = Attachments;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Attachments, out string Name)
+    {
+        Attachments = this.Attachments;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Member interconnect attachments to add to or remove from the interconnect attachment group. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--attachments", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Attachments { get; private init; }
+
+    /// <summary>
+    /// Name of the interconnect attachment group to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

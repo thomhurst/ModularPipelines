@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,10 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigee", "products", "update")]
-public record GcloudApigeeProductsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Api
-) : GcloudOptions
+public record GcloudApigeeProductsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update an existing Apigee API product
+    /// </summary>
+    /// <param name="Product">API product resource - API product to be updated. To get a list of available API products, run: $ gcloud apigee products list The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the API product or fully qualified identifier for the API product. To set the product attribute: ▸ provide the argument PRODUCT on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApigeeProductsUpdateOptions(
+        string Product
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Product);
+        this.Product = Product;
+    }
+
+    public void Deconstruct(out string Product)
+    {
+        Product = this.Product;
+    }
+
+    /// <summary>
+    /// API product resource - API product to be updated. To get a list of available API products, run: $ gcloud apigee products list The arguments in this group can be used to specify the attributes of this resource. This must be specified. Apigee organization containing the API product. If unspecified, the Cloud Platform project's associated organization will be used. To set the organization attribute: ▸ provide the argument PRODUCT on the command line with a fully specified name; ▸ provide the argument --organization on the command line; ▸ set the property [project] or provide the argument [--project] on the command line, using a Cloud Platform project with an associated Apigee organization.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
     /// <summary>
     /// Name to be displayed in the UI or developer portal to developers registering for API access.
     /// </summary>
@@ -37,16 +59,60 @@ public record GcloudApigeeProductsUpdateOptions(
     public bool? AllApis { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: API proxies to which this API product is bound. Only those API proxies will be accessible through the API product. The API proxy names must already be deployed to the bound environments, or creation of the API product will fail. To get a list of deployed API proxies, run: $ gcloud apigee deployments list To deploy an API proxy, run: $ gcloud apigee apis deploy. Adds a new API to the set of APIs.
+    /// At most one of these can be specified: Or at least one of these can be specified: API proxies to which this API product is bound. Only those API proxies will be accessible through the API product. The API proxy names must already be deployed to the bound environments, or creation of the API product will fail. To get a list of deployed API proxies, run: $ gcloud apigee deployments list To deploy an API proxy, run: $ gcloud apigee apis deploy. Adds a new API to the set of APIs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-api", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddApi { get; set; }
+    [CliOption("--add-api", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddApi
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddApiSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddApiSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: API proxies to which this API product is bound. Only those API proxies will be accessible through the API product. The API proxy names must already be deployed to the bound environments, or creation of the API product will fail. To get a list of deployed API proxies, run: $ gcloud apigee deployments list To deploy an API proxy, run: $ gcloud apigee apis deploy. Removes an existing API from the set of APIs.
+    /// At most one of these can be specified: Or at least one of these can be specified: API proxies to which this API product is bound. Only those API proxies will be accessible through the API product. The API proxy names must already be deployed to the bound environments, or creation of the API product will fail. To get a list of deployed API proxies, run: $ gcloud apigee deployments list To deploy an API proxy, run: $ gcloud apigee apis deploy. Removes an existing API from the set of APIs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-api", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveApi { get; set; }
+    [CliOption("--remove-api", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveApi
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveApiSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveApiSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Make all environments accessible through this API product.
@@ -55,16 +121,60 @@ public record GcloudApigeeProductsUpdateOptions(
     public bool? AllEnvironments { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Environments to which the API product is bound. Requests to environments that are not listed are rejected, preventing developers from accessing those resources even if they can access the same API proxies in another environment. For example, this can be used to prevent applications with access to production APIs from accessing the alpha or beta versions of those APIs. To get a list of available environments, run: $ gcloud apigee environments list Adds a new environment to the set of environments.
+    /// At most one of these can be specified: Or at least one of these can be specified: Environments to which the API product is bound. Requests to environments that are not listed are rejected, preventing developers from accessing those resources even if they can access the same API proxies in another environment. For example, this can be used to prevent applications with access to production APIs from accessing the alpha or beta versions of those APIs. To get a list of available environments, run: $ gcloud apigee environments list Adds a new environment to the set of environments. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-environment", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddEnvironment { get; set; }
+    [CliOption("--add-environment", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddEnvironment
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddEnvironmentSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddEnvironmentSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Environments to which the API product is bound. Requests to environments that are not listed are rejected, preventing developers from accessing those resources even if they can access the same API proxies in another environment. For example, this can be used to prevent applications with access to production APIs from accessing the alpha or beta versions of those APIs. To get a list of available environments, run: $ gcloud apigee environments list Removes an existing environment from the set of environments.
+    /// At most one of these can be specified: Or at least one of these can be specified: Environments to which the API product is bound. Requests to environments that are not listed are rejected, preventing developers from accessing those resources even if they can access the same API proxies in another environment. For example, this can be used to prevent applications with access to production APIs from accessing the alpha or beta versions of those APIs. To get a list of available environments, run: $ gcloud apigee environments list Removes an existing environment from the set of environments. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-environment", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveEnvironment { get; set; }
+    [CliOption("--remove-environment", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveEnvironment
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveEnvironmentSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveEnvironmentSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Include all deployed API resources in the product, so long as they match the other parameters.
@@ -76,13 +186,93 @@ public record GcloudApigeeProductsUpdateOptions(
     /// At most one of these can be specified: Or at least one of these can be specified: API resources to be bundled in the API product. By default, the resource paths are mapped from the proxy.pathsuffix variable. The proxy path suffix is defined as the URI fragment following the ProxyEndpoint base path. For example, if /forecastrss is given as an element of this list, and the base path defined for the API proxy is /weather, then only requests to /weather/forecastrss are permitted by the API product. Proxy paths can use asterisks as wildcards; /** indicates that all sub-URIs are included, whereas a single asterisk indicates that only URIs one level down are included. By default, / supports the same resources as /** as well as the base path defined by the API proxy. For example, if the base path of the API proxy is /v1/weatherapikey, then the API product supports requests to /v1/weatherapikey and to any sub-URIs, such as /v1/weatherapikey/forecastrss, /v1/weatherapikey/region/CA, and so on. The API proxy resources must already be deployed to the bound environments, or creation of the API product will fail. Adds a new resource to the set of resources.
     /// </summary>
     [CliOption("--add-resource", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddResource { get; set; }
+    public IEnumerable<string>? AddResource
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddResourceSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddResourceSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddResourceSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddResourceSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Or at least one of these can be specified: API resources to be bundled in the API product. By default, the resource paths are mapped from the proxy.pathsuffix variable. The proxy path suffix is defined as the URI fragment following the ProxyEndpoint base path. For example, if /forecastrss is given as an element of this list, and the base path defined for the API proxy is /weather, then only requests to /weather/forecastrss are permitted by the API product. Proxy paths can use asterisks as wildcards; /** indicates that all sub-URIs are included, whereas a single asterisk indicates that only URIs one level down are included. By default, / supports the same resources as /** as well as the base path defined by the API proxy. For example, if the base path of the API proxy is /v1/weatherapikey, then the API product supports requests to /v1/weatherapikey and to any sub-URIs, such as /v1/weatherapikey/forecastrss, /v1/weatherapikey/region/CA, and so on. The API proxy resources must already be deployed to the bound environments, or creation of the API product will fail. Removes an existing resource from the set of resources.
     /// </summary>
     [CliOption("--remove-resource", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveResource { get; set; }
+    public IEnumerable<string>? RemoveResource
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveResourceSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveResourceSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveResourceSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveResourceSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Allow developers to generate approved consumer keys without waiting for approval.
@@ -103,16 +293,60 @@ public record GcloudApigeeProductsUpdateOptions(
     public bool? ClearAttributes { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Key-value attribute pairs that may be used to extend the default API product profile with customer-specific metadata. Up to 17 attributes can be specified. Adds a new attribute to the set of attributes.
+    /// At most one of these can be specified: Or at least one of these can be specified: Key-value attribute pairs that may be used to extend the default API product profile with customer-specific metadata. Up to 17 attributes can be specified. Adds a new attribute to the set of attributes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-attribute", Format = OptionFormat.EqualsSeparated)]
-    public string? AddAttribute { get; set; }
+    [CliOption("--add-attribute", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddAttribute
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddAttributeSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddAttributeSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Key-value attribute pairs that may be used to extend the default API product profile with customer-specific metadata. Up to 17 attributes can be specified. Removes an existing attribute from the set of attributes.
+    /// At most one of these can be specified: Or at least one of these can be specified: Key-value attribute pairs that may be used to extend the default API product profile with customer-specific metadata. Up to 17 attributes can be specified. Removes an existing attribute from the set of attributes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-attribute", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveAttribute { get; set; }
+    [CliOption("--remove-attribute", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveAttribute
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveAttributeSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveAttributeSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Remove the API product's description.
@@ -133,16 +367,60 @@ public record GcloudApigeeProductsUpdateOptions(
     public bool? ClearOauthScopes { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of OAuth scopes that are validated at runtime. Apigee validates that the scopes in any access token presented match the scopes defined in the OAuth policy assoicated with the API product. Adds a new OAuth scope to the set of OAuth scopes.
+    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of OAuth scopes that are validated at runtime. Apigee validates that the scopes in any access token presented match the scopes defined in the OAuth policy assoicated with the API product. Adds a new OAuth scope to the set of OAuth scopes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-oauth-scope", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddOauthScope { get; set; }
+    [CliOption("--add-oauth-scope", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddOauthScope
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddOauthScopeSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddOauthScopeSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of OAuth scopes that are validated at runtime. Apigee validates that the scopes in any access token presented match the scopes defined in the OAuth policy assoicated with the API product. Removes an existing OAuth scope from the set of OAuth scopes.
+    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of OAuth scopes that are validated at runtime. Apigee validates that the scopes in any access token presented match the scopes defined in the OAuth policy assoicated with the API product. Removes an existing OAuth scope from the set of OAuth scopes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-oauth-scope", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveOauthScope { get; set; }
+    [CliOption("--remove-oauth-scope", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveOauthScope
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveOauthScopeSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveOauthScopeSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Remove any quota currently imposed on the API product.
@@ -166,7 +444,7 @@ public record GcloudApigeeProductsUpdateOptions(
     /// At most one of these can be specified: Or at least one of these can be specified: To impose a quota limit on calls to the API product, specify all of the following: Time unit for --quota-interval. QUOTA_UNIT must be one of: minute, hour, day, month.
     /// </summary>
     [CliOption("--quota-unit", Format = OptionFormat.EqualsSeparated)]
-    public GcloudQuotaUnit? QuotaUnit { get; set; }
+    public GcloudApigeeProductsUpdateQuotaUnit? QuotaUnit { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Prevent external access to this API product.
@@ -185,5 +463,53 @@ public record GcloudApigeeProductsUpdateOptions(
     /// </summary>
     [CliFlag("--public-access")]
     public bool? PublicAccess { get; set; }
+
+    /// <summary>
+    /// API product resource - API product to be updated. To get a list of available API products, run: $ gcloud apigee products list The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the API product or fully qualified identifier for the API product. To set the product attribute: ▸ provide the argument PRODUCT on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Product { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((AllApis == true ? 1 : 0) + ((((object?)AddApi is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddApi is not string || !string.IsNullOrWhiteSpace(AddApi?.ToString()) : ((object?)AddApi is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddApi, static item => item is not null) : (AddApi is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddApi), static item => item is not null)))) || ((object?)RemoveApi is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveApi is not string || !string.IsNullOrWhiteSpace(RemoveApi?.ToString()) : ((object?)RemoveApi is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveApi, static item => item is not null) : (RemoveApi is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveApi), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AllApis or (AddApi or RemoveApi) may be specified.", [nameof(AllApis), nameof(AddApi), nameof(RemoveApi)]);
+        }
+        if ((AllEnvironments == true ? 1 : 0) + ((((object?)AddEnvironment is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddEnvironment is not string || !string.IsNullOrWhiteSpace(AddEnvironment?.ToString()) : ((object?)AddEnvironment is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddEnvironment, static item => item is not null) : (AddEnvironment is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddEnvironment), static item => item is not null)))) || ((object?)RemoveEnvironment is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveEnvironment is not string || !string.IsNullOrWhiteSpace(RemoveEnvironment?.ToString()) : ((object?)RemoveEnvironment is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveEnvironment, static item => item is not null) : (RemoveEnvironment is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveEnvironment), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AllEnvironments or (AddEnvironment or RemoveEnvironment) may be specified.", [nameof(AllEnvironments), nameof(AddEnvironment), nameof(RemoveEnvironment)]);
+        }
+        if ((AllResources == true ? 1 : 0) + ((((object?)AddResource is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddResource, static item => item is not null) : ((object?)AddResource is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddResource is not string || !string.IsNullOrWhiteSpace(AddResource?.ToString()) : ((object?)AddResource is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddResource, static item => item is not null) : (AddResource is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddResource), static item => item is not null))))) || ((object?)RemoveResource is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveResource, static item => item is not null) : ((object?)RemoveResource is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveResource is not string || !string.IsNullOrWhiteSpace(RemoveResource?.ToString()) : ((object?)RemoveResource is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveResource, static item => item is not null) : (RemoveResource is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveResource), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AllResources or (AddResource or RemoveResource) may be specified.", [nameof(AllResources), nameof(AddResource), nameof(RemoveResource)]);
+        }
+        if ((AutomaticApproval == true ? 1 : 0) + (ManualApproval == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AutomaticApproval or ManualApproval may be specified.", [nameof(AutomaticApproval), nameof(ManualApproval)]);
+        }
+        if ((ClearAttributes == true ? 1 : 0) + ((((object?)AddAttribute is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAttribute is not string || !string.IsNullOrWhiteSpace(AddAttribute?.ToString()) : ((object?)AddAttribute is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAttribute, static item => item is not null) : (AddAttribute is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAttribute), static item => item is not null)))) || ((object?)RemoveAttribute is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAttribute is not string || !string.IsNullOrWhiteSpace(RemoveAttribute?.ToString()) : ((object?)RemoveAttribute is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAttribute, static item => item is not null) : (RemoveAttribute is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAttribute), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearAttributes or (AddAttribute or RemoveAttribute) may be specified.", [nameof(ClearAttributes), nameof(AddAttribute), nameof(RemoveAttribute)]);
+        }
+        if ((ClearDescription == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Description) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearDescription or Description may be specified.", [nameof(ClearDescription), nameof(Description)]);
+        }
+        if ((ClearOauthScopes == true ? 1 : 0) + ((((object?)AddOauthScope is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddOauthScope is not string || !string.IsNullOrWhiteSpace(AddOauthScope?.ToString()) : ((object?)AddOauthScope is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddOauthScope, static item => item is not null) : (AddOauthScope is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddOauthScope), static item => item is not null)))) || ((object?)RemoveOauthScope is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveOauthScope is not string || !string.IsNullOrWhiteSpace(RemoveOauthScope?.ToString()) : ((object?)RemoveOauthScope is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveOauthScope, static item => item is not null) : (RemoveOauthScope is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveOauthScope), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearOauthScopes or (AddOauthScope or RemoveOauthScope) may be specified.", [nameof(ClearOauthScopes), nameof(AddOauthScope), nameof(RemoveOauthScope)]);
+        }
+        if ((ClearQuota == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Quota) || !string.IsNullOrWhiteSpace(QuotaInterval) || (object?)QuotaUnit is not null) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearQuota or (Quota, QuotaInterval, or QuotaUnit) may be specified.", [nameof(ClearQuota), nameof(Quota), nameof(QuotaInterval), nameof(QuotaUnit)]);
+        }
+        if ((InternalAccess == true ? 1 : 0) + (PrivateAccess == true ? 1 : 0) + (PublicAccess == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of InternalAccess, PrivateAccess, or PublicAccess may be specified.", [nameof(InternalAccess), nameof(PrivateAccess), nameof(PublicAccess)]);
+        }
+        yield break;
+    }
 
 }

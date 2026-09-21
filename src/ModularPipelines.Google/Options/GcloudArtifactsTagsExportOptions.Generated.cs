@@ -21,4 +21,56 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("artifacts", "tags", "export")]
 public record GcloudArtifactsTagsExportOptions : GcloudOptions
 {
+    /// <summary>
+    /// export an Artifact Registry package version     by tag
+    /// </summary>
+    /// <param name="GcsDestination">Google Cloud Storage path to export the artifact to.</param>
+    /// <param name="Tag">Tag resource - The Artifact Registry tag name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tag on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tag or fully qualified identifier for the tag. To set the tag attribute: ▸ provide the argument tag on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudArtifactsTagsExportOptions(
+        string GcsDestination,
+        string Tag
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GcsDestination);
+        this.GcsDestination = GcsDestination;
+        global::System.ArgumentNullException.ThrowIfNull(Tag);
+        this.Tag = Tag;
+    }
+
+    public void Deconstruct(out string GcsDestination, out string Tag)
+    {
+        GcsDestination = this.GcsDestination;
+        Tag = this.Tag;
+    }
+
+    /// <summary>
+    /// Google Cloud Storage path to export the artifact to.
+    /// </summary>
+    [CliOption("--gcs-destination", Format = OptionFormat.EqualsSeparated)]
+    public string GcsDestination { get; private init; }
+
+    /// <summary>
+    /// Tag resource - The Artifact Registry tag name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tag on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the tag. To set the location attribute: ▸ provide the argument tag on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Tag resource - The Artifact Registry tag name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tag on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Package of the tag. To set the package attribute: ▸ provide the argument tag on the command line with a fully specified name; ▸ provide the argument --package on the command line.
+    /// </summary>
+    [CliOption("--package", Format = OptionFormat.EqualsSeparated)]
+    public string? Package { get; set; }
+
+    /// <summary>
+    /// Tag resource - The Artifact Registry tag name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tag on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Repository of the tag. To set the repository attribute: ▸ provide the argument tag on the command line with a fully specified name; ▸ provide the argument --repository on the command line; ▸ set the property artifacts/repository.
+    /// </summary>
+    [CliOption("--repository", Format = OptionFormat.EqualsSeparated)]
+    public string? Repository { get; set; }
+
+    /// <summary>
+    /// Tag resource - The Artifact Registry tag name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tag on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tag or fully qualified identifier for the tag. To set the tag attribute: ▸ provide the argument tag on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Tag { get; private init; }
+
 }

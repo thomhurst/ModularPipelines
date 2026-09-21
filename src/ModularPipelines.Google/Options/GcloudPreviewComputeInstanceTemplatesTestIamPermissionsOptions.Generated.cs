@@ -21,4 +21,49 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("preview", "compute", "instance-templates", "test-iam-permissions")]
 public record GcloudPreviewComputeInstanceTemplatesTestIamPermissionsOptions : GcloudOptions
 {
+    /// <summary>
+    /// test IAM     permissions for a Compute Engine instance template
+    /// </summary>
+    /// <param name="Permissions">Permissions to be tested. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="InstanceTemplate">Instance template resource - The instance template for which to test permissions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance_template or fully qualified identifier for the instance_template. To set the instance_template attribute: ▸ provide the argument instance_template on the command line.</param>
+    public GcloudPreviewComputeInstanceTemplatesTestIamPermissionsOptions(
+        IEnumerable<string> Permissions,
+        string InstanceTemplate
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Permissions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Permissions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Permissions));
+            }
+
+            Permissions = materialized;
+        }
+        this.Permissions = Permissions;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceTemplate);
+        this.InstanceTemplate = InstanceTemplate;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Permissions, out string InstanceTemplate)
+    {
+        Permissions = this.Permissions;
+        InstanceTemplate = this.InstanceTemplate;
+    }
+
+    /// <summary>
+    /// Permissions to be tested. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--permissions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Permissions { get; private init; }
+
+    /// <summary>
+    /// Instance template resource - The instance template for which to test permissions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance_template or fully qualified identifier for the instance_template. To set the instance_template attribute: ▸ provide the argument instance_template on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceTemplate { get; private init; }
+
 }

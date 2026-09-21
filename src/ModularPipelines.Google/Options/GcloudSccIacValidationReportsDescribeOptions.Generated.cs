@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("scc", "iac-validation-reports", "describe")]
 public record GcloudSccIacValidationReportsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Cloud Security     Command Center IaC Validation Report
+    /// </summary>
+    /// <param name="Report">Report resource - IAC Validation report to be described. For example organizations/123/locations/global/reports/abcef-gh. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the report or fully qualified identifier for the report. To set the report attribute: ▸ provide the argument report on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSccIacValidationReportsDescribeOptions(
+        string Report
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Report);
+        this.Report = Report;
+    }
+
+    public void Deconstruct(out string Report)
+    {
+        Report = this.Report;
+    }
+
+    /// <summary>
+    /// Report resource - IAC Validation report to be described. For example organizations/123/locations/global/reports/abcef-gh. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the location where the resource exists (for example, global). To set the location attribute: ▸ provide the argument report on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Report resource - IAC Validation report to be described. For example organizations/123/locations/global/reports/abcef-gh. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the organization which is the parent of the resource. To set the organization attribute: ▸ provide the argument report on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Report resource - IAC Validation report to be described. For example organizations/123/locations/global/reports/abcef-gh. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the report or fully qualified identifier for the report. To set the report attribute: ▸ provide the argument report on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Report { get; private init; }
+
 }

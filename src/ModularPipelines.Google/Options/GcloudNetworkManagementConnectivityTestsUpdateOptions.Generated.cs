@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "connectivity-tests", "update")]
-public record GcloudNetworkManagementConnectivityTestsUpdateOptions : GcloudOptions
+public record GcloudNetworkManagementConnectivityTestsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update an existing     connectivity test
+    /// </summary>
+    /// <param name="ConnectivityTest">Connectivity test resource - Name of the connectivity test you want to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connectivity_test on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connectivity test or fully qualified identifier for the connectivity test. To set the connectivity_test attribute: ▸ provide the argument connectivity_test on the command line.</param>
+    public GcloudNetworkManagementConnectivityTestsUpdateOptions(
+        string ConnectivityTest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectivityTest);
+        this.ConnectivityTest = ConnectivityTest;
+    }
+
+    public void Deconstruct(out string ConnectivityTest)
+    {
+        ConnectivityTest = this.ConnectivityTest;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -71,15 +89,15 @@ public record GcloudNetworkManagementConnectivityTestsUpdateOptions : GcloudOpti
     public string? DestinationProject { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.
+    /// List of label KEY=VALUE pairs to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// IDs of other projects involved in the connectivity test, besides the source and destination project.
+    /// IDs of other projects involved in the connectivity test, besides the source and destination project. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--other-projects", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--other-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? OtherProjects { get; set; }
 
     /// <summary>
@@ -333,5 +351,89 @@ public record GcloudNetworkManagementConnectivityTestsUpdateOptions : GcloudOpti
     /// </summary>
     [CliOption("--source-ip-address", Format = OptionFormat.EqualsSeparated)]
     public string? SourceIpAddress { get; set; }
+
+    /// <summary>
+    /// Connectivity test resource - Name of the connectivity test you want to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connectivity_test on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connectivity test or fully qualified identifier for the connectivity test. To set the connectivity_test attribute: ▸ provide the argument connectivity_test on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConnectivityTest { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearDestinationCloudSqlInstance == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(DestinationCloudSqlInstance) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearDestinationCloudSqlInstance or DestinationCloudSqlInstance may be specified.", [nameof(ClearDestinationCloudSqlInstance), nameof(DestinationCloudSqlInstance)]);
+        }
+        if ((ClearDestinationForwardingRule == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(DestinationForwardingRule) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearDestinationForwardingRule or DestinationForwardingRule may be specified.", [nameof(ClearDestinationForwardingRule), nameof(DestinationForwardingRule)]);
+        }
+        if ((ClearDestinationGkeMasterCluster == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(DestinationGkeMasterCluster) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearDestinationGkeMasterCluster or DestinationGkeMasterCluster may be specified.", [nameof(ClearDestinationGkeMasterCluster), nameof(DestinationGkeMasterCluster)]);
+        }
+        if ((ClearDestinationGkePod == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(DestinationGkePod) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearDestinationGkePod or DestinationGkePod may be specified.", [nameof(ClearDestinationGkePod), nameof(DestinationGkePod)]);
+        }
+        if ((ClearDestinationInstance == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(DestinationInstance) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearDestinationInstance or DestinationInstance may be specified.", [nameof(ClearDestinationInstance), nameof(DestinationInstance)]);
+        }
+        if ((ClearDestinationIpAddress == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(DestinationIpAddress) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearDestinationIpAddress or DestinationIpAddress may be specified.", [nameof(ClearDestinationIpAddress), nameof(DestinationIpAddress)]);
+        }
+        if ((ClearDestinationRedisCluster == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(DestinationRedisCluster) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearDestinationRedisCluster or DestinationRedisCluster may be specified.", [nameof(ClearDestinationRedisCluster), nameof(DestinationRedisCluster)]);
+        }
+        if ((ClearDestinationRedisInstance == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(DestinationRedisInstance) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearDestinationRedisInstance or DestinationRedisInstance may be specified.", [nameof(ClearDestinationRedisInstance), nameof(DestinationRedisInstance)]);
+        }
+        if ((ClearSourceAppEngineVersion == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceAppEngineVersion) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearSourceAppEngineVersion or SourceAppEngineVersion may be specified.", [nameof(ClearSourceAppEngineVersion), nameof(SourceAppEngineVersion)]);
+        }
+        if ((ClearSourceCloudFunction == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceCloudFunction) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearSourceCloudFunction or SourceCloudFunction may be specified.", [nameof(ClearSourceCloudFunction), nameof(SourceCloudFunction)]);
+        }
+        if ((ClearSourceCloudRunJob == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceCloudRunJob) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearSourceCloudRunJob or SourceCloudRunJob may be specified.", [nameof(ClearSourceCloudRunJob), nameof(SourceCloudRunJob)]);
+        }
+        if ((ClearSourceCloudRunRevision == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceCloudRunRevision) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearSourceCloudRunRevision or SourceCloudRunRevision may be specified.", [nameof(ClearSourceCloudRunRevision), nameof(SourceCloudRunRevision)]);
+        }
+        if ((ClearSourceCloudSqlInstance == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceCloudSqlInstance) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearSourceCloudSqlInstance or SourceCloudSqlInstance may be specified.", [nameof(ClearSourceCloudSqlInstance), nameof(SourceCloudSqlInstance)]);
+        }
+        if ((ClearSourceDmsPrivateConnection == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceDmsPrivateConnection) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearSourceDmsPrivateConnection or SourceDmsPrivateConnection may be specified.", [nameof(ClearSourceDmsPrivateConnection), nameof(SourceDmsPrivateConnection)]);
+        }
+        if ((ClearSourceGkeMasterCluster == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceGkeMasterCluster) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearSourceGkeMasterCluster or SourceGkeMasterCluster may be specified.", [nameof(ClearSourceGkeMasterCluster), nameof(SourceGkeMasterCluster)]);
+        }
+        if ((ClearSourceGkePod == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceGkePod) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearSourceGkePod or SourceGkePod may be specified.", [nameof(ClearSourceGkePod), nameof(SourceGkePod)]);
+        }
+        if ((ClearSourceInstance == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceInstance) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearSourceInstance or SourceInstance may be specified.", [nameof(ClearSourceInstance), nameof(SourceInstance)]);
+        }
+        if ((ClearSourceIpAddress == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceIpAddress) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearSourceIpAddress or SourceIpAddress may be specified.", [nameof(ClearSourceIpAddress), nameof(SourceIpAddress)]);
+        }
+        yield break;
+    }
 
 }

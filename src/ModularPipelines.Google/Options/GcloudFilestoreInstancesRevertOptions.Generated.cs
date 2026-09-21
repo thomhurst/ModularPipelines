@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("filestore", "instances", "revert")]
 public record GcloudFilestoreInstancesRevertOptions : GcloudOptions
 {
+    /// <summary>
+    /// revert a Filestore instance
+    /// </summary>
+    /// <param name="TargetSnapshot">Name of the Filestore snapshot to revert to.</param>
+    /// <param name="Instance">Instance resource - Arguments and flags that specify the Filestore instance to revert. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudFilestoreInstancesRevertOptions(
+        string TargetSnapshot,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetSnapshot);
+        this.TargetSnapshot = TargetSnapshot;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string TargetSnapshot, out string Instance)
+    {
+        TargetSnapshot = this.TargetSnapshot;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Name of the Filestore snapshot to revert to.
+    /// </summary>
+    [CliOption("--target-snapshot", Format = OptionFormat.EqualsSeparated)]
+    public string TargetSnapshot { get; private init; }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Filestore instance to revert. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Filestore instance. To set the location attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property filestore/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Filestore instance to revert. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
 }

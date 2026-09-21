@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("service-health", "organization-events", "describe")]
 public record GcloudServiceHealthOrganizationEventsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get details of an     event affecting an organization
+    /// </summary>
+    /// <param name="OrganizationEvent">OrganizationEvent resource - Unique name of the event in this scope including organization and event ID using the form organizations/{organization_id}/locations/locations/global/organizationEvents/{event_id}. organization_id - ID (number) of the organization that contains the event. To get your organization_id, see Getting your organization resource ID (https://cloud.google.com/resource-manager/docs/creating-managing-organization#retrieving_your_organization_id).&lt;br&gt; event_id - Organization event ID to retrieve. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the organizationEvent or fully qualified identifier for the organizationEvent. To set the organization_event attribute: ▸ provide the argument organization_event on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudServiceHealthOrganizationEventsDescribeOptions(
+        string OrganizationEvent
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationEvent);
+        this.OrganizationEvent = OrganizationEvent;
+    }
+
+    public void Deconstruct(out string OrganizationEvent)
+    {
+        OrganizationEvent = this.OrganizationEvent;
+    }
+
+    /// <summary>
+    /// OrganizationEvent resource - Unique name of the event in this scope including organization and event ID using the form organizations/{organization_id}/locations/locations/global/organizationEvents/{event_id}. organization_id - ID (number) of the organization that contains the event. To get your organization_id, see Getting your organization resource ID (https://cloud.google.com/resource-manager/docs/creating-managing-organization#retrieving_your_organization_id).&lt;br&gt; event_id - Organization event ID to retrieve. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location to use when working with Service Health resources. If not specified, will use default servicehealth/location. To set the location attribute: ▸ provide the argument organization_event on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property servicehealth/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// OrganizationEvent resource - Unique name of the event in this scope including organization and event ID using the form organizations/{organization_id}/locations/locations/global/organizationEvents/{event_id}. organization_id - ID (number) of the organization that contains the event. To get your organization_id, see Getting your organization resource ID (https://cloud.google.com/resource-manager/docs/creating-managing-organization#retrieving_your_organization_id).&lt;br&gt; event_id - Organization event ID to retrieve. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The organization id of the organizationEvent resource. To set the organization attribute: ▸ provide the argument organization_event on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// OrganizationEvent resource - Unique name of the event in this scope including organization and event ID using the form organizations/{organization_id}/locations/locations/global/organizationEvents/{event_id}. organization_id - ID (number) of the organization that contains the event. To get your organization_id, see Getting your organization resource ID (https://cloud.google.com/resource-manager/docs/creating-managing-organization#retrieving_your_organization_id).&lt;br&gt; event_id - Organization event ID to retrieve. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the organizationEvent or fully qualified identifier for the organizationEvent. To set the organization_event attribute: ▸ provide the argument organization_event on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OrganizationEvent { get; private init; }
+
 }

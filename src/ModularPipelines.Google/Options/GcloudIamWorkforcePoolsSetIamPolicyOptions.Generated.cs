@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workforce-pools", "set-iam-policy")]
-public record GcloudIamWorkforcePoolsSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudIamWorkforcePoolsSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the IAM policy for a     workforce pool
+    /// </summary>
+    /// <param name="WorkforcePool">Workforce pool resource - The workforce pool for which to display the IAM policy. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workforce pool or fully qualified identifier for the workforce pool. To set the workforce_pool attribute: ▸ provide the argument workforce_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudIamWorkforcePoolsSetIamPolicyOptions(
+        string WorkforcePool,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkforcePool);
+        this.WorkforcePool = WorkforcePool;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string WorkforcePool, out string PolicyFile)
+    {
+        WorkforcePool = this.WorkforcePool;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// Workforce pool resource - The workforce pool for which to display the IAM policy. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location for the workforce pool. To set the location attribute: ▸ provide the argument workforce_pool on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Workforce pool resource - The workforce pool for which to display the IAM policy. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workforce pool or fully qualified identifier for the workforce pool. To set the workforce_pool attribute: ▸ provide the argument workforce_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WorkforcePool { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

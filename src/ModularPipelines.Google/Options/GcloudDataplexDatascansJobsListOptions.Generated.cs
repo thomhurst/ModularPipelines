@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dataplex", "datascans", "jobs", "list")]
 public record GcloudDataplexDatascansJobsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list job runs of a Dataplex datascan     resource
+    /// </summary>
+    /// <param name="Datascan">Datascan resource - Arguments and flags that define the Dataplex Datascan to list the Jobs running the Datascan. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --datascan on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the datascan or fully qualified identifier for the datascan. To set the datascan attribute: ▸ provide the argument --datascan on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexDatascansJobsListOptions(
+        string Datascan
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Datascan);
+        this.Datascan = Datascan;
+    }
+
+    public void Deconstruct(out string Datascan)
+    {
+        Datascan = this.Datascan;
+    }
+
+    /// <summary>
+    /// Datascan resource - Arguments and flags that define the Dataplex Datascan to list the Jobs running the Datascan. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --datascan on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the datascan or fully qualified identifier for the datascan. To set the datascan attribute: ▸ provide the argument --datascan on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--datascan", Format = OptionFormat.EqualsSeparated)]
+    public string Datascan { get; private init; }
+
+    /// <summary>
+    /// Datascan resource - Arguments and flags that define the Dataplex Datascan to list the Jobs running the Datascan. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --datascan on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the Dataplex resource. To set the location attribute: ▸ provide the argument --datascan on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

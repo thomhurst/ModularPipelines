@@ -21,4 +21,55 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bms", "volumes", "snapshot")]
 public record GcloudBmsVolumesSnapshotOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a snapshot of a Bare Metal Solution     boot volume
+    /// </summary>
+    /// <param name="Description">Textual description of the created snapshot.</param>
+    /// <param name="SnapshotName">Name to assign to the created snapshot.</param>
+    /// <param name="Volume">Volume resource - volume. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the volume or fully qualified identifier for the volume. To set the volume attribute: ▸ provide the argument volume on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBmsVolumesSnapshotOptions(
+        string Description,
+        string SnapshotName,
+        string Volume
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotName);
+        this.SnapshotName = SnapshotName;
+        global::System.ArgumentNullException.ThrowIfNull(Volume);
+        this.Volume = Volume;
+    }
+
+    public void Deconstruct(out string Description, out string SnapshotName, out string Volume)
+    {
+        Description = this.Description;
+        SnapshotName = this.SnapshotName;
+        Volume = this.Volume;
+    }
+
+    /// <summary>
+    /// Textual description of the created snapshot.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string Description { get; private init; }
+
+    /// <summary>
+    /// Name to assign to the created snapshot.
+    /// </summary>
+    [CliOption("--snapshot-name", Format = OptionFormat.EqualsSeparated)]
+    public string SnapshotName { get; private init; }
+
+    /// <summary>
+    /// Volume resource - volume. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Region of the resource. To set the region attribute: ▸ provide the argument volume on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Volume resource - volume. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the volume or fully qualified identifier for the volume. To set the volume attribute: ▸ provide the argument volume on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Volume { get; private init; }
+
 }

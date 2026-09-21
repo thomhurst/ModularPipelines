@@ -19,8 +19,99 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "network-policies", "create")]
-public record GcloudVmwareNetworkPoliciesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Vm
-) : GcloudOptions
+public record GcloudVmwareNetworkPoliciesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a VMware Engine network     policy
+    /// </summary>
+    /// <param name="EdgeServicesCidr">IP address range to use for internet access and external IP access gateways, in CIDR notation. An RFC 1918 CIDR block with a "/26" prefix is required.</param>
+    /// <param name="VmwareEngineNetwork">Resource ID of the VMware Engine network to attach the new policy to.</param>
+    /// <param name="NetworkPolicy">VMware Engine Network Policy resource - network_policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the VMware Engine Network Policy or fully qualified identifier for the VMware Engine Network Policy. To set the network-policy attribute: ▸ provide the argument network_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVmwareNetworkPoliciesCreateOptions(
+        string EdgeServicesCidr,
+        string VmwareEngineNetwork,
+        string NetworkPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EdgeServicesCidr);
+        this.EdgeServicesCidr = EdgeServicesCidr;
+        global::System.ArgumentNullException.ThrowIfNull(VmwareEngineNetwork);
+        this.VmwareEngineNetwork = VmwareEngineNetwork;
+        global::System.ArgumentNullException.ThrowIfNull(NetworkPolicy);
+        this.NetworkPolicy = NetworkPolicy;
+    }
+
+    public void Deconstruct(out string EdgeServicesCidr, out string VmwareEngineNetwork, out string NetworkPolicy)
+    {
+        EdgeServicesCidr = this.EdgeServicesCidr;
+        VmwareEngineNetwork = this.VmwareEngineNetwork;
+        NetworkPolicy = this.NetworkPolicy;
+    }
+
+    /// <summary>
+    /// IP address range to use for internet access and external IP access gateways, in CIDR notation. An RFC 1918 CIDR block with a "/26" prefix is required.
+    /// </summary>
+    [CliOption("--edge-services-cidr", Format = OptionFormat.EqualsSeparated)]
+    public string EdgeServicesCidr { get; private init; }
+
+    /// <summary>
+    /// Resource ID of the VMware Engine network to attach the new policy to.
+    /// </summary>
+    [CliOption("--vmware-engine-network", Format = OptionFormat.EqualsSeparated)]
+    public string VmwareEngineNetwork { get; private init; }
+
+    /// <summary>
+    /// VMware Engine Network Policy resource - network_policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The resource name of the location. To set the location attribute: ▸ provide the argument network_policy on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// User-provided description of the network policy.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Enable or disable network service that allows external IP addresses to be assigned to VMware workloads. To enable this service, internet-access must also be enabled. Use --no-external-ip-access to disable. If the flag is not provided, access to VMware workloads through external IP addresses is disabled.
+    /// </summary>
+    [CliFlag("--external-ip-access")]
+    public bool? ExternalIpAccess { get; set; }
+
+    /// <summary>
+    /// Negates --external-ip-access. Enable or disable network service that allows external IP addresses to be assigned to VMware workloads. To enable this service, internet-access must also be enabled. Use --no-external-ip-access to disable. If the flag is not provided, access to VMware workloads through external IP addresses is disabled.
+    /// </summary>
+    [CliFlag("--no-external-ip-access")]
+    public bool? NoExternalIpAccess { get; set; }
+
+    /// <summary>
+    /// Enable or disable network service that allows VMware workloads to access the internet. Use --no-internet-access to disable. If the flag is not provided, internet access is disabled.
+    /// </summary>
+    [CliFlag("--internet-access")]
+    public bool? InternetAccess { get; set; }
+
+    /// <summary>
+    /// Negates --internet-access. Enable or disable network service that allows VMware workloads to access the internet. Use --no-internet-access to disable. If the flag is not provided, internet access is disabled.
+    /// </summary>
+    [CliFlag("--no-internet-access")]
+    public bool? NoInternetAccess { get; set; }
+
+    /// <summary>
+    /// VMware Engine Network Policy resource - network_policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the VMware Engine Network Policy or fully qualified identifier for the VMware Engine Network Policy. To set the network-policy attribute: ▸ provide the argument network_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NetworkPolicy { get; private init; }
+
 }

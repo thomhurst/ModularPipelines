@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,97 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "conversion-workspaces", "seed")]
-public record GcloudDatabaseMigrationConversionWorkspacesSeedOptions : GcloudOptions
+public record GcloudDatabaseMigrationConversionWorkspacesSeedOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// seed a Database     Migration Service conversion workspace
+    /// </summary>
+    /// <param name="ConversionWorkspace">Conversion workspace resource - The conversion workspace to seed. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument conversion_workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the conversion_workspace or fully qualified identifier for the conversion_workspace. To set the conversion_workspace attribute: ▸ provide the argument conversion_workspace on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatabaseMigrationConversionWorkspacesSeedOptions(
+        string ConversionWorkspace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConversionWorkspace);
+        this.ConversionWorkspace = ConversionWorkspace;
+    }
+
+    public void Deconstruct(out string ConversionWorkspace)
+    {
+        ConversionWorkspace = this.ConversionWorkspace;
+    }
+
+    /// <summary>
+    /// Conversion workspace resource - The conversion workspace to seed. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument conversion_workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the conversion_workspace. To set the region attribute: ▸ provide the argument conversion_workspace on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// The source for seeding the conversion workspace. Exactly one of these must be specified: Connection profile resource - The connection profile to seed from. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --destination-connection-profile on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the region attribute: ▸ provide the argument --destination-connection-profile on the command line with a fully specified name; ▸ provide the argument --region on the command line. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute:
+    /// </summary>
+    [CliOption("--destination-connection-profile", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationConnectionProfile { get; set; }
+
+    /// <summary>
+    /// The source for seeding the conversion workspace. Exactly one of these must be specified: ▸ provide the argument --destination-connection-profile on the command line. The Cloud Storage path containing the schema report files. Must be in the format gs://bucket/prefix.
+    /// </summary>
+    [CliOption("--gcs-path", Format = OptionFormat.EqualsSeparated)]
+    public string? GcsPath { get; set; }
+
+    /// <summary>
+    /// The source for seeding the conversion workspace. Exactly one of these must be specified: ▸ provide the argument --destination-connection-profile on the command line. Or at least one of these can be specified: Connection profile resource - The connection profile to seed from. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --source-connection-profile on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the region attribute: ▸ provide the argument --source-connection-profile on the command line with a fully specified name; ▸ provide the argument --region on the command line. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute:
+    /// </summary>
+    [CliOption("--source-connection-profile", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceConnectionProfile { get; set; }
+
+    /// <summary>
+    /// Waits for the operation in progress to complete before returning.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Auto-commit the conversion workspace (default: True). Use --auto-commit to enable and --no-auto-commit to disable.
+    /// </summary>
+    [CliFlag("--auto-commit")]
+    public bool? AutoCommit { get; set; }
+
+    /// <summary>
+    /// Negates --auto-commit. Auto-commit the conversion workspace (default: True). Use --auto-commit to enable and --no-auto-commit to disable.
+    /// </summary>
+    [CliFlag("--no-auto-commit")]
+    public bool? NoAutoCommit { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// The database name to use when seeding from a connection profile. If not specified, the database name from the connection profile is used. Currently only supported for SQL Server source seeding.
+    /// </summary>
+    [CliOption("--source-database-name-override", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceDatabaseNameOverride { get; set; }
+
+    /// <summary>
+    /// Conversion workspace resource - The conversion workspace to seed. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument conversion_workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the conversion_workspace or fully qualified identifier for the conversion_workspace. To set the conversion_workspace attribute: ▸ provide the argument conversion_workspace on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConversionWorkspace { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(DestinationConnectionProfile)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(GcsPath) || !string.IsNullOrWhiteSpace(SourceConnectionProfile)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (DestinationConnectionProfile) or (GcsPath or SourceConnectionProfile) must be specified.", [nameof(DestinationConnectionProfile), nameof(GcsPath), nameof(SourceConnectionProfile)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DestinationConnectionProfile) || !string.IsNullOrWhiteSpace(GcsPath) || !string.IsNullOrWhiteSpace(SourceConnectionProfile)) && (!string.IsNullOrWhiteSpace(GcsPath) || !string.IsNullOrWhiteSpace(SourceConnectionProfile)) && (!(!string.IsNullOrWhiteSpace(SourceConnectionProfile))))
+        {
+            yield return new ValidationResult("At least one of SourceConnectionProfile must be specified.", [nameof(SourceConnectionProfile)]);
+        }
+        yield break;
+    }
+
 }

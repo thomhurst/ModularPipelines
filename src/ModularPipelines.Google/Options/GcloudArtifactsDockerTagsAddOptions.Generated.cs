@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "docker", "tags", "add")]
-public record GcloudArtifactsDockerTagsAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DockerImage
-) : GcloudOptions
+public record GcloudArtifactsDockerTagsAddOptions : GcloudOptions
 {
+    /// <summary>
+    /// add a tag to a container image in     Artifact Registry
+    /// </summary>
+    /// <param name="DockerImage">Docker image - The container image that you want to tag. A valid container image can be referenced by tag or digest, has the format of LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE:tag LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE@sha256:digest</param>
+    /// <param name="DockerTag">Image tag - The container image tag. A valid Docker tag has the format of LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE:tag</param>
+    public GcloudArtifactsDockerTagsAddOptions(
+        string DockerImage,
+        string DockerTag
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DockerImage);
+        this.DockerImage = DockerImage;
+        global::System.ArgumentNullException.ThrowIfNull(DockerTag);
+        this.DockerTag = DockerTag;
+    }
+
+    public void Deconstruct(out string DockerImage, out string DockerTag)
+    {
+        DockerImage = this.DockerImage;
+        DockerTag = this.DockerTag;
+    }
+
+    /// <summary>
+    /// Docker image - The container image that you want to tag. A valid container image can be referenced by tag or digest, has the format of LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE:tag LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE@sha256:digest
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DockerImage { get; private init; }
+
+    /// <summary>
+    /// Image tag - The container image tag. A valid Docker tag has the format of LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE:tag
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DockerTag { get; private init; }
+
 }

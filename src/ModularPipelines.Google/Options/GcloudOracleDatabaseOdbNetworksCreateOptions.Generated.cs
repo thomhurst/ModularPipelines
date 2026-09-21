@@ -21,4 +21,68 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("oracle-database", "odb-networks", "create")]
 public record GcloudOracleDatabaseOdbNetworksCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new OdbNetwork
+    /// </summary>
+    /// <param name="Network">Network resource - The name of the VPC network in the following format: projects/{project}/global/networks/{network} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the network or fully qualified identifier for the network. To set the network attribute: ▸ provide the argument --network on the command line.</param>
+    /// <param name="OdbNetwork">OdbNetwork resource - Identifier. The name of the OdbNetwork resource in the following format: projects/{project}/locations/{region}/odbNetworks/{odb_network} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument odb_network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the odbNetwork or fully qualified identifier for the odbNetwork. To set the odb_network attribute: ▸ provide the argument odb_network on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudOracleDatabaseOdbNetworksCreateOptions(
+        string Network,
+        string OdbNetwork
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(OdbNetwork);
+        this.OdbNetwork = OdbNetwork;
+    }
+
+    public void Deconstruct(out string Network, out string OdbNetwork)
+    {
+        Network = this.Network;
+        OdbNetwork = this.OdbNetwork;
+    }
+
+    /// <summary>
+    /// Network resource - The name of the VPC network in the following format: projects/{project}/global/networks/{network} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the network or fully qualified identifier for the network. To set the network attribute: ▸ provide the argument --network on the command line.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// OdbNetwork resource - Identifier. The name of the OdbNetwork resource in the following format: projects/{project}/locations/{region}/odbNetworks/{odb_network} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument odb_network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the odbNetwork resource. To set the location attribute: ▸ provide the argument odb_network on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The GCP Oracle zone where OdbNetwork is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability.
+    /// </summary>
+    [CliOption("--gcp-oracle-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? GcpOracleZone { get; set; }
+
+    /// <summary>
+    /// Labels or tags associated with the resource. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// OdbNetwork resource - Identifier. The name of the OdbNetwork resource in the following format: projects/{project}/locations/{region}/odbNetworks/{odb_network} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument odb_network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the odbNetwork or fully qualified identifier for the odbNetwork. To set the odb_network attribute: ▸ provide the argument odb_network on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OdbNetwork { get; private init; }
+
 }

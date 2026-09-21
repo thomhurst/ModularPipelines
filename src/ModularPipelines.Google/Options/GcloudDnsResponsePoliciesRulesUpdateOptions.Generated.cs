@@ -23,10 +23,33 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDnsResponsePoliciesRulesUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// updates a new Cloud DNS     response policy rule
+    /// </summary>
+    /// <param name="ResponsePolicyRule">Response policy rule resource - The response policy rule to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument response_policy_rule on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the response_policy_rule or fully qualified identifier for the response_policy_rule. To set the response-policy-rule attribute: ▸ provide the argument response_policy_rule on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDnsResponsePoliciesRulesUpdateOptions(
+        string ResponsePolicyRule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResponsePolicyRule);
+        this.ResponsePolicyRule = ResponsePolicyRule;
+    }
+
+    public void Deconstruct(out string ResponsePolicyRule)
+    {
+        ResponsePolicyRule = this.ResponsePolicyRule;
+    }
+
+    /// <summary>
+    /// Response policy rule resource - The response policy rule to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument response_policy_rule on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The Cloud DNS response policy name response_policy_rule. To set the response-policy attribute: ▸ provide the argument response_policy_rule on the command line with a fully specified name; ▸ provide the argument --response-policy on the command line.
+    /// </summary>
+    [CliOption("--response-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? ResponsePolicy { get; set; }
+
+    /// <summary>
     /// The response policy rule query behavior. BEHAVIOR must be one of: behaviorUnspecified, bypassResponsePolicy.
     /// </summary>
     [CliOption("--behavior", Format = OptionFormat.EqualsSeparated)]
-    public GcloudBehavior? Behavior { get; set; }
+    public GcloudDnsResponsePoliciesRulesUpdateBehavior? Behavior { get; set; }
 
     /// <summary>
     /// DNS name (wildcard or exact) to apply this rule to.
@@ -45,5 +68,11 @@ public record GcloudDnsResponsePoliciesRulesUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// Response policy rule resource - The response policy rule to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument response_policy_rule on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the response_policy_rule or fully qualified identifier for the response_policy_rule. To set the response-policy-rule attribute: ▸ provide the argument response_policy_rule on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ResponsePolicyRule { get; private init; }
 
 }

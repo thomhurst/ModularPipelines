@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("vmware", "private-clouds", "management-dns-zone-bindings", "describe")]
 public record GcloudVmwarePrivateCloudsManagementDnsZoneBindingsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a management DNS zone binding
+    /// </summary>
+    /// <param name="ManagementDnsZoneBinding">Management DNS zone binding resource - management_dns_zone_binding. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument management_dns_zone_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the management DNS zone binding or fully qualified identifier for the management DNS zone binding. To set the management-dns-zone-binding attribute: ▸ provide the argument management_dns_zone_binding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVmwarePrivateCloudsManagementDnsZoneBindingsDescribeOptions(
+        string ManagementDnsZoneBinding
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ManagementDnsZoneBinding);
+        this.ManagementDnsZoneBinding = ManagementDnsZoneBinding;
+    }
+
+    public void Deconstruct(out string ManagementDnsZoneBinding)
+    {
+        ManagementDnsZoneBinding = this.ManagementDnsZoneBinding;
+    }
+
+    /// <summary>
+    /// Management DNS zone binding resource - management_dns_zone_binding. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument management_dns_zone_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the private cloud or cluster. To set the location attribute: ▸ provide the argument management_dns_zone_binding on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/zone.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Management DNS zone binding resource - management_dns_zone_binding. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument management_dns_zone_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. VMware Engine private cloud. To set the private-cloud attribute: ▸ provide the argument management_dns_zone_binding on the command line with a fully specified name; ▸ provide the argument --private-cloud on the command line.
+    /// </summary>
+    [CliOption("--private-cloud", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateCloud { get; set; }
+
+    /// <summary>
+    /// Management DNS zone binding resource - management_dns_zone_binding. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument management_dns_zone_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the management DNS zone binding or fully qualified identifier for the management DNS zone binding. To set the management-dns-zone-binding attribute: ▸ provide the argument management_dns_zone_binding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ManagementDnsZoneBinding { get; private init; }
+
 }

@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudCertificateManagerCertificatesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a certificate
+    /// </summary>
+    /// <param name="Certificate">Certificate resource - The certificate to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument certificate on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the certificate or fully qualified identifier for the certificate. To set the certificate attribute: ▸ provide the argument certificate on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudCertificateManagerCertificatesDeleteOptions(
+        string Certificate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Certificate);
+        this.Certificate = Certificate;
+    }
+
+    public void Deconstruct(out string Certificate)
+    {
+        Certificate = this.Certificate;
+    }
+
+    /// <summary>
+    /// Certificate resource - The certificate to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument certificate on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the certificate. To set the location attribute: ▸ provide the argument certificate on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ default value of location is [global].
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Certificate resource - The certificate to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument certificate on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the certificate or fully qualified identifier for the certificate. To set the certificate attribute: ▸ provide the argument certificate on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Certificate { get; private init; }
 
 }

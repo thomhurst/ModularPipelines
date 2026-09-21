@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,37 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "vmware", "node-pools", "update")]
-public record GcloudContainerVmwareNodePoolsUpdateOptions : GcloudOptions
+public record GcloudContainerVmwareNodePoolsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a node pool in an Anthos     cluster on VMware
+    /// </summary>
+    /// <param name="NodePool">Node pool resource - node pool to update The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the node_pool or fully qualified identifier for the node_pool. To set the node_pool attribute: ▸ provide the argument node_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerVmwareNodePoolsUpdateOptions(
+        string NodePool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NodePool);
+        this.NodePool = NodePool;
+    }
+
+    public void Deconstruct(out string NodePool)
+    {
+        NodePool = this.NodePool;
+    }
+
+    /// <summary>
+    /// Node pool resource - node pool to update The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. cluster of the node_pool. To set the cluster attribute: ▸ provide the argument node_pool on the command line with a fully specified name; ▸ provide the argument --cluster on the command line.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Node pool resource - node pool to update The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the node_pool. To set the location attribute: ▸ provide the argument node_pool on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_vmware/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -71,15 +101,15 @@ public record GcloudContainerVmwareNodePoolsUpdateOptions : GcloudOptions
     public string? Memory { get; set; }
 
     /// <summary>
-    /// Configuration of the node pool Kubernetes labels (key/value pairs) to be applied to each node.
+    /// Configuration of the node pool Kubernetes labels (key/value pairs) to be applied to each node. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? NodeLabels { get; set; }
 
     /// <summary>
-    /// Configuration of the node pool Applies the given kubernetes taints on all nodes in the new node pool, which can be used with tolerations for pod scheduling. Taint effect must be one of the following: NoSchedule, PreferNoSchedule, or NoExecute. Examples: $ gcloud container vmware node-pools update node-pool-1 \ --cluster=example-cluster \ --node-taints=key1=val1:NoSchedule,key2=val2:PreferNoSchedule
+    /// Configuration of the node pool Applies the given kubernetes taints on all nodes in the new node pool, which can be used with tolerations for pod scheduling. Taint effect must be one of the following: NoSchedule, PreferNoSchedule, or NoExecute. Examples: $ gcloud container vmware node-pools update node-pool-1 \ --cluster=example-cluster \ --node-taints=key1=val1:NoSchedule,key2=val2:PreferNoSchedule Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? NodeTaints { get; set; }
 
     /// <summary>
@@ -89,13 +119,13 @@ public record GcloudContainerVmwareNodePoolsUpdateOptions : GcloudOptions
     public string? Replicas { get; set; }
 
     /// <summary>
-    /// Configuration of the node pool At most one of these can be specified: If set, disable the use of load balancer on the node pool instances.
+    /// At most one of these can be specified: If set, disable the use of load balancer on the node pool instances.
     /// </summary>
     [CliFlag("--disable-load-balancer")]
     public bool? DisableLoadBalancer { get; set; }
 
     /// <summary>
-    /// Configuration of the node pool At most one of these can be specified: If set, enable the use of load balancer on the node pool instances.
+    /// At most one of these can be specified: If set, enable the use of load balancer on the node pool instances.
     /// </summary>
     [CliFlag("--enable-load-balancer")]
     public bool? EnableLoadBalancer { get; set; }
@@ -111,5 +141,21 @@ public record GcloudContainerVmwareNodePoolsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--min-replicas", Format = OptionFormat.EqualsSeparated)]
     public string? MinReplicas { get; set; }
+
+    /// <summary>
+    /// Node pool resource - node pool to update The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the node_pool or fully qualified identifier for the node_pool. To set the node_pool attribute: ▸ provide the argument node_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NodePool { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((DisableLoadBalancer == true ? 1 : 0) + (EnableLoadBalancer == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisableLoadBalancer or EnableLoadBalancer may be specified.", [nameof(DisableLoadBalancer), nameof(EnableLoadBalancer)]);
+        }
+        yield break;
+    }
 
 }

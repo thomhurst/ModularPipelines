@@ -20,15 +20,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "objects", "list")]
-public record GcloudStorageObjectsListOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Urls
-) : GcloudOptions
+public record GcloudStorageObjectsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
+    /// lists Cloud Storage objects
     /// </summary>
-    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
-    public string? AdditionalHeaders { get; set; }
+    /// <param name="Urls">Specifies URL of objects to list.</param>
+    public GcloudStorageObjectsListOptions(
+        IEnumerable<string> Urls
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Urls);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Urls));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Urls));
+            }
+
+            Urls = materialized;
+        }
+        this.Urls = Urls;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Urls)
+    {
+        Urls = this.Urls;
+    }
+
+    /// <summary>
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdditionalHeaders { get; set; }
 
     /// <summary>
     /// For features like soft delete, the API may return an empty list. If present, continue querying. This may incur costs from repeated LIST calls and may not return any additional objects.
@@ -72,5 +98,11 @@ public record GcloudStorageObjectsListOptions(
     /// </summary>
     [CliFlag("--stat")]
     public bool? Stat { get; set; }
+
+    /// <summary>
+    /// Specifies URL of objects to list.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Urls { get; private init; }
 
 }

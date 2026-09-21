@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudStorageBatchOperationsBucketOperationsListOptions : GcloudOptions
 {
     /// <summary>
-    /// If provided, only show operations for buckets in the list.
+    /// list bucket     operations for a batch operation job
     /// </summary>
-    [CliOption("--buckets", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Job">Batch job resource - The batch job for which to list bucket operations. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --job on the command line with a fully specified name; ◆ The default is global. This must be specified. ID of the batch-job or fully qualified identifier for the batch-job. To set the batch-job attribute: ▸ provide the argument --job on the command line.</param>
+    public GcloudStorageBatchOperationsBucketOperationsListOptions(
+        string Job
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Job);
+        this.Job = Job;
+    }
+
+    public void Deconstruct(out string Job)
+    {
+        Job = this.Job;
+    }
+
+    /// <summary>
+    /// Batch job resource - The batch job for which to list bucket operations. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --job on the command line with a fully specified name; ◆ The default is global. This must be specified. ID of the batch-job or fully qualified identifier for the batch-job. To set the batch-job attribute: ▸ provide the argument --job on the command line.
+    /// </summary>
+    [CliOption("--job", Format = OptionFormat.EqualsSeparated)]
+    public string Job { get; private init; }
+
+    /// <summary>
+    /// If provided, only show operations for buckets in the list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--buckets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Buckets { get; set; }
 
 }

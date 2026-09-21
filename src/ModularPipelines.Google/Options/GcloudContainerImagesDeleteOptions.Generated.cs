@@ -19,14 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "images", "delete")]
-public record GcloudContainerImagesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> ImageName
-) : GcloudOptions
+public record GcloudContainerImagesDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete existing images
+    /// </summary>
+    /// <param name="ImageName">The fully qualified name(s) of image(s) to delete. The name(s) should be formatted as *.gcr.io/PROJECT_ID/IMAGE_PATH@sha256:DIGEST or *.gcr.io/PROJECT_ID/IMAGE_PATH:TAG.</param>
+    public GcloudContainerImagesDeleteOptions(
+        IEnumerable<string> ImageName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ImageName);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ImageName));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ImageName));
+            }
+
+            ImageName = materialized;
+        }
+        this.ImageName = ImageName;
+    }
+
+    public void Deconstruct(out IEnumerable<string> ImageName)
+    {
+        ImageName = this.ImageName;
+    }
+
     /// <summary>
     /// If there are tags pointing to an image to be deleted then they must all be specified explicitly, or this flag must be specified, for the command to succeed.
     /// </summary>
     [CliFlag("--force-delete-tags")]
     public bool? ForceDeleteTags { get; set; }
+
+    /// <summary>
+    /// The fully qualified name(s) of image(s) to delete. The name(s) should be formatted as *.gcr.io/PROJECT_ID/IMAGE_PATH@sha256:DIGEST or *.gcr.io/PROJECT_ID/IMAGE_PATH:TAG.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> ImageName { get; private init; }
 
 }

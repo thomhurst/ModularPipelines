@@ -38,6 +38,6 @@ public record GcloudAppCreateOptions : GcloudOptions
     /// The app-level SSL policy to create the app with. SSL_POLICY must be one of: TLS_VERSION_1_0, TLS_VERSION_1_2.
     /// </summary>
     [CliOption("--ssl-policy", Format = OptionFormat.EqualsSeparated)]
-    public GcloudSslPolicy? SslPolicy { get; set; }
+    public GcloudAppCreateSslPolicy? SslPolicy { get; set; }
 
 }

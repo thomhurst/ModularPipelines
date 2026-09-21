@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "snapshots", "update-kms-key")]
-public record GcloudPreviewComputeSnapshotsUpdateKmsKeyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SnapshotName
-) : GcloudOptions
+public record GcloudPreviewComputeSnapshotsUpdateKmsKeyOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update the KMS key of a     Compute Engine standard or archive snapshot
+    /// </summary>
+    /// <param name="SnapshotName">Name of the snapshot to update the KMS key for.</param>
+    public GcloudPreviewComputeSnapshotsUpdateKmsKeyOptions(
+        string SnapshotName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotName);
+        this.SnapshotName = SnapshotName;
+    }
+
+    public void Deconstruct(out string SnapshotName)
+    {
+        SnapshotName = this.SnapshotName;
+    }
+
     /// <summary>
     /// The region of the snapshot to update.
     /// </summary>
@@ -52,5 +68,21 @@ public record GcloudPreviewComputeSnapshotsUpdateKmsKeyOptions(
     /// </summary>
     [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
     public string? KmsProject { get; set; }
+
+    /// <summary>
+    /// Name of the snapshot to update the KMS key for.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SnapshotName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        yield break;
+    }
 
 }

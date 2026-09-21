@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,55 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("firestore", "backups", "schedules", "create")]
 public record GcloudFirestoreBackupsSchedulesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// creates a Cloud Firestore     backup schedule
+    /// </summary>
+    /// <param name="Database">The database to operate on. For example, to operate on database foo: $ gcloud firestore backups schedules create --database='foo'</param>
+    /// <param name="Retention">The rention of the backup. At what relative time in the future, compared to the creation time of the backup should the backup be deleted, i.e. keep backups for 7 days. For example, to set retention as 7 days. $ gcloud firestore backups schedules create --retention=7d</param>
+    /// <param name="Recurrence">Recurrence settings of a backup schedule. This must be specified. The recurrence settings of a backup schedule. Currently only daily and weekly backup schedules are supported. When a weekly backup schedule is created, day-of-week is needed. For example, to create a weekly backup schedule which creates backups on Monday. $ gcloud firestore backups schedules create --recurrence=weekly \ --day-of-week=MON This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudFirestoreBackupsSchedulesCreateOptions(
+        string Database,
+        string Retention,
+        string Recurrence
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+        global::System.ArgumentNullException.ThrowIfNull(Retention);
+        this.Retention = Retention;
+        global::System.ArgumentNullException.ThrowIfNull(Recurrence);
+        this.Recurrence = Recurrence;
+    }
+
+    public void Deconstruct(out string Database, out string Retention, out string Recurrence)
+    {
+        Database = this.Database;
+        Retention = this.Retention;
+        Recurrence = this.Recurrence;
+    }
+
+    /// <summary>
+    /// The database to operate on. For example, to operate on database foo: $ gcloud firestore backups schedules create --database='foo'
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string Database { get; private init; }
+
+    /// <summary>
+    /// The rention of the backup. At what relative time in the future, compared to the creation time of the backup should the backup be deleted, i.e. keep backups for 7 days. For example, to set retention as 7 days. $ gcloud firestore backups schedules create --retention=7d
+    /// </summary>
+    [CliOption("--retention", Format = OptionFormat.EqualsSeparated)]
+    public string Retention { get; private init; }
+
+    /// <summary>
+    /// Recurrence settings of a backup schedule. This must be specified. The recurrence settings of a backup schedule. Currently only daily and weekly backup schedules are supported. When a weekly backup schedule is created, day-of-week is needed. For example, to create a weekly backup schedule which creates backups on Monday. $ gcloud firestore backups schedules create --recurrence=weekly \ --day-of-week=MON This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--recurrence", Format = OptionFormat.EqualsSeparated)]
+    public string Recurrence { get; private init; }
+
+    /// <summary>
+    /// Recurrence settings of a backup schedule. This must be specified. The day of week (UTC time zone) of when backups are created. The available values are: `MON`, `TUE`, `WED`, `THU`, `FRI`, `SAT`,`SUN`. Values are case insensitive. This is required when creating a weekly backup schedule. DAY_OF_WEEK must be one of: SUN, MON, TUE, WED, THU, FRI, SAT.
+    /// </summary>
+    [CliOption("--day-of-week", Format = OptionFormat.EqualsSeparated)]
+    public GcloudFirestoreBackupsSchedulesCreateDayOfWeek? DayOfWeek { get; set; }
+
 }

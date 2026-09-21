@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,212 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "target-https-proxies", "create")]
-public record GcloudPreviewComputeTargetHttpsProxiesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeTargetHttpsProxiesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a target HTTPS     proxy
+    /// </summary>
+    /// <param name="UrlMap">A reference to a URL map resource. A URL map defines the mapping of URLs to backend services. Before you can refer to a URL map, you must create the URL map. To delete a URL map that a target proxy is referring to, you must first delete the target HTTPS proxy.</param>
+    /// <param name="Name">Name of the target HTTPS proxy to create.</param>
+    public GcloudPreviewComputeTargetHttpsProxiesCreateOptions(
+        string UrlMap,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UrlMap);
+        this.UrlMap = UrlMap;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string UrlMap, out string Name)
+    {
+        UrlMap = this.UrlMap;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// A reference to a URL map resource. A URL map defines the mapping of URLs to backend services. Before you can refer to a URL map, you must create the URL map. To delete a URL map that a target proxy is referring to, you must first delete the target HTTPS proxy.
+    /// </summary>
+    [CliOption("--url-map", Format = OptionFormat.EqualsSeparated)]
+    public string UrlMap { get; private init; }
+
+    /// <summary>
+    /// Certificate map resource - The certificate map to attach. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --certificate-map on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --certificate-map on the command line with a fully specified name; ◆ default value of location is [global]. ID of the certificate map or fully qualified identifier for the certificate map. To set the map attribute: ◆ provide the argument --certificate-map on the command line.
+    /// </summary>
+    [CliOption("--certificate-map", Format = OptionFormat.EqualsSeparated)]
+    public string? CertificateMap { get; set; }
+
+    /// <summary>
+    /// Certificate map resource - The certificate map to attach. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --certificate-map on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --certificate-map on the command line with a fully specified name; ◆ default value of location is [global]. An optional, textual description for the target HTTPS proxy.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Certificate map resource - The certificate map to attach. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --certificate-map on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --certificate-map on the command line with a fully specified name; ◆ default value of location is [global]. Represents the maximum amount of time that a TCP connection can be idle between the (downstream) client and the target HTTP proxy. If an HTTP keepalive timeout is not specified, the default value is 610 seconds. For global external Application Load Balancers, the minimum allowed value is 5 seconds and the maximum allowed value is 1200 seconds.
+    /// </summary>
+    [CliOption("--http-keep-alive-timeout-sec", Format = OptionFormat.EqualsSeparated)]
+    public int? HttpKeepAliveTimeoutSec { get; set; }
+
+    /// <summary>
+    /// Certificate map resource - The certificate map to attach. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --certificate-map on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --certificate-map on the command line with a fully specified name; ◆ default value of location is [global]. Controls whether load balancer may negotiate QUIC with clients. QUIC is a new transport which reduces latency compared to that of TCP. See https://www.chromium.org/quic for more details. QUIC_OVERRIDE must be one of: DISABLE Disallows load balancer to negotiate QUIC with clients. ENABLE Allows load balancer to negotiate QUIC with clients. NONE Allows Google to control when QUIC is rolled out.
+    /// </summary>
+    [CliOption("--quic-override", Format = OptionFormat.EqualsSeparated)]
+    public string? QuicOverride { get; set; }
+
+    /// <summary>
+    /// Server tls policy resource - The server TLS policy to attach. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --server-tls-policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --server-tls-policy on the command line with a fully specified name; ◆ provide the argument --region on the command line; ◆ default value of location is [global]. ID of the server_tls_policy or fully qualified identifier for the server_tls_policy. To set the server_tls_policy attribute: ◆ provide the argument --server-tls-policy on the command line.
+    /// </summary>
+    [CliOption("--server-tls-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? ServerTlsPolicy { get; set; }
+
+    /// <summary>
+    /// Server tls policy resource - The server TLS policy to attach. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --server-tls-policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --server-tls-policy on the command line with a fully specified name; ◆ provide the argument --region on the command line; ◆ default value of location is [global]. A reference to an SSL policy resource that defines the server-side support for SSL features and affects the connections between clients and load balancers that are using the HTTPS proxy. The SSL policy must exist and cannot be deleted while referenced by a target HTTPS proxy.
+    /// </summary>
+    [CliOption("--ssl-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? SslPolicy { get; set; }
+
+    /// <summary>
+    /// Server tls policy resource - The server TLS policy to attach. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --server-tls-policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --server-tls-policy on the command line with a fully specified name; ◆ provide the argument --region on the command line; ◆ default value of location is [global]. TLS 1.3 Early Data ("0-RTT" or "zero round trip") allows clients to include HTTP request data alongside a TLS handshake. This can improve application performance, especially on networks where connection interruptions may be common, such as on mobile. This applies to both HTTP over TCP (ie: HTTP/1.1 and HTTP/2) and HTTP/3 over QUIC. TLS_EARLY_DATA must be one of: DISABLED TLS 1.3 Early Data is not advertised, and any (invalid) attempts to send Early Data will be rejected. PERMISSIVE Enables TLS 1.3 Early Data for requests with safe HTTP methods (GET, HEAD, OPTIONS, TRACE). This mode does not enforce any other limitations for requests with Early Data. The application owner should validate that Early Data is acceptable for a given request path. STRICT Enables TLS 1.3 Early Data for requests with safe HTTP methods, and HTTP requests that do not have query parameters. Requests that send Early Data containing non-idempotent HTTP methods or with query parameters will be rejected with a HTTP 425.
+    /// </summary>
+    [CliOption("--tls-early-data", Format = OptionFormat.EqualsSeparated)]
+    public string? TlsEarlyData { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Certificate resource - certificate-manager-certificates to attach. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --certificate-manager-certificates on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --certificate-manager-certificates on the command line with a fully specified name; ▸ default value of location is [global]. IDs of the certificates or fully qualified identifiers for the certificates. To set the certificate attribute: Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--certificate-manager-certificates", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CertificateManagerCertificates
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __CertificateManagerCertificatesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __CertificateManagerCertificatesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At most one of these can be specified: ▸ provide the argument --certificate-manager-certificates on the command line. References to at most 15 SSL certificate resources that are used for server-side authentication. The first SSL certificate in this list is considered the primary SSL certificate associated with the load balancer. The SSL certificates must exist and cannot be deleted while referenced by a target HTTPS proxy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--ssl-certificates", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SslCertificates
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SslCertificatesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SslCertificatesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the target HTTPS proxy is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the target HTTPS proxy to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the ssl certificates are global.
+    /// </summary>
+    [CliFlag("--global-ssl-certificates")]
+    public bool? GlobalSslCertificates { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the ssl certificates to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--ssl-certificates-region", Format = OptionFormat.EqualsSeparated)]
+    public string? SslCertificatesRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the SSL policy is global.
+    /// </summary>
+    [CliFlag("--global-ssl-policy")]
+    public bool? GlobalSslPolicy { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the SSL policy to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--ssl-policy-region", Format = OptionFormat.EqualsSeparated)]
+    public string? SslPolicyRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the URL map is global.
+    /// </summary>
+    [CliFlag("--global-url-map")]
+    public bool? GlobalUrlMap { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the URL map to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--url-map-region", Format = OptionFormat.EqualsSeparated)]
+    public string? UrlMapRegion { get; set; }
+
+    /// <summary>
+    /// Name of the target HTTPS proxy to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((((object?)CertificateManagerCertificates is global::System.Collections.Generic.IEnumerable<char> ? (object?)CertificateManagerCertificates is not string || !string.IsNullOrWhiteSpace(CertificateManagerCertificates?.ToString()) : ((object?)CertificateManagerCertificates is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CertificateManagerCertificates, static item => item is not null) : (CertificateManagerCertificates is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CertificateManagerCertificates), static item => item is not null))))) ? 1 : 0) + ((((object?)SslCertificates is global::System.Collections.Generic.IEnumerable<char> ? (object?)SslCertificates is not string || !string.IsNullOrWhiteSpace(SslCertificates?.ToString()) : ((object?)SslCertificates is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SslCertificates, static item => item is not null) : (SslCertificates is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SslCertificates), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (CertificateManagerCertificates) or (SslCertificates) may be specified.", [nameof(CertificateManagerCertificates), nameof(SslCertificates)]);
+        }
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        if ((GlobalSslCertificates == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SslCertificatesRegion) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GlobalSslCertificates or SslCertificatesRegion may be specified.", [nameof(GlobalSslCertificates), nameof(SslCertificatesRegion)]);
+        }
+        if ((GlobalSslPolicy == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SslPolicyRegion) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GlobalSslPolicy or SslPolicyRegion may be specified.", [nameof(GlobalSslPolicy), nameof(SslPolicyRegion)]);
+        }
+        if ((GlobalUrlMap == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(UrlMapRegion) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GlobalUrlMap or UrlMapRegion may be specified.", [nameof(GlobalUrlMap), nameof(UrlMapRegion)]);
+        }
+        yield break;
+    }
+
 }

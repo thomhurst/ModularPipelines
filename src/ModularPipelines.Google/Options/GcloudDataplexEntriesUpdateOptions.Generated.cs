@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,12 +21,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "entries", "update")]
-public record GcloudDataplexEntriesUpdateOptions : GcloudOptions
+public record GcloudDataplexEntriesUpdateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// List of Aspect keys, identifying Aspects to remove from the entry. Keys are in the format ASPECT_TYPE@PATH, or just ASPECT_TYPE, if the Aspect is attached to an entry itself rather than to a specific column defined in the schema. ASPECT_TYPE is expected to be in a format PROJECT_ID.LOCATION.ASPECT_TYPE_ID or a wildcard *, which targets all aspect types. PATH can be either empty (which means a 'root' path, such that Aspect is attached to the entry itself), point to a specific column defined in the schema (for example: Schema.some_column) or a wildcard * (target all paths). ASPECT_TYPE and PATH cannot be both specified as wildcards *. If both --update-aspects and --remove-aspects flags are specified, and the same aspect key is used in both flags, then --update-aspects takes precedence, and such an aspect will be updated and not removed.
+    /// update a Dataplex Entry
     /// </summary>
-    [CliOption("--remove-aspects", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Entry">Entry resource - Arguments and flags that define the Dataplex Entry you want to reference. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the entry or fully qualified identifier for the entry. To set the entry attribute: ▸ provide the argument entry on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexEntriesUpdateOptions(
+        string Entry
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Entry);
+        this.Entry = Entry;
+    }
+
+    public void Deconstruct(out string Entry)
+    {
+        Entry = this.Entry;
+    }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the Dataplex Entry you want to reference. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Entry group containing Dataplex Entries. To set the entry-group attribute: ▸ provide the argument entry on the command line with a fully specified name; ▸ provide the argument --entry-group on the command line.
+    /// </summary>
+    [CliOption("--entry-group", Format = OptionFormat.EqualsSeparated)]
+    public string? EntryGroup { get; set; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the Dataplex Entry you want to reference. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the Dataplex resource. To set the location attribute: ▸ provide the argument entry on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// List of Aspect keys, identifying Aspects to remove from the entry. Keys are in the format ASPECT_TYPE@PATH, or just ASPECT_TYPE, if the Aspect is attached to an entry itself rather than to a specific column defined in the schema. ASPECT_TYPE is expected to be in a format PROJECT_ID.LOCATION.ASPECT_TYPE_ID or a wildcard *, which targets all aspect types. PATH can be either empty (which means a 'root' path, such that Aspect is attached to the entry itself), point to a specific column defined in the schema (for example: Schema.some_column) or a wildcard * (target all paths). ASPECT_TYPE and PATH cannot be both specified as wildcards *. If both --update-aspects and --remove-aspects flags are specified, and the same aspect key is used in both flags, then --update-aspects takes precedence, and such an aspect will be updated and not removed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--remove-aspects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveAspects { get; set; }
 
     /// <summary>
@@ -95,10 +125,14 @@ public record GcloudDataplexEntriesUpdateOptions : GcloudOptions
     public bool? ClearEntrySourceLabels { get; set; }
 
     /// <summary>
-    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. At most one of these can be specified: List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. At most one of these can be specified: List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--entry-source-labels", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? EntrySourceLabels { get; set; }
+    [CliOption("--entry-source-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? EntrySourceLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
     /// Source system related information for an entry. If any of the entry source fields are specified, then ``--entry-source-update-time must be specified as well. At most one of these can be specified: Clear the value for the platform field in the Entry Source.
@@ -135,5 +169,53 @@ public record GcloudDataplexEntriesUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--entry-source-system", Format = OptionFormat.EqualsSeparated)]
     public string? EntrySourceSystem { get; set; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the Dataplex Entry you want to reference. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the entry or fully qualified identifier for the entry. To set the entry attribute: ▸ provide the argument entry on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Entry { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearFullyQualifiedName == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(FullyQualifiedName) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearFullyQualifiedName or FullyQualifiedName may be specified.", [nameof(ClearFullyQualifiedName), nameof(FullyQualifiedName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(EntrySourceUpdateTime) || ClearEntrySourceCreateTime == true || !string.IsNullOrWhiteSpace(EntrySourceCreateTime) || ClearEntrySourceDescription == true || !string.IsNullOrWhiteSpace(EntrySourceDescription) || ClearEntrySourceDisplayName == true || !string.IsNullOrWhiteSpace(EntrySourceDisplayName) || ClearEntrySourceLabels == true || ((object?)EntrySourceLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)EntrySourceLabels is not string || !string.IsNullOrWhiteSpace(EntrySourceLabels?.ToString()) : ((object?)EntrySourceLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EntrySourceLabels, static item => item is not null) : (EntrySourceLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EntrySourceLabels), static item => item is not null)))) || ClearEntrySourcePlatform == true || !string.IsNullOrWhiteSpace(EntrySourcePlatform) || ClearEntrySourceResource == true || !string.IsNullOrWhiteSpace(EntrySourceResource) || ClearEntrySourceSystem == true || !string.IsNullOrWhiteSpace(EntrySourceSystem)) && (!(!string.IsNullOrWhiteSpace(EntrySourceUpdateTime))))
+        {
+            yield return new ValidationResult("EntrySourceUpdateTime must be specified when other arguments in this group are specified.", [nameof(EntrySourceUpdateTime)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(EntrySourceUpdateTime) || ClearEntrySourceCreateTime == true || !string.IsNullOrWhiteSpace(EntrySourceCreateTime) || ClearEntrySourceDescription == true || !string.IsNullOrWhiteSpace(EntrySourceDescription) || ClearEntrySourceDisplayName == true || !string.IsNullOrWhiteSpace(EntrySourceDisplayName) || ClearEntrySourceLabels == true || ((object?)EntrySourceLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)EntrySourceLabels is not string || !string.IsNullOrWhiteSpace(EntrySourceLabels?.ToString()) : ((object?)EntrySourceLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EntrySourceLabels, static item => item is not null) : (EntrySourceLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EntrySourceLabels), static item => item is not null)))) || ClearEntrySourcePlatform == true || !string.IsNullOrWhiteSpace(EntrySourcePlatform) || ClearEntrySourceResource == true || !string.IsNullOrWhiteSpace(EntrySourceResource) || ClearEntrySourceSystem == true || !string.IsNullOrWhiteSpace(EntrySourceSystem)) && ((ClearEntrySourceCreateTime == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(EntrySourceCreateTime) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearEntrySourceCreateTime or EntrySourceCreateTime may be specified.", [nameof(ClearEntrySourceCreateTime), nameof(EntrySourceCreateTime)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(EntrySourceUpdateTime) || ClearEntrySourceCreateTime == true || !string.IsNullOrWhiteSpace(EntrySourceCreateTime) || ClearEntrySourceDescription == true || !string.IsNullOrWhiteSpace(EntrySourceDescription) || ClearEntrySourceDisplayName == true || !string.IsNullOrWhiteSpace(EntrySourceDisplayName) || ClearEntrySourceLabels == true || ((object?)EntrySourceLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)EntrySourceLabels is not string || !string.IsNullOrWhiteSpace(EntrySourceLabels?.ToString()) : ((object?)EntrySourceLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EntrySourceLabels, static item => item is not null) : (EntrySourceLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EntrySourceLabels), static item => item is not null)))) || ClearEntrySourcePlatform == true || !string.IsNullOrWhiteSpace(EntrySourcePlatform) || ClearEntrySourceResource == true || !string.IsNullOrWhiteSpace(EntrySourceResource) || ClearEntrySourceSystem == true || !string.IsNullOrWhiteSpace(EntrySourceSystem)) && ((ClearEntrySourceDescription == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(EntrySourceDescription) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearEntrySourceDescription or EntrySourceDescription may be specified.", [nameof(ClearEntrySourceDescription), nameof(EntrySourceDescription)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(EntrySourceUpdateTime) || ClearEntrySourceCreateTime == true || !string.IsNullOrWhiteSpace(EntrySourceCreateTime) || ClearEntrySourceDescription == true || !string.IsNullOrWhiteSpace(EntrySourceDescription) || ClearEntrySourceDisplayName == true || !string.IsNullOrWhiteSpace(EntrySourceDisplayName) || ClearEntrySourceLabels == true || ((object?)EntrySourceLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)EntrySourceLabels is not string || !string.IsNullOrWhiteSpace(EntrySourceLabels?.ToString()) : ((object?)EntrySourceLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EntrySourceLabels, static item => item is not null) : (EntrySourceLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EntrySourceLabels), static item => item is not null)))) || ClearEntrySourcePlatform == true || !string.IsNullOrWhiteSpace(EntrySourcePlatform) || ClearEntrySourceResource == true || !string.IsNullOrWhiteSpace(EntrySourceResource) || ClearEntrySourceSystem == true || !string.IsNullOrWhiteSpace(EntrySourceSystem)) && ((ClearEntrySourceDisplayName == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(EntrySourceDisplayName) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearEntrySourceDisplayName or EntrySourceDisplayName may be specified.", [nameof(ClearEntrySourceDisplayName), nameof(EntrySourceDisplayName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(EntrySourceUpdateTime) || ClearEntrySourceCreateTime == true || !string.IsNullOrWhiteSpace(EntrySourceCreateTime) || ClearEntrySourceDescription == true || !string.IsNullOrWhiteSpace(EntrySourceDescription) || ClearEntrySourceDisplayName == true || !string.IsNullOrWhiteSpace(EntrySourceDisplayName) || ClearEntrySourceLabels == true || ((object?)EntrySourceLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)EntrySourceLabels is not string || !string.IsNullOrWhiteSpace(EntrySourceLabels?.ToString()) : ((object?)EntrySourceLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EntrySourceLabels, static item => item is not null) : (EntrySourceLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EntrySourceLabels), static item => item is not null)))) || ClearEntrySourcePlatform == true || !string.IsNullOrWhiteSpace(EntrySourcePlatform) || ClearEntrySourceResource == true || !string.IsNullOrWhiteSpace(EntrySourceResource) || ClearEntrySourceSystem == true || !string.IsNullOrWhiteSpace(EntrySourceSystem)) && ((ClearEntrySourceLabels == true ? 1 : 0) + (((object?)EntrySourceLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)EntrySourceLabels is not string || !string.IsNullOrWhiteSpace(EntrySourceLabels?.ToString()) : ((object?)EntrySourceLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EntrySourceLabels, static item => item is not null) : (EntrySourceLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EntrySourceLabels), static item => item is not null)))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearEntrySourceLabels or EntrySourceLabels may be specified.", [nameof(ClearEntrySourceLabels), nameof(EntrySourceLabels)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(EntrySourceUpdateTime) || ClearEntrySourceCreateTime == true || !string.IsNullOrWhiteSpace(EntrySourceCreateTime) || ClearEntrySourceDescription == true || !string.IsNullOrWhiteSpace(EntrySourceDescription) || ClearEntrySourceDisplayName == true || !string.IsNullOrWhiteSpace(EntrySourceDisplayName) || ClearEntrySourceLabels == true || ((object?)EntrySourceLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)EntrySourceLabels is not string || !string.IsNullOrWhiteSpace(EntrySourceLabels?.ToString()) : ((object?)EntrySourceLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EntrySourceLabels, static item => item is not null) : (EntrySourceLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EntrySourceLabels), static item => item is not null)))) || ClearEntrySourcePlatform == true || !string.IsNullOrWhiteSpace(EntrySourcePlatform) || ClearEntrySourceResource == true || !string.IsNullOrWhiteSpace(EntrySourceResource) || ClearEntrySourceSystem == true || !string.IsNullOrWhiteSpace(EntrySourceSystem)) && ((ClearEntrySourcePlatform == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(EntrySourcePlatform) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearEntrySourcePlatform or EntrySourcePlatform may be specified.", [nameof(ClearEntrySourcePlatform), nameof(EntrySourcePlatform)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(EntrySourceUpdateTime) || ClearEntrySourceCreateTime == true || !string.IsNullOrWhiteSpace(EntrySourceCreateTime) || ClearEntrySourceDescription == true || !string.IsNullOrWhiteSpace(EntrySourceDescription) || ClearEntrySourceDisplayName == true || !string.IsNullOrWhiteSpace(EntrySourceDisplayName) || ClearEntrySourceLabels == true || ((object?)EntrySourceLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)EntrySourceLabels is not string || !string.IsNullOrWhiteSpace(EntrySourceLabels?.ToString()) : ((object?)EntrySourceLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EntrySourceLabels, static item => item is not null) : (EntrySourceLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EntrySourceLabels), static item => item is not null)))) || ClearEntrySourcePlatform == true || !string.IsNullOrWhiteSpace(EntrySourcePlatform) || ClearEntrySourceResource == true || !string.IsNullOrWhiteSpace(EntrySourceResource) || ClearEntrySourceSystem == true || !string.IsNullOrWhiteSpace(EntrySourceSystem)) && ((ClearEntrySourceResource == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(EntrySourceResource) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearEntrySourceResource or EntrySourceResource may be specified.", [nameof(ClearEntrySourceResource), nameof(EntrySourceResource)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(EntrySourceUpdateTime) || ClearEntrySourceCreateTime == true || !string.IsNullOrWhiteSpace(EntrySourceCreateTime) || ClearEntrySourceDescription == true || !string.IsNullOrWhiteSpace(EntrySourceDescription) || ClearEntrySourceDisplayName == true || !string.IsNullOrWhiteSpace(EntrySourceDisplayName) || ClearEntrySourceLabels == true || ((object?)EntrySourceLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)EntrySourceLabels is not string || !string.IsNullOrWhiteSpace(EntrySourceLabels?.ToString()) : ((object?)EntrySourceLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EntrySourceLabels, static item => item is not null) : (EntrySourceLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EntrySourceLabels), static item => item is not null)))) || ClearEntrySourcePlatform == true || !string.IsNullOrWhiteSpace(EntrySourcePlatform) || ClearEntrySourceResource == true || !string.IsNullOrWhiteSpace(EntrySourceResource) || ClearEntrySourceSystem == true || !string.IsNullOrWhiteSpace(EntrySourceSystem)) && ((ClearEntrySourceSystem == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(EntrySourceSystem) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearEntrySourceSystem or EntrySourceSystem may be specified.", [nameof(ClearEntrySourceSystem), nameof(EntrySourceSystem)]);
+        }
+        yield break;
+    }
 
 }

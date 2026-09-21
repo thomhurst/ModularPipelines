@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "policycontroller", "enable")]
-public record GcloudContainerFleetPolicycontrollerEnableOptions : GcloudOptions
+public record GcloudContainerFleetPolicycontrollerEnableOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// At most one of these can be specified: Membership flags. At most one of these can be specified: If supplied, apply to all Policy Controllers memberships in the fleet.
@@ -28,10 +29,32 @@ public record GcloudContainerFleetPolicycontrollerEnableOptions : GcloudOptions
     public bool? AllMemberships { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: Or at least one of these can be specified: Membership resource - The group of arguments defining one or more memberships. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◇ provide the argument --memberships on the command line with a fully specified name; ◇ provide the argument --project on the command line; ◇ set the property core/project. IDs of the memberships or fully qualified identifiers for the memberships. To set the memberships attribute: ◇ provide the argument --memberships on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: Membership flags. At most one of these can be specified: Or at least one of these can be specified: Membership resource - The group of arguments defining one or more memberships. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◇ provide the argument --memberships on the command line with a fully specified name; ◇ provide the argument --project on the command line; ◇ set the property core/project. IDs of the memberships or fully qualified identifiers for the memberships. To set the memberships attribute: ◇ provide the argument --memberships on the command line. This flag argument must be specified if any of the other arguments in this group are specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--memberships", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Memberships { get; set; }
+    [CliOption("--memberships", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Memberships
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __MembershipsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __MembershipsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Membership flags. At most one of these can be specified: Or at least one of these can be specified: Membership resource - The group of arguments defining one or more memberships. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◇ provide the argument --memberships on the command line with a fully specified name; ◇ provide the argument --project on the command line; ◇ set the property core/project. Location for the memberships. To set the location attribute: ◇ provide the argument --memberships on the command line with a fully specified name; ◇ provide the argument --location on the command line; ◇ set the property gkehub/location.
@@ -76,10 +99,32 @@ public record GcloudContainerFleetPolicycontrollerEnableOptions : GcloudOptions
     public bool? ClearExemptableNamespaces { get; set; }
 
     /// <summary>
-    /// Exemptable Namespace flags. At most one of these can be specified: Namespaces that Policy Controller should ignore, separated by commas if multiple are supplied.
+    /// Exemptable Namespace flags. At most one of these can be specified: Namespaces that Policy Controller should ignore, separated by commas if multiple are supplied. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--exemptable-namespaces", Format = OptionFormat.EqualsSeparated)]
-    public string? ExemptableNamespaces { get; set; }
+    [CliOption("--exemptable-namespaces", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ExemptableNamespaces
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ExemptableNamespacesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ExemptableNamespacesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Log Denies flags. At most one of these can be specified: If set, log all denies and dry run failures. (To disable, use --no-log-denies)
@@ -88,16 +133,38 @@ public record GcloudContainerFleetPolicycontrollerEnableOptions : GcloudOptions
     public bool? LogDenies { get; set; }
 
     /// <summary>
-    /// Negates --log-denies. Log Denies flags. At most one of these can be specified: If set, log all denies and dry run failures. (To disable, use --no-log-denies)
+    /// Log Denies flags. At most one of these can be specified: If set, disable all log denies.
     /// </summary>
     [CliFlag("--no-log-denies")]
     public bool? NoLogDenies { get; set; }
 
     /// <summary>
-    /// Monitoring flags. At most one of these can be specified: Monitoring backend options Policy Controller should export metrics to, separated by commas if multiple are supplied. Setting this flag will overwrite currently enabled backends, not append. Options: prometheus, cloudmonitoring
+    /// Monitoring flags. At most one of these can be specified: Monitoring backend options Policy Controller should export metrics to, separated by commas if multiple are supplied. Setting this flag will overwrite currently enabled backends, not append. Options: prometheus, cloudmonitoring Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--monitoring", Format = OptionFormat.EqualsSeparated)]
-    public string? Monitoring { get; set; }
+    [CliOption("--monitoring", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Monitoring
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __MonitoringSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __MonitoringSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Monitoring flags. At most one of these can be specified: Include this flag to disable the monitoring configuration of Policy Controller.
@@ -112,7 +179,7 @@ public record GcloudContainerFleetPolicycontrollerEnableOptions : GcloudOptions
     public bool? Mutation { get; set; }
 
     /// <summary>
-    /// Negates --mutation. Mutation flags. At most one of these can be specified: If set, enable support for mutation. (To disable, use --no-mutation)
+    /// Mutation flags. At most one of these can be specified: Disables mutation support.
     /// </summary>
     [CliFlag("--no-mutation")]
     public bool? NoMutation { get; set; }
@@ -124,7 +191,7 @@ public record GcloudContainerFleetPolicycontrollerEnableOptions : GcloudOptions
     public bool? ReferentialRules { get; set; }
 
     /// <summary>
-    /// Negates --referential-rules. Referential Rules flags. At most one of these can be specified: If set, enable support for referential constraints. (To disable, use --no-referential-rules)
+    /// Referential Rules flags. At most one of these can be specified: Disables referential rules support.
     /// </summary>
     [CliFlag("--no-referential-rules")]
     public bool? NoReferentialRules { get; set; }
@@ -140,5 +207,43 @@ public record GcloudContainerFleetPolicycontrollerEnableOptions : GcloudOptions
     /// </summary>
     [CliFlag("--no-fleet-default-member-config")]
     public bool? NoFleetDefaultMemberConfig { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((AllMemberships == true ? 1 : 0) + ((((object?)Memberships is global::System.Collections.Generic.IEnumerable<char> ? (object?)Memberships is not string || !string.IsNullOrWhiteSpace(Memberships?.ToString()) : ((object?)Memberships is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Memberships, static item => item is not null) : (Memberships is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Memberships), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Location)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AllMemberships or (Memberships or Location) may be specified.", [nameof(AllMemberships), nameof(Memberships), nameof(Location)]);
+        }
+        if ((AllMemberships == true || ((object?)Memberships is global::System.Collections.Generic.IEnumerable<char> ? (object?)Memberships is not string || !string.IsNullOrWhiteSpace(Memberships?.ToString()) : ((object?)Memberships is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Memberships, static item => item is not null) : (Memberships is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Memberships), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Location)) && (((object?)Memberships is global::System.Collections.Generic.IEnumerable<char> ? (object?)Memberships is not string || !string.IsNullOrWhiteSpace(Memberships?.ToString()) : ((object?)Memberships is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Memberships, static item => item is not null) : (Memberships is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Memberships), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Location)) && (((object?)Memberships is global::System.Collections.Generic.IEnumerable<char> ? (object?)Memberships is not string || !string.IsNullOrWhiteSpace(Memberships?.ToString()) : ((object?)Memberships is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Memberships, static item => item is not null) : (Memberships is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Memberships), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Location)) && (!(((object?)Memberships is global::System.Collections.Generic.IEnumerable<char> ? (object?)Memberships is not string || !string.IsNullOrWhiteSpace(Memberships?.ToString()) : ((object?)Memberships is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Memberships, static item => item is not null) : (Memberships is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Memberships), static item => item is not null)))))))
+        {
+            yield return new ValidationResult("Memberships must be specified when other arguments in this group are specified.", [nameof(Memberships)]);
+        }
+        if ((ClearExemptableNamespaces == true ? 1 : 0) + (((object?)ExemptableNamespaces is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExemptableNamespaces is not string || !string.IsNullOrWhiteSpace(ExemptableNamespaces?.ToString()) : ((object?)ExemptableNamespaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExemptableNamespaces, static item => item is not null) : (ExemptableNamespaces is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExemptableNamespaces), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearExemptableNamespaces or ExemptableNamespaces may be specified.", [nameof(ClearExemptableNamespaces), nameof(ExemptableNamespaces)]);
+        }
+        if ((LogDenies == true ? 1 : 0) + (NoLogDenies == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of LogDenies or NoLogDenies may be specified.", [nameof(LogDenies), nameof(NoLogDenies)]);
+        }
+        if ((((object?)Monitoring is global::System.Collections.Generic.IEnumerable<char> ? (object?)Monitoring is not string || !string.IsNullOrWhiteSpace(Monitoring?.ToString()) : ((object?)Monitoring is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Monitoring, static item => item is not null) : (Monitoring is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Monitoring), static item => item is not null)))) ? 1 : 0) + (NoMonitoring == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Monitoring or NoMonitoring may be specified.", [nameof(Monitoring), nameof(NoMonitoring)]);
+        }
+        if ((Mutation == true ? 1 : 0) + (NoMutation == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Mutation or NoMutation may be specified.", [nameof(Mutation), nameof(NoMutation)]);
+        }
+        if ((ReferentialRules == true ? 1 : 0) + (NoReferentialRules == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ReferentialRules or NoReferentialRules may be specified.", [nameof(ReferentialRules), nameof(NoReferentialRules)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(FleetDefaultMemberConfig) ? 1 : 0) + (NoFleetDefaultMemberConfig == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of FleetDefaultMemberConfig or NoFleetDefaultMemberConfig may be specified.", [nameof(FleetDefaultMemberConfig), nameof(NoFleetDefaultMemberConfig)]);
+        }
+        yield break;
+    }
 
 }

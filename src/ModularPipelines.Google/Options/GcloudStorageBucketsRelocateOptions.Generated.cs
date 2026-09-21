@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,102 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "buckets", "relocate")]
-public record GcloudStorageBucketsRelocateOptions : GcloudOptions
+public record GcloudStorageBucketsRelocateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Arguments for initiating the bucket relocate operation. The final location (https://cloud.google.com/storage/docs/locations) where the bucket will be relocated to. If no location is provided, Cloud Storage will use the default location, which is us. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Arguments for initiating the bucket relocate operation. A comma-separated list of regions that form the custom dual-region (https://cloud.google.com/storage/docs/locations#location-dr). Only regions within the same continent are or will ever be valid. Invalid location pairs (such as mixed-continent, or with unsupported regions) will return an error. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--placement", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Placement
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __PlacementSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __PlacementSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Arguments for initiating the bucket relocate operation. This is only required when relocating a bucket that uses Customer-Managed Encryption Keys (CMEK). The full resource name of the Cloud KMS key to use for encrypting objects in the destination bucket. This key will be set as the default bucket encryption key. The key must exist in the destination location. Format: projects/PROJECT/locations/LOCATION/keyRings/RING/cryptoKeys/KEY
+    /// </summary>
+    [CliOption("--destination-kms-key-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationKmsKeyName { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Arguments for initiating the bucket relocate operation. Prints the operations that the relocate command would perform without actually performing relocation. This is helpful to identify any issues that need to be detected asynchronously.
+    /// </summary>
+    [CliFlag("--dry-run")]
+    public bool? DryRun { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Arguments for advancing the relocation operation. Specify the relocation operation name to advance the relocation operation.The relocation operation name must include the Cloud Storage bucket and operation ID. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--operation", Format = OptionFormat.EqualsSeparated)]
+    public string? Operation { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Arguments for advancing the relocation operation. Schedules the write lock to occur. Once activated, no further writes will be allowed to the associated bucket. This helps minimize disruption to bucket usage. For certain types of moves(between Multi Region and Custom Dual Regions), finalize is not required. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--finalize")]
+    public bool? Finalize { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Arguments for advancing the relocation operation. Time to live for the relocation operation. Defaults to 12h if not provided.
+    /// </summary>
+    [CliOption("--ttl", Format = OptionFormat.EqualsSeparated)]
+    public string? Ttl { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Arguments for initiating the bucket relocate operation. The URL of the bucket to relocate. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Url { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(Url) || !string.IsNullOrWhiteSpace(Location) || ((object?)Placement is global::System.Collections.Generic.IEnumerable<char> ? (object?)Placement is not string || !string.IsNullOrWhiteSpace(Placement?.ToString()) : ((object?)Placement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Placement, static item => item is not null) : (Placement is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Placement), static item => item is not null)))) || !string.IsNullOrWhiteSpace(DestinationKmsKeyName) || DryRun == true) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Operation) || Finalize == true || !string.IsNullOrWhiteSpace(Ttl)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (Url, Location, Placement, DestinationKmsKeyName, or DryRun) or (Operation, Finalize, or Ttl) must be specified.", [nameof(Url), nameof(Location), nameof(Placement), nameof(DestinationKmsKeyName), nameof(DryRun), nameof(Operation), nameof(Finalize), nameof(Ttl)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Url) || !string.IsNullOrWhiteSpace(Location) || ((object?)Placement is global::System.Collections.Generic.IEnumerable<char> ? (object?)Placement is not string || !string.IsNullOrWhiteSpace(Placement?.ToString()) : ((object?)Placement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Placement, static item => item is not null) : (Placement is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Placement), static item => item is not null)))) || !string.IsNullOrWhiteSpace(DestinationKmsKeyName) || DryRun == true || !string.IsNullOrWhiteSpace(Operation) || Finalize == true || !string.IsNullOrWhiteSpace(Ttl)) && (!string.IsNullOrWhiteSpace(Url) || !string.IsNullOrWhiteSpace(Location) || ((object?)Placement is global::System.Collections.Generic.IEnumerable<char> ? (object?)Placement is not string || !string.IsNullOrWhiteSpace(Placement?.ToString()) : ((object?)Placement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Placement, static item => item is not null) : (Placement is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Placement), static item => item is not null)))) || !string.IsNullOrWhiteSpace(DestinationKmsKeyName) || DryRun == true) && (!(!string.IsNullOrWhiteSpace(Url))))
+        {
+            yield return new ValidationResult("Url must be specified when other arguments in this group are specified.", [nameof(Url)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Url) || !string.IsNullOrWhiteSpace(Location) || ((object?)Placement is global::System.Collections.Generic.IEnumerable<char> ? (object?)Placement is not string || !string.IsNullOrWhiteSpace(Placement?.ToString()) : ((object?)Placement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Placement, static item => item is not null) : (Placement is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Placement), static item => item is not null)))) || !string.IsNullOrWhiteSpace(DestinationKmsKeyName) || DryRun == true || !string.IsNullOrWhiteSpace(Operation) || Finalize == true || !string.IsNullOrWhiteSpace(Ttl)) && (!string.IsNullOrWhiteSpace(Url) || !string.IsNullOrWhiteSpace(Location) || ((object?)Placement is global::System.Collections.Generic.IEnumerable<char> ? (object?)Placement is not string || !string.IsNullOrWhiteSpace(Placement?.ToString()) : ((object?)Placement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Placement, static item => item is not null) : (Placement is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Placement), static item => item is not null)))) || !string.IsNullOrWhiteSpace(DestinationKmsKeyName) || DryRun == true) && (!(!string.IsNullOrWhiteSpace(Location))))
+        {
+            yield return new ValidationResult("Location must be specified when other arguments in this group are specified.", [nameof(Location)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Url) || !string.IsNullOrWhiteSpace(Location) || ((object?)Placement is global::System.Collections.Generic.IEnumerable<char> ? (object?)Placement is not string || !string.IsNullOrWhiteSpace(Placement?.ToString()) : ((object?)Placement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Placement, static item => item is not null) : (Placement is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Placement), static item => item is not null)))) || !string.IsNullOrWhiteSpace(DestinationKmsKeyName) || DryRun == true || !string.IsNullOrWhiteSpace(Operation) || Finalize == true || !string.IsNullOrWhiteSpace(Ttl)) && (!string.IsNullOrWhiteSpace(Operation) || Finalize == true || !string.IsNullOrWhiteSpace(Ttl)) && (!(!string.IsNullOrWhiteSpace(Operation))))
+        {
+            yield return new ValidationResult("Operation must be specified when other arguments in this group are specified.", [nameof(Operation)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Url) || !string.IsNullOrWhiteSpace(Location) || ((object?)Placement is global::System.Collections.Generic.IEnumerable<char> ? (object?)Placement is not string || !string.IsNullOrWhiteSpace(Placement?.ToString()) : ((object?)Placement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Placement, static item => item is not null) : (Placement is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Placement), static item => item is not null)))) || !string.IsNullOrWhiteSpace(DestinationKmsKeyName) || DryRun == true || !string.IsNullOrWhiteSpace(Operation) || Finalize == true || !string.IsNullOrWhiteSpace(Ttl)) && (!string.IsNullOrWhiteSpace(Operation) || Finalize == true || !string.IsNullOrWhiteSpace(Ttl)) && (!(Finalize == true)))
+        {
+            yield return new ValidationResult("Finalize must be specified when other arguments in this group are specified.", [nameof(Finalize)]);
+        }
+        yield break;
+    }
+
 }

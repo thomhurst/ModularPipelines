@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "buckets", "anywhere-caches", "resume")]
-public record GcloudStorageBucketsAnywhereCachesResumeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Id
-) : GcloudOptions
+public record GcloudStorageBucketsAnywhereCachesResumeOptions : GcloudOptions
 {
+    /// <summary>
+    /// resume Anywhere Cache     instances
+    /// </summary>
+    /// <param name="Id">Identifiers for a Anywhere Cache instance. They are combination of bucket_name/anywhere_cache_id. For example : test-bucket/my-cache-id.</param>
+    public GcloudStorageBucketsAnywhereCachesResumeOptions(
+        IEnumerable<string> Id
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Id);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Id));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Id));
+            }
+
+            Id = materialized;
+        }
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Id)
+    {
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// Identifiers for a Anywhere Cache instance. They are combination of bucket_name/anywhere_cache_id. For example : test-bucket/my-cache-id.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Id { get; private init; }
+
 }

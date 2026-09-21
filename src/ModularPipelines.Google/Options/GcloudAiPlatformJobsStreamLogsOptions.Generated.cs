@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai-platform", "jobs", "stream-logs")]
-public record GcloudAiPlatformJobsStreamLogsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Job
-) : GcloudOptions
+public record GcloudAiPlatformJobsStreamLogsOptions : GcloudOptions
 {
+    /// <summary>
+    /// show logs from a running AI Platform     job
+    /// </summary>
+    /// <param name="Job">Name of the job.</param>
+    public GcloudAiPlatformJobsStreamLogsOptions(
+        string Job
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Job);
+        this.Job = Job;
+    }
+
+    public void Deconstruct(out string Job)
+    {
+        Job = this.Job;
+    }
+
     /// <summary>
     /// Output multiline log messages as single records.
     /// </summary>
@@ -40,5 +55,11 @@ public record GcloudAiPlatformJobsStreamLogsOptions(
     /// </summary>
     [CliOption("--task-name", Format = OptionFormat.EqualsSeparated)]
     public string? TaskName { get; set; }
+
+    /// <summary>
+    /// Name of the job.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Job { get; private init; }
 
 }

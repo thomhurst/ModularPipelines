@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunJobsGetIamPolicyOptions : GcloudOptions
 {
     /// <summary>
+    /// get the IAM policy for a Cloud Run job
+    /// </summary>
+    /// <param name="Job">Job resource - The job for which to display the IAM policy. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --region on the command line; ◆ set the property run/region; ◆ specify from a list of available regions in a prompt. This must be specified. ID of the job or fully qualified identifier for the job. To set the job attribute: ▸ provide the argument job on the command line.</param>
+    public GcloudRunJobsGetIamPolicyOptions(
+        string Job
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Job);
+        this.Job = Job;
+    }
+
+    public void Deconstruct(out string Job)
+    {
+        Job = this.Job;
+    }
+
+    /// <summary>
     /// Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Job resource - The job for which to display the IAM policy. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --region on the command line; ◆ set the property run/region; ◆ specify from a list of available regions in a prompt. This must be specified. ID of the job or fully qualified identifier for the job. To set the job attribute: ▸ provide the argument job on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Job { get; private init; }
 
 }

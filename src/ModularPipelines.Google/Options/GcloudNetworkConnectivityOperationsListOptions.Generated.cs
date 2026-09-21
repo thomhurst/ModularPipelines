@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-connectivity", "operations", "list")]
 public record GcloudNetworkConnectivityOperationsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list Network Connectivity     Center operations
+    /// </summary>
+    /// <param name="Region">Region resource - Region of the operations to display. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the region or fully qualified identifier for the region. To set the region attribute: ▸ provide the argument --region on the command line.</param>
+    public GcloudNetworkConnectivityOperationsListOptions(
+        string Region
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+    }
+
+    public void Deconstruct(out string Region)
+    {
+        Region = this.Region;
+    }
+
+    /// <summary>
+    /// Region resource - Region of the operations to display. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the region or fully qualified identifier for the region. To set the region attribute: ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
 }

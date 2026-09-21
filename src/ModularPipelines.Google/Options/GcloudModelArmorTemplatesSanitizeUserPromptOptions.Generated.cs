@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("model-armor", "templates", "sanitize-user-prompt")]
-public record GcloudModelArmorTemplatesSanitizeUserPromptOptions : GcloudOptions
+public record GcloudModelArmorTemplatesSanitizeUserPromptOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// sanitize User Prompt
+    /// </summary>
+    /// <param name="Template">Template resource - Represents resource name of template e.g. name=projects/sample-project/locations/us-central1/templates/templ01 The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudModelArmorTemplatesSanitizeUserPromptOptions(
+        string Template
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+    }
+
+    public void Deconstruct(out string Template)
+    {
+        Template = this.Template;
+    }
+
+    /// <summary>
+    /// Template resource - Represents resource name of template e.g. name=projects/sample-project/locations/us-central1/templates/templ01 The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the template resource. To set the location attribute: ▸ provide the argument template on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Arguments for the data item. At most one of these can be specified: Plaintext string data for sanitization.
     /// </summary>
@@ -38,5 +62,29 @@ public record GcloudModelArmorTemplatesSanitizeUserPromptOptions : GcloudOptions
     /// </summary>
     [CliOption("--byte-item-data-type", Format = OptionFormat.EqualsSeparated)]
     public string? ByteItemDataType { get; set; }
+
+    /// <summary>
+    /// Template resource - Represents resource name of template e.g. name=projects/sample-project/locations/us-central1/templates/templ01 The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Template { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(UserPromptDataText) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(ByteItemDataFromFile) || !string.IsNullOrWhiteSpace(ByteItemDataType)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of UserPromptDataText or (ByteItemDataFromFile or ByteItemDataType) may be specified.", [nameof(UserPromptDataText), nameof(ByteItemDataFromFile), nameof(ByteItemDataType)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(UserPromptDataText) || !string.IsNullOrWhiteSpace(ByteItemDataFromFile) || !string.IsNullOrWhiteSpace(ByteItemDataType)) && (!string.IsNullOrWhiteSpace(ByteItemDataFromFile) || !string.IsNullOrWhiteSpace(ByteItemDataType)) && (!string.IsNullOrWhiteSpace(ByteItemDataFromFile) || !string.IsNullOrWhiteSpace(ByteItemDataType)) && (!(!string.IsNullOrWhiteSpace(ByteItemDataFromFile))))
+        {
+            yield return new ValidationResult("ByteItemDataFromFile must be specified when other arguments in this group are specified.", [nameof(ByteItemDataFromFile)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(UserPromptDataText) || !string.IsNullOrWhiteSpace(ByteItemDataFromFile) || !string.IsNullOrWhiteSpace(ByteItemDataType)) && (!string.IsNullOrWhiteSpace(ByteItemDataFromFile) || !string.IsNullOrWhiteSpace(ByteItemDataType)) && (!string.IsNullOrWhiteSpace(ByteItemDataFromFile) || !string.IsNullOrWhiteSpace(ByteItemDataType)) && (!(!string.IsNullOrWhiteSpace(ByteItemDataType))))
+        {
+            yield return new ValidationResult("ByteItemDataType must be specified when other arguments in this group are specified.", [nameof(ByteItemDataType)]);
+        }
+        yield break;
+    }
 
 }

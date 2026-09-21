@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,20 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "operations", "list")]
-public record GcloudSpannerOperationsListOptions : GcloudOptions
+public record GcloudSpannerOperationsListOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The ID of the instance the operation is executing on.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The ID of the instance configuration the operation is executing on.
+    /// </summary>
+    [CliOption("--instance-config", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceConfig { get; set; }
+
     /// <summary>
     /// For backup operations, the name of the backup the operations are executing on.
     /// </summary>
@@ -44,5 +57,15 @@ public record GcloudSpannerOperationsListOptions : GcloudOptions
     /// </summary>
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
     public string? Type { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Instance) ? 1 : 0) + (!string.IsNullOrWhiteSpace(InstanceConfig) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Instance or InstanceConfig must be specified.", [nameof(Instance), nameof(InstanceConfig)]);
+        }
+        yield break;
+    }
 
 }

@@ -21,4 +21,51 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("design-center", "spaces", "application-templates", "components", "connections", "delete")]
 public record GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// templates components connections     delete - delete a connection
+    /// </summary>
+    /// <param name="Connection">Connection resource - The connection name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection or fully qualified identifier for the connection. To set the connection attribute: ▸ provide the argument connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDesignCenterSpacesApplicationTemplatesComponentsConnectionsDeleteOptions(
+        string Connection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Connection);
+        this.Connection = Connection;
+    }
+
+    public void Deconstruct(out string Connection)
+    {
+        Connection = this.Connection;
+    }
+
+    /// <summary>
+    /// Connection resource - The connection name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The applicationTemplate id of the connection resource. To set the application-template attribute: ▸ provide the argument connection on the command line with a fully specified name; ▸ provide the argument --application-template on the command line.
+    /// </summary>
+    [CliOption("--application-template", Format = OptionFormat.EqualsSeparated)]
+    public string? ApplicationTemplate { get; set; }
+
+    /// <summary>
+    /// Connection resource - The connection name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The component id of the connection resource. To set the component attribute: ▸ provide the argument connection on the command line with a fully specified name; ▸ provide the argument --component on the command line.
+    /// </summary>
+    [CliOption("--component", Format = OptionFormat.EqualsSeparated)]
+    public string? Component { get; set; }
+
+    /// <summary>
+    /// Connection resource - The connection name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the connection resource. To set the location attribute: ▸ provide the argument connection on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Connection resource - The connection name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The space id of the connection resource. To set the space attribute: ▸ provide the argument connection on the command line with a fully specified name; ▸ provide the argument --space on the command line.
+    /// </summary>
+    [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
+    public string? Space { get; set; }
+
+    /// <summary>
+    /// Connection resource - The connection name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection or fully qualified identifier for the connection. To set the connection attribute: ▸ provide the argument connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Connection { get; private init; }
+
 }

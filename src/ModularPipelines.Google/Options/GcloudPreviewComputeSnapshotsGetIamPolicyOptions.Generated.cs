@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("preview", "compute", "snapshots", "get-iam-policy")]
 public record GcloudPreviewComputeSnapshotsGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the IAM policy for a     Compute Engine snapshot
+    /// </summary>
+    /// <param name="SnapshotName">Snapshot resource - The snapshot to display the IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument snapshot_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the snapshot or fully qualified identifier for the snapshot. To set the snapshot_name attribute: ▸ provide the argument snapshot_name on the command line.</param>
+    public GcloudPreviewComputeSnapshotsGetIamPolicyOptions(
+        string SnapshotName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotName);
+        this.SnapshotName = SnapshotName;
+    }
+
+    public void Deconstruct(out string SnapshotName)
+    {
+        SnapshotName = this.SnapshotName;
+    }
+
+    /// <summary>
+    /// Snapshot resource - The snapshot to display the IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument snapshot_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the snapshot or fully qualified identifier for the snapshot. To set the snapshot_name attribute: ▸ provide the argument snapshot_name on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SnapshotName { get; private init; }
+
 }

@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "keyrings", "get-iam-policy")]
-public record GcloudKmsKeyringsGetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Keyring
-) : GcloudOptions
+public record GcloudKmsKeyringsGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the IAM policy for a keyring
+    /// </summary>
+    /// <param name="Keyring">Name of the key ring whose IAM policy to fetch.</param>
+    public GcloudKmsKeyringsGetIamPolicyOptions(
+        string Keyring
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Keyring);
+        this.Keyring = Keyring;
+    }
+
+    public void Deconstruct(out string Keyring)
+    {
+        Keyring = this.Keyring;
+    }
+
     /// <summary>
     /// Location of the keyring.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// Name of the key ring whose IAM policy to fetch.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Keyring { get; private init; }
 
 }

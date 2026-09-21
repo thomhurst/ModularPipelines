@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "snapshots", "add-labels")]
-public record GcloudComputeSnapshotsAddLabelsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SnapshotName
-) : GcloudOptions
+public record GcloudComputeSnapshotsAddLabelsOptions : GcloudOptions
 {
+    /// <summary>
+    /// add labels to Google Compute Engine     snapshots
+    /// </summary>
+    /// <param name="Labels">A list of labels to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="SnapshotName">Name of the snapshot to operate on.</param>
+    public GcloudComputeSnapshotsAddLabelsOptions(
+        IReadOnlyList<KeyValue> Labels,
+        string SnapshotName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Labels);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Labels));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Labels));
+            }
+
+            Labels = materialized;
+        }
+        this.Labels = Labels;
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotName);
+        this.SnapshotName = SnapshotName;
+    }
+
+    public void Deconstruct(out IReadOnlyList<KeyValue> Labels, out string SnapshotName)
+    {
+        Labels = this.Labels;
+        SnapshotName = this.SnapshotName;
+    }
+
+    /// <summary>
+    /// A list of labels to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue> Labels { get; private init; }
+
+    /// <summary>
+    /// Name of the snapshot to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SnapshotName { get; private init; }
+
 }

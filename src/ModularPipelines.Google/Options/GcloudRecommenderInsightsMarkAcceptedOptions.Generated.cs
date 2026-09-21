@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,102 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("recommender", "insights", "mark-accepted")]
-public record GcloudRecommenderInsightsMarkAcceptedOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Insight
-) : GcloudOptions
+public record GcloudRecommenderInsightsMarkAcceptedOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// mark an insight's state as     ACCEPTED
+    /// </summary>
+    /// <param name="Etag">Etag of a insight</param>
+    /// <param name="InsightType">Insight Type of the insights</param>
+    /// <param name="Location">Location</param>
+    /// <param name="Insight">Insight id which will be marked as accepted</param>
+    public GcloudRecommenderInsightsMarkAcceptedOptions(
+        string Etag,
+        string InsightType,
+        string Location,
+        string Insight
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Etag);
+        this.Etag = Etag;
+        global::System.ArgumentNullException.ThrowIfNull(InsightType);
+        this.InsightType = InsightType;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Insight);
+        this.Insight = Insight;
+    }
+
+    public void Deconstruct(out string Etag, out string InsightType, out string Location, out string Insight)
+    {
+        Etag = this.Etag;
+        InsightType = this.InsightType;
+        Location = this.Location;
+        Insight = this.Insight;
+    }
+
+    /// <summary>
+    /// Etag of a insight
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string Etag { get; private init; }
+
+    /// <summary>
+    /// Insight Type of the insights
+    /// </summary>
+    [CliOption("--insight-type", Format = OptionFormat.EqualsSeparated)]
+    public string InsightType { get; private init; }
+
+    /// <summary>
+    /// Location
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Currently four mutually exclusive flags are supported, --project, --billing-account, --folder, --organization. Exactly one of these must be specified: The Google Cloud Platform billing account ID to use for this invocation.
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string? BillingAccount { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Currently four mutually exclusive flags are supported, --project, --billing-account, --folder, --organization. Exactly one of these must be specified: The Google Cloud Platform folder ID to use for this invocation.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Currently four mutually exclusive flags are supported, --project, --billing-account, --folder, --organization. Exactly one of these must be specified: The Google Cloud Platform organization ID to use for this invocation.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Currently four mutually exclusive flags are supported, --project, --billing-account, --folder, --organization. Exactly one of these must be specified: The Google Cloud Platform project ID. Overrides the default core/project property value for this command invocation.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// State metadata for recommendation, in format of --state-metadata=key1=value1,key2=value2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--state-metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? StateMetadata { get; set; }
+
+    /// <summary>
+    /// Insight id which will be marked as accepted
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Insight { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BillingAccount) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of BillingAccount, Folder, Organization, or Project must be specified.", [nameof(BillingAccount), nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

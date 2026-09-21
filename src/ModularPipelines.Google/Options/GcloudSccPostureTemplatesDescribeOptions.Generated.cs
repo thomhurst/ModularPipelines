@@ -22,9 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSccPostureTemplatesDescribeOptions : GcloudOptions
 {
     /// <summary>
+    /// describe a Cloud Security Command     Center posture template
+    /// </summary>
+    /// <param name="PostureTemplate">Posture template resource - Posture template to be described. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postureTemplates/&lt;postureTemplateID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the posture_template or fully qualified identifier for the posture_template. To set the posture_template attribute: ▸ provide the argument posture_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSccPostureTemplatesDescribeOptions(
+        string PostureTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PostureTemplate);
+        this.PostureTemplate = PostureTemplate;
+    }
+
+    public void Deconstruct(out string PostureTemplate)
+    {
+        PostureTemplate = this.PostureTemplate;
+    }
+
+    /// <summary>
+    /// Posture template resource - Posture template to be described. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postureTemplates/&lt;postureTemplateID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the location where the resource exists (for example, global). To set the location attribute: ▸ provide the argument posture_template on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Posture template resource - Posture template to be described. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postureTemplates/&lt;postureTemplateID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the organization which is the parent of the resource. To set the organization attribute: ▸ provide the argument posture_template on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
     /// ID of the specific posture template revision to be described. If not specified, latest revision is described.
     /// </summary>
     [CliOption("--revision-id", Format = OptionFormat.EqualsSeparated)]
     public string? RevisionId { get; set; }
+
+    /// <summary>
+    /// Posture template resource - Posture template to be described. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postureTemplates/&lt;postureTemplateID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the posture_template or fully qualified identifier for the posture_template. To set the posture_template attribute: ▸ provide the argument posture_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PostureTemplate { get; private init; }
 
 }

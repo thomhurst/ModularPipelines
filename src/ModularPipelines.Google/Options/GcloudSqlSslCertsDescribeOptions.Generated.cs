@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "ssl-certs", "describe")]
-public record GcloudSqlSslCertsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string CommonName
-) : GcloudOptions
+public record GcloudSqlSslCertsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// retrieves information about an SSL cert for     a Cloud SQL instance
+    /// </summary>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    /// <param name="CommonName">User supplied name. Constrained to [a-zA-Z.-_ ]+.</param>
+    public GcloudSqlSslCertsDescribeOptions(
+        string Instance,
+        string CommonName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+        global::System.ArgumentNullException.ThrowIfNull(CommonName);
+        this.CommonName = CommonName;
+    }
+
+    public void Deconstruct(out string Instance, out string CommonName)
+    {
+        Instance = this.Instance;
+        CommonName = this.CommonName;
+    }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string Instance { get; private init; }
+
+    /// <summary>
+    /// User supplied name. Constrained to [a-zA-Z.-_ ]+.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CommonName { get; private init; }
+
 }

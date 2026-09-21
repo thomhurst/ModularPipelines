@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("run", "domain-mappings", "describe")]
 public record GcloudRunDomainMappingsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe domain mappings for Cloud     Run for Anthos
+    /// </summary>
+    /// <param name="Domain">DomainMapping resource - Domain name is the ID of DomainMapping resource. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the DomainMapping or fully qualified identifier for the DomainMapping. To set the domain attribute: ▸ provide the argument --domain on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudRunDomainMappingsDescribeOptions(
+        string Domain
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+    }
+
+    public void Deconstruct(out string Domain)
+    {
+        Domain = this.Domain;
+    }
+
+    /// <summary>
+    /// DomainMapping resource - Domain name is the ID of DomainMapping resource. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the DomainMapping or fully qualified identifier for the DomainMapping. To set the domain attribute: ▸ provide the argument --domain on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--domain", Format = OptionFormat.EqualsSeparated)]
+    public string Domain { get; private init; }
+
+    /// <summary>
+    /// DomainMapping resource - Domain name is the ID of DomainMapping resource. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Specific to Cloud Run for Anthos: Kubernetes namespace for the DomainMapping. To set the namespace attribute: ▸ provide the argument --domain on the command line with a fully specified name; ▸ provide the argument --namespace on the command line; ▸ set the property run/namespace; ▸ For Cloud Run on Kubernetes Engine, defaults to "default". Otherwise, defaults to project ID.; ▸ provide the argument project on the command line; ▸ set the property core/project.
+    /// </summary>
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? Namespace { get; set; }
+
 }

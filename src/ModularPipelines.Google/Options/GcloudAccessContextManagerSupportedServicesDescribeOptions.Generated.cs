@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("access-context-manager", "supported-services", "describe")]
 public record GcloudAccessContextManagerSupportedServicesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// gets     information about a VPC Service Controls Supported Service
+    /// </summary>
+    /// <param name="ServiceName">Supported service resource - VPC Service Controls supported service. This represents a Cloud resource. This must be specified. ID of the supported-service or fully qualified identifier for the supported-service. To set the service_name attribute: ▸ provide the argument service_name on the command line.</param>
+    public GcloudAccessContextManagerSupportedServicesDescribeOptions(
+        string ServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+    }
+
+    public void Deconstruct(out string ServiceName)
+    {
+        ServiceName = this.ServiceName;
+    }
+
+    /// <summary>
+    /// Supported service resource - VPC Service Controls supported service. This represents a Cloud resource. This must be specified. ID of the supported-service or fully qualified identifier for the supported-service. To set the service_name attribute: ▸ provide the argument service_name on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ServiceName { get; private init; }
+
 }

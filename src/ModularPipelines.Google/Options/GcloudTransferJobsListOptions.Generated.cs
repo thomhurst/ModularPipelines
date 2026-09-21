@@ -35,15 +35,15 @@ public record GcloudTransferJobsListOptions : GcloudOptions
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The names of the jobs you want to list. Separate multiple job names with commas (e.g., --job-names=foo,bar). If not specified, all jobs will be listed.
+    /// The names of the jobs you want to list. Separate multiple job names with commas (e.g., --job-names=foo,bar). If not specified, all jobs will be listed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--job-names", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--job-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? JobNames { get; set; }
 
     /// <summary>
-    /// List only jobs with the statuses you specify. Options include 'enabled', 'disabled', 'deleted' (case insensitive). Separate multiple statuses with commas (e.g., --job-statuses=enabled,deleted). If not specified, all jobs will be listed.
+    /// List only jobs with the statuses you specify. Options include 'enabled', 'disabled', 'deleted' (case insensitive). Separate multiple statuses with commas (e.g., --job-statuses=enabled,deleted). If not specified, all jobs will be listed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--job-statuses", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--job-statuses", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? JobStatuses { get; set; }
 
     /// <summary>
@@ -56,6 +56,6 @@ public record GcloudTransferJobsListOptions : GcloudOptions
     /// The type of the job you want to list. JOB_TYPE must be one of: transfer, replication.
     /// </summary>
     [CliOption("--job-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudJobType? JobType { get; set; }
+    public GcloudTransferJobsListJobType? JobType { get; set; }
 
 }

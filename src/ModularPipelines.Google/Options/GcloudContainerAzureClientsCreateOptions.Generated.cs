@@ -21,4 +21,67 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "azure", "clients", "create")]
 public record GcloudContainerAzureClientsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create an Azure client
+    /// </summary>
+    /// <param name="ApplicationId">Azure Active Directory (AAD) Application/Client ID (GUID).</param>
+    /// <param name="TenantId">Azure Active Directory (AAD) tenant ID (GUID) to associate with the client.</param>
+    /// <param name="Client">Client resource - Azure client to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument client on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the client or fully qualified identifier for the client. To set the client attribute: ▸ provide the argument client on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerAzureClientsCreateOptions(
+        string ApplicationId,
+        string TenantId,
+        string Client
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationId);
+        this.ApplicationId = ApplicationId;
+        global::System.ArgumentNullException.ThrowIfNull(TenantId);
+        this.TenantId = TenantId;
+        global::System.ArgumentNullException.ThrowIfNull(Client);
+        this.Client = Client;
+    }
+
+    public void Deconstruct(out string ApplicationId, out string TenantId, out string Client)
+    {
+        ApplicationId = this.ApplicationId;
+        TenantId = this.TenantId;
+        Client = this.Client;
+    }
+
+    /// <summary>
+    /// Azure Active Directory (AAD) Application/Client ID (GUID).
+    /// </summary>
+    [CliOption("--application-id", Format = OptionFormat.EqualsSeparated)]
+    public string ApplicationId { get; private init; }
+
+    /// <summary>
+    /// Azure Active Directory (AAD) tenant ID (GUID) to associate with the client.
+    /// </summary>
+    [CliOption("--tenant-id", Format = OptionFormat.EqualsSeparated)]
+    public string TenantId { get; private init; }
+
+    /// <summary>
+    /// Client resource - Azure client to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument client on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the client. To set the location attribute: ▸ provide the argument client on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Validate the creation of the client, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Client resource - Azure client to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument client on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the client or fully qualified identifier for the client. To set the client attribute: ▸ provide the argument client on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Client { get; private init; }
+
 }

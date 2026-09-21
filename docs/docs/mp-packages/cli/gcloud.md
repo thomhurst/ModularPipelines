@@ -616,6 +616,17 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud app versions migrate` | `GcloudAppVersionsMigrateOptions` |
 | `gcloud app versions start` | `GcloudAppVersionsStartOptions` |
 | `gcloud app versions stop` | `GcloudAppVersionsStopOptions` |
+| `gcloud app-topology` | `GcloudAppTopologyOptions` |
+| `gcloud app-topology domains` | `GcloudAppTopologyDomainsOptions` |
+| `gcloud app-topology domains describe` | `GcloudAppTopologyDomainsDescribeOptions` |
+| `gcloud app-topology domains list` | `GcloudAppTopologyDomainsListOptions` |
+| `gcloud app-topology domains schema` | `GcloudAppTopologyDomainsSchemaOptions` |
+| `gcloud app-topology domains schema describe` | `GcloudAppTopologyDomainsSchemaDescribeOptions` |
+| `gcloud app-topology locations` | `GcloudAppTopologyLocationsOptions` |
+| `gcloud app-topology locations describe` | `GcloudAppTopologyLocationsDescribeOptions` |
+| `gcloud app-topology locations list` | `GcloudAppTopologyLocationsListOptions` |
+| `gcloud app-topology resources-graph` | `GcloudAppTopologyResourcesGraphOptions` |
+| `gcloud app-topology resources-graph generate` | `GcloudAppTopologyResourcesGraphGenerateOptions` |
 | `gcloud apphub` | `GcloudApphubOptions` |
 | `gcloud apphub applications` | `GcloudApphubApplicationsOptions` |
 | `gcloud apphub applications add-iam-policy-binding` | `GcloudApphubApplicationsAddIamPolicyBindingOptions` |
@@ -1593,6 +1604,9 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute https-health-checks describe` | `GcloudComputeHttpsHealthChecksDescribeOptions` |
 | `gcloud compute https-health-checks list` | `GcloudComputeHttpsHealthChecksListOptions` |
 | `gcloud compute https-health-checks update` | `GcloudComputeHttpsHealthChecksUpdateOptions` |
+| `gcloud compute image-views` | `GcloudComputeImageViewsOptions` |
+| `gcloud compute image-views describe` | `GcloudComputeImageViewsDescribeOptions` |
+| `gcloud compute image-views list` | `GcloudComputeImageViewsListOptions` |
 | `gcloud compute images` | `GcloudComputeImagesOptions` |
 | `gcloud compute images add-iam-policy-binding` | `GcloudComputeImagesAddIamPolicyBindingOptions` |
 | `gcloud compute images add-labels` | `GcloudComputeImagesAddLabelsOptions` |
@@ -4835,6 +4849,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud memorystore instances` | `GcloudMemorystoreInstancesOptions` |
 | `gcloud memorystore instances backup` | `GcloudMemorystoreInstancesBackupOptions` |
 | `gcloud memorystore instances create` | `GcloudMemorystoreInstancesCreateOptions` |
+| `gcloud memorystore instances create-token-auth-user` | `GcloudMemorystoreInstancesCreateTokenAuthUserOptions` |
 | `gcloud memorystore instances delete` | `GcloudMemorystoreInstancesDeleteOptions` |
 | `gcloud memorystore instances describe` | `GcloudMemorystoreInstancesDescribeOptions` |
 | `gcloud memorystore instances finish-migration` | `GcloudMemorystoreInstancesFinishMigrationOptions` |
@@ -4843,6 +4858,15 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud memorystore instances list` | `GcloudMemorystoreInstancesListOptions` |
 | `gcloud memorystore instances reschedule-maintenance` | `GcloudMemorystoreInstancesRescheduleMaintenanceOptions` |
 | `gcloud memorystore instances start-migration` | `GcloudMemorystoreInstancesStartMigrationOptions` |
+| `gcloud memorystore instances token-auth-users` | `GcloudMemorystoreInstancesTokenAuthUsersOptions` |
+| `gcloud memorystore instances token-auth-users auth-tokens` | `GcloudMemorystoreInstancesTokenAuthUsersAuthTokensOptions` |
+| `gcloud memorystore instances token-auth-users auth-tokens delete` | `GcloudMemorystoreInstancesTokenAuthUsersAuthTokensDeleteOptions` |
+| `gcloud memorystore instances token-auth-users auth-tokens describe` | `GcloudMemorystoreInstancesTokenAuthUsersAuthTokensDescribeOptions` |
+| `gcloud memorystore instances token-auth-users auth-tokens list` | `GcloudMemorystoreInstancesTokenAuthUsersAuthTokensListOptions` |
+| `gcloud memorystore instances token-auth-users create-auth-token` | `GcloudMemorystoreInstancesTokenAuthUsersCreateAuthTokenOptions` |
+| `gcloud memorystore instances token-auth-users delete` | `GcloudMemorystoreInstancesTokenAuthUsersDeleteOptions` |
+| `gcloud memorystore instances token-auth-users describe` | `GcloudMemorystoreInstancesTokenAuthUsersDescribeOptions` |
+| `gcloud memorystore instances token-auth-users list` | `GcloudMemorystoreInstancesTokenAuthUsersListOptions` |
 | `gcloud memorystore instances update` | `GcloudMemorystoreInstancesUpdateOptions` |
 | `gcloud memorystore locations` | `GcloudMemorystoreLocationsOptions` |
 | `gcloud memorystore locations describe` | `GcloudMemorystoreLocationsDescribeOptions` |

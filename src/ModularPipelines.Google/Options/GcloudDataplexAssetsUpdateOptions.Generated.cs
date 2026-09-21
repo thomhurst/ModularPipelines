@@ -23,6 +23,41 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataplexAssetsUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// update a Dataplex asset resource
+    /// </summary>
+    /// <param name="Asset">Assets resource - Arguments and flags that define the Dataplex asset you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument asset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the assets or fully qualified identifier for the assets. To set the asset attribute: ▸ provide the argument asset on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexAssetsUpdateOptions(
+        string Asset
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Asset);
+        this.Asset = Asset;
+    }
+
+    public void Deconstruct(out string Asset)
+    {
+        Asset = this.Asset;
+    }
+
+    /// <summary>
+    /// Assets resource - Arguments and flags that define the Dataplex asset you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument asset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The identifier of the Dataplex lake resource. To set the lake attribute: ▸ provide the argument asset on the command line with a fully specified name; ▸ provide the argument --lake on the command line.
+    /// </summary>
+    [CliOption("--lake", Format = OptionFormat.EqualsSeparated)]
+    public string? Lake { get; set; }
+
+    /// <summary>
+    /// Assets resource - Arguments and flags that define the Dataplex asset you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument asset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataplex resource. To set the location attribute: ▸ provide the argument asset on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Assets resource - Arguments and flags that define the Dataplex asset you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument asset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The identifier of the Dataplex zone resource. To set the zone attribute: ▸ provide the argument asset on the command line with a fully specified name; ▸ provide the argument --zone on the command line.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -41,99 +76,105 @@ public record GcloudDataplexAssetsUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Read access mode. RESOURCE_READ_ACCESS_MODE must be one of: DIRECT Data is accessed directly using storage APIs MANAGED Data is accessed through a managed interface using BigQuery APIs.
+    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Read access mode. RESOURCE_READ_ACCESS_MODE must be one of: DIRECT Data is accessed directly using storage APIs MANAGED Data is accessed through a managed interface using BigQuery APIs.
     /// </summary>
     [CliOption("--resource-read-access-mode", Format = OptionFormat.EqualsSeparated)]
     public string? ResourceReadAccessMode { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Validate the update action, but don't actually perform it.
+    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Validate the update action, but don't actually perform it.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// Settings to manage the metadata discovery and publishing. Whether discovery is enabled. Use --discovery-enabled to enable and --no-discovery-enabled to disable.
+    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Whether discovery is enabled. Use --discovery-enabled to enable and --no-discovery-enabled to disable.
     /// </summary>
     [CliFlag("--discovery-enabled")]
     public bool? DiscoveryEnabled { get; set; }
 
     /// <summary>
-    /// Negates --discovery-enabled. Settings to manage the metadata discovery and publishing. Whether discovery is enabled. Use --discovery-enabled to enable and --no-discovery-enabled to disable.
+    /// Negates --discovery-enabled. Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Whether discovery is enabled. Use --discovery-enabled to enable and --no-discovery-enabled to disable.
     /// </summary>
     [CliFlag("--no-discovery-enabled")]
     public bool? NoDiscoveryEnabled { get; set; }
 
     /// <summary>
-    /// Settings to manage the metadata discovery and publishing. The list of patterns to apply for selecting data to exclude during discovery. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
+    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. The list of patterns to apply for selecting data to exclude during discovery. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--discovery-exclude-patterns", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--discovery-exclude-patterns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DiscoveryExcludePatterns { get; set; }
 
     /// <summary>
-    /// Settings to manage the metadata discovery and publishing. The list of patterns to apply for selecting data to include during discovery if only a subset of the data should considered. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
+    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. The list of patterns to apply for selecting data to include during discovery if only a subset of the data should considered. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--discovery-include-patterns", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--discovery-include-patterns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DiscoveryIncludePatterns { get; set; }
 
     /// <summary>
-    /// Determines when discovery jobs are triggered. Cron schedule (https://en.wikipedia.org/wiki/Cron) for running discovery jobs periodically. Discovery jobs must be scheduled at least 30 minutes apart.
+    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Cron schedule (https://en.wikipedia.org/wiki/Cron) for running discovery jobs periodically. Discovery jobs must be scheduled at least 30 minutes apart.
     /// </summary>
     [CliOption("--discovery-schedule", Format = OptionFormat.EqualsSeparated)]
     public string? DiscoverySchedule { get; set; }
 
     /// <summary>
-    /// Describe data formats. Describe CSV and similar semi-structured data formats. The delimiter being used to separate values. This defaults to ','.
+    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. The delimiter being used to separate values. This defaults to ','.
     /// </summary>
     [CliOption("--csv-delimiter", Format = OptionFormat.EqualsSeparated)]
     public string? CsvDelimiter { get; set; }
 
     /// <summary>
-    /// Describe data formats. Describe CSV and similar semi-structured data formats. Whether to disable the inference of data type for CSV data. If true, all columns will be registered as strings. Use --csv-disable-type-inference to enable and --no-csv-disable-type-inference to disable.
+    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Whether to disable the inference of data type for CSV data. If true, all columns will be registered as strings. Use --csv-disable-type-inference to enable and --no-csv-disable-type-inference to disable.
     /// </summary>
     [CliFlag("--csv-disable-type-inference")]
     public bool? CsvDisableTypeInference { get; set; }
 
     /// <summary>
-    /// Negates --csv-disable-type-inference. Describe data formats. Describe CSV and similar semi-structured data formats. Whether to disable the inference of data type for CSV data. If true, all columns will be registered as strings. Use --csv-disable-type-inference to enable and --no-csv-disable-type-inference to disable.
+    /// Negates --csv-disable-type-inference. Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Whether to disable the inference of data type for CSV data. If true, all columns will be registered as strings. Use --csv-disable-type-inference to enable and --no-csv-disable-type-inference to disable.
     /// </summary>
     [CliFlag("--no-csv-disable-type-inference")]
     public bool? NoCsvDisableTypeInference { get; set; }
 
     /// <summary>
-    /// Describe data formats. Describe CSV and similar semi-structured data formats. The character encoding of the data. The default is UTF-8.
+    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. The character encoding of the data. The default is UTF-8.
     /// </summary>
     [CliOption("--csv-encoding", Format = OptionFormat.EqualsSeparated)]
     public string? CsvEncoding { get; set; }
 
     /// <summary>
-    /// Describe data formats. Describe CSV and similar semi-structured data formats. The number of rows to interpret as header rows that should be skipped when reading data rows.
+    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. The number of rows to interpret as header rows that should be skipped when reading data rows.
     /// </summary>
     [CliOption("--csv-header-rows", Format = OptionFormat.EqualsSeparated)]
     public string? CsvHeaderRows { get; set; }
 
     /// <summary>
-    /// Describe JSON data format. Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean). Use --json-disable-type-inference to enable and --no-json-disable-type-inference to disable.
+    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean). Use --json-disable-type-inference to enable and --no-json-disable-type-inference to disable.
     /// </summary>
     [CliFlag("--json-disable-type-inference")]
     public bool? JsonDisableTypeInference { get; set; }
 
     /// <summary>
-    /// Negates --json-disable-type-inference. Describe JSON data format. Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean). Use --json-disable-type-inference to enable and --no-json-disable-type-inference to disable.
+    /// Negates --json-disable-type-inference. Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean). Use --json-disable-type-inference to enable and --no-json-disable-type-inference to disable.
     /// </summary>
     [CliFlag("--no-json-disable-type-inference")]
     public bool? NoJsonDisableTypeInference { get; set; }
 
     /// <summary>
-    /// Describe JSON data format. The character encoding of the data. The default is UTF-8.
+    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. The character encoding of the data. The default is UTF-8.
     /// </summary>
     [CliOption("--json-encoding", Format = OptionFormat.EqualsSeparated)]
     public string? JsonEncoding { get; set; }
+
+    /// <summary>
+    /// Assets resource - Arguments and flags that define the Dataplex asset you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument asset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the assets or fully qualified identifier for the assets. To set the asset attribute: ▸ provide the argument asset on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Asset { get; private init; }
 
 }

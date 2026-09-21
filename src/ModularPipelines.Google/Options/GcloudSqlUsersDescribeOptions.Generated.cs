@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "users", "describe")]
-public record GcloudSqlUsersDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Username
-) : GcloudOptions
+public record GcloudSqlUsersDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// retrieves information about a Cloud SQL user in     a given instance
+    /// </summary>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    /// <param name="Username">Cloud SQL username.</param>
+    public GcloudSqlUsersDescribeOptions(
+        string Instance,
+        string Username
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+    }
+
+    public void Deconstruct(out string Instance, out string Username)
+    {
+        Instance = this.Instance;
+        Username = this.Username;
+    }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string Instance { get; private init; }
+
+    /// <summary>
+    /// Cloud SQL user's hostname expressed as a specific IP address or address range. % denotes an unrestricted hostname. Applicable flag for MySQL instances; ignored for all other engines. Note, if you connect to your instance using IP addresses, you must add your client IP address as an authorized address, even if your hostname is unrestricted. For more information, see Configure IP (https://cloud.google.com/sql/docs/mysql/configure-ip).
+    /// </summary>
+    [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
+    public string? Host { get; set; }
+
+    /// <summary>
+    /// Cloud SQL username.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Username { get; private init; }
+
 }

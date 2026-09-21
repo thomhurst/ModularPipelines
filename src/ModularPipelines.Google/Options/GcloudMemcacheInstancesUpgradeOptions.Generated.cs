@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("memcache", "instances", "upgrade")]
 public record GcloudMemcacheInstancesUpgradeOptions : GcloudOptions
 {
+    /// <summary>
+    /// upgrade memcache instance to a newer     memcached version
+    /// </summary>
+    /// <param name="MemcachedVersion">Memcached engine version to which instance should be upgraded to. MEMCACHED_VERSION must be (only one value is supported): 1.6.15 Memcached engine version 1.6.15</param>
+    /// <param name="Instance">Instance resource - Arguments and flags that specify the Memorystore for Memcached instance you want to upgrade. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMemcacheInstancesUpgradeOptions(
+        string MemcachedVersion,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MemcachedVersion);
+        this.MemcachedVersion = MemcachedVersion;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string MemcachedVersion, out string Instance)
+    {
+        MemcachedVersion = this.MemcachedVersion;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Memcached engine version to which instance should be upgraded to. MEMCACHED_VERSION must be (only one value is supported): 1.6.15 Memcached engine version 1.6.15
+    /// </summary>
+    [CliOption("--memcached-version", Format = OptionFormat.EqualsSeparated)]
+    public string MemcachedVersion { get; private init; }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Memorystore for Memcached instance you want to upgrade. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Memcached region of the instance. Overrides the default memcache/region property value for this command invocation. To set the region attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property memcache/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Memorystore for Memcached instance you want to upgrade. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
 }

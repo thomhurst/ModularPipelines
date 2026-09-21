@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,320 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "cloud-vm-clusters", "create")]
-public record GcloudOracleDatabaseCloudVmClustersCreateOptions : GcloudOptions
+public record GcloudOracleDatabaseCloudVmClustersCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new     CloudVmCluster
+    /// </summary>
+    /// <param name="ExadataInfrastructure">CloudExadataInfrastructure resource - The name of the Exadata Infrastructure resource on which VM cluster resource is created, in the following format: projects/{project}/locations/{region}/cloudExadataInfrastuctures/{cloud_extradata_infrastructure} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the cloudExadataInfrastructure or fully qualified identifier for the cloudExadataInfrastructure. To set the cloud-exadata-infrastructure attribute: ▸ provide the argument --exadata-infrastructure on the command line.</param>
+    /// <param name="CloudVmCluster">CloudVmCluster resource - Identifier. The name of the VM Cluster resource with the format: projects/{project}/locations/{region}/cloudVmClusters/{cloud_vm_cluster} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_vm_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument cloud_vm_cluster on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the cloudVmCluster or fully qualified identifier for the cloudVmCluster. To set the cloud_vm_cluster attribute: ▸ provide the argument cloud_vm_cluster on the command line.</param>
+    public GcloudOracleDatabaseCloudVmClustersCreateOptions(
+        string ExadataInfrastructure,
+        string CloudVmCluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExadataInfrastructure);
+        this.ExadataInfrastructure = ExadataInfrastructure;
+        global::System.ArgumentNullException.ThrowIfNull(CloudVmCluster);
+        this.CloudVmCluster = CloudVmCluster;
+    }
+
+    public void Deconstruct(out string ExadataInfrastructure, out string CloudVmCluster)
+    {
+        ExadataInfrastructure = this.ExadataInfrastructure;
+        CloudVmCluster = this.CloudVmCluster;
+    }
+
+    /// <summary>
+    /// CloudExadataInfrastructure resource - The name of the Exadata Infrastructure resource on which VM cluster resource is created, in the following format: projects/{project}/locations/{region}/cloudExadataInfrastuctures/{cloud_extradata_infrastructure} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the cloudExadataInfrastructure or fully qualified identifier for the cloudExadataInfrastructure. To set the cloud-exadata-infrastructure attribute: ▸ provide the argument --exadata-infrastructure on the command line.
+    /// </summary>
+    [CliOption("--exadata-infrastructure", Format = OptionFormat.EqualsSeparated)]
+    public string ExadataInfrastructure { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the backup OdbSubnet associated with the VM Cluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --backup-odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --backup-odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --backup-odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. ID of the odbSubnet or fully qualified identifier for the odbSubnet. To set the odb-subnet attribute: ◆ provide the argument --backup-odb-subnet on the command line.
+    /// </summary>
+    [CliOption("--backup-odb-subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupOdbSubnet { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the backup OdbSubnet associated with the VM Cluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --backup-odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --backup-odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --backup-odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. CIDR range of the backup subnet.
+    /// </summary>
+    [CliOption("--backup-subnet-cidr", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupSubnetCidr { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the backup OdbSubnet associated with the VM Cluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --backup-odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --backup-odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --backup-odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Network settings. CIDR to use for cluster IP allocation.
+    /// </summary>
+    [CliOption("--cidr", Format = OptionFormat.EqualsSeparated)]
+    public string? Cidr { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the backup OdbSubnet associated with the VM Cluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --backup-odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --backup-odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --backup-odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. User friendly name for this resource.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// ExascaleDbStorageVault resource - The name of ExascaleDbStorageVault associated with the VM Cluster. Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --exascale-db-storage-vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --exascale-db-storage-vault on the command line with a fully specified name; ◆ provide the argument --location on the command line. ID of the exascaleDbStorageVault or fully qualified identifier for the exascaleDbStorageVault. To set the exascale-db-storage-vault attribute: ◆ provide the argument --exascale-db-storage-vault on the command line.
+    /// </summary>
+    [CliOption("--exascale-db-storage-vault", Format = OptionFormat.EqualsSeparated)]
+    public string? ExascaleDbStorageVault { get; set; }
+
+    /// <summary>
+    /// ExascaleDbStorageVault resource - The name of ExascaleDbStorageVault associated with the VM Cluster. Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --exascale-db-storage-vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --exascale-db-storage-vault on the command line with a fully specified name; ◆ provide the argument --location on the command line. Labels or tags associated with the VM Cluster. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// ExascaleDbStorageVault resource - The name of ExascaleDbStorageVault associated with the VM Cluster. Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --exascale-db-storage-vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --exascale-db-storage-vault on the command line with a fully specified name; ◆ provide the argument --location on the command line. For resources [backup-odb-subnet, cloud_vm_cluster, exadata-infrastructure, exascale-db-storage-vault, odb-network, odb-subnet], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Network resource - The name of the VPC network. Format: projects/{project}/global/networks/{network} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the network or fully qualified identifier for the network. To set the network attribute: ◆ provide the argument --network on the command line.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Network resource - The name of the VPC network. Format: projects/{project}/global/networks/{network} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. For resources [backup-odb-subnet, odb-network, odb-subnet], provides fallback value for resource odb-network attribute. When the resource's full URI path is not provided, odb-network will fallback to this flag value.
+    /// </summary>
+    [CliOption("--odb-network", Format = OptionFormat.EqualsSeparated)]
+    public string? OdbNetwork { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). ID of the odbSubnet or fully qualified identifier for the odbSubnet. To set the odb-subnet attribute: ◆ provide the argument --odb-subnet on the command line.
+    /// </summary>
+    [CliOption("--odb-subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? OdbSubnet { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). Number of enabled CPU cores. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--properties-cpu-core-count", Format = OptionFormat.EqualsSeparated)]
+    public int? PropertiesCpuCoreCount { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). License type of VM Cluster. PROPERTIES_LICENSE_TYPE must be one of: bring-your-own-license Bring your own license license-included License included part of offer This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--properties-license-type", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesLicenseType { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). OCI Cluster name.
+    /// </summary>
+    [CliOption("--properties-cluster-name", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesClusterName { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). The data disk group size to be allocated in TBs.
+    /// </summary>
+    [CliOption("--properties-data-storage-size-tb", Format = OptionFormat.EqualsSeparated)]
+    public int? PropertiesDataStorageSizeTb { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). Local storage per VM.
+    /// </summary>
+    [CliOption("--properties-db-node-storage-size-gb", Format = OptionFormat.EqualsSeparated)]
+    public int? PropertiesDbNodeStorageSizeGb { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). OCID of database servers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--properties-db-server-ocids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? PropertiesDbServerOcids
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __PropertiesDbServerOcidsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __PropertiesDbServerOcidsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). The type of redundancy. PROPERTIES_DISK_REDUNDANCY must be one of: high High - 3 way mirror. normal Normal - 2 way mirror.
+    /// </summary>
+    [CliOption("--properties-disk-redundancy", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesDiskRedundancy { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). Grid Infrastructure Version.
+    /// </summary>
+    [CliOption("--properties-gi-version", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesGiVersion { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). Prefix for VM cluster host names.
+    /// </summary>
+    [CliOption("--properties-hostname-prefix", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesHostnamePrefix { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). Use local backup.
+    /// </summary>
+    [CliFlag("--properties-local-backup-enabled")]
+    public bool? PropertiesLocalBackupEnabled { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). Memory allocated in GBs.
+    /// </summary>
+    [CliOption("--properties-memory-size-gb", Format = OptionFormat.EqualsSeparated)]
+    public int? PropertiesMemorySizeGb { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). Number of database servers.
+    /// </summary>
+    [CliOption("--properties-node-count", Format = OptionFormat.EqualsSeparated)]
+    public int? PropertiesNodeCount { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). OCPU count per VM. Minimum is 0.1.
+    /// </summary>
+    [CliOption("--properties-ocpu-count", Format = OptionFormat.EqualsSeparated)]
+    public int? PropertiesOcpuCount { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SCAN listener port - TCP
+    /// </summary>
+    [CliOption("--properties-scan-listener-port-tcp", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesScanListenerPortTcp { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SCAN listener port - TLS
+    /// </summary>
+    [CliOption("--properties-scan-listener-port-tcp-ssl", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesScanListenerPortTcpSsl { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). Use exadata sparse snapshots.
+    /// </summary>
+    [CliFlag("--properties-sparse-diskgroup-enabled")]
+    public bool? PropertiesSparseDiskgroupEnabled { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). SSH public keys to be stored with cluster. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--properties-ssh-public-keys", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? PropertiesSshPublicKeys
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __PropertiesSshPublicKeysSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __PropertiesSshPublicKeysSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). Operating system version of the image.
+    /// </summary>
+    [CliOption("--properties-system-version", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesSystemVersion { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). Specifies whether VM backups are stored on local DB server storage or Exascale storage. PROPERTIES_VM_BACKUP_STORAGE_TYPE must be one of: vm-backup-storage-type-exascale Exascale storage. vm-backup-storage-type-local Local DB server storage.
+    /// </summary>
+    [CliOption("--properties-vm-backup-storage-type", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesVmBackupStorageType { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). Specifies whether VM file system storage / VM images are stored on local DB server storage or Exascale storage. PROPERTIES_VM_FILE_SYSTEM_STORAGE_TYPE must be one of: vm-file-system-storage-type-exascale Exascale storage. vm-file-system-storage-type-local Local DB server storage.
+    /// </summary>
+    [CliOption("--properties-vm-file-system-storage-type", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesVmFileSystemStorageType { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). Indicates whether diagnostic collection is enabled for the VM cluster
+    /// </summary>
+    [CliFlag("--diagnostics-data-collection-options-events-enabled")]
+    public bool? DiagnosticsDataCollectionOptionsEventsEnabled { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). Indicates whether health monitoring is enabled for the VM cluster
+    /// </summary>
+    [CliFlag("--diagnostics-data-collection-options-health-monitoring-enabled")]
+    public bool? DiagnosticsDataCollectionOptionsHealthMonitoringEnabled { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). Indicates whether incident logs and trace collection are enabled for the VM cluster
+    /// </summary>
+    [CliFlag("--diagnostics-data-collection-options-incident-logs-enabled")]
+    public bool? DiagnosticsDataCollectionOptionsIncidentLogsEnabled { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). IANA Time Zone Database time zone. For example "America/New_York".
+    /// </summary>
+    [CliOption("--time-zone-id", Format = OptionFormat.EqualsSeparated)]
+    public string? TimeZoneId { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. Various properties and settings associated with Exadata VM cluster. Data collection options for diagnostics. Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). IANA Time Zone Database version number. For example "2019a".
+    /// </summary>
+    [CliOption("--time-zone-version", Format = OptionFormat.EqualsSeparated)]
+    public string? TimeZoneVersion { get; set; }
+
+    /// <summary>
+    /// CloudVmCluster resource - Identifier. The name of the VM Cluster resource with the format: projects/{project}/locations/{region}/cloudVmClusters/{cloud_vm_cluster} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_vm_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument cloud_vm_cluster on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the cloudVmCluster or fully qualified identifier for the cloudVmCluster. To set the cloud_vm_cluster attribute: ▸ provide the argument cloud_vm_cluster on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CloudVmCluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(OdbSubnet) || !string.IsNullOrWhiteSpace(RequestId) || (object?)PropertiesCpuCoreCount is not null || !string.IsNullOrWhiteSpace(PropertiesLicenseType) || !string.IsNullOrWhiteSpace(PropertiesClusterName) || (object?)PropertiesDataStorageSizeTb is not null || (object?)PropertiesDbNodeStorageSizeGb is not null || ((object?)PropertiesDbServerOcids is global::System.Collections.Generic.IEnumerable<char> ? (object?)PropertiesDbServerOcids is not string || !string.IsNullOrWhiteSpace(PropertiesDbServerOcids?.ToString()) : ((object?)PropertiesDbServerOcids is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PropertiesDbServerOcids, static item => item is not null) : (PropertiesDbServerOcids is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PropertiesDbServerOcids), static item => item is not null)))) || !string.IsNullOrWhiteSpace(PropertiesDiskRedundancy) || !string.IsNullOrWhiteSpace(PropertiesGiVersion) || !string.IsNullOrWhiteSpace(PropertiesHostnamePrefix) || PropertiesLocalBackupEnabled == true || (object?)PropertiesMemorySizeGb is not null || (object?)PropertiesNodeCount is not null || (object?)PropertiesOcpuCount is not null || !string.IsNullOrWhiteSpace(PropertiesScanListenerPortTcp) || !string.IsNullOrWhiteSpace(PropertiesScanListenerPortTcpSsl) || PropertiesSparseDiskgroupEnabled == true || ((object?)PropertiesSshPublicKeys is global::System.Collections.Generic.IEnumerable<char> ? (object?)PropertiesSshPublicKeys is not string || !string.IsNullOrWhiteSpace(PropertiesSshPublicKeys?.ToString()) : ((object?)PropertiesSshPublicKeys is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PropertiesSshPublicKeys, static item => item is not null) : (PropertiesSshPublicKeys is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PropertiesSshPublicKeys), static item => item is not null)))) || !string.IsNullOrWhiteSpace(PropertiesSystemVersion) || !string.IsNullOrWhiteSpace(PropertiesVmBackupStorageType) || !string.IsNullOrWhiteSpace(PropertiesVmFileSystemStorageType) || DiagnosticsDataCollectionOptionsEventsEnabled == true || DiagnosticsDataCollectionOptionsHealthMonitoringEnabled == true || DiagnosticsDataCollectionOptionsIncidentLogsEnabled == true || !string.IsNullOrWhiteSpace(TimeZoneId) || !string.IsNullOrWhiteSpace(TimeZoneVersion)) && (!((object?)PropertiesCpuCoreCount is not null)))
+        {
+            yield return new ValidationResult("PropertiesCpuCoreCount must be specified when other arguments in this group are specified.", [nameof(PropertiesCpuCoreCount)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(OdbSubnet) || !string.IsNullOrWhiteSpace(RequestId) || (object?)PropertiesCpuCoreCount is not null || !string.IsNullOrWhiteSpace(PropertiesLicenseType) || !string.IsNullOrWhiteSpace(PropertiesClusterName) || (object?)PropertiesDataStorageSizeTb is not null || (object?)PropertiesDbNodeStorageSizeGb is not null || ((object?)PropertiesDbServerOcids is global::System.Collections.Generic.IEnumerable<char> ? (object?)PropertiesDbServerOcids is not string || !string.IsNullOrWhiteSpace(PropertiesDbServerOcids?.ToString()) : ((object?)PropertiesDbServerOcids is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PropertiesDbServerOcids, static item => item is not null) : (PropertiesDbServerOcids is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PropertiesDbServerOcids), static item => item is not null)))) || !string.IsNullOrWhiteSpace(PropertiesDiskRedundancy) || !string.IsNullOrWhiteSpace(PropertiesGiVersion) || !string.IsNullOrWhiteSpace(PropertiesHostnamePrefix) || PropertiesLocalBackupEnabled == true || (object?)PropertiesMemorySizeGb is not null || (object?)PropertiesNodeCount is not null || (object?)PropertiesOcpuCount is not null || !string.IsNullOrWhiteSpace(PropertiesScanListenerPortTcp) || !string.IsNullOrWhiteSpace(PropertiesScanListenerPortTcpSsl) || PropertiesSparseDiskgroupEnabled == true || ((object?)PropertiesSshPublicKeys is global::System.Collections.Generic.IEnumerable<char> ? (object?)PropertiesSshPublicKeys is not string || !string.IsNullOrWhiteSpace(PropertiesSshPublicKeys?.ToString()) : ((object?)PropertiesSshPublicKeys is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PropertiesSshPublicKeys, static item => item is not null) : (PropertiesSshPublicKeys is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PropertiesSshPublicKeys), static item => item is not null)))) || !string.IsNullOrWhiteSpace(PropertiesSystemVersion) || !string.IsNullOrWhiteSpace(PropertiesVmBackupStorageType) || !string.IsNullOrWhiteSpace(PropertiesVmFileSystemStorageType) || DiagnosticsDataCollectionOptionsEventsEnabled == true || DiagnosticsDataCollectionOptionsHealthMonitoringEnabled == true || DiagnosticsDataCollectionOptionsIncidentLogsEnabled == true || !string.IsNullOrWhiteSpace(TimeZoneId) || !string.IsNullOrWhiteSpace(TimeZoneVersion)) && (!(!string.IsNullOrWhiteSpace(PropertiesLicenseType))))
+        {
+            yield return new ValidationResult("PropertiesLicenseType must be specified when other arguments in this group are specified.", [nameof(PropertiesLicenseType)]);
+        }
+        yield break;
+    }
+
 }

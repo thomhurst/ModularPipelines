@@ -10,6 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +22,694 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "bulk", "create")]
-public record GcloudComputeInstancesBulkCreateOptions : GcloudOptions
+public record GcloudComputeInstancesBulkCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Name pattern for generating instance names. Specify a pattern with a single sequence of hash (#) characters that will be replaced with generated sequential numbers of instances. E.g. name pattern of 'instance-###' will generate instance names 'instance-001', 'instance-002', and so on, until the number of virtual machines specified using --count is reached. If instances matching name pattern exist, the new instances will be assigned names to avoid clashing with the existing ones. E.g. if there exists instance-123, the new instances will start at instance-124 and increment from there.
+    /// </summary>
+    [CliOption("--name-pattern", Format = OptionFormat.EqualsSeparated)]
+    public string? NamePattern { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: List of predefined names for the Compute Engine virtual machines being created. If --count is specified alongside this flag, provided count must equal the amount of names provided to this flag. If --count is not specified, the number of virtual machines created will equal the number of names provided. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--predefined-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? PredefinedNames
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __PredefinedNamesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __PredefinedNamesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Region in which to create the Compute Engine virtual machines. Compute Engine will select a zone in which to create all virtual machines.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Zone in which to create the Compute Engine virtual machines. A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Attaches accelerators (e.g. GPUs) to the instances. type The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4) of accelerator to attach to the instances. Use 'gcloud compute accelerator-types list' to learn about all available accelerator types. count Number of accelerators to attach to each instance. The default value is 1.
+    /// </summary>
+    [CliOption("--accelerator", Format = OptionFormat.EqualsSeparated)]
+    public string? Accelerator { get; set; }
+
+    /// <summary>
+    /// If provided, the instances are not assigned external IP addresses. To pull container images, you must configure private Google access if using Container Registry or configure Cloud NAT for instances to access container images directly. For more information, see: ◆ https://cloud.google.com/vpc/docs/configure-private-google-access ◆ https://cloud.google.com/nat/docs/using-nat
+    /// </summary>
+    [CliFlag("--no-address")]
+    public bool? NoAddress { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Automatically delete boot disks when their instances are deleted. Enabled by default, use --no-boot-disk-auto-delete to disable.
+    /// </summary>
+    [CliFlag("--boot-disk-auto-delete")]
+    public bool? BootDiskAutoDelete { get; set; }
+
+    /// <summary>
+    /// Negates --boot-disk-auto-delete. Automatically delete boot disks when their instances are deleted. Enabled by default, use --no-boot-disk-auto-delete to disable.
+    /// </summary>
+    [CliFlag("--no-boot-disk-auto-delete")]
+    public bool? NoBootDiskAutoDelete { get; set; }
+
+    /// <summary>
+    /// The name the guest operating system will see for the boot disk. This option can only be specified if a new boot disk is being created (as opposed to mounting an existing persistent disk).
+    /// </summary>
+    [CliOption("--boot-disk-device-name", Format = OptionFormat.EqualsSeparated)]
+    public string? BootDiskDeviceName { get; set; }
+
+    /// <summary>
+    /// Indicates the interface to use for the boot disk. The value must be one of the following: ◆ SCSI ◆ NVME
+    /// </summary>
+    [CliOption("--boot-disk-interface", Format = OptionFormat.EqualsSeparated)]
+    public string? BootDiskInterface { get; set; }
+
+    /// <summary>
+    /// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+    /// </summary>
+    [CliOption("--boot-disk-provisioned-iops", Format = OptionFormat.EqualsSeparated)]
+    public int? BootDiskProvisionedIops { get; set; }
+
+    /// <summary>
+    /// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+    /// </summary>
+    [CliOption("--boot-disk-provisioned-throughput", Format = OptionFormat.EqualsSeparated)]
+    public string? BootDiskProvisionedThroughput { get; set; }
+
+    /// <summary>
+    /// The size of the boot disk. This option can only be specified if a new boot disk is being created (as opposed to mounting an existing persistent disk). The value must be a whole number followed by a size unit of KB for kilobyte, MB for megabyte, GB for gigabyte, or TB for terabyte. For example, 10GB will produce a 10 gigabyte disk. Disk size must be a multiple of 1 GB. Default size unit is GB.
+    /// </summary>
+    [CliOption("--boot-disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? BootDiskSize { get; set; }
+
+    /// <summary>
+    /// The type of the boot disk. This option can only be specified if a new boot disk is being created (as opposed to mounting an existing persistent disk). To get a list of available disk types, run $ gcloud compute disk-types list.
+    /// </summary>
+    [CliOption("--boot-disk-type", Format = OptionFormat.EqualsSeparated)]
+    public string? BootDiskType { get; set; }
+
+    /// <summary>
+    /// If provided, allows the instances to send and receive packets with non-matching destination or source IP addresses.
+    /// </summary>
+    [CliFlag("--can-ip-forward")]
+    public bool? CanIpForward { get; set; }
+
+    /// <summary>
+    /// Number of Compute Engine virtual machines to create. If specified, and --predefined-names is specified, count must equal the amount of names provided to --predefined-names. If not specified, the number of virtual machines created will equal the number of names provided to --predefined-names.
+    /// </summary>
+    [CliOption("--count", Format = OptionFormat.EqualsSeparated)]
+    public int? Count { get; set; }
+
+    /// <summary>
+    /// Creates and attaches persistent disks to the instances. name Specifies the name of the disk. This option cannot be specified if more than one instance is being created. description Optional textual description for the disk being created. mode Specifies the mode of the disk. Supported options are ro for read-only and rw for read-write. If omitted, rw is used as a default. image Specifies the name of the image that the disk will be initialized with. A new disk will be created based on the given image. To view a list of public images and projects, run $ gcloud compute images list. It is best practice to use image when a specific version of an image is needed. If both image and image-family flags are omitted a blank disk will be created. image-family The image family for the operating system that the boot disk will be initialized with. Compute Engine offers multiple Linux distributions, some of which are available as both regular and Shielded VM images. When a family is specified instead of an image, the latest non-deprecated image associated with that family is used. It is best practice to use --image-family when the latest version of an image is needed. image-project The Google Cloud project against which all image and image family references will be resolved. It is best practice to define image-project. A full list of available image projects can be generated by running gcloud compute images list. ▸ If specifying one of our public images, image-project must be provided. ▸ If there are several of the same image-family value in multiple projects, image-project must be specified to clarify the image to be used. ▸ If not specified and either image or image-family is provided, the current default project is used. size The size of the disk. The value must be a whole number followed by a size unit of KB for kilobyte, MB for megabyte, GB for gigabyte, or TB for terabyte. For example, 10GB will produce a 10 gigabyte disk. Disk size must be a multiple of 1 GB. If not specified, the default image size will be used for the new disk. type The type of the disk. To get a list of available disk types, run $ gcloud compute disk-types list. The default disk type is pd-standard. device-name An optional name to display the disk name in the guest operating system. If omitted, a device name of the form persistent-disk-N is used. provisioned-iops Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Value must be between 10,000 and 120,000. provisioned-throughput Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. disk-resource-policy Resource policy to apply to the disk. Specify a full or partial URL. For example: ▸ https://www.googleapis.com/compute/v1/projects/my-project/regions/us-central1/resourcePolicies/my-resource-policy ▸ projects/my-project/regions/us-central1/resourcePolicies/my-resource-policy For more information, see the following docs: ▸ https://cloud.google.com/sdk/gcloud/reference/beta/compute/resource-policies/ ▸ https://cloud.google.com/compute/docs/disks/scheduled-snapshots auto-delete If yes, this persistent disk will be automatically deleted when the instance is deleted. However, if the disk is later detached from the instance, this option won't apply. The default value for this is yes. architecture Specifies the architecture or processor type that this disk can support. For available processor types on Compute Engine, see https://cloud.google.com/compute/docs/cpu-platforms. storage-pool The name of the storage pool in which the new disk is created. The new disk and the storage pool must be in the same location. interface The interface to use with the disk. The value must be one of the following: ▸ SCSI ▸ NVME on-update-action Specifies the action to take on instance update with this disk. The default action is to use the existing disk. The value must be one of the following: ▸ USE_EXISTING_DISK ▸ RECREATE_DISK ▸ RECREATE_DISK_IF_SOURCE_CHANGED boot If yes, indicates that this is a boot disk. The instance will use the first partition of the disk for its root file system. The default value for this is no. kms-key Fully qualified Cloud KMS cryptokey name that will protect the disk. This can either be the fully qualified path or the name. The fully qualified Cloud KMS cryptokey name format is: projects/&lt;kms-project&gt;/locations/&lt;kms-location&gt;/keyRings/&lt;kms-keyring&gt;/ cryptoKeys/&lt;key-name&gt;. If the value is not fully qualified then kms-location, kms-keyring, and optionally kms-project are required. See https://cloud.google.com/compute/docs/disks/customer-managed-encryption for more details. kms-project Project that contains the Cloud KMS cryptokey that will protect the disk. If the project is not specified then the project where the disk is being created will be used. If this flag is set then key-location, kms-keyring, and kms-key are required. See https://cloud.google.com/compute/docs/disks/customer-managed-encryption for more details. kms-location Location of the Cloud KMS cryptokey to be used for protecting the disk. All Cloud KMS cryptokeys are reside in a 'location'. To get a list of possible locations run 'gcloud kms locations list'. If this flag is set then kms-keyring and kms-key are required. See https://cloud.google.com/compute/docs/disks/customer-managed-encryption for more details. kms-keyring The keyring which contains the Cloud KMS cryptokey that will protect the disk. If this flag is set then kms-location and kms-key are required. See https://cloud.google.com/compute/docs/disks/customer-managed-encryption for more details. source-snapshot The source disk snapshot that will be used to create the disk. You can provide this as a full URL to the snapshot or just the snapshot name. For example, the following are valid values: ▸ https://compute.googleapis.com/compute/v1/projects/myproject/global/snapshots/snapshot ▸ snapshot image-csek-required Specifies the name of the CSK protected image that the disk will be initialized with. A new disk will be created based on the given image. To view a list of public images and projects, run $ gcloud compute images list. It is best practice to use image when a specific version of an image is needed. If both image and image-family flags are omitted a blank disk will be created. Must be specified with image-csek-key-file. image-csek-key-file Path to a Customer-Supplied Encryption Key (CSEK) key file for the image. Must be specified with image-csek-required. replica-zones Required for each regional disk associated with the instance. Specify the URLs of the zones where the disk should be replicated to. You must provide exactly two replica zones, and one zone must be the same as the instance zone. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--create-disk", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CreateDisk { get; set; }
+
+    /// <summary>
+    /// Specifies a textual description of the instances.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Required to be set to true and only allowed for VMs that have one or more local SSDs, use --instance-termination-action=STOP, and use either --max-run-duration or --termination-time. This flag indicates the value that you want Compute Engine to use for the --discard-local-ssd flag in the automatic gcloud compute instances stop command. This flag only supports the true value, which discards local SSD data when automatically stopping this VM during its terminationTimestamp. For more information about the --discard-local-ssd flag, see https://cloud.google.com/compute/docs/disks/local-ssd#stop_instance.
+    /// </summary>
+    [CliOption("--discard-local-ssds-at-termination-timestamp", Format = OptionFormat.EqualsSeparated)]
+    public string? DiscardLocalSsdsAtTerminationTimestamp { get; set; }
+
+    /// <summary>
+    /// Attaches persistent disks to the instances. The disks specified must already exist. name The disk to attach to the instances. boot If yes, indicates that this is a boot disk. The virtual machines will use the first partition of the disk for their root file systems. The default value for this is no. device-name An optional name to display the disk name in the guest operating system. If omitted, a device name of the form persistent-disk-N is used. scope Can be zonal or regional. If zonal, the disk is interpreted as a zonal disk in the same zone as the instance (default). If regional, the disk is interpreted as a regional disk in the same region as the instance. The default value for this is zonal.
+    /// </summary>
+    [CliOption("--disk", Format = OptionFormat.EqualsSeparated)]
+    public string? Disk { get; set; }
+
+    /// <summary>
+    /// If set to true, enables nested virtualization for the instance. Use --enable-nested-virtualization to enable and --no-enable-nested-virtualization to disable.
+    /// </summary>
+    [CliFlag("--enable-nested-virtualization")]
+    public bool? EnableNestedVirtualization { get; set; }
+
+    /// <summary>
+    /// Negates --enable-nested-virtualization. If set to true, enables nested virtualization for the instance. Use --enable-nested-virtualization to enable and --no-enable-nested-virtualization to disable.
+    /// </summary>
+    [CliFlag("--no-enable-nested-virtualization")]
+    public bool? NoEnableNestedVirtualization { get; set; }
+
+    /// <summary>
+    /// If set to true, enables UEFI networking for the instance creation. Use --enable-uefi-networking to enable and --no-enable-uefi-networking to disable.
+    /// </summary>
+    [CliFlag("--enable-uefi-networking")]
+    public bool? EnableUefiNetworking { get; set; }
+
+    /// <summary>
+    /// Negates --enable-uefi-networking. If set to true, enables UEFI networking for the instance creation. Use --enable-uefi-networking to enable and --no-enable-uefi-networking to disable.
+    /// </summary>
+    [CliFlag("--no-enable-uefi-networking")]
+    public bool? NoEnableUefiNetworking { get; set; }
+
+    /// <summary>
+    /// Specifies whether the disk restored from source snapshots or source machine image should erase Windows specific VSS signature. See https://cloud.google.com/sdk/gcloud/reference/compute/disks/snapshot#--guest-flush
+    /// </summary>
+    [CliFlag("--erase-windows-vss-signature")]
+    public bool? EraseWindowsVssSignature { get; set; }
+
+    /// <summary>
+    /// If true, exposes the hashed physical host ID in the VM's ResourceStatus. Use --expose-host-topology to enable and --no-expose-host-topology to disable.
+    /// </summary>
+    [CliFlag("--expose-host-topology")]
+    public bool? ExposeHostTopology { get; set; }
+
+    /// <summary>
+    /// Negates --expose-host-topology. If true, exposes the hashed physical host ID in the VM's ResourceStatus. Use --expose-host-topology to enable and --no-expose-host-topology to disable.
+    /// </summary>
+    [CliFlag("--no-expose-host-topology")]
+    public bool? NoExposeHostTopology { get; set; }
+
+    /// <summary>
+    /// Enables graceful shutdown for the instance.
+    /// </summary>
+    [CliFlag("--graceful-shutdown")]
+    public bool? GracefulShutdown { get; set; }
+
+    /// <summary>
+    /// Specifies the maximum time for the graceful shutdown. After this time, the instance is set to STOPPING even if tasks are still running. Specify the time as the number of hours, minutes, or seconds followed by h, m, and s respectively. For example, specify 30m for 30 minutes or 20m10s for 20 minutes and 10 seconds. The value must be between 1 second and 1 hour.
+    /// </summary>
+    [CliOption("--graceful-shutdown-max-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? GracefulShutdownMaxDuration { get; set; }
+
+    /// <summary>
+    /// The timeout in seconds for host error detection. The value must be set with 30 second increments, with a range of 90 to 330 seconds. If unset, the default behavior of the host error recovery is used.
+    /// </summary>
+    [CliOption("--host-error-timeout-seconds", Format = OptionFormat.EqualsSeparated)]
+    public int? HostErrorTimeoutSeconds { get; set; }
+
+    /// <summary>
+    /// The workload identity to use for the instance.
+    /// </summary>
+    [CliOption("--identity", Format = OptionFormat.EqualsSeparated)]
+    public string? Identity { get; set; }
+
+    /// <summary>
+    /// Enables or disables managed workload identity certificates on a VM. Use --identity-certificate to enable and --no-identity-certificate to disable.
+    /// </summary>
+    [CliFlag("--identity-certificate")]
+    public bool? IdentityCertificate { get; set; }
+
+    /// <summary>
+    /// Negates --identity-certificate. Enables or disables managed workload identity certificates on a VM. Use --identity-certificate to enable and --no-identity-certificate to disable.
+    /// </summary>
+    [CliFlag("--no-identity-certificate")]
+    public bool? NoIdentityCertificate { get; set; }
+
+    /// <summary>
+    /// Named selection of machine types with an optional rank. For example, --instance-selection="name=instance-selection-1,machine-type=e2-standard-8,machine-type=t2d-standard-8,rank=0"
+    /// </summary>
+    [CliOption("--instance-selection", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceSelection { get; set; }
+
+    /// <summary>
+    /// A single selection of machine types. If not provided, the machine type specified in the instance template is used. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--instance-selection-machine-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? InstanceSelectionMachineTypes { get; set; }
+
+    /// <summary>
+    /// Specifies the termination action that will be taken upon VM preemption (--provisioning-model=SPOT) or automatic instance termination (--max-run-duration or --termination-time). INSTANCE_TERMINATION_ACTION must be one of: DELETE Permanently delete the VM. STOP Default only for Spot VMs. Stop the VM without preserving memory. The VM can be restarted later.
+    /// </summary>
+    [CliOption("--instance-termination-action", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceTerminationAction { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Attaches a local SSD to the instances. device-name Optional. A name that indicates the disk name the guest operating system will see. Can only be specified if interface is SCSI. If omitted, a device name of the form local-ssd-N will be used. interface Optional. The kind of disk interface exposed to the VM for this SSD. Valid values are SCSI and NVME. SCSI is the default and is supported by more guest operating systems. NVME might provide higher performance. size Optional. The only valid value is 375GB. Specify the --local-ssd flag multiple times if you need multiple 375GB local SSD partitions. You can specify a maximum of 24 local SSDs for a maximum of 9TB attached to an instance.
+    /// </summary>
+    [CliOption("--local-ssd", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? LocalSsd { get; set; }
+
+    /// <summary>
+    /// Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour.
+    /// </summary>
+    [CliOption("--local-ssd-recovery-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? LocalSsdRecoveryTimeout { get; set; }
+
+    /// <summary>
+    /// Policy for which zones to include or exclude during bulk instance creation within a region. Policy is defined as a list of key-value pairs, with the key being the zone name, and value being the applied policy. Available policies are allow and deny. Default for zones if left unspecified is allow. Example: gcloud compute instances bulk create --name-pattern=example-### --count=5 --region=us-east1 --location-policy=us-east1-b=allow,us-east1-c=deny Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--location-policy", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? LocationPolicy { get; set; }
+
+    /// <summary>
+    /// Specifies the machine type used for the instances. To get a list of available machine types, run 'gcloud compute machine-types list'. If unspecified, the default type is n1-standard-1.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Maximum number of instances per zone specified as key-value pairs. The zone name is the key and the max count per zone is the value in that zone. Example: gcloud compute instances bulk create --name-pattern=example-### --count=5 --region=us-east1 --max-count-per-zone=us-east1-b=2,us-east-1-c=1 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--max-count-per-zone", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? MaxCountPerZone { get; set; }
+
+    /// <summary>
+    /// Limits how long this VM instance can run, specified as a duration relative to the last time when the VM began running. Format the duration, MAX_RUN_DURATION, as the number of days, hours, minutes, and seconds followed by d, h, m, and s respectively. For example, specify 30m for a duration of 30 minutes or specify 1d2h3m4s for a duration of 1 day, 2 hours, 3 minutes, and 4 seconds. Alternatively, to specify a timestamp, use --termination-time instead. If neither --max-run-duration nor --termination-time is specified (default), the VM instance runs until prompted by a user action or system event. If either is specified, the VM instance is scheduled to be automatically terminated at the VM's termination timestamp (terminationTimestamp) using the action specified by --instance-termination-action. Note: The terminationTimestamp is removed whenever the VM is stopped or suspended and redefined whenever the VM is rerun. For --max-run-duration specifically, the terminationTimestamp is the sum of MAX_RUN_DURATION and the time when the VM last entered the RUNNING state, which changes whenever the VM is rerun.
+    /// </summary>
+    [CliOption("--max-run-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxRunDuration { get; set; }
+
+    /// <summary>
+    /// Metadata to be made available to the guest operating system running on the instances. Each metadata entry is a key/value pair separated by an equals sign. Each metadata key must be unique and have a max of 128 bytes in length. Each value must have a max of 256 KB in length. Multiple arguments can be passed to this flag, e.g., --metadata key-1=value-1,key-2=value-2,key-3=value-3. The combined total size for all metadata entries is 512 KB. In images that have Compute Engine tools installed on them, such as the official images (https://cloud.google.com/compute/docs/images), the following metadata keys have special meanings: startup-script Specifies a script that will be executed by the instances once they start running. For convenience, --metadata-from-file can be used to pull the value from a file. startup-script-url Same as startup-script except that the script contents are pulled from a publicly-accessible location on the web. For startup scripts on Windows instances, the following metadata keys have special meanings: windows-startup-script-url, windows-startup-script-cmd, windows-startup-script-bat, windows-startup-script-ps1, sysprep-specialize-script-url, sysprep-specialize-script-cmd, sysprep-specialize-script-bat, and sysprep-specialize-script-ps1. For more information, see Running startup scripts (https://cloud.google.com/compute/docs/startupscript). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Metadata { get; set; }
+
+    /// <summary>
+    /// Same as --metadata except that the value for the entry will be read from a local file. This is useful for values that are too large such as startup-script contents. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? MetadataFromFile { get; set; }
+
+    /// <summary>
+    /// The minimum number of Compute Engine virtual machines that must be successfully created for the operation to be considered a success. If the operation successfully creates as many virtual machines as specified here they will be persisted, otherwise the operation rolls back and deletes all created virtual machines. If not specified, this value is equal to --count.
+    /// </summary>
+    [CliOption("--min-count", Format = OptionFormat.EqualsSeparated)]
+    public int? MinCount { get; set; }
+
+    /// <summary>
+    /// When specified, the VM will be scheduled on host with specified CPU architecture or a newer one. To list available CPU platforms in given zone, run: $ gcloud compute zones describe ZONE \ --format="value(availableCpuPlatforms)" Default setting is "AUTOMATIC". CPU platform selection is available only in selected zones. You can find more information on-line: https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform
+    /// </summary>
+    [CliOption("--min-cpu-platform", Format = OptionFormat.EqualsSeparated)]
+    public string? MinCpuPlatform { get; set; }
+
+    /// <summary>
+    /// Minimum number of virtual CPUs this instance will consume when running on a sole-tenant node.
+    /// </summary>
+    [CliOption("--min-node-cpu", Format = OptionFormat.EqualsSeparated)]
+    public string? MinNodeCpu { get; set; }
+
+    /// <summary>
+    /// Specifies the network that the VM instances are a part of. If --subnet is also specified, subnet must be a subnetwork of the network specified by this --network flag. If neither is specified, the default network is used.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Adds a network interface to the instance. Mutually exclusive with any of these flags: --network, --network-tier, --no-address, --subnet, --stack-type. This flag can be repeated to specify multiple network interfaces. The following keys are allowed: network Specifies the network that the interface will be part of. If subnet is also specified it must be subnetwork of this network. If neither is specified, this defaults to the "default" network. network-tier Specifies the network tier of the interface. NETWORK_TIER must be one of: PREMIUM, STANDARD. The default value is PREMIUM. subnet Specifies the subnet that the interface will be part of. If network key is also specified this must be a subnetwork of the specified network. nic-type Specifies the Network Interface Controller (NIC) type for the interface. NIC_TYPE must be one of: GVNIC, VIRTIO_NET. no-address If specified the interface will have no external IP. If not specified instances will get ephemeral IPs. queue-count Specifies the networking queue count for this interface. Both Rx and Tx queues will be set to this number. If it's not specified, a default queue count will be assigned. See https://cloud.google.com/compute/docs/network-bandwidth#rx-tx for more details. stack-type Specifies whether IPv6 is enabled on the interface. STACK_TYPE must be one of: IPV4_ONLY, IPV4_IPV6, IPV6_ONLY. The default value is IPV4_ONLY. igmp-query Determines if the Compute Engine Instance can receive and respond to IGMP query packets on the specified network interface. IGMP_QUERY must be one of: IGMP_QUERY_V2, IGMP_QUERY_DISABLED. It is disabled by default.
+    /// </summary>
+    [CliOption("--network-interface", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NetworkInterface { get; set; }
+
+    /// <summary>
+    /// Configures network performance settings for the instance. If this flag is not specified, the instance will be created with its default network performance configuration. total-egress-bandwidth-tier Total egress bandwidth is the available outbound bandwidth from a VM, regardless of whether the traffic is going to internal IP or external IP destinations. The following tier values are allowed: [DEFAULT,TIER_1] Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--network-performance-configs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NetworkPerformanceConfigs { get; set; }
+
+    /// <summary>
+    /// Specifies the network tier that will be used to configure the instance. NETWORK_TIER must be one of: PREMIUM, STANDARD. The default value is PREMIUM.
+    /// </summary>
+    [CliOption("--network-tier", Format = OptionFormat.EqualsSeparated)]
+    public GcloudComputeInstancesBulkCreateNetworkTier? NetworkTier { get; set; }
+
+    /// <summary>
+    /// The type of performance monitoring counters (PMCs) to enable in the instance. PERFORMANCE_MONITORING_UNIT must be one of: architectural This enables architecturally defined non-last level cache (LLC) events. enhanced This enables most documented core/L2 and LLC events. standard This enables most documented core/L2 events.
+    /// </summary>
+    [CliOption("--performance-monitoring-unit", Format = OptionFormat.EqualsSeparated)]
+    public string? PerformanceMonitoringUnit { get; set; }
+
+    /// <summary>
+    /// Specifies the behavior of the instance when the KMS key of one of its attached disks is revoked. The default is noop. POLICY must be one of: noop No operation is performed. shutdown The instance is shut down when the KMS key of one of its attached disks is revoked.
+    /// </summary>
+    [CliOption("--post-key-revocation-action-type", Format = OptionFormat.EqualsSeparated)]
+    public string? PostKeyRevocationActionType { get; set; }
+
+    /// <summary>
+    /// If provided, instances will be preemptible and time-limited. Instances might be preempted to free up resources for standard VM instances, and will only be able to run for a limited amount of time. Preemptible instances can not be restarted and will not migrate.
+    /// </summary>
+    [CliFlag("--preemptible")]
+    public bool? Preemptible { get; set; }
+
+    /// <summary>
+    /// Specifies the provisioning model for your VM instances. This choice affects the price, availability, and how long your VM instances can run. PROVISIONING_MODEL must be one of: RESERVATION_BOUND The VM instances run for the entire duration of their associated reservation. You can only specify this provisioning model if you want your VM instances to consume a specific reservation with either a calendar reservation mode or a dense deployment type. SPOT Compute Engine may stop a Spot VM instance whenever it needs capacity. Because Spot VM instances don't have a guaranteed runtime, they come at a discounted price. STANDARD The default option. The STANDARD provisioning model gives you full control over your VM instances' runtime.
+    /// </summary>
+    [CliOption("--provisioning-model", Format = OptionFormat.EqualsSeparated)]
+    public string? ProvisioningModel { get; set; }
+
+    /// <summary>
+    /// Specifies a list of resource manager tags to apply to the instance. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
+
+    /// <summary>
+    /// A list of resource policy names to be added to the instance. The policies must exist in the same region as the instance. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--resource-policies", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ResourcePolicies { get; set; }
+
+    /// <summary>
+    /// The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Enabled by default, use --no-restart-on-failure to disable.
+    /// </summary>
+    [CliFlag("--restart-on-failure")]
+    public bool? RestartOnFailure { get; set; }
+
+    /// <summary>
+    /// Negates --restart-on-failure. The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Enabled by default, use --no-restart-on-failure to disable.
+    /// </summary>
+    [CliFlag("--no-restart-on-failure")]
+    public bool? NoRestartOnFailure { get; set; }
+
+    /// <summary>
+    /// Enables monitoring and attestation of the boot integrity of the instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the instance is created. This baseline can be updated by using gcloud compute instances update --shielded-learn-integrity-policy. On Shielded VM instances, integrity monitoring is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. For information about monitoring integrity on Shielded VM instances, see https://cloud.google.com/compute/docs/instances/integrity-monitoring."
+    /// </summary>
+    [CliFlag("--shielded-integrity-monitoring")]
+    public bool? ShieldedIntegrityMonitoring { get; set; }
+
+    /// <summary>
+    /// The instance boots with secure boot enabled. On Shielded VM instances, Secure Boot is not enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm.
+    /// </summary>
+    [CliFlag("--shielded-secure-boot")]
+    public bool? ShieldedSecureBoot { get; set; }
+
+    /// <summary>
+    /// The instance boots with the TPM (Trusted Platform Module) enabled. A TPM is a hardware module that can be used for different security operations such as remote attestation, encryption, and sealing of keys. On Shielded VM instances, vTPM is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm.
+    /// </summary>
+    [CliFlag("--shielded-vtpm")]
+    public bool? ShieldedVtpm { get; set; }
+
+    /// <summary>
+    /// If enabled, then, when the instance is stopped or deleted, the instance is immediately stopped without giving time to the guest OS to cleanly shut down. Use --skip-guest-os-shutdown to enable and --no-skip-guest-os-shutdown to disable.
+    /// </summary>
+    [CliFlag("--skip-guest-os-shutdown")]
+    public bool? SkipGuestOsShutdown { get; set; }
+
+    /// <summary>
+    /// Negates --skip-guest-os-shutdown. If enabled, then, when the instance is stopped or deleted, the instance is immediately stopped without giving time to the guest OS to cleanly shut down. Use --skip-guest-os-shutdown to enable and --no-skip-guest-os-shutdown to disable.
+    /// </summary>
+    [CliFlag("--no-skip-guest-os-shutdown")]
+    public bool? NoSkipGuestOsShutdown { get; set; }
+
+    /// <summary>
+    /// The name of the instance template that the instance will be created from. Users can override fields by specifying other flags.
+    /// </summary>
+    [CliOption("--source-instance-template", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceInstanceTemplate { get; set; }
+
+    /// <summary>
+    /// Specifies whether IPv6 is enabled on the default network interface. If not specified, IPV4_ONLY will be used. STACK_TYPE must be one of: IPV4_IPV6 The network interface can have both IPv4 and IPv6 addresses IPV4_ONLY The network interface will be assigned IPv4 addresses IPV6_ONLY The network interface will be assigned IPv6 addresses
+    /// </summary>
+    [CliOption("--stack-type", Format = OptionFormat.EqualsSeparated)]
+    public string? StackType { get; set; }
+
+    /// <summary>
+    /// Specifies the subnet that the VM instances are a part of. If --network is also specified, subnet must be a subnetwork of the network specified by the --network flag.
+    /// </summary>
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Specifies a list of tags to apply to the instance. These tags allow network firewall rules and routes to be applied to specified VM instances. See gcloud compute firewall-rules create(1) for more details. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags To list instances with their respective status and tags, run: $ gcloud compute instances list \ --format='table(name,status,tags.list())' To list instances tagged with a specific tag, tag1, run: $ gcloud compute instances list --filter='tags:tag1' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Specifies whether and how to distribute VMs across multiple zones in a region or to enforce placement of VMs in a single zone. The default shape is ANY_SINGLE_ZONE. SHAPE must be one of: ANY Allows creating VMs in multiple zones if one zone cannot accommodate all the requested VMs. The resulting distribution shapes can vary. ANY_SINGLE_ZONE Enforces VM placement in one allowed zone. Use this to avoid cross-zone network egress or to reduce network latency. This is the default value. BALANCED Allows distribution of VMs in zones where resources are available while distributing VMs as evenly as possible across selected zones to minimize the impact of zonal failures. Recommended for highly available serving or batch workloads.
+    /// </summary>
+    [CliOption("--target-distribution-shape", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetDistributionShape { get; set; }
+
+    /// <summary>
+    /// Limits how long this VM instance can run, specified as a time. Format the time, TERMINATION_TIME, as a RFC 3339 timestamp. For more information, see https://tools.ietf.org/html/rfc3339. Alternatively, to specify a duration, use --max-run-duration instead. If neither --termination-time nor --max-run-duration is specified (default), the VM instance runs until prompted by a user action or system event. If either is specified, the VM instance is scheduled to be automatically terminated at the VM's termination timestamp (terminationTimestamp) using the action specified by --instance-termination-action. Note: The terminationTimestamp is removed whenever the VM is stopped or suspended and redefined whenever the VM is rerun. For --termination-time specifically, the terminationTimestamp remains the same whenever the VM is rerun, but any requests to rerun the VM fail if the specified timestamp is in the past.
+    /// </summary>
+    [CliOption("--termination-time", Format = OptionFormat.EqualsSeparated)]
+    public string? TerminationTime { get; set; }
+
+    /// <summary>
+    /// The number of visible threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. Valid values are: 1 or 2. For more information about configuring SMT, see: https://cloud.google.com/compute/docs/instances/configuring-simultaneous-multithreading.
+    /// </summary>
+    [CliOption("--threads-per-core", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreadsPerCore { get; set; }
+
+    /// <summary>
+    /// Turbo mode to use for the instance. Supported modes include: ◆ ALL_CORE_MAX To achieve all-core-turbo frequency for more consistent CPU performance, set the field to ALL_CORE_MAX. The field is unset by default, which results in maximum performance single-core boosting.
+    /// </summary>
+    [CliOption("--turbo-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? TurboMode { get; set; }
+
+    /// <summary>
+    /// The number of physical cores to expose to the instance's guest operating system. The number of virtual CPUs visible to the instance's guest operating system is this number of cores multiplied by the instance's count of visible threads per physical core.
+    /// </summary>
+    [CliOption("--visible-core-count", Format = OptionFormat.EqualsSeparated)]
+    public int? VisibleCoreCount { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --boot-disk-kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--boot-disk-kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? BootDiskKmsKey { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --boot-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --boot-disk-kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--boot-disk-kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? BootDiskKmsKeyring { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --boot-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --boot-disk-kms-location on the command line.
+    /// </summary>
+    [CliOption("--boot-disk-kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? BootDiskKmsLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --boot-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --boot-disk-kms-project on the command line; ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--boot-disk-kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? BootDiskKmsProject { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: (DEPRECATED) The instance boots with Confidential Computing enabled. Confidential Computing is based on Secure Encrypted Virtualization (SEV), an AMD virtualization feature for running confidential instances. The --confidential-compute flag will soon be deprecated. Please use --confidential-compute-type=SEV instead
+    /// </summary>
+    [CliFlag("--confidential-compute")]
+    public bool? ConfidentialCompute { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The instance boots with Confidential Computing enabled. Confidential Computing can be based on Secure Encrypted Virtualization (SEV) or Secure Encrypted Virtualization - Secure Nested Paging (SEV-SNP), both of which are AMD virtualization features for running confidential instances. Trust Domain eXtension based on Intel virtualization features for running confidential instances is also supported. Arm Confidential Compute Architecture for running confidential instances is also supported. Bare Metal Secure AI for running confidential instances is also supported. CONFIDENTIAL_COMPUTE_TYPE must be one of: BMSAI Bare Metal Secure AI CCA Arm Confidential Compute Architecture SEV Secure Encrypted Virtualization SEV_SNP Secure Encrypted Virtualization - Secure Nested Paging TDX Trust Domain eXtension
+    /// </summary>
+    [CliOption("--confidential-compute-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfidentialComputeType { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. A whole number value specifying the number of cores that are needed in the custom machine type. For some machine types, shared-core values can also be used. For example, for E2 machine types, you can specify micro, small, or medium. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--custom-cpu", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomCpu { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. A whole number value indicating how much memory is desired in the custom machine type. A size unit should be provided (eg. 3072MB or 9GB) - if no units are specified, GB is assumed. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--custom-memory", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomMemory { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Use the extended custom machine type.
+    /// </summary>
+    [CliFlag("--custom-extensions")]
+    public bool? CustomExtensions { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. Specifies a custom machine type. The default is n1. For more information about custom machine types, see: https://cloud.google.com/compute/docs/general-purpose-machines#custom_machine_types
+    /// </summary>
+    [CliOption("--custom-vm-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomVmType { get; set; }
+
+    /// <summary>
+    /// Custom machine type extensions. The Google Cloud project against which all image and image family references will be resolved. It is best practice to define image-project. A full list of available projects can be generated by running gcloud projects list. ◆ If specifying one of our public images, image-project must be provided. ◆ If there are several of the same image-family value in multiple projects, image-project must be specified to clarify the image to be used. ◆ If not specified and either image or image-family is provided, the current default project is used.
+    /// </summary>
+    [CliOption("--image-project", Format = OptionFormat.EqualsSeparated)]
+    public string? ImageProject { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Specifies the boot image for the instances. For each instance, a new boot disk will be created from the given image. Each boot disk will have the same name as the instance. To view a list of public images and projects, run $ gcloud compute images list. It is best practice to use --image when a specific version of an image is needed. When using this option, --boot-disk-device-name and --boot-disk-size can be used to override the boot disk's device name and size, respectively.
+    /// </summary>
+    [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
+    public string? Image { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The image family for the operating system that the boot disk will be initialized with. Compute Engine offers multiple Linux distributions, some of which are available as both regular and Shielded VM images. When a family is specified instead of an image, the latest non-deprecated image associated with that family is used. It is best practice to use --image-family when the latest version of an image is needed. By default, debian-12 is assumed for this flag.
+    /// </summary>
+    [CliOption("--image-family", Format = OptionFormat.EqualsSeparated)]
+    public string? ImageFamily { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The name of the source disk snapshot that the instance boot disk will be created from. You can provide this as a full URL to the snapshot or just the snapshot name. For example, the following are valid values: ▸ https://compute.googleapis.com/compute/v1/projects/myproject/global/snapshots/snapshot ▸ snapshot
+    /// </summary>
+    [CliOption("--source-snapshot", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceSnapshot { get; set; }
+
+    /// <summary>
+    /// Maintenance Behavior. At most one of these can be specified: (DEPRECATED) Specifies the behavior of the VMs when their host machines undergo maintenance. The default is MIGRATE. For more information, see https://cloud.google.com/compute/docs/instances/host-maintenance-options. The --maintenance-policy flag is now deprecated. Please use --on-host-maintenance instead. MAINTENANCE_POLICY must be one of: MIGRATE The instances should be migrated to a new host. This will temporarily impact the performance of instances during a migration event. TERMINATE The instances should be terminated.
+    /// </summary>
+    [CliOption("--maintenance-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenancePolicy { get; set; }
+
+    /// <summary>
+    /// Maintenance Behavior. At most one of these can be specified: Specifies the behavior of the VMs when their host machines undergo maintenance. The default is MIGRATE. For more information, see https://cloud.google.com/compute/docs/instances/host-maintenance-options. MAINTENANCE_POLICY must be one of: MIGRATE The instances should be migrated to a new host. This will temporarily impact the performance of instances during a migration event. TERMINATE The instances should be terminated.
+    /// </summary>
+    [CliOption("--on-host-maintenance", Format = OptionFormat.EqualsSeparated)]
+    public string? OnHostMaintenance { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Assigns a public DNS name to the instance.
+    /// </summary>
+    [CliFlag("--public-dns")]
+    public bool? PublicDns { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If provided, the instance will not be assigned a public DNS name.
+    /// </summary>
+    [CliFlag("--no-public-dns")]
+    public bool? NoPublicDns { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. The name of the reservation, required when --reservation-affinity=specific.
+    /// </summary>
+    [CliOption("--reservation", Format = OptionFormat.EqualsSeparated)]
+    public string? Reservation { get; set; }
+
+    /// <summary>
+    /// Specifies the reservation for the instance. The type of reservation for the instance. RESERVATION_AFFINITY must be one of: any Consume any available, matching reservation. none Do not consume from any reserved capacity. specific Must consume from a specific reservation.
+    /// </summary>
+    [CliOption("--reservation-affinity", Format = OptionFormat.EqualsSeparated)]
+    public string? ReservationAffinity { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If not provided, the instance will be assigned the default scopes, described below. However, if neither --scopes nor --no-scopes are specified and the project has no default service account, then the instance will be created with no scopes. Note that the level of access that a service account has is determined by a combination of access scopes and IAM roles so you must configure both access scopes and IAM roles for the service account to work properly. SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Scopes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ScopesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ScopesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At most one of these can be specified: Create instance without scopes
+    /// </summary>
+    [CliFlag("--no-scopes")]
+    public bool? NoScopes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: A service account is an identity attached to the instance. Its access tokens can be accessed through the instance metadata server and are used to authenticate applications on the instance. The account can be set using an email address corresponding to the required service account. If not provided, the instance will use the project's default service account.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Create instance without service account
+    /// </summary>
+    [CliFlag("--no-service-account")]
+    public bool? NoServiceAccount { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(NamePattern) ? 1 : 0) + (((object?)PredefinedNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)PredefinedNames is not string || !string.IsNullOrWhiteSpace(PredefinedNames?.ToString()) : ((object?)PredefinedNames is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PredefinedNames, static item => item is not null) : (PredefinedNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PredefinedNames), static item => item is not null)))) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of NamePattern or PredefinedNames must be specified.", [nameof(NamePattern), nameof(PredefinedNames)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Region or Zone must be specified.", [nameof(Region), nameof(Zone)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BootDiskKmsKey) || !string.IsNullOrWhiteSpace(BootDiskKmsKeyring) || !string.IsNullOrWhiteSpace(BootDiskKmsLocation) || !string.IsNullOrWhiteSpace(BootDiskKmsProject)) && (!(!string.IsNullOrWhiteSpace(BootDiskKmsKey))))
+        {
+            yield return new ValidationResult("BootDiskKmsKey must be specified when other arguments in this group are specified.", [nameof(BootDiskKmsKey)]);
+        }
+        if ((ConfidentialCompute == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(ConfidentialComputeType) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ConfidentialCompute or ConfidentialComputeType may be specified.", [nameof(ConfidentialCompute), nameof(ConfidentialComputeType)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CustomCpu) || !string.IsNullOrWhiteSpace(CustomMemory) || CustomExtensions == true || !string.IsNullOrWhiteSpace(CustomVmType) || !string.IsNullOrWhiteSpace(ImageProject)) && (!(!string.IsNullOrWhiteSpace(CustomCpu))))
+        {
+            yield return new ValidationResult("CustomCpu must be specified when other arguments in this group are specified.", [nameof(CustomCpu)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CustomCpu) || !string.IsNullOrWhiteSpace(CustomMemory) || CustomExtensions == true || !string.IsNullOrWhiteSpace(CustomVmType) || !string.IsNullOrWhiteSpace(ImageProject)) && (!(!string.IsNullOrWhiteSpace(CustomMemory))))
+        {
+            yield return new ValidationResult("CustomMemory must be specified when other arguments in this group are specified.", [nameof(CustomMemory)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Image) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ImageFamily) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceSnapshot) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Image, ImageFamily, or SourceSnapshot may be specified.", [nameof(Image), nameof(ImageFamily), nameof(SourceSnapshot)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MaintenancePolicy) ? 1 : 0) + (!string.IsNullOrWhiteSpace(OnHostMaintenance) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of MaintenancePolicy or OnHostMaintenance may be specified.", [nameof(MaintenancePolicy), nameof(OnHostMaintenance)]);
+        }
+        if ((PublicDns == true ? 1 : 0) + (NoPublicDns == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of PublicDns or NoPublicDns may be specified.", [nameof(PublicDns), nameof(NoPublicDns)]);
+        }
+        if ((((object?)Scopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)Scopes is not string || !string.IsNullOrWhiteSpace(Scopes?.ToString()) : ((object?)Scopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Scopes, static item => item is not null) : (Scopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Scopes), static item => item is not null)))) ? 1 : 0) + (NoScopes == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Scopes or NoScopes may be specified.", [nameof(Scopes), nameof(NoScopes)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ServiceAccount) ? 1 : 0) + (NoServiceAccount == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ServiceAccount or NoServiceAccount may be specified.", [nameof(ServiceAccount), nameof(NoServiceAccount)]);
+        }
+        yield break;
+    }
+
 }

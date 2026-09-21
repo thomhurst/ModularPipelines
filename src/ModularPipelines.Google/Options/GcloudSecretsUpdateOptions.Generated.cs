@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secrets", "update")]
-public record GcloudSecretsUpdateOptions : GcloudOptions
+public record GcloudSecretsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a secret's metadata
+    /// </summary>
+    /// <param name="Secret">Secret resource - The secret to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument SECRET on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the secret or fully qualified identifier for the secret. To set the secret attribute: ▸ provide the argument SECRET on the command line.</param>
+    public GcloudSecretsUpdateOptions(
+        string Secret
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Secret);
+        this.Secret = Secret;
+    }
+
+    public void Deconstruct(out string Secret)
+    {
+        Secret = this.Secret;
+    }
+
     /// <summary>
     /// Current entity tag (ETag) of the secret. If specified, the secret is updated only if the ETag provided matches the current secret's ETag.
     /// </summary>
@@ -35,91 +53,209 @@ public record GcloudSecretsUpdateOptions : GcloudOptions
     public string? Location { get; set; }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Topics. At most one of these can be specified: List of Pub/Sub topics to add to the secret.
+    /// Topics. At most one of these can be specified: List of Pub/Sub topics to add to the secret. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-topics", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddTopics { get; set; }
+    [CliOption("--add-topics", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddTopics
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddTopicsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddTopicsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Topics. At most one of these can be specified: Clear all Pub/Sub topics from the secret.
+    /// Topics. At most one of these can be specified: Clear all Pub/Sub topics from the secret.
     /// </summary>
     [CliFlag("--clear-topics")]
     public bool? ClearTopics { get; set; }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Topics. At most one of these can be specified: List of Pub/Sub topics to remove from the secret.
+    /// Topics. At most one of these can be specified: List of Pub/Sub topics to remove from the secret. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-topics", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveTopics { get; set; }
+    [CliOption("--remove-topics", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveTopics
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveTopicsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveTopicsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations At most one of these can be specified: Remove all Annotations.
+    /// Annotations At most one of these can be specified: Remove all Annotations.
     /// </summary>
     [CliFlag("--clear-annotations")]
     public bool? ClearAnnotations { get; set; }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations At most one of these can be specified: List of Annotations to be removed.
+    /// Annotations At most one of these can be specified: List of Annotations to be removed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-annotations", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveAnnotations { get; set; }
+    [CliOption("--remove-annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveAnnotations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveAnnotationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveAnnotationsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations At most one of these can be specified: List of key-value pairs to set as Annotations.
+    /// Annotations At most one of these can be specified: List of key-value pairs to set as Annotations. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-annotations", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? UpdateAnnotations { get; set; }
+    [CliOption("--update-annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? UpdateAnnotations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud secrets update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud secrets update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud secrets update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud secrets update --clear-labels \ --update-labels foo=bar,baz=qux
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Version Aliases At most one of these can be specified: Remove all Version Aliases.
+    /// Version Aliases At most one of these can be specified: Remove all Version Aliases.
     /// </summary>
     [CliFlag("--clear-version-aliases")]
     public bool? ClearVersionAliases { get; set; }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Version Aliases At most one of these can be specified: List of Version Aliases to be removed.
+    /// Version Aliases At most one of these can be specified: List of Version Aliases to be removed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-version-aliases", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveVersionAliases { get; set; }
+    [CliOption("--remove-version-aliases", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveVersionAliases
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveVersionAliasesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveVersionAliasesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Version Aliases At most one of these can be specified: List of key-value pairs to set as Version Aliases.
+    /// Version Aliases At most one of these can be specified: List of key-value pairs to set as Version Aliases. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-version-aliases", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? UpdateVersionAliases { get; set; }
+    [CliOption("--update-version-aliases", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? UpdateVersionAliases
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Expiration. At most one of these can be specified: Timestamp at which to automatically delete the secret.
+    /// Expiration. At most one of these can be specified: Timestamp at which to automatically delete the secret.
     /// </summary>
     [CliOption("--expire-time", Format = OptionFormat.EqualsSeparated)]
     public string? ExpireTime { get; set; }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Expiration. At most one of these can be specified: If set, removes scheduled expiration from secret (if it had one).
+    /// Expiration. At most one of these can be specified: If set, removes scheduled expiration from secret (if it had one).
     /// </summary>
     [CliFlag("--remove-expiration")]
     public bool? RemoveExpiration { get; set; }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Expiration. At most one of these can be specified: Duration of time (in seconds) from the running of the command until the secret is automatically deleted.
+    /// Expiration. At most one of these can be specified: Duration of time (in seconds) from the running of the command until the secret is automatically deleted.
     /// </summary>
     [CliOption("--ttl", Format = OptionFormat.EqualsSeparated)]
     public string? Ttl { get; set; }
@@ -155,27 +291,67 @@ public record GcloudSecretsUpdateOptions : GcloudOptions
     public string? RotationPeriod { get; set; }
 
     /// <summary>
-    /// Rotation. regional kms key. At most one of these can be specified: regional kms key name for regional secret.
+    /// regional kms key. At most one of these can be specified: regional kms key name for regional secret.
     /// </summary>
     [CliOption("--regional-kms-key-name", Format = OptionFormat.EqualsSeparated)]
     public string? RegionalKmsKeyName { get; set; }
 
     /// <summary>
-    /// Rotation. regional kms key. At most one of these can be specified: If set, removes the regional kms key.
+    /// regional kms key. At most one of these can be specified: If set, removes the regional kms key.
     /// </summary>
     [CliFlag("--remove-regional-kms-key-name")]
     public bool? RemoveRegionalKmsKeyName { get; set; }
 
     /// <summary>
-    /// Rotation. Version destroy ttl. At most one of these can be specified: If set, removes the version destroy TTL from the secret.
+    /// Version destroy ttl. At most one of these can be specified: If set, removes the version destroy TTL from the secret.
     /// </summary>
     [CliFlag("--remove-version-destroy-ttl")]
     public bool? RemoveVersionDestroyTtl { get; set; }
 
     /// <summary>
-    /// Rotation. Version destroy ttl. At most one of these can be specified: Secret Version TTL after destruction request. For secret with TTL&gt;0, version destruction does not happen immediately on calling destroy; instead, the version goes to a disabled state and destruction happens after the TTL expires. See $ gcloud topic datetimes for information on duration formats.
+    /// Version destroy ttl. At most one of these can be specified: Secret Version TTL after destruction request. For secret with TTL&gt;0, version destruction does not happen immediately on calling destroy; instead, the version goes to a disabled state and destruction happens after the TTL expires. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--version-destroy-ttl", Format = OptionFormat.EqualsSeparated)]
     public string? VersionDestroyTtl { get; set; }
+
+    /// <summary>
+    /// Secret resource - The secret to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument SECRET on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the secret or fully qualified identifier for the secret. To set the secret attribute: ▸ provide the argument SECRET on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Secret { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)AddTopics is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddTopics is not string || !string.IsNullOrWhiteSpace(AddTopics?.ToString()) : ((object?)AddTopics is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddTopics, static item => item is not null) : (AddTopics is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddTopics), static item => item is not null)))) ? 1 : 0) + (ClearTopics == true ? 1 : 0) + (((object?)RemoveTopics is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveTopics is not string || !string.IsNullOrWhiteSpace(RemoveTopics?.ToString()) : ((object?)RemoveTopics is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveTopics, static item => item is not null) : (RemoveTopics is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveTopics), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AddTopics, ClearTopics, or RemoveTopics may be specified.", [nameof(AddTopics), nameof(ClearTopics), nameof(RemoveTopics)]);
+        }
+        if ((ClearAnnotations == true ? 1 : 0) + (((object?)RemoveAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAnnotations is not string || !string.IsNullOrWhiteSpace(RemoveAnnotations?.ToString()) : ((object?)RemoveAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAnnotations, static item => item is not null) : (RemoveAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAnnotations), static item => item is not null)))) ? 1 : 0) + (((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAnnotations is not string || !string.IsNullOrWhiteSpace(UpdateAnnotations?.ToString()) : ((object?)UpdateAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateAnnotations, static item => item is not null) : (UpdateAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAnnotations), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearAnnotations, RemoveAnnotations, or UpdateAnnotations may be specified.", [nameof(ClearAnnotations), nameof(RemoveAnnotations), nameof(UpdateAnnotations)]);
+        }
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((ClearVersionAliases == true ? 1 : 0) + (((object?)RemoveVersionAliases is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveVersionAliases is not string || !string.IsNullOrWhiteSpace(RemoveVersionAliases?.ToString()) : ((object?)RemoveVersionAliases is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveVersionAliases, static item => item is not null) : (RemoveVersionAliases is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveVersionAliases), static item => item is not null)))) ? 1 : 0) + (((object?)UpdateVersionAliases is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateVersionAliases is not string || !string.IsNullOrWhiteSpace(UpdateVersionAliases?.ToString()) : ((object?)UpdateVersionAliases is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateVersionAliases, static item => item is not null) : (UpdateVersionAliases is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateVersionAliases), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearVersionAliases, RemoveVersionAliases, or UpdateVersionAliases may be specified.", [nameof(ClearVersionAliases), nameof(RemoveVersionAliases), nameof(UpdateVersionAliases)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ExpireTime) ? 1 : 0) + (RemoveExpiration == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Ttl) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ExpireTime, RemoveExpiration, or Ttl may be specified.", [nameof(ExpireTime), nameof(RemoveExpiration), nameof(Ttl)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(RegionalKmsKeyName) ? 1 : 0) + (RemoveRegionalKmsKeyName == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of RegionalKmsKeyName or RemoveRegionalKmsKeyName may be specified.", [nameof(RegionalKmsKeyName), nameof(RemoveRegionalKmsKeyName)]);
+        }
+        if ((RemoveVersionDestroyTtl == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(VersionDestroyTtl) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of RemoveVersionDestroyTtl or VersionDestroyTtl may be specified.", [nameof(RemoveVersionDestroyTtl), nameof(VersionDestroyTtl)]);
+        }
+        yield break;
+    }
 
 }

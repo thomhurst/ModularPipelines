@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,57 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "public-advertised-prefixes", "update")]
-public record GcloudComputePublicAdvertisedPrefixesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputePublicAdvertisedPrefixesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// updates a Compute Engine     public advertised prefix
+    /// </summary>
+    /// <param name="Name">Name of the public advertised prefix to operate on.</param>
+    public GcloudComputePublicAdvertisedPrefixesUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specify if the prefix will be announced. Default is false.
+    /// </summary>
+    [CliFlag("--announce-prefix")]
+    public bool? AnnouncePrefix { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The status of public advertised prefix. STATUS must be (only one value is supported): ptr-configured.
+    /// </summary>
+    [CliOption("--status", Format = OptionFormat.EqualsSeparated)]
+    public string? Status { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specify if the prefix will be withdrawn. Default is false.
+    /// </summary>
+    [CliFlag("--withdraw-prefix")]
+    public bool? WithdrawPrefix { get; set; }
+
+    /// <summary>
+    /// Name of the public advertised prefix to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((AnnouncePrefix == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Status) ? 1 : 0) + (WithdrawPrefix == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of AnnouncePrefix, Status, or WithdrawPrefix must be specified.", [nameof(AnnouncePrefix), nameof(Status), nameof(WithdrawPrefix)]);
+        }
+        yield break;
+    }
+
 }

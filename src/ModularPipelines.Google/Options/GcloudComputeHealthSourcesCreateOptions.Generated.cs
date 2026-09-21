@@ -21,4 +21,84 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "health-sources", "create")]
 public record GcloudComputeHealthSourcesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a health source
+    /// </summary>
+    /// <param name="HealthAggregationPolicy">URL to the health aggregation policy resource. Must be set. Must be regional and in the same region as the HealthSource. Can be mutated.</param>
+    /// <param name="Sources">URLs to the source resources. Must be size 1. Must be a BackendService if the sourceType is BACKEND_SERVICE. The BackendService must have load balancing scheme INTERNAL or INTERNAL_MANAGED and must be regional and in the same region as the HealthSource (cross-region deployment for INTERNAL_MANAGED is not supported). The BackendService may use only IGs, MIGs, or NEGs of type GCE_VM_IP or GCE_VM_IP_PORT. The BackendService may not use haPolicy. Can be mutated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="HealthSource">Health source resource - The name of the health source you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument health_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the health source or fully qualified identifier for the health source. To set the health_source attribute: ▸ provide the argument health_source on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeHealthSourcesCreateOptions(
+        string HealthAggregationPolicy,
+        IEnumerable<string> Sources,
+        string HealthSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HealthAggregationPolicy);
+        this.HealthAggregationPolicy = HealthAggregationPolicy;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Sources);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Sources));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Sources));
+            }
+
+            Sources = materialized;
+        }
+        this.Sources = Sources;
+        global::System.ArgumentNullException.ThrowIfNull(HealthSource);
+        this.HealthSource = HealthSource;
+    }
+
+    public void Deconstruct(out string HealthAggregationPolicy, out IEnumerable<string> Sources, out string HealthSource)
+    {
+        HealthAggregationPolicy = this.HealthAggregationPolicy;
+        Sources = this.Sources;
+        HealthSource = this.HealthSource;
+    }
+
+    /// <summary>
+    /// URL to the health aggregation policy resource. Must be set. Must be regional and in the same region as the HealthSource. Can be mutated.
+    /// </summary>
+    [CliOption("--health-aggregation-policy", Format = OptionFormat.EqualsSeparated)]
+    public string HealthAggregationPolicy { get; private init; }
+
+    /// <summary>
+    /// URLs to the source resources. Must be size 1. Must be a BackendService if the sourceType is BACKEND_SERVICE. The BackendService must have load balancing scheme INTERNAL or INTERNAL_MANAGED and must be regional and in the same region as the HealthSource (cross-region deployment for INTERNAL_MANAGED is not supported). The BackendService may use only IGs, MIGs, or NEGs of type GCE_VM_IP or GCE_VM_IP_PORT. The BackendService may not use haPolicy. Can be mutated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--sources", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Sources { get; private init; }
+
+    /// <summary>
+    /// Health source resource - The name of the health source you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument health_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Google Compute Engine region. To set the region attribute: ▸ provide the argument health_source on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property compute/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A textual description of the HealthSource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Specifies the type of the HealthSource. The only allowed value is BACKEND_SERVICE. Must be specified when the HealthSource is created, and cannot be mutated. SOURCE_TYPE must be (only one value is supported): backend-service.
+    /// </summary>
+    [CliOption("--source-type", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceType { get; set; }
+
+    /// <summary>
+    /// Health source resource - The name of the health source you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument health_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the health source or fully qualified identifier for the health source. To set the health_source attribute: ▸ provide the argument health_source on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string HealthSource { get; private init; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,8 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "insights", "inventory-reports", "update")]
-public record GcloudStorageInsightsInventoryReportsUpdateOptions : GcloudOptions
+public record GcloudStorageInsightsInventoryReportsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update an inventory     report config
+    /// </summary>
+    /// <param name="ReportConfig">Report config resource - The Report config to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument report_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the report-config or fully qualified identifier for the report-config. To set the report-config attribute: ▸ provide the argument report_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudStorageInsightsInventoryReportsUpdateOptions(
+        string ReportConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReportConfig);
+        this.ReportConfig = ReportConfig;
+    }
+
+    public void Deconstruct(out string ReportConfig)
+    {
+        ReportConfig = this.ReportConfig;
+    }
+
+    /// <summary>
+    /// Report config resource - The Report config to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument report_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the report-config. To set the location attribute: ▸ provide the argument report_config on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Sets the URL of the destination bucket and path where generated reports are stored.
     /// </summary>
@@ -38,7 +62,7 @@ public record GcloudStorageInsightsInventoryReportsUpdateOptions : GcloudOptions
     /// Sets how often the inventory report configuration will run. FREQUENCY must be one of: daily, weekly.
     /// </summary>
     [CliOption("--schedule-repeats", Format = OptionFormat.EqualsSeparated)]
-    public GcloudScheduleRepeats? ScheduleRepeats { get; set; }
+    public GcloudStorageInsightsInventoryReportsUpdateScheduleRepeats? ScheduleRepeats { get; set; }
 
     /// <summary>
     /// Sets date after which you want to stop generating inventory reports. For example, 2022-03-30.
@@ -53,22 +77,88 @@ public record GcloudStorageInsightsInventoryReportsUpdateOptions : GcloudOptions
     public string? ScheduleStarts { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: The metadata fields to be included in the inventory report. The fields: "project, bucket, name" are REQUIRED. METADATA_FIELDS must be one of: project, bucket, name, location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated.
+    /// At most one of these can be specified: The metadata fields to be included in the inventory report. The fields: "project, bucket, name" are REQUIRED. METADATA_FIELDS must be one of: project, bucket, name, location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MetadataFields { get; set; }
+    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? MetadataFields
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __MetadataFieldsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __MetadataFieldsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Add and Remove flags for metadata fields Adds fields to the metadata_fields list. METADATA_FIELDS must be one of: location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated.
+    /// At most one of these can be specified: Or at least one of these can be specified: Add and Remove flags for metadata fields Adds fields to the metadata_fields list. METADATA_FIELDS must be one of: location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-metadata-fields", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddMetadataFields { get; set; }
+    [CliOption("--add-metadata-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddMetadataFields
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddMetadataFieldsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddMetadataFieldsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Add and Remove flags for metadata fields Removes fields from the metadata_fields list. METADATA_FIELDS must be one of: location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated.
+    /// At most one of these can be specified: Or at least one of these can be specified: Add and Remove flags for metadata fields Removes fields from the metadata_fields list. METADATA_FIELDS must be one of: location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-metadata-fields", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveMetadataFields { get; set; }
+    [CliOption("--remove-metadata-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveMetadataFields
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveMetadataFieldsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveMetadataFieldsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Report format configuration. Any combination of CSV flags is valid as long as the Parquet flag is not present. At most one of these can be specified: Generate reports in parquet format.
@@ -99,5 +189,29 @@ public record GcloudStorageInsightsInventoryReportsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--csv-separator", Format = OptionFormat.EqualsSeparated)]
     public string? CsvSeparator { get; set; }
+
+    /// <summary>
+    /// Report config resource - The Report config to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument report_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the report-config or fully qualified identifier for the report-config. To set the report-config attribute: ▸ provide the argument report_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ReportConfig { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)MetadataFields is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetadataFields is not string || !string.IsNullOrWhiteSpace(MetadataFields?.ToString()) : ((object?)MetadataFields is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MetadataFields, static item => item is not null) : (MetadataFields is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetadataFields), static item => item is not null)))) ? 1 : 0) + ((((object?)AddMetadataFields is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddMetadataFields is not string || !string.IsNullOrWhiteSpace(AddMetadataFields?.ToString()) : ((object?)AddMetadataFields is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddMetadataFields, static item => item is not null) : (AddMetadataFields is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddMetadataFields), static item => item is not null)))) || ((object?)RemoveMetadataFields is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveMetadataFields is not string || !string.IsNullOrWhiteSpace(RemoveMetadataFields?.ToString()) : ((object?)RemoveMetadataFields is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveMetadataFields, static item => item is not null) : (RemoveMetadataFields is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveMetadataFields), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of MetadataFields or (AddMetadataFields or RemoveMetadataFields) may be specified.", [nameof(MetadataFields), nameof(AddMetadataFields), nameof(RemoveMetadataFields)]);
+        }
+        if ((Parquet == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(CsvDelimiter) || !string.IsNullOrWhiteSpace(CsvSeparator) || CsvHeader == true || NoCsvHeader == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Parquet or (CsvDelimiter, CsvSeparator, CsvHeader, or NoCsvHeader) may be specified.", [nameof(Parquet), nameof(CsvDelimiter), nameof(CsvSeparator), nameof(CsvHeader), nameof(NoCsvHeader)]);
+        }
+        if ((Parquet == true || !string.IsNullOrWhiteSpace(CsvDelimiter) || !string.IsNullOrWhiteSpace(CsvSeparator) || CsvHeader == true || NoCsvHeader == true) && (!string.IsNullOrWhiteSpace(CsvDelimiter) || !string.IsNullOrWhiteSpace(CsvSeparator) || CsvHeader == true || NoCsvHeader == true) && (!string.IsNullOrWhiteSpace(CsvDelimiter) || !string.IsNullOrWhiteSpace(CsvSeparator) || CsvHeader == true || NoCsvHeader == true) && ((CsvHeader == true ? 1 : 0) + (NoCsvHeader == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of CsvHeader or NoCsvHeader may be specified.", [nameof(CsvHeader), nameof(NoCsvHeader)]);
+        }
+        yield break;
+    }
 
 }

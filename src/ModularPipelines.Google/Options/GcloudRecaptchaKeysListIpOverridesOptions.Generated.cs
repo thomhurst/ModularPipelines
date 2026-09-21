@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("recaptcha", "keys", "list-ip-overrides")]
 public record GcloudRecaptchaKeysListIpOverridesOptions : GcloudOptions
 {
+    /// <summary>
+    /// list IP overrides for a key
+    /// </summary>
+    /// <param name="Key">Key resource - The reCAPTCHA key for which to list the IP overrides. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the key or fully qualified identifier for the key. To set the key attribute: ▸ provide the argument key on the command line.</param>
+    public GcloudRecaptchaKeysListIpOverridesOptions(
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Key)
+    {
+        Key = this.Key;
+    }
+
+    /// <summary>
+    /// Key resource - The reCAPTCHA key for which to list the IP overrides. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the key or fully qualified identifier for the key. To set the key attribute: ▸ provide the argument key on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Key { get; private init; }
+
 }

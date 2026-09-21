@@ -22,15 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataplexEntriesDescribeOptions : GcloudOptions
 {
     /// <summary>
-    /// Limits the aspects returned to the provided aspect types. Only works if the --view=custom is selected. For example, if two aspect types are specified: "projects/projectA/locations/us-central1/my-aspect-type,projects/projectB/locations/us/my-aspect-type2" then only aspects matching these aspect types will be returned. Can be further constrained by the --paths argument.
+    /// describe a Dataplex entry
     /// </summary>
-    [CliOption("--aspect-types", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Entry">Entry resource - Arguments and flags that define the Dataplex Entry you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the entry or fully qualified identifier for the entry. To set the entry attribute: ▸ provide the argument entry on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexEntriesDescribeOptions(
+        string Entry
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Entry);
+        this.Entry = Entry;
+    }
+
+    public void Deconstruct(out string Entry)
+    {
+        Entry = this.Entry;
+    }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the Dataplex Entry you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Entry group containing Dataplex Entries. To set the entry-group attribute: ▸ provide the argument entry on the command line with a fully specified name; ▸ provide the argument --entry-group on the command line.
+    /// </summary>
+    [CliOption("--entry-group", Format = OptionFormat.EqualsSeparated)]
+    public string? EntryGroup { get; set; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the Dataplex Entry you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the Dataplex resource. To set the location attribute: ▸ provide the argument entry on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Limits the aspects returned to the provided aspect types. Only works if the --view=custom is selected. For example, if two aspect types are specified: "projects/projectA/locations/us-central1/my-aspect-type,projects/projectB/locations/us/my-aspect-type2" then only aspects matching these aspect types will be returned. Can be further constrained by the --paths argument. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--aspect-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AspectTypes { get; set; }
 
     /// <summary>
-    /// Limits the aspects returned to those associated with the provided paths within the Entry. Only works if the --view=custom is selected. For example, if two paths are specified: "--paths=property1,property2" then only aspects on these paths will be returned. To return aspects without any path, the empty (root) path can be specified. For this "." can be used. For example, when "--paths=.,property1" are specified, then only aspects on the path "property1" and on the entry itself will be returned. Can be further constrained by --aspect-types argument.
+    /// Limits the aspects returned to those associated with the provided paths within the Entry. Only works if the --view=custom is selected. For example, if two paths are specified: "--paths=property1,property2" then only aspects on these paths will be returned. To return aspects without any path, the empty (root) path can be specified. For this "." can be used. For example, when "--paths=.,property1" are specified, then only aspects on the path "property1" and on the entry itself will be returned. Can be further constrained by --aspect-types argument. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--paths", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--paths", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Paths { get; set; }
 
     /// <summary>
@@ -38,5 +67,11 @@ public record GcloudDataplexEntriesDescribeOptions : GcloudOptions
     /// </summary>
     [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
     public string? View { get; set; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the Dataplex Entry you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the entry or fully qualified identifier for the entry. To set the entry attribute: ▸ provide the argument entry on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Entry { get; private init; }
 
 }

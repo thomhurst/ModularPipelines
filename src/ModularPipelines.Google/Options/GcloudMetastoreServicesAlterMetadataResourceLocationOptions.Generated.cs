@@ -21,4 +21,61 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("metastore", "services", "alter-metadata-resource-location")]
 public record GcloudMetastoreServicesAlterMetadataResourceLocationOptions : GcloudOptions
 {
+    /// <summary>
+    /// alter metadata     resource location
+    /// </summary>
+    /// <param name="LocationUri">The new location URI for the metadata resource.</param>
+    /// <param name="ResourceName">The relative metadata resource name in the following format. databases/{database_id} or databases/{database_id}/tables/{table_id} or databases/{database_id}/tables/{table_id}/partitions/{partition_id}</param>
+    /// <param name="Service">Service resource - Arguments and flags that specify the resource and the location you want to alter. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMetastoreServicesAlterMetadataResourceLocationOptions(
+        string LocationUri,
+        string ResourceName,
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LocationUri);
+        this.LocationUri = LocationUri;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceName);
+        this.ResourceName = ResourceName;
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string LocationUri, out string ResourceName, out string Service)
+    {
+        LocationUri = this.LocationUri;
+        ResourceName = this.ResourceName;
+        Service = this.Service;
+    }
+
+    /// <summary>
+    /// The new location URI for the metadata resource.
+    /// </summary>
+    [CliOption("--location_uri", Format = OptionFormat.EqualsSeparated)]
+    public string LocationUri { get; private init; }
+
+    /// <summary>
+    /// The relative metadata resource name in the following format. databases/{database_id} or databases/{database_id}/tables/{table_id} or databases/{database_id}/tables/{table_id}/partitions/{partition_id}
+    /// </summary>
+    [CliOption("--resource_name", Format = OptionFormat.EqualsSeparated)]
+    public string ResourceName { get; private init; }
+
+    /// <summary>
+    /// Service resource - Arguments and flags that specify the resource and the location you want to alter. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataproc Metastore service. If not specified, will use default metastore/location. To set the location attribute: ▸ provide the argument service on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property metastore/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Service resource - Arguments and flags that specify the resource and the location you want to alter. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Service { get; private init; }
+
 }

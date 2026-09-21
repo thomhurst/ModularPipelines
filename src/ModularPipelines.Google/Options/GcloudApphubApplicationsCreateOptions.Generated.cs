@@ -21,4 +21,92 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apphub", "applications", "create")]
 public record GcloudApphubApplicationsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create an Apphub application
+    /// </summary>
+    /// <param name="ScopeType">Scope of the Application. SCOPE_TYPE must be one of: GLOBAL Represents a global application REGIONAL Represents a regional application</param>
+    /// <param name="Application">Application resource - The Application ID. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the application or fully qualified identifier for the application. To set the application attribute: ▸ provide the argument application on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApphubApplicationsCreateOptions(
+        string ScopeType,
+        string Application
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScopeType);
+        this.ScopeType = ScopeType;
+        global::System.ArgumentNullException.ThrowIfNull(Application);
+        this.Application = Application;
+    }
+
+    public void Deconstruct(out string ScopeType, out string Application)
+    {
+        ScopeType = this.ScopeType;
+        Application = this.Application;
+    }
+
+    /// <summary>
+    /// Scope of the Application. SCOPE_TYPE must be one of: GLOBAL Represents a global application REGIONAL Represents a regional application
+    /// </summary>
+    [CliOption("--scope-type", Format = OptionFormat.EqualsSeparated)]
+    public string ScopeType { get; private init; }
+
+    /// <summary>
+    /// Application resource - The Application ID. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the application. To set the location attribute: ▸ provide the argument application on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Business owners of the application
+    /// </summary>
+    [CliOption("--business-owners", Format = OptionFormat.EqualsSeparated)]
+    public string? BusinessOwners { get; set; }
+
+    /// <summary>
+    /// Criticality Type of the application. CRITICALITY_TYPE must be one of: HIGH High impact LOW Low impact MEDIUM Medium impact MISSION_CRITICAL Mission critical service, application or workload TYPE_UNSPECIFIED Unspecified criticality type
+    /// </summary>
+    [CliOption("--criticality-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CriticalityType { get; set; }
+
+    /// <summary>
+    /// Description of the Application
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Developer owners of the application
+    /// </summary>
+    [CliOption("--developer-owners", Format = OptionFormat.EqualsSeparated)]
+    public string? DeveloperOwners { get; set; }
+
+    /// <summary>
+    /// Human-friendly display name
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Environment Type of the application. ENVIRONMENT_TYPE must be one of: DEVELOPMENT Development environment PRODUCTION Production environment STAGING Staging environment TEST Test environment TYPE_UNSPECIFIED Unspecified environment type
+    /// </summary>
+    [CliOption("--environment-type", Format = OptionFormat.EqualsSeparated)]
+    public string? EnvironmentType { get; set; }
+
+    /// <summary>
+    /// Operator owners of the application
+    /// </summary>
+    [CliOption("--operator-owners", Format = OptionFormat.EqualsSeparated)]
+    public string? OperatorOwners { get; set; }
+
+    /// <summary>
+    /// Application resource - The Application ID. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the application or fully qualified identifier for the application. To set the application attribute: ▸ provide the argument application on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Application { get; private init; }
+
 }

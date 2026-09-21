@@ -19,20 +19,63 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "objects", "compose")]
-public record GcloudStorageObjectsComposeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Source
-) : GcloudOptions
+public record GcloudStorageObjectsComposeOptions : GcloudOptions
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
+    /// concatenate a sequence of objects into a     new composite object
     /// </summary>
-    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
-    public string? AdditionalHeaders { get; set; }
+    /// <param name="Source">The list of source objects that will be concatenated into a single object.</param>
+    /// <param name="Destination">The destination object.</param>
+    public GcloudStorageObjectsComposeOptions(
+        IEnumerable<string> Source,
+        string Destination
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Source);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Source));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Source));
+            }
+
+            Source = materialized;
+        }
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Source, out string Destination)
+    {
+        Source = this.Source;
+        Destination = this.Destination;
+    }
+
+    /// <summary>
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdditionalHeaders { get; set; }
 
     /// <summary>
     /// If set, the source objects will be deleted after a successful composition. Note that this deletion bypasses the soft delete policy if configured on the bucket.
     /// </summary>
     [CliFlag("--delete-source-objects")]
     public bool? DeleteSourceObjects { get; set; }
+
+    /// <summary>
+    /// The list of source objects that will be concatenated into a single object.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Source { get; private init; }
+
+    /// <summary>
+    /// The destination object.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Destination { get; private init; }
 
 }

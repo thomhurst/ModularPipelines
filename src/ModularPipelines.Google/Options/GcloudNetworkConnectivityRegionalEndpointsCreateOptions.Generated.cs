@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,86 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-connectivity", "regional-endpoints", "create")]
 public record GcloudNetworkConnectivityRegionalEndpointsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new     regional endpoint
+    /// </summary>
+    /// <param name="TargetGoogleApi">The service endpoint the regional endpoint will connect to.</param>
+    /// <param name="RegionalEndpoint">RegionalEndpoint resource - Name of the regional endpoint to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument regional_endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the regionalEndpoint or fully qualified identifier for the regionalEndpoint. To set the regional_endpoint attribute: ▸ provide the argument regional_endpoint on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkConnectivityRegionalEndpointsCreateOptions(
+        string TargetGoogleApi,
+        string RegionalEndpoint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetGoogleApi);
+        this.TargetGoogleApi = TargetGoogleApi;
+        global::System.ArgumentNullException.ThrowIfNull(RegionalEndpoint);
+        this.RegionalEndpoint = RegionalEndpoint;
+    }
+
+    public void Deconstruct(out string TargetGoogleApi, out string RegionalEndpoint)
+    {
+        TargetGoogleApi = this.TargetGoogleApi;
+        RegionalEndpoint = this.RegionalEndpoint;
+    }
+
+    /// <summary>
+    /// The service endpoint the regional endpoint will connect to.
+    /// </summary>
+    [CliOption("--target-google-api", Format = OptionFormat.EqualsSeparated)]
+    public string TargetGoogleApi { get; private init; }
+
+    /// <summary>
+    /// RegionalEndpoint resource - Name of the regional endpoint to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument regional_endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the region attribute: ▸ provide the argument regional_endpoint on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// The IP Address of the Regional Endpoint. When no address is provided, an IP from the subnetwork is allocated. Use one of the following formats: ◆ IPv4 address as in 10.0.0.1 ◆ Address resource URI as in projects/{project}/regions/{region}/addresses/{address_name} for an IPv4 or IPv6 address.
+    /// </summary>
+    [CliOption("--address", Format = OptionFormat.EqualsSeparated)]
+    public string? Address { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the regional endpoint.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Whether the REGIONAL or GLOBAL access is enabled.
+    /// </summary>
+    [CliFlag("--enable-global-access")]
+    public bool? EnableGlobalAccess { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Consumer's VPC network that this regional endpoint belongs to.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// The name of the subnetwork from which the IP address will be allocated.
+    /// </summary>
+    [CliOption("--subnetwork", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnetwork { get; set; }
+
+    /// <summary>
+    /// RegionalEndpoint resource - Name of the regional endpoint to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument regional_endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the regionalEndpoint or fully qualified identifier for the regionalEndpoint. To set the regional_endpoint attribute: ▸ provide the argument regional_endpoint on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RegionalEndpoint { get; private init; }
+
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,10 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tasks", "queues", "create")]
-public record GcloudTasksQueuesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Queue
-) : GcloudOptions
+public record GcloudTasksQueuesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Cloud Tasks queue
+    /// </summary>
+    /// <param name="Queue">The queue to create.</param>
+    public GcloudTasksQueuesCreateOptions(
+        string Queue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Queue);
+        this.Queue = Queue;
+    }
+
+    public void Deconstruct(out string Queue)
+    {
+        Queue = this.Queue;
+    }
+
     /// <summary>
     /// If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden.
     /// </summary>
@@ -37,9 +53,9 @@ public record GcloudTasksQueuesCreateOptions(
     public string? HttpMethodOverride { get; set; }
 
     /// <summary>
-    /// If provided, the specified HTTP target URI override is used for all tasks in the queue depending on what is set as the mode. Allowed values for mode are: ALWAYS, IF_NOT_EXISTS. If not set, mode defaults to ALWAYS. KEY must be at least one of: [scheme, host, port, path, query, mode]. Any missing keys will use the default.
+    /// If provided, the specified HTTP target URI override is used for all tasks in the queue depending on what is set as the mode. Allowed values for mode are: ALWAYS, IF_NOT_EXISTS. If not set, mode defaults to ALWAYS. KEY must be at least one of: [scheme, host, port, path, query, mode]. Any missing keys will use the default. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--http-uri-override", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--http-uri-override", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? HttpUriOverride { get; set; }
 
     /// <summary>
@@ -97,9 +113,9 @@ public record GcloudTasksQueuesCreateOptions(
     public string? MinBackoff { get; set; }
 
     /// <summary>
-    /// If provided, the specified App Engine route is used for all tasks in the queue, no matter what is set is at the task-level. KEY must be at least one of: [service, version, instance]. Any missing keys will use the default.
+    /// If provided, the specified App Engine route is used for all tasks in the queue, no matter what is set is at the task-level. KEY must be at least one of: [service, version, instance]. Any missing keys will use the default. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--routing-override", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--routing-override", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RoutingOverride { get; set; }
 
     /// <summary>
@@ -116,16 +132,40 @@ public record GcloudTasksQueuesCreateOptions(
     public string? HttpOauthTokenScopeOverride { get; set; }
 
     /// <summary>
-    /// OpenId Connect The service account email to be used for generating an OpenID Connect token to be included in the request sent to the target when executing the task. The service account must be within the same project as the queue. The caller must have 'iam.serviceAccounts.actAs' permission for the service account. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// If specified, all Authorization headers in the HttpRequest.headers field will be overridden for any tasks executed on this queue. At most one of these can be specified: OpenId Connect The service account email to be used for generating an OpenID Connect token to be included in the request sent to the target when executing the task. The service account must be within the same project as the queue. The caller must have 'iam.serviceAccounts.actAs' permission for the service account. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--http-oidc-service-account-email-override", Format = OptionFormat.EqualsSeparated)]
     public string? HttpOidcServiceAccountEmailOverride { get; set; }
 
     /// <summary>
-    /// OpenId Connect The audience to be used when generating an OpenID Connect token to be included in the request sent to the target when executing the task. If not specified, the URI specified in the target will be used.
+    /// If specified, all Authorization headers in the HttpRequest.headers field will be overridden for any tasks executed on this queue. At most one of these can be specified: OpenId Connect The audience to be used when generating an OpenID Connect token to be included in the request sent to the target when executing the task. If not specified, the URI specified in the target will be used.
     /// </summary>
     [SecretValue]
     [CliOption("--http-oidc-token-audience-override", Format = OptionFormat.EqualsSeparated)]
     public string? HttpOidcTokenAudienceOverride { get; set; }
+
+    /// <summary>
+    /// The queue to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Queue { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(HttpOauthServiceAccountEmailOverride) || !string.IsNullOrWhiteSpace(HttpOauthTokenScopeOverride)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(HttpOidcServiceAccountEmailOverride) || !string.IsNullOrWhiteSpace(HttpOidcTokenAudienceOverride)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (HttpOauthServiceAccountEmailOverride or HttpOauthTokenScopeOverride) or (HttpOidcServiceAccountEmailOverride or HttpOidcTokenAudienceOverride) may be specified.", [nameof(HttpOauthServiceAccountEmailOverride), nameof(HttpOauthTokenScopeOverride), nameof(HttpOidcServiceAccountEmailOverride), nameof(HttpOidcTokenAudienceOverride)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(HttpOauthServiceAccountEmailOverride) || !string.IsNullOrWhiteSpace(HttpOauthTokenScopeOverride) || !string.IsNullOrWhiteSpace(HttpOidcServiceAccountEmailOverride) || !string.IsNullOrWhiteSpace(HttpOidcTokenAudienceOverride)) && (!string.IsNullOrWhiteSpace(HttpOauthServiceAccountEmailOverride) || !string.IsNullOrWhiteSpace(HttpOauthTokenScopeOverride)) && (!(!string.IsNullOrWhiteSpace(HttpOauthServiceAccountEmailOverride))))
+        {
+            yield return new ValidationResult("HttpOauthServiceAccountEmailOverride must be specified when other arguments in this group are specified.", [nameof(HttpOauthServiceAccountEmailOverride)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(HttpOauthServiceAccountEmailOverride) || !string.IsNullOrWhiteSpace(HttpOauthTokenScopeOverride) || !string.IsNullOrWhiteSpace(HttpOidcServiceAccountEmailOverride) || !string.IsNullOrWhiteSpace(HttpOidcTokenAudienceOverride)) && (!string.IsNullOrWhiteSpace(HttpOidcServiceAccountEmailOverride) || !string.IsNullOrWhiteSpace(HttpOidcTokenAudienceOverride)) && (!(!string.IsNullOrWhiteSpace(HttpOidcServiceAccountEmailOverride))))
+        {
+            yield return new ValidationResult("HttpOidcServiceAccountEmailOverride must be specified when other arguments in this group are specified.", [nameof(HttpOidcServiceAccountEmailOverride)]);
+        }
+        yield break;
+    }
 
 }

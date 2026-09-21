@@ -19,8 +19,87 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "org-security-policies", "rules", "add-preconfig-waf-exclusion")]
-public record GcloudComputeOrgSecurityPoliciesRulesAddPreconfigWafExclusionOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
-) : GcloudOptions
+public record GcloudComputeOrgSecurityPoliciesRulesAddPreconfigWafExclusionOptions : GcloudOptions
 {
+    /// <summary>
+    /// add an exclusion configuration for preconfigured WAF evaluation into a     security policy rule
+    /// </summary>
+    /// <param name="SecurityPolicy">short name of the security policy into which the rule should be updated.</param>
+    /// <param name="TargetRuleSet">Target WAF rule set where the request field exclusions being added would apply. This, together with the target rule IDs (if given), determines the target for associating request field exclusions. See --target-rule-ids.</param>
+    /// <param name="Priority">Priority of the security policy rule to add preconfig WAF exclusion.</param>
+    public GcloudComputeOrgSecurityPoliciesRulesAddPreconfigWafExclusionOptions(
+        string SecurityPolicy,
+        string TargetRuleSet,
+        string Priority
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityPolicy);
+        this.SecurityPolicy = SecurityPolicy;
+        global::System.ArgumentNullException.ThrowIfNull(TargetRuleSet);
+        this.TargetRuleSet = TargetRuleSet;
+        global::System.ArgumentNullException.ThrowIfNull(Priority);
+        this.Priority = Priority;
+    }
+
+    public void Deconstruct(out string SecurityPolicy, out string TargetRuleSet, out string Priority)
+    {
+        SecurityPolicy = this.SecurityPolicy;
+        TargetRuleSet = this.TargetRuleSet;
+        Priority = this.Priority;
+    }
+
+    /// <summary>
+    /// short name of the security policy into which the rule should be updated.
+    /// </summary>
+    [CliOption("--security-policy", Format = OptionFormat.EqualsSeparated)]
+    public string SecurityPolicy { get; private init; }
+
+    /// <summary>
+    /// Target WAF rule set where the request field exclusions being added would apply. This, together with the target rule IDs (if given), determines the target for associating request field exclusions. See --target-rule-ids.
+    /// </summary>
+    [CliOption("--target-rule-set", Format = OptionFormat.EqualsSeparated)]
+    public string TargetRuleSet { get; private init; }
+
+    /// <summary>
+    /// Organization which the organization security policy belongs to. Must be set if SECURITY_POLICY is short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Adds a request cookie to the request field exclusions associated with the rule set and rule IDs (if given). This specifies a request cookie whose value will be excluded from inspection during preconfigured WAF evaluation. You can specify an exact match or a partial match by using a field operator and a field value. Available field operators are: ◆ EQUALS: the operator matches if the field value equals the specified value. ◆ STARTS_WITH: the operator matches if the field value starts with the specified value. ◆ ENDS_WITH: the operator matches if the field value ends with the specified value. ◆ CONTAINS: the operator matches if the field value contains the specified value. ◆ EQUALS_ANY: the operator matches if the field value is any value. A field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY. For example, --request-header-to-exclude op=EQUALS,val=abc or --request-header-to-exclude op=EQUALS_ANY. This flag can be repeated to specify multiple request headers to exclude. For example, --request-header-to-exclude op=EQUALS,val=abc --request-header-to-exclude op=STARTS_WITH,val=xyz.
+    /// </summary>
+    [CliOption("--request-cookie-to-exclude", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RequestCookieToExclude { get; set; }
+
+    /// <summary>
+    /// Adds a request header to the request field exclusions associated with the rule set and rule IDs (if given). This specifies a request header whose value will be excluded from inspection during preconfigured WAF evaluation. Refer to the syntax under --request-cookie-to-exclude. This flag can be repeated to specify multiple request headers.
+    /// </summary>
+    [CliOption("--request-header-to-exclude", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RequestHeaderToExclude { get; set; }
+
+    /// <summary>
+    /// Adds a request query parameter to the request field exclusions associated with the rule set and rule IDs (if given). This specifies a request query parameter in the query string or in the POST body whose value will be excluded from inspection during preconfigured WAF evaluation. Refer to the syntax under --request-cookie-to-exclude. This flag can be repeated to specify multiple request query parameters.
+    /// </summary>
+    [CliOption("--request-query-param-to-exclude", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RequestQueryParamToExclude { get; set; }
+
+    /// <summary>
+    /// Adds a request URI to the request field exclusions associated with the rule set and rule IDs (if given). This specifies a request URI from the request line to be excluded from inspection during preconfigured WAF evaluation. Refer to the syntax under --request-cookie-to-exclude. This flag can be repeated to specify multiple request URIs.
+    /// </summary>
+    [CliOption("--request-uri-to-exclude", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RequestUriToExclude { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of target rule IDs under the WAF rule set where the request field exclusions being added would apply. If omitted, the added request field exclusions will be associated with the rule set only, which would apply to all the rule IDs under the rule set. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--target-rule-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? TargetRuleIds { get; set; }
+
+    /// <summary>
+    /// Priority of the security policy rule to add preconfig WAF exclusion.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Priority { get; private init; }
+
 }

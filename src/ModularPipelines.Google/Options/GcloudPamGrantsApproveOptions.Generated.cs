@@ -22,9 +22,56 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPamGrantsApproveOptions : GcloudOptions
 {
     /// <summary>
+    /// approve a Privileged Access Manager grant
+    /// </summary>
+    /// <param name="Grant">Grant resource - Name of the grant to approve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument grant on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [privilegedaccessmanager.projects.locations.entitlements.grants, privilegedaccessmanager.folders.locations.entitlements.grants, privilegedaccessmanager.organizations.locations.entitlements.grants]. This must be specified. ID of the grant or fully qualified identifier for the grant. To set the grant attribute: ▸ provide the argument grant on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPamGrantsApproveOptions(
+        string Grant
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Grant);
+        this.Grant = Grant;
+    }
+
+    public void Deconstruct(out string Grant)
+    {
+        Grant = this.Grant;
+    }
+
+    /// <summary>
+    /// Grant resource - Name of the grant to approve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument grant on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [privilegedaccessmanager.projects.locations.entitlements.grants, privilegedaccessmanager.folders.locations.entitlements.grants, privilegedaccessmanager.organizations.locations.entitlements.grants]. This must be specified. The entitlement id To set the entitlement attribute: ▸ provide the argument grant on the command line with a fully specified name; ▸ provide the argument --entitlement on the command line.
+    /// </summary>
+    [CliOption("--entitlement", Format = OptionFormat.EqualsSeparated)]
+    public string? Entitlement { get; set; }
+
+    /// <summary>
+    /// Grant resource - Name of the grant to approve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument grant on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [privilegedaccessmanager.projects.locations.entitlements.grants, privilegedaccessmanager.folders.locations.entitlements.grants, privilegedaccessmanager.organizations.locations.entitlements.grants]. This must be specified. The name of the folder To set the folder attribute: ▸ provide the argument grant on the command line with a fully specified name; ▸ provide the argument --folder on the command line. Must be specified for resource of type [privilegedaccessmanager.folders.locations.entitlements.grants].
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Grant resource - Name of the grant to approve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument grant on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [privilegedaccessmanager.projects.locations.entitlements.grants, privilegedaccessmanager.folders.locations.entitlements.grants, privilegedaccessmanager.organizations.locations.entitlements.grants]. This must be specified. The resource location To set the location attribute: ▸ provide the argument grant on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Grant resource - Name of the grant to approve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument grant on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [privilegedaccessmanager.projects.locations.entitlements.grants, privilegedaccessmanager.folders.locations.entitlements.grants, privilegedaccessmanager.organizations.locations.entitlements.grants]. This must be specified. The name of the organization To set the organization attribute: ▸ provide the argument grant on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [privilegedaccessmanager.organizations.locations.entitlements.grants].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
     /// Reason for approving the grant.
     /// </summary>
     [CliOption("--reason", Format = OptionFormat.EqualsSeparated)]
     public string? Reason { get; set; }
+
+    /// <summary>
+    /// Grant resource - Name of the grant to approve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument grant on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [privilegedaccessmanager.projects.locations.entitlements.grants, privilegedaccessmanager.folders.locations.entitlements.grants, privilegedaccessmanager.organizations.locations.entitlements.grants]. This must be specified. ID of the grant or fully qualified identifier for the grant. To set the grant attribute: ▸ provide the argument grant on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Grant { get; private init; }
 
 }

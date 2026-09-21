@@ -10,6 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +22,211 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "images", "create")]
-public record GcloudPreviewComputeImagesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImageName
-) : GcloudOptions
+public record GcloudPreviewComputeImagesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create Compute Engine images
+    /// </summary>
+    /// <param name="ImageName">Name of the disk image to create.</param>
+    public GcloudPreviewComputeImagesCreateOptions(
+        string ImageName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageName);
+        this.ImageName = ImageName;
+    }
+
+    public void Deconstruct(out string ImageName)
+    {
+        ImageName = this.ImageName;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: A source disk to create the image from. The value for this option can be the name of a disk with the zone specified via --source-disk-zone flag.
+    /// </summary>
+    [CliOption("--source-disk", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceDisk { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The name of an image to clone. May be used with --source-image-project to clone an image in a different project.
+    /// </summary>
+    [CliOption("--source-image", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceImage { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The family of the source image. This will cause the latest non- deprecated image in the family to be used as the source image. May be used with --source-image-project to refer to an image family in a different project.
+    /// </summary>
+    [CliOption("--source-image-family", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceImageFamily { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: A source snapshot to create the image from. The value for this option can be the name of a snapshot within the same project as the destination image.
+    /// </summary>
+    [CliOption("--source-snapshot", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceSnapshot { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The full Cloud Storage URI or Artifact Registry path where the raw disk image archive is stored. This file must be a gzip-compressed tarball whose name ends in .tar.gz or a valid Artifact Registry generic repository path. For more information about Cloud Storage URIs, see https://cloud.google.com/storage/docs/request-endpoints#json-api. If an Artifact Registry path is provided, it must be a valid Artifact Registry generic repository path in the format: projects/&lt;project&gt;/locations/&lt;locations&gt;/repositories/&lt;repo&gt;/packages/&lt;package&gt;/versions/&lt;version_id&gt; or projects/&lt;project&gt;/locations/&lt;locations&gt;/repositories/&lt;repo&gt;/packages/&lt;package&gt;/versions/&lt;version_id&gt;@dirsum_sha256:&lt;hex_value&gt;
+    /// </summary>
+    [CliOption("--source-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceUri { get; set; }
+
+    /// <summary>
+    /// Specifies the architecture or processor type that this image can support. For available processor types on Compute Engine, see https://cloud.google.com/compute/docs/cpu-platforms. ARCHITECTURE must be one of: ARM64, X86_64.
+    /// </summary>
+    [CliOption("--architecture", Format = OptionFormat.EqualsSeparated)]
+    public GcloudPreviewComputeImagesCreateArchitecture? Architecture { get; set; }
+
+    /// <summary>
+    /// (DEPRECATED) Path to a Customer-Supplied Encryption Key (CSEK) key file that maps Compute Engine images to user managed keys to be used when creating, mounting, or taking snapshots of disks. If you pass `-` as value of the flag, the CSEK is read from stdin. See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details. The --csek-key-file flag is deprecated.
+    /// </summary>
+    [CliOption("--csek-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? CsekKeyFile { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the image being created.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The family of the image. When creating an instance or disk, specifying a family will cause the latest non-deprecated image in the family to be used.
+    /// </summary>
+    [CliOption("--family", Format = OptionFormat.EqualsSeparated)]
+    public string? Family { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of file paths that point to revoked X.509 certificates in DER format or raw binary files. When you create a Shielded VM instance from this image, these certificates or files are added to the forbidden signature database (dbx). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--forbidden-database-file", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ForbiddenDatabaseFile { get; set; }
+
+    /// <summary>
+    /// By default, image creation fails when it is created from a disk that is attached to a running instance. When this flag is used, image creation from disk will proceed even if the disk is in use.
+    /// </summary>
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
+
+    /// <summary>
+    /// Enables one or more features for VM instances that use the image for their boot disks. See the descriptions of supported features at: https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features. GUEST_OS_FEATURE must be one of: BARE_METAL_LINUX_COMPATIBLE, GVNIC, IDPF, MULTI_IP_SUBNET, SEV_CAPABLE, SEV_LIVE_MIGRATABLE, SEV_LIVE_MIGRATABLE_V2, SEV_SNP_CAPABLE, SNP_SVSM_CAPABLE, TDX_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS.
+    /// </summary>
+    [CliOption("--guest-os-features", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudPreviewComputeImagesCreateGuestOsFeatures>? GuestOsFeatures { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of file paths that point to X.509 certificates in DER format or raw binary files. When you create a Shielded VM instance from this image, these certificates or files are used as key exchange keys (KEK). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--key-exchange-key-file", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? KeyExchangeKeyFile { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of URIs to license resources. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--licenses", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Licenses { get; set; }
+
+    /// <summary>
+    /// File path that points to an X.509 certificate in DER format or raw binary file. When you create a Shielded VM instance from this image, this certificate or raw binary file is used as the platform key (PK).
+    /// </summary>
+    [CliOption("--platform-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PlatformKeyFile { get; set; }
+
+    /// <summary>
+    /// (DEPRECATED) Refuse to create images not protected by a user managed key in the key file when --csek-key-file is given. This behavior is enabled by default to prevent incorrect gcloud invocations from accidentally creating images with no user managed key. Disabling the check allows creation of some images without a matching Customer-Supplied Encryption Key in the supplied --csek-key-file. See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details. The --require-csek-key-create flag is deprecated. Enabled by default, use --no-require-csek-key-create to disable.
+    /// </summary>
+    [CliFlag("--require-csek-key-create")]
+    public bool? RequireCsekKeyCreate { get; set; }
+
+    /// <summary>
+    /// Negates --require-csek-key-create. (DEPRECATED) Refuse to create images not protected by a user managed key in the key file when --csek-key-file is given. This behavior is enabled by default to prevent incorrect gcloud invocations from accidentally creating images with no user managed key. Disabling the check allows creation of some images without a matching Customer-Supplied Encryption Key in the supplied --csek-key-file. See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details. The --require-csek-key-create flag is deprecated. Enabled by default, use --no-require-csek-key-create to disable.
+    /// </summary>
+    [CliFlag("--no-require-csek-key-create")]
+    public bool? NoRequireCsekKeyCreate { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of Resource Manager tags to apply to the image. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of file paths that point to valid X.509 certificates in DER format or raw binary files. When you create a Shielded VM instance from this image, these certificates or files are added to the signature database (db). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--signature-database-file", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SignatureDatabaseFile { get; set; }
+
+    /// <summary>
+    /// Project name of the source disk. Must also specify --source-disk when using this flag.
+    /// </summary>
+    [CliOption("--source-disk-project", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceDiskProject { get; set; }
+
+    /// <summary>
+    /// Zone of the source disk to operate on. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--source-disk-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceDiskZone { get; set; }
+
+    /// <summary>
+    /// The project name of the source image. Must also specify either --source-image or --source-image-family when using this flag.
+    /// </summary>
+    [CliOption("--source-image-project", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceImageProject { get; set; }
+
+    /// <summary>
+    /// Specifies a Cloud Storage location, either regional or multi-regional, where image content is to be stored. If not specified, the multi-region location closest to the source is chosen automatically.
+    /// </summary>
+    [CliOption("--storage-location", Format = OptionFormat.EqualsSeparated)]
+    public string? StorageLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the image. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the image. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the image. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the image. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line; ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <summary>
+    /// Name of the disk image to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ImageName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(SourceDisk) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceImage) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceImageFamily) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceSnapshot) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceUri) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of SourceDisk, SourceImage, SourceImageFamily, SourceSnapshot, or SourceUri must be specified.", [nameof(SourceDisk), nameof(SourceImage), nameof(SourceImageFamily), nameof(SourceSnapshot), nameof(SourceUri)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        yield break;
+    }
+
 }

@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("iap", "oauth-clients", "create")]
 public record GcloudIapOauthClientsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Cloud IAP OAuth client in the     project
+    /// </summary>
+    /// <param name="DisplayName">User friendly name for the Cloud IAP OAuth client.</param>
+    /// <param name="Brand">Brand resource - Name of the Cloud OAuth brand to create a Cloud IAP OAuth client under. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument brand on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the brand or fully qualified identifier for the brand. To set the brand attribute: ▸ provide the argument brand on the command line.</param>
+    public GcloudIapOauthClientsCreateOptions(
+        string DisplayName,
+        string Brand
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(Brand);
+        this.Brand = Brand;
+    }
+
+    public void Deconstruct(out string DisplayName, out string Brand)
+    {
+        DisplayName = this.DisplayName;
+        Brand = this.Brand;
+    }
+
+    /// <summary>
+    /// User friendly name for the Cloud IAP OAuth client.
+    /// </summary>
+    [CliOption("--display_name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Brand resource - Name of the Cloud OAuth brand to create a Cloud IAP OAuth client under. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument brand on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the brand or fully qualified identifier for the brand. To set the brand attribute: ▸ provide the argument brand on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Brand { get; private init; }
+
 }

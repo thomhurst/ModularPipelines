@@ -21,4 +21,60 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("pubsub", "subscriptions", "modify-message-ack-deadline")]
 public record GcloudPubsubSubscriptionsModifyMessageAckDeadlineOptions : GcloudOptions
 {
+    /// <summary>
+    /// modifies the ACK     deadline for a specific Cloud Pub/Sub message
+    /// </summary>
+    /// <param name="AckDeadline">The number of seconds the system will wait for a subscriber to acknowledge receiving a message before re-attempting delivery.</param>
+    /// <param name="AckIds">One or more ACK_IDs to modify the deadline for. An ACK_ID is a string that is returned to subscribers (https://cloud.google.com/pubsub/docs/reference/rpc/google.pubsub.v1#google.pubsub.v1.ReceivedMessage). along with the message. The ACK_ID is different from the message ID (https://cloud.google.com/pubsub/docs/reference/rpc/google.pubsub.v1#google.pubsub.v1.PubsubMessage). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Subscription">Subscription resource - Name of the subscription messages belong to. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subscription on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the subscription or fully qualified identifier for the subscription. To set the subscription attribute: ▸ provide the argument subscription on the command line.</param>
+    public GcloudPubsubSubscriptionsModifyMessageAckDeadlineOptions(
+        string AckDeadline,
+        IEnumerable<string> AckIds,
+        string Subscription
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AckDeadline);
+        this.AckDeadline = AckDeadline;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AckIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AckIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AckIds));
+            }
+
+            AckIds = materialized;
+        }
+        this.AckIds = AckIds;
+        global::System.ArgumentNullException.ThrowIfNull(Subscription);
+        this.Subscription = Subscription;
+    }
+
+    public void Deconstruct(out string AckDeadline, out IEnumerable<string> AckIds, out string Subscription)
+    {
+        AckDeadline = this.AckDeadline;
+        AckIds = this.AckIds;
+        Subscription = this.Subscription;
+    }
+
+    /// <summary>
+    /// The number of seconds the system will wait for a subscriber to acknowledge receiving a message before re-attempting delivery.
+    /// </summary>
+    [CliOption("--ack-deadline", Format = OptionFormat.EqualsSeparated)]
+    public string AckDeadline { get; private init; }
+
+    /// <summary>
+    /// One or more ACK_IDs to modify the deadline for. An ACK_ID is a string that is returned to subscribers (https://cloud.google.com/pubsub/docs/reference/rpc/google.pubsub.v1#google.pubsub.v1.ReceivedMessage). along with the message. The ACK_ID is different from the message ID (https://cloud.google.com/pubsub/docs/reference/rpc/google.pubsub.v1#google.pubsub.v1.PubsubMessage). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--ack-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> AckIds { get; private init; }
+
+    /// <summary>
+    /// Subscription resource - Name of the subscription messages belong to. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subscription on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the subscription or fully qualified identifier for the subscription. To set the subscription attribute: ▸ provide the argument subscription on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Subscription { get; private init; }
+
 }

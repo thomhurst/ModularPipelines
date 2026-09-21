@@ -33,4 +33,10 @@ public record GcloudComputeSecurityPoliciesRulesDeleteOptions : GcloudOptions
     [CliOption("--security-policy", Format = OptionFormat.EqualsSeparated)]
     public string? SecurityPolicy { get; set; }
 
+    /// <summary>
+    /// The priority of the rules to delete. Rules are evaluated in order from highest priority to lowest priority where 0 is the highest priority and 2147483647 is the lowest priority.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Priority { get; set; }
+
 }

@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "tags", "holds", "delete")]
-public record GcloudResourceManagerTagsHoldsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string TagHoldName
-) : GcloudOptions
+public record GcloudResourceManagerTagsHoldsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a TagHold
+    /// </summary>
+    /// <param name="TagHoldName">TagHold given its full name, specified as tagValues/{tag_value_id}/tagHolds/{tag_hold_id}</param>
+    public GcloudResourceManagerTagsHoldsDeleteOptions(
+        string TagHoldName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TagHoldName);
+        this.TagHoldName = TagHoldName;
+    }
+
+    public void Deconstruct(out string TagHoldName)
+    {
+        TagHoldName = this.TagHoldName;
+    }
+
     /// <summary>
     /// Region where the TagHold is stored. If not provided, the API will attempt to find and delete the specified TagHold from the "global" region.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// TagHold given its full name, specified as tagValues/{tag_value_id}/tagHolds/{tag_hold_id}
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string TagHoldName { get; private init; }
 
 }

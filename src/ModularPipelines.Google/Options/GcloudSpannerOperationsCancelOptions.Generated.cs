@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,69 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "operations", "cancel")]
-public record GcloudSpannerOperationsCancelOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Operation
-) : GcloudOptions
+public record GcloudSpannerOperationsCancelOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// cancel a Cloud Spanner operation
+    /// </summary>
+    /// <param name="OperationId">ID of the operation</param>
+    public GcloudSpannerOperationsCancelOptions(
+        string OperationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OperationId);
+        this.OperationId = OperationId;
+    }
+
+    public void Deconstruct(out string OperationId)
+    {
+        OperationId = this.OperationId;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The ID of the instance the operation is executing on.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The ID of the instance configuration the operation is executing on.
+    /// </summary>
+    [CliOption("--instance-config", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceConfig { get; set; }
+
+    /// <summary>
+    /// For a backup operation, the name of the backup the operation is executing on.
+    /// </summary>
+    [CliOption("--backup", Format = OptionFormat.EqualsSeparated)]
+    public string? Backup { get; set; }
+
+    /// <summary>
+    /// For a database operation, the name of the database the operation is executing on.
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string? Database { get; set; }
+
+    /// <summary>
+    /// For an instance partition operation, the name of the instance partition the operation is executing on.
+    /// </summary>
+    [CliOption("--instance-partition", Format = OptionFormat.EqualsSeparated)]
+    public string? InstancePartition { get; set; }
+
+    /// <summary>
+    /// ID of the operation
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OperationId { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Instance) ? 1 : 0) + (!string.IsNullOrWhiteSpace(InstanceConfig) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Instance or InstanceConfig must be specified.", [nameof(Instance), nameof(InstanceConfig)]);
+        }
+        yield break;
+    }
+
 }

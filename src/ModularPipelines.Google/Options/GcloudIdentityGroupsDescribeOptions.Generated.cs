@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identity", "groups", "describe")]
-public record GcloudIdentityGroupsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Email
-) : GcloudOptions
+public record GcloudIdentityGroupsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an existing group
+    /// </summary>
+    /// <param name="Email">The email address of the group being described.</param>
+    public GcloudIdentityGroupsDescribeOptions(
+        string Email
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Email);
+        this.Email = Email;
+    }
+
+    public void Deconstruct(out string Email)
+    {
+        Email = this.Email;
+    }
+
+    /// <summary>
+    /// The email address of the group being described.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Email { get; private init; }
+
 }

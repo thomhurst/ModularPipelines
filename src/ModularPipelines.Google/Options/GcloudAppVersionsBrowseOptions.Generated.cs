@@ -19,10 +19,36 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "versions", "browse")]
-public record GcloudAppVersionsBrowseOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Versions
-) : GcloudOptions
+public record GcloudAppVersionsBrowseOptions : GcloudOptions
 {
+    /// <summary>
+    /// open the specified versions in a browser
+    /// </summary>
+    /// <param name="Versions">The versions to open (optionally filtered by the --service flag).</param>
+    public GcloudAppVersionsBrowseOptions(
+        IEnumerable<string> Versions
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Versions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Versions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Versions));
+            }
+
+            Versions = materialized;
+        }
+        this.Versions = Versions;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Versions)
+    {
+        Versions = this.Versions;
+    }
+
     /// <summary>
     /// Launch a browser if possible. When disabled, only displays the URL. Enabled by default, use --no-launch-browser to disable.
     /// </summary>
@@ -40,5 +66,11 @@ public record GcloudAppVersionsBrowseOptions(
     /// </summary>
     [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
+
+    /// <summary>
+    /// The versions to open (optionally filtered by the --service flag).
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Versions { get; private init; }
 
 }

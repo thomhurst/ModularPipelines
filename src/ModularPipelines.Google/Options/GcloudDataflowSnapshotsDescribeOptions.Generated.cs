@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataflow", "snapshots", "describe")]
-public record GcloudDataflowSnapshotsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SnapshotId
-) : GcloudOptions
+public record GcloudDataflowSnapshotsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Cloud Dataflow snapshot
+    /// </summary>
+    /// <param name="Region">Region ID of the snapshot regional endpoint.</param>
+    /// <param name="SnapshotId">ID of the Cloud Dataflow snapshot.</param>
+    public GcloudDataflowSnapshotsDescribeOptions(
+        string Region,
+        string SnapshotId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotId);
+        this.SnapshotId = SnapshotId;
+    }
+
+    public void Deconstruct(out string Region, out string SnapshotId)
+    {
+        Region = this.Region;
+        SnapshotId = this.SnapshotId;
+    }
+
+    /// <summary>
+    /// Region ID of the snapshot regional endpoint.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// ID of the Cloud Dataflow snapshot.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SnapshotId { get; private init; }
+
 }

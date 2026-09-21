@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "diagnose", "routes")]
-public record GcloudComputeDiagnoseRoutesOptions : GcloudOptions
+public record GcloudComputeDiagnoseRoutesOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// The name or ID of a container inside of the virtual machine instance to connect to. This only applies to virtual machines that are using a Container-Optimized OS virtual machine image. For more information, see https://cloud.google.com/compute/docs/containers
@@ -80,7 +81,7 @@ public record GcloudComputeDiagnoseRoutesOptions : GcloudOptions
     /// Override the default behavior of StrictHostKeyChecking for the connection. By default, StrictHostKeyChecking is set to 'no' the first time you connect to an instance, and will be set to 'yes' for all subsequent connections. STRICT_HOST_KEY_CHECKING must be one of: yes, no, ask.
     /// </summary>
     [CliOption("--strict-host-key-checking", Format = OptionFormat.EqualsSeparated)]
-    public GcloudStrictHostKeyChecking? StrictHostKeyChecking { get; set; }
+    public GcloudComputeDiagnoseRoutesStrictHostKeyChecking? StrictHostKeyChecking { get; set; }
 
     /// <summary>
     /// User for login to the selected VMs. If not specified, the default user will be used.
@@ -89,9 +90,9 @@ public record GcloudComputeDiagnoseRoutesOptions : GcloudOptions
     public string? User { get; set; }
 
     /// <summary>
-    /// If provided, only resources from the given zones are queried.
+    /// If provided, only resources from the given zones are queried. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--zones", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--zones", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Zones { get; set; }
 
     /// <summary>
@@ -105,5 +106,27 @@ public record GcloudComputeDiagnoseRoutesOptions : GcloudOptions
     /// </summary>
     [CliOption("--ssh-key-expire-after", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyExpireAfter { get; set; }
+
+    /// <summary>
+    /// If provided, show details for the specified names and/or URIs of resources.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Name { get; set; }
+
+    /// <summary>
+    /// Flags and positionals passed to the underlying traceroute call. The '--' argument must be specified between gcloud specific args on the left and TRACEROUTE_ARGS on the right. Example: $ gcloud compute diagnose routes example-instance -- -w 0.5 -q 5 42
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
+    public IEnumerable<string>? TracerouteArgs { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(SshKeyExpiration) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SshKeyExpireAfter) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SshKeyExpiration or SshKeyExpireAfter may be specified.", [nameof(SshKeyExpiration), nameof(SshKeyExpireAfter)]);
+        }
+        yield break;
+    }
 
 }

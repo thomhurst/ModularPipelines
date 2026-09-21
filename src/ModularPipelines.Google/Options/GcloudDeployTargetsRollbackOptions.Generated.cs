@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,86 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("deploy", "targets", "rollback")]
 public record GcloudDeployTargetsRollbackOptions : GcloudOptions
 {
+    /// <summary>
+    /// rollbacks a target to a prior rollout
+    /// </summary>
+    /// <param name="DeliveryPipeline">The name of the Cloud Deploy delivery pipeline</param>
+    /// <param name="Target">Target resource - The name of the Target. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument target on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the target or fully qualified identifier for the target. To set the target attribute: ▸ provide the argument target on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDeployTargetsRollbackOptions(
+        string DeliveryPipeline,
+        string Target
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeliveryPipeline);
+        this.DeliveryPipeline = DeliveryPipeline;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+    }
+
+    public void Deconstruct(out string DeliveryPipeline, out string Target)
+    {
+        DeliveryPipeline = this.DeliveryPipeline;
+        Target = this.Target;
+    }
+
+    /// <summary>
+    /// The name of the Cloud Deploy delivery pipeline
+    /// </summary>
+    [CliOption("--delivery-pipeline", Format = OptionFormat.EqualsSeparated)]
+    public string DeliveryPipeline { get; private init; }
+
+    /// <summary>
+    /// Target resource - The name of the Target. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument target on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the target. Alternatively, set the property [deploy/region]. To set the region attribute: ▸ provide the argument target on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property deploy/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Annotations to apply to the rollback. Annotations take the form of key/value string pairs. Examples: Add annotations: $ gcloud deploy targets rollback \ --annotations="from_target=test,status=stable" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
+
+    /// <summary>
+    /// Description of rollout created during a rollback.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Labels to apply to the rollback. Labels take the form of key/value string pairs. Examples: Add labels: $ gcloud deploy targets rollback --labels="commit=abc123,author=foo" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Deploy policies to override Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--override-deploy-policies", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? OverrideDeployPolicies { get; set; }
+
+    /// <summary>
+    /// Name of the release to rollback to.
+    /// </summary>
+    [CliOption("--release", Format = OptionFormat.EqualsSeparated)]
+    public string? Release { get; set; }
+
+    /// <summary>
+    /// ID to assign to the generated rollout for promotion.
+    /// </summary>
+    [CliOption("--rollout-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RolloutId { get; set; }
+
+    /// <summary>
+    /// If set, starts the created rollout at the specified phase. Start rollout at stable phase: $ gcloud deploy targets rollback --starting-phase-id=stable
+    /// </summary>
+    [CliOption("--starting-phase-id", Format = OptionFormat.EqualsSeparated)]
+    public string? StartingPhaseId { get; set; }
+
+    /// <summary>
+    /// Target resource - The name of the Target. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument target on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the target or fully qualified identifier for the target. To set the target attribute: ▸ provide the argument target on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Target { get; private init; }
+
 }

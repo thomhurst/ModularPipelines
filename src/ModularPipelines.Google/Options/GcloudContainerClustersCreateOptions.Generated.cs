@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -22,10 +23,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "clusters", "create")]
-public record GcloudContainerClustersCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudContainerClustersCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a cluster for running containers
+    /// </summary>
+    /// <param name="Name">The name of the cluster to create. The name may contain only lowercase alphanumerics and '-', must start with a letter and end with an alphanumeric, and must be no longer than 40 characters.</param>
+    public GcloudContainerClustersCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Attaches accelerators (e.g. GPUs) to all nodes. type (Required) The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4) of accelerator to attach to the instances. Use gcloud compute accelerator-types list to learn about all available accelerator types. count (Optional) The number of accelerators to attach to the instances. The default value is 1. gpu-driver-version (Optional) The NVIDIA driver version to install. GPU_DRIVER_VERSION must be one of: `default`: Install the default driver version for this GKE version. For GKE version 1.30.1-gke.1156000 and later, this is the default option. `latest`: Install the latest driver version available for this GKE version. Can only be used for nodes that use Container-Optimized OS. `disabled`: Skip automatic driver installation. You must manually install a driver after you create the cluster. For GKE version 1.30.1-gke.1156000 and earlier, this is the default option. To manually install the GPU driver, refer to https://cloud.google.com/kubernetes-engine/docs/how-to/gpus#installing_drivers. gpu-partition-size (Optional) The GPU partition size used when running multi-instance GPUs. For information about multi-instance GPUs, refer to: https://cloud.google.com/kubernetes-engine/docs/how-to/gpus-multi gpu-sharing-strategy (Optional) The GPU sharing strategy (e.g. time-sharing) to use. For information about GPU sharing, refer to: https://cloud.google.com/kubernetes-engine/docs/concepts/timesharing-gpus max-shared-clients-per-gpu (Optional) The max number of containers allowed to share each GPU on the node. This field is used together with gpu-sharing-strategy.
     /// </summary>
@@ -33,9 +49,9 @@ public record GcloudContainerClustersCreateOptions(
     public string? Accelerator { get; set; }
 
     /// <summary>
-    /// (DEPRECATED) The set of additional zones in which the specified node footprint should be replicated. All zones must be in the same region as the cluster's primary zone. If additional-zones is not specified, all nodes will be in the cluster's primary zone. Note that NUM_NODES nodes will be created in each zone, such that if you specify --num-nodes=4 and choose one additional zone, 8 nodes will be created. Multiple locations can be specified, separated by commas. For example: $ gcloud container clusters create example-cluster \ --zone us-central1-a \ --additional-zones us-central1-b,us-central1-c This flag is deprecated. Use --node-locations=PRIMARY_ZONE,[ZONE,...] instead.
+    /// (DEPRECATED) The set of additional zones in which the specified node footprint should be replicated. All zones must be in the same region as the cluster's primary zone. If additional-zones is not specified, all nodes will be in the cluster's primary zone. Note that NUM_NODES nodes will be created in each zone, such that if you specify --num-nodes=4 and choose one additional zone, 8 nodes will be created. Multiple locations can be specified, separated by commas. For example: $ gcloud container clusters create example-cluster \ --zone us-central1-a \ --additional-zones us-central1-b,us-central1-c This flag is deprecated. Use --node-locations=PRIMARY_ZONE,[ZONE,...] instead. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--additional-zones", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--additional-zones", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AdditionalZones { get; set; }
 
     /// <summary>
@@ -66,18 +82,18 @@ public record GcloudContainerClustersCreateOptions(
     /// Enables Auto-Monitoring for a specific scope within the cluster. ALL: Enables Auto-Monitoring for all supported workloads within the cluster. NONE: Disables Auto-Monitoring. AUTO_MONITORING_SCOPE must be one of: ALL, NONE.
     /// </summary>
     [CliOption("--auto-monitoring-scope", Format = OptionFormat.EqualsSeparated)]
-    public GcloudAutoMonitoringScope? AutoMonitoringScope { get; set; }
+    public GcloudContainerClustersCreateAutoMonitoringScope? AutoMonitoringScope { get; set; }
 
     /// <summary>
     /// Sets the Autopilot general profile for the cluster; possible values are none and no-performance. If none is used, the cluster will use the Autopilot default configuration. AUTOPILOT_GENERAL_PROFILE must be one of: none, no-performance.
     /// </summary>
     [CliOption("--autopilot-general-profile", Format = OptionFormat.EqualsSeparated)]
-    public GcloudAutopilotGeneralProfile? AutopilotGeneralProfile { get; set; }
+    public GcloudContainerClustersCreateAutopilotGeneralProfile? AutopilotGeneralProfile { get; set; }
 
     /// <summary>
-    /// Specifies which privileged workload allowlist paths can be referenced and installed by AllowlistSynchronizers in Autopilot modes. The value is a comma-separated list of paths in the format: ◆ gke://&lt;partner_name&gt;/&lt;app_name&gt;/&lt;allowlist_path&gt; for Autopilot partner allowlists ◆ gs://&lt;bucket_name&gt;/&lt;allowlist_path&gt; for user allowlists By default, all GKE-managed allowlists (gke://*) are authorized. See https://cloud.google.com/kubernetes-engine/docs/resources/autopilot-partners for all supported Autopilot partner allowlists. When setting this flag, be careful to explicitly specify gke://* in addition to other entries if you rely on this default behavior. Wildcards (*) are supported. For example, if gke://* is authorized, then AllowlistSynchronizers can be used to install gke://partner1/allowlist1.yaml and gke://partner2/allowlist2.yaml. Note: Use of user allowlists (gs://) requires special permissions and is only available to a subset of high tier customers. Please contact your account team for more information. Examples: Allow all GKE-managed allowlists (default behavior): $ gcloud container clusters create \ --autopilot-privileged-admission=gke://* Authorize only allowlists from a GKE Autopilot partner: $ gcloud container clusters create \ --autopilot-privileged-admission=gke://my-partner/* Authorize only a singular user-owned allowlist $ gcloud container clusters create \ --autopilot-privileged-admission=gs://my-bucket/allowlists/\ my-allowlist.yaml Authorize all user-owned allowlists under a given path: $ gcloud container clusters create \ --autopilot-privileged-admission=gs://my-bucket/* Authorize all GKE-managed allowlists and a specific user-owned allowlist: $ gcloud container clusters create \ --autopilot-privileged-admission=gke://*,gs://my-bucket/\ allowlists/my-allowlist.yaml Disable allowlist installation entirely: $ gcloud container clusters create \ --autopilot-privileged-admission="" Exercise caution when using this flag on an existing cluster. Upon updates, existing AllowlistSynchronizers will uninstall allowlists that are no longer authorized. For instructions on installing allowlists in the cluster after authorization, please refer to: https://cloud.google.com/kubernetes-engine/docs/how-to/run-autopilot-partner-workloads
+    /// Specifies which privileged workload allowlist paths can be referenced and installed by AllowlistSynchronizers in Autopilot modes. The value is a comma-separated list of paths in the format: ◆ gke://&lt;partner_name&gt;/&lt;app_name&gt;/&lt;allowlist_path&gt; for Autopilot partner allowlists ◆ gs://&lt;bucket_name&gt;/&lt;allowlist_path&gt; for user allowlists By default, all GKE-managed allowlists (gke://*) are authorized. See https://cloud.google.com/kubernetes-engine/docs/resources/autopilot-partners for all supported Autopilot partner allowlists. When setting this flag, be careful to explicitly specify gke://* in addition to other entries if you rely on this default behavior. Wildcards (*) are supported. For example, if gke://* is authorized, then AllowlistSynchronizers can be used to install gke://partner1/allowlist1.yaml and gke://partner2/allowlist2.yaml. Note: Use of user allowlists (gs://) requires special permissions and is only available to a subset of high tier customers. Please contact your account team for more information. Examples: Allow all GKE-managed allowlists (default behavior): $ gcloud container clusters create \ --autopilot-privileged-admission=gke://* Authorize only allowlists from a GKE Autopilot partner: $ gcloud container clusters create \ --autopilot-privileged-admission=gke://my-partner/* Authorize only a singular user-owned allowlist $ gcloud container clusters create \ --autopilot-privileged-admission=gs://my-bucket/allowlists/\ my-allowlist.yaml Authorize all user-owned allowlists under a given path: $ gcloud container clusters create \ --autopilot-privileged-admission=gs://my-bucket/* Authorize all GKE-managed allowlists and a specific user-owned allowlist: $ gcloud container clusters create \ --autopilot-privileged-admission=gke://*,gs://my-bucket/\ allowlists/my-allowlist.yaml Disable allowlist installation entirely: $ gcloud container clusters create \ --autopilot-privileged-admission="" Exercise caution when using this flag on an existing cluster. Upon updates, existing AllowlistSynchronizers will uninstall allowlists that are no longer authorized. For instructions on installing allowlists in the cluster after authorization, please refer to: https://cloud.google.com/kubernetes-engine/docs/how-to/run-autopilot-partner-workloads Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--autopilot-privileged-admission", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--autopilot-privileged-admission", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AutopilotPrivilegedAdmission { get; set; }
 
     /// <summary>
@@ -99,15 +115,15 @@ public record GcloudContainerClustersCreateOptions(
     public bool? NoAutoprovisioningEnableInsecureKubeletReadonlyPort { get; set; }
 
     /// <summary>
-    /// Applies the given Compute Engine tags (comma separated) on all nodes in the auto-provisioned node pools of the new Standard cluster or the new Autopilot cluster. Examples: $ gcloud container clusters create example-cluster \ --autoprovisioning-network-tags=tag1,tag2 New nodes in auto-provisioned node pools, including ones created by resize or recreate, will have these tags on the Compute Engine API instance object and can be used in firewall rules. See https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/create for examples.
+    /// Applies the given Compute Engine tags (comma separated) on all nodes in the auto-provisioned node pools of the new Standard cluster or the new Autopilot cluster. Examples: $ gcloud container clusters create example-cluster \ --autoprovisioning-network-tags=tag1,tag2 New nodes in auto-provisioned node pools, including ones created by resize or recreate, will have these tags on the Compute Engine API instance object and can be used in firewall rules. See https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/create for examples. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--autoprovisioning-network-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--autoprovisioning-network-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AutoprovisioningNetworkTags { get; set; }
 
     /// <summary>
-    /// Applies the specified comma-separated resource manager tags that has the GCE_FIREWALL purpose to all nodes in the new Autopilot cluster or all auto-provisioned nodes in the new Standard cluster. Examples: $ gcloud container clusters create example-cluster \ --autoprovisioning-resource-manager-tags=tagKeys/\ 1234=tagValues/2345 $ gcloud container clusters create example-cluster \ --autoprovisioning-resource-manager-tags=my-project/key1=value1 $ gcloud container clusters create example-cluster \ --autoprovisioning-resource-manager-tags=12345/key1=value1,\ 23456/key2=value2 $ gcloud container clusters create example-cluster \ --autoprovisioning-resource-manager-tags= All nodes in an Autopilot cluster or all auto-provisioned nodes in a Standard cluster, including nodes that are resized or re-created, will have the specified tags on the corresponding Instance object in the Compute Engine API. You can reference these tags in network firewall policy rules. For instructions, see https://cloud.google.com/firewall/docs/use-tags-for-firewalls.
+    /// Applies the specified comma-separated resource manager tags that has the GCE_FIREWALL purpose to all nodes in the new Autopilot cluster or all auto-provisioned nodes in the new Standard cluster. Examples: $ gcloud container clusters create example-cluster \ --autoprovisioning-resource-manager-tags=tagKeys/\ 1234=tagValues/2345 $ gcloud container clusters create example-cluster \ --autoprovisioning-resource-manager-tags=my-project/key1=value1 $ gcloud container clusters create example-cluster \ --autoprovisioning-resource-manager-tags=12345/key1=value1,\ 23456/key2=value2 $ gcloud container clusters create example-cluster \ --autoprovisioning-resource-manager-tags= All nodes in an Autopilot cluster or all auto-provisioned nodes in a Standard cluster, including nodes that are resized or re-created, will have the specified tags on the corresponding Instance object in the Compute Engine API. You can reference these tags in network firewall policy rules. For instructions, see https://cloud.google.com/firewall/docs/use-tags-for-firewalls. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--autoprovisioning-resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--autoprovisioning-resource-manager-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AutoprovisioningResourceManagerTags { get; set; }
 
     /// <summary>
@@ -150,7 +166,7 @@ public record GcloudContainerClustersCreateOptions(
     /// Enable confidential nodes for the cluster. Enabling Confidential Nodes will create nodes using Confidential VM https://docs.cloud.google.com/compute/docs/about-confidential-vm. CONFIDENTIAL_NODE_TYPE must be one of: sev, sev_snp, tdx.
     /// </summary>
     [CliOption("--confidential-node-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudConfidentialNodeType? ConfidentialNodeType { get; set; }
+    public GcloudContainerClustersCreateConfidentialNodeType? ConfidentialNodeType { get; set; }
 
     /// <summary>
     /// Path of the YAML file that contains containerd configuration entries like configuring access to private image registries. For detailed information on the configuration usage, please refer to https://cloud.google.com/kubernetes-engine/docs/how-to/customize-containerd-configuration. Note: Updating the containerd configuration of an existing cluster or node pool requires recreation of the existing nodes, which might cause disruptions in running workloads. Use a full or relative path to a local file containing the value of containerd_config.
@@ -165,9 +181,9 @@ public record GcloudContainerClustersCreateOptions(
     public string? ControlPlaneEgress { get; set; }
 
     /// <summary>
-    /// Create a new subnetwork for the cluster. The name and range of the subnetwork can be customized via optional 'name' and 'range' key-value pairs. 'name' specifies the name of the subnetwork to be created. 'range' specifies the IP range for the new subnetwork. This can either be a netmask size (e.g. '/20') or a CIDR range (e.g. '10.0.0.0/20'). If a netmask size is specified, the IP is automatically taken from the free space in the cluster's network. Examples: Create a new subnetwork with a default name and size. $ gcloud container clusters create --create-subnetwork "" Create a new subnetwork named "my-subnet" with netmask of size 21. $ gcloud container clusters create \ --create-subnetwork name=my-subnet,range=/21 Create a new subnetwork with a default name with the primary range of 10.100.0.0/16. $ gcloud container clusters create \ --create-subnetwork range=10.100.0.0/16 Create a new subnetwork with the name "my-subnet" with a default range. $ gcloud container clusters create --create-subnetwork name=my-subnet Cannot be specified unless '--enable-ip-alias' option is also specified. Cannot be used in conjunction with '--subnetwork' option.
+    /// Create a new subnetwork for the cluster. The name and range of the subnetwork can be customized via optional 'name' and 'range' key-value pairs. 'name' specifies the name of the subnetwork to be created. 'range' specifies the IP range for the new subnetwork. This can either be a netmask size (e.g. '/20') or a CIDR range (e.g. '10.0.0.0/20'). If a netmask size is specified, the IP is automatically taken from the free space in the cluster's network. Examples: Create a new subnetwork with a default name and size. $ gcloud container clusters create --create-subnetwork "" Create a new subnetwork named "my-subnet" with netmask of size 21. $ gcloud container clusters create \ --create-subnetwork name=my-subnet,range=/21 Create a new subnetwork with a default name with the primary range of 10.100.0.0/16. $ gcloud container clusters create \ --create-subnetwork range=10.100.0.0/16 Create a new subnetwork with the name "my-subnet" with a default range. $ gcloud container clusters create --create-subnetwork name=my-subnet Cannot be specified unless '--enable-ip-alias' option is also specified. Cannot be used in conjunction with '--subnetwork' option. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--create-subnetwork", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--create-subnetwork", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? CreateSubnetwork { get; set; }
 
     /// <summary>
@@ -222,7 +238,7 @@ public record GcloudContainerClustersCreateOptions(
     /// Type of the node VM boot disk. For version 1.24 and later, defaults to pd-balanced. For versions earlier than 1.24, defaults to pd-standard. DISK_TYPE must be one of: pd-standard, pd-ssd, pd-balanced, hyperdisk-balanced, hyperdisk-extreme, hyperdisk-throughput.
     /// </summary>
     [CliOption("--disk-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudDiskType? DiskType { get; set; }
+    public GcloudContainerClustersCreateDiskType? DiskType { get; set; }
 
     /// <summary>
     /// Enable the Agent Sandbox feature on the cluster. Use --no-enable-agent-sandbox to disable.
@@ -453,9 +469,9 @@ public record GcloudContainerClustersCreateOptions(
     public bool? EnableKubernetesAlpha { get; set; }
 
     /// <summary>
-    /// Enable Kubernetes beta API features on this cluster. Beta APIs are not expected to be production ready and should be avoided in production-grade environments.
+    /// Enable Kubernetes beta API features on this cluster. Beta APIs are not expected to be production ready and should be avoided in production-grade environments. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--enable-kubernetes-unstable-apis", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--enable-kubernetes-unstable-apis", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? EnableKubernetesUnstableApis { get; set; }
 
     /// <summary>
@@ -606,13 +622,13 @@ public record GcloudContainerClustersCreateOptions(
     /// Flags for vertical pod autoscaling: Enable Dataplane V2 in-transit encryption. Dataplane v2 in-transit encryption is disabled by default. IN_TRANSIT_ENCRYPTION must be one of: inter-node-transparent, none.
     /// </summary>
     [CliOption("--in-transit-encryption", Format = OptionFormat.EqualsSeparated)]
-    public GcloudInTransitEncryption? InTransitEncryption { get; set; }
+    public GcloudContainerClustersCreateInTransitEncryption? InTransitEncryption { get; set; }
 
     /// <summary>
     /// Flags for vertical pod autoscaling: IPv6 access type of the subnetwork. Defaults to 'external'. IPV6_ACCESS_TYPE must be one of: external, internal.
     /// </summary>
     [CliOption("--ipv6-access-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudIpv6AccessType? Ipv6AccessType { get; set; }
+    public GcloudContainerClustersCreateIpv6AccessType? Ipv6AccessType { get; set; }
 
     /// <summary>
     /// Flags for vertical pod autoscaling: Issue a TLS client certificate with admin permissions. When enabled, the certificate and private key pair will be present in MasterAuth field of the Cluster object. For cluster versions before 1.12, a client certificate will be issued by default. As of 1.12, client certificates are disabled by default.
@@ -621,15 +637,15 @@ public record GcloudContainerClustersCreateOptions(
     public bool? IssueClientCertificate { get; set; }
 
     /// <summary>
-    /// Flags for vertical pod autoscaling: Labels to apply to the Google Cloud resources in use by the Kubernetes Engine cluster. These are unrelated to Kubernetes labels. Examples: $ gcloud container clusters create example-cluster \ --labels=label_a=value1,label_b=,label_c=value3
+    /// Flags for vertical pod autoscaling: Labels to apply to the Google Cloud resources in use by the Kubernetes Engine cluster. These are unrelated to Kubernetes labels. Examples: $ gcloud container clusters create example-cluster \ --labels=label_a=value1,label_b=,label_c=value3 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Flags for vertical pod autoscaling: Set the components that have logging enabled. Valid component values are: SYSTEM, WORKLOAD, API_SERVER, CONTROLLER_MANAGER, SCHEDULER, KCP_HPA, KCP_VPA, NONE For more information, see https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs#available-logs Examples: $ gcloud container clusters create --logging=SYSTEM $ gcloud container clusters create \ --logging=SYSTEM,API_SERVER,WORKLOAD $ gcloud container clusters create --logging=NONE
+    /// Flags for vertical pod autoscaling: Set the components that have logging enabled. Valid component values are: SYSTEM, WORKLOAD, API_SERVER, CONTROLLER_MANAGER, SCHEDULER, KCP_HPA, KCP_VPA, NONE For more information, see https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs#available-logs Examples: $ gcloud container clusters create --logging=SYSTEM $ gcloud container clusters create \ --logging=SYSTEM,API_SERVER,WORKLOAD $ gcloud container clusters create --logging=NONE Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--logging", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--logging", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Logging { get; set; }
 
     /// <summary>
@@ -681,15 +697,15 @@ public record GcloudContainerClustersCreateOptions(
     public string? MembershipType { get; set; }
 
     /// <summary>
-    /// Flags for vertical pod autoscaling: Compute Engine metadata to be made available to the guest operating system running on nodes within the node pool. Each metadata entry is a key/value pair separated by an equals sign. Metadata keys must be unique and less than 128 bytes in length. Values must be less than or equal to 32,768 bytes in length. The total size of all keys and values must be less than 512 KB. Multiple arguments can be passed to this flag. For example: --metadata key-1=value-1,key-2=value-2,key-3=value-3 Additionally, the following keys are reserved for use by Kubernetes Engine: ◆ cluster-location ◆ cluster-name ◆ cluster-uid ◆ configure-sh ◆ enable-os-login ◆ gci-update-strategy ◆ gci-ensure-gke-docker ◆ instance-template ◆ kube-env ◆ startup-script ◆ user-data Google Kubernetes Engine sets the following keys by default: ◆ serial-port-logging-enable See also Compute Engine's documentation (https://cloud.google.com/compute/docs/storing-retrieving-metadata) on storing and retrieving instance metadata.
+    /// Flags for vertical pod autoscaling: Compute Engine metadata to be made available to the guest operating system running on nodes within the node pool. Each metadata entry is a key/value pair separated by an equals sign. Metadata keys must be unique and less than 128 bytes in length. Values must be less than or equal to 32,768 bytes in length. The total size of all keys and values must be less than 512 KB. Multiple arguments can be passed to this flag. For example: --metadata key-1=value-1,key-2=value-2,key-3=value-3 Additionally, the following keys are reserved for use by Kubernetes Engine: ◆ cluster-location ◆ cluster-name ◆ cluster-uid ◆ configure-sh ◆ enable-os-login ◆ gci-update-strategy ◆ gci-ensure-gke-docker ◆ instance-template ◆ kube-env ◆ startup-script ◆ user-data Google Kubernetes Engine sets the following keys by default: ◆ serial-port-logging-enable See also Compute Engine's documentation (https://cloud.google.com/compute/docs/storing-retrieving-metadata) on storing and retrieving instance metadata. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// Flags for vertical pod autoscaling: Same as --metadata except that the value for the entry will be read from a local file.
+    /// Flags for vertical pod autoscaling: Same as --metadata except that the value for the entry will be read from a local file. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MetadataFromFile { get; set; }
 
     /// <summary>
@@ -699,9 +715,9 @@ public record GcloudContainerClustersCreateOptions(
     public string? MinCpuPlatform { get; set; }
 
     /// <summary>
-    /// Flags for vertical pod autoscaling: Set the components that have monitoring enabled. Valid component values are: SYSTEM, WORKLOAD (Deprecated), NONE, API_SERVER, CONTROLLER_MANAGER, SCHEDULER, DAEMONSET, DEPLOYMENT, HPA, POD, STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, JOBSET Note: DAEMONSET, DEPLOYMENT, HPA, POD, STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, and JOBSET require Google Managed Prometheus to be enabled. For more information, see https://cloud.google.com/kubernetes-engine/docs/how-to/configure-metrics#available-metrics Examples: $ gcloud container clusters create --monitoring=SYSTEM,API_SERVER,POD $ gcloud container clusters create --monitoring=NONE
+    /// Flags for vertical pod autoscaling: Set the components that have monitoring enabled. Valid component values are: SYSTEM, WORKLOAD (Deprecated), NONE, API_SERVER, CONTROLLER_MANAGER, SCHEDULER, DAEMONSET, DEPLOYMENT, HPA, POD, STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, JOBSET Note: DAEMONSET, DEPLOYMENT, HPA, POD, STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, and JOBSET require Google Managed Prometheus to be enabled. For more information, see https://cloud.google.com/kubernetes-engine/docs/how-to/configure-metrics#available-metrics Examples: $ gcloud container clusters create --monitoring=SYSTEM,API_SERVER,POD $ gcloud container clusters create --monitoring=NONE Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--monitoring", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--monitoring", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Monitoring { get; set; }
 
     /// <summary>
@@ -711,16 +727,16 @@ public record GcloudContainerClustersCreateOptions(
     public string? Network { get; set; }
 
     /// <summary>
-    /// Flags for vertical pod autoscaling: Configures network performance settings for the cluster. Node pools can override with their own settings. total-egress-bandwidth-tier Total egress bandwidth is the available outbound bandwidth from a VM, regardless of whether the traffic is going to internal IP or external IP destinations. The following tier values are allowed: [TIER_UNSPECIFIED,TIER_1]. See https://cloud.google.com/compute/docs/networking/configure-vm-with-high-bandwidth-configuration for more information.
+    /// Flags for vertical pod autoscaling: Configures network performance settings for the cluster. Node pools can override with their own settings. total-egress-bandwidth-tier Total egress bandwidth is the available outbound bandwidth from a VM, regardless of whether the traffic is going to internal IP or external IP destinations. The following tier values are allowed: [TIER_UNSPECIFIED,TIER_1]. See https://cloud.google.com/compute/docs/networking/configure-vm-with-high-bandwidth-configuration for more information. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-performance-configs", Format = OptionFormat.EqualsSeparated)]
-    public string? NetworkPerformanceConfigs { get; set; }
+    [CliOption("--network-performance-configs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NetworkPerformanceConfigs { get; set; }
 
     /// <summary>
     /// Flags for vertical pod autoscaling: Control how architecture taint should be applied to nodes in default node pool(s) in new cluster. Supported values: * unspecified: Default behavior, currently the same as `arm`. * arm: kubernetes.io/arch=arm:NoSchedule taint will be added for ARM nodes. * none: No architecture taint will be applied. Examples: $ gcloud container clusters create example-cluster \ --node-architecture-taint-behavior=none To read more about node-taints, see https://cloud.google.com/kubernetes-engine/docs/node-taints. NODE_ARCHITECTURE_TAINT_BEHAVIOR must be one of: unspecified, arm, none.
     /// </summary>
     [CliOption("--node-architecture-taint-behavior", Format = OptionFormat.EqualsSeparated)]
-    public GcloudNodeArchitectureTaintBehavior? NodeArchitectureTaintBehavior { get; set; }
+    public GcloudContainerClustersCreateNodeArchitectureTaintBehavior? NodeArchitectureTaintBehavior { get; set; }
 
     /// <summary>
     /// Flags for vertical pod autoscaling: Configures node creation mode for the cluster, either via kubelet or via control plane. NODE_CREATION_MODE must be one of: CONTROL_PLANE registers nodes via control plane; kubelet registration will be rejected. This selection will not take effect if you turn off Shielded Nodes. KUBELET registers nodes via kubelet.
@@ -729,21 +745,21 @@ public record GcloudContainerClustersCreateOptions(
     public string? NodeCreationMode { get; set; }
 
     /// <summary>
-    /// Flags for vertical pod autoscaling: Applies the given Kubernetes labels on all nodes in the new node pool. Examples: $ gcloud container clusters create example-cluster \ --node-labels=label-a=value1,label-2=value2 Updating the node pool's --node-labels flag applies the labels to the Kubernetes Node objects for existing nodes in-place; it does not re-create or replace nodes. New nodes, including ones created by resizing or re-creating nodes, will have these labels on the Kubernetes API Node object. The labels can be used in the nodeSelector field. See https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/ for examples. Note that Kubernetes labels, intended to associate cluster components and resources with one another and manage resource lifecycles, are different from Google Kubernetes Engine labels that are used for the purpose of tracking billing and usage information.
+    /// Flags for vertical pod autoscaling: Applies the given Kubernetes labels on all nodes in the new node pool. Examples: $ gcloud container clusters create example-cluster \ --node-labels=label-a=value1,label-2=value2 Updating the node pool's --node-labels flag applies the labels to the Kubernetes Node objects for existing nodes in-place; it does not re-create or replace nodes. New nodes, including ones created by resizing or re-creating nodes, will have these labels on the Kubernetes API Node object. The labels can be used in the nodeSelector field. See https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/ for examples. Note that Kubernetes labels, intended to associate cluster components and resources with one another and manage resource lifecycles, are different from Google Kubernetes Engine labels that are used for the purpose of tracking billing and usage information. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NodeLabels { get; set; }
 
     /// <summary>
-    /// Flags for vertical pod autoscaling: The set of zones in which the specified node footprint should be replicated. All zones must be in the same region as the cluster's master(s), specified by the -location, --zone, or --region flag. Additionally, for zonal clusters, --node-locations must contain the cluster's primary zone. If not specified, all nodes will be in the cluster's primary zone (for zonal clusters) or spread across three randomly chosen zones within the cluster's region (for regional clusters). Note that NUM_NODES nodes will be created in each zone, such that if you specify --num-nodes=4 and choose two locations, 8 nodes will be created. Multiple locations can be specified, separated by commas. For example: $ gcloud container clusters create example-cluster \ --location us-central1-a \ --node-locations us-central1-a,us-central1-b
+    /// Flags for vertical pod autoscaling: The set of zones in which the specified node footprint should be replicated. All zones must be in the same region as the cluster's master(s), specified by the -location, --zone, or --region flag. Additionally, for zonal clusters, --node-locations must contain the cluster's primary zone. If not specified, all nodes will be in the cluster's primary zone (for zonal clusters) or spread across three randomly chosen zones within the cluster's region (for regional clusters). Note that NUM_NODES nodes will be created in each zone, such that if you specify --num-nodes=4 and choose two locations, 8 nodes will be created. Multiple locations can be specified, separated by commas. For example: $ gcloud container clusters create example-cluster \ --location us-central1-a \ --node-locations us-central1-a,us-central1-b Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--node-locations", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--node-locations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NodeLocations { get; set; }
 
     /// <summary>
-    /// Flags for vertical pod autoscaling: Applies the given kubernetes taints on all nodes in default node pool(s) in new cluster, which can be used with tolerations for pod scheduling. Examples: $ gcloud container clusters create example-cluster \ --node-taints=key1=val1:NoSchedule,key2=val2:PreferNoSchedule To read more about node-taints, see https://cloud.google.com/kubernetes-engine/docs/node-taints.
+    /// Flags for vertical pod autoscaling: Applies the given kubernetes taints on all nodes in default node pool(s) in new cluster, which can be used with tolerations for pod scheduling. Examples: $ gcloud container clusters create example-cluster \ --node-taints=key1=val1:NoSchedule,key2=val2:PreferNoSchedule To read more about node-taints, see https://cloud.google.com/kubernetes-engine/docs/node-taints. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NodeTaints { get; set; }
 
     /// <summary>
@@ -768,7 +784,7 @@ public record GcloudContainerClustersCreateOptions(
     /// Flags for vertical pod autoscaling: The patch update to use for the cluster. Setting to 'accelerated' automatically upgrades the cluster to the latest patch available within the cluster's current minor version and release channel. Setting to 'default' automatically upgrades the cluster to the default patch upgrade targetversion available within the cluster's current minor version and release channel. PATCH_UPDATE must be one of: accelerated, default.
     /// </summary>
     [CliOption("--patch-update", Format = OptionFormat.EqualsSeparated)]
-    public GcloudPatchUpdate? PatchUpdate { get; set; }
+    public GcloudContainerClustersCreatePatchUpdate? PatchUpdate { get; set; }
 
     /// <summary>
     /// Flags for vertical pod autoscaling: Sets the Performance Monitoring Unit level. Valid values are architectural, standard and enhanced. PERFORMANCE_MONITORING_UNIT must be one of: architectural Enables architectural PMU events tied to non last level cache (LLC) events. enhanced Enables most documented core/L2 and LLC PMU events. standard Enables most documented core/L2 PMU events.
@@ -786,7 +802,7 @@ public record GcloudContainerClustersCreateOptions(
     /// Flags for vertical pod autoscaling: Placement type allows to define the type of node placement within the default node pool of this cluster. UNSPECIFIED - No requirements on the placement of nodes. This is the default option. COMPACT - GKE will attempt to place the nodes in a close proximity to each other. This helps to reduce the communication latency between the nodes, but imposes additional limitations on the node pool size. $ gcloud container clusters create example-cluster \ --placement-type=COMPACT PLACEMENT_TYPE must be one of: UNSPECIFIED, COMPACT.
     /// </summary>
     [CliOption("--placement-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudPlacementType? PlacementType { get; set; }
+    public GcloudContainerClustersCreatePlacementType? PlacementType { get; set; }
 
     /// <summary>
     /// Flags for vertical pod autoscaling: Create nodes using preemptible VM instances in the new cluster. $ gcloud container clusters create example-cluster --preemptible New nodes, including ones created by resize or recreate, will use preemptible VM instances. See https://cloud.google.com/kubernetes-engine/docs/preemptible-vm for more information on how to use Preemptible VMs with Kubernetes Engine.
@@ -804,7 +820,7 @@ public record GcloudContainerClustersCreateOptions(
     /// Flags for vertical pod autoscaling: Sets the type of private access to Google services over IPv6. PRIVATE_IPV6_GOOGLE_ACCESS_TYPE must be one of: bidirectional Allows Google services to initiate connections to GKE pods in this cluster. This is not intended for common use, and requires previous integration with Google services. disabled Default value. Disables private access to Google services over IPv6. outbound-only Allows GKE pods to make fast, secure requests to Google services over IPv6. This is the most common use of private IPv6 access. $ gcloud alpha container clusters create \ --private-ipv6-google-access-type=disabled $ gcloud alpha container clusters create \ --private-ipv6-google-access-type=outbound-only $ gcloud alpha container clusters create \ --private-ipv6-google-access-type=bidirectional PRIVATE_IPV6_GOOGLE_ACCESS_TYPE must be one of: bidirectional, disabled, outbound-only.
     /// </summary>
     [CliOption("--private-ipv6-google-access-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudPrivateIpv6GoogleAccessType? PrivateIpv6GoogleAccessType { get; set; }
+    public GcloudContainerClustersCreatePrivateIpv6GoogleAccessType? PrivateIpv6GoogleAccessType { get; set; }
 
     /// <summary>
     /// Flags for vertical pod autoscaling: Release channel a cluster is subscribed to. If left unspecified and a version is specified, the cluster is enrolled in the most mature release channel where the version is available (first checking STABLE, then REGULAR, and finally RAPID). Otherwise, if no release channel and no version is specified, the cluster is enrolled in the REGULAR channel with its default version. When a cluster is subscribed to a release channel, Google maintains both the master version and the node version. Node auto-upgrade is enabled by default for release channel clusters and can be controlled via upgrade-scope exclusions (https://cloud.google.com/kubernetes-engine/docs/concepts/maintenance-windows-and-exclusions#scope_of_maintenance_to_exclude). CHANNEL must be one of: None Use 'None' to opt-out of any release channel. extended Clusters subscribed to 'extended' can remain on a minor version for 24 months from when the minor version is made available in the Regular channel. rapid 'rapid' channel is offered on an early access basis for customers who want to test new releases. WARNING: Versions available in the 'rapid' channel may be subject to unresolved issues with no known workaround and are not subject to any SLAs. regular Clusters subscribed to 'regular' receive versions that are considered GA quality. 'regular' is intended for production users who want to take advantage of new features. stable Clusters subscribed to 'stable' receive versions that are known to be stable and reliable in production.
@@ -813,9 +829,9 @@ public record GcloudContainerClustersCreateOptions(
     public string? ReleaseChannel { get; set; }
 
     /// <summary>
-    /// Flags for vertical pod autoscaling: Applies the specified comma-separated resource manager tags that has the GCE_FIREWALL purpose to all nodes in the new default node pool(s) of a new cluster. Examples: $ gcloud container clusters create example-cluster \ --resource-manager-tags=tagKeys/1234=tagValues/2345 $ gcloud container clusters create example-cluster \ --resource-manager-tags=my-project/key1=value1 $ gcloud container clusters create example-cluster \ --resource-manager-tags=12345/key1=value1,23456/key2=value2 $ gcloud container clusters create example-cluster \ --resource-manager-tags= All nodes, including nodes that are resized or re-created, will have the specified tags on the corresponding Instance object in the Compute Engine API. You can reference these tags in network firewall policy rules. For instructions, see https://cloud.google.com/firewall/docs/use-tags-for-firewalls.
+    /// Flags for vertical pod autoscaling: Applies the specified comma-separated resource manager tags that has the GCE_FIREWALL purpose to all nodes in the new default node pool(s) of a new cluster. Examples: $ gcloud container clusters create example-cluster \ --resource-manager-tags=tagKeys/1234=tagValues/2345 $ gcloud container clusters create example-cluster \ --resource-manager-tags=my-project/key1=value1 $ gcloud container clusters create example-cluster \ --resource-manager-tags=12345/key1=value1,23456/key2=value2 $ gcloud container clusters create example-cluster \ --resource-manager-tags= All nodes, including nodes that are resized or re-created, will have the specified tags on the corresponding Instance object in the Compute Engine API. You can reference these tags in network firewall policy rules. For instructions, see https://cloud.google.com/firewall/docs/use-tags-for-firewalls. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
@@ -828,7 +844,7 @@ public record GcloudContainerClustersCreateOptions(
     /// Flags for vertical pod autoscaling: Sets the mode of the Kubernetes security posture API's off-cluster features. To enable advanced mode explicitly set the flag to --security-posture=enterprise. To enable in standard mode explicitly set the flag to --security-posture=standard To disable in an existing cluster, explicitly set the flag to --security-posture=disabled. For more information on enablement, see https://cloud.google.com/kubernetes-engine/docs/concepts/about-security-posture-dashboard#feature-enablement. SECURITY_POSTURE must be one of: disabled, standard, enterprise.
     /// </summary>
     [CliOption("--security-posture", Format = OptionFormat.EqualsSeparated)]
-    public GcloudSecurityPosture? SecurityPosture { get; set; }
+    public GcloudContainerClustersCreateSecurityPosture? SecurityPosture { get; set; }
 
     /// <summary>
     /// Flags for vertical pod autoscaling: Set the IP range for the services IPs. Can be specified as a netmask size (e.g. '/20') or as in CIDR notion (e.g. '10.100.0.0/20'). If given as a netmask size, the IP range will be chosen automatically from the available space in the network. If unspecified, the services CIDR range will be chosen with a default mask size. Cannot be specified unless '--enable-ip-alias' option is also specified.
@@ -864,12 +880,12 @@ public record GcloudContainerClustersCreateOptions(
     /// Flags for vertical pod autoscaling: IP stack type of the cluster nodes. STACK_TYPE must be one of: ipv4, ipv4-ipv6.
     /// </summary>
     [CliOption("--stack-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudStackType? StackType { get; set; }
+    public GcloudContainerClustersCreateStackType? StackType { get; set; }
 
     /// <summary>
-    /// Flags for vertical pod autoscaling: A list of storage pools where the cluster's boot disks will be provisioned. STORAGE_POOL must be in the format projects/project/zones/zone/storagePools/storagePool
+    /// Flags for vertical pod autoscaling: A list of storage pools where the cluster's boot disks will be provisioned. STORAGE_POOL must be in the format projects/project/zones/zone/storagePools/storagePool Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--storage-pools", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--storage-pools", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? StoragePools { get; set; }
 
     /// <summary>
@@ -885,9 +901,9 @@ public record GcloudContainerClustersCreateOptions(
     public string? SystemConfigFromFile { get; set; }
 
     /// <summary>
-    /// Flags for vertical pod autoscaling: Applies the given Compute Engine tags (comma separated) on all nodes in the new node-pool. Examples: $ gcloud container clusters create example-cluster --tags=tag1,tag2 New nodes, including ones created by resize or recreate, will have these tags on the Compute Engine API instance object and can be used in firewall rules. See https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/create for examples.
+    /// Flags for vertical pod autoscaling: Applies the given Compute Engine tags (comma separated) on all nodes in the new node-pool. Examples: $ gcloud container clusters create example-cluster --tags=tag1,tag2 New nodes, including ones created by resize or recreate, will have these tags on the Compute Engine API instance object and can be used in firewall rules. See https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/create for examples. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -900,7 +916,7 @@ public record GcloudContainerClustersCreateOptions(
     /// Flags for vertical pod autoscaling: (DEPRECATED) Set the desired tier for the cluster. The --tier flag is deprecated. More info: https://cloud.google.com/kubernetes-engine/docs/release-notes#September_02_2025. TIER must be one of: standard, enterprise.
     /// </summary>
     [CliOption("--tier", Format = OptionFormat.EqualsSeparated)]
-    public GcloudTier? Tier { get; set; }
+    public GcloudContainerClustersCreateTier? Tier { get; set; }
 
     /// <summary>
     /// Flags for vertical pod autoscaling: Type of metadata server available to pods running in the node pool. WORKLOAD_METADATA must be one of: GCE_METADATA Pods running in this node pool have access to the node's underlying Compute Engine Metadata Server. GKE_METADATA Run the Kubernetes Engine Metadata Server on this node. The Kubernetes Engine Metadata Server exposes a metadata API to workloads that is compatible with the V1 Compute Metadata APIs exposed by the Compute Engine and App Engine Metadata Servers. This feature can only be enabled if Workload Identity is enabled at the cluster level.
@@ -918,7 +934,7 @@ public record GcloudContainerClustersCreateOptions(
     /// Flags for vertical pod autoscaling: Sets the mode of the Kubernetes security posture API's workload vulnerability scanning. To enable Advanced vulnerability insights mode explicitly set the flag to --workload-vulnerability-scanning=enterprise. To enable in standard mode explicitly set the flag to --workload-vulnerability-scanning=standard. To disable in an existing cluster, explicitly set the flag to --workload-vulnerability-scanning=disabled. For more information on enablement, see https://cloud.google.com/kubernetes-engine/docs/concepts/about-security-posture-dashboard#feature-enablement. WORKLOAD_VULNERABILITY_SCANNING must be one of: disabled, standard, enterprise.
     /// </summary>
     [CliOption("--workload-vulnerability-scanning", Format = OptionFormat.EqualsSeparated)]
-    public GcloudWorkloadVulnerabilityScanning? WorkloadVulnerabilityScanning { get; set; }
+    public GcloudContainerClustersCreateWorkloadVulnerabilityScanning? WorkloadVulnerabilityScanning { get; set; }
 
     /// <summary>
     /// Control Plane Keys The Certificate Authority Service caPool that will back the aggregation CA
@@ -969,13 +985,13 @@ public record GcloudContainerClustersCreateOptions(
     public IEnumerable<string>? ServiceAccountVerificationKeys { get; set; }
 
     /// <summary>
-    /// Control Plane Keys Flags for Binary Authorization: At most one of these can be specified: Enable Binary Authorization for this cluster. BINAUTHZ_EVALUATION_MODE must be one of: disabled, project-singleton-policy-enforce.
+    /// Flags for Binary Authorization: At most one of these can be specified: Enable Binary Authorization for this cluster. BINAUTHZ_EVALUATION_MODE must be one of: disabled, project-singleton-policy-enforce.
     /// </summary>
     [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
     public string? BinauthzEvaluationMode { get; set; }
 
     /// <summary>
-    /// Control Plane Keys Flags for Binary Authorization: At most one of these can be specified: (DEPRECATED) Enable Binary Authorization for this cluster. The --enable-binauthz flag is deprecated. Please use --binauthz-evaluation-mode instead.
+    /// Flags for Binary Authorization: At most one of these can be specified: (DEPRECATED) Enable Binary Authorization for this cluster. The --enable-binauthz flag is deprecated. Please use --binauthz-evaluation-mode instead.
     /// </summary>
     [CliFlag("--enable-binauthz")]
     public bool? EnableBinauthz { get; set; }
@@ -1011,55 +1027,55 @@ public record GcloudContainerClustersCreateOptions(
     public string? ClusterDnsScope { get; set; }
 
     /// <summary>
-    /// ClusterDNS At most one of these can be specified: The domain used in Additive VPC scope. Only works with Cluster Scope.
+    /// At most one of these can be specified: The domain used in Additive VPC scope. Only works with Cluster Scope.
     /// </summary>
     [CliOption("--additive-vpc-scope-dns-domain", Format = OptionFormat.EqualsSeparated)]
     public string? AdditiveVpcScopeDnsDomain { get; set; }
 
     /// <summary>
-    /// ClusterDNS At most one of these can be specified: Disables Additive VPC Scope.
+    /// At most one of these can be specified: Disables Additive VPC Scope.
     /// </summary>
     [CliFlag("--disable-additive-vpc-scope")]
     public bool? DisableAdditiveVpcScope { get; set; }
 
     /// <summary>
-    /// ClusterDNS At most one of these can be specified: (REMOVED) Select Advanced Datapath Observability mode for the cluster. Defaults to DISABLED. Advanced Datapath Observability allows for a real-time view into pod-to-pod traffic within your cluster. Examples: $ gcloud container clusters create \ --dataplane-v2-observability-mode=DISABLED $ gcloud container clusters create \ --dataplane-v2-observability-mode=INTERNAL_VPC_LB $ gcloud container clusters create \ --dataplane-v2-observability-mode=EXTERNAL_LB Flag --dataplane-v2-observability-mode has been removed. DATAPLANE_V2_OBSERVABILITY_MODE must be one of: DISABLED Disables Advanced Datapath Observability. EXTERNAL_LB Makes Advanced Datapath Observability available to the external network. INTERNAL_VPC_LB Makes Advanced Datapath Observability available from the VPC network.
+    /// At most one of these can be specified: (REMOVED) Select Advanced Datapath Observability mode for the cluster. Defaults to DISABLED. Advanced Datapath Observability allows for a real-time view into pod-to-pod traffic within your cluster. Examples: $ gcloud container clusters create \ --dataplane-v2-observability-mode=DISABLED $ gcloud container clusters create \ --dataplane-v2-observability-mode=INTERNAL_VPC_LB $ gcloud container clusters create \ --dataplane-v2-observability-mode=EXTERNAL_LB Flag --dataplane-v2-observability-mode has been removed. DATAPLANE_V2_OBSERVABILITY_MODE must be one of: DISABLED Disables Advanced Datapath Observability. EXTERNAL_LB Makes Advanced Datapath Observability available to the external network. INTERNAL_VPC_LB Makes Advanced Datapath Observability available from the VPC network.
     /// </summary>
     [CliOption("--dataplane-v2-observability-mode", Format = OptionFormat.EqualsSeparated)]
     public string? DataplaneV2ObservabilityMode { get; set; }
 
     /// <summary>
-    /// ClusterDNS At most one of these can be specified: Disables Advanced Datapath Observability.
+    /// At most one of these can be specified: Disables Advanced Datapath Observability.
     /// </summary>
     [CliFlag("--disable-dataplane-v2-flow-observability")]
     public bool? DisableDataplaneV2FlowObservability { get; set; }
 
     /// <summary>
-    /// ClusterDNS At most one of these can be specified: Enables Advanced Datapath Observability which allows for a real-time view into pod-to-pod traffic within your cluster.
+    /// At most one of these can be specified: Enables Advanced Datapath Observability which allows for a real-time view into pod-to-pod traffic within your cluster.
     /// </summary>
     [CliFlag("--enable-dataplane-v2-flow-observability")]
     public bool? EnableDataplaneV2FlowObservability { get; set; }
 
     /// <summary>
-    /// ClusterDNS At most one of these can be specified: Stops exposing advanced datapath flow metrics on node port.
+    /// At most one of these can be specified: Stops exposing advanced datapath flow metrics on node port.
     /// </summary>
     [CliFlag("--disable-dataplane-v2-metrics")]
     public bool? DisableDataplaneV2Metrics { get; set; }
 
     /// <summary>
-    /// ClusterDNS At most one of these can be specified: Exposes advanced datapath flow metrics on node port.
+    /// At most one of these can be specified: Exposes advanced datapath flow metrics on node port.
     /// </summary>
     [CliFlag("--enable-dataplane-v2-metrics")]
     public bool? EnableDataplaneV2Metrics { get; set; }
 
     /// <summary>
-    /// ClusterDNS At most one of these can be specified: Disable the Pod Snapshot feature on the cluster.
+    /// At most one of these can be specified: Disable the Pod Snapshot feature on the cluster.
     /// </summary>
     [CliFlag("--disable-pod-snapshots")]
     public bool? DisablePodSnapshots { get; set; }
 
     /// <summary>
-    /// ClusterDNS At most one of these can be specified: Enable the Pod Snapshot feature on the cluster.
+    /// At most one of these can be specified: Enable the Pod Snapshot feature on the cluster.
     /// </summary>
     [CliFlag("--enable-pod-snapshots")]
     public bool? EnablePodSnapshots { get; set; }
@@ -1071,133 +1087,177 @@ public record GcloudContainerClustersCreateOptions(
     public bool? EnableAutoprovisioning { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Path of the JSON/YAML file which contains information about the cluster's node autoprovisioning configuration. Currently it contains a list of resource limits, identity defaults for autoprovisioning, node upgrade settings, node management settings, minimum cpu platform, image type, node locations for autoprovisioning, disk type and size configuration, Shielded instance settings, and customer-managed encryption keys settings. Resource limits are specified in the field 'resourceLimits'. Each resource limits definition contains three fields: resourceType, maximum and minimum. Resource type can be "cpu", "memory" or an accelerator (e.g. "nvidia-tesla-t4" for NVIDIA T4). Use gcloud compute accelerator-types list to learn about available accelerator types. Maximum is the maximum allowed amount with the unit of the resource. Minimum is the minimum allowed amount with the unit of the resource. Identity default contains at most one of the below fields: serviceAccount: The Google Cloud Platform Service Account to be used by node VMs in autoprovisioned node pools. If not specified, the project's default service account is used. scopes: A list of scopes to be used by node instances in autoprovisioned node pools. Multiple scopes can be specified, separated by commas. For information on defaults, look at: https://cloud.google.com/sdk/gcloud/reference/container/clusters/create#--scopes Node Upgrade settings are specified under the field 'upgradeSettings', which has the following fields: maxSurgeUpgrade: Number of extra (surge) nodes to be created on each upgrade of an autoprovisioned node pool. maxUnavailableUpgrade: Number of nodes that can be unavailable at the same time on each upgrade of an autoprovisioned node pool. Node Management settings are specified under the field 'management', which has the following fields: autoUpgrade: A boolean field that indicates if node autoupgrade is enabled for autoprovisioned node pools. autoRepair: A boolean field that indicates if node autorepair is enabled for autoprovisioned node pools. minCpuPlatform (deprecated): If specified, new autoprovisioned nodes will be scheduled on host with specified CPU architecture or a newer one. Note: Min CPU platform can only be specified in Beta and Alpha. Autoprovisioned node image is specified under the 'imageType' field. If not specified the default value will be applied. Autoprovisioning locations is a set of zones where new node pools can be created by Autoprovisioning. Autoprovisioning locations are specified in the field 'autoprovisioningLocations'. All zones must be in the same region as the cluster's master(s). Disk type and size are specified under the 'diskType' and 'diskSizeGb' fields, respectively. If specified, new autoprovisioned nodes will be created with custom boot disks configured by these settings. Shielded instance settings are specified under the 'shieldedInstanceConfig' field, which has the following fields: enableSecureBoot: A boolean field that indicates if secure boot is enabled for autoprovisioned nodes. enableIntegrityMonitoring: A boolean field that indicates if integrity monitoring is enabled for autoprovisioned nodes. Customer Managed Encryption Keys (CMEK) used by new auto-provisioned node pools can be specified in the 'bootDiskKmsKey' field. Use a full or relative path to a local file containing the value of autoprovisioning_config_file.
+    /// At most one of these can be specified: Path of the JSON/YAML file which contains information about the cluster's node autoprovisioning configuration. Currently it contains a list of resource limits, identity defaults for autoprovisioning, node upgrade settings, node management settings, minimum cpu platform, image type, node locations for autoprovisioning, disk type and size configuration, Shielded instance settings, and customer-managed encryption keys settings. Resource limits are specified in the field 'resourceLimits'. Each resource limits definition contains three fields: resourceType, maximum and minimum. Resource type can be "cpu", "memory" or an accelerator (e.g. "nvidia-tesla-t4" for NVIDIA T4). Use gcloud compute accelerator-types list to learn about available accelerator types. Maximum is the maximum allowed amount with the unit of the resource. Minimum is the minimum allowed amount with the unit of the resource. Identity default contains at most one of the below fields: serviceAccount: The Google Cloud Platform Service Account to be used by node VMs in autoprovisioned node pools. If not specified, the project's default service account is used. scopes: A list of scopes to be used by node instances in autoprovisioned node pools. Multiple scopes can be specified, separated by commas. For information on defaults, look at: https://cloud.google.com/sdk/gcloud/reference/container/clusters/create#--scopes Node Upgrade settings are specified under the field 'upgradeSettings', which has the following fields: maxSurgeUpgrade: Number of extra (surge) nodes to be created on each upgrade of an autoprovisioned node pool. maxUnavailableUpgrade: Number of nodes that can be unavailable at the same time on each upgrade of an autoprovisioned node pool. Node Management settings are specified under the field 'management', which has the following fields: autoUpgrade: A boolean field that indicates if node autoupgrade is enabled for autoprovisioned node pools. autoRepair: A boolean field that indicates if node autorepair is enabled for autoprovisioned node pools. minCpuPlatform (deprecated): If specified, new autoprovisioned nodes will be scheduled on host with specified CPU architecture or a newer one. Note: Min CPU platform can only be specified in Beta and Alpha. Autoprovisioned node image is specified under the 'imageType' field. If not specified the default value will be applied. Autoprovisioning locations is a set of zones where new node pools can be created by Autoprovisioning. Autoprovisioning locations are specified in the field 'autoprovisioningLocations'. All zones must be in the same region as the cluster's master(s). Disk type and size are specified under the 'diskType' and 'diskSizeGb' fields, respectively. If specified, new autoprovisioned nodes will be created with custom boot disks configured by these settings. Shielded instance settings are specified under the 'shieldedInstanceConfig' field, which has the following fields: enableSecureBoot: A boolean field that indicates if secure boot is enabled for autoprovisioned nodes. enableIntegrityMonitoring: A boolean field that indicates if integrity monitoring is enabled for autoprovisioned nodes. Customer Managed Encryption Keys (CMEK) used by new auto-provisioned node pools can be specified in the 'bootDiskKmsKey' field. Use a full or relative path to a local file containing the value of autoprovisioning_config_file.
     /// </summary>
     [CliOption("--autoprovisioning-config-file", Format = OptionFormat.EqualsSeparated)]
     public string? AutoprovisioningConfigFile { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Node Autoprovisioning will create new nodes with the specified image type
+    /// At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Node Autoprovisioning will create new nodes with the specified image type
     /// </summary>
     [CliOption("--autoprovisioning-image-type", Format = OptionFormat.EqualsSeparated)]
     public string? AutoprovisioningImageType { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Set of zones where new node pools can be created by autoprovisioning. All zones must be in the same region as the cluster's master(s). Multiple locations can be specified, separated by commas.
+    /// At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Set of zones where new node pools can be created by autoprovisioning. All zones must be in the same region as the cluster's master(s). Multiple locations can be specified, separated by commas. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--autoprovisioning-locations", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AutoprovisioningLocations { get; set; }
+    [CliOption("--autoprovisioning-locations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AutoprovisioningLocations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AutoprovisioningLocationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AutoprovisioningLocationsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes (DEPRECATED) If specified, new autoprovisioned nodes will be scheduled on host with specified CPU architecture or a newer one. The --autoprovisioning-min-cpu-platform flag is deprecated and will be removed in an upcoming release. More info: https://cloud.google.com/kubernetes-engine/docs/release-notes#March_08_2022
+    /// At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes (DEPRECATED) If specified, new autoprovisioned nodes will be scheduled on host with specified CPU architecture or a newer one. The --autoprovisioning-min-cpu-platform flag is deprecated and will be removed in an upcoming release. More info: https://cloud.google.com/kubernetes-engine/docs/release-notes#March_08_2022
     /// </summary>
     [CliOption("--autoprovisioning-min-cpu-platform", Format = OptionFormat.EqualsSeparated)]
     public string? AutoprovisioningMinCpuPlatform { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Maximum number of cores in the cluster. Maximum number of cores to which the cluster can scale. Required to be set when --enable-autoprovisioning is used.
+    /// At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Maximum number of cores in the cluster. Maximum number of cores to which the cluster can scale. Required to be set when --enable-autoprovisioning is used.
     /// </summary>
     [CliOption("--max-cpu", Format = OptionFormat.EqualsSeparated)]
     public string? MaxCpu { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Maximum memory in the cluster. Maximum number of gigabytes of memory to which the cluster can scale. Required to be set when --enable-autoprovisioning is used.
+    /// At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Maximum memory in the cluster. Maximum number of gigabytes of memory to which the cluster can scale. Required to be set when --enable-autoprovisioning is used.
     /// </summary>
     [CliOption("--max-memory", Format = OptionFormat.EqualsSeparated)]
     public string? MaxMemory { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Minimum number of cores in the cluster. Minimum number of cores to which the cluster can scale.
+    /// At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Minimum number of cores in the cluster. Minimum number of cores to which the cluster can scale.
     /// </summary>
     [CliOption("--min-cpu", Format = OptionFormat.EqualsSeparated)]
     public string? MinCpu { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Minimum memory in the cluster. Minimum number of gigabytes of memory to which the cluster can scale.
+    /// At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Minimum memory in the cluster. Minimum number of gigabytes of memory to which the cluster can scale.
     /// </summary>
     [CliOption("--min-memory", Format = OptionFormat.EqualsSeparated)]
     public string? MinMemory { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify upgrade settings for autoprovisioned nodes: Number of extra (surge) nodes to be created on each upgrade of an autoprovisioned node pool.
+    /// At most one of these can be specified: Or at least one of these can be specified: Flags to specify upgrade settings for autoprovisioned nodes: Number of extra (surge) nodes to be created on each upgrade of an autoprovisioned node pool.
     /// </summary>
     [CliOption("--autoprovisioning-max-surge-upgrade", Format = OptionFormat.EqualsSeparated)]
     public string? AutoprovisioningMaxSurgeUpgrade { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify upgrade settings for autoprovisioned nodes: Number of nodes that can be unavailable at the same time on each upgrade of an autoprovisioned node pool.
+    /// At most one of these can be specified: Or at least one of these can be specified: Flags to specify upgrade settings for autoprovisioned nodes: Number of nodes that can be unavailable at the same time on each upgrade of an autoprovisioned node pool.
     /// </summary>
     [CliOption("--autoprovisioning-max-unavailable-upgrade", Format = OptionFormat.EqualsSeparated)]
     public string? AutoprovisioningMaxUnavailableUpgrade { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify upgrade settings for autoprovisioned nodes: Time in seconds to be spent waiting during blue-green upgrade before deleting the blue pool and completing the update. This argument should be used in conjunction with --enable-autoprovisioning-blue-green-upgrade to take effect.
+    /// At most one of these can be specified: Or at least one of these can be specified: Flags to specify upgrade settings for autoprovisioned nodes: Time in seconds to be spent waiting during blue-green upgrade before deleting the blue pool and completing the update. This argument should be used in conjunction with --enable-autoprovisioning-blue-green-upgrade to take effect.
     /// </summary>
     [CliOption("--autoprovisioning-node-pool-soak-duration", Format = OptionFormat.EqualsSeparated)]
     public string? AutoprovisioningNodePoolSoakDuration { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify upgrade settings for autoprovisioned nodes: Standard rollout policy options for blue-green upgrade. This argument should be used in conjunction with --enable-autoprovisioning-blue-green-upgrade to take effect. Batch sizes are specified by one of, batch-node-count or batch-percent. The duration between batches is specified by batch-soak-duration. Example: --standard-rollout-policy=batch-node-count=3,batch-soak-duration=60s --standard-rollout-policy=batch-percent=0.05,batch-soak-duration=180s
+    /// At most one of these can be specified: Or at least one of these can be specified: Flags to specify upgrade settings for autoprovisioned nodes: Standard rollout policy options for blue-green upgrade. This argument should be used in conjunction with --enable-autoprovisioning-blue-green-upgrade to take effect. Batch sizes are specified by one of, batch-node-count or batch-percent. The duration between batches is specified by batch-soak-duration. Example: --standard-rollout-policy=batch-node-count=3,batch-soak-duration=60s --standard-rollout-policy=batch-percent=0.05,batch-soak-duration=180s
     /// </summary>
     [CliOption("--autoprovisioning-standard-rollout-policy", Format = OptionFormat.EqualsSeparated)]
     public string? AutoprovisioningStandardRolloutPolicy { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify upgrade settings for autoprovisioned nodes: Flag group to choose the top level upgrade option: At most one of these can be specified: Whether to use blue-green upgrade for the autoprovisioned node pool.
+    /// At most one of these can be specified: Or at least one of these can be specified: Flags to specify upgrade settings for autoprovisioned nodes: Flag group to choose the top level upgrade option: At most one of these can be specified: Whether to use blue-green upgrade for the autoprovisioned node pool.
     /// </summary>
     [CliFlag("--enable-autoprovisioning-blue-green-upgrade")]
     public bool? EnableAutoprovisioningBlueGreenUpgrade { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify upgrade settings for autoprovisioned nodes: Flag group to choose the top level upgrade option: At most one of these can be specified: Whether to use surge upgrade for the autoprovisioned node pool.
+    /// At most one of these can be specified: Or at least one of these can be specified: Flags to specify upgrade settings for autoprovisioned nodes: Flag group to choose the top level upgrade option: At most one of these can be specified: Whether to use surge upgrade for the autoprovisioned node pool.
     /// </summary>
     [CliFlag("--enable-autoprovisioning-surge-upgrade")]
     public bool? EnableAutoprovisioningSurgeUpgrade { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify identity for autoprovisioned nodes: The scopes to be used by node instances in autoprovisioned node pools. Multiple scopes can be specified, separated by commas. For information on defaults, look at: https://cloud.google.com/sdk/gcloud/reference/container/clusters/create#--scopes
+    /// At most one of these can be specified: Or at least one of these can be specified: Flags to specify identity for autoprovisioned nodes: The scopes to be used by node instances in autoprovisioned node pools. Multiple scopes can be specified, separated by commas. For information on defaults, look at: https://cloud.google.com/sdk/gcloud/reference/container/clusters/create#--scopes Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--autoprovisioning-scopes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AutoprovisioningScopes { get; set; }
+    [CliOption("--autoprovisioning-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AutoprovisioningScopes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AutoprovisioningScopesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AutoprovisioningScopesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify identity for autoprovisioned nodes: The Google Cloud Platform Service Account to be used by node VMs in autoprovisioned node pools. If not specified, the project default service account is used.
+    /// At most one of these can be specified: Or at least one of these can be specified: Flags to specify identity for autoprovisioned nodes: The Google Cloud Platform Service Account to be used by node VMs in autoprovisioned node pools. If not specified, the project default service account is used.
     /// </summary>
     [CliOption("--autoprovisioning-service-account", Format = OptionFormat.EqualsSeparated)]
     public string? AutoprovisioningServiceAccount { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify node management settings for autoprovisioned nodes: Enable node autorepair for autoprovisioned node pools. Use --no-enable-autoprovisioning-autorepair to disable. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: Or at least one of these can be specified: Flags to specify node management settings for autoprovisioned nodes: Enable node autorepair for autoprovisioned node pools. Use --no-enable-autoprovisioning-autorepair to disable. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliFlag("--enable-autoprovisioning-autorepair")]
     public bool? EnableAutoprovisioningAutorepair { get; set; }
 
     /// <summary>
-    /// Negates --enable-autoprovisioning-autorepair. Node autoprovisioning At most one of these can be specified: Flags to specify node management settings for autoprovisioned nodes: Enable node autorepair for autoprovisioned node pools. Use --no-enable-autoprovisioning-autorepair to disable. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Negates --enable-autoprovisioning-autorepair. At most one of these can be specified: Or at least one of these can be specified: Flags to specify node management settings for autoprovisioned nodes: Enable node autorepair for autoprovisioned node pools. Use --no-enable-autoprovisioning-autorepair to disable. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliFlag("--no-enable-autoprovisioning-autorepair")]
     public bool? NoEnableAutoprovisioningAutorepair { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Flags to specify node management settings for autoprovisioned nodes: Enable node autoupgrade for autoprovisioned node pools. Use --no-enable-autoprovisioning-autoupgrade to disable. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: Or at least one of these can be specified: Flags to specify node management settings for autoprovisioned nodes: Enable node autoupgrade for autoprovisioned node pools. Use --no-enable-autoprovisioning-autoupgrade to disable. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliFlag("--enable-autoprovisioning-autoupgrade")]
     public bool? EnableAutoprovisioningAutoupgrade { get; set; }
 
     /// <summary>
-    /// Negates --enable-autoprovisioning-autoupgrade. Node autoprovisioning At most one of these can be specified: Flags to specify node management settings for autoprovisioned nodes: Enable node autoupgrade for autoprovisioned node pools. Use --no-enable-autoprovisioning-autoupgrade to disable. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Negates --enable-autoprovisioning-autoupgrade. At most one of these can be specified: Or at least one of these can be specified: Flags to specify node management settings for autoprovisioned nodes: Enable node autoupgrade for autoprovisioned node pools. Use --no-enable-autoprovisioning-autoupgrade to disable. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliFlag("--no-enable-autoprovisioning-autoupgrade")]
     public bool? NoEnableAutoprovisioningAutoupgrade { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Arguments to set limits on accelerators: Sets maximum limit for a single type of accelerators (e.g. GPUs) in cluster. type (Required) The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4) of accelerator for which the limit is set. Use gcloud compute accelerator-types list to learn about all available accelerator types. count (Required) The maximum number of accelerators to which the cluster can be scaled. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: Or at least one of these can be specified: Arguments to set limits on accelerators: Sets maximum limit for a single type of accelerators (e.g. GPUs) in cluster. type (Required) The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4) of accelerator for which the limit is set. Use gcloud compute accelerator-types list to learn about all available accelerator types. count (Required) The maximum number of accelerators to which the cluster can be scaled. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--max-accelerator", Format = OptionFormat.EqualsSeparated)]
     public string? MaxAccelerator { get; set; }
 
     /// <summary>
-    /// Node autoprovisioning At most one of these can be specified: Arguments to set limits on accelerators: Sets minimum limit for a single type of accelerators (e.g. GPUs) in cluster. Defaults to 0 for all accelerator types if it isn't set. type (Required) The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4) of accelerator for which the limit is set. Use gcloud compute accelerator-types list to learn about all available accelerator types. count (Required) The minimum number of accelerators to which the cluster can be scaled.
+    /// At most one of these can be specified: Or at least one of these can be specified: Arguments to set limits on accelerators: Sets minimum limit for a single type of accelerators (e.g. GPUs) in cluster. Defaults to 0 for all accelerator types if it isn't set. type (Required) The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4) of accelerator for which the limit is set. Use gcloud compute accelerator-types list to learn about all available accelerator types. count (Required) The minimum number of accelerators to which the cluster can be scaled.
     /// </summary>
     [CliOption("--min-accelerator", Format = OptionFormat.EqualsSeparated)]
     public string? MinAccelerator { get; set; }
@@ -1212,7 +1272,7 @@ public record GcloudContainerClustersCreateOptions(
     /// Cluster autoscaling Location policy specifies the algorithm used when scaling-up the node pool. ◆ BALANCED - Is a best effort policy that aims to balance the sizes of available zones. ◆ ANY - Instructs the cluster autoscaler to prioritize utilization of unused reservations, and reduces preemption risk for Spot VMs. LOCATION_POLICY must be one of: BALANCED, ANY.
     /// </summary>
     [CliOption("--location-policy", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLocationPolicy? LocationPolicy { get; set; }
+    public GcloudContainerClustersCreateLocationPolicy? LocationPolicy { get; set; }
 
     /// <summary>
     /// Cluster autoscaling Maximum number of nodes per zone in the node pool. Maximum number of nodes per zone to which the node pool specified by --node-pool (or default node pool if unspecified) can scale. Ignored unless --enable-autoscaling is also specified.
@@ -1275,9 +1335,9 @@ public record GcloudContainerClustersCreateOptions(
     public bool? NoEnableMasterAuthorizedNetworks { get; set; }
 
     /// <summary>
-    /// Master Authorized Networks The list of CIDR blocks (up to 100 for private cluster, 50 for public cluster) that are allowed to connect to Kubernetes master through HTTPS. Specified in CIDR notation (e.g. 1.2.3.4/30). Cannot be specified unless --enable-master-authorized-networks is also specified.
+    /// Master Authorized Networks The list of CIDR blocks (up to 100 for private cluster, 50 for public cluster) that are allowed to connect to Kubernetes master through HTTPS. Specified in CIDR notation (e.g. 1.2.3.4/30). Cannot be specified unless --enable-master-authorized-networks is also specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MasterAuthorizedNetworks { get; set; }
 
     /// <summary>
@@ -1361,25 +1421,25 @@ public record GcloudContainerClustersCreateOptions(
     public string? SecretSyncRotationInterval { get; set; }
 
     /// <summary>
-    /// Flags for Secret Sync configuration: At most one of these can be specified: --ephemeral-storage-local-ssd[=[count=COUNT]] Parameters for the ephemeral storage filesystem. If unspecified, ephemeral storage is backed by the boot disk. Examples: $ gcloud container clusters create example_cluster \ --ephemeral-storage-local-ssd count=2 'count' specifies the number of local SSDs to use to back ephemeral storage. Local SDDs use NVMe interfaces. For first- and second-generation machine types, a nonzero count field is required for local ssd to be configured. For third-generation machine types, the count field is optional because the count is inferred from the machine type. See https://cloud.google.com/compute/docs/disks/local-ssd for more information. --local-nvme-ssd-block[=[count=COUNT]] Adds the requested local SSDs on all nodes in default node pool(s) in the new cluster. Examples: $ gcloud container clusters create example_cluster \ --local-nvme-ssd-block count=2 'count' must be between 1-8 New nodes, including ones created by resize or recreate, will have these local SSDs. For first- and second-generation machine types, a nonzero count field is required for local ssd to be configured. For third-generation machine types, the count field is optional because the count is inferred from the machine type. See https://cloud.google.com/compute/docs/disks/local-ssd for more information. The number of local SSD disks to provision on each node, formatted and mounted in the filesystem. Local SSDs have a fixed 375 GB capacity per device. The number of disks that can be attached to an instance is limited by the maximum number of disks available on a machine, which differs by compute zone. See https://cloud.google.com/compute/docs/disks/local-ssd for more information.
+    /// At most one of these can be specified: --ephemeral-storage-local-ssd[=[count=COUNT]] Parameters for the ephemeral storage filesystem. If unspecified, ephemeral storage is backed by the boot disk. Examples: $ gcloud container clusters create example_cluster \ --ephemeral-storage-local-ssd count=2 'count' specifies the number of local SSDs to use to back ephemeral storage. Local SDDs use NVMe interfaces. For first- and second-generation machine types, a nonzero count field is required for local ssd to be configured. For third-generation machine types, the count field is optional because the count is inferred from the machine type. See https://cloud.google.com/compute/docs/disks/local-ssd for more information. --local-nvme-ssd-block[=[count=COUNT]] Adds the requested local SSDs on all nodes in default node pool(s) in the new cluster. Examples: $ gcloud container clusters create example_cluster \ --local-nvme-ssd-block count=2 'count' must be between 1-8 New nodes, including ones created by resize or recreate, will have these local SSDs. For first- and second-generation machine types, a nonzero count field is required for local ssd to be configured. For third-generation machine types, the count field is optional because the count is inferred from the machine type. See https://cloud.google.com/compute/docs/disks/local-ssd for more information. The number of local SSD disks to provision on each node, formatted and mounted in the filesystem. Local SSDs have a fixed 375 GB capacity per device. The number of disks that can be attached to an instance is limited by the maximum number of disks available on a machine, which differs by compute zone. See https://cloud.google.com/compute/docs/disks/local-ssd for more information.
     /// </summary>
     [CliOption("--local-ssd-count", Format = OptionFormat.EqualsSeparated)]
     public int? LocalSsdCount { get; set; }
 
     /// <summary>
-    /// Flags for Secret Sync configuration: At most one of these can be specified: Compute zone or region (e.g. us-central1-a or us-central1) for the cluster. Overrides the default compute/region or compute/zone value for this command invocation. Prefer using this flag over the --region or --zone flags.
+    /// At most one of these can be specified: Compute zone or region (e.g. us-central1-a or us-central1) for the cluster. Overrides the default compute/region or compute/zone value for this command invocation. Prefer using this flag over the --region or --zone flags.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// Flags for Secret Sync configuration: At most one of these can be specified: Compute region (e.g. us-central1) for a regional cluster. Overrides the default compute/region property value for this command invocation.
+    /// At most one of these can be specified: Compute region (e.g. us-central1) for a regional cluster. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// Flags for Secret Sync configuration: At most one of these can be specified: Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the default compute/zone property value for this command invocation.
+    /// At most one of these can be specified: Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the default compute/zone property value for this command invocation.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
@@ -1397,31 +1457,31 @@ public record GcloudContainerClustersCreateOptions(
     public string? MaintenancePatchVersionDisruptionInterval { get; set; }
 
     /// <summary>
-    /// Flags for cluster disruption budget configuration: One of either maintenance-window or the group of maintenance-window flags can be set. At most one of these can be specified: Set a time of day when you prefer maintenance to start on this cluster. For example: $ gcloud container clusters create example-cluster \ --maintenance-window=12:43 The time corresponds to the UTC time zone, and must be in HH:MM format. Non-emergency maintenance will occur in the 4 hour block starting at the specified time. This is mutually exclusive with the recurring maintenance windows and will overwrite any existing window. Compatible with maintenance exclusions.
+    /// One of either maintenance-window or the group of maintenance-window flags can be set. At most one of these can be specified: Set a time of day when you prefer maintenance to start on this cluster. For example: $ gcloud container clusters create example-cluster \ --maintenance-window=12:43 The time corresponds to the UTC time zone, and must be in HH:MM format. Non-emergency maintenance will occur in the 4 hour block starting at the specified time. This is mutually exclusive with the recurring maintenance windows and will overwrite any existing window. Compatible with maintenance exclusions.
     /// </summary>
     [CliOption("--maintenance-window", Format = OptionFormat.EqualsSeparated)]
     public string? MaintenanceWindow { get; set; }
 
     /// <summary>
-    /// Flags for cluster disruption budget configuration: One of either maintenance-window or the group of maintenance-window flags can be set. At most one of these can be specified: Or at least one of these can be specified: Set a flexible maintenance window by specifying a window that recurs per an RFC 5545 RRULE. Non-emergency maintenance will occur in the recurring windows. Examples: For a 9-5 Mon-Wed UTC-4 maintenance window: $ gcloud container clusters create example-cluster \
+    /// One of either maintenance-window or the group of maintenance-window flags can be set. At most one of these can be specified: Or at least one of these can be specified: Set a flexible maintenance window by specifying a window that recurs per an RFC 5545 RRULE. Non-emergency maintenance will occur in the recurring windows. Examples: For a 9-5 Mon-Wed UTC-4 maintenance window: $ gcloud container clusters create example-cluster \
     /// </summary>
     [CliOption("--maintenance-window-start", Format = OptionFormat.EqualsSeparated)]
     public string? MaintenanceWindowStart { get; set; }
 
     /// <summary>
-    /// Flags for cluster disruption budget configuration: One of either maintenance-window or the group of maintenance-window flags can be set. At most one of these can be specified: Or at least one of these can be specified: Set a flexible maintenance window by specifying a window that recurs per an RFC 5545 RRULE. Non-emergency maintenance will occur in the recurring windows. Examples: For a 9-5 Mon-Wed UTC-4 maintenance window: $ gcloud container clusters create example-cluster \
+    /// One of either maintenance-window or the group of maintenance-window flags can be set. At most one of these can be specified: Or at least one of these can be specified: Set a flexible maintenance window by specifying a window that recurs per an RFC 5545 RRULE. Non-emergency maintenance will occur in the recurring windows. Examples: For a 9-5 Mon-Wed UTC-4 maintenance window: $ gcloud container clusters create example-cluster \
     /// </summary>
     [CliOption("--maintenance-window-end", Format = OptionFormat.EqualsSeparated)]
     public string? MaintenanceWindowEnd { get; set; }
 
     /// <summary>
-    /// Flags for cluster disruption budget configuration: One of either maintenance-window or the group of maintenance-window flags can be set. At most one of these can be specified: --maintenance-window-recurrence='FREQ=WEEKLY;BYDAY=MO,TU,WE' For a daily window from 22:00 - 04:00 UTC: $ gcloud container clusters create example-cluster \
+    /// One of either maintenance-window or the group of maintenance-window flags can be set. At most one of these can be specified: --maintenance-window-recurrence='FREQ=WEEKLY;BYDAY=MO,TU,WE' For a daily window from 22:00 - 04:00 UTC: $ gcloud container clusters create example-cluster \
     /// </summary>
     [CliOption("--maintenance-window-recurrence", Format = OptionFormat.EqualsSeparated)]
     public string? MaintenanceWindowRecurrence { get; set; }
 
     /// <summary>
-    /// Flags for cluster disruption budget configuration: One of either maintenance-window or the group of maintenance-window flags can be set. At most one of these can be specified: Exactly one of these must be specified: The duration of maintenance windows, expressed as an ISO 8601 duration (https://en.wikipedia.org/wiki/ISO_8601#Durations) in hours, minutes, and seconds. You must set a maintenance window to at least 4 hours (4H). Use this flag or the --maintenance-window-end flag for the duration of the maintenance window.
+    /// One of either maintenance-window or the group of maintenance-window flags can be set. At most one of these can be specified: Exactly one of these must be specified: The duration of maintenance windows, expressed as an ISO 8601 duration (https://en.wikipedia.org/wiki/ISO_8601#Durations) in hours, minutes, and seconds. You must set a maintenance window to at least 4 hours (4H). Use this flag or the --maintenance-window-end flag for the duration of the maintenance window.
     /// </summary>
     [CliOption("--maintenance-window-duration", Format = OptionFormat.EqualsSeparated)]
     public string? MaintenanceWindowDuration { get; set; }
@@ -1434,19 +1494,19 @@ public record GcloudContainerClustersCreateOptions(
     public string? Password { get; set; }
 
     /// <summary>
-    /// Basic auth Options to specify the username. At most one of these can be specified: Enable basic (username/password) auth for the cluster. --enable-basic-auth is an alias for --username=admin; --no-enable-basic-auth is an alias for --username="". Use --password to specify a password; if not, the server will randomly generate one. For cluster versions before 1.12, if neither --enable-basic-auth nor --username is specified, --enable-basic-auth will default to true. After 1.12, --enable-basic-auth will default to false.
+    /// Options to specify the username. At most one of these can be specified: Enable basic (username/password) auth for the cluster. --enable-basic-auth is an alias for --username=admin; --no-enable-basic-auth is an alias for --username="". Use --password to specify a password; if not, the server will randomly generate one. For cluster versions before 1.12, if neither --enable-basic-auth nor --username is specified, --enable-basic-auth will default to true. After 1.12, --enable-basic-auth will default to false.
     /// </summary>
     [CliFlag("--enable-basic-auth")]
     public bool? EnableBasicAuth { get; set; }
 
     /// <summary>
-    /// Negates --enable-basic-auth. Basic auth Options to specify the username. At most one of these can be specified: Enable basic (username/password) auth for the cluster. --enable-basic-auth is an alias for --username=admin; --no-enable-basic-auth is an alias for --username="". Use --password to specify a password; if not, the server will randomly generate one. For cluster versions before 1.12, if neither --enable-basic-auth nor --username is specified, --enable-basic-auth will default to true. After 1.12, --enable-basic-auth will default to false.
+    /// Negates --enable-basic-auth. Options to specify the username. At most one of these can be specified: Enable basic (username/password) auth for the cluster. --enable-basic-auth is an alias for --username=admin; --no-enable-basic-auth is an alias for --username="". Use --password to specify a password; if not, the server will randomly generate one. For cluster versions before 1.12, if neither --enable-basic-auth nor --username is specified, --enable-basic-auth will default to true. After 1.12, --enable-basic-auth will default to false.
     /// </summary>
     [CliFlag("--no-enable-basic-auth")]
     public bool? NoEnableBasicAuth { get; set; }
 
     /// <summary>
-    /// Basic auth Options to specify the username. At most one of these can be specified: The user name to use for basic auth for the cluster. Use --password to specify a password; if not, the server will randomly generate one.
+    /// Options to specify the username. At most one of these can be specified: The user name to use for basic auth for the cluster. Use --password to specify a password; if not, the server will randomly generate one.
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
@@ -1461,12 +1521,12 @@ public record GcloudContainerClustersCreateOptions(
     /// Specifies the reservation for the default initial node pool. The type of the reservation for the default initial node pool. RESERVATION_AFFINITY must be one of: any, none, specific, any-reservation-then-fail.
     /// </summary>
     [CliOption("--reservation-affinity", Format = OptionFormat.EqualsSeparated)]
-    public GcloudReservationAffinity? ReservationAffinity { get; set; }
+    public GcloudContainerClustersCreateReservationAffinity? ReservationAffinity { get; set; }
 
     /// <summary>
-    /// Options to specify the node identity. Scopes options. Specifies scopes for the node instances. Examples: $ gcloud container clusters create example-cluster \ --scopes=https://www.googleapis.com/auth/devstorage.read_only $ gcloud container clusters create example-cluster \ --scopes=bigquery,storage-rw,compute-ro Multiple scopes can be specified, separated by commas. Various scopes are automatically added based on feature usage. Such scopes are not added if an equivalent scope already exists. ◆ monitoring-write: always added to ensure metrics can be written ◆ logging-write: added if Cloud Logging is enabled (--enable-cloud-logging/--logging) ◆ monitoring: added if Cloud Monitoring is enabled (--enable-cloud-monitoring/--monitoring) ◆ gke-default: added for Autopilot clusters that use the default service account ◆ cloud-platform: added for Autopilot clusters that use any other service account SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances.
+    /// Options to specify the node identity. Scopes options. Specifies scopes for the node instances. Examples: $ gcloud container clusters create example-cluster \ --scopes=https://www.googleapis.com/auth/devstorage.read_only $ gcloud container clusters create example-cluster \ --scopes=bigquery,storage-rw,compute-ro Multiple scopes can be specified, separated by commas. Various scopes are automatically added based on feature usage. Such scopes are not added if an equivalent scope already exists. ◆ monitoring-write: always added to ensure metrics can be written ◆ logging-write: added if Cloud Logging is enabled (--enable-cloud-logging/--logging) ◆ monitoring: added if Cloud Monitoring is enabled (--enable-cloud-monitoring/--monitoring) ◆ gke-default: added for Autopilot clusters that use the default service account ◆ cloud-platform: added for Autopilot clusters that use any other service account SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Scopes { get; set; }
 
     /// <summary>
@@ -1474,5 +1534,89 @@ public record GcloudContainerClustersCreateOptions(
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// The name of the cluster to create. The name may contain only lowercase alphanumerics and '-', must start with a letter and end with an alphanumeric, and must be no longer than 40 characters.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BinauthzEvaluationMode) ? 1 : 0) + (EnableBinauthz == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BinauthzEvaluationMode or EnableBinauthz may be specified.", [nameof(BinauthzEvaluationMode), nameof(EnableBinauthz)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AdditiveVpcScopeDnsDomain) ? 1 : 0) + (DisableAdditiveVpcScope == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AdditiveVpcScopeDnsDomain or DisableAdditiveVpcScope may be specified.", [nameof(AdditiveVpcScopeDnsDomain), nameof(DisableAdditiveVpcScope)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DataplaneV2ObservabilityMode) ? 1 : 0) + (DisableDataplaneV2FlowObservability == true ? 1 : 0) + (EnableDataplaneV2FlowObservability == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DataplaneV2ObservabilityMode, DisableDataplaneV2FlowObservability, or EnableDataplaneV2FlowObservability may be specified.", [nameof(DataplaneV2ObservabilityMode), nameof(DisableDataplaneV2FlowObservability), nameof(EnableDataplaneV2FlowObservability)]);
+        }
+        if ((DisableDataplaneV2Metrics == true ? 1 : 0) + (EnableDataplaneV2Metrics == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisableDataplaneV2Metrics or EnableDataplaneV2Metrics may be specified.", [nameof(DisableDataplaneV2Metrics), nameof(EnableDataplaneV2Metrics)]);
+        }
+        if ((DisablePodSnapshots == true ? 1 : 0) + (EnablePodSnapshots == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisablePodSnapshots or EnablePodSnapshots may be specified.", [nameof(DisablePodSnapshots), nameof(EnablePodSnapshots)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AutoprovisioningConfigFile) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AutoprovisioningImageType) || ((object?)AutoprovisioningLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoprovisioningLocations is not string || !string.IsNullOrWhiteSpace(AutoprovisioningLocations?.ToString()) : ((object?)AutoprovisioningLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoprovisioningLocations, static item => item is not null) : (AutoprovisioningLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoprovisioningLocations), static item => item is not null)))) || !string.IsNullOrWhiteSpace(AutoprovisioningMinCpuPlatform) || !string.IsNullOrWhiteSpace(MaxCpu) || !string.IsNullOrWhiteSpace(MaxMemory) || !string.IsNullOrWhiteSpace(MinCpu) || !string.IsNullOrWhiteSpace(MinMemory) || !string.IsNullOrWhiteSpace(AutoprovisioningMaxSurgeUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningMaxUnavailableUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningNodePoolSoakDuration) || !string.IsNullOrWhiteSpace(AutoprovisioningStandardRolloutPolicy) || EnableAutoprovisioningBlueGreenUpgrade == true || EnableAutoprovisioningSurgeUpgrade == true || ((object?)AutoprovisioningScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoprovisioningScopes is not string || !string.IsNullOrWhiteSpace(AutoprovisioningScopes?.ToString()) : ((object?)AutoprovisioningScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoprovisioningScopes, static item => item is not null) : (AutoprovisioningScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoprovisioningScopes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(AutoprovisioningServiceAccount) || EnableAutoprovisioningAutorepair == true || NoEnableAutoprovisioningAutorepair == true || EnableAutoprovisioningAutoupgrade == true || NoEnableAutoprovisioningAutoupgrade == true || !string.IsNullOrWhiteSpace(MaxAccelerator) || !string.IsNullOrWhiteSpace(MinAccelerator)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AutoprovisioningConfigFile or (AutoprovisioningImageType, AutoprovisioningLocations, AutoprovisioningMinCpuPlatform, MaxCpu, MaxMemory, MinCpu, MinMemory, AutoprovisioningMaxSurgeUpgrade, AutoprovisioningMaxUnavailableUpgrade, AutoprovisioningNodePoolSoakDuration, AutoprovisioningStandardRolloutPolicy, EnableAutoprovisioningBlueGreenUpgrade, EnableAutoprovisioningSurgeUpgrade, AutoprovisioningScopes, AutoprovisioningServiceAccount, EnableAutoprovisioningAutorepair, NoEnableAutoprovisioningAutorepair, EnableAutoprovisioningAutoupgrade, NoEnableAutoprovisioningAutoupgrade, MaxAccelerator, or MinAccelerator) may be specified.", [nameof(AutoprovisioningConfigFile), nameof(AutoprovisioningImageType), nameof(AutoprovisioningLocations), nameof(AutoprovisioningMinCpuPlatform), nameof(MaxCpu), nameof(MaxMemory), nameof(MinCpu), nameof(MinMemory), nameof(AutoprovisioningMaxSurgeUpgrade), nameof(AutoprovisioningMaxUnavailableUpgrade), nameof(AutoprovisioningNodePoolSoakDuration), nameof(AutoprovisioningStandardRolloutPolicy), nameof(EnableAutoprovisioningBlueGreenUpgrade), nameof(EnableAutoprovisioningSurgeUpgrade), nameof(AutoprovisioningScopes), nameof(AutoprovisioningServiceAccount), nameof(EnableAutoprovisioningAutorepair), nameof(NoEnableAutoprovisioningAutorepair), nameof(EnableAutoprovisioningAutoupgrade), nameof(NoEnableAutoprovisioningAutoupgrade), nameof(MaxAccelerator), nameof(MinAccelerator)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AutoprovisioningConfigFile) || !string.IsNullOrWhiteSpace(AutoprovisioningImageType) || ((object?)AutoprovisioningLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoprovisioningLocations is not string || !string.IsNullOrWhiteSpace(AutoprovisioningLocations?.ToString()) : ((object?)AutoprovisioningLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoprovisioningLocations, static item => item is not null) : (AutoprovisioningLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoprovisioningLocations), static item => item is not null)))) || !string.IsNullOrWhiteSpace(AutoprovisioningMinCpuPlatform) || !string.IsNullOrWhiteSpace(MaxCpu) || !string.IsNullOrWhiteSpace(MaxMemory) || !string.IsNullOrWhiteSpace(MinCpu) || !string.IsNullOrWhiteSpace(MinMemory) || !string.IsNullOrWhiteSpace(AutoprovisioningMaxSurgeUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningMaxUnavailableUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningNodePoolSoakDuration) || !string.IsNullOrWhiteSpace(AutoprovisioningStandardRolloutPolicy) || EnableAutoprovisioningBlueGreenUpgrade == true || EnableAutoprovisioningSurgeUpgrade == true || ((object?)AutoprovisioningScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoprovisioningScopes is not string || !string.IsNullOrWhiteSpace(AutoprovisioningScopes?.ToString()) : ((object?)AutoprovisioningScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoprovisioningScopes, static item => item is not null) : (AutoprovisioningScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoprovisioningScopes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(AutoprovisioningServiceAccount) || EnableAutoprovisioningAutorepair == true || NoEnableAutoprovisioningAutorepair == true || EnableAutoprovisioningAutoupgrade == true || NoEnableAutoprovisioningAutoupgrade == true || !string.IsNullOrWhiteSpace(MaxAccelerator) || !string.IsNullOrWhiteSpace(MinAccelerator)) && (!string.IsNullOrWhiteSpace(AutoprovisioningImageType) || ((object?)AutoprovisioningLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoprovisioningLocations is not string || !string.IsNullOrWhiteSpace(AutoprovisioningLocations?.ToString()) : ((object?)AutoprovisioningLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoprovisioningLocations, static item => item is not null) : (AutoprovisioningLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoprovisioningLocations), static item => item is not null)))) || !string.IsNullOrWhiteSpace(AutoprovisioningMinCpuPlatform) || !string.IsNullOrWhiteSpace(MaxCpu) || !string.IsNullOrWhiteSpace(MaxMemory) || !string.IsNullOrWhiteSpace(MinCpu) || !string.IsNullOrWhiteSpace(MinMemory) || !string.IsNullOrWhiteSpace(AutoprovisioningMaxSurgeUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningMaxUnavailableUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningNodePoolSoakDuration) || !string.IsNullOrWhiteSpace(AutoprovisioningStandardRolloutPolicy) || EnableAutoprovisioningBlueGreenUpgrade == true || EnableAutoprovisioningSurgeUpgrade == true || ((object?)AutoprovisioningScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoprovisioningScopes is not string || !string.IsNullOrWhiteSpace(AutoprovisioningScopes?.ToString()) : ((object?)AutoprovisioningScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoprovisioningScopes, static item => item is not null) : (AutoprovisioningScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoprovisioningScopes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(AutoprovisioningServiceAccount) || EnableAutoprovisioningAutorepair == true || NoEnableAutoprovisioningAutorepair == true || EnableAutoprovisioningAutoupgrade == true || NoEnableAutoprovisioningAutoupgrade == true || !string.IsNullOrWhiteSpace(MaxAccelerator) || !string.IsNullOrWhiteSpace(MinAccelerator)) && (!string.IsNullOrWhiteSpace(AutoprovisioningMaxSurgeUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningMaxUnavailableUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningNodePoolSoakDuration) || !string.IsNullOrWhiteSpace(AutoprovisioningStandardRolloutPolicy) || EnableAutoprovisioningBlueGreenUpgrade == true || EnableAutoprovisioningSurgeUpgrade == true) && ((EnableAutoprovisioningBlueGreenUpgrade == true ? 1 : 0) + (EnableAutoprovisioningSurgeUpgrade == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of EnableAutoprovisioningBlueGreenUpgrade or EnableAutoprovisioningSurgeUpgrade may be specified.", [nameof(EnableAutoprovisioningBlueGreenUpgrade), nameof(EnableAutoprovisioningSurgeUpgrade)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AutoprovisioningConfigFile) || !string.IsNullOrWhiteSpace(AutoprovisioningImageType) || ((object?)AutoprovisioningLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoprovisioningLocations is not string || !string.IsNullOrWhiteSpace(AutoprovisioningLocations?.ToString()) : ((object?)AutoprovisioningLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoprovisioningLocations, static item => item is not null) : (AutoprovisioningLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoprovisioningLocations), static item => item is not null)))) || !string.IsNullOrWhiteSpace(AutoprovisioningMinCpuPlatform) || !string.IsNullOrWhiteSpace(MaxCpu) || !string.IsNullOrWhiteSpace(MaxMemory) || !string.IsNullOrWhiteSpace(MinCpu) || !string.IsNullOrWhiteSpace(MinMemory) || !string.IsNullOrWhiteSpace(AutoprovisioningMaxSurgeUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningMaxUnavailableUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningNodePoolSoakDuration) || !string.IsNullOrWhiteSpace(AutoprovisioningStandardRolloutPolicy) || EnableAutoprovisioningBlueGreenUpgrade == true || EnableAutoprovisioningSurgeUpgrade == true || ((object?)AutoprovisioningScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoprovisioningScopes is not string || !string.IsNullOrWhiteSpace(AutoprovisioningScopes?.ToString()) : ((object?)AutoprovisioningScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoprovisioningScopes, static item => item is not null) : (AutoprovisioningScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoprovisioningScopes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(AutoprovisioningServiceAccount) || EnableAutoprovisioningAutorepair == true || NoEnableAutoprovisioningAutorepair == true || EnableAutoprovisioningAutoupgrade == true || NoEnableAutoprovisioningAutoupgrade == true || !string.IsNullOrWhiteSpace(MaxAccelerator) || !string.IsNullOrWhiteSpace(MinAccelerator)) && (!string.IsNullOrWhiteSpace(AutoprovisioningImageType) || ((object?)AutoprovisioningLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoprovisioningLocations is not string || !string.IsNullOrWhiteSpace(AutoprovisioningLocations?.ToString()) : ((object?)AutoprovisioningLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoprovisioningLocations, static item => item is not null) : (AutoprovisioningLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoprovisioningLocations), static item => item is not null)))) || !string.IsNullOrWhiteSpace(AutoprovisioningMinCpuPlatform) || !string.IsNullOrWhiteSpace(MaxCpu) || !string.IsNullOrWhiteSpace(MaxMemory) || !string.IsNullOrWhiteSpace(MinCpu) || !string.IsNullOrWhiteSpace(MinMemory) || !string.IsNullOrWhiteSpace(AutoprovisioningMaxSurgeUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningMaxUnavailableUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningNodePoolSoakDuration) || !string.IsNullOrWhiteSpace(AutoprovisioningStandardRolloutPolicy) || EnableAutoprovisioningBlueGreenUpgrade == true || EnableAutoprovisioningSurgeUpgrade == true || ((object?)AutoprovisioningScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoprovisioningScopes is not string || !string.IsNullOrWhiteSpace(AutoprovisioningScopes?.ToString()) : ((object?)AutoprovisioningScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoprovisioningScopes, static item => item is not null) : (AutoprovisioningScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoprovisioningScopes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(AutoprovisioningServiceAccount) || EnableAutoprovisioningAutorepair == true || NoEnableAutoprovisioningAutorepair == true || EnableAutoprovisioningAutoupgrade == true || NoEnableAutoprovisioningAutoupgrade == true || !string.IsNullOrWhiteSpace(MaxAccelerator) || !string.IsNullOrWhiteSpace(MinAccelerator)) && (EnableAutoprovisioningAutorepair == true || NoEnableAutoprovisioningAutorepair == true || EnableAutoprovisioningAutoupgrade == true || NoEnableAutoprovisioningAutoupgrade == true) && ((EnableAutoprovisioningAutorepair == true ? 1 : 0) + (NoEnableAutoprovisioningAutorepair == true ? 1 : 0) != 1))
+        {
+            yield return new ValidationResult("Exactly one of EnableAutoprovisioningAutorepair or NoEnableAutoprovisioningAutorepair must be specified.", [nameof(EnableAutoprovisioningAutorepair), nameof(NoEnableAutoprovisioningAutorepair)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AutoprovisioningConfigFile) || !string.IsNullOrWhiteSpace(AutoprovisioningImageType) || ((object?)AutoprovisioningLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoprovisioningLocations is not string || !string.IsNullOrWhiteSpace(AutoprovisioningLocations?.ToString()) : ((object?)AutoprovisioningLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoprovisioningLocations, static item => item is not null) : (AutoprovisioningLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoprovisioningLocations), static item => item is not null)))) || !string.IsNullOrWhiteSpace(AutoprovisioningMinCpuPlatform) || !string.IsNullOrWhiteSpace(MaxCpu) || !string.IsNullOrWhiteSpace(MaxMemory) || !string.IsNullOrWhiteSpace(MinCpu) || !string.IsNullOrWhiteSpace(MinMemory) || !string.IsNullOrWhiteSpace(AutoprovisioningMaxSurgeUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningMaxUnavailableUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningNodePoolSoakDuration) || !string.IsNullOrWhiteSpace(AutoprovisioningStandardRolloutPolicy) || EnableAutoprovisioningBlueGreenUpgrade == true || EnableAutoprovisioningSurgeUpgrade == true || ((object?)AutoprovisioningScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoprovisioningScopes is not string || !string.IsNullOrWhiteSpace(AutoprovisioningScopes?.ToString()) : ((object?)AutoprovisioningScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoprovisioningScopes, static item => item is not null) : (AutoprovisioningScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoprovisioningScopes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(AutoprovisioningServiceAccount) || EnableAutoprovisioningAutorepair == true || NoEnableAutoprovisioningAutorepair == true || EnableAutoprovisioningAutoupgrade == true || NoEnableAutoprovisioningAutoupgrade == true || !string.IsNullOrWhiteSpace(MaxAccelerator) || !string.IsNullOrWhiteSpace(MinAccelerator)) && (!string.IsNullOrWhiteSpace(AutoprovisioningImageType) || ((object?)AutoprovisioningLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoprovisioningLocations is not string || !string.IsNullOrWhiteSpace(AutoprovisioningLocations?.ToString()) : ((object?)AutoprovisioningLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoprovisioningLocations, static item => item is not null) : (AutoprovisioningLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoprovisioningLocations), static item => item is not null)))) || !string.IsNullOrWhiteSpace(AutoprovisioningMinCpuPlatform) || !string.IsNullOrWhiteSpace(MaxCpu) || !string.IsNullOrWhiteSpace(MaxMemory) || !string.IsNullOrWhiteSpace(MinCpu) || !string.IsNullOrWhiteSpace(MinMemory) || !string.IsNullOrWhiteSpace(AutoprovisioningMaxSurgeUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningMaxUnavailableUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningNodePoolSoakDuration) || !string.IsNullOrWhiteSpace(AutoprovisioningStandardRolloutPolicy) || EnableAutoprovisioningBlueGreenUpgrade == true || EnableAutoprovisioningSurgeUpgrade == true || ((object?)AutoprovisioningScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoprovisioningScopes is not string || !string.IsNullOrWhiteSpace(AutoprovisioningScopes?.ToString()) : ((object?)AutoprovisioningScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoprovisioningScopes, static item => item is not null) : (AutoprovisioningScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoprovisioningScopes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(AutoprovisioningServiceAccount) || EnableAutoprovisioningAutorepair == true || NoEnableAutoprovisioningAutorepair == true || EnableAutoprovisioningAutoupgrade == true || NoEnableAutoprovisioningAutoupgrade == true || !string.IsNullOrWhiteSpace(MaxAccelerator) || !string.IsNullOrWhiteSpace(MinAccelerator)) && (EnableAutoprovisioningAutorepair == true || NoEnableAutoprovisioningAutorepair == true || EnableAutoprovisioningAutoupgrade == true || NoEnableAutoprovisioningAutoupgrade == true) && ((EnableAutoprovisioningAutoupgrade == true ? 1 : 0) + (NoEnableAutoprovisioningAutoupgrade == true ? 1 : 0) != 1))
+        {
+            yield return new ValidationResult("Exactly one of EnableAutoprovisioningAutoupgrade or NoEnableAutoprovisioningAutoupgrade must be specified.", [nameof(EnableAutoprovisioningAutoupgrade), nameof(NoEnableAutoprovisioningAutoupgrade)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AutoprovisioningConfigFile) || !string.IsNullOrWhiteSpace(AutoprovisioningImageType) || ((object?)AutoprovisioningLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoprovisioningLocations is not string || !string.IsNullOrWhiteSpace(AutoprovisioningLocations?.ToString()) : ((object?)AutoprovisioningLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoprovisioningLocations, static item => item is not null) : (AutoprovisioningLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoprovisioningLocations), static item => item is not null)))) || !string.IsNullOrWhiteSpace(AutoprovisioningMinCpuPlatform) || !string.IsNullOrWhiteSpace(MaxCpu) || !string.IsNullOrWhiteSpace(MaxMemory) || !string.IsNullOrWhiteSpace(MinCpu) || !string.IsNullOrWhiteSpace(MinMemory) || !string.IsNullOrWhiteSpace(AutoprovisioningMaxSurgeUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningMaxUnavailableUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningNodePoolSoakDuration) || !string.IsNullOrWhiteSpace(AutoprovisioningStandardRolloutPolicy) || EnableAutoprovisioningBlueGreenUpgrade == true || EnableAutoprovisioningSurgeUpgrade == true || ((object?)AutoprovisioningScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoprovisioningScopes is not string || !string.IsNullOrWhiteSpace(AutoprovisioningScopes?.ToString()) : ((object?)AutoprovisioningScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoprovisioningScopes, static item => item is not null) : (AutoprovisioningScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoprovisioningScopes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(AutoprovisioningServiceAccount) || EnableAutoprovisioningAutorepair == true || NoEnableAutoprovisioningAutorepair == true || EnableAutoprovisioningAutoupgrade == true || NoEnableAutoprovisioningAutoupgrade == true || !string.IsNullOrWhiteSpace(MaxAccelerator) || !string.IsNullOrWhiteSpace(MinAccelerator)) && (!string.IsNullOrWhiteSpace(AutoprovisioningImageType) || ((object?)AutoprovisioningLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoprovisioningLocations is not string || !string.IsNullOrWhiteSpace(AutoprovisioningLocations?.ToString()) : ((object?)AutoprovisioningLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoprovisioningLocations, static item => item is not null) : (AutoprovisioningLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoprovisioningLocations), static item => item is not null)))) || !string.IsNullOrWhiteSpace(AutoprovisioningMinCpuPlatform) || !string.IsNullOrWhiteSpace(MaxCpu) || !string.IsNullOrWhiteSpace(MaxMemory) || !string.IsNullOrWhiteSpace(MinCpu) || !string.IsNullOrWhiteSpace(MinMemory) || !string.IsNullOrWhiteSpace(AutoprovisioningMaxSurgeUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningMaxUnavailableUpgrade) || !string.IsNullOrWhiteSpace(AutoprovisioningNodePoolSoakDuration) || !string.IsNullOrWhiteSpace(AutoprovisioningStandardRolloutPolicy) || EnableAutoprovisioningBlueGreenUpgrade == true || EnableAutoprovisioningSurgeUpgrade == true || ((object?)AutoprovisioningScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoprovisioningScopes is not string || !string.IsNullOrWhiteSpace(AutoprovisioningScopes?.ToString()) : ((object?)AutoprovisioningScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoprovisioningScopes, static item => item is not null) : (AutoprovisioningScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoprovisioningScopes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(AutoprovisioningServiceAccount) || EnableAutoprovisioningAutorepair == true || NoEnableAutoprovisioningAutorepair == true || EnableAutoprovisioningAutoupgrade == true || NoEnableAutoprovisioningAutoupgrade == true || !string.IsNullOrWhiteSpace(MaxAccelerator) || !string.IsNullOrWhiteSpace(MinAccelerator)) && (!string.IsNullOrWhiteSpace(MaxAccelerator) || !string.IsNullOrWhiteSpace(MinAccelerator)) && (!(!string.IsNullOrWhiteSpace(MaxAccelerator))))
+        {
+            yield return new ValidationResult("MaxAccelerator must be specified when other arguments in this group are specified.", [nameof(MaxAccelerator)]);
+        }
+        if ((((object?)LocalSsdCount is not null) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (LocalSsdCount) may be specified.", [nameof(LocalSsdCount)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Location) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Location, Region, or Zone may be specified.", [nameof(Location), nameof(Region), nameof(Zone)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MaintenanceWindow) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(MaintenanceWindowStart) || !string.IsNullOrWhiteSpace(MaintenanceWindowEnd)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(MaintenanceWindowStart) || !string.IsNullOrWhiteSpace(MaintenanceWindowEnd) || !string.IsNullOrWhiteSpace(MaintenanceWindowRecurrence)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(MaintenanceWindowRecurrence) || !string.IsNullOrWhiteSpace(MaintenanceWindowStart) || !string.IsNullOrWhiteSpace(MaintenanceWindowDuration) || !string.IsNullOrWhiteSpace(MaintenanceWindowEnd)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of MaintenanceWindow, (MaintenanceWindowStart or MaintenanceWindowEnd), (MaintenanceWindowStart, MaintenanceWindowEnd, or MaintenanceWindowRecurrence), or (MaintenanceWindowRecurrence, MaintenanceWindowStart, MaintenanceWindowDuration, or MaintenanceWindowEnd) may be specified.", [nameof(MaintenanceWindow), nameof(MaintenanceWindowStart), nameof(MaintenanceWindowEnd), nameof(MaintenanceWindowRecurrence), nameof(MaintenanceWindowDuration)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MaintenanceWindow) || !string.IsNullOrWhiteSpace(MaintenanceWindowStart) || !string.IsNullOrWhiteSpace(MaintenanceWindowEnd) || !string.IsNullOrWhiteSpace(MaintenanceWindowRecurrence) || !string.IsNullOrWhiteSpace(MaintenanceWindowDuration)) && (!string.IsNullOrWhiteSpace(MaintenanceWindowRecurrence) || !string.IsNullOrWhiteSpace(MaintenanceWindowStart) || !string.IsNullOrWhiteSpace(MaintenanceWindowDuration) || !string.IsNullOrWhiteSpace(MaintenanceWindowEnd)) && (!(!string.IsNullOrWhiteSpace(MaintenanceWindowRecurrence))))
+        {
+            yield return new ValidationResult("MaintenanceWindowRecurrence must be specified when other arguments in this group are specified.", [nameof(MaintenanceWindowRecurrence)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MaintenanceWindow) || !string.IsNullOrWhiteSpace(MaintenanceWindowStart) || !string.IsNullOrWhiteSpace(MaintenanceWindowEnd) || !string.IsNullOrWhiteSpace(MaintenanceWindowRecurrence) || !string.IsNullOrWhiteSpace(MaintenanceWindowDuration)) && (!string.IsNullOrWhiteSpace(MaintenanceWindowRecurrence) || !string.IsNullOrWhiteSpace(MaintenanceWindowStart) || !string.IsNullOrWhiteSpace(MaintenanceWindowDuration) || !string.IsNullOrWhiteSpace(MaintenanceWindowEnd)) && (!(!string.IsNullOrWhiteSpace(MaintenanceWindowStart))))
+        {
+            yield return new ValidationResult("MaintenanceWindowStart must be specified when other arguments in this group are specified.", [nameof(MaintenanceWindowStart)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MaintenanceWindow) || !string.IsNullOrWhiteSpace(MaintenanceWindowStart) || !string.IsNullOrWhiteSpace(MaintenanceWindowEnd) || !string.IsNullOrWhiteSpace(MaintenanceWindowRecurrence) || !string.IsNullOrWhiteSpace(MaintenanceWindowDuration)) && (!string.IsNullOrWhiteSpace(MaintenanceWindowRecurrence) || !string.IsNullOrWhiteSpace(MaintenanceWindowStart) || !string.IsNullOrWhiteSpace(MaintenanceWindowDuration) || !string.IsNullOrWhiteSpace(MaintenanceWindowEnd)) && ((!string.IsNullOrWhiteSpace(MaintenanceWindowDuration) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaintenanceWindowEnd) ? 1 : 0) != 1))
+        {
+            yield return new ValidationResult("Exactly one of MaintenanceWindowDuration or MaintenanceWindowEnd must be specified.", [nameof(MaintenanceWindowDuration), nameof(MaintenanceWindowEnd)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Username) ? 1 : 0) + ((EnableBasicAuth == true || NoEnableBasicAuth == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Username or (EnableBasicAuth or NoEnableBasicAuth) may be specified.", [nameof(Username), nameof(EnableBasicAuth), nameof(NoEnableBasicAuth)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Username) || EnableBasicAuth == true || NoEnableBasicAuth == true) && ((EnableBasicAuth == true ? 1 : 0) + (NoEnableBasicAuth == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of EnableBasicAuth or NoEnableBasicAuth may be specified.", [nameof(EnableBasicAuth), nameof(NoEnableBasicAuth)]);
+        }
+        yield break;
+    }
 
 }

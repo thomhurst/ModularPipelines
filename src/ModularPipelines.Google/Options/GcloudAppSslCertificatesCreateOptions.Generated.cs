@@ -21,4 +21,49 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("app", "ssl-certificates", "create")]
 public record GcloudAppSslCertificatesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// uploads a new SSL certificate
+    /// </summary>
+    /// <param name="Certificate">The file path for the new certificate to upload. Must be in PEM x.509 format including the header and footer.</param>
+    /// <param name="DisplayName">A display name for this certificate.</param>
+    /// <param name="PrivateKey">The file path to a local RSA private key file. The private key must be PEM encoded with header and footer and must be 2048 bits or fewer.</param>
+    public GcloudAppSslCertificatesCreateOptions(
+        string Certificate,
+        string DisplayName,
+        string PrivateKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Certificate);
+        this.Certificate = Certificate;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(PrivateKey);
+        this.PrivateKey = PrivateKey;
+    }
+
+    public void Deconstruct(out string Certificate, out string DisplayName, out string PrivateKey)
+    {
+        Certificate = this.Certificate;
+        DisplayName = this.DisplayName;
+        PrivateKey = this.PrivateKey;
+    }
+
+    /// <summary>
+    /// The file path for the new certificate to upload. Must be in PEM x.509 format including the header and footer.
+    /// </summary>
+    [CliOption("--certificate", Format = OptionFormat.EqualsSeparated)]
+    public string Certificate { get; private init; }
+
+    /// <summary>
+    /// A display name for this certificate.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// The file path to a local RSA private key file. The private key must be PEM encoded with header and footer and must be 2048 bits or fewer.
+    /// </summary>
+    [CliOption("--private-key", Format = OptionFormat.EqualsSeparated)]
+    public string PrivateKey { get; private init; }
+
 }

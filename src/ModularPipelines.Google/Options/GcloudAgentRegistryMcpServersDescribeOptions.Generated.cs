@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("agent-registry", "mcp-servers", "describe")]
 public record GcloudAgentRegistryMcpServersDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get details of an MCP server
+    /// </summary>
+    /// <param name="McpServer">McpServer resource - Name of the resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument mcp_server on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the mcpServer or fully qualified identifier for the mcpServer. To set the mcp_server attribute: ▸ provide the argument mcp_server on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAgentRegistryMcpServersDescribeOptions(
+        string McpServer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(McpServer);
+        this.McpServer = McpServer;
+    }
+
+    public void Deconstruct(out string McpServer)
+    {
+        McpServer = this.McpServer;
+    }
+
+    /// <summary>
+    /// McpServer resource - Name of the resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument mcp_server on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the mcpServer resource. To set the location attribute: ▸ provide the argument mcp_server on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// McpServer resource - Name of the resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument mcp_server on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the mcpServer or fully qualified identifier for the mcpServer. To set the mcp_server attribute: ▸ provide the argument mcp_server on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string McpServer { get; private init; }
+
 }

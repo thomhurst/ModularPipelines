@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("ai", "indexes", "describe")]
 public record GcloudAiIndexesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// gets detailed index information about the     given index id
+    /// </summary>
+    /// <param name="Index">Index resource - Index to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the index or fully qualified identifier for the index. To set the name attribute: ▸ provide the argument index on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAiIndexesDescribeOptions(
+        string Index
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Index);
+        this.Index = Index;
+    }
+
+    public void Deconstruct(out string Index)
+    {
+        Index = this.Index;
+    }
+
+    /// <summary>
+    /// Index resource - Index to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud region for the index. To set the region attribute: ▸ provide the argument index on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property ai/region; ▸ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Index resource - Index to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the index or fully qualified identifier for the index. To set the name attribute: ▸ provide the argument index on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Index { get; private init; }
+
 }

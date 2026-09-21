@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("endpoints", "configs", "list")]
 public record GcloudEndpointsConfigsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// lists the configurations for a given     service
+    /// </summary>
+    /// <param name="Service">The name of service for which to list existing configurations.</param>
+    public GcloudEndpointsConfigsListOptions(
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string Service)
+    {
+        Service = this.Service;
+    }
+
+    /// <summary>
+    /// The name of service for which to list existing configurations.
+    /// </summary>
+    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    public string Service { get; private init; }
+
 }

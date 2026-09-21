@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,76 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "vpn-gateways", "create")]
-public record GcloudComputeVpnGatewaysCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeVpnGatewaysCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new Compute Engine Highly     Available VPN gateway
+    /// </summary>
+    /// <param name="Network">A reference to a network to which the VPN gateway is attached.</param>
+    /// <param name="Name">Name of the VPN Gateway to create.</param>
+    public GcloudComputeVpnGatewaysCreateOptions(
+        string Network,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Network, out string Name)
+    {
+        Network = this.Network;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// A reference to a network to which the VPN gateway is attached.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// An optional, textual description for the VPN gateway.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// IP version of the HA VPN gateway. You must specify either IPv4 or IPv6. If you do not specify this field, every HA VPN gateway interface will be configured with an IPv4 address. GATEWAY_IP_VERSION must be one of: IPV4 Every HA-VPN gateway interface is configured with an IPv4 address. IPV6 Every HA-VPN gateway interface is configured with an IPv6 address.
+    /// </summary>
+    [CliOption("--gateway-ip-version", Format = OptionFormat.EqualsSeparated)]
+    public string? GatewayIpVersion { get; set; }
+
+    /// <summary>
+    /// Names of interconnect attachments (VLAN attachments) associated with the VPN gateway interfaces. You must specify this field when using a VPN gateway for HA VPN over Cloud Interconnect. Otherwise, this field is optional. For example, --interconnect-attachments attachment-a-zone1,attachment-a-zone2 associates VPN gateway with attachment from zone1 on interface 0 and with attachment from zone2 on interface 1. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--interconnect-attachments", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? InterconnectAttachments { get; set; }
+
+    /// <summary>
+    /// Region of the VPN Gateway to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of Resource Manager tags to apply to the VPN gateway. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
+
+    /// <summary>
+    /// The stack type of the protocol(s) enabled on this VPN gateway. If not provided, IPV4_ONLY will be used. STACK_TYPE must be one of: IPV4_IPV6 Both IPv4 and IPv6 protocols are enabled on this VPN gateway. IPV4_ONLY Only IPv4 protocol is enabled on this VPN gateway. IPV6_ONLY Only IPv6 protocol is enabled on this VPN gateway.
+    /// </summary>
+    [CliOption("--stack-type", Format = OptionFormat.EqualsSeparated)]
+    public string? StackType { get; set; }
+
+    /// <summary>
+    /// Name of the VPN Gateway to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -22,8 +23,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "connection-profiles", "update")]
-public record GcloudDatabaseMigrationConnectionProfilesUpdateOptions : GcloudOptions
+public record GcloudDatabaseMigrationConnectionProfilesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Database     Migration Service connection profile
+    /// </summary>
+    /// <param name="ConnectionProfile">Connection profile resource - The connection profile to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ▸ provide the argument connection_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatabaseMigrationConnectionProfilesUpdateOptions(
+        string ConnectionProfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionProfile);
+        this.ConnectionProfile = ConnectionProfile;
+    }
+
+    public void Deconstruct(out string ConnectionProfile)
+    {
+        ConnectionProfile = this.ConnectionProfile;
+    }
+
+    /// <summary>
+    /// Connection profile resource - The connection profile to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the connection_profile. To set the region attribute: ▸ provide the argument connection_profile on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// If the destination is an AlloyDB cluster, use this field to provide the AlloyDB cluster ID.
     /// </summary>
@@ -93,6 +117,7 @@ public record GcloudDatabaseMigrationConnectionProfilesUpdateOptions : GcloudOpt
     /// <summary>
     /// Unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with the Client Certificate. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service encrypts the value when storing it.
     /// </summary>
+    [SecretValue]
     [CliOption("--private-key", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateKey { get; set; }
 
@@ -100,12 +125,12 @@ public record GcloudDatabaseMigrationConnectionProfilesUpdateOptions : GcloudOpt
     /// The type of SSL configuration. SSL_TYPE must be one of: SERVER_ONLY, SERVER_CLIENT, REQUIRED, NONE.
     /// </summary>
     [CliOption("--ssl-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudSslType? SslType { get; set; }
+    public GcloudDatabaseMigrationConnectionProfilesUpdateSslType? SslType { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
@@ -121,10 +146,32 @@ public record GcloudDatabaseMigrationConnectionProfilesUpdateOptions : GcloudOpt
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Use IAM database authentication to connect to the database. The username will be overridden by the DMS service agent principal. This flag is only supported for PostgreSQL Destinations.
@@ -170,47 +217,79 @@ public record GcloudDatabaseMigrationConnectionProfilesUpdateOptions : GcloudOpt
     public string? PrivateConnection { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --private-connection on the command line. Or at least one of these can be specified: Service attachment resource - Resource ID of the service attachment. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --psc-service-attachment on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the region attribute: ▸ provide the argument --psc-service-attachment on the command line with a fully specified name; ▸ provide the argument --region on the command line. ID of the service_attachment or fully qualified identifier for the service_attachment. To set the service_attachment attribute:
+    /// At most one of these can be specified: ▸ provide the argument --private-connection on the command line. Or at least one of these can be specified: Service attachment resource - Resource ID of the service attachment. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --psc-service-attachment on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the region attribute: ▸ provide the argument --psc-service-attachment on the command line with a fully specified name; ▸ provide the argument --region on the command line. ID of the service_attachment or fully qualified identifier for the service_attachment. To set the service_attachment attribute:
     /// </summary>
     [CliOption("--psc-service-attachment", Format = OptionFormat.EqualsSeparated)]
     public string? PscServiceAttachment { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --psc-service-attachment on the command line. use static ip connectivity
+    /// At most one of these can be specified: ▸ provide the argument --psc-service-attachment on the command line. use static ip connectivity
     /// </summary>
     [CliFlag("--static-ip-connectivity")]
     public bool? StaticIpConnectivity { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Hostname for the SSH tunnel. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Hostname for the SSH tunnel. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--forward-ssh-hostname", Format = OptionFormat.EqualsSeparated)]
     public string? ForwardSshHostname { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Username for the SSH tunnel. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Username for the SSH tunnel. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--forward-ssh-username", Format = OptionFormat.EqualsSeparated)]
     public string? ForwardSshUsername { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Port for the SSH tunnel, default value is 22.
+    /// At most one of these can be specified: ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Port for the SSH tunnel, default value is 22.
     /// </summary>
     [CliOption("--forward-ssh-port", Format = OptionFormat.EqualsSeparated)]
     public string? ForwardSshPort { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Exactly one of these must be specified: SSH password.
+    /// At most one of these can be specified: ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Exactly one of these must be specified: SSH password.
     /// </summary>
     [SecretValue]
     [CliOption("--forward-ssh-password", Format = OptionFormat.EqualsSeparated)]
     public string? ForwardSshPassword { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Exactly one of these must be specified: SSH private key..
+    /// At most one of these can be specified: ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Exactly one of these must be specified: SSH private key..
     /// </summary>
     [SecretValue]
     [CliOption("--forward-ssh-private-key", Format = OptionFormat.EqualsSeparated)]
     public string? ForwardSshPrivateKey { get; set; }
+
+    /// <summary>
+    /// Connection profile resource - The connection profile to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ▸ provide the argument connection_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConnectionProfile { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((DisableIamAuthentication == true ? 1 : 0) + (EnableIamAuthentication == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisableIamAuthentication or EnableIamAuthentication may be specified.", [nameof(DisableIamAuthentication), nameof(EnableIamAuthentication)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Password) ? 1 : 0) + (PromptForPassword == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Password or PromptForPassword may be specified.", [nameof(Password), nameof(PromptForPassword)]);
+        }
+        if (((!string.IsNullOrWhiteSpace(PrivateConnection)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(PscServiceAttachment)) ? 1 : 0) + ((StaticIpConnectivity == true || !string.IsNullOrWhiteSpace(ForwardSshHostname) || !string.IsNullOrWhiteSpace(ForwardSshUsername) || !string.IsNullOrWhiteSpace(ForwardSshPort) || !string.IsNullOrWhiteSpace(ForwardSshPassword) || !string.IsNullOrWhiteSpace(ForwardSshPrivateKey)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (PrivateConnection), (PscServiceAttachment), or (StaticIpConnectivity, ForwardSshHostname, ForwardSshUsername, ForwardSshPort, ForwardSshPassword, or ForwardSshPrivateKey) may be specified.", [nameof(PrivateConnection), nameof(PscServiceAttachment), nameof(StaticIpConnectivity), nameof(ForwardSshHostname), nameof(ForwardSshUsername), nameof(ForwardSshPort), nameof(ForwardSshPassword), nameof(ForwardSshPrivateKey)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(PrivateConnection) || !string.IsNullOrWhiteSpace(PscServiceAttachment) || StaticIpConnectivity == true || !string.IsNullOrWhiteSpace(ForwardSshHostname) || !string.IsNullOrWhiteSpace(ForwardSshUsername) || !string.IsNullOrWhiteSpace(ForwardSshPort) || !string.IsNullOrWhiteSpace(ForwardSshPassword) || !string.IsNullOrWhiteSpace(ForwardSshPrivateKey)) && (StaticIpConnectivity == true || !string.IsNullOrWhiteSpace(ForwardSshHostname) || !string.IsNullOrWhiteSpace(ForwardSshUsername) || !string.IsNullOrWhiteSpace(ForwardSshPort) || !string.IsNullOrWhiteSpace(ForwardSshPassword) || !string.IsNullOrWhiteSpace(ForwardSshPrivateKey)) && (!string.IsNullOrWhiteSpace(ForwardSshHostname) || !string.IsNullOrWhiteSpace(ForwardSshUsername) || !string.IsNullOrWhiteSpace(ForwardSshPort) || !string.IsNullOrWhiteSpace(ForwardSshPassword) || !string.IsNullOrWhiteSpace(ForwardSshPrivateKey)) && ((!string.IsNullOrWhiteSpace(ForwardSshPassword) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ForwardSshPrivateKey) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ForwardSshPassword or ForwardSshPrivateKey may be specified.", [nameof(ForwardSshPassword), nameof(ForwardSshPrivateKey)]);
+        }
+        yield break;
+    }
 
 }

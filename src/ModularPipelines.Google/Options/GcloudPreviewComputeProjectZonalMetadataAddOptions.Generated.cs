@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,49 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("preview", "compute", "project-zonal-metadata", "add")]
 public record GcloudPreviewComputeProjectZonalMetadataAddOptions : GcloudOptions
 {
+    /// <summary>
+    /// add or update project     zonal metadata
+    /// </summary>
+    /// <param name="Metadata">The project zonal metadata key-value pairs that you want to add or update Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Zone">The zone in which you want to add or update project zonal metadata</param>
+    public GcloudPreviewComputeProjectZonalMetadataAddOptions(
+        IReadOnlyList<KeyValue> Metadata,
+        string Zone
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Metadata);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Metadata));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Metadata));
+            }
+
+            Metadata = materialized;
+        }
+        this.Metadata = Metadata;
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+    }
+
+    public void Deconstruct(out IReadOnlyList<KeyValue> Metadata, out string Zone)
+    {
+        Metadata = this.Metadata;
+        Zone = this.Zone;
+    }
+
+    /// <summary>
+    /// The project zonal metadata key-value pairs that you want to add or update Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue> Metadata { get; private init; }
+
+    /// <summary>
+    /// The zone in which you want to add or update project zonal metadata
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
 }

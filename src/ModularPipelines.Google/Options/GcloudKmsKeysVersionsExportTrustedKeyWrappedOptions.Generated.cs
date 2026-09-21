@@ -19,8 +19,64 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "keys", "versions", "export-trusted-key-wrapped")]
-public record GcloudKmsKeysVersionsExportTrustedKeyWrappedOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Version
-) : GcloudOptions
+public record GcloudKmsKeysVersionsExportTrustedKeyWrappedOptions : GcloudOptions
 {
+    /// <summary>
+    /// export a trusted key     wrapped CryptoKeyVersion
+    /// </summary>
+    /// <param name="WrappingKeyVersion">The resource name of the CryptoKeyVersion to use as a wrapping key.</param>
+    /// <param name="Version">Name of the version to export.</param>
+    public GcloudKmsKeysVersionsExportTrustedKeyWrappedOptions(
+        string WrappingKeyVersion,
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WrappingKeyVersion);
+        this.WrappingKeyVersion = WrappingKeyVersion;
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string WrappingKeyVersion, out string Version)
+    {
+        WrappingKeyVersion = this.WrappingKeyVersion;
+        Version = this.Version;
+    }
+
+    /// <summary>
+    /// The resource name of the CryptoKeyVersion to use as a wrapping key.
+    /// </summary>
+    [CliOption("--wrapping-key-version", Format = OptionFormat.EqualsSeparated)]
+    public string WrappingKeyVersion { get; private init; }
+
+    /// <summary>
+    /// The containing key.
+    /// </summary>
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
+    public string? Key { get; set; }
+
+    /// <summary>
+    /// Key ring of the key.
+    /// </summary>
+    [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? Keyring { get; set; }
+
+    /// <summary>
+    /// Location of the keyring.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Path to the RSA/RSA+AES wrapped key file to store the wrapped key material.
+    /// </summary>
+    [CliOption("--wrapped-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? WrappedKeyFile { get; set; }
+
+    /// <summary>
+    /// Name of the version to export.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Version { get; private init; }
+
 }

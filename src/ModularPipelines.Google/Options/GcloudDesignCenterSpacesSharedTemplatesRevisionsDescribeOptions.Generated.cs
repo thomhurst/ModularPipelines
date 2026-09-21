@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "shared-templates", "revisions", "describe")]
-public record GcloudDesignCenterSpacesSharedTemplatesRevisionsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Revision
-) : GcloudOptions
+public record GcloudDesignCenterSpacesSharedTemplatesRevisionsDescribeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// describe     a shared template revision
+    /// </summary>
+    /// <param name="Revision">ID of the revision or fully qualified identifier for the sharedTemplateRevision. Format: projects/$project/locations/$location/spaces/$space/sharedTemplates/$sharedTemplate/revisions/$revision To set the revision attribute: ◆ provide the fully qualified identifier revision on the command line; ◆ provide the argument revision which represents the revision id and the other arguments --shared-template, --location, --project, --space or --google-catalog on the command line.</param>
+    public GcloudDesignCenterSpacesSharedTemplatesRevisionsDescribeOptions(
+        string Revision
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Revision);
+        this.Revision = Revision;
+    }
+
+    public void Deconstruct(out string Revision)
+    {
+        Revision = this.Revision;
+    }
+
     /// <summary>
     /// The location id of the revision resource. To set the location attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --location on the command line.
     /// </summary>
@@ -52,5 +68,21 @@ public record GcloudDesignCenterSpacesSharedTemplatesRevisionsDescribeOptions(
     /// </summary>
     [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
     public string? Space { get; set; }
+
+    /// <summary>
+    /// ID of the revision or fully qualified identifier for the sharedTemplateRevision. Format: projects/$project/locations/$location/spaces/$space/sharedTemplates/$sharedTemplate/revisions/$revision To set the revision attribute: ◆ provide the fully qualified identifier revision on the command line; ◆ provide the argument revision which represents the revision id and the other arguments --shared-template, --location, --project, --space or --google-catalog on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Revision { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((GoogleCatalog == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Project) || !string.IsNullOrWhiteSpace(Space)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GoogleCatalog or (Project or Space) may be specified.", [nameof(GoogleCatalog), nameof(Project), nameof(Space)]);
+        }
+        yield break;
+    }
 
 }

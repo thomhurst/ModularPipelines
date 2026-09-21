@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,131 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "reservations", "create")]
-public record GcloudPreviewComputeReservationsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Reservation
-) : GcloudOptions
+public record GcloudPreviewComputeReservationsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Compute Engine     reservation
+    /// </summary>
+    /// <param name="VmCount">Manage the SpecificSKU reservation properties. This must be specified. The number of VM instances that are allocated to this reservation. The value of this field must be an int in the range [1, 1000]. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="Reservation">Name of the reservation to create.</param>
+    public GcloudPreviewComputeReservationsCreateOptions(
+        int VmCount,
+        string Reservation
+    )
+    {
+        this.VmCount = VmCount;
+        global::System.ArgumentNullException.ThrowIfNull(Reservation);
+        this.Reservation = Reservation;
+    }
+
+    public void Deconstruct(out int VmCount, out string Reservation)
+    {
+        VmCount = this.VmCount;
+        Reservation = this.Reservation;
+    }
+
+    /// <summary>
+    /// Manage the SpecificSKU reservation properties. This must be specified. The number of VM instances that are allocated to this reservation. The value of this field must be an int in the range [1, 1000]. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--vm-count", Format = OptionFormat.EqualsSeparated)]
+    public int VmCount { get; private init; }
+
+    /// <summary>
+    /// Manage the SpecificSKU reservation properties. This must be specified. Indicates whether the reservation can be consumed by VMs with "any reservation" defined. If enabled, then only VMs that target this reservation by name using --reservation-affinity=specific can consume from this reservation.
+    /// </summary>
+    [CliFlag("--require-specific-reservation")]
+    public bool? RequireSpecificReservation { get; set; }
+
+    /// <summary>
+    /// Manage the SpecificSKU reservation properties. This must be specified. The resource policies to include in this reservation. If you omit this flag, no resource policies are added. You can specify any string as the key, and specify the name of a resource policy as the value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--resource-policies", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ResourcePolicies { get; set; }
+
+    /// <summary>
+    /// Manage the SpecificSKU reservation properties. This must be specified. Manage the instance properties for the SpecificSKU reservation. Exactly one of these must be specified: The url of the instance template that will be used to populate the fields of the reservation. Instance properties can not be defined in addition to source instance template.
+    /// </summary>
+    [CliOption("--source-instance-template", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceInstanceTemplate { get; set; }
+
+    /// <summary>
+    /// Manage the SpecificSKU reservation properties. This must be specified. Manage the instance properties for the SpecificSKU reservation. Exactly one of these must be specified: Or at least one of these can be specified: Define the individual instance properties for the SpecificSKU reservation. The type of machine (name only) that has a fixed number of vCPUs and a fixed amount of memory. You can also specify a custom machine type by using the pattern custom-number_of_CPUs-amount_of_memory-for example, custom-32-29440. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Manage the SpecificSKU reservation properties. This must be specified. Manage the instance properties for the SpecificSKU reservation. Exactly one of these must be specified: Or at least one of these can be specified: Define the individual instance properties for the SpecificSKU reservation. Manage the configuration of the type and number of accelerator cards attached. count The number of accelerators to attach to each instance in the reservation. type The specific type (e.g. nvidia-tesla-k80 for nVidia Tesla K80) of accelerator to attach to instances in the reservation. Use gcloud compute accelerator-types list to learn about all available accelerator types.
+    /// </summary>
+    [CliOption("--accelerator", Format = OptionFormat.EqualsSeparated)]
+    public string? Accelerator { get; set; }
+
+    /// <summary>
+    /// Manage the SpecificSKU reservation properties. This must be specified. Manage the instance properties for the SpecificSKU reservation. Exactly one of these must be specified: Or at least one of these can be specified: Define the individual instance properties for the SpecificSKU reservation. Manage the size and the interface of local SSD to use. See https://cloud.google.com/compute/docs/disks/local-ssd for more information. interface The kind of disk interface exposed to the VM for this SSD. Valid values are scsi and nvme. SCSI is the default and is supported by more guest operating systems. NVME may provide higher performance. size The size of the local SSD in base-2 GB. count The number of local SSD to use per VM. If you don't specify this argument, then the default value is 1.
+    /// </summary>
+    [CliOption("--local-ssd", Format = OptionFormat.EqualsSeparated)]
+    public string? LocalSsd { get; set; }
+
+    /// <summary>
+    /// Manage the SpecificSKU reservation properties. This must be specified. Manage the instance properties for the SpecificSKU reservation. Exactly one of these must be specified: Or at least one of these can be specified: Define the individual instance properties for the SpecificSKU reservation. Optional minimum CPU platform of the reservation to create.
+    /// </summary>
+    [CliOption("--min-cpu-platform", Format = OptionFormat.EqualsSeparated)]
+    public string? MinCpuPlatform { get; set; }
+
+    /// <summary>
+    /// An optional description of the reservation to create.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The reservation sharing policy to use for this reservation. RESERVATION_SHARING_POLICY must be one of: ALLOW_ALL The reservation can be shared with Google Cloud services. DISALLOW_ALL The reservation won't be shared with Google Cloud services. If you omit this flag during creation, the default value is DISALLOW_ALL.
+    /// </summary>
+    [CliOption("--reservation-sharing-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? ReservationSharingPolicy { get; set; }
+
+    /// <summary>
+    /// Resource manager tags to be bound to the reservation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
+
+    /// <summary>
+    /// Zone of the reservation to create. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Manage the properties of a shared reservation. The projects that can use the reservation. SHARE_SETTING must be one of: local Only your project can use the reservation. This is the default value. projects Your project and up to 100 other projects within your project's organization can use the reservation. If you specify this value, then you must also include the --share-with flag in the command.
+    /// </summary>
+    [CliOption("--share-setting", Format = OptionFormat.EqualsSeparated)]
+    public string? ShareSetting { get; set; }
+
+    /// <summary>
+    /// Manage the properties of a shared reservation. If this reservation is shared (--share-setting=projects), then specify a comma-separated list of projects to share the reservation with. List projects using project IDs or project numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--share-with", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ShareWith { get; set; }
+
+    /// <summary>
+    /// Name of the reservation to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Reservation { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(SourceInstanceTemplate) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(MachineType) || !string.IsNullOrWhiteSpace(Accelerator) || !string.IsNullOrWhiteSpace(LocalSsd) || !string.IsNullOrWhiteSpace(MinCpuPlatform)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of SourceInstanceTemplate or (MachineType, Accelerator, LocalSsd, or MinCpuPlatform) must be specified.", [nameof(SourceInstanceTemplate), nameof(MachineType), nameof(Accelerator), nameof(LocalSsd), nameof(MinCpuPlatform)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SourceInstanceTemplate) || !string.IsNullOrWhiteSpace(MachineType) || !string.IsNullOrWhiteSpace(Accelerator) || !string.IsNullOrWhiteSpace(LocalSsd) || !string.IsNullOrWhiteSpace(MinCpuPlatform)) && (!string.IsNullOrWhiteSpace(MachineType) || !string.IsNullOrWhiteSpace(Accelerator) || !string.IsNullOrWhiteSpace(LocalSsd) || !string.IsNullOrWhiteSpace(MinCpuPlatform)) && (!string.IsNullOrWhiteSpace(MachineType) || !string.IsNullOrWhiteSpace(Accelerator) || !string.IsNullOrWhiteSpace(LocalSsd) || !string.IsNullOrWhiteSpace(MinCpuPlatform)) && (!(!string.IsNullOrWhiteSpace(MachineType))))
+        {
+            yield return new ValidationResult("MachineType must be specified when other arguments in this group are specified.", [nameof(MachineType)]);
+        }
+        yield break;
+    }
+
 }

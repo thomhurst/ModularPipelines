@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,131 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataproc", "clusters", "gke", "create")]
-public record GcloudDataprocClustersGkeCreateOptions : GcloudOptions
+public record GcloudDataprocClustersGkeCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// based virtual cluster
+    /// </summary>
+    /// <param name="SparkEngineVersion">The version of the Spark engine to run on this cluster.</param>
+    /// <param name="GkeCluster">Gke cluster resource - The GKE cluster to install the Dataproc cluster on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --gke-cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gke-cluster or fully qualified identifier for the gke-cluster. To set the gke-cluster attribute: ▸ provide the argument --gke-cluster on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="Cluster">Cluster resource - The name of the cluster to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataprocClustersGkeCreateOptions(
+        string SparkEngineVersion,
+        string GkeCluster,
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SparkEngineVersion);
+        this.SparkEngineVersion = SparkEngineVersion;
+        global::System.ArgumentNullException.ThrowIfNull(GkeCluster);
+        this.GkeCluster = GkeCluster;
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string SparkEngineVersion, out string GkeCluster, out string Cluster)
+    {
+        SparkEngineVersion = this.SparkEngineVersion;
+        GkeCluster = this.GkeCluster;
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// The version of the Spark engine to run on this cluster.
+    /// </summary>
+    [CliOption("--spark-engine-version", Format = OptionFormat.EqualsSeparated)]
+    public string SparkEngineVersion { get; private init; }
+
+    /// <summary>
+    /// Gke cluster resource - The GKE cluster to install the Dataproc cluster on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --gke-cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gke-cluster or fully qualified identifier for the gke-cluster. To set the gke-cluster attribute: ▸ provide the argument --gke-cluster on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--gke-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string GkeCluster { get; private init; }
+
+    /// <summary>
+    /// Cluster resource - The name of the cluster to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Dataproc region for the cluster. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. Overrides the default dataproc/region property value for this command invocation. To set the region attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property dataproc/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Gke cluster resource - The GKE cluster to install the Dataproc cluster on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --gke-cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. GKE region for the gke-cluster. To set the gke-cluster-location attribute: ▸ provide the argument --gke-cluster on the command line with a fully specified name; ▸ provide the argument --gke-cluster-location on the command line; ▸ provide the argument --region on the command line; ▸ set the property dataproc/region.
+    /// </summary>
+    [CliOption("--gke-cluster-location", Format = OptionFormat.EqualsSeparated)]
+    public string? GkeClusterLocation { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The name of the Kubernetes namespace to deploy Dataproc system components in. This namespace does not need to exist.
+    /// </summary>
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? Namespace { get; set; }
+
+    /// <summary>
+    /// --pools=[KEY=VALUE[;VALUE],...] Each --pools flag represents a GKE node pool associated with the virtual cluster. It is comprised of a CSV in the form KEY=VALUE[;VALUE], where certain keys may have multiple values. The following KEYs must be specified: ----------------------------------------------------------------------------------------------------------- KEY Type Example Description ------ ---------------- ------------------------ ---------------------------------------------------------- name string `my-node-pool` Name of the node pool. roles repeated string `default;spark-driver` Roles that this node pool should perform. Valid values are `default`, `controller`, `spark-driver`, `spark-executor`. ----------------------------------------------------------------------------------------------------------- The following KEYs may be specified: ---------------------------------------------------------------------------------------------------------------------------------------------------------------- KEY Type Example Description --------------- ---------------- --------------------------------------------- --------------------------------------------------------------------------------- machineType string `n1-standard-8` Compute Engine machine type to use. preemptible boolean `false` If true, then this node pool uses preemptible VMs. This cannot be true on the node pool with the `controllers` role (or `default` role if `controllers` role is not specified). localSsdCount int `2` The number of local SSDs to attach to each node. accelerator repeated string `nvidia-tesla-a100=1` Accelerators to attach to each node. In the format NAME=COUNT. minCpuPlatform string `Intel Skylake` Minimum CPU platform for each node. bootDiskKmsKey string `projects/project-id/locations/us-central1 The Customer Managed Encryption Key (CMEK) used to encrypt /keyRings/keyRing-name/cryptoKeys/key-name` the boot disk attached to each node in the node pool. locations repeated string `us-west1-a;us-west1-c` Zones within the location of the GKE cluster. All `--pools` flags for a Dataproc cluster must have identical locations. min int `0` Minimum number of nodes per zone that this node pool can scale down to. max int `10` Maximum number of nodes per zone that this node pool can scale up to. ---------------------------------------------------------------------------------------------------------------------------------------------------------------- Specifies configuration properties for installed packages, such as Spark. Properties are mapped to configuration files by specifying a prefix, such as "core:io.serializations".
+    /// </summary>
+    [CliOption("--properties", Format = OptionFormat.EqualsSeparated)]
+    public string? Properties { get; set; }
+
+    /// <summary>
+    /// --pools=[KEY=VALUE[;VALUE],...] Each --pools flag represents a GKE node pool associated with the virtual cluster. It is comprised of a CSV in the form KEY=VALUE[;VALUE], where certain keys may have multiple values. The following KEYs must be specified: ----------------------------------------------------------------------------------------------------------- KEY Type Example Description ------ ---------------- ------------------------ ---------------------------------------------------------- name string `my-node-pool` Name of the node pool. roles repeated string `default;spark-driver` Roles that this node pool should perform. Valid values are `default`, `controller`, `spark-driver`, `spark-executor`. ----------------------------------------------------------------------------------------------------------- The following KEYs may be specified: ---------------------------------------------------------------------------------------------------------------------------------------------------------------- KEY Type Example Description --------------- ---------------- --------------------------------------------- --------------------------------------------------------------------------------- machineType string `n1-standard-8` Compute Engine machine type to use. preemptible boolean `false` If true, then this node pool uses preemptible VMs. This cannot be true on the node pool with the `controllers` role (or `default` role if `controllers` role is not specified). localSsdCount int `2` The number of local SSDs to attach to each node. accelerator repeated string `nvidia-tesla-a100=1` Accelerators to attach to each node. In the format NAME=COUNT. minCpuPlatform string `Intel Skylake` Minimum CPU platform for each node. bootDiskKmsKey string `projects/project-id/locations/us-central1 The Customer Managed Encryption Key (CMEK) used to encrypt /keyRings/keyRing-name/cryptoKeys/key-name` the boot disk attached to each node in the node pool. locations repeated string `us-west1-a;us-west1-c` Zones within the location of the GKE cluster. All `--pools` flags for a Dataproc cluster must have identical locations. min int `0` Minimum number of nodes per zone that this node pool can scale down to. max int `10` Maximum number of nodes per zone that this node pool can scale up to. ---------------------------------------------------------------------------------------------------------------------------------------------------------------- Sets up the GKE Workload Identity for your Dataproc on GKE cluster. Note that running this requires elevated permissions as it will manipulate IAM policies on the Google Service Accounts that will be used by your Dataproc on GKE cluster.
+    /// </summary>
+    [CliFlag("--setup-workload-identity")]
+    public bool? SetupWorkloadIdentity { get; set; }
+
+    /// <summary>
+    /// --pools=[KEY=VALUE[;VALUE],...] Each --pools flag represents a GKE node pool associated with the virtual cluster. It is comprised of a CSV in the form KEY=VALUE[;VALUE], where certain keys may have multiple values. The following KEYs must be specified: ----------------------------------------------------------------------------------------------------------- KEY Type Example Description ------ ---------------- ------------------------ ---------------------------------------------------------- name string `my-node-pool` Name of the node pool. roles repeated string `default;spark-driver` Roles that this node pool should perform. Valid values are `default`, `controller`, `spark-driver`, `spark-executor`. ----------------------------------------------------------------------------------------------------------- The following KEYs may be specified: ---------------------------------------------------------------------------------------------------------------------------------------------------------------- KEY Type Example Description --------------- ---------------- --------------------------------------------- --------------------------------------------------------------------------------- machineType string `n1-standard-8` Compute Engine machine type to use. preemptible boolean `false` If true, then this node pool uses preemptible VMs. This cannot be true on the node pool with the `controllers` role (or `default` role if `controllers` role is not specified). localSsdCount int `2` The number of local SSDs to attach to each node. accelerator repeated string `nvidia-tesla-a100=1` Accelerators to attach to each node. In the format NAME=COUNT. minCpuPlatform string `Intel Skylake` Minimum CPU platform for each node. bootDiskKmsKey string `projects/project-id/locations/us-central1 The Customer Managed Encryption Key (CMEK) used to encrypt /keyRings/keyRing-name/cryptoKeys/key-name` the boot disk attached to each node in the node pool. locations repeated string `us-west1-a;us-west1-c` Zones within the location of the GKE cluster. All `--pools` flags for a Dataproc cluster must have identical locations. min int `0` Minimum number of nodes per zone that this node pool can scale down to. max int `10` Maximum number of nodes per zone that this node pool can scale up to. ---------------------------------------------------------------------------------------------------------------------------------------------------------------- The Cloud Storage bucket to use to stage job dependencies, miscellaneous config files, and job driver console output when using this cluster.
+    /// </summary>
+    [CliOption("--staging-bucket", Format = OptionFormat.EqualsSeparated)]
+    public string? StagingBucket { get; set; }
+
+    /// <summary>
+    /// History server cluster resource - A Dataproc Cluster created as a History Server, see https://cloud.google.com/dataproc/docs/concepts/jobs/history-server The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --history-server-cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the history-server-cluster or fully qualified identifier for the history-server-cluster. To set the history-server-cluster attribute: ◆ provide the argument --history-server-cluster on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--history-server-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? HistoryServerCluster { get; set; }
+
+    /// <summary>
+    /// History server cluster resource - A Dataproc Cluster created as a History Server, see https://cloud.google.com/dataproc/docs/concepts/jobs/history-server The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --history-server-cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Compute Engine region for the history-server-cluster. It must be the same region as the Dataproc cluster that is being created. To set the history-server-cluster-region attribute: ◆ provide the argument --history-server-cluster on the command line with a fully specified name; ◆ provide the argument --history-server-cluster-region on the command line; ◆ provide the argument --region on the command line; ◆ set the property dataproc/region.
+    /// </summary>
+    [CliOption("--history-server-cluster-region", Format = OptionFormat.EqualsSeparated)]
+    public string? HistoryServerClusterRegion { get; set; }
+
+    /// <summary>
+    /// Metastore service resource - Dataproc Metastore Service to be used as an external metastore. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --metastore-service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the metastore-service or fully qualified identifier for the metastore-service. To set the metastore-service attribute: ◆ provide the argument --metastore-service on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--metastore-service", Format = OptionFormat.EqualsSeparated)]
+    public string? MetastoreService { get; set; }
+
+    /// <summary>
+    /// Metastore service resource - Dataproc Metastore Service to be used as an external metastore. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --metastore-service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Dataproc Metastore location for the metastore-service. To set the metastore-service-location attribute: ◆ provide the argument --metastore-service on the command line with a fully specified name; ◆ provide the argument --metastore-service-location on the command line; ◆ provide the argument --region on the command line; ◆ set the property dataproc/region.
+    /// </summary>
+    [CliOption("--metastore-service-location", Format = OptionFormat.EqualsSeparated)]
+    public string? MetastoreServiceLocation { get; set; }
+
+    /// <summary>
+    /// Cluster resource - The name of the cluster to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(HistoryServerCluster) || !string.IsNullOrWhiteSpace(HistoryServerClusterRegion)) && (!(!string.IsNullOrWhiteSpace(HistoryServerCluster))))
+        {
+            yield return new ValidationResult("HistoryServerCluster must be specified when other arguments in this group are specified.", [nameof(HistoryServerCluster)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MetastoreService) || !string.IsNullOrWhiteSpace(MetastoreServiceLocation)) && (!(!string.IsNullOrWhiteSpace(MetastoreService))))
+        {
+            yield return new ValidationResult("MetastoreService must be specified when other arguments in this group are specified.", [nameof(MetastoreService)]);
+        }
+        yield break;
+    }
+
 }

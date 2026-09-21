@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "rollouts", "delete")]
 public record GcloudComputeRolloutsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a Google Compute Engine rollout
+    /// </summary>
+    /// <param name="Name">Rollout resource - Name of the rollout to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the rollout or fully qualified identifier for the rollout. To set the name attribute: ▸ provide the argument name on the command line.</param>
+    public GcloudComputeRolloutsDeleteOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Rollout resource - Name of the rollout to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the rollout or fully qualified identifier for the rollout. To set the name attribute: ▸ provide the argument name on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

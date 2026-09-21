@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("gemini", "release-channel-settings", "describe")]
 public record GcloudGeminiReleaseChannelSettingsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe     releaseChannelSettings
+    /// </summary>
+    /// <param name="ReleaseChannelSetting">ReleaseChannelSetting resource - Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument release_channel_setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the releaseChannelSetting or fully qualified identifier for the releaseChannelSetting. To set the release_channel_setting attribute: ▸ provide the argument release_channel_setting on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudGeminiReleaseChannelSettingsDescribeOptions(
+        string ReleaseChannelSetting
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReleaseChannelSetting);
+        this.ReleaseChannelSetting = ReleaseChannelSetting;
+    }
+
+    public void Deconstruct(out string ReleaseChannelSetting)
+    {
+        ReleaseChannelSetting = this.ReleaseChannelSetting;
+    }
+
+    /// <summary>
+    /// ReleaseChannelSetting resource - Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument release_channel_setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the releaseChannelSetting resource. To set the location attribute: ▸ provide the argument release_channel_setting on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// ReleaseChannelSetting resource - Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument release_channel_setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the releaseChannelSetting or fully qualified identifier for the releaseChannelSetting. To set the release_channel_setting attribute: ▸ provide the argument release_channel_setting on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ReleaseChannelSetting { get; private init; }
+
 }

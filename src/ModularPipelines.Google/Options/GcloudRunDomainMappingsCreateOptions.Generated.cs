@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("run", "domain-mappings", "create")]
 public record GcloudRunDomainMappingsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create domain mappings for Cloud Run     for Anthos
+    /// </summary>
+    /// <param name="Service">Create domain mapping for the given service.</param>
+    /// <param name="Domain">DomainMapping resource - Domain name is the ID of DomainMapping resource. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the DomainMapping or fully qualified identifier for the DomainMapping. To set the domain attribute: ▸ provide the argument --domain on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudRunDomainMappingsCreateOptions(
+        string Service,
+        string Domain
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+    }
+
+    public void Deconstruct(out string Service, out string Domain)
+    {
+        Service = this.Service;
+        Domain = this.Domain;
+    }
+
+    /// <summary>
+    /// Create domain mapping for the given service.
+    /// </summary>
+    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    public string Service { get; private init; }
+
+    /// <summary>
+    /// DomainMapping resource - Domain name is the ID of DomainMapping resource. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the DomainMapping or fully qualified identifier for the DomainMapping. To set the domain attribute: ▸ provide the argument --domain on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--domain", Format = OptionFormat.EqualsSeparated)]
+    public string Domain { get; private init; }
+
+    /// <summary>
+    /// DomainMapping resource - Domain name is the ID of DomainMapping resource. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Specific to Cloud Run for Anthos: Kubernetes namespace for the DomainMapping. To set the namespace attribute: ▸ provide the argument --domain on the command line with a fully specified name; ▸ provide the argument --namespace on the command line; ▸ set the property run/namespace; ▸ For Cloud Run on Kubernetes Engine, defaults to "default". Otherwise, defaults to project ID.; ▸ provide the argument project on the command line; ▸ set the property core/project.
+    /// </summary>
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? Namespace { get; set; }
+
+    /// <summary>
+    /// Map this domain even if it is already mapped to another service.
+    /// </summary>
+    [CliFlag("--force-override")]
+    public bool? ForceOverride { get; set; }
+
 }

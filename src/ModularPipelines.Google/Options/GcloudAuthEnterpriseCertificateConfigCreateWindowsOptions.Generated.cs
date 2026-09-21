@@ -21,4 +21,73 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("auth", "enterprise-certificate-config", "create", "windows")]
 public record GcloudAuthEnterpriseCertificateConfigCreateWindowsOptions : GcloudOptions
 {
+    /// <summary>
+    /// create an     enterprise-certificate configuration file for Windows
+    /// </summary>
+    /// <param name="Issuer">The certificate issuer.</param>
+    /// <param name="Provider">The Windows secure store provider.</param>
+    /// <param name="Store">The Windows secure store.</param>
+    public GcloudAuthEnterpriseCertificateConfigCreateWindowsOptions(
+        string Issuer,
+        string Provider,
+        string Store
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Issuer);
+        this.Issuer = Issuer;
+        global::System.ArgumentNullException.ThrowIfNull(Provider);
+        this.Provider = Provider;
+        global::System.ArgumentNullException.ThrowIfNull(Store);
+        this.Store = Store;
+    }
+
+    public void Deconstruct(out string Issuer, out string Provider, out string Store)
+    {
+        Issuer = this.Issuer;
+        Provider = this.Provider;
+        Store = this.Store;
+    }
+
+    /// <summary>
+    /// The certificate issuer.
+    /// </summary>
+    [CliOption("--issuer", Format = OptionFormat.EqualsSeparated)]
+    public string Issuer { get; private init; }
+
+    /// <summary>
+    /// The Windows secure store provider.
+    /// </summary>
+    [CliOption("--provider", Format = OptionFormat.EqualsSeparated)]
+    public string Provider { get; private init; }
+
+    /// <summary>
+    /// The Windows secure store.
+    /// </summary>
+    [CliOption("--store", Format = OptionFormat.EqualsSeparated)]
+    public string Store { get; private init; }
+
+    /// <summary>
+    /// Provide a custom path to the enterprise-certificate-proxy binary. This flag must be the full path to the binary.
+    /// </summary>
+    [CliOption("--ecp", Format = OptionFormat.EqualsSeparated)]
+    public string? Ecp { get; set; }
+
+    /// <summary>
+    /// Provide a custom path to the enterprise-certificate-proxy shared client library. This flag must be the full path to the shared library.
+    /// </summary>
+    [CliOption("--ecp-client", Format = OptionFormat.EqualsSeparated)]
+    public string? EcpClient { get; set; }
+
+    /// <summary>
+    /// Provide a custom path to the ECP HTTP proxy binary. This flag must be the full path to the binary.
+    /// </summary>
+    [CliOption("--ecp-http-proxy", Format = OptionFormat.EqualsSeparated)]
+    public string? EcpHttpProxy { get; set; }
+
+    /// <summary>
+    /// Override the file path that the enterprise-certificate-proxy configuration is written to.
+    /// </summary>
+    [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
+    public string? OutputFile { get; set; }
+
 }

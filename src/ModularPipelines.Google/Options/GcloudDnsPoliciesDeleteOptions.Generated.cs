@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dns", "policies", "delete")]
 public record GcloudDnsPoliciesDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// deletes a Cloud DNS policy
+    /// </summary>
+    /// <param name="Policy">Policy resource - The name of the policy you want to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the policy or fully qualified identifier for the policy. To set the policy attribute: ▸ provide the argument policy on the command line.</param>
+    public GcloudDnsPoliciesDeleteOptions(
+        string Policy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Policy);
+        this.Policy = Policy;
+    }
+
+    public void Deconstruct(out string Policy)
+    {
+        Policy = this.Policy;
+    }
+
+    /// <summary>
+    /// Policy resource - The name of the policy you want to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the policy or fully qualified identifier for the policy. To set the policy attribute: ▸ provide the argument policy on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Policy { get; private init; }
+
 }

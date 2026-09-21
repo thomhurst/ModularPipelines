@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "reservations", "perform-maintenance")]
-public record GcloudComputeReservationsPerformMaintenanceOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Reservation
-) : GcloudOptions
+public record GcloudComputeReservationsPerformMaintenanceOptions : GcloudOptions
 {
+    /// <summary>
+    /// perform maintenance on a     reservation, only applicable to reservations with reservation blocks
+    /// </summary>
+    /// <param name="Reservation">Name of the reservation to perform-maintenance.</param>
+    public GcloudComputeReservationsPerformMaintenanceOptions(
+        string Reservation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Reservation);
+        this.Reservation = Reservation;
+    }
+
+    public void Deconstruct(out string Reservation)
+    {
+        Reservation = this.Reservation;
+    }
+
     /// <summary>
     /// The maintenance scope to set for the reservation. SCOPE must be one of: all Perform maintenance on all hosts in the reservation. running Perform maintenance only on the hosts in the reservation that have running VMs. unused Perform maintenance only on the hosts in the reservation that don't have running VMs.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudComputeReservationsPerformMaintenanceOptions(
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the reservation to perform-maintenance.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Reservation { get; private init; }
 
 }

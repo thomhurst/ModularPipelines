@@ -38,6 +38,6 @@ public record GcloudDataprocOperationsListOptions : GcloudOptions
     /// Filter by cluster state. This flag is ignored when --filter is specified. The equivalent term in a --filter expression is: status.state = ACTIVE. STATE_FILTER must be one of: active, inactive.
     /// </summary>
     [CliOption("--state-filter", Format = OptionFormat.EqualsSeparated)]
-    public GcloudStateFilter? StateFilter { get; set; }
+    public GcloudDataprocOperationsListStateFilter? StateFilter { get; set; }
 
 }

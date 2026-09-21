@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,187 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "entries", "create")]
-public record GcloudDataCatalogEntriesCreateOptions : GcloudOptions
+public record GcloudDataCatalogEntriesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Data Catalog entry
+    /// </summary>
+    /// <param name="Entry">Entry resource - Entry to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the entry or fully qualified identifier for the entry. To set the entry attribute: ▸ provide the argument entry on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataCatalogEntriesCreateOptions(
+        string Entry
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Entry);
+        this.Entry = Entry;
+    }
+
+    public void Deconstruct(out string Entry)
+    {
+        Entry = this.Entry;
+    }
+
+    /// <summary>
+    /// Entry resource - Entry to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Entry group of the entry. To set the entry-group attribute: ▸ provide the argument entry on the command line with a fully specified name; ▸ provide the argument --entry-group on the command line.
+    /// </summary>
+    [CliOption("--entry-group", Format = OptionFormat.EqualsSeparated)]
+    public string? EntryGroup { get; set; }
+
+    /// <summary>
+    /// Entry resource - Entry to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the entry. To set the location attribute: ▸ provide the argument entry on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Types can either be specified as a built-in type or described as a custom type. Exactly one of these must be specified: Built-in type can be specified for an entry. For types FILESET, a file pattern must be specified. Type of the entry. TYPE must be one of: cluster, dashboard, database, database-schema, data-source-connection, data-stream, edge, entry-type-unspecified, explore, feature-group, feature-online-store, feature-view, fileset, graph, lake, look, model, node, routine, service, table, zone. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string? Type { get; set; }
+
+    /// <summary>
+    /// Types can either be specified as a built-in type or described as a custom type. Exactly one of these must be specified: Built-in type can be specified for an entry. For types FILESET, a file pattern must be specified. Patterns to identify a set of files in Google Cloud Storage. A star (*) may be used at the end of a pattern to match arbitrary files beginning with that pattern. Examples of valid file patterns: ▸ gs://bucket_name/* - Matches all files in 'bucket_name'. ▸ gs://bucket_name/file* - Matches files prefixed by 'file' in 'bucket_name'. ▸ gs://another_bucket/a.txt - Matches 'gs://another_bucket/a.txt'. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--gcs-file-patterns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? GcsFilePatterns
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __GcsFilePatternsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __GcsFilePatternsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Types can either be specified as a built-in type or described as a custom type. Exactly one of these must be specified: Built-in type can be specified for an entry. For types FILESET, a file pattern must be specified. External system from which the entry is fed. If --type is not used, then --user-specified-system must be provided. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--user-specified-system", Format = OptionFormat.EqualsSeparated)]
+    public string? UserSpecifiedSystem { get; set; }
+
+    /// <summary>
+    /// Types can either be specified as a built-in type or described as a custom type. Exactly one of these must be specified: Built-in type can be specified for an entry. For types FILESET, a file pattern must be specified. Exactly one of these must be specified: For externally ingested resources, --user-specified-type and --user-specified-system are required. Linked resource and source system time stamps are optional. Type of the entry coming from external system. If --type is not used, then --user-specified-type must be provided. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--user-specified-type", Format = OptionFormat.EqualsSeparated)]
+    public string? UserSpecifiedType { get; set; }
+
+    /// <summary>
+    /// Types can either be specified as a built-in type or described as a custom type. Exactly one of these must be specified: Built-in type can be specified for an entry. For types FILESET, a file pattern must be specified. Exactly one of these must be specified: For externally ingested resources, --user-specified-type and --user-specified-system are required. Linked resource and source system time stamps are optional. Link to the resource in external system. If --type is not used, then --linked-resource may be provided.
+    /// </summary>
+    [CliOption("--linked-resource", Format = OptionFormat.EqualsSeparated)]
+    public string? LinkedResource { get; set; }
+
+    /// <summary>
+    /// Types can either be specified as a built-in type or described as a custom type. Exactly one of these must be specified: Built-in type can be specified for an entry. For types FILESET, a file pattern must be specified. Exactly one of these must be specified: For externally ingested resources, --user-specified-type and --user-specified-system are required. Linked resource and source system time stamps are optional. Creation timestamp of the resource in the external system. If --type is not used, then --source-system-create-time may be provided.
+    /// </summary>
+    [CliOption("--source-system-create-time", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceSystemCreateTime { get; set; }
+
+    /// <summary>
+    /// Types can either be specified as a built-in type or described as a custom type. Exactly one of these must be specified: Built-in type can be specified for an entry. For types FILESET, a file pattern must be specified. Exactly one of these must be specified: For externally ingested resources, --user-specified-type and --user-specified-system are required. Linked resource and source system time stamps are optional. Update timestamp of the resource in the external system. If --type is not used, then --source-system-update-time may be provided.
+    /// </summary>
+    [CliOption("--source-system-update-time", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceSystemUpdateTime { get; set; }
+
+    /// <summary>
+    /// Textual description of the entry.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Human-readable name for the entry.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Fully qualified name of the resource.
+    /// </summary>
+    [CliOption("--fully-qualified-name", Format = OptionFormat.EqualsSeparated)]
+    public string? FullyQualifiedName { get; set; }
+
+    /// <summary>
+    /// Column schema for the entry. A schema consists of a list of column names along with their types, descriptions, modes, and nested subcolumns. For example: - column: first_name description: First name mode: REQUIRED type: STRING - column: last_name description: Last name mode: REQUIRED type: STRING - column: addresses description: Addresses mode: REPEATED type: RECORD subcolumns: - column: city description: City mode: NULLABLE type: STRING - column: state description: State mode: NULLABLE type: STRING At most one of these can be specified: Inline schema for the entry. When specifying a schema via this argument, only column names and types should be provided. Column modes will default to NULLABLE, and column descriptions and nested subcolumns are not supported. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--schema", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Schema
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SchemaSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SchemaSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Column schema for the entry. A schema consists of a list of column names along with their types, descriptions, modes, and nested subcolumns. For example: - column: first_name description: First name mode: REQUIRED type: STRING - column: last_name description: Last name mode: REQUIRED type: STRING - column: addresses description: Addresses mode: REPEATED type: RECORD subcolumns: - column: city description: City mode: NULLABLE type: STRING - column: state description: State mode: NULLABLE type: STRING At most one of these can be specified: Path to a JSON or YAML file containing the schema for the entry. This can be used to specify schemas with column descriptions, column modes other than NULLABLE, and nested subcolumns. Use a full or relative path to a local file containing the value of schema.
+    /// </summary>
+    [CliOption("--schema-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? SchemaFromFile { get; set; }
+
+    /// <summary>
+    /// Entry resource - Entry to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the entry or fully qualified identifier for the entry. To set the entry attribute: ▸ provide the argument entry on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Entry { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(Type) || ((object?)GcsFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)GcsFilePatterns is not string || !string.IsNullOrWhiteSpace(GcsFilePatterns?.ToString()) : ((object?)GcsFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)GcsFilePatterns, static item => item is not null) : (GcsFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GcsFilePatterns), static item => item is not null)))) || !string.IsNullOrWhiteSpace(UserSpecifiedSystem) || !string.IsNullOrWhiteSpace(UserSpecifiedType) || !string.IsNullOrWhiteSpace(LinkedResource) || !string.IsNullOrWhiteSpace(SourceSystemCreateTime) || !string.IsNullOrWhiteSpace(SourceSystemUpdateTime)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (Type, GcsFilePatterns, UserSpecifiedSystem, UserSpecifiedType, LinkedResource, SourceSystemCreateTime, or SourceSystemUpdateTime) must be specified.", [nameof(Type), nameof(GcsFilePatterns), nameof(UserSpecifiedSystem), nameof(UserSpecifiedType), nameof(LinkedResource), nameof(SourceSystemCreateTime), nameof(SourceSystemUpdateTime)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Type) || ((object?)GcsFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)GcsFilePatterns is not string || !string.IsNullOrWhiteSpace(GcsFilePatterns?.ToString()) : ((object?)GcsFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)GcsFilePatterns, static item => item is not null) : (GcsFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GcsFilePatterns), static item => item is not null)))) || !string.IsNullOrWhiteSpace(UserSpecifiedSystem) || !string.IsNullOrWhiteSpace(UserSpecifiedType) || !string.IsNullOrWhiteSpace(LinkedResource) || !string.IsNullOrWhiteSpace(SourceSystemCreateTime) || !string.IsNullOrWhiteSpace(SourceSystemUpdateTime)) && (!string.IsNullOrWhiteSpace(Type) || ((object?)GcsFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)GcsFilePatterns is not string || !string.IsNullOrWhiteSpace(GcsFilePatterns?.ToString()) : ((object?)GcsFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)GcsFilePatterns, static item => item is not null) : (GcsFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GcsFilePatterns), static item => item is not null)))) || !string.IsNullOrWhiteSpace(UserSpecifiedSystem) || !string.IsNullOrWhiteSpace(UserSpecifiedType) || !string.IsNullOrWhiteSpace(LinkedResource) || !string.IsNullOrWhiteSpace(SourceSystemCreateTime) || !string.IsNullOrWhiteSpace(SourceSystemUpdateTime)) && (!(!string.IsNullOrWhiteSpace(Type))))
+        {
+            yield return new ValidationResult("Type must be specified when other arguments in this group are specified.", [nameof(Type)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Type) || ((object?)GcsFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)GcsFilePatterns is not string || !string.IsNullOrWhiteSpace(GcsFilePatterns?.ToString()) : ((object?)GcsFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)GcsFilePatterns, static item => item is not null) : (GcsFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GcsFilePatterns), static item => item is not null)))) || !string.IsNullOrWhiteSpace(UserSpecifiedSystem) || !string.IsNullOrWhiteSpace(UserSpecifiedType) || !string.IsNullOrWhiteSpace(LinkedResource) || !string.IsNullOrWhiteSpace(SourceSystemCreateTime) || !string.IsNullOrWhiteSpace(SourceSystemUpdateTime)) && (!string.IsNullOrWhiteSpace(Type) || ((object?)GcsFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)GcsFilePatterns is not string || !string.IsNullOrWhiteSpace(GcsFilePatterns?.ToString()) : ((object?)GcsFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)GcsFilePatterns, static item => item is not null) : (GcsFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GcsFilePatterns), static item => item is not null)))) || !string.IsNullOrWhiteSpace(UserSpecifiedSystem) || !string.IsNullOrWhiteSpace(UserSpecifiedType) || !string.IsNullOrWhiteSpace(LinkedResource) || !string.IsNullOrWhiteSpace(SourceSystemCreateTime) || !string.IsNullOrWhiteSpace(SourceSystemUpdateTime)) && (!(!string.IsNullOrWhiteSpace(UserSpecifiedSystem))))
+        {
+            yield return new ValidationResult("UserSpecifiedSystem must be specified when other arguments in this group are specified.", [nameof(UserSpecifiedSystem)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Type) || ((object?)GcsFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)GcsFilePatterns is not string || !string.IsNullOrWhiteSpace(GcsFilePatterns?.ToString()) : ((object?)GcsFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)GcsFilePatterns, static item => item is not null) : (GcsFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GcsFilePatterns), static item => item is not null)))) || !string.IsNullOrWhiteSpace(UserSpecifiedSystem) || !string.IsNullOrWhiteSpace(UserSpecifiedType) || !string.IsNullOrWhiteSpace(LinkedResource) || !string.IsNullOrWhiteSpace(SourceSystemCreateTime) || !string.IsNullOrWhiteSpace(SourceSystemUpdateTime)) && (!string.IsNullOrWhiteSpace(Type) || ((object?)GcsFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)GcsFilePatterns is not string || !string.IsNullOrWhiteSpace(GcsFilePatterns?.ToString()) : ((object?)GcsFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)GcsFilePatterns, static item => item is not null) : (GcsFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GcsFilePatterns), static item => item is not null)))) || !string.IsNullOrWhiteSpace(UserSpecifiedSystem) || !string.IsNullOrWhiteSpace(UserSpecifiedType) || !string.IsNullOrWhiteSpace(LinkedResource) || !string.IsNullOrWhiteSpace(SourceSystemCreateTime) || !string.IsNullOrWhiteSpace(SourceSystemUpdateTime)) && (((!string.IsNullOrWhiteSpace(UserSpecifiedType) || !string.IsNullOrWhiteSpace(LinkedResource) || !string.IsNullOrWhiteSpace(SourceSystemCreateTime) || !string.IsNullOrWhiteSpace(SourceSystemUpdateTime)) ? 1 : 0) != 1))
+        {
+            yield return new ValidationResult("Exactly one of (UserSpecifiedType, LinkedResource, SourceSystemCreateTime, or SourceSystemUpdateTime) must be specified.", [nameof(UserSpecifiedType), nameof(LinkedResource), nameof(SourceSystemCreateTime), nameof(SourceSystemUpdateTime)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Type) || ((object?)GcsFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)GcsFilePatterns is not string || !string.IsNullOrWhiteSpace(GcsFilePatterns?.ToString()) : ((object?)GcsFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)GcsFilePatterns, static item => item is not null) : (GcsFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GcsFilePatterns), static item => item is not null)))) || !string.IsNullOrWhiteSpace(UserSpecifiedSystem) || !string.IsNullOrWhiteSpace(UserSpecifiedType) || !string.IsNullOrWhiteSpace(LinkedResource) || !string.IsNullOrWhiteSpace(SourceSystemCreateTime) || !string.IsNullOrWhiteSpace(SourceSystemUpdateTime)) && (!string.IsNullOrWhiteSpace(Type) || ((object?)GcsFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)GcsFilePatterns is not string || !string.IsNullOrWhiteSpace(GcsFilePatterns?.ToString()) : ((object?)GcsFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)GcsFilePatterns, static item => item is not null) : (GcsFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GcsFilePatterns), static item => item is not null)))) || !string.IsNullOrWhiteSpace(UserSpecifiedSystem) || !string.IsNullOrWhiteSpace(UserSpecifiedType) || !string.IsNullOrWhiteSpace(LinkedResource) || !string.IsNullOrWhiteSpace(SourceSystemCreateTime) || !string.IsNullOrWhiteSpace(SourceSystemUpdateTime)) && (!string.IsNullOrWhiteSpace(UserSpecifiedType) || !string.IsNullOrWhiteSpace(LinkedResource) || !string.IsNullOrWhiteSpace(SourceSystemCreateTime) || !string.IsNullOrWhiteSpace(SourceSystemUpdateTime)) && (!string.IsNullOrWhiteSpace(UserSpecifiedType) || !string.IsNullOrWhiteSpace(LinkedResource) || !string.IsNullOrWhiteSpace(SourceSystemCreateTime) || !string.IsNullOrWhiteSpace(SourceSystemUpdateTime)) && (!(!string.IsNullOrWhiteSpace(UserSpecifiedType))))
+        {
+            yield return new ValidationResult("UserSpecifiedType must be specified when other arguments in this group are specified.", [nameof(UserSpecifiedType)]);
+        }
+        if ((((object?)Schema is global::System.Collections.Generic.IEnumerable<char> ? (object?)Schema is not string || !string.IsNullOrWhiteSpace(Schema?.ToString()) : ((object?)Schema is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Schema, static item => item is not null) : (Schema is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Schema), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SchemaFromFile) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Schema or SchemaFromFile may be specified.", [nameof(Schema), nameof(SchemaFromFile)]);
+        }
+        yield break;
+    }
+
 }
