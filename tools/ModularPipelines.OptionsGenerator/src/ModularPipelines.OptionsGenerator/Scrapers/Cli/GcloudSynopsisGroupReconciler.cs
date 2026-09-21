@@ -86,7 +86,8 @@ internal static class GcloudSynopsisGroupReconciler
         for (var index = 0; index < groups.Count; index++)
         {
             var child = groups[index];
-            if (!child.Kind.HasFlag(CliArgumentGroupKind.Resource))
+            if (!child.Kind.HasFlag(CliArgumentGroupKind.Resource)
+                || (child.Kind & (CliArgumentGroupKind.AtMostOne | CliArgumentGroupKind.AtLeastOne)) != 0)
             {
                 continue;
             }
