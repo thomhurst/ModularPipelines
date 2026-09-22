@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 
@@ -130,8 +131,16 @@ public partial class RequiredConstructorValidationTests
     {
         var options = command.Options.Where(option => group.PropertyNames.Contains(option.PropertyName)).ToList();
         var generated = await Generate(options, alternativeGroups: [group]);
+        var enums = await new EnumGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "tool",
+            NamespacePrefix = "Tool",
+            TargetNamespace = "ModularPipelines.Tool",
+            OutputDirectory = "src/ModularPipelines.Tool",
+            Commands = [command],
+        });
         const string secretAttribute = "namespace ModularPipelines.Secrets { public sealed class SecretValueAttribute : System.Attribute; }";
-        var optionsType = Compile(generated, secretAttribute).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var optionsType = Compile([generated, secretAttribute, .. enums.Select(file => file.Content)]).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
         foreach (var (properties, valid) in cases)
         {
             var instance = Activator.CreateInstance(optionsType)!;

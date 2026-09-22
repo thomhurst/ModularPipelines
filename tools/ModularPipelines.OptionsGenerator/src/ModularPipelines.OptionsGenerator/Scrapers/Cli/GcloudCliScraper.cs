@@ -421,6 +421,15 @@ public partial class GcloudCliScraper : CliScraperBase
             && group.PropertyNames.ToHashSet(StringComparer.Ordinal).SetEquals(candidate.PropertyNames));
         return choice ?? group with
         {
+            // Adjacent flags inside a synopsis branch can all be optional. Only the
+            // documented FLAGS constraints establish mandatory companion members.
+            Members = [.. group.Members.Select(member => member with
+            {
+                IsRequired = member.IsRequired && documented.SelectMany(candidate => candidate.Members)
+                    .Any(candidate => candidate.PropertyName == member.PropertyName && candidate.IsRequired),
+            })],
+            IsRequired = group.IsChoice ? documented.FirstOrDefault(candidate => candidate.IsChoice
+                && group.PropertyNames.ToHashSet(StringComparer.Ordinal).SetEquals(candidate.PropertyNames))?.IsRequired ?? group.IsRequired : group.IsRequired,
             Groups = [.. group.Groups.Select(child => PreserveDocumentedChoices(child, documented))],
         };
     }
