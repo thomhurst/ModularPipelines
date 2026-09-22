@@ -9,6 +9,7 @@ using ModularPipelines.Build.Helpers;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
+using ModularPipelines.Distributed;
 using ModularPipelines.DotNet.Enums;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.DotNet.Parsers.Trx;
@@ -51,7 +52,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
         await context.Services.GetRequiredService<BuildOutputSharing>().RestoreAsync(
             context.Artifacts,
-            typeof(BuildSolutionsModule).FullName!,
+            ModuleId.FromType(typeof(BuildSolutionsModule)),
             repositoryInfo.Root.Path,
             cancellationToken).ConfigureAwait(false);
 

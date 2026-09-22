@@ -28,7 +28,7 @@ internal sealed class BuildOutputSharing(IOptions<DistributedOptions> options, I
     /// </remarks>
     public Task RestoreAsync(
         IArtifactContext artifacts,
-        string producerModuleTypeName,
+        ModuleId producerModuleId,
         string repositoryRoot,
         CancellationToken cancellationToken)
     {
@@ -41,7 +41,7 @@ internal sealed class BuildOutputSharing(IOptions<DistributedOptions> options, I
         lock (_restoreLock)
         {
             restoreTask = _restoreTask ??= artifacts.DownloadAsync(
-                producerModuleTypeName,
+                producerModuleId,
                 "build-output",
                 repositoryRoot,
                 applicationLifetime.ApplicationStopping);

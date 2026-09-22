@@ -7,8 +7,8 @@ namespace ModularPipelines.UnitTests.Build;
 
 public class BuildOutputSharingTests
 {
-    private const string Producer = "BuildSolutionsModule";
     private const string RepositoryRoot = "/repository";
+    private static readonly ModuleId Producer = new("build.application");
 
     [Test]
     [Arguments(false)]
@@ -23,7 +23,7 @@ public class BuildOutputSharingTests
         Task<string>? sharedDownload = null;
         var artifacts = new Mock<IArtifactContext>(MockBehavior.Strict);
         artifacts.Setup(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, It.IsAny<CancellationToken>()))
-            .Returns((string _, string _, string _, CancellationToken token) =>
+            .Returns((ModuleId _, string _, string _, CancellationToken token) =>
             {
                 downloadToken = token;
                 return sharedDownload = download.Task.WaitAsync(token);
@@ -104,7 +104,7 @@ public class BuildOutputSharingTests
         using var secondCancellation = new CancellationTokenSource();
         var artifacts = new Mock<IArtifactContext>(MockBehavior.Strict);
         artifacts.Setup(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, It.IsAny<CancellationToken>()))
-            .Returns((string _, string _, string _, CancellationToken token) => download.Task.WaitAsync(token));
+            .Returns((ModuleId _, string _, string _, CancellationToken token) => download.Task.WaitAsync(token));
         var sharing = CreateSharing();
 
         var first = sharing.RestoreAsync(artifacts.Object, Producer, RepositoryRoot, firstCancellation.Token);
