@@ -10,7 +10,7 @@ The sweep reserves canonical Redis item locks before deleting an eligible worktr
 
 The same reservation protects orphan directories with dangling or missing Git metadata. Their canonical directory names supply the lock identity; an orphan without a recoverable identity is preserved for manual inspection.
 
-Create detached PR setup checkouts with `git worktree add --detach --lock --reason 'PR checkout setup' ...`. After `gh pr checkout` and lock-path registration complete, run `git worktree unlock <absolute-path>`. This temporary Git lock protects setup from older cleanup scripts; Redis remains the ownership authority.
+Create detached PR setup checkouts with `git worktree add --detach --lock --reason 'PR checkout setup' ...`. Wrap `gh pr checkout` and lock-path registration in `try/finally`, unlocking that setup's temporary Git lock in `finally` before releasing Redis ownership, even if either setup step fails. Report an unlock failure and retain the path for recovery. This temporary Git lock protects setup from older cleanup scripts; Redis remains the ownership authority.
 
 Run regression tests locally with PowerShell 7, Git and Docker:
 

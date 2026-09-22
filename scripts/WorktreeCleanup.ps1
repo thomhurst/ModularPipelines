@@ -383,6 +383,10 @@ function Remove-MergedWorktree {
         return
     }
 
+    if ($WhatIfPreference) {
+        Write-Host "sweep: WOULD remove $Worktree -- $Label"
+        return
+    }
     if (-not $PSCmdlet.ShouldProcess($Worktree, "Remove merged worktree $Label")) { return }
 
     # Primary path: let git remove it (force clears untracked artifacts; tracked is clean).

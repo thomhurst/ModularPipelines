@@ -34,7 +34,8 @@ function Assert-Fixture([bool]$Condition, [string]$Message) {
 
 function Invoke-FixtureSweep([switch]$Preview) {
     $output = @(& $sweepScript -Repo fixture/repo -WhatIf:$Preview 6>&1)
-    Assert-Fixture (($output -join "`n") -notmatch 'TOKEN-SHOULD-NOT-LEAK') 'Cleanup printed a lock token.'
+    $script:fixtureSweepOutput = $output -join "`n"
+    Assert-Fixture ($script:fixtureSweepOutput -notmatch 'TOKEN-SHOULD-NOT-LEAK') 'Cleanup printed a lock token.'
 }
 
 function gh {
@@ -185,6 +186,7 @@ exit 0
         Clear-Content -LiteralPath $fixtureCalls
         Invoke-FixtureSweep -Preview
         Assert-Fixture (Test-Path -LiteralPath $path) 'WhatIf removed a worktree.'
+        Assert-Fixture ($script:fixtureSweepOutput -match 'sweep: WOULD remove .*pr-900012-preview') 'Worktree preview was not captured through the information stream.'
         $calls = Get-Content -LiteralPath $fixtureCalls
         Assert-Fixture (-not [bool]($calls -match '^(acquire|release) ')) 'WhatIf mutated lock ownership.'
         Invoke-FixtureGit -C $fixtureRepo worktree remove --force $path
