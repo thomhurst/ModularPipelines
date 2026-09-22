@@ -350,8 +350,7 @@ public class WorkerModuleExecutorTests
     private static async Task AssertWorkerRetriesAsync<TModule>(
         Action<PipelineBuilder>? configureBuilder,
         CancellationToken cancellationToken,
-        bool rejectFirstPublication = false,
-        string? schemaVersion = null)
+        bool rejectFirstPublication = false)
         where TModule : RetryingModule
     {
         var (module, result) = await ExecuteWorkerModuleAsync<TModule, int>(
