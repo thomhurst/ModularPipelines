@@ -145,7 +145,7 @@ public partial class GcloudCliScraper : CliScraperBase
             ArgumentGroups = parsedOptions.ArgumentGroups,
             RequiredAlternativeGroups = parsedOptions.RequiredAlternativeGroups,
             PositionalArguments = positionalArgs,
-            UsageSynopsis = usage.Synopsis,
+            UsageSynopsis = parsedOptions.Usage.Synopsis,
             SubDomainGroup = subDomain,
             Enums = enums
         };
@@ -159,6 +159,7 @@ public partial class GcloudCliScraper : CliScraperBase
 
     protected override UsageSynopsisParseResult ParseUsageSynopsis(string[] commandPath, string helpText)
     {
+        var argumentGroupSynopses = new List<(string Deferred, string Original)>();
         var groups = ExtractSections(helpText, "FLAGS", "REQUIRED FLAGS", "OPTIONAL FLAGS", "POSITIONAL ARGUMENTS")
             .Select(section => ParseSectionArgumentGroup(section.Name, section.Content)).ToArray();
         var declaredArguments = groups.SelectMany(group => group.FlattenArguments()).ToArray();
@@ -184,15 +185,40 @@ public partial class GcloudCliScraper : CliScraperBase
             // Defaults annotate the preceding option; they do not add operands or
             // change the nesting of option groups in the synopsis.
             normalized = SynopsisDefaultAnnotationPattern().Replace(normalized, "${option} ");
-            normalized = UsageSynopsisParser.DeferDocumentedOptionGroups(normalized, groups);
+            var candidates = UsageSynopsisParser.ExtractSynopses("SYNOPSIS\n" + normalized, ["SYNOPSIS"])
+                .Select(candidate => (Deferred: UsageSynopsisParser.DeferDocumentedOptionGroups(candidate, groups), Original: candidate))
+                .ToArray();
+            argumentGroupSynopses.AddRange(candidates);
+            // Keep one invocation per line after deferral: removed multiline groups
+            // must not leave blank lines that prematurely terminate the synopsis.
+            normalized = candidates.Length == 0 ? normalized
+                : "\n" + string.Join('\n', candidates.Select(candidate => "    " + candidate.Deferred)) + "\n\n";
             helpText = helpText.Replace(synopsis, normalized, StringComparison.Ordinal);
         }
         var dispatchPlaceholders = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "Group", "Command" };
         dispatchPlaceholders.ExceptWith(declaredArguments
             .Where(argument => argument.IsPositional)
             .Select(argument => NormalizePropertyName(argument.SwitchName)!));
-        return UsageSynopsisParser.RemoveCommandGroupPlaceholders(
+        var usage = UsageSynopsisParser.RemoveCommandGroupPlaceholders(
             base.ParseUsageSynopsis(commandPath, helpText), dispatchPlaceholders);
+        return usage with
+        {
+            ArgumentGroupSynopsis = FindArgumentGroupSynopsis(usage.Synopsis),
+            RequirednessCandidates = [.. usage.RequirednessCandidates.Select(candidate => candidate with
+            {
+                ArgumentGroupSynopsis = FindArgumentGroupSynopsis(candidate.Synopsis),
+            })],
+        };
+
+        string? FindArgumentGroupSynopsis(string? synopsis)
+        {
+            var selected = argumentGroupSynopses
+                .Where(candidate => NormalizeWhitespace(candidate.Deferred) == NormalizeWhitespace(synopsis ?? ""))
+                .Select(candidate => candidate.Original).Distinct(StringComparer.Ordinal).ToArray();
+            return selected is [var selectedSynopsis] ? selectedSynopsis : null;
+        }
+
+        static string NormalizeWhitespace(string value) => string.Join(' ', value.Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries));
     }
 
     protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
@@ -297,7 +323,7 @@ public partial class GcloudCliScraper : CliScraperBase
 
     private (List<CliOptionDefinition> Options, IReadOnlyList<CliArgumentGroup> ArgumentGroups,
         IReadOnlyList<CliRequiredAlternativeGroup> RequiredAlternativeGroups,
-        IReadOnlyList<CliPositionalArgument> PositionalArguments) ParseArguments(
+        IReadOnlyList<CliPositionalArgument> PositionalArguments, UsageSynopsisParseResult Usage) ParseArguments(
         string helpText,
         IReadOnlyList<string> commandParts,
         string[] commandPath,
@@ -340,6 +366,7 @@ public partial class GcloudCliScraper : CliScraperBase
             }
         }
 
+        usage = UsageSynopsisParser.ResolveOptionUsage(usage, GetUsageOptions(options));
         var positionalArguments = ParsePositionalArguments(usage, commandPath, argumentGroups, options);
         foreach (var (name, argumentGroup) in sections)
         {
@@ -347,7 +374,137 @@ public partial class GcloudCliScraper : CliScraperBase
                 name == "REQUIRED FLAGS", allowPresenceRequirements: name != "OPTIONAL FLAGS");
         }
 
-        return (options, argumentGroups, requiredAlternativeGroups, positionalArguments);
+        ReconcileRequiredSynopsisChoices(usage.ArgumentGroupSynopsis ?? usage.Synopsis, options, requiredAlternativeGroups);
+
+        return (options, argumentGroups, requiredAlternativeGroups, positionalArguments, usage);
+    }
+
+    private static void ReconcileRequiredSynopsisChoices(string? synopsis, IReadOnlyList<CliOptionDefinition> options,
+        List<CliRequiredAlternativeGroup> constraints)
+    {
+        foreach (var syntax in UsageSynopsisParser.GetRequiredOptionChoiceGroups(synopsis))
+        {
+            var switches = syntax.EnumerateMembers().Select(member => member.OptionSwitch!).ToArray();
+            if (switches.Distinct(StringComparer.Ordinal).Count() != switches.Length
+                || switches.Any(optionSwitch => !options.Any(option => option.SwitchName == optionSwitch)))
+            {
+                continue;
+            }
+
+            var replacement = ConvertSynopsisConstraint(syntax, options);
+            var names = replacement.PropertyNames.ToHashSet(StringComparer.Ordinal);
+            // Explicit required synopsis choices preserve both nested alternatives and
+            // conjunctions. Replace only a complete matching constraint; keep help prose
+            // and partially documented groups under the existing scraper rules.
+            var index = constraints.FindIndex(group => names.SetEquals(group.PropertyNames));
+            if (index >= 0)
+            {
+                var previous = constraints[index];
+                replacement = PreserveDocumentedChoices(replacement, EnumerateConstraints(previous).ToArray());
+                constraints[index] = replacement with { IsRequired = previous.IsRequired };
+            }
+        }
+    }
+
+    private static IEnumerable<CliRequiredAlternativeGroup> EnumerateConstraints(CliRequiredAlternativeGroup group) =>
+        new[] { group }.Concat(group.Groups.SelectMany(EnumerateConstraints));
+
+    private static CliRequiredAlternativeGroup PreserveDocumentedChoices(CliRequiredAlternativeGroup group,
+        IReadOnlyList<CliRequiredAlternativeGroup> documented)
+    {
+        group = RestoreFlattenedDocumentedChoices(group, documented);
+        // Colon syntax can hide a documented, nonexclusive "at least one" rule.
+        // Preserve that cardinality instead of requiring every member of the bundle.
+        var choice = group.IsChoice ? null : documented.FirstOrDefault(candidate => candidate.IsChoice
+            && !candidate.IsMutuallyExclusive
+            && candidate.Members.All(member => !member.IsRequired)
+            && group.PropertyNames.ToHashSet(StringComparer.Ordinal).SetEquals(candidate.PropertyNames));
+        return choice ?? group with
+        {
+            Groups = [.. group.Groups.Select(child => PreserveDocumentedChoices(child, documented))],
+        };
+    }
+
+    private static CliRequiredAlternativeGroup ConvertSynopsisConstraint(UsageRequiredAlternativeGroup syntax,
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        var groups = syntax.Groups.Select(child => ConvertSynopsisConstraint(child, options)).ToList();
+        var members = new List<CliRequiredAlternativeMember>();
+        foreach (var member in syntax.Members)
+        {
+            var alternatives = GetRequiredAlternativeMembers(new CliArgumentDefinition
+            {
+                SwitchName = member.OptionSwitch!,
+            }, options, []).ToArray();
+            if (alternatives.Length > 1)
+            {
+                groups.Add(new CliRequiredAlternativeGroup
+                {
+                    IsRequired = member.IsRequired,
+                    IsMutuallyExclusive = true,
+                    Members = alternatives,
+                });
+            }
+            else
+            {
+                members.AddRange(alternatives.Select(alternative => alternative with { IsRequired = member.IsRequired }));
+            }
+        }
+
+        if (syntax.IsChoice)
+        {
+            var scalarBranches = groups.Where(group => !group.IsChoice && group.Groups.Count == 0
+                && group.Members.Count == 1).ToArray();
+            members.AddRange(scalarBranches.Select(group => group.Members[0] with { IsRequired = false }));
+            groups.RemoveAll(scalarBranches.Contains);
+        }
+
+        return new CliRequiredAlternativeGroup
+        {
+            IsRequired = syntax.IsRequired,
+            IsChoice = syntax.IsChoice,
+            IsMutuallyExclusive = syntax.IsChoice,
+            Members = members,
+            Groups = groups,
+        };
+    }
+
+    private static CliRequiredAlternativeGroup RestoreFlattenedDocumentedChoices(CliRequiredAlternativeGroup group,
+        IReadOnlyList<CliRequiredAlternativeGroup> documented)
+    {
+        if (!group.IsChoice)
+        {
+            return group;
+        }
+
+        // SYNOPSIS can omit the wrappers around a documented nonexclusive branch.
+        // Restore that branch only when it covers complete synopsis alternatives;
+        // a partial overlap cannot establish where the missing boundaries belong.
+        foreach (var candidate in documented.Where(candidate => candidate.IsChoice && !candidate.IsMutuallyExclusive
+                     && candidate.Members.All(member => !member.IsRequired)).OrderByDescending(candidate => candidate.PropertyNames.Count))
+        {
+            var names = candidate.PropertyNames.ToHashSet(StringComparer.Ordinal);
+            if (names.SetEquals(group.PropertyNames))
+            {
+                continue;
+            }
+
+            var members = group.Members.Where(member => names.Contains(member.PropertyName)).ToArray();
+            var children = group.Groups.Where(child => child.PropertyNames.Any(names.Contains)).ToArray();
+            if (members.Length + children.Length < 2
+                || !names.SetEquals(members.Select(member => member.PropertyName).Concat(children.SelectMany(child => child.PropertyNames))))
+            {
+                continue;
+            }
+
+            group = group with
+            {
+                Members = [.. group.Members.Except(members)],
+                Groups = [.. group.Groups.Except(children), candidate],
+            };
+        }
+
+        return group;
     }
 
     private static CliArgumentGroup MarkOptionalResourceGroups(CliArgumentGroup group, IReadOnlyList<IReadOnlySet<string>> optionalGroups)

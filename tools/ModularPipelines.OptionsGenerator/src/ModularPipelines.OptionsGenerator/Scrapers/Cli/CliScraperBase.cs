@@ -1176,7 +1176,7 @@ public abstract partial class CliScraperBase : ICliScraper
             .Select(argument => argument with { AssociatedOptionSwitch = null })];
     }
 
-    private IReadOnlyList<CliOptionDefinition> GetUsageOptions(IReadOnlyList<CliOptionDefinition> options)
+    protected IReadOnlyList<CliOptionDefinition> GetUsageOptions(IReadOnlyList<CliOptionDefinition> options)
     {
         var globalOptions = EffectiveGlobalOptions;
         return globalOptions.Count == 0 ? options : [.. options, .. globalOptions];
