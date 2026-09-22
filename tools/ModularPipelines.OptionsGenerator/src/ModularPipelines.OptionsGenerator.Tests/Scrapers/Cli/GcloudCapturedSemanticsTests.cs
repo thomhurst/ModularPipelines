@@ -17,6 +17,48 @@ public class GcloudCapturedSemanticsTests
     }
 
     [Test]
+    public async Task Captured_Inline_Credentials_Are_Secret_While_Public_Material_And_Paths_Remain_Visible()
+    {
+        var command = await Scrape("oracle-database goldengate-connections create");
+        (string PropertyName, bool Secret)[] cases =
+        [
+            ("MysqlConnectionPropertiesSslKeyFile", true),
+            ("PostgresqlConnectionPropertiesSslKeyFile", true),
+            ("JavaMessageServiceConnectionPropertiesKeyStoreFile", true),
+            ("KafkaConnectionPropertiesKeyStoreFile", true),
+            ("KafkaSchemaRegistryConnectionPropertiesKeyStoreFile", true),
+            ("RedisConnectionPropertiesKeyStoreFile", true),
+            ("OracleConnectionPropertiesWalletFile", true),
+            ("MysqlConnectionPropertiesSslCaFile", false),
+            ("MysqlConnectionPropertiesSslCertFile", false),
+            ("MysqlConnectionPropertiesSslCrlFile", false),
+            ("PostgresqlConnectionPropertiesSslCaFile", false),
+            ("PostgresqlConnectionPropertiesSslCertFile", false),
+            ("PostgresqlConnectionPropertiesSslCrlFile", false),
+            ("MongodbConnectionPropertiesTlsCertificateKeyFile", false),
+            ("JavaMessageServiceConnectionPropertiesTrustStoreFile", false),
+            ("KafkaConnectionPropertiesTrustStoreFile", false),
+            ("KafkaSchemaRegistryConnectionPropertiesTrustStoreFile", false),
+            ("RedisConnectionPropertiesTrustStoreFile", false),
+            ("KafkaConnectionPropertiesConsumerFile", false),
+            ("KafkaConnectionPropertiesProducerFile", false),
+            ("Db2ConnectionPropertiesSslClientKeystashFile", false),
+        ];
+        foreach (var (propertyName, secret) in cases)
+        {
+            await Assert.That(command.Options.Single(option => option.PropertyName == propertyName).IsSecret)
+                .IsEqualTo(secret).Because(propertyName);
+        }
+    }
+
+    [Test]
+    public async Task Captured_Multiword_Credential_Resource_Identifier_Is_Visible()
+    {
+        var command = await Scrape("iam oauth-clients credentials describe");
+        await Assert.That(command.PositionalArguments.Single(argument => argument.PropertyName == "Credential").IsSecret).IsFalse();
+    }
+
+    [Test]
     public async Task Captured_Api_Key_Http_Location_Is_Not_Secret_Material()
     {
         var command = await Scrape("apihub plugins instances create");
