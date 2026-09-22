@@ -22,15 +22,18 @@ internal class DistributedResultCollector(
     {
         var serialized = await _coordinator.WaitForResultAsync(moduleId, cancellationToken)
             .ConfigureAwait(false);
-        _telemetryTracker?.RecordResult(serialized, DateTimeOffset.UtcNow);
+        var receivedAt = DateTimeOffset.UtcNow;
         var result = _serializer.Deserialize(serialized);
-        if (result is ModuleResult { ModuleType: { } moduleType }
-            && serialized.WorkerIndex != _distributedOptions?.Value.InstanceIndex)
+        if (result is ModuleResult { ModuleType: { } moduleType })
         {
-            _commandExecutionCounter?.AddRemote(
-                moduleType,
-                serialized.WorkerIndex,
-                serialized.CommandCount);
+            _telemetryTracker?.RecordResult(serialized, receivedAt, ModuleTypeIdentifier.Get(moduleType));
+            if (serialized.WorkerIndex != _distributedOptions?.Value.InstanceIndex)
+            {
+                _commandExecutionCounter?.AddRemote(
+                    moduleType,
+                    serialized.WorkerIndex,
+                    serialized.CommandCount);
+            }
         }
 
         return result;

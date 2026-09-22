@@ -65,9 +65,16 @@ internal class ModuleTypeRegistry
             "\n",
             _registry
                 .OrderBy(static entry => entry.Key.Value, StringComparer.Ordinal)
-                .Select(static entry => $"{entry.Key.Value}\0{StableTypeName.GetBuildFingerprint(entry.Value.ResultType)}\0{entry.Value.ModuleType.Module.ModuleVersionId}"));
+                .Select(static entry => $"{entry.Key.Value}\0{StableTypeName.GetBuildFingerprint(entry.Value.ResultType)}\0{GetModuleBuildIdentity(entry.Value.ModuleType)}"));
         var schema = $"wire={WireSchemaVersion}\n{moduleSchema}";
         return Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(schema)));
+    }
+
+    private static string GetModuleBuildIdentity(Type moduleType)
+    {
+        // ModuleId supplies the module's identity, including explicit rename overrides.
+        var argumentBuilds = string.Join("\0", moduleType.GetGenericArguments().Select(StableTypeName.GetBuildFingerprint));
+        return $"{moduleType.Module.ModuleVersionId}\0{argumentBuilds}";
     }
 
     private static Type? GetResultType(Type moduleType)

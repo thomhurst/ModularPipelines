@@ -150,6 +150,33 @@ public class ModuleTypeRegistryTests
     [ModuleId("result-build-module")]
     private abstract class ResultBuildModule<T> : Module<T>;
 
+    [ModuleId("generic-module-build")]
+    private abstract class GenericBuildModule<T> : Module<string>;
+
+    [Test]
+    public async Task Schema_Detects_Different_Generic_Module_Argument_Builds()
+    {
+        static Type BuildArgument()
+        {
+            var assembly = System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(
+                new System.Reflection.AssemblyName("ModuleArgumentBuild"),
+                System.Reflection.Emit.AssemblyBuilderAccess.RunAndCollect);
+            return assembly.DefineDynamicModule("ModuleArgumentBuild")
+                .DefineType("Argument", System.Reflection.TypeAttributes.Public).CreateType()!;
+        }
+
+        var firstType = typeof(GenericBuildModule<>).MakeGenericType(BuildArgument());
+        var secondType = typeof(GenericBuildModule<>).MakeGenericType(BuildArgument());
+        var first = new ModuleTypeRegistry();
+        var second = new ModuleTypeRegistry();
+        first.Register(firstType);
+        second.Register(secondType);
+
+        await Assert.That(ModuleId.FromType(firstType)).IsEqualTo(ModuleId.FromType(secondType));
+        await Assert.That(firstType.Module.ModuleVersionId).IsEqualTo(secondType.Module.ModuleVersionId);
+        await Assert.That(first.GetPipelineSchemaVersion()).IsNotEqualTo(second.GetPipelineSchemaVersion());
+    }
+
     [Test]
     [Arguments(0)]
     [Arguments(1)]

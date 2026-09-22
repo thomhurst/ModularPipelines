@@ -93,6 +93,48 @@ public class DistributedResultCollectorTests
         await Assert.That(threw).IsTrue();
     }
 
+    [ModularPipelines.Attributes.ModuleId("build.application")]
+    private sealed class CustomIdModule : TestModule;
+
+    [Test]
+    public async Task Custom_ModuleId_Preserves_Type_Name_In_Distributed_Report()
+    {
+        var registry = new ModuleTypeRegistry();
+        registry.Register(typeof(CustomIdModule));
+        var serializer = new ModuleResultSerializer(registry);
+        var now = DateTimeOffset.UtcNow;
+        var success = new ModuleResult<TestResult>.Success(new TestResult())
+        {
+            Name = nameof(CustomIdModule),
+            Duration = TimeSpan.Zero,
+            StartTime = now,
+            EndTime = now,
+            Status = ModuleStatus.Succeeded,
+        };
+        var moduleId = ModuleId.FromType(typeof(CustomIdModule));
+        var serialized = serializer.Serialize(success, moduleId, workerIndex: 1) with
+        {
+            ExecutionTelemetry = new DistributedModuleExecutionTelemetry
+            {
+                ClaimedAt = now,
+                ExecutionStartedAt = now,
+                ExecutionFinishedAt = now,
+            },
+        };
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(x => x.WaitForResultAsync(moduleId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(serialized);
+        var tracker = new DistributedTelemetryTracker();
+        var collector = new DistributedResultCollector(coordinator.Object, serializer, telemetryTracker: tracker);
+
+        var result = await collector.WaitForResultAsync(moduleId, CancellationToken.None);
+        var report = tracker.CreateReport(now, now.AddSeconds(1), configuredWorkerCount: 2)!;
+
+        await Assert.That(report.Modules.Single().ModuleTypeName)
+            .IsEqualTo(ModuleTypeIdentifier.Get(typeof(CustomIdModule)));
+        await Assert.That(report.Modules.Single().ModuleTypeName).IsEqualTo(result!.TypeName);
+    }
+
     [Test]
     public async Task WaitForRemoteResult_AggregatesCommandCount()
     {

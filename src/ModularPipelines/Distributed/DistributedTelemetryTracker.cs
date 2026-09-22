@@ -13,8 +13,9 @@ internal sealed class DistributedTelemetryTracker
             assignment.EnqueuedAt,
             publishDuration);
 
-    public void RecordResult(SerializedModuleResult result, DateTimeOffset receivedAt) =>
+    public void RecordResult(SerializedModuleResult result, DateTimeOffset receivedAt, string moduleTypeName) =>
         _results[result.ModuleId] = new ResultTiming(
+            moduleTypeName,
             result.WorkerIndex,
             result.CompletedAt,
             receivedAt,
@@ -85,7 +86,7 @@ internal sealed class DistributedTelemetryTracker
 
         return new DistributedModuleRunReport
         {
-            ModuleTypeName = moduleId.Value,
+            ModuleTypeName = result.ModuleTypeName,
             WorkerIndex = result.WorkerIndex,
             EnqueuedAt = enqueuedAt,
             ClaimedAt = execution.ClaimedAt,
@@ -171,6 +172,7 @@ internal sealed class DistributedTelemetryTracker
         TimeSpan PublishDuration);
 
     private sealed record ResultTiming(
+        string ModuleTypeName,
         int WorkerIndex,
         DateTimeOffset CompletedAt,
         DateTimeOffset ReceivedAt,

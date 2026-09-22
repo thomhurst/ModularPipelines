@@ -38,7 +38,8 @@ public class DistributedTelemetryTrackerTests
                     ArtifactUploadDuration = TimeSpan.FromMilliseconds(400),
                 },
             },
-            pipelineStart.AddSeconds(9));
+            pipelineStart.AddSeconds(9),
+            "Example.BuildModule");
 
         var report = tracker.CreateReport(
             pipelineStart,
@@ -52,6 +53,7 @@ public class DistributedTelemetryTrackerTests
             await Assert.That(report.WorkerCount).IsEqualTo(2);
             await Assert.That(report.FleetUtilizationPercentage).IsEqualTo(27.5);
             await Assert.That(module.WorkerIndex).IsEqualTo(0);
+            await Assert.That(module.ModuleTypeName).IsEqualTo("Example.BuildModule");
             await Assert.That(module.QueueWaitDuration).IsEqualTo(TimeSpan.FromSeconds(2));
             await Assert.That(module.ExecutionDuration).IsEqualTo(TimeSpan.FromSeconds(4));
             await Assert.That(module.DependencyResultTransferDuration).IsEqualTo(TimeSpan.FromMilliseconds(250));
@@ -74,7 +76,8 @@ public class DistributedTelemetryTrackerTests
         var tracker = new DistributedTelemetryTracker();
         tracker.RecordResult(
             new SerializedModuleResult("Module", 0, "{}", now),
-            now);
+            now,
+            "Module");
 
         await Assert.That(tracker.CreateReport(now, now, configuredWorkerCount: 1)).IsNull();
     }
@@ -87,11 +90,11 @@ public class DistributedTelemetryTrackerTests
         tracker.RecordResult(new SerializedModuleResult("First", 0, "{}", start.AddSeconds(6))
         {
             ExecutionTelemetry = new DistributedModuleExecutionTelemetry { ClaimedAt = start.AddSeconds(-1) },
-        }, start.AddSeconds(6));
+        }, start.AddSeconds(6), "First");
         tracker.RecordResult(new SerializedModuleResult("Second", 0, "{}", start.AddSeconds(12))
         {
             ExecutionTelemetry = new DistributedModuleExecutionTelemetry { ClaimedAt = start.AddSeconds(4) },
-        }, start.AddSeconds(12));
+        }, start.AddSeconds(12), "Second");
 
         var report = tracker.CreateReport(start, start.AddSeconds(10), configuredWorkerCount: 2)!;
 
