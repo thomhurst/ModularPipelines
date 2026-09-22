@@ -5,10 +5,15 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 
 public partial class GcloudCliScraper
 {
-    private static void ApplyNamedConditionalRequirements(IReadOnlyList<CliOptionDefinition> options,
+    private static void ApplyNamedConditionalRequirements(List<CliOptionDefinition> options,
         List<CliRequiredAlternativeGroup> constraints)
     {
-        var bySwitch = options.ToDictionary(option => option.SwitchName, StringComparer.Ordinal);
+        var bySwitch = new Dictionary<string, CliOptionDefinition>(options.Count, StringComparer.Ordinal);
+        foreach (var option in options)
+        {
+            bySwitch.TryAdd(option.SwitchName, option);
+        }
+
         var dependencies = options.SelectMany(option => GetNamedRequirements(option, bySwitch))
             .GroupBy(dependency => dependency.Trigger, StringComparer.Ordinal);
         foreach (var dependency in dependencies)

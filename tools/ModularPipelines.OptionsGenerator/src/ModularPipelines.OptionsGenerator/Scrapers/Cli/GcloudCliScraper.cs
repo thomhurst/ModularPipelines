@@ -532,12 +532,11 @@ public partial class GcloudCliScraper : CliScraperBase
 
     private static bool IsIndependentlyOptional(CliArgumentDefinition argument, IReadOnlyList<IReadOnlySet<string>> optionalGroups)
     {
-        var negativeSwitch = $"--no-{argument.SwitchName[2..]}";
-        var hasNegativeForm = argument.IsNegatable || DescriptionMentionsSwitch(argument.Documentation, negativeSwitch);
+        var negativeSwitch = GetNegativeSwitch(argument);
         // Prose can collect several independent optional selectors into one group. A
         // default-enabled flag may appear only in its negative form in the synopsis.
         return optionalGroups.Any(switches => switches.Count == 1
-            && (switches.Contains(argument.SwitchName) || (hasNegativeForm && switches.Contains(negativeSwitch))));
+            && (switches.Contains(argument.SwitchName) || (negativeSwitch is not null && switches.Contains(negativeSwitch))));
     }
 
     private static void ApplyRequiredGroups(
@@ -790,12 +789,17 @@ public partial class GcloudCliScraper : CliScraperBase
         var option = CreateOptionDefinition(argument, longForm, propertyName, commandParts, helpText);
         yield return option;
 
-        var negativeSwitch = $"--no-{longForm[2..]}";
-        if (argument.IsNegatable
-            || DescriptionMentionsSwitch(argument.Documentation, negativeSwitch))
+        if (GetNegativeSwitch(argument) is { } negativeSwitch)
         {
             yield return CreateNegatedOption(option, negativeSwitch, argument.Documentation);
         }
+    }
+
+    private static string? GetNegativeSwitch(CliArgumentDefinition argument)
+    {
+        var negativeSwitch = $"--no-{argument.SwitchName[2..]}";
+        return argument.IsNegatable || DescriptionMentionsSwitch(argument.Documentation, negativeSwitch)
+            ? negativeSwitch : null;
     }
 
     private CliOptionDefinition CreateOptionDefinition(
