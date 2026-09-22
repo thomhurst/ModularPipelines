@@ -6,9 +6,17 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public class OptionEnumFactoryTests
 {
     [Test]
-    public async Task Syntax_Delimiters_Are_Rejected_Only_For_Inferred_Choices()
+    public async Task Empty_List_Default_Does_Not_Add_Type_Metadata()
     {
-        string[] values = ["[json", "yaml]"];
+        await Assert.That(OptionEnumFactory.PreserveValueHint(null, "Set labels.", "[]")).IsEqualTo("Set labels.");
+    }
+
+    [Test]
+    [Arguments("[json", "yaml]")]
+    [Arguments("(json", "yaml)")]
+    public async Task Syntax_Delimiters_Are_Rejected_Only_For_Inferred_Choices(string first, string second)
+    {
+        string[] values = [first, second];
         await Assert.That(OptionEnumFactory.TryCreateFromHint("TestOptions", "Mode", "--mode", values)).IsNull();
         var structured = OptionEnumFactory.TryCreate("TestOptions", "Mode", "--mode", values);
         await Assert.That(structured!.Values.Select(value => value.CliValue)).IsEquivalentTo(values);

@@ -400,7 +400,12 @@ public partial class SnykCliScraper : CliScraperBase
         HashSet<string> seenOptions)
     {
         var longForm = match.Groups["long"].Value.Trim();
-        var valueHint = match.Groups["value"].Value.Trim().Trim('<', '>', '[', ']');
+        var rawValueHint = match.Groups["value"].Value;
+        if (match.Groups["optional"].Success && rawValueHint.EndsWith(']'))
+        {
+            rawValueHint = rawValueHint[..^1];
+        }
+        var valueHint = OptionEnumFactory.UnwrapChoiceHint(rawValueHint);
         if (!seenOptions.Add(longForm))
         {
             return null;
@@ -412,7 +417,7 @@ public partial class SnykCliScraper : CliScraperBase
         }
 
         var isNumeric = NumericOptions.Contains(longForm);
-        var isFlag = IsFlagOption(longForm, valueHint, isNumeric);
+        var isFlag = IsFlagOption(longForm, rawValueHint, isNumeric);
         var isBoolean = IsBooleanValueHint(valueHint);
         var acceptsMultipleValues = AcceptsMultipleValues(
             commandParts,
@@ -422,6 +427,11 @@ public partial class SnykCliScraper : CliScraperBase
             isBoolean);
         var enumDefinition = CreateEnumDefinition(propertyName, longForm, valueHint, isBoolean);
         var scalarType = GetScalarType(enumDefinition, isFlag, isBoolean, isNumeric);
+        if (rawValueHint.Length > 0 && valueHint.Length == 0)
+        {
+            // Here the token is an explicit value placeholder, not a table's default cell.
+            description = $"{description} [value type: {rawValueHint}]".Trim();
+        }
 
         return new CliOptionDefinition
         {
@@ -429,7 +439,7 @@ public partial class SnykCliScraper : CliScraperBase
             ShortForm = null,
             PropertyName = propertyName,
             CSharpType = AsCSharpType(scalarType, acceptsMultipleValues),
-            Description = description,
+            Description = isBoolean ? description : OptionEnumFactory.PreserveValueHint(enumDefinition, description, rawValueHint),
             IsFlag = isFlag,
             IsRequired = description is not null && DescriptionDeclaresRequiredOption(description),
             AcceptsMultipleValues = acceptsMultipleValues,
@@ -481,19 +491,8 @@ public partial class SnykCliScraper : CliScraperBase
             return null;
         }
 
-        var values = valueHint.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        return values.Length < 2
-            ? null
-            : new CliEnumDefinition
-            {
-                EnumName = $"Snyk{propertyName}",
-                Values = values.Select(value => new CliEnumValue
-                {
-                    MemberName = GeneratorUtils.ToEnumMemberName(value),
-                    CliValue = value,
-                }).ToList(),
-                Description = $"Allowed values for --{longForm.TrimStart('-')}",
-            };
+        var values = valueHint.Split('|', StringSplitOptions.TrimEntries);
+        return OptionEnumFactory.TryCreateFromHint("Snyk", propertyName, longForm, values);
     }
 
     private static bool IsKnownScalarValueOption(
@@ -582,7 +581,7 @@ public partial class SnykCliScraper : CliScraperBase
 
     private static bool IsBooleanValueHint(string valueHint)
     {
-        var values = valueHint.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        var values = valueHint.Split('|', StringSplitOptions.TrimEntries);
         return values.Length == 2 &&
                values.Contains("true", StringComparer.OrdinalIgnoreCase) &&
                values.Contains("false", StringComparer.OrdinalIgnoreCase);
@@ -833,7 +832,7 @@ public partial class SnykCliScraper : CliScraperBase
     /// --severity-threshold=&lt;low|medium|high|critical&gt;
     /// --json
     /// </summary>
-    [GeneratedRegex(@"(?<long>--[\w-]+)(?:=(?:<(?<value>[^>\s]+)>?|(?<value>[^\s,]+)))?")]
+    [GeneratedRegex(@"(?<optional>\[)?(?<long>--[\w-]+)(?:=(?:(?<value><[^>\s]+>?)|(?<value>[^\s,]+)))?")]
     private static partial Regex SnykOptionPattern();
 
     [GeneratedRegex(@"\bUse (?:the )?-d(?: option)?\b", RegexOptions.IgnoreCase)]

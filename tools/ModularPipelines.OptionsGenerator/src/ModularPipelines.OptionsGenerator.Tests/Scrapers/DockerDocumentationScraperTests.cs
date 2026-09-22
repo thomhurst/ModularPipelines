@@ -7,6 +7,22 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class DockerDocumentationScraperTests
 {
     [Test]
+    public async Task Empty_List_Default_Does_Not_Become_Value_Type_Metadata()
+    {
+        const string html = """
+            <html><body><h1>docker build</h1>
+            <table><thead><tr><th>Option</th><th>Description</th><th>Default</th></tr></thead>
+            <tbody><tr><td>--label</td><td>Set labels.</td><td>[]</td></tr></tbody></table>
+            </body></html>
+            """;
+        using var handler = new DocumentationHandler(html);
+        using var client = new HttpClient(handler);
+        var scraper = new DockerDocumentationScraper(client, NullLogger<DockerDocumentationScraper>.Instance);
+        var tool = await scraper.ScrapeAsync();
+        await Assert.That(tool.Commands.Single().Options.Single().Description).IsEqualTo("Set labels.");
+    }
+
+    [Test]
     [Arguments(2, "", "")]
     [Arguments(21, "", "")]
     [Arguments(2, "<", ">")]

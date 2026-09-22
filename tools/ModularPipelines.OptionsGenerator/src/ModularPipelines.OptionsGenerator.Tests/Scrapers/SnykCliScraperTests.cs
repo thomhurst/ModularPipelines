@@ -8,6 +8,85 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class SnykCliScraperTests
 {
     [Test]
+    [Arguments("[json|yaml]")]
+    [Arguments("(json|yaml)")]
+    [Arguments("{json|yaml}")]
+    [Arguments("<json|yaml>")]
+    public async Task Optional_Heading_Brackets_Do_Not_Become_Part_Of_The_Value_Hint(string hint)
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "test"],
+            $"Options\n  [--mode={hint}]\n    Select mode."))!;
+        await Assert.That(command.Options.Single().EnumDefinition?.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["json", "yaml"]);
+    }
+
+    [Test]
+    [Arguments("[]")]
+    [Arguments("()")]
+    [Arguments("{}")]
+    [Arguments("<>")]
+    public async Task Optional_Headings_Preserve_Empty_Value_Placeholders(string hint)
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "test"],
+            $"Options\n  [--mode={hint}]\n    Select mode."))!;
+        var option = command.Options.Single();
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.Description).IsEqualTo($"Select mode. [value type: {hint}]");
+    }
+
+    [Test]
+    [Arguments("(json|yaml)")]
+    [Arguments("{json|yaml}")]
+    [Arguments("<json|yaml>")]
+    public async Task Choice_Hints_Use_Shared_Wrapper_Parsing(string hint)
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "test"],
+            $"Options\n  --mode={hint}\n    Select mode."))!;
+        await Assert.That(command.Options.Single().EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["json", "yaml"]);
+    }
+
+    [Test]
+    [Arguments("(true|false)")]
+    [Arguments("{true|false}")]
+    [Arguments("<true|false>")]
+    public async Task Wrapped_Boolean_Choices_Remain_Value_Options(string hint)
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "test"],
+            $"Options\n  --reachable={hint}\n    Select reachability."))!;
+        var option = command.Options.Single();
+        await Assert.That(option.CSharpType).IsEqualTo("bool?");
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.EnumDefinition).IsNull();
+    }
+
+    [Test]
+    [Arguments("(json|yaml")]
+    [Arguments("json|yaml)")]
+    [Arguments("json||yaml")]
+    [Arguments("true||false")]
+    [Arguments("(json||yaml)")]
+    [Arguments("()")]
+    [Arguments("[]")]
+    [Arguments("{}")]
+    [Arguments("<>")]
+    [Arguments("<json|yaml")]
+    [Arguments("json|yaml>")]
+    [Arguments("<json|yaml)")]
+    public async Task Malformed_Choice_Hints_Remain_In_String_Descriptions(string hint)
+    {
+        var command = (await new TestSnykCliScraper().Parse(["snyk", "test"],
+            $"Options\n  --mode={hint}\n    Select mode."))!;
+        var option = command.Options.Single();
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.ValueSeparator).IsEqualTo("=");
+        await Assert.That(option.EnumDefinition).IsNull();
+        await Assert.That(option.Description).Contains(hint);
+    }
+
+    [Test]
     [Arguments("Required. Specify the identifier.", true)]
     [Arguments("Required: specify the identifier.", true)]
     [Arguments("The identifier is otherwise required.", false)]

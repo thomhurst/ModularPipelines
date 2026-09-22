@@ -48,6 +48,7 @@ public class CobraCliScraperTests
     [Arguments("<json|yaml>")]
     [Arguments("{json|yaml}")]
     [Arguments("[json|yaml]")]
+    [Arguments("(json|yaml)")]
     public async Task Type_Hint_Strips_Choice_Wrappers(string hint)
     {
         var helpText = $"Usage: fake run [OPTIONS]\n\nOptions:\n  --mode {hint}   Select mode\n";
