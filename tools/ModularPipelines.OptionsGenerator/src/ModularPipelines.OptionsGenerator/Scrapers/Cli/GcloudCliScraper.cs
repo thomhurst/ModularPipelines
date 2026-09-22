@@ -414,9 +414,9 @@ public partial class GcloudCliScraper : CliScraperBase
         IReadOnlyList<CliRequiredAlternativeGroup> documented)
     {
         group = RestoreFlattenedDocumentedChoices(group, documented);
-        // Colon syntax can hide a documented, nonexclusive "at least one" rule.
-        // Preserve that cardinality instead of requiring every member of the bundle.
-        var choice = group.IsChoice ? null : documented.FirstOrDefault(candidate => candidate.IsChoice
+        // Flattened synopsis syntax can hide a documented, nonexclusive "at least one"
+        // rule. Preserve its complete shape, including exclusive nested alternatives.
+        var choice = documented.FirstOrDefault(candidate => candidate.IsChoice
             && !candidate.IsMutuallyExclusive
             && candidate.Members.All(member => !member.IsRequired)
             && group.PropertyNames.ToHashSet(StringComparer.Ordinal).SetEquals(candidate.PropertyNames));

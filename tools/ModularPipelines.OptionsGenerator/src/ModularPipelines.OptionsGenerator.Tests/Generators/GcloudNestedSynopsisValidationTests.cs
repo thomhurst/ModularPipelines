@@ -5,6 +5,25 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public partial class RequiredConstructorValidationTests
 {
     [Test]
+    public async Task Gcloud_Kafka_Updates_Preserve_Nonexclusive_Settings_And_Exclusive_Ca_Pools()
+    {
+        var command = await GcloudCapturedSemanticsTests.Scrape("managed-kafka clusters update");
+        var group = command.RequiredAlternativeGroups.Single(group => group.PropertyNames.Contains("Cpu"));
+        await ValidateCapturedGroup(command, group,
+        [
+            ("Cpu,MtlsCaPools", true),
+            ("", false),
+            ("Cpu", true),
+            ("MtlsCaPools", true),
+            ("ClearMtlsCaPools", true),
+            ("Cpu,ClearMtlsCaPools", true),
+            ("Cpu,Memory", true),
+            ("ClearMtlsCaPools,MtlsCaPools", false),
+            ("Cpu,ClearMtlsCaPools,MtlsCaPools", false),
+        ]);
+    }
+
+    [Test]
     public async Task Gcloud_Composer_Updates_Preserve_Optional_Resource_Settings()
     {
         var command = await GcloudCapturedSemanticsTests.Scrape("composer environments update");
