@@ -596,11 +596,6 @@ public static class UsageSynopsisParser
                 continue;
             }
 
-            if (IsNonOperandSyntax(operandToken))
-            {
-                continue;
-            }
-
             if (TryParseNestedOperandGroup(
                     operandToken,
                     arguments.Count,
@@ -628,6 +623,11 @@ public static class UsageSynopsisParser
 
                 AdvancePastOptionTerminatedOperand(groupedBehindOptionTerminator, ref phase);
 
+                continue;
+            }
+
+            if (IsNonOperandSyntax(operandToken))
+            {
                 continue;
             }
 
@@ -1340,8 +1340,16 @@ public static class UsageSynopsisParser
             return true;
         }
 
-        if ((!content.Contains('[') && !nestedTokens.Any(nestedToken => GetOptionSwitches(nestedToken).Count > 0))
-            || SplitTopLevelAlternatives(content).Count > 1)
+        var alternatives = SplitTopLevelAlternatives(content);
+        if (alternatives.Count > 1)
+        {
+            // A single operand-bearing branch can bundle an operand with flags.
+            // Parse its tokens individually; the other branches make its operands optional.
+            return GetBundledOperandBranch(alternatives) is { } branch
+                && TryParseNestedOperands(branch, false, positionIndex, phase, out arguments, out requiredOptionSwitches);
+        }
+
+        if (!content.Contains('[') && !nestedTokens.Any(nestedToken => GetOptionSwitches(nestedToken).Count > 0))
         {
             return false;
         }
@@ -1352,6 +1360,13 @@ public static class UsageSynopsisParser
         }
 
         return TryParseNestedOperands(nestedTokens, IsRequiredUsageToken(normalizedToken), positionIndex, phase, out arguments, out requiredOptionSwitches);
+    }
+
+    private static List<string>? GetBundledOperandBranch(IReadOnlyList<string> alternatives)
+    {
+        var operandBranches = alternatives.Select(TokenizeNestedGroup)
+            .Where(branch => !ContainsOnlyInlineOptions(branch)).ToArray();
+        return operandBranches is [var branch] && branch.Count > 1 ? branch : null;
     }
 
     internal static string DeferDocumentedOptionGroups(string synopsis, IReadOnlyList<CliArgumentGroup> groups)
@@ -2100,6 +2115,12 @@ public static class UsageSynopsisParser
     private static bool HasOptionValueAlternatives(string content)
     {
         var normalized = TrimControlWrappers(content);
+        var alternatives = SplitTopLevelAlternatives(normalized);
+        if (alternatives.Count > 1 && GetBundledOperandBranch(alternatives) is not null)
+        {
+            return false;
+        }
+
         if (HasOptionAssignment(normalized))
         {
             return true;
