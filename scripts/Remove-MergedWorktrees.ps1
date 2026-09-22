@@ -248,7 +248,7 @@ try {
 
         if (-not $why) { $unmatched += $w; continue }
 
-        Invoke-WithWorktreeCleanupLocks -RepoPath $mainRepo -Worktree $w.Path -Branch $w.Branch -WhatIf:$WhatIf -Action {
+        Invoke-WithWorktreeCleanupLocks -RepoPath $mainRepo -Worktree $w.Path -Branch $w.Branch -Preview:$WhatIf -Action {
             Remove-MergedWorktree -Repo $mainRepo -Worktree $w.Path -Label "($why)" -WhatIf:$WhatIf
             # Keep the item reservation through branch cleanup so a new owner cannot
             # reuse the branch between removal and deletion.

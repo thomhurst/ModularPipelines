@@ -32,8 +32,8 @@ function Assert-Fixture([bool]$Condition, [string]$Message) {
     if (-not $Condition) { throw $Message }
 }
 
-function Invoke-FixtureSweep([switch]$WhatIf) {
-    $output = @(& $sweepScript -Repo fixture/repo -WhatIf:$WhatIf 6>&1)
+function Invoke-FixtureSweep([switch]$Preview) {
+    $output = @(& $sweepScript -Repo fixture/repo -WhatIf:$Preview 6>&1)
     Assert-Fixture (($output -join "`n") -notmatch 'TOKEN-SHOULD-NOT-LEAK') 'Cleanup printed a lock token.'
 }
 
@@ -148,7 +148,7 @@ exit 0
         $path = New-FixtureWorktree 'pr-900012-preview'
         Set-FixtureLock 'pr-900012' 'FREE'
         Clear-Content -LiteralPath $fixtureCalls
-        Invoke-FixtureSweep -WhatIf
+        Invoke-FixtureSweep -Preview
         Assert-Fixture (Test-Path -LiteralPath $path) 'WhatIf removed a worktree.'
         $calls = Get-Content -LiteralPath $fixtureCalls
         Assert-Fixture (-not [bool]($calls -match '^(acquire|release) ')) 'WhatIf mutated lock ownership.'

@@ -292,7 +292,7 @@ function Invoke-WithWorktreeCleanupLocks {
         [Parameter(Mandatory)][string]$Worktree,
         [string]$Branch = '',
         [Parameter(Mandatory)][scriptblock]$Action,
-        [switch]$WhatIf
+        [switch]$Preview
     )
 
     try { $names = @(Get-WorktreeAgentLockNames -Worktree $Worktree -Branch $Branch) }
@@ -310,7 +310,7 @@ function Invoke-WithWorktreeCleanupLocks {
     $acquired = [Collections.Generic.List[string]]::new()
     try {
         foreach ($name in $names) {
-            $verb = if ($WhatIf) { 'status' } else { 'acquire' }
+            $verb = if ($Preview) { 'status' } else { 'acquire' }
             try {
                 $result = Invoke-WorktreeAgentLock -ScriptPath $agentLocks -Verb $verb -LockName $name -OwnerId $owner
             }
@@ -318,11 +318,11 @@ function Invoke-WithWorktreeCleanupLocks {
                 Write-Host "Preserving worktree: lock $name could not be checked: $Worktree"
                 return
             }
-            if ($result.ExitCode -ne 0 -or ($WhatIf -and $result.Status -ne 'FREE')) {
+            if ($result.ExitCode -ne 0 -or ($Preview -and $result.Status -ne 'FREE')) {
                 Write-Host "Preserving worktree: lock $name is held or unavailable: $Worktree"
                 return
             }
-            if (-not $WhatIf) { $acquired.Add($name) }
+            if (-not $Preview) { $acquired.Add($name) }
         }
 
         # Keep reservations through deletion, rather than checking FREE then racing a new owner.
@@ -341,16 +341,15 @@ function Invoke-WithWorktreeCleanupLocks {
 }
 
 function Remove-MergedWorktree {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory)][string]$Repo,       # a checkout that is NOT the one being removed (main)
         [Parameter(Mandatory)][string]$Worktree,   # path to remove
-        [string]$Label = '',                       # e.g. "#1234" for log lines
-        [switch]$WhatIf
+        [string]$Label = ''                        # e.g. "#1234" for log lines
     )
 
     if (-not (Test-Path -LiteralPath $Worktree)) {
-        if (-not $WhatIf) { git -C $Repo worktree prune }
+        if ($PSCmdlet.ShouldProcess($Repo, 'Prune missing worktree registrations')) { git -C $Repo worktree prune }
         return
     }
 
@@ -377,7 +376,7 @@ function Remove-MergedWorktree {
         return
     }
 
-    if ($WhatIf) { Write-Host "sweep: WOULD remove $Worktree -- $Label"; return }
+    if (-not $PSCmdlet.ShouldProcess($Worktree, "Remove merged worktree $Label")) { return }
 
     # Primary path: let git remove it (force clears untracked artifacts; tracked is clean).
     git -C $Repo worktree remove --force $Worktree 2>$null
