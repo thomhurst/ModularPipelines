@@ -196,36 +196,39 @@ public class ResultBuildIdentityTests
             var type = module.DefineType(name, TypeAttributes.Public, memberKind == "Base" ? dependency : typeof(object));
             CustomAttributeBuilder ConverterAttribute() => new(
                 typeof(JsonConverterAttribute).GetConstructor([typeof(Type)])!, [dependency]);
-            if (memberKind == "TypeConverter")
+            switch (memberKind)
             {
-                type.SetCustomAttribute(ConverterAttribute());
-            }
-            else if (memberKind is "Property" or "PropertyConverter")
-            {
-                var propertyType = memberKind == "PropertyConverter" ? typeof(object) : dependency;
-                var property = type.DefineProperty("Value", PropertyAttributes.None, propertyType, null);
-                if (memberKind == "PropertyConverter")
-                {
-                    property.SetCustomAttribute(ConverterAttribute());
-                }
+                case "TypeConverter":
+                    type.SetCustomAttribute(ConverterAttribute());
+                    break;
+                case "Property":
+                case "PropertyConverter":
+                    var propertyType = memberKind == "PropertyConverter" ? typeof(object) : dependency;
+                    var property = type.DefineProperty("Value", PropertyAttributes.None, propertyType, null);
+                    if (memberKind == "PropertyConverter")
+                    {
+                        property.SetCustomAttribute(ConverterAttribute());
+                    }
 
-                var getter = type.DefineMethod("get_Value",
-                    MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig, propertyType, Type.EmptyTypes);
-                var il = getter.GetILGenerator();
-                il.Emit(OpCodes.Ldnull);
-                il.Emit(OpCodes.Ret);
-                property.SetGetMethod(getter);
-            }
-            else if (memberKind is "Field" or "FieldConverter")
-            {
-                var fieldType = memberKind == "FieldConverter" ? typeof(object) : dependency;
-                var field = type.DefineField("Value", fieldType, FieldAttributes.Public);
-                field.SetCustomAttribute(new CustomAttributeBuilder(
-                    typeof(JsonIncludeAttribute).GetConstructor(Type.EmptyTypes)!, []));
-                if (memberKind == "FieldConverter")
-                {
-                    field.SetCustomAttribute(ConverterAttribute());
-                }
+                    var getter = type.DefineMethod("get_Value",
+                        MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig, propertyType, Type.EmptyTypes);
+                    var il = getter.GetILGenerator();
+                    il.Emit(OpCodes.Ldnull);
+                    il.Emit(OpCodes.Ret);
+                    property.SetGetMethod(getter);
+                    break;
+                case "Field":
+                case "FieldConverter":
+                    var fieldType = memberKind == "FieldConverter" ? typeof(object) : dependency;
+                    var field = type.DefineField("Value", fieldType, FieldAttributes.Public);
+                    field.SetCustomAttribute(new CustomAttributeBuilder(
+                        typeof(JsonIncludeAttribute).GetConstructor(Type.EmptyTypes)!, []));
+                    if (memberKind == "FieldConverter")
+                    {
+                        field.SetCustomAttribute(ConverterAttribute());
+                    }
+
+                    break;
             }
 
             return type.CreateType()!;
