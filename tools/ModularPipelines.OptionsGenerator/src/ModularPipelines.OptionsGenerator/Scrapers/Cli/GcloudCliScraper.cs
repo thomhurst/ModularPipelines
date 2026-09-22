@@ -381,7 +381,7 @@ public partial class GcloudCliScraper : CliScraperBase
                 continue;
             }
 
-            var replacement = Convert(syntax);
+            var replacement = ConvertSynopsisConstraint(syntax, options);
             var names = replacement.PropertyNames.ToHashSet(StringComparer.Ordinal);
             // Explicit required synopsis choices preserve both nested alternatives and
             // conjunctions. Replace only a complete matching constraint; keep help prose
@@ -390,72 +390,72 @@ public partial class GcloudCliScraper : CliScraperBase
             if (index >= 0)
             {
                 var previous = constraints[index];
-                constraints[index] = PreserveDocumentedChoices(replacement, Descendants(previous).ToArray())
-                    with
-                { IsRequired = previous.IsRequired };
+                replacement = PreserveDocumentedChoices(replacement, EnumerateConstraints(previous).ToArray());
+                constraints[index] = replacement with { IsRequired = previous.IsRequired };
             }
         }
+    }
 
-        static IEnumerable<CliRequiredAlternativeGroup> Descendants(CliRequiredAlternativeGroup group) =>
-            new[] { group }.Concat(group.Groups.SelectMany(Descendants));
+    private static IEnumerable<CliRequiredAlternativeGroup> EnumerateConstraints(CliRequiredAlternativeGroup group) =>
+        new[] { group }.Concat(group.Groups.SelectMany(EnumerateConstraints));
 
-        static CliRequiredAlternativeGroup PreserveDocumentedChoices(CliRequiredAlternativeGroup group,
-            IReadOnlyList<CliRequiredAlternativeGroup> documented)
+    private static CliRequiredAlternativeGroup PreserveDocumentedChoices(CliRequiredAlternativeGroup group,
+        IReadOnlyList<CliRequiredAlternativeGroup> documented)
+    {
+        // Colon syntax can hide a documented, nonexclusive "at least one" rule.
+        // Preserve that cardinality instead of requiring every member of the bundle.
+        var choice = group.IsChoice ? null : documented.FirstOrDefault(candidate => candidate.IsChoice
+            && !candidate.IsMutuallyExclusive
+            && candidate.Members.All(member => !member.IsRequired)
+            && group.PropertyNames.ToHashSet(StringComparer.Ordinal).SetEquals(candidate.PropertyNames));
+        return choice ?? group with
         {
-            // Colon syntax can hide a documented, nonexclusive "at least one" rule.
-            // Preserve that cardinality instead of requiring every member of the bundle.
-            var choice = group.IsChoice ? null : documented.FirstOrDefault(candidate => candidate.IsChoice
-                && !candidate.IsMutuallyExclusive
-                && candidate.Members.All(member => !member.IsRequired)
-                && group.PropertyNames.ToHashSet(StringComparer.Ordinal).SetEquals(candidate.PropertyNames));
-            return choice ?? group with
-            {
-                Groups = [.. group.Groups.Select(child => PreserveDocumentedChoices(child, documented))],
-            };
-        }
+            Groups = [.. group.Groups.Select(child => PreserveDocumentedChoices(child, documented))],
+        };
+    }
 
-        CliRequiredAlternativeGroup Convert(UsageRequiredAlternativeGroup syntax)
+    private static CliRequiredAlternativeGroup ConvertSynopsisConstraint(UsageRequiredAlternativeGroup syntax,
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        var groups = syntax.Groups.Select(child => ConvertSynopsisConstraint(child, options)).ToList();
+        var members = new List<CliRequiredAlternativeMember>();
+        foreach (var member in syntax.Members)
         {
-            var groups = syntax.Groups.Select(Convert).ToList();
-            var members = new List<CliRequiredAlternativeMember>();
-            foreach (var member in syntax.Members)
+            var alternatives = GetRequiredAlternativeMembers(new CliArgumentDefinition
             {
-                var alternatives = GetRequiredAlternativeMembers(new CliArgumentDefinition
+                SwitchName = member.OptionSwitch!,
+            }, options, []).ToArray();
+            if (alternatives.Length > 1)
+            {
+                groups.Add(new CliRequiredAlternativeGroup
                 {
-                    SwitchName = member.OptionSwitch!,
-                }, options, []).ToArray();
-                if (alternatives.Length > 1)
-                {
-                    groups.Add(new CliRequiredAlternativeGroup
-                    {
-                        IsRequired = member.IsRequired,
-                        IsMutuallyExclusive = true,
-                        Members = alternatives,
-                    });
-                }
-                else
-                {
-                    members.AddRange(alternatives.Select(alternative => alternative with { IsRequired = member.IsRequired }));
-                }
+                    IsRequired = member.IsRequired,
+                    IsMutuallyExclusive = true,
+                    Members = alternatives,
+                });
             }
-
-            if (syntax.IsChoice)
+            else
             {
-                var scalarBranches = groups.Where(group => !group.IsChoice && group.Groups.Count == 0
-                    && group.Members.Count == 1).ToArray();
-                members.AddRange(scalarBranches.Select(group => group.Members[0] with { IsRequired = false }));
-                groups.RemoveAll(scalarBranches.Contains);
+                members.AddRange(alternatives.Select(alternative => alternative with { IsRequired = member.IsRequired }));
             }
-
-            return new CliRequiredAlternativeGroup
-            {
-                IsRequired = syntax.IsRequired,
-                IsChoice = syntax.IsChoice,
-                IsMutuallyExclusive = syntax.IsChoice,
-                Members = members,
-                Groups = groups,
-            };
         }
+
+        if (syntax.IsChoice)
+        {
+            var scalarBranches = groups.Where(group => !group.IsChoice && group.Groups.Count == 0
+                && group.Members.Count == 1).ToArray();
+            members.AddRange(scalarBranches.Select(group => group.Members[0] with { IsRequired = false }));
+            groups.RemoveAll(scalarBranches.Contains);
+        }
+
+        return new CliRequiredAlternativeGroup
+        {
+            IsRequired = syntax.IsRequired,
+            IsChoice = syntax.IsChoice,
+            IsMutuallyExclusive = syntax.IsChoice,
+            Members = members,
+            Groups = groups,
+        };
     }
 
     private static CliArgumentGroup MarkOptionalResourceGroups(CliArgumentGroup group, IReadOnlyList<IReadOnlySet<string>> optionalGroups)
