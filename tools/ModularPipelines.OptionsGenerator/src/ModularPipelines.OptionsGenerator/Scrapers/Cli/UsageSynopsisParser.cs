@@ -1322,17 +1322,7 @@ public static class UsageSynopsisParser
             return true;
         }
 
-        if (nestedTokens.Contains(":") && SplitTopLevelAlternatives(content).Count > 1)
-        {
-            throw new InvalidOperationException(
-                $"Usage synopsis has ambiguous alternatives in colon group '{normalizedToken}'.");
-        }
-
-        if (nestedTokens.Contains(":") && IsRequiredUsageToken(normalizedToken) && ContainsOnlyInlineOptions(nestedTokens))
-        {
-            throw new InvalidOperationException(
-                $"Usage synopsis has unsupported required option-only colon group '{normalizedToken}'.");
-        }
+        ValidateNestedColonGroup(normalizedToken, content, nestedTokens);
 
         if (TryParseColonSeparatedOperands(
                 nestedTokens, IsRequiredUsageToken(normalizedToken), positionIndex, phase, out arguments, out requiredOptionSwitches))
@@ -1360,6 +1350,26 @@ public static class UsageSynopsisParser
         }
 
         return TryParseNestedOperands(nestedTokens, IsRequiredUsageToken(normalizedToken), positionIndex, phase, out arguments, out requiredOptionSwitches);
+    }
+
+    private static void ValidateNestedColonGroup(string token, string content, List<string> nestedTokens)
+    {
+        if (!nestedTokens.Contains(":"))
+        {
+            return;
+        }
+
+        if (SplitTopLevelAlternatives(content).Count > 1)
+        {
+            throw new InvalidOperationException(
+                $"Usage synopsis has ambiguous alternatives in colon group '{token}'.");
+        }
+
+        if (IsRequiredUsageToken(token) && ContainsOnlyInlineOptions(nestedTokens))
+        {
+            throw new InvalidOperationException(
+                $"Usage synopsis has unsupported required option-only colon group '{token}'.");
+        }
     }
 
     private static List<string>? GetBundledOperandBranch(IReadOnlyList<string> alternatives)
