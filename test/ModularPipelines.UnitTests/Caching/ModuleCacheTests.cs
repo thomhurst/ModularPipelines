@@ -218,6 +218,29 @@ public class ModuleCacheTests
         }
     }
 
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task DuplicateModuleIds_Are_Rejected_Before_Local_Execution(bool enableCache)
+    {
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<OriginalNamedCacheModule>()
+            .AddModule<RenamedCacheModule>();
+        if (enableCache)
+        {
+            builder.AddModuleCache<FileSystemModuleCache>();
+        }
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+        {
+            await using var pipeline = await builder.BuildAsync();
+        });
+
+        await Assert.That(exception!.Message).Contains("stable-cache-module");
+        await Assert.That(exception.Message).Contains(nameof(OriginalNamedCacheModule));
+        await Assert.That(exception.Message).Contains(nameof(RenamedCacheModule));
+    }
+
     private sealed class ReusedFingerprintModule : Module<string>
     {
         public const string EnvironmentVariable = "MODULARPIPELINES_REUSED_FINGERPRINT_TEST";

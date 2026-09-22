@@ -24,7 +24,7 @@ public class BuildModule : Module<string>
 
 Each registered module must have a unique ID. Cache fingerprints also use this identity; existing assembly-version cache settings still control cache invalidation. This changes the fingerprint format, so existing caches are refreshed once.
 
-Workers publish `PipelineSchemaVersion` during registration, and masters include it in every assignment. The stamp includes the wire schema, registered module IDs, result type identities, and module assembly build IDs. Run the same pipeline binaries on every participant. Missing or mismatched stamps produce a schema mismatch error before module execution; they do not silently execute against a different build. A stable module ID does not bypass this build compatibility check.
+Workers publish `PipelineSchemaVersion` during registration, and masters include it in every assignment. The stamp includes the wire schema, registered module IDs, result type identities, and module and result assembly build IDs (including result generic arguments and element types). Run the same pipeline binaries on every participant. Missing or mismatched stamps produce a schema mismatch error before module execution; they do not silently execute against a different build. A stable module ID does not bypass this build compatibility check.
 
 The wire DTO changes are breaking: upgrade masters, workers, and custom coordinators together. `WaitForResultAsync` accepts `ModuleId`, and `SerializedModuleResult` resolves its result type through the local registry rather than a remote result type name.
 

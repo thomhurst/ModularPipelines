@@ -147,6 +147,42 @@ public class ModuleTypeRegistryTests
         await Assert.That(registry.GetPipelineSchemaVersion()).IsEqualTo(updated);
     }
 
+    [ModuleId("result-build-module")]
+    private abstract class ResultBuildModule<T> : Module<T>;
+
+    [Test]
+    [Arguments(0)]
+    [Arguments(1)]
+    [Arguments(2)]
+    public async Task Schema_Detects_Different_Result_Builds_With_Unchanged_Module_Binary(int shape)
+    {
+        static Type BuildResult(int shape)
+        {
+            var assembly = System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(
+                new System.Reflection.AssemblyName("ResultBuild"),
+                System.Reflection.Emit.AssemblyBuilderAccess.RunAndCollect);
+            var resultType = assembly.DefineDynamicModule("ResultBuild")
+                .DefineType("Result", System.Reflection.TypeAttributes.Public).CreateType()!;
+            return shape switch
+            {
+                1 => resultType.MakeArrayType(),
+                2 => typeof(List<>).MakeGenericType(resultType.MakeArrayType()),
+                _ => resultType,
+            };
+        }
+
+        var firstType = typeof(ResultBuildModule<>).MakeGenericType(BuildResult(shape));
+        var secondType = typeof(ResultBuildModule<>).MakeGenericType(BuildResult(shape));
+        var first = new ModuleTypeRegistry();
+        var second = new ModuleTypeRegistry();
+        first.Register(firstType);
+        second.Register(secondType);
+
+        await Assert.That(ModuleId.FromType(firstType)).IsEqualTo(ModuleId.FromType(secondType));
+        await Assert.That(firstType.Module.ModuleVersionId).IsEqualTo(secondType.Module.ModuleVersionId);
+        await Assert.That(first.GetPipelineSchemaVersion()).IsNotEqualTo(second.GetPipelineSchemaVersion());
+    }
+
     [Test]
     public async Task Schema_Detects_Different_Builds_With_Identical_Type_Names()
     {
