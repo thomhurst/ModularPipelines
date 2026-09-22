@@ -257,11 +257,12 @@ public class OptionTypeEnhancer
             return false;
         }
 
-        return GeneratorUtils.IsSecretOption(option.PropertyName, false, option.Description)
+        var description = option.ValueShapeDescription ?? option.Description;
+        return GeneratorUtils.IsSecretOption(option.PropertyName, false, description)
                || (option.IsSecret
-                   && !GeneratorUtils.IsFilePathOption(option.PropertyName, option.Description)
-                   && !GeneratorUtils.IsSecretMetadataOption(option.PropertyName, option.Description)
-                   && !GeneratorUtils.IsResourceIdentifierOption(option.Description));
+                   && !GeneratorUtils.IsFilePathOption(option.PropertyName, description)
+                   && !GeneratorUtils.IsSecretMetadataOption(option.PropertyName, description)
+                   && !GeneratorUtils.IsResourceIdentifierOption(description));
     }
 
     /// <summary>

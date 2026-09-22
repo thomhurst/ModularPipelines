@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -522,6 +523,31 @@ public class OptionTypeEnhancerTests
         });
         var enhanced = await enhancer.EnhanceAsync(tool);
         await Assert.That(enhanced.Commands.Single().Options.Single().IsSecret).IsEqualTo(explicitSecret);
+    }
+
+    [Test]
+    [Arguments("ServiceAccountKeyFile", "The base64 encoded content of the service account key file.", true)]
+    [Arguments("ServiceAccountKeyFile", "Specify the base64 encoded content of the service account key file.", true)]
+    [Arguments("ServiceAccountKeyFile", "Provide the contents of the service account key file.", true)]
+    [Arguments("ServiceAccountKeyFile", "Use the base64-encoded content of the service-account key file.", true)]
+    [Arguments("ServiceAccountKeyFile", "Path to the service account key file.", false)]
+    [Arguments("ConfigFile", "The base64 encoded content of the configuration file.", false)]
+    public async Task Secret_Inference_Uses_Option_Local_Prose(string propertyName, string localDescription, bool secret)
+    {
+        var pipeline = new OptionTypeDetectorPipeline([], NullLogger<OptionTypeDetectorPipeline>.Instance);
+        var enhancer = new OptionTypeEnhancer(pipeline, NullLogger<OptionTypeEnhancer>.Instance);
+        var tool = CreateTool(new CliOptionDefinition
+        {
+            SwitchName = "--file",
+            PropertyName = propertyName,
+            CSharpType = "string?",
+            Description = "Parent group: path to a credential file. The token content. " + localDescription,
+            ValueShapeDescription = localDescription,
+        });
+        var enhanced = await enhancer.EnhanceAsync(tool);
+        await Assert.That(enhanced.Commands.Single().Options.Single().IsSecret).IsEqualTo(secret);
+        var generated = await new OptionsClassGenerator().GenerateAsync(enhanced);
+        await Assert.That(generated.Single().Content.Contains("[SecretValue]", StringComparison.Ordinal)).IsEqualTo(secret);
     }
 
     private static CliToolDefinition CreateTool(

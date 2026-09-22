@@ -940,9 +940,9 @@ public static partial class GeneratorUtils
         ["Count", "Length", "Size", "Age", "Duration", "Validity", "Lifetime", "Seconds", "Minutes", "Hours", "Days"];
 
     private const string SecretDescriptionKeywordPattern =
-        @"secret|password|passphrase|token|credential|api[\s-]*key|private[\s-]*key|access[\s-]*key|secret[\s-]*key|one[\s-]*time[\s-]*password|otp";
+        @"secret|password|passphrase|token|credential|api[\s-]*key|private[\s-]*key|access[\s-]*key|secret[\s-]*key|service[\s-]*account[\s-]*key|one[\s-]*time[\s-]*password|otp";
 
-    private const string SecretMaterialTermPattern = @"value|content|body|material|payload";
+    private const string SecretMaterialTermPattern = @"value|contents?|body|material|payload";
 
     /// <summary>
     /// Determines if an option should be marked as a secret based on its property name and description.
@@ -1044,11 +1044,18 @@ public static partial class GeneratorUtils
 
     internal static bool IsFilePathOption(string propertyName, string? description)
     {
-        return FilePathPropertySuffixes.Any(suffix =>
+        // Some CLIs use a -file name for inline file contents. An explicit content
+        // description overrides that suffix, while actual paths remain visible.
+        return (FilePathPropertySuffixes.Any(suffix =>
                    propertyName.EndsWith(suffix, StringComparison.OrdinalIgnoreCase))
+                && (description is null || !InlineFileContentDescriptionPattern().IsMatch(description)))
                || (description is not null && FilePathDescriptionPattern().IsMatch(
                    NegatedFilePathPattern().Replace(description, string.Empty)));
     }
+
+    [GeneratedRegex(@"\A\s*(?:(?:sets?|specif(?:y|ies)|provides?|suppl(?:y|ies)|uses?)\s+)?(?:the\s+)?(?:(?:base64|base-64)(?:\s+|-)encoded\s+)?contents?\s+of\b",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex InlineFileContentDescriptionPattern();
 
     internal static bool IsResourceIdentifierOption(string? description) =>
         description is not null && ResourceIdentifierDescriptionPattern().IsMatch(description);

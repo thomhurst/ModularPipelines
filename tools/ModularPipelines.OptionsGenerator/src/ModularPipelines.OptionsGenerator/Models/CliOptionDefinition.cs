@@ -11,7 +11,7 @@ namespace ModularPipelines.OptionsGenerator.Models;
 /// </summary>
 public record CliOptionDefinition
 {
-    /// <summary>Option-local prose for shape validation, excluding inherited group documentation.</summary>
+    /// <summary>Option-local prose for value classification, excluding inherited group documentation.</summary>
     internal string? ValueShapeDescription { get; init; }
 
     private const string CollectionProbeTypeName = "CollectionShapeProbe.Probe";
