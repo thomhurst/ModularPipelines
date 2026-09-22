@@ -46,6 +46,8 @@ public class ResultBuildIdentityTests
     [Arguments("TypeConverter", 0)]
     [Arguments("PropertyConverter", 0)]
     [Arguments("FieldConverter", 0)]
+    [Arguments("Collection", 0)]
+    [Arguments("Dictionary", 0)]
     public async Task Schema_And_Runtime_Reject_Changed_Member_With_Unchanged_Result_Binary(string memberKind, int intermediateLevels)
     {
         using var builds = new ResultBuilds(intermediateLevels, memberKind);
@@ -111,7 +113,7 @@ public class ResultBuildIdentityTests
     }
 
     private static string SerializeValue(Type type) => JsonSerializer.Serialize(
-        new ModuleResult<object>.Success(Activator.CreateInstance(type)!)
+        new ModuleResult<object>.Success(CreateValue(type))
         {
             Name = "InheritedResult",
             Duration = TimeSpan.Zero,
@@ -119,6 +121,23 @@ public class ResultBuildIdentityTests
             EndTime = DateTimeOffset.UtcNow,
             Status = ModuleStatus.Succeeded,
         });
+
+    private static object CreateValue(Type type)
+    {
+        var value = Activator.CreateInstance(type)!;
+        var collection = type.GetInterfaces().FirstOrDefault(contract =>
+            contract.IsGenericType && contract.GetGenericTypeDefinition() == typeof(ICollection<>));
+        if (collection is not null)
+        {
+            var element = collection.GetGenericArguments()[0];
+            var item = element.IsGenericType && element.GetGenericTypeDefinition() == typeof(KeyValuePair<,>)
+                ? Activator.CreateInstance(element, "key", Activator.CreateInstance(element.GetGenericArguments()[1]))
+                : Activator.CreateInstance(element);
+            collection.GetMethod("Add")!.Invoke(value, [item]);
+        }
+
+        return value;
+    }
 
     public class ObjectConverter : JsonConverter<object>
     {
@@ -169,6 +188,11 @@ public class ResultBuildIdentityTests
 
         private static Type DefineResultType(ModuleBuilder module, string name, Type dependency, string memberKind)
         {
+            if (memberKind is "Collection" or "Dictionary")
+            {
+                return DefineCollectionType(module, name, dependency, memberKind == "Dictionary");
+            }
+
             var type = module.DefineType(name, TypeAttributes.Public, memberKind == "Base" ? dependency : typeof(object));
             CustomAttributeBuilder ConverterAttribute() => new(
                 typeof(JsonConverterAttribute).GetConstructor([typeof(Type)])!, [dependency]);
@@ -201,6 +225,49 @@ public class ResultBuildIdentityTests
                 if (memberKind == "FieldConverter")
                 {
                     field.SetCustomAttribute(ConverterAttribute());
+                }
+            }
+
+            return type.CreateType()!;
+        }
+
+        private static Type DefineCollectionType(ModuleBuilder module, string name, Type element, bool dictionary)
+        {
+            var storage = dictionary ? typeof(Dictionary<,>).MakeGenericType(typeof(string), element) : typeof(List<>).MakeGenericType(element);
+            var contract = dictionary ? typeof(IDictionary<,>).MakeGenericType(typeof(string), element) : typeof(ICollection<>).MakeGenericType(element);
+            var type = module.DefineType(name, TypeAttributes.Public, typeof(object));
+            var field = type.DefineField("_items", storage, FieldAttributes.Private);
+            var constructor = type.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, Type.EmptyTypes).GetILGenerator();
+            constructor.Emit(OpCodes.Ldarg_0);
+            constructor.Emit(OpCodes.Call, typeof(object).GetConstructor(Type.EmptyTypes)!);
+            constructor.Emit(OpCodes.Ldarg_0);
+            constructor.Emit(OpCodes.Newobj, storage.GetConstructor(Type.EmptyTypes)!);
+            constructor.Emit(OpCodes.Stfld, field);
+            constructor.Emit(OpCodes.Ret);
+
+            // Only explicit interface members expose the element type. Public member/base
+            // reflection cannot discover the contract used by System.Text.Json here.
+            var index = 0;
+            foreach (var implemented in contract.GetInterfaces().Append(contract))
+            {
+                type.AddInterfaceImplementation(implemented);
+                foreach (var method in implemented.GetMethods())
+                {
+                    var parameters = method.GetParameters().Select(parameter => parameter.ParameterType).ToArray();
+                    var forwarding = type.DefineMethod($"Forward{index++}",
+                        MethodAttributes.Private | MethodAttributes.Virtual | MethodAttributes.Final | MethodAttributes.NewSlot,
+                        method.ReturnType, parameters);
+                    var il = forwarding.GetILGenerator();
+                    il.Emit(OpCodes.Ldarg_0);
+                    il.Emit(OpCodes.Ldfld, field);
+                    for (var argument = 0; argument < parameters.Length; argument++)
+                    {
+                        il.Emit(OpCodes.Ldarg, argument + 1);
+                    }
+
+                    il.Emit(OpCodes.Callvirt, method);
+                    il.Emit(OpCodes.Ret);
+                    type.DefineMethodOverride(forwarding, method);
                 }
             }
 

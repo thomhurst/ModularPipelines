@@ -106,11 +106,13 @@ internal static class StableTypeName
             }
         }
 
-        if (type.IsInterface)
+        foreach (var contract in type.GetInterfaces())
         {
-            foreach (var parent in type.GetInterfaces())
+            // Concrete collections can expose their serialized element type only through
+            // IEnumerable<T>. Dictionary enumeration also carries both key and value types.
+            if (type.IsInterface || (contract.IsGenericType && contract.GetGenericTypeDefinition() == typeof(IEnumerable<>)))
             {
-                yield return parent;
+                yield return contract;
             }
         }
     }
