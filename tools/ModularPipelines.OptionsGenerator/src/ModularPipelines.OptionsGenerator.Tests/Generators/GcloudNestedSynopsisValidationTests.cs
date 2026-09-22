@@ -9,7 +9,7 @@ public partial class RequiredConstructorValidationTests
     {
         var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Gcloud", "585.0.0",
             "gcloud-builds-triggers-update-github.txt"));
-        var command = (await new GcloudResourceArgumentTests.TestScraper().Parse(["builds", "triggers", "update", "github"], help))!;
+        var command = (await new GcloudResourceArgumentTests.TestScraper().Parse(["gcloud", "builds", "triggers", "update", "github"], help))!;
         var group = command.RequiredAlternativeGroups.Single(group => group.PropertyNames.Contains("TriggerConfig"));
         await ValidateCapturedGroup(command, group,
         [
