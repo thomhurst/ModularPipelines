@@ -95,6 +95,10 @@ internal static class InheritedPropertyCollisionResolver
             .ToArray();
         CliRequiredAlternativeGroup ResolveGroup(CliRequiredAlternativeGroup group) => group with
         {
+            RequiredWhen = group.RequiredWhen is { } trigger ? trigger with
+            {
+                PropertyName = ResolveAlternativeMemberName(command, options, positionalArguments, trigger),
+            } : null,
             Members = [.. group.Members.Select(member => member with
             {
                 PropertyName = ResolveAlternativeMemberName(command, options, positionalArguments, member),

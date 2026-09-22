@@ -5,6 +5,60 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public partial class RequiredConstructorValidationTests
 {
     [Test]
+    public async Task Gcloud_Composer_Updates_Preserve_Optional_Resource_Settings()
+    {
+        var command = await GcloudCapturedSemanticsTests.Scrape("composer environments update");
+        var group = command.RequiredAlternativeGroups.Single(group => group.PropertyNames.Contains("MaxWorkers"));
+        await ValidateCapturedGroup(command, group,
+        [
+            ("", false),
+            ("MaxWorkers", true),
+            ("SchedulerCount", true),
+            ("MaxWorkers,SchedulerCount", true),
+            ("NodeCount", true),
+            ("NodeCount,MaxWorkers", false),
+            ("MaintenanceWindowStart,MaintenanceWindowEnd,MaintenanceWindowRecurrence", true),
+            ("MaintenanceWindowStart", false),
+        ]);
+    }
+
+    [Test]
+    public async Task Gcloud_Container_Autoprovisioning_Preserves_Optional_Settings()
+    {
+        var command = await GcloudCapturedSemanticsTests.Scrape("container clusters update");
+        await ValidateCapturedGroups(command, command.RequiredAlternativeGroups,
+        [
+            ("EnableAutoprovisioning", false),
+            ("AutoprovisioningConfigFile", true),
+            ("EnableAutoprovisioning,AutoprovisioningConfigFile", true),
+            ("MaxCpu", true),
+            ("MaxMemory", true),
+            ("EnableAutoprovisioning,MaxCpu", false),
+            ("EnableAutoprovisioning,MaxMemory", false),
+            ("EnableAutoprovisioning,MaxCpu,MaxMemory", true),
+            ("AutoprovisioningConfigFile,AutoprovisioningMinCpuPlatform", false),
+        ]);
+    }
+
+    [Test]
+    public async Task Gcloud_Cluster_Director_Updates_Do_Not_Require_Unrelated_Granular_Flags()
+    {
+        var command = await GcloudCapturedSemanticsTests.Scrape("cluster-director clusters update");
+        var group = command.RequiredAlternativeGroups.Single(group => group.PropertyNames.Contains("Config"));
+        await ValidateCapturedGroup(command, group,
+        [
+            ("", false),
+            ("Description", true),
+            ("RemoveLabels", true),
+            ("Description,RemoveLabels", true),
+            ("Config,UpdateMask", true),
+            ("Config", false),
+            ("UpdateMask", false),
+            ("Config,UpdateMask,Description", false),
+        ]);
+    }
+
+    [Test]
     public async Task Gcloud_Build_Trigger_Updates_Preserve_Documented_Nested_Choices()
     {
         var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Gcloud", "585.0.0",
@@ -75,7 +129,7 @@ public partial class RequiredConstructorValidationTests
     }
 
     [Test]
-    public async Task Gcloud_Agent_Identity_Oauth_Requires_Every_Selected_Branch_Member()
+    public async Task Gcloud_Agent_Identity_Oauth_Preserves_Optional_Members_Within_Exclusive_Branches()
     {
         var command = await GcloudCapturedSemanticsTests.Scrape("agent-identity auth-providers create");
         var group = command.RequiredAlternativeGroups.Single(group => group.PropertyNames.Contains("ApiKey"));
@@ -92,7 +146,8 @@ public partial class RequiredConstructorValidationTests
         foreach (var branch in new[] { threeLegged, twoLegged })
         {
             var members = branch.Split(',');
-            cases.AddRange(members.Select(missing => (string.Join(',', members.Where(member => member != missing)), false)));
+            cases.AddRange(members.Select(missing => (string.Join(',', members.Where(member => member != missing)), true)));
+            cases.AddRange(members.Select(member => (member, true)));
         }
 
         await ValidateCapturedGroup(command, group, [.. cases]);

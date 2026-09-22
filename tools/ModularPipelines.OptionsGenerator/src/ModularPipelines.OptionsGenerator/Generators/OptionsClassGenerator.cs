@@ -493,6 +493,8 @@ public class OptionsClassGenerator : ICodeGenerator
         }
 
         string Presence(string propertyName) => GetPresenceExpression(command, positionalArguments, propertyName);
+        (required, activation) = ResolveConditionalActivation(group, required, activation, Presence);
+
         if (group.IsUsageFormChoice)
         {
             // Usage forms describe sufficient combinations. A complete form remains valid
@@ -530,6 +532,18 @@ public class OptionsClassGenerator : ICodeGenerator
             GenerateGroupValidation(sb, command, positionalArguments, nested,
                 required: !group.IsChoice && nested.IsRequired, activeGroup);
         }
+    }
+
+    private static (bool Required, string? Activation) ResolveConditionalActivation(CliRequiredAlternativeGroup group,
+        bool required, string? activation, Func<string, string> presence)
+    {
+        if (group.RequiredWhen is not { } trigger)
+        {
+            return (required, activation);
+        }
+
+        var triggerPresence = presence(trigger.PropertyName);
+        return (true, activation is null ? triggerPresence : $"({activation}) && ({triggerPresence})");
     }
 
     private static string GetCompleteUsageExpression(CliRequiredAlternativeGroup group, Func<string, string> presence)
