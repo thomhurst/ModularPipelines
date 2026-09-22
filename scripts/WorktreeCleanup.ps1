@@ -248,15 +248,17 @@ function Select-MergeCleanupWorktree {
 }
 
 function Get-WorktreeAgentLockNames {
-    param([Parameter(Mandatory)][string]$Worktree, [string]$Branch)
+    param([Parameter(Mandatory)][string]$Worktree, [string]$Branch, [switch]$Orphan)
 
     $names = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
-    $extension = git -C $Worktree config --local --bool --get extensions.worktreeConfig 2>$null
-    if ($LASTEXITCODE -notin @(0, 1)) { throw 'Cannot inspect worktree configuration.' }
-    if ($extension -eq 'true') {
-        $marker = git -C $Worktree config --worktree --get agent.lockName 2>$null
-        if ($LASTEXITCODE -notin @(0, 1)) { throw 'Cannot inspect worktree ownership marker.' }
-        if (-not [string]::IsNullOrWhiteSpace($marker)) { [void]$names.Add($marker.Trim()) }
+    if (-not $Orphan) {
+        $extension = git -C $Worktree config --local --bool --get extensions.worktreeConfig 2>$null
+        if ($LASTEXITCODE -notin @(0, 1)) { throw 'Cannot inspect worktree configuration.' }
+        if ($extension -eq 'true') {
+            $marker = git -C $Worktree config --worktree --get agent.lockName 2>$null
+            if ($LASTEXITCODE -notin @(0, 1)) { throw 'Cannot inspect worktree ownership marker.' }
+            if (-not [string]::IsNullOrWhiteSpace($marker)) { [void]$names.Add($marker.Trim()) }
+        }
     }
 
     # The canonical path identifies a detached setup checkout before renew writes its marker.
@@ -292,12 +294,17 @@ function Invoke-WithWorktreeCleanupLocks {
         [Parameter(Mandatory)][string]$Worktree,
         [string]$Branch = '',
         [Parameter(Mandatory)][scriptblock]$Action,
+        [switch]$Orphan,
         [switch]$Preview
     )
 
-    try { $names = @(Get-WorktreeAgentLockNames -Worktree $Worktree -Branch $Branch) }
+    try { $names = @(Get-WorktreeAgentLockNames -Worktree $Worktree -Branch $Branch -Orphan:$Orphan) }
     catch {
         Write-Host "Preserving worktree: ownership could not be inspected: $Worktree"
+        return
+    }
+    if ($Orphan -and $names.Count -eq 0) {
+        Write-Host "Preserving orphan directory: ownership identity is unavailable: $Worktree"
         return
     }
     $agentLocks = Join-Path $RepoPath 'scripts/AgentLocks.ps1'

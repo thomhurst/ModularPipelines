@@ -88,19 +88,22 @@ function Remove-OrphanedDirectory {
         [Parameter(Mandatory)][string]$Reason
     )
 
-    if ($WhatIf) {
-        Write-Host "sweep: WOULD remove orphaned dir $Path ($Reason)"
-        return $false
-    }
+    Invoke-WithWorktreeCleanupLocks -RepoPath $mainRepo -Worktree $Path -Orphan -Preview:$WhatIf -Action {
+        if ($WhatIf) {
+            Write-Host "sweep: WOULD remove orphaned dir $Path ($Reason)"
+            return $false
+        }
 
-    Remove-Item -LiteralPath ('\\?\' + ($Path -replace '/', '\')) -Recurse -Force -ErrorAction SilentlyContinue
-    if (Test-Path -LiteralPath $Path) {
-        Write-Host "sweep: WARNING could not fully remove orphaned dir $Path"
-        return $false
-    }
+        $removalPath = if ($IsWindows) { '\\?\' + ($Path -replace '/', '\') } else { $Path }
+        Remove-Item -LiteralPath $removalPath -Recurse -Force -ErrorAction SilentlyContinue
+        if (Test-Path -LiteralPath $Path) {
+            Write-Host "sweep: WARNING could not fully remove orphaned dir $Path"
+            return $false
+        }
 
-    Write-Host "sweep: removed orphaned dir $Path"
-    return $true
+        Write-Host "sweep: removed orphaned dir $Path"
+        return $true
+    }
 }
 
 # "Exit 0 always" is load-bearing: a sweep failure must never kill an otherwise-healthy

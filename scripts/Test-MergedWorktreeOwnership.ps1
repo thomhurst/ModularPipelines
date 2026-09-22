@@ -99,6 +99,41 @@ exit 0
         Assert-Fixture (Test-Path -LiteralPath $path) 'Active detached setup checkout was removed before its marker existed.'
         Invoke-FixtureGit -C $fixtureRepo worktree remove --force $path
 
+        foreach ($kind in @('dangling', 'markerless')) {
+            foreach ($state in @('HELD', 'ERROR', 'FREE')) {
+                $path = Join-Path $fixtureWorktrees "pr-999999-$kind-$state"
+                New-Item -ItemType Directory -Path $path | Out-Null
+                $source = Join-Path $path 'unpublished.txt'
+                Set-Content -LiteralPath $source -Value 'source from before the merge'
+                (Get-Item -LiteralPath $source).LastWriteTimeUtc = [datetime]'2025-01-01T00:00:00Z'
+                if ($kind -eq 'dangling') {
+                    Set-Content -LiteralPath (Join-Path $path '.git') -Value "gitdir: $fixtureRepo/.git/worktrees/missing"
+                }
+                Set-FixtureLock 'pr-999999' $state
+                Invoke-FixtureSweep -Preview
+                Assert-Fixture (Test-Path -LiteralPath $source) "Preview deleted a $kind orphan."
+                Invoke-FixtureSweep
+                if ($state -eq 'FREE') {
+                    Assert-Fixture (-not (Test-Path -LiteralPath $path)) "Released $kind orphan was not removed."
+                }
+                else {
+                    Assert-Fixture (Test-Path -LiteralPath $source) "$kind orphan was deleted while ownership was $state."
+                    $resolvedPath = [IO.Path]::GetFullPath($path)
+                    $orphanRoot = [IO.Path]::GetFullPath($fixtureWorktrees) + [IO.Path]::DirectorySeparatorChar
+                    if (-not $resolvedPath.StartsWith($orphanRoot, [StringComparison]::OrdinalIgnoreCase)) {
+                        throw 'Refusing cleanup outside the fixture worktree root.'
+                    }
+                    Remove-Item -LiteralPath $resolvedPath -Recurse -Force
+                }
+            }
+        }
+
+        $unidentifiedOrphan = Join-Path $fixtureWorktrees 'unknown-owner'
+        New-Item -ItemType Directory -Path $unidentifiedOrphan | Out-Null
+        Set-Content -LiteralPath (Join-Path $unidentifiedOrphan '.git') -Value "gitdir: $fixtureRepo/.git/worktrees/missing"
+        Invoke-FixtureSweep
+        Assert-Fixture (Test-Path -LiteralPath $unidentifiedOrphan) 'Orphan without recoverable ownership was deleted.'
+
         $path = New-FixtureWorktree 'renamed-review' -Marker 'pr-900002' -Branch 'renamed-review'
         Set-FixtureLock 'pr-900002' 'HELD'
         Invoke-FixtureSweep

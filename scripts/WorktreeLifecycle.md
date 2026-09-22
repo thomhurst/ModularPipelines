@@ -8,6 +8,8 @@ A crashed process or an expired Redis TTL cannot run release. `Remove-MergedWork
 
 The sweep reserves canonical Redis item locks before deleting an eligible worktree. It checks identities from the worktree marker, canonical directory name, and branch name; active or unverifiable ownership preserves the checkout. Reservations use the shared checkout's `AgentLocks.ps1` and remain held through removal. `-WhatIf` only reads lock status. These checks do not replace the existing merge-evidence and source-preservation guards.
 
+The same reservation protects orphan directories with dangling or missing Git metadata. Their canonical directory names supply the lock identity; an orphan without a recoverable identity is preserved for manual inspection.
+
 Create detached PR setup checkouts with `git worktree add --detach --lock --reason 'PR checkout setup' ...`. After `gh pr checkout` and lock-path registration complete, run `git worktree unlock <absolute-path>`. This temporary Git lock protects setup from older cleanup scripts; Redis remains the ownership authority.
 
 Run regression tests locally with PowerShell 7, Git and Docker:
