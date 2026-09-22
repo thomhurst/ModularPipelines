@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Snyk.Enums;
 
 /// <summary>
-/// Allowed values for --file-path-group
+/// Allowed values for --file-path-group.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum SnykFilePathGroup
