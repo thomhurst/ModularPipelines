@@ -15,23 +15,35 @@ internal static class StableTypeName
 
     public static string GetBuildFingerprint(Type type) =>
         BuildFingerprints.GetValue(type, static value =>
-            Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(GetBuildIdentity(value)))));
+            Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(GetBuildIdentity(value, [])))));
 
-    private static string GetBuildIdentity(Type type)
+    private static string GetBuildIdentity(Type type, HashSet<Type> inheritancePath)
     {
         var identity = $"{Get(type)}\0{type.Module.ModuleVersionId}";
-        if (type.HasElementType)
-        {
-            return $"{identity}\0Element={GetBuildIdentity(type.GetElementType()!)}";
-        }
-
-        if (!type.IsGenericType)
+        // Generic base types can refer back to the derived type, e.g. Node : Base<Node>.
+        if (!inheritancePath.Add(type))
         {
             return identity;
         }
 
-        var arguments = string.Join("\u001F", type.GetGenericArguments().Select(GetBuildIdentity));
-        return $"{identity}\0Arguments={arguments}";
+        if (type.HasElementType)
+        {
+            identity += $"\0Element={GetBuildIdentity(type.GetElementType()!, inheritancePath)}";
+        }
+        else if (type.IsGenericType)
+        {
+            var arguments = string.Join("\u001F", type.GetGenericArguments()
+                .Select(argument => GetBuildIdentity(argument, inheritancePath)));
+            identity += $"\0Arguments={arguments}";
+        }
+
+        if (type.BaseType is { } baseType)
+        {
+            identity += $"\0Base={GetBuildIdentity(baseType, inheritancePath)}";
+        }
+
+        inheritancePath.Remove(type);
+        return identity;
     }
 
     [UnconditionalSuppressMessage("Trimming", "IL2057", Justification = "Runtime module result value types are explicitly unsupported in trimmed applications.")]
