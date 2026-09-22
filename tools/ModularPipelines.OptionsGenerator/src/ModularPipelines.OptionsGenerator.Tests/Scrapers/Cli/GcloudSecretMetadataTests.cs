@@ -29,6 +29,43 @@ public class GcloudSecretMetadataTests
         string commandName, string metadataNames, string secretNames)
     {
         var command = await GcloudCapturedSemanticsTests.Scrape(commandName);
+        await AssertClassificationsBeforeAndAfterEnhancement(command, metadataNames, secretNames);
+    }
+
+    [Test]
+    [Arguments("password", "PASSWORD", "Password", "The password value to send for authentication.")]
+    [Arguments("password", "PASSWORD", "Password", "Password for authentication.")]
+    [Arguments("token", "TOKEN", "Token", "The token contents to send for authentication.")]
+    [Arguments("token", "TOKEN", "Token", "Token for authentication.")]
+    [Arguments("service-account-key-file", "FILE", "ServiceAccountKeyFile", "The base64 encoded content of the service account key file.")]
+    public async Task Inherited_Reference_Documentation_Does_Not_Unmask_Literal_Credentials(
+        string switchName, string valueHint, string propertyName, string description)
+    {
+        var commands = await GcloudResourceArgumentTests.ScrapeFixture("example authenticate", $$"""
+            NAME
+                gcloud example authenticate - authenticate with a credential
+            SYNOPSIS
+                gcloud example authenticate [--secret-bindings=[KEY=VALUE,...] | --{{switchName}}={{valueHint}}]
+            FLAGS
+                At most one of these can be specified:
+
+                  Secret bindings values should be in the form SECRET_NAME:SECRET_VERSION.
+
+                    --secret-bindings=[KEY=VALUE,...]
+                        The bindings to use.
+
+                    --{{switchName}}={{valueHint}}
+                        {{description}}
+            """);
+        var command = commands.Single();
+        await Assert.That(command.Options.Single(option => option.PropertyName == propertyName).Description!)
+            .Contains("SECRET_NAME:SECRET_VERSION");
+        await AssertClassificationsBeforeAndAfterEnhancement(command, "SecretBindings", propertyName);
+    }
+
+    private static async Task AssertClassificationsBeforeAndAfterEnhancement(
+        CliCommandDefinition command, string metadataNames, string secretNames)
+    {
         await AssertClassifications(command, metadataNames, false);
         await AssertClassifications(command, secretNames, true);
 

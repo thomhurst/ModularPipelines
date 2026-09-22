@@ -796,8 +796,8 @@ public partial class GcloudCliScraper : CliScraperBase
     {
         var valueHint = argument.ValueHint ?? string.Empty;
         var description = argument.Documentation;
-        // Secret-binding syntax can be documented on the containing option group.
-        var isResourceReference = GeneratorUtils.IsSecretReference(valueHint, description);
+        // Inherited binding documentation must not override an option's own credential syntax or prose.
+        var isResourceReference = GeneratorUtils.IsSecretReference(valueHint, argument.Description, description);
         var isFlag = string.IsNullOrEmpty(valueHint) || argument.IsNegatable;
         var hasCompositeSyntax = IsCompositeValueHint(valueHint);
         var isStructuredValue = hasCompositeSyntax

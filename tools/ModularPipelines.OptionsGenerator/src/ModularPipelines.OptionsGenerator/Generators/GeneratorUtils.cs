@@ -1043,9 +1043,13 @@ public static partial class GeneratorUtils
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex CostDescriptionPattern();
 
-    internal static bool IsSecretReference(string? valueSyntax, string? description) =>
+    internal static bool IsSecretReference(string? valueSyntax, string? description, string? groupDescription = null) =>
         (valueSyntax is not null && SecretReferenceSyntaxPattern().IsMatch(valueSyntax))
-        || (description is not null && SecretReferenceDescriptionPattern().IsMatch(description));
+        || (description is not null && SecretReferenceDescriptionPattern().IsMatch(description))
+        || (groupDescription is not null
+            && !DescriptionIdentifiesSecretValue(description)
+            && (valueSyntax is null || !SecretKeywordDescriptionPattern().IsMatch(valueSyntax))
+            && SecretReferenceDescriptionPattern().IsMatch(groupDescription));
 
     [GeneratedRegex(@"\b(?:SECRET|PASSWORD|CREDENTIAL|TOKEN)(?:_VALUE)?_REF(?:ERENCE)?\b",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
