@@ -387,13 +387,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 diagnosticName: "module-version-mvid");
         }
 
-        for (var current = module.GetType(); current is not null; current = current.BaseType)
-        {
-            foreach (var argument in current.GetGenericArguments())
-            {
-                fingerprint.Append("module-generic-argument", StableTypeName.GetBuildFingerprint(argument));
-            }
-        }
+        AppendGenericArgumentFingerprints(fingerprint, module.GetType());
 
         foreach (var pattern in configuration.CacheInputPatterns)
         {
@@ -423,6 +417,17 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                     $"environment:{variableName}:value",
                     value,
                     protectDiagnosticValue: true);
+            }
+        }
+    }
+
+    private static void AppendGenericArgumentFingerprints(FingerprintBuilder fingerprint, Type moduleType)
+    {
+        for (var current = moduleType; current is not null; current = current.BaseType)
+        {
+            foreach (var argument in current.GetGenericArguments())
+            {
+                fingerprint.Append("module-generic-argument", StableTypeName.GetBuildFingerprint(argument));
             }
         }
     }
