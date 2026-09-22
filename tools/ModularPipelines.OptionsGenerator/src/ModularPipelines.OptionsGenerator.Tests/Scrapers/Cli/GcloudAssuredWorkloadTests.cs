@@ -7,7 +7,6 @@ public class GcloudAssuredWorkloadTests
     [Test]
     [Arguments("[[WORKLOAD_ID] --external-identifier=EXTERNAL_IDENTIFIER | --workload-id=FLAG_WORKLOAD_ID]")]
     [Arguments("[--workload-id=FLAG_WORKLOAD_ID | [WORKLOAD_ID] --external-identifier=EXTERNAL_IDENTIFIER]")]
-    [Arguments("(WORKLOAD_ID --external-identifier=EXTERNAL_IDENTIFIER | --workload-id=FLAG_WORKLOAD_ID)")]
     public async Task Synopsis_Preserves_Optional_Workload_Operand(string alternatives)
     {
         var usage = UsageSynopsisParser.Parse(

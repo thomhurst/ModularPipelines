@@ -1333,10 +1333,20 @@ public static class UsageSynopsisParser
         var alternatives = SplitTopLevelAlternatives(content);
         if (alternatives.Count > 1)
         {
+            if (GetBundledOperandBranch(alternatives) is not { } branch)
+            {
+                return false;
+            }
+
+            if (IsRequiredUsageToken(normalizedToken))
+            {
+                throw new InvalidOperationException(
+                    $"Usage synopsis has unsupported required bundled operand alternatives '{token}'.");
+            }
+
             // A single operand-bearing branch can bundle an operand with flags.
-            // Parse its tokens individually; the other branches make its operands optional.
-            return GetBundledOperandBranch(alternatives) is { } branch
-                && TryParseNestedOperands(branch, false, positionIndex, phase, out arguments, out requiredOptionSwitches);
+            // Extract only optional groups until required branch conjunctions can be preserved.
+            return TryParseNestedOperands(branch, false, positionIndex, phase, out arguments, out requiredOptionSwitches);
         }
 
         if (!content.Contains('[') && !nestedTokens.Any(nestedToken => GetOptionSwitches(nestedToken).Count > 0))
@@ -1354,7 +1364,8 @@ public static class UsageSynopsisParser
 
     private static void ValidateNestedColonGroup(string token, string content, List<string> nestedTokens)
     {
-        if (!nestedTokens.Contains(":"))
+        if (!nestedTokens.Any(static nestedToken =>
+                nestedToken == ":" || (nestedToken.EndsWith(':') && IsWrapped(nestedToken[..^1]))))
         {
             return;
         }
