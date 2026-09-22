@@ -1,0 +1,752 @@
+NAME
+    gcloud functions deploy - create or update a Google Cloud Function
+
+SYNOPSIS
+    gcloud functions deploy (NAME : --region=REGION)
+        [--[no-]allow-unauthenticated] [--concurrency=CONCURRENCY]
+        [--direct-vpc-egress=DIRECT_VPC_EGRESS]
+        [--docker-registry=DOCKER_REGISTRY] [--egress-settings=EGRESS_SETTINGS]
+        [--entry-point=ENTRY_POINT] [--gen2] [--ignore-file=IGNORE_FILE]
+        [--ingress-settings=INGRESS_SETTINGS] [--retry]
+        [--run-service-account=RUN_SERVICE_ACCOUNT] [--runtime=RUNTIME]
+        [--runtime-update-policy=RUNTIME_UPDATE_POLICY]
+        [--security-level=SECURITY_LEVEL; default="secure-always"]
+        [--serve-all-traffic-latest-revision]
+        [--service-account=SERVICE_ACCOUNT] [--source=SOURCE]
+        [--stage-bucket=STAGE_BUCKET] [--timeout=TIMEOUT]
+        [--trigger-location=TRIGGER_LOCATION]
+        [--trigger-service-account=TRIGGER_SERVICE_ACCOUNT]
+        [--update-labels=[KEY=VALUE,...]]
+        [--binary-authorization=BINARY_AUTHORIZATION
+          | --clear-binary-authorization]
+        [--build-env-vars-file=FILE_PATH | --clear-build-env-vars
+          | --set-build-env-vars=[KEY=VALUE,...]
+          | --remove-build-env-vars=[KEY,...]
+          --update-build-env-vars=[KEY=VALUE,...]]
+        [--build-service-account=BUILD_SERVICE_ACCOUNT
+          | --clear-build-service-account]
+        [--build-worker-pool=BUILD_WORKER_POOL | --clear-build-worker-pool]
+        [--clear-docker-repository | --docker-repository=DOCKER_REPOSITORY]
+        [--clear-env-vars | --env-vars-file=FILE_PATH
+          | --set-env-vars=[KEY=VALUE,...]
+          | --remove-env-vars=[KEY,...] --update-env-vars=[KEY=VALUE,...]]
+        [--clear-kms-key | --kms-key=KMS_KEY]
+        [--clear-labels | --remove-labels=[KEY,...]]
+        [--clear-max-instances | --max-instances=MAX_INSTANCES]
+        [--clear-min-instances | --min-instances=MIN_INSTANCES]
+        [--clear-network
+          | --network=NETWORK --subnet=SUBNET --clear-network-tags
+          | --network-tags=[TAGS,...]]
+        [--clear-secrets
+          | --set-secrets=[SECRET_ENV_VAR=SECRET_VALUE_REF,
+          /secret_path=SECRET_VALUE_REF,
+          /mount_path:/secret_file_path=SECRET_VALUE_REF,...]
+          | --remove-secrets=[SECRET_ENV_VAR,
+          /secret_path,/mount_path:/secret_file_path,...]
+          --update-secrets=[SECRET_ENV_VAR=SECRET_VALUE_REF,
+          /secret_path=SECRET_VALUE_REF,
+          /mount_path:/secret_file_path=SECRET_VALUE_REF,...]]
+        [--clear-vpc-connector | --vpc-connector=VPC_CONNECTOR]
+        [--memory=MEMORY : --cpu=CPU]
+        [--trigger-bucket=TRIGGER_BUCKET | --trigger-http
+          | --trigger-topic=TRIGGER_TOPIC
+          | --trigger-event=EVENT_TYPE --trigger-resource=RESOURCE
+          | --trigger-event-filters=[ATTRIBUTE=VALUE,...]
+          --trigger-event-filters-path-pattern=[ATTRIBUTE=PATH_PATTERN,...]]
+        [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Create or update a Google Cloud Function.
+
+EXAMPLES
+    To deploy a function that is triggered by write events on the document
+    /messages/{pushId}, run:
+
+        $ gcloud functions deploy my_function --runtime=python37 \
+            --trigger-event=providers/cloud.firestore/eventTypes/\
+        document.write \
+            --trigger-resource=projects/project_id/databases/(default)/\
+        documents/messages/{pushId}
+
+    See https://cloud.google.com/functions/docs/calling for more details of
+    using other types of resource as triggers.
+
+POSITIONAL ARGUMENTS
+     Function resource - The Cloud Function name to deploy. The arguments in
+     this group can be used to specify the attributes of this resource. (NOTE)
+     Some attributes are not given arguments in this group but can be set in
+     other ways.
+
+     To set the project attribute:
+      * provide the argument NAME on the command line with a fully specified
+        name;
+      * provide the argument --project on the command line;
+      * set the property core/project.
+
+     This must be specified.
+
+       NAME
+          ID of the function or fully qualified identifier for the function.
+
+          To set the function attribute:
+          + provide the argument NAME on the command line.
+
+          This positional argument must be specified if any of the other
+          arguments in this group are specified.
+
+       --region=REGION
+          The Cloud region for the function. Overrides the default
+          functions/region property value for this command invocation.
+
+          To set the region attribute:
+          + provide the argument NAME on the command line with a fully
+            specified name;
+          + provide the argument --region on the command line;
+          + set the property functions/region.
+
+FLAGS
+     --[no-]allow-unauthenticated
+        If set, makes this a public function. This will allow all callers,
+        without checking authentication. Use --allow-unauthenticated to enable
+        and --no-allow-unauthenticated to disable.
+
+     --concurrency=CONCURRENCY
+        Set the maximum number of concurrent requests allowed per container
+        instance. Leave concurrency unspecified to receive the server default
+        value.
+
+     --direct-vpc-egress=DIRECT_VPC_EGRESS
+        Specify which of the outbound traffic to send through Direct VPC
+        egress. Configuring Direct VPC network is required to use this flag.
+        DIRECT_VPC_EGRESS must be one of: private-ranges-only, all,
+        all-traffic.
+
+     --docker-registry=DOCKER_REGISTRY
+        (DEPRECATED) Docker Registry to use for storing the function's Docker
+        images. The option artifact-registry is used by default.
+
+            With the general transition from Container Registry to
+            Artifact Registry, the option to specify docker registry is deprecated.
+            All container image storage and management will automatically
+            transition to Artifact Registry.
+            For more information, see
+            https://cloud.google.com/artifact-registry/docs/transition/transition-from-gcr
+
+        DOCKER_REGISTRY must be one of: artifact-registry, container-registry.
+
+     --egress-settings=EGRESS_SETTINGS
+        Egress settings controls what traffic is diverted through the VPC
+        Access Connector resource. By default private-ranges-only will be used.
+        EGRESS_SETTINGS must be one of: private-ranges-only, all.
+
+     --entry-point=ENTRY_POINT
+        Name of a Google Cloud Function (as defined in source code) that will
+        be executed. Defaults to the resource name suffix (ID of the function),
+        if not specified.
+
+     --gen2
+        If enabled, this command will use Cloud Functions (Second generation).
+        If disabled with --no-gen2, Cloud Functions (First generation) will be
+        used. If not specified, the value of this flag will be taken from the
+        functions/gen2 configuration property. If the functions/gen2
+        configuration property is not set, defaults to looking up the given
+        function and using its generation.
+
+     --ignore-file=IGNORE_FILE
+        Override the .gcloudignore file in the source directory and use the
+        specified file instead. By default, the source directory is your
+        current directory. Note that it could be changed by the --source flag,
+        in which case your .gcloudignore file will be searched in the
+        overridden directory. For example, --ignore-file=.mygcloudignore
+        combined with --source=./mydir would point to ./mydir/.mygcloudignore
+
+     --ingress-settings=INGRESS_SETTINGS
+        Ingress settings controls what traffic can reach the function. By
+        default all will be used. INGRESS_SETTINGS must be one of: all,
+        internal-only, internal-and-gclb.
+
+     --retry
+        If specified, then the function will be retried in case of a failure.
+
+     --run-service-account=RUN_SERVICE_ACCOUNT
+        The email address of the IAM service account associated with the Cloud
+        Run service for the function. The service account represents the
+        identity of the running function, and determines what permissions the
+        function has.
+
+        If not provided, the function will use the project's default service
+        account for Compute Engine.
+
+     --runtime=RUNTIME
+        Runtime in which to run the function.
+
+        Required when deploying a new function; optional when updating an
+        existing function.
+
+        For a list of available runtimes, run gcloud functions runtimes list.
+
+     --runtime-update-policy=RUNTIME_UPDATE_POLICY
+        Runtime update policy for the function being deployed. The option
+        automatic is used by default. RUNTIME_UPDATE_POLICY must be one of:
+        automatic, on-deploy.
+
+     --security-level=SECURITY_LEVEL; default="secure-always"
+        Security level controls whether a function's URL supports HTTPS only or
+        both HTTP and HTTPS. By default, secure-always will be used, meaning
+        only HTTPS is supported. SECURITY_LEVEL must be one of: secure-always,
+        secure-optional.
+
+     --serve-all-traffic-latest-revision
+        If specified, latest function revision will be served all traffic.
+
+     --service-account=SERVICE_ACCOUNT
+        The email address of the IAM service account associated with the
+        function at runtime. The service account represents the identity of the
+        running function, and determines what permissions the function has.
+
+        If not provided, the function will use the project's default service
+        account for Compute Engine.
+
+     --source=SOURCE
+        Location of source code to deploy.
+
+        Location of the source can be one of the following three options:
+
+        * Source code in Google Cloud Storage (must be a .zip archive),
+        * Reference to source repository or,
+        * Local filesystem path (root directory of function source).
+
+        Note that, depending on your runtime type, Cloud Functions will look
+        for files with specific names for deployable functions. For Node.js,
+        these filenames are index.js or function.js. For Python, this is
+        main.py.
+
+        If you do not specify the --source flag:
+
+        * The current directory will be used for new function deployments.
+        * If the function was previously deployed using a local filesystem
+          path, then the function's source code will be updated using the
+          current directory.
+        * If the function was previously deployed using a Google Cloud
+          Storage location or a source repository, then the function's source
+          code will not be updated.
+
+        The value of the flag will be interpreted as a Cloud Storage location,
+        if it starts with gs://.
+
+        The value will be interpreted as a reference to a source repository, if
+        it starts with https://.
+
+        Otherwise, it will be interpreted as the local filesystem path. When
+        deploying source from the local filesystem, this command skips files
+        specified in the .gcloudignore file (see gcloud topic gcloudignore for
+        more information). If the .gcloudignore file doesn't exist, the command
+        will try to create it.
+
+        The minimal source repository URL is:
+        https://source.developers.google.com/projects/${PROJECT}/repos/${REPO}
+
+        By using the URL above, sources from the root directory of the
+        repository on the revision tagged master will be used.
+
+        If you want to deploy from a revision different from master, append one
+        of the following three sources to the URL:
+
+        * /revisions/${REVISION},
+        * /moveable-aliases/${MOVEABLE_ALIAS},
+        * /fixed-aliases/${FIXED_ALIAS}.
+
+        If you'd like to deploy sources from a directory different from the
+        root, you must specify a revision, a moveable alias, or a fixed alias,
+        as above, and append /paths/${PATH_TO_SOURCES_DIRECTORY} to the URL.
+
+        Overall, the URL should match the following regular expression:
+
+            ^https://source\.developers\.google\.com/projects/
+            (?<accountId>[^/]+)/repos/(?<repoName>[^/]+)
+            (((/revisions/(?<commit>[^/]+))|(/moveable-aliases/(?<branch>[^/]+))|
+            (/fixed-aliases/(?<tag>[^/]+)))(/paths/(?<path>.*))?)?$
+
+        An example of a validly formatted source repository URL is:
+
+            https://source.developers.google.com/projects/123456789/repos/testrepo/
+            moveable-aliases/alternate-branch/paths/path-to=source
+
+     --stage-bucket=STAGE_BUCKET
+        When deploying a function from a local directory, this flag's value is
+        the name of the Google Cloud Storage bucket in which source code will
+        be stored. Note that if you set the --stage-bucket flag when deploying
+        a function, you will need to specify --source or --stage-bucket in
+        subsequent deployments to update your source code. To use this flag
+        successfully, the account in use must have permissions to write to this
+        bucket. For help granting access, refer to this guide:
+        https://cloud.google.com/storage/docs/access-control/
+
+     --timeout=TIMEOUT
+        The function execution timeout, e.g. 30s for 30 seconds. Defaults to
+        original value for existing function or 60 seconds for new functions.
+
+        For GCF 1st gen functions, cannot be more than 540s.
+
+        For GCF 2nd gen functions, cannot be more than 3600s.
+
+        See $ gcloud topic datetimes for information on duration formats.
+
+     --trigger-location=TRIGGER_LOCATION
+        The location of the trigger, which must be a region or multi-region
+        where the relevant events originate.
+
+     --trigger-service-account=TRIGGER_SERVICE_ACCOUNT
+        The email address of the IAM service account associated with the
+        Eventarc trigger for the function. This is used for authenticated
+        invocation.
+
+        If not provided, the function will use the project's default service
+        account for Compute Engine.
+
+     --update-labels=[KEY=VALUE,...]
+        List of label KEY=VALUE pairs to update. If a label exists, its value
+        is modified. Otherwise, a new label is created.
+
+        Keys must start with a lowercase character and contain only hyphens
+        (-), underscores (_), lowercase characters, and numbers. Values must
+        contain only hyphens (-), underscores (_), lowercase characters, and
+        numbers.
+
+        Label keys starting with deployment are reserved for use by deployment
+        tools and cannot be specified manually.
+
+     At most one of these can be specified:
+
+       --binary-authorization=BINARY_AUTHORIZATION
+          Name of the Binary Authorization policy that the function image
+          should be checked against when deploying to Cloud Run.
+
+          Example: default
+
+          The flag is only applicable to 2nd gen functions.
+
+       --clear-binary-authorization
+          Clears the Binary Authorization policy field.
+
+     At most one of these can be specified:
+
+       --build-env-vars-file=FILE_PATH
+          Path to a local YAML file with definitions for all build environment
+          variables. All existing build environment variables will be removed
+          before the new build environment variables are added.
+
+       --clear-build-env-vars
+          Remove all build environment variables.
+
+       --set-build-env-vars=[KEY=VALUE,...]
+          List of key-value pairs to set as build environment variables. All
+          existing build environment variables will be removed first.
+
+       Or at least one of these can be specified:
+
+         Only --update-build-env-vars and --remove-build-env-vars can be used
+         together. If both are specified, --remove-build-env-vars will be
+         applied first.
+
+         --remove-build-env-vars=[KEY,...]
+            List of build environment variables to be removed.
+
+         --update-build-env-vars=[KEY=VALUE,...]
+            List of key-value pairs to set as build environment variables.
+
+     At most one of these can be specified:
+
+       --build-service-account=BUILD_SERVICE_ACCOUNT
+          IAM service account whose credentials will be used for the build
+          step. Must be of the format
+          projects/${PROJECT_ID}/serviceAccounts/${ACCOUNT_EMAIL_ADDRESS}.
+
+          If not provided, the function will use the project's default service
+          account for Cloud Build.
+
+       --clear-build-service-account
+          Clears the build service account field.
+
+     At most one of these can be specified:
+
+       --build-worker-pool=BUILD_WORKER_POOL
+          Name of the Cloud Build Custom Worker Pool that should be used to
+          build the function. The format of this field is
+          projects/${PROJECT}/locations/${LOCATION}/workerPools/${WORKERPOOL}
+          where ${PROJECT} is the project id and ${LOCATION} is the location
+          where the worker pool is defined and ${WORKERPOOL} is the short name
+          of the worker pool.
+
+       --clear-build-worker-pool
+          Clears the Cloud Build Custom Worker Pool field.
+
+     At most one of these can be specified:
+
+       --clear-docker-repository
+          Clears the Docker repository configuration of the function.
+
+       --docker-repository=DOCKER_REPOSITORY
+          Sets the Docker repository to be used for storing the Cloud
+          Function's Docker images while the function is being deployed.
+          DOCKER_REPOSITORY must be an Artifact Registry Docker repository
+          present in the same project and location as the Cloud Function.
+
+          **Preview:** for 2nd gen functions, a Docker Artifact registry
+          repository in a different project and/or location may be used.
+          Additional requirements apply, see
+          https://cloud.google.com/functions/docs/building#image_registry
+
+          The repository name should match one of these patterns:
+
+          + projects/${PROJECT}/locations/${LOCATION}/repositories/${REPOSITORY},
+          + {LOCATION}-docker.pkg.dev/{PROJECT}/{REPOSITORY}.
+
+          where ${PROJECT} is the project, ${LOCATION} is the location of the
+          repository and ${REPOSITORY} is a valid repository ID.
+
+     At most one of these can be specified:
+
+       --clear-env-vars
+          Remove all environment variables.
+
+       --env-vars-file=FILE_PATH
+          Path to a local YAML file with definitions for all environment
+          variables. All existing environment variables will be removed before
+          the new environment variables are added.
+
+       --set-env-vars=[KEY=VALUE,...]
+          List of key-value pairs to set as environment variables. All existing
+          environment variables will be removed first.
+
+       Or at least one of these can be specified:
+
+         Only --update-env-vars and --remove-env-vars can be used together. If
+         both are specified, --remove-env-vars will be applied first.
+
+         --remove-env-vars=[KEY,...]
+            List of environment variables to be removed.
+
+         --update-env-vars=[KEY=VALUE,...]
+            List of key-value pairs to set as environment variables.
+
+     At most one of these can be specified:
+
+       --clear-kms-key
+          Clears the KMS crypto key used to encrypt the function.
+
+       --kms-key=KMS_KEY
+          Sets the user managed KMS crypto key used to encrypt the Cloud
+          Function and its resources.
+
+          The KMS crypto key name should match the pattern
+          projects/${PROJECT}/locations/${LOCATION}/keyRings/${KEYRING}/cryptoKeys/${CRYPTOKEY}
+          where ${PROJECT} is the project, ${LOCATION} is the location of the
+          key ring, and ${KEYRING} is the key ring that contains the
+          ${CRYPTOKEY} crypto key.
+
+          If this flag is set, then a Docker repository created in Artifact
+          Registry must be specified using the --docker-repository flag and the
+          repository must be encrypted using the same KMS key.
+
+     At most one of these can be specified:
+
+       --clear-labels
+          Remove all labels. If --update-labels is also specified then
+          --clear-labels is applied first.
+
+          For example, to remove all labels:
+
+              $ gcloud functions deploy --clear-labels
+
+          To remove all existing labels and create two new labels, foo and baz:
+
+              $ gcloud functions deploy --clear-labels \
+                --update-labels foo=bar,baz=qux
+
+       --remove-labels=[KEY,...]
+          List of label keys to remove. If a label does not exist it is
+          silently ignored. If --update-labels is also specified then
+          --update-labels is applied first.Label keys starting with deployment
+          are reserved for use by deployment tools and cannot be specified
+          manually.
+
+     At most one of these can be specified:
+
+       --clear-max-instances
+          Clears the maximum instances setting for the function.
+
+          If it's any 2nd gen function or a 1st gen HTTP function, this flag
+          sets maximum instances to 0, which means there is no limit to maximum
+          instances. If it's an event-driven 1st gen function, this flag sets
+          maximum instances to 3000, which is the default value for 1st gen
+          functions.
+
+       --max-instances=MAX_INSTANCES
+          Sets the maximum number of instances for the function. A function
+          execution that would exceed max-instances times out.
+
+     At most one of these can be specified:
+
+       --clear-min-instances
+          Clears the minimum instances setting for the function.
+
+       --min-instances=MIN_INSTANCES
+          Sets the minimum number of instances for the function. This is
+          helpful for reducing cold start times. Defaults to zero.
+
+     At most one of these can be specified:
+
+       --clear-network
+          Disconnect this Cloud Function from the Direct VPC network it is
+          connected to.
+
+       Or at least one of these can be specified:
+
+         Direct VPC egress setting flags group.
+
+         --network=NETWORK
+            The VPC network that the Cloud Function will be able to send
+            traffic to. If --subnet is also specified, subnet must be a
+            subnetwork of the network specified by this --network flag. To
+            clear existing VPC network settings, use --clear-network.
+
+         --subnet=SUBNET
+            The VPC subnetwork that the Cloud Function will get IPs from. The
+            subnetwork must be /26 or larger. If --network is also specified,
+            subnet must be a subnetwork of the network specified by the
+            --network flag. If --network is not specified, network will be
+            looked up from this subnetwork. To clear existing VPC network
+            settings, use --clear-network.
+
+         At most one of these can be specified:
+
+           --clear-network-tags
+              Clears all existing network tags from the Cloud Function.
+
+           --network-tags=[TAGS,...]
+              Applies the given network tags (comma separated) to the Cloud
+              Function. To clear existing tags, use --clear-network-tags.
+
+     At most one of these can be specified:
+
+       --clear-secrets
+          Remove all secret environment variables and volumes.
+
+       --set-secrets=[SECRET_ENV_VAR=SECRET_VALUE_REF,/secret_path=SECRET_VALUE_REF,/mount_path:/secret_file_path=SECRET_VALUE_REF,...]
+          List of secret environment variables and secret volumes to configure.
+          Existing secrets configuration will be overwritten.
+
+          You can reference a secret value referred to as SECRET_VALUE_REF in
+          the help text in the following ways.
+
+          + Use ${SECRET}:${VERSION} if you are referencing a secret in the
+            same project, where ${SECRET} is the name of the secret in secret
+            manager (not the full resource name) and ${VERSION} is the version
+            of the secret which is either a positive integer or the label
+            latest. For example, use SECRET_FOO:1 to reference version 1 of the
+            secret SECRET_FOO which exists in the same project as the function.
+
+          + Use projects/${PROJECT}/secrets/${SECRET}/versions/${VERSION} or
+            projects/${PROJECT}/secrets/${SECRET}:${VERSION} to reference a
+            secret version using the full resource name, where ${PROJECT} is
+            either the project number (preferred) or the project ID of the
+            project which contains the secret, ${SECRET} is the name of the
+            secret in secret manager (not the full resource name) and
+            ${VERSION} is the version of the secret which is either a positive
+            integer or the label latest. For example, use
+            projects/1234567890/secrets/SECRET_FOO/versions/1 or
+            projects/project_id/secrets/SECRET_FOO/versions/1 to reference
+            version 1 of the secret SECRET_FOO that exists in the project
+            1234567890 or project_id respectively. This format is useful when
+            the secret exists in a different project.
+
+          To configure the secret as an environment variable, use
+          SECRET_ENV_VAR=SECRET_VALUE_REF. To use the value of the secret, read
+          the environment variable SECRET_ENV_VAR as you would normally do in
+          the function's programming language.
+
+          We recommend using a numeric version for secret environment variables
+          as any updates to the secret value are not reflected until new clones
+          start.
+
+          To mount the secret within a volume use /secret_path=SECRET_VALUE_REF
+          or /mount_path:/secret_file_path=SECRET_VALUE_REF. To use the value
+          of the secret, read the file at /secret_path as you would normally do
+          in the function's programming language.
+
+          For example, /etc/secrets/secret_foo=SECRET_FOO:latest or
+          /etc/secrets:/secret_foo=SECRET_FOO:latest will make the value of the
+          latest version of the secret SECRET_FOO available in a file
+          secret_foo under the directory /etc/secrets. /etc/secrets will be
+          considered as the mount path and will not be available for any other
+          volume.
+
+          We recommend referencing the latest version when using secret volumes
+          so that the secret's value changes are reflected immediately.
+
+       Or at least one of these can be specified:
+
+         Only --update-secrets and --remove-secrets can be used together. If
+         both are specified, then --remove-secrets will be applied first.
+
+         --remove-secrets=[SECRET_ENV_VAR,/secret_path,/mount_path:/secret_file_path,...]
+            List of secret environment variable names and secret paths to
+            remove.
+
+            Existing secrets configuration of secret environment variable names
+            and secret paths not specified in this list will be preserved.
+
+            To remove a secret environment variable, use the name of the
+            environment variable SECRET_ENV_VAR.
+
+            To remove a file within a secret volume or the volume itself, use
+            the secret path as the key (either /secret_path or
+            /mount_path:/secret_file_path).
+
+         --update-secrets=[SECRET_ENV_VAR=SECRET_VALUE_REF,/secret_path=SECRET_VALUE_REF,/mount_path:/secret_file_path=SECRET_VALUE_REF,...]
+            List of secret environment variables and secret volumes to update.
+            Existing secrets configuration not specified in this list will be
+            preserved.
+
+     At most one of these can be specified:
+
+       --clear-vpc-connector
+          Clears the VPC connector field.
+
+       Or at least one of these can be specified:
+
+         Connector resource - The VPC Access connector that the function can
+         connect to. It can be either the fully-qualified URI, or the short
+         name of the VPC Access connector resource. If the short name is used,
+         the connector must belong to the same project. The format of this
+         field is either
+         projects/${PROJECT}/locations/${LOCATION}/connectors/${CONNECTOR} or
+         ${CONNECTOR}, where ${CONNECTOR} is the short name of the VPC Access
+         connector. This represents a Cloud resource. (NOTE) Some attributes
+         are not given arguments in this group but can be set in other ways.
+
+         To set the project attribute:
+          - provide the argument --vpc-connector on the command line with a
+            fully specified name;
+          - provide the argument --project on the command line;
+          - set the property core/project.
+
+         To set the region attribute:
+          - provide the argument --vpc-connector on the command line with a
+            fully specified name;
+          - provide the argument --region on the command line;
+          - set the property functions/region.
+
+         --vpc-connector=VPC_CONNECTOR
+            ID of the connector or fully qualified identifier for the
+            connector.
+
+            To set the connector attribute:
+            - provide the argument --vpc-connector on the command line.
+
+     --memory=MEMORY
+        Limit on the amount of memory the function can use.
+
+        Allowed values for v1 are: 128MB, 256MB, 512MB, 1024MB, 2048MB, 4096MB,
+        and 8192MB.
+
+        Allowed values for GCF 2nd gen are in the format: <number><unit> with
+        allowed units of "k", "M", "G", "Ki", "Mi", "Gi". Ending 'b' or 'B' is
+        allowed, but both are interpreted as bytes as opposed to bits.
+
+        Examples: 1000000K, 1000000Ki, 256Mb, 512M, 1024Mi, 2G, 4Gi.
+
+        By default, a new function is limited to 256MB of memory. When
+        deploying an update to an existing function, the function keeps its old
+        memory limit unless you specify this flag.
+
+     --cpu=CPU
+        The number of available CPUs to set. Only valid when --memory=MEMORY is
+        specified.
+
+        Examples: .5, 2, 2.0, 2000m.
+
+        By default, a new function's available CPUs is determined based on its
+        memory value.
+
+        When deploying an update that includes memory changes to an existing
+        function, the function's available CPUs will be recalculated based on
+        the new memory unless this flag is specified. When deploying an update
+        that does not include memory changes to an existing function, the
+        function's "available CPUs" setting will keep its old value unless you
+        use this flag to change the setting.
+
+     If you don't specify a trigger when deploying an update to an existing
+     function it will keep its current trigger. You must specify one of the
+     following when deploying a new function:
+      * --trigger-topic,
+      * --trigger-bucket,
+      * --trigger-http,
+      * --trigger-event AND --trigger-resource,
+      * --trigger-event-filters and optionally
+        --trigger-event-filters-path-pattern.
+
+     At most one of these can be specified:
+
+       --trigger-bucket=TRIGGER_BUCKET
+          Google Cloud Storage bucket name. Trigger the function when an object
+          is created or overwritten in the specified Cloud Storage bucket.
+
+       --trigger-http
+          Function will be assigned an endpoint, which you can view by using
+          the describe command. Any HTTP request (of a supported type) to the
+          endpoint will trigger function execution. Supported HTTP request
+          types are: POST, PUT, GET, DELETE, and OPTIONS.
+
+       --trigger-topic=TRIGGER_TOPIC
+          Name of Pub/Sub topic. Every message published in this topic will
+          trigger function execution with message contents passed as input
+          data. Note that this flag does not accept the format of
+          projects/PROJECT_ID/topics/TOPIC_ID. Use this flag to specify the
+          final element TOPIC_ID. The PROJECT_ID will be read from the active
+          configuration.
+
+       Or at least one of these can be specified:
+
+         --trigger-event=EVENT_TYPE
+            Specifies which action should trigger the function. For a list of
+            acceptable values, call gcloud functions event-types list.
+
+         --trigger-resource=RESOURCE
+            Specifies which resource from --trigger-event is being observed.
+            E.g. if --trigger-event is
+            providers/cloud.storage/eventTypes/object.change,
+            --trigger-resource must be a bucket name. For a list of expected
+            resources, call gcloud functions event-types list.
+
+       Or at least one of these can be specified:
+
+         --trigger-event-filters=[ATTRIBUTE=VALUE,...]
+            The Eventarc matching criteria for the trigger. The criteria can be
+            specified either as a single comma-separated argument or as
+            multiple arguments. The filters must include the type attribute, as
+            well as any other attributes that are expected for the chosen type.
+
+         --trigger-event-filters-path-pattern=[ATTRIBUTE=PATH_PATTERN,...]
+            The Eventarc matching criteria for the trigger in path pattern
+            format. The criteria can be specified as a single comma-separated
+            argument or as multiple arguments.
+
+            The provided attribute/value pair will be used with the
+            match-path-pattern operator to configure the trigger, see
+            https://cloud.google.com/eventarc/docs/reference/rest/v1/projects.locations.triggers#eventfilter
+            and https://cloud.google.com/eventarc/docs/path-patterns for more
+            details about on how to construct path patterns.
+
+            For example, to filter on events for Compute Engine VMs in a given
+            zone:
+            --trigger-event-filters-path-pattern=resourceName='/projects/*/zones/us-central1-a/instances/*'
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.

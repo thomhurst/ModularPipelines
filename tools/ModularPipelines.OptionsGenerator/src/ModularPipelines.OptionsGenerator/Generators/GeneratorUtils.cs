@@ -939,6 +939,10 @@ public static partial class GeneratorUtils
     private static readonly string[] SecretMetadataSuffixes =
         ["Count", "Length", "Size", "Age", "Duration", "Validity", "Lifetime", "Seconds", "Minutes", "Hours", "Days"];
 
+    private static readonly string[] CredentialMetadataSuffixes =
+        ["Type", "Format", "Encoding", "Mode", "Method", "Algorithm", "Protocol", "Audience", "Scope", "Scopes",
+            "Issuer", "Endpoint", "Version", "Namespace", "Arn", "Interval", "Complexity", "Location"];
+
     private const string SecretDescriptionKeywordPattern =
         @"secret|password|passphrase|token|credential|api[\s-]*key|private[\s-]*key|access[\s-]*key|secret[\s-]*key|service[\s-]*account[\s-]*key|one[\s-]*time[\s-]*password|otp|key[\s-]*store|wallet";
 
@@ -1012,10 +1016,46 @@ public static partial class GeneratorUtils
             return false;
         }
 
-        return SecretMetadataSuffixes.Any(suffix => EndsWithIdentifierSegment(propertyName, suffix))
-               || (EndsWithIdentifierSegment(propertyName, "Location") && !DescriptionIdentifiesSecretValue(description))
-               || (!string.IsNullOrWhiteSpace(description) && CountDescriptionPattern().IsMatch(description));
+        if (SecretMetadataSuffixes.Any(suffix => EndsWithIdentifierSegment(propertyName, suffix))
+            || (!string.IsNullOrWhiteSpace(description)
+                && (CountDescriptionPattern().IsMatch(description) || CostDescriptionPattern().IsMatch(description))))
+        {
+            return true;
+        }
+
+        if (DescriptionIdentifiesSecretValue(description))
+        {
+            return false;
+        }
+
+        var metadataName = propertyName.EndsWith("Override", StringComparison.OrdinalIgnoreCase)
+            ? propertyName[..^"Override".Length]
+            : propertyName;
+        return CredentialMetadataSuffixes.Any(suffix => EndsWithIdentifierSegment(metadataName, suffix))
+               || (description is not null && CredentialEndpointDescriptionPattern().IsMatch(description));
     }
+
+    [GeneratedRegex(@"\A\s*(?:the\s+)?(?:token\s+endpoint\b|OAuth2?\s+token\s+request\s+URL\b|URL\s+to\s+obtain\s+(?:the\s+)?credential\s+from\b)",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex CredentialEndpointDescriptionPattern();
+
+    [GeneratedRegex(@"\A\s*(?:the\s+)?(?:(?:target|maximum|minimum)\s+)?(?:cost|price)\s+(?:of|per)\b",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex CostDescriptionPattern();
+
+    internal static bool IsSecretReference(string? valueSyntax, string? description) =>
+        (valueSyntax is not null && SecretReferenceSyntaxPattern().IsMatch(valueSyntax))
+        || (description is not null && SecretReferenceDescriptionPattern().IsMatch(description));
+
+    [GeneratedRegex(@"\b(?:SECRET|PASSWORD|CREDENTIAL|TOKEN)(?:_VALUE)?_REF(?:ERENCE)?\b",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex SecretReferenceSyntaxPattern();
+
+    [GeneratedRegex(@"\bvalues\s+should\s+be\s+in\s+the\s+form\s+SECRET_NAME:SECRET_VERSION\b"
+        + @"|\blist\s+of\s+secret\s+environment\s+variable\s+names\s+and\s+secret\s+paths\s+to\s+remove\b"
+        + @"|\bsecret\s*versions?\s+from\s+secret\s+manager\s+must\s+be\s+provided\b",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex SecretReferenceDescriptionPattern();
 
     private static bool EndsWithIdentifierSegment(string propertyName, string suffix)
     {
@@ -1077,7 +1117,11 @@ public static partial class GeneratorUtils
     private static partial Regex FilePathDescriptionPattern();
 
     [GeneratedRegex(@"\bID\s+of\s+the\s+[\w-]+(?:\s+[\w-]+)*?\s+or\s+fully\s+qualified\s+identifier\b|\bthe\s+[\w-]+(?:\s+[\w-]+)*?\s+id\s+of\s+the\s+[\w-]+(?:\s+[\w-]+)*?\s+resource\b"
-        + @"|^(?:the\s+)?name of (?:the\s+)?[\w -]+?\s+to (?:create|update|delete)\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+        + @"|^(?:the\s+)?name of (?:the\s+)?[\w -]+?\s+to (?:create|update|delete)\b"
+        + @"|\A\s*(?:the\s+)?(?:(?:full\s+)?resource\s+name\s+of\b|(?:full\s+)?path\s+of\s+(?:the\s+)?secret\s+version\b|(?:Google\s+Cloud\s+Storage\s+)?URI\s+of\b|secret\s+manager\s+key\s+storing\b)"
+        + @"|\bprovides\s+fallback\s+value\s+for\s+resource\s+[\w-]+\s+attribute\b"
+        + @"|\bTo\s+set\s+the\s+[\w-]+\s+attribute:[\s\S]*?\bfully\s+specified\s+name\b",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex ResourceIdentifierDescriptionPattern();
 
     private static bool ContainsIdentifierSegment(string propertyName, string segment)

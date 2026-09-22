@@ -1,0 +1,166 @@
+NAME
+    gcloud biglake iceberg catalogs create - create a BigLake Iceberg REST
+        catalog
+
+SYNOPSIS
+    gcloud biglake iceberg catalogs create CATALOG --catalog-type=CATALOG_TYPE
+        [--credential-mode=CREDENTIAL_MODE; default="end-user"]
+        [--cross-cloud-cache=MODE] [--default-location=DEFAULT_LOCATION]
+        [--description=DESCRIPTION] [--primary-location=PRIMARY_LOCATION]
+        [--restricted-locations=[LOCATION,...]]
+        [--kms-key=KMS_KEY : --kms-keyring=KMS_KEYRING
+          --kms-location=KMS_LOCATION --kms-project=KMS_PROJECT]
+        [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Create a BigLake Iceberg REST catalog.
+
+EXAMPLES
+    To add a catalog using a Cloud Storage bucket my-catalog-bucket, run:
+
+        $ gcloud biglake iceberg catalogs create my-catalog-bucket \
+            --catalog-type=gcs-bucket
+
+    To create a catalog using a Cloud Storage bucket my-catalog-bucket with
+    vended credentials, run:
+
+        $ gcloud biglake iceberg catalogs create my-catalog-bucket \
+            --catalog-type=gcs-bucket --credential-mode=vended-credentials
+
+    To create a catalog my-lakehouse-catalog with catalog type lakehouse, run:
+
+        $ gcloud biglake iceberg catalogs create my-lakehouse-catalog \
+            --catalog-type=lakehouse --default-location=gs://my-bucket
+
+    To create a catalog my-lakehouse-catalog with cross-cloud cache enabled,
+    run:
+
+        $ gcloud biglake iceberg catalogs create my-lakehouse-catalog \
+            --catalog-type=lakehouse --default-location=gs://my-bucket \
+            --cross-cloud-cache=enabled
+
+    To create a catalog my-lakehouse-catalog with CMEK encryption, run:
+
+        $ gcloud biglake iceberg catalogs create my-lakehouse-catalog \
+            --catalog-type=lakehouse --default-location=gs://my-bucket \
+            --kms-key=projects/my-project/locations/us-central1/keyRings/\
+        my-ring/cryptoKeys/my-key
+
+POSITIONAL ARGUMENTS
+     Catalog resource - The Iceberg Catalog to create. This represents a Cloud
+     resource. (NOTE) Some attributes are not given arguments in this group but
+     can be set in other ways.
+
+     To set the project attribute:
+      * provide the argument catalog on the command line with a fully
+        specified name;
+      * provide the argument --project on the command line;
+      * set the property core/project.
+
+     This must be specified.
+
+       CATALOG
+          ID of the catalog or fully qualified identifier for the catalog.
+
+          To set the catalog attribute:
+          + provide the argument catalog on the command line.
+
+REQUIRED FLAGS
+     --catalog-type=CATALOG_TYPE
+        Catalog type to create the catalog with. CATALOG_TYPE must be one of:
+
+         biglake
+            BigLake Iceberg catalog. Catalog type which allows namespaces and
+            tables within a catalog to be mapped to locations beyond the
+            catalog's designated default. Note: biglake and lakehouse catalog
+            types are the same.
+         gcs-bucket
+            A catalog backed by a Cloud Storage bucket.
+         lakehouse
+            BigLake Iceberg catalog. Catalog type which allows namespaces and
+            tables within a catalog to be mapped to locations beyond the
+            catalog's designated default. Note: biglake and lakehouse catalog
+            types are the same.
+
+OPTIONAL FLAGS
+     --credential-mode=CREDENTIAL_MODE; default="end-user"
+        Credential mode to create the catalog with. CREDENTIAL_MODE must be one
+        of:
+
+         end-user
+            Use end user credentials to access the catalog.
+         vended-credentials
+            Use vended credentials to access the catalog.
+
+     --cross-cloud-cache=MODE
+        Whether to enable caching of remote data on Google Cloud. This may
+        result in data being temporarily persisted on Google Cloud. MODE must
+        be one of: enabled, disabled.
+
+     --default-location=DEFAULT_LOCATION
+        Can only be used with BigLake catalogs. The default storage location
+        for the catalog, e.g., gs://my-bucket/....
+
+     --description=DESCRIPTION
+        Description of the resource.
+
+     --primary-location=PRIMARY_LOCATION
+        Primary location for mirroring the remote catalog metadata. It must be
+        a BigLake-supported location, and it should be proximate to the remote
+        catalog's location for better performance and lower cost.
+
+     --restricted-locations=[LOCATION,...]
+        Additional Google Cloud Storage buckets and locations (e.g.,
+        gs://my-other-bucket/...) that are permitted for use by resources
+        within a catalog. This field is currently only used for BigLake
+        catalogs.If restricted_locations is empty and unrestricted catalog
+        creation is enabled, all accessible locations are allowed. Otherwise,
+        only default_location and locations in this list are allowed.
+
+     Key resource - The Cloud KMS (Key Management Service) cryptokey that will
+     be used to protect the catalog. The BigQuery encryption service account
+     (bq-<project_number>@bigquery-encryption.iam.gserviceaccount.com) must
+     hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments
+     in this group can be used to specify the attributes of this resource.
+
+     --kms-key=KMS_KEY
+        ID of the key or fully qualified identifier for the key.
+
+        To set the kms-key attribute:
+        * provide the argument --kms-key on the command line.
+
+        This flag argument must be specified if any of the other arguments in
+        this group are specified.
+
+     --kms-keyring=KMS_KEYRING
+        The KMS keyring of the key.
+
+        To set the kms-keyring attribute:
+        * provide the argument --kms-key on the command line with a fully
+          specified name;
+        * provide the argument --kms-keyring on the command line.
+
+     --kms-location=KMS_LOCATION
+        The Google Cloud location for the key.
+
+        To set the kms-location attribute:
+        * provide the argument --kms-key on the command line with a fully
+          specified name;
+        * provide the argument --kms-location on the command line.
+
+     --kms-project=KMS_PROJECT
+        The Google Cloud project for the key.
+
+        To set the kms-project attribute:
+        * provide the argument --kms-key on the command line with a fully
+          specified name;
+        * provide the argument --kms-project on the command line;
+        * set the property core/project.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.
