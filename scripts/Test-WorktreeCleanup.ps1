@@ -49,6 +49,15 @@ function global:git {
 try {
     . $cleanupScript
 
+    $missingWorktree = Join-Path $testRoot 'missing'
+    $output = @(Remove-MergedWorktree -Repo $primaryRoot -Worktree $missingWorktree -WhatIf 6>&1)
+    if (($output -join "`n") -notmatch 'sweep: WOULD prune missing worktree registrations') {
+        throw 'Missing-worktree prune preview was not captured through the information stream.'
+    }
+    if ($script:gitCalled) {
+        throw 'Missing-worktree preview ran git.'
+    }
+
     if ((Get-PrNumberFromWorktreePath -Path (Join-Path $testRoot 'pr-3045-review')) -ne 3045) {
         throw 'Canonical PR worktree number was not parsed.'
     }

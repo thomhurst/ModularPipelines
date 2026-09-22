@@ -94,6 +94,11 @@ exit 0
     $script:fixtureHead = & git -C $fixtureRepo rev-parse HEAD
     Push-Location $fixtureRepo
     try {
+        $path = New-FixtureWorktree 'unidentified-registered'
+        Invoke-FixtureSweep
+        Assert-Fixture (Test-Path -LiteralPath $path) 'Registered worktree without recoverable ownership was deleted.'
+        Invoke-FixtureGit -C $fixtureRepo worktree remove --force $path
+
         $path = New-FixtureWorktree 'pr-900001-setup'
         Set-FixtureLock 'pr-900001' 'HELD'
         Invoke-FixtureSweep

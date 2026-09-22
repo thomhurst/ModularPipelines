@@ -303,8 +303,8 @@ function Invoke-WithWorktreeCleanupLocks {
         Write-Host "Preserving worktree: ownership could not be inspected: $Worktree"
         return
     }
-    if ($Orphan -and $names.Count -eq 0) {
-        Write-Host "Preserving orphan directory: ownership identity is unavailable: $Worktree"
+    if ($names.Count -eq 0) {
+        Write-Host "Preserving worktree: ownership identity is unavailable: $Worktree"
         return
     }
     $agentLocks = Join-Path $RepoPath 'scripts/AgentLocks.ps1'
@@ -356,6 +356,10 @@ function Remove-MergedWorktree {
     )
 
     if (-not (Test-Path -LiteralPath $Worktree)) {
+        if ($WhatIfPreference) {
+            Write-Host "sweep: WOULD prune missing worktree registrations for $Repo"
+            return
+        }
         if ($PSCmdlet.ShouldProcess($Repo, 'Prune missing worktree registrations')) { git -C $Repo worktree prune }
         return
     }

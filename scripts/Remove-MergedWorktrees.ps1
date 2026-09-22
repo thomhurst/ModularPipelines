@@ -84,11 +84,12 @@ function Test-HasMeaningfulFileNewerThan {
 
 function Remove-OrphanedDirectory {
     param(
+        [Parameter(Mandatory)][string]$RepoPath,
         [Parameter(Mandatory)][string]$Path,
         [Parameter(Mandatory)][string]$Reason
     )
 
-    Invoke-WithWorktreeCleanupLocks -RepoPath $mainRepo -Worktree $Path -Orphan -Preview:$WhatIf -Action {
+    Invoke-WithWorktreeCleanupLocks -RepoPath $RepoPath -Worktree $Path -Orphan -Preview:$WhatIf -Action {
         if ($WhatIf) {
             Write-Host "sweep: WOULD remove orphaned dir $Path ($Reason)"
             return $false
@@ -302,7 +303,7 @@ try {
                 # registration is gone. A live marker (gitdir exists) is someone else's.
                 if ($gitdir -notlike "$mainNorm/.git/worktrees/*") { continue }
                 if (Test-Path -LiteralPath $gitdir) { continue }
-                if (Remove-OrphanedDirectory -Path $dir.FullName -Reason "dangling gitdir: $gitdir") { $orphansRemoved++ }
+                if (Remove-OrphanedDirectory -RepoPath $mainRepo -Path $dir.FullName -Reason "dangling gitdir: $gitdir") { $orphansRemoved++ }
                 continue
             }
 
@@ -321,7 +322,7 @@ try {
                 Write-Host "sweep: preserving markerless merged-PR dir with files newer than merge: $($dir.FullName)"
                 continue
             }
-            if (Remove-OrphanedDirectory -Path $dir.FullName -Reason "markerless remnant of merged PR #$pathPr") { $orphansRemoved++ }
+            if (Remove-OrphanedDirectory -RepoPath $mainRepo -Path $dir.FullName -Reason "markerless remnant of merged PR #$pathPr") { $orphansRemoved++ }
         }
     }
 
