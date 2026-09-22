@@ -1,8 +1,8 @@
 using System.Collections.Concurrent;
 using System.Security.Cryptography;
 using System.Text;
-using ModularPipelines.Engine;
 using ModularPipelines.Modules;
+using ModularPipelines.Serialization;
 
 namespace ModularPipelines.Distributed.Serialization;
 
@@ -65,26 +65,9 @@ internal class ModuleTypeRegistry
             "\n",
             _registry
                 .OrderBy(static entry => entry.Key.Value, StringComparer.Ordinal)
-                .Select(static entry => $"{entry.Key.Value}\0{GetTypeBuildIdentity(entry.Value.ResultType)}\0{entry.Value.ModuleType.Module.ModuleVersionId}"));
+                .Select(static entry => $"{entry.Key.Value}\0{StableTypeName.GetBuildFingerprint(entry.Value.ResultType)}\0{entry.Value.ModuleType.Module.ModuleVersionId}"));
         var schema = $"wire={WireSchemaVersion}\n{moduleSchema}";
         return Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(schema)));
-    }
-
-    private static string GetTypeBuildIdentity(Type type)
-    {
-        var identity = $"{ModuleTypeIdentifier.Get(type)}\0{type.Module.ModuleVersionId}";
-        if (type.HasElementType)
-        {
-            return $"{identity}\0Element={GetTypeBuildIdentity(type.GetElementType()!)}";
-        }
-
-        if (!type.IsGenericType)
-        {
-            return identity;
-        }
-
-        var arguments = string.Join("\u001F", type.GetGenericArguments().Select(GetTypeBuildIdentity));
-        return $"{identity}\0Arguments={arguments}";
     }
 
     private static Type? GetResultType(Type moduleType)

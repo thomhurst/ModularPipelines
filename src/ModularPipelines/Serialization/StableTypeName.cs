@@ -1,12 +1,38 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace ModularPipelines.Serialization;
 
 internal static class StableTypeName
 {
+    private static readonly ConditionalWeakTable<Type, string> BuildFingerprints = [];
+
     public static string Get(Type type) =>
         $"{GetTypeSpecification(type)}, {type.Assembly.GetName().Name}";
+
+    public static string GetBuildFingerprint(Type type) =>
+        BuildFingerprints.GetValue(type, static value =>
+            Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(GetBuildIdentity(value)))));
+
+    private static string GetBuildIdentity(Type type)
+    {
+        var identity = $"{Get(type)}\0{type.Module.ModuleVersionId}";
+        if (type.HasElementType)
+        {
+            return $"{identity}\0Element={GetBuildIdentity(type.GetElementType()!)}";
+        }
+
+        if (!type.IsGenericType)
+        {
+            return identity;
+        }
+
+        var arguments = string.Join("\u001F", type.GetGenericArguments().Select(GetBuildIdentity));
+        return $"{identity}\0Arguments={arguments}";
+    }
 
     [UnconditionalSuppressMessage("Trimming", "IL2057", Justification = "Runtime module result value types are explicitly unsupported in trimmed applications.")]
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Runtime module result value types are explicitly unsupported in trimmed applications.")]

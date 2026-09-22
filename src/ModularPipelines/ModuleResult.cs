@@ -770,6 +770,8 @@ internal sealed class ModuleResultValueReadState : ModuleResultReadState
 {
     public string? ValueTypeName { get; set; }
 
+    public string? ValueTypeBuild { get; set; }
+
     public JsonElement? ValueElement { get; set; }
 }
 
@@ -989,7 +991,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         }
 
         return new ModuleResult<T>.Success(
-            DeserializeSuccessValue(state.ValueElement, state.ValueTypeName, options)!)
+            DeserializeSuccessValue(state.ValueElement, state.ValueTypeName, state.ValueTypeBuild, options)!)
         {
             Name = state.Name!,
             TypeName = state.TypeName,
@@ -1054,6 +1056,9 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
             case "$valueType":
                 state.ValueTypeName = reader.GetString();
                 break;
+            case "$valueTypeBuild":
+                state.ValueTypeBuild = reader.GetString();
+                break;
             case "Value":
                 state.ValueElement = JsonElement.ParseValue(ref reader);
                 break;
@@ -1066,6 +1071,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
     private static T? DeserializeSuccessValue(
         JsonElement? valueElement,
         string? valueTypeName,
+        string? valueTypeBuild,
         JsonSerializerOptions options)
     {
         if (valueElement is null)
@@ -1081,6 +1087,14 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         {
             throw new JsonException(
                 $"Module result value type '{valueType}' is not assignable to '{typeof(T)}'.");
+        }
+
+        if (valueTypeName is not null
+            && !string.Equals(valueTypeBuild, StableTypeName.GetBuildFingerprint(valueType), StringComparison.Ordinal))
+        {
+            throw new JsonException(
+                $"Module result value type '{valueTypeName}' has a missing or incompatible build identity. " +
+                "Run the same pipeline binaries on every participant.");
         }
 
         return (T?) valueElement.Value.Deserialize(valueType, options);
@@ -1129,6 +1143,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                     writer.WriteString(
                         "$valueType",
                         StableTypeName.Get(runtimeValueType));
+                    writer.WriteString("$valueTypeBuild", StableTypeName.GetBuildFingerprint(runtimeValueType));
                 }
 
                 writer.WritePropertyName("Value");
