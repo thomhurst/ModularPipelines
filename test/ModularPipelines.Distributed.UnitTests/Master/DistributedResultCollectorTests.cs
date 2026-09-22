@@ -48,7 +48,7 @@ public class DistributedResultCollectorTests
         };
 
         var serialized = serializer.Serialize(
-            successResult, typeof(TestModule).FullName!, typeof(TestResult).FullName!, 1);
+            successResult, ModuleId.FromType(typeof(TestModule)), 1);
 
         var coordinatorMock = new Mock<IDistributedMasterCoordinator>();
         coordinatorMock.Setup(c => c.WaitForResultAsync(typeof(TestModule).FullName!, It.IsAny<CancellationToken>()))
@@ -67,8 +67,8 @@ public class DistributedResultCollectorTests
     public async Task WaitForResult_Propagates_Cancellation()
     {
         var coordinatorMock = new Mock<IDistributedMasterCoordinator>();
-        coordinatorMock.Setup(c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .Returns<string, CancellationToken>(async (_, ct) =>
+        coordinatorMock.Setup(c => c.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
+            .Returns<ModuleId, CancellationToken>(async (_, ct) =>
             {
                 await Task.Delay(Timeout.Infinite, ct);
                 return null!;
@@ -110,8 +110,7 @@ public class DistributedResultCollectorTests
         };
         var serialized = serializer.Serialize(
             result,
-            typeof(TestModule).FullName!,
-            typeof(TestResult).FullName!,
+            ModuleId.FromType(typeof(TestModule)),
             workerIndex: 1) with
         {
             CommandCount = 4,
@@ -136,7 +135,7 @@ public class DistributedResultCollectorTests
             await Assert.That(commandExecutionCounter.GetCount(typeof(TestModule))).IsEqualTo(4);
             await Assert.That(commandExecutionCounter.GetRemoteModuleCounts()[(1, typeof(TestModule))])
                 .IsEqualTo(4);
-            await Assert.That(collected!.TypeName).IsEqualTo(ModuleTypeIdentifier.Get(typeof(TestModule)));
+            await Assert.That(collected!.TypeName).IsEqualTo(ModularPipelines.Engine.ModuleTypeIdentifier.Get(typeof(TestModule)));
         }
     }
 
@@ -157,8 +156,7 @@ public class DistributedResultCollectorTests
         };
         var serialized = serializer.Serialize(
             result,
-            typeof(TestModule).FullName!,
-            typeof(TestResult).FullName!,
+            ModuleId.FromType(typeof(TestModule)),
             workerIndex: 0) with
         {
             CommandCount = 2,

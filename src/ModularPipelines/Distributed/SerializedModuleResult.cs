@@ -1,8 +1,7 @@
 namespace ModularPipelines.Distributed;
 
 public record SerializedModuleResult(
-    string ModuleTypeName,
-    string ResultTypeName,
+    ModuleId ModuleId,
     int WorkerIndex,
     string Payload,
     DateTimeOffset CompletedAt,

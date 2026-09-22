@@ -11,9 +11,8 @@ public class CapabilityRoutingIntegrationTests
         var coordinator = new InMemoryDistributedCoordinator();
 
         var assignment = new ModuleAssignment(
-            ModuleTypeName: "Docker.Module",
-            ResultTypeName: "System.String",
-            RequiredCapabilities: [ "docker" ],
+            ModuleId: "Docker.Module",
+            RequiredCapabilities: ["docker"],
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false));
 
@@ -24,7 +23,7 @@ public class CapabilityRoutingIntegrationTests
             new HashSet<Capability> { "linux", "docker" }, CancellationToken.None);
 
         await Assert.That(result).IsNotNull();
-        await Assert.That(result!.ModuleTypeName).IsEqualTo("Docker.Module");
+        await Assert.That(result!.ModuleId).IsEqualTo("Docker.Module");
     }
 
     [Test]
@@ -33,9 +32,8 @@ public class CapabilityRoutingIntegrationTests
         var coordinator = new InMemoryDistributedCoordinator();
 
         var assignment = new ModuleAssignment(
-            ModuleTypeName: "Docker.Module",
-            ResultTypeName: "System.String",
-            RequiredCapabilities: [ "docker" ],
+            ModuleId: "Docker.Module",
+            RequiredCapabilities: ["docker"],
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false));
 
@@ -54,24 +52,22 @@ public class CapabilityRoutingIntegrationTests
     {
         var dockerWorker = new WorkerRegistration(
             WorkerIndex: 1,
-            Capabilities: [ "linux", "docker" ],
+            Capabilities: ["linux", "docker"],
             RegisteredAt: DateTimeOffset.UtcNow);
 
         var plainWorker = new WorkerRegistration(
             WorkerIndex: 2,
-            Capabilities: [ "linux" ],
+            Capabilities: ["linux"],
             RegisteredAt: DateTimeOffset.UtcNow);
 
         var dockerAssignment = new ModuleAssignment(
-            ModuleTypeName: "Docker.Module",
-            ResultTypeName: "System.String",
-            RequiredCapabilities: [ "docker" ],
+            ModuleId: "Docker.Module",
+            RequiredCapabilities: ["docker"],
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false));
 
         var plainAssignment = new ModuleAssignment(
-            ModuleTypeName: "Plain.Module",
-            ResultTypeName: "System.String",
+            ModuleId: "Plain.Module",
             RequiredCapabilities: [],
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false));

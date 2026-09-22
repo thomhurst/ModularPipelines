@@ -143,8 +143,8 @@ public class WorkerModuleExecutorTests
         public Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> capabilities, CancellationToken cancellationToken) =>
             inner.DequeueModuleAsync(capabilities, cancellationToken);
 
-        public Task<SerializedModuleResult> WaitForResultAsync(string moduleTypeName, CancellationToken cancellationToken) =>
-            inner.WaitForResultAsync(moduleTypeName, cancellationToken);
+        public Task<SerializedModuleResult> WaitForResultAsync(ModuleId moduleId, CancellationToken cancellationToken) =>
+            inner.WaitForResultAsync(moduleId, cancellationToken);
 
         public Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken) =>
             inner.RegisterWorkerAsync(registration, cancellationToken);
@@ -154,6 +154,21 @@ public class WorkerModuleExecutorTests
 
         public Task WaitForCancellationAsync(CancellationToken cancellationToken) =>
             inner.WaitForCancellationAsync(cancellationToken);
+    }
+
+    [Test]
+    [Arguments("")]
+    [Arguments("different-build")]
+    public async Task Schema_Mismatch_Publishes_Failure_Without_Executing_Module(
+        string schemaVersion, CancellationToken cancellationToken)
+    {
+        var (module, result) = await ExecuteWorkerModuleAsync<DeclarativeRetryModule, int>(
+            null, cancellationToken, schemaVersion: schemaVersion);
+
+        await Assert.That(module.AttemptCount).IsEqualTo(0);
+        await Assert.That(result?.Status).IsEqualTo(ModuleStatus.Failed);
+        await Assert.That(result!.ExceptionOrDefault!.Message).Contains("schema mismatch");
+        await Assert.That(result.ExceptionOrDefault.Message).Contains("master assignment");
     }
 
     [Test]
@@ -191,7 +206,11 @@ public class WorkerModuleExecutorTests
         foreach (var module in modules)
         {
             typeRegistry.Register(module.GetType());
-            await coordinator.EnqueueModuleAsync(CreateAssignment(module), cancellationToken);
+        }
+
+        foreach (var module in modules)
+        {
+            await coordinator.EnqueueModuleAsync(CreateAssignment(module, typeRegistry), cancellationToken);
         }
 
         var executor = new WorkerModuleExecutor(
@@ -241,7 +260,13 @@ public class WorkerModuleExecutorTests
         builder.AddModule<ParallelWorkerModuleB>();
         await using var pipeline = await builder.BuildAsync();
         var modules = pipeline.Services.GetServices<IModule>().ToArray();
-        var assignments = new ConcurrentQueue<ModuleAssignment>(modules.Select(CreateAssignment));
+        var typeRegistry = new ModuleTypeRegistry();
+        foreach (var module in modules)
+        {
+            typeRegistry.Register(module.GetType());
+        }
+
+        var assignments = new ConcurrentQueue<ModuleAssignment>(modules.Select(module => CreateAssignment(module, typeRegistry)));
         var published = new ConcurrentQueue<SerializedModuleResult>();
         var secondDequeued = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var releaseFirst = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -285,7 +310,6 @@ public class WorkerModuleExecutorTests
 
                 throw new InvalidOperationException("Worker execution failed.");
             });
-        var typeRegistry = new ModuleTypeRegistry();
         var serializer = new ModuleResultSerializer(typeRegistry);
         var registry = pipeline.Services.GetRequiredService<IModuleResultRegistry>();
         var executor = new WorkerModuleExecutor(
@@ -313,7 +337,7 @@ public class WorkerModuleExecutorTests
         }
 
         await run.WaitAsync(cancellationToken);
-        await Assert.That(published.Select(result => result.ModuleTypeName).Order())
+        await Assert.That(published.Select(result => result.ModuleId.Value).Order())
             .IsEquivalentTo(modules.Select(module => module.GetType().FullName!).Order());
         foreach (var result in published)
         {
@@ -326,7 +350,8 @@ public class WorkerModuleExecutorTests
     private static async Task AssertWorkerRetriesAsync<TModule>(
         Action<PipelineBuilder>? configureBuilder,
         CancellationToken cancellationToken,
-        bool rejectFirstPublication = false)
+        bool rejectFirstPublication = false,
+        string? schemaVersion = null)
         where TModule : RetryingModule
     {
         var (module, result) = await ExecuteWorkerModuleAsync<TModule, int>(
@@ -345,7 +370,8 @@ public class WorkerModuleExecutorTests
     private static async Task<(TModule Module, IModuleResult? Result)> ExecuteWorkerModuleAsync<TModule, TResult>(
         Action<PipelineBuilder>? configureBuilder,
         CancellationToken cancellationToken,
-        bool rejectFirstPublication = false)
+        bool rejectFirstPublication = false,
+        string? schemaVersion = null)
         where TModule : Module<TResult>
     {
         var builder = TestPipelineBuilder.Create();
@@ -361,10 +387,13 @@ public class WorkerModuleExecutorTests
         var serializer = new ModuleResultSerializer(typeRegistry);
         var assignment = new ModuleAssignment(
             typeof(TModule).FullName!,
-            typeof(TResult).FullName!,
+
             [],
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentOptions(null, false));
+            new ModuleAssignmentOptions(null, false))
+        {
+            PipelineSchemaVersion = schemaVersion ?? typeRegistry.GetPipelineSchemaVersion(),
+        };
         await coordinator.EnqueueModuleAsync(assignment, cancellationToken);
         var executor = new WorkerModuleExecutor(
             pipeline.Services.GetRequiredService<IHostApplicationLifetime>(),
@@ -403,12 +432,14 @@ public class WorkerModuleExecutorTests
         }
     }
 
-    private static ModuleAssignment CreateAssignment(IModule module) => new(
+    private static ModuleAssignment CreateAssignment(IModule module, ModuleTypeRegistry registry) => new(
         module.GetType().FullName!,
-        module.ResultType.FullName!,
         [],
         DateTimeOffset.UtcNow,
-        new ModuleAssignmentOptions(null, false));
+        new ModuleAssignmentOptions(null, false))
+    {
+        PipelineSchemaVersion = registry.GetPipelineSchemaVersion(),
+    };
 
     private static void UpdateMaximum(ref int maximum, int candidate)
     {

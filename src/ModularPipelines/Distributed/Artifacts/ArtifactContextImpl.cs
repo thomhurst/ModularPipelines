@@ -12,7 +12,7 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
 {
     private readonly IDistributedArtifactStore _store;
     private readonly ArtifactOptions _options;
-    private readonly string? _moduleTypeName;
+    private readonly ModuleId? _moduleId;
 
     public ArtifactContextImpl(
         IDistributedArtifactStore store,
@@ -25,21 +25,21 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
     private ArtifactContextImpl(
         IDistributedArtifactStore store,
         ArtifactOptions options,
-        string moduleTypeName)
+        ModuleId moduleId)
         : this(store, options)
     {
-        _moduleTypeName = moduleTypeName;
+        _moduleId = moduleId;
     }
 
     public IArtifactContext ForModule(Type moduleType)
-        => new ArtifactContextImpl(_store, _options, moduleType.FullName ?? moduleType.Name);
+        => new ArtifactContextImpl(_store, _options, ModuleId.FromType(moduleType));
 
     public async Task<ArtifactReference> PublishFileAsync(string artifactName, string filePath, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         var descriptor = new ArtifactDescriptor(
             Name: artifactName,
-            ModuleTypeName: GetCurrentModuleTypeName(),
+            ModuleId: GetCurrentModuleId(),
             ContentType: "application/octet-stream");
 
         await using var stream = File.OpenRead(filePath);
@@ -51,7 +51,7 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
         cancellationToken.ThrowIfCancellationRequested();
         var descriptor = new ArtifactDescriptor(
             Name: artifactName,
-            ModuleTypeName: GetCurrentModuleTypeName(),
+            ModuleId: GetCurrentModuleId(),
             ContentType: "application/zip");
 
         var temporaryArchivePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.zip");
@@ -137,16 +137,16 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
             ? StringComparison.OrdinalIgnoreCase
             : StringComparison.Ordinal;
 
-    public async Task<string> DownloadAsync(string producerModuleTypeName, string artifactName, string destinationPath, CancellationToken cancellationToken)
+    public async Task<string> DownloadAsync(ModuleId producerModuleId, string artifactName, string destinationPath, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var artifacts = await _store.ListArtifactsAsync(producerModuleTypeName, cancellationToken);
+        var artifacts = await _store.ListArtifactsAsync(producerModuleId, cancellationToken).ConfigureAwait(false);
         var artifact = artifacts
             .Where(a => a.Name == artifactName)
             .OrderByDescending(static a => a.UploadedAt)
             .FirstOrDefault()
             ?? throw new InvalidOperationException(
-                $"Artifact '{artifactName}' from module '{producerModuleTypeName}' not found.");
+                $"Artifact '{artifactName}' from module '{producerModuleId}' not found.");
 
         await using var stream = await _store.DownloadAsync(artifact, cancellationToken);
 
@@ -277,14 +277,16 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
         CancellationToken cancellationToken = default)
         where TProducerModule : IModule
         => DownloadAsync(
-            typeof(TProducerModule).FullName!,
+            ModuleId.FromType(typeof(TProducerModule)),
             artifactName,
             destinationPath,
             cancellationToken);
 
-    private string GetCurrentModuleTypeName()
-        => _moduleTypeName
-           ?? AmbientModuleOutputContext.Current?.ModuleType.FullName
+    private ModuleId GetCurrentModuleId()
+        => _moduleId
+           ?? (AmbientModuleOutputContext.Current?.ModuleType is { } moduleType
+               ? (ModuleId?) ModuleId.FromType(moduleType)
+               : null)
            ?? throw new InvalidOperationException(
                "Artifacts can only be published while a module is executing.");
 }

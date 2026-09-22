@@ -34,7 +34,7 @@ public class S3ArtifactStoreTests
         var reference = await _store.UploadAsync(descriptor, stream, CancellationToken.None);
 
         await Assert.That(reference.Name).IsEqualTo("test-art");
-        await Assert.That(reference.ModuleTypeName).IsEqualTo("Test.Module");
+        await Assert.That(reference.ModuleId).IsEqualTo((ModuleId) "Test.Module");
         await Assert.That(reference.SizeBytes).IsEqualTo(5);
 
         // Called twice: once for data, once for metadata
@@ -59,6 +59,29 @@ public class S3ArtifactStoreTests
         await Assert.That(capturedRequest).IsNotNull();
         await Assert.That(capturedRequest!.BucketName).IsEqualTo("test-bucket");
         await Assert.That(capturedRequest.Key).StartsWith("modpipe-artifacts/run123/My.BuildModule/build-output/");
+    }
+
+    [Test]
+    [Arguments("build/meta/other", "build%2Fmeta%2Fother")]
+    [Arguments("build%2Fmeta", "build%252Fmeta")]
+    public async Task Custom_Module_Id_Remains_One_Object_Key_Segment(string id, string encodedId)
+    {
+        var keys = new List<string>();
+        _mockS3.Setup(instance => instance.PutObjectAsync(It.IsAny<PutObjectRequest>(), It.IsAny<CancellationToken>()))
+            .Callback<PutObjectRequest, CancellationToken>((request, _) => keys.Add(request.Key))
+            .ReturnsAsync(new PutObjectResponse());
+        _mockS3.Setup(instance => instance.ListObjectsV2Async(It.IsAny<ListObjectsV2Request>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ListObjectsV2Response { S3Objects = [], IsTruncated = false });
+        using var stream = new MemoryStream([1]);
+        var reference = await _store.UploadAsync(new ArtifactDescriptor("output", id), stream, CancellationToken.None);
+        await _store.ListArtifactsAsync(id, CancellationToken.None);
+
+        await Assert.That(reference.ModuleId.Value).IsEqualTo(id);
+        await Assert.That(keys[0]).StartsWith($"modpipe-artifacts/run123/{encodedId}/output/");
+        await Assert.That(keys[1]).StartsWith($"modpipe-artifacts/run123/{encodedId}/meta/");
+        _mockS3.Verify(instance => instance.ListObjectsV2Async(
+            It.Is<ListObjectsV2Request>(request => request.Prefix == $"modpipe-artifacts/run123/{encodedId}/meta/"),
+            It.IsAny<CancellationToken>()), Times.Once());
     }
 
     [Test]

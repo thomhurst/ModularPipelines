@@ -6,7 +6,7 @@ namespace ModularPipelines.Distributed.Artifacts.S3.Artifacts;
 
 /// <summary>
 /// S3-compatible implementation of <see cref="IDistributedArtifactStore"/>.
-/// Objects are keyed as {prefix}/{runId}/{moduleType}/{artifactName}.
+/// Objects are keyed as {prefix}/{runId}/{Uri.EscapeDataString(moduleId.Value)}/{artifactName}.
 /// Compatible with AWS S3, Cloudflare R2, Backblaze B2, and MinIO.
 /// </summary>
 internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, IDisposable
@@ -31,7 +31,7 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
     public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor descriptor, Stream data, CancellationToken cancellationToken)
     {
         var artifactId = Guid.NewGuid().ToString("N");
-        var objectKey = BuildObjectKey(descriptor.ModuleTypeName, descriptor.Name, artifactId);
+        var objectKey = BuildObjectKey(descriptor.ModuleId, descriptor.Name, artifactId);
 
         var request = new PutObjectRequest
         {
@@ -64,13 +64,13 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
         var reference = new ArtifactReference(
             ArtifactId: artifactId,
             Name: descriptor.Name,
-            ModuleTypeName: descriptor.ModuleTypeName,
+            ModuleId: descriptor.ModuleId,
             SizeBytes: sizeBytes,
             ContentType: descriptor.ContentType,
             UploadedAt: DateTimeOffset.UtcNow);
 
         // Store metadata as a separate JSON object for listing
-        var metaKey = BuildMetaKey(descriptor.ModuleTypeName, artifactId);
+        var metaKey = BuildMetaKey(descriptor.ModuleId, artifactId);
         var metaJson = JsonSerializer.Serialize(reference);
         var metaRequest = new PutObjectRequest
         {
@@ -87,7 +87,7 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
 
     public async Task<Stream> DownloadAsync(ArtifactReference reference, CancellationToken cancellationToken)
     {
-        var objectKey = BuildObjectKey(reference.ModuleTypeName, reference.Name, reference.ArtifactId);
+        var objectKey = BuildObjectKey(reference.ModuleId, reference.Name, reference.ArtifactId);
         var response = await _s3.GetObjectAsync(_bucketName, objectKey, cancellationToken);
 
         // Stream to a temp file instead of MemoryStream to avoid OOM on large artifacts
@@ -108,9 +108,9 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
         }
     }
 
-    public async Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(string moduleTypeName, CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(ModuleId moduleId, CancellationToken cancellationToken)
     {
-        var prefix = $"{_keyPrefix}/{_runId}/{moduleTypeName}/meta/";
+        var prefix = $"{_keyPrefix}/{_runId}/{Uri.EscapeDataString(moduleId.Value)}/meta/";
         var request = new ListObjectsV2Request
         {
             BucketName = _bucketName,
@@ -151,8 +151,8 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
 
     public async Task DeleteAsync(ArtifactReference reference, CancellationToken cancellationToken)
     {
-        var objectKey = BuildObjectKey(reference.ModuleTypeName, reference.Name, reference.ArtifactId);
-        var metaKey = BuildMetaKey(reference.ModuleTypeName, reference.ArtifactId);
+        var objectKey = BuildObjectKey(reference.ModuleId, reference.Name, reference.ArtifactId);
+        var metaKey = BuildMetaKey(reference.ModuleId, reference.ArtifactId);
 
         await _s3.DeleteObjectAsync(_bucketName, objectKey, cancellationToken);
         await _s3.DeleteObjectAsync(_bucketName, metaKey, cancellationToken);
@@ -160,9 +160,9 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
 
     public void Dispose() => _s3.Dispose();
 
-    private string BuildObjectKey(string moduleTypeName, string artifactName, string artifactId)
-        => $"{_keyPrefix}/{_runId}/{moduleTypeName}/{artifactName}/{artifactId}";
+    private string BuildObjectKey(ModuleId moduleId, string artifactName, string artifactId)
+        => $"{_keyPrefix}/{_runId}/{Uri.EscapeDataString(moduleId.Value)}/{artifactName}/{artifactId}";
 
-    private string BuildMetaKey(string moduleTypeName, string artifactId)
-        => $"{_keyPrefix}/{_runId}/{moduleTypeName}/meta/{artifactId}.json";
+    private string BuildMetaKey(ModuleId moduleId, string artifactId)
+        => $"{_keyPrefix}/{_runId}/{Uri.EscapeDataString(moduleId.Value)}/meta/{artifactId}.json";
 }

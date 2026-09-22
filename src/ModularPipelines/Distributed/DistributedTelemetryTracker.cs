@@ -5,16 +5,16 @@ namespace ModularPipelines.Distributed;
 
 internal sealed class DistributedTelemetryTracker
 {
-    private readonly ConcurrentDictionary<string, AssignmentTiming> _assignments = new(StringComparer.Ordinal);
-    private readonly ConcurrentDictionary<string, ResultTiming> _results = new(StringComparer.Ordinal);
+    private readonly ConcurrentDictionary<ModuleId, AssignmentTiming> _assignments = new();
+    private readonly ConcurrentDictionary<ModuleId, ResultTiming> _results = new();
 
     public void RecordAssignment(ModuleAssignment assignment, TimeSpan publishDuration) =>
-        _assignments[assignment.ModuleTypeName] = new AssignmentTiming(
+        _assignments[assignment.ModuleId] = new AssignmentTiming(
             assignment.EnqueuedAt,
             publishDuration);
 
     public void RecordResult(SerializedModuleResult result, DateTimeOffset receivedAt) =>
-        _results[result.ModuleTypeName] = new ResultTiming(
+        _results[result.ModuleId] = new ResultTiming(
             result.WorkerIndex,
             result.CompletedAt,
             receivedAt,
@@ -60,15 +60,15 @@ internal sealed class DistributedTelemetryTracker
     }
 
     private DistributedModuleRunReport? CreateModuleReport(
-        KeyValuePair<string, ResultTiming> entry)
+        KeyValuePair<ModuleId, ResultTiming> entry)
     {
-        var (moduleTypeName, result) = entry;
+        var (moduleId, result) = entry;
         if (result.ExecutionTelemetry is not { } execution)
         {
             return null;
         }
 
-        _assignments.TryGetValue(moduleTypeName, out var assignment);
+        _assignments.TryGetValue(moduleId, out var assignment);
         var enqueuedAt = assignment?.EnqueuedAt ?? execution.ClaimedAt;
         var queueWait = NonNegative(execution.ClaimedAt - enqueuedAt);
         var executionDuration = NonNegative(
@@ -85,7 +85,7 @@ internal sealed class DistributedTelemetryTracker
 
         return new DistributedModuleRunReport
         {
-            ModuleTypeName = moduleTypeName,
+            ModuleTypeName = moduleId.Value,
             WorkerIndex = result.WorkerIndex,
             EnqueuedAt = enqueuedAt,
             ClaimedAt = execution.ClaimedAt,

@@ -10,7 +10,7 @@ public class DistributedTelemetryTrackerTests
         tracker.RecordAssignment(
             new ModuleAssignment(
                 "Example.BuildModule",
-                "System.String",
+
                 [],
                 pipelineStart,
                 new ModuleAssignmentOptions(null, false),
@@ -22,7 +22,7 @@ public class DistributedTelemetryTrackerTests
         tracker.RecordResult(
             new SerializedModuleResult(
                 "Example.BuildModule",
-                "System.String",
+
                 0,
                 "{}",
                 pipelineStart.AddSeconds(8.5))
@@ -73,7 +73,7 @@ public class DistributedTelemetryTrackerTests
         var now = DateTimeOffset.UtcNow;
         var tracker = new DistributedTelemetryTracker();
         tracker.RecordResult(
-            new SerializedModuleResult("Module", "System.String", 0, "{}", now),
+            new SerializedModuleResult("Module", 0, "{}", now),
             now);
 
         await Assert.That(tracker.CreateReport(now, now, configuredWorkerCount: 1)).IsNull();
@@ -84,11 +84,11 @@ public class DistributedTelemetryTrackerTests
     {
         var start = new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero);
         var tracker = new DistributedTelemetryTracker();
-        tracker.RecordResult(new SerializedModuleResult("First", "System.String", 0, "{}", start.AddSeconds(6))
+        tracker.RecordResult(new SerializedModuleResult("First", 0, "{}", start.AddSeconds(6))
         {
             ExecutionTelemetry = new DistributedModuleExecutionTelemetry { ClaimedAt = start.AddSeconds(-1) },
         }, start.AddSeconds(6));
-        tracker.RecordResult(new SerializedModuleResult("Second", "System.String", 0, "{}", start.AddSeconds(12))
+        tracker.RecordResult(new SerializedModuleResult("Second", 0, "{}", start.AddSeconds(12))
         {
             ExecutionTelemetry = new DistributedModuleExecutionTelemetry { ClaimedAt = start.AddSeconds(4) },
         }, start.AddSeconds(12));

@@ -18,9 +18,9 @@ internal class DistributedResultCollector(
     private readonly IOptions<DistributedOptions>? _distributedOptions = distributedOptions;
     private readonly DistributedTelemetryTracker? _telemetryTracker = telemetryTracker;
 
-    public async Task<IModuleResult?> WaitForResultAsync(string moduleTypeName, CancellationToken cancellationToken)
+    public async Task<IModuleResult?> WaitForResultAsync(ModuleId moduleId, CancellationToken cancellationToken)
     {
-        var serialized = await _coordinator.WaitForResultAsync(moduleTypeName, cancellationToken)
+        var serialized = await _coordinator.WaitForResultAsync(moduleId, cancellationToken)
             .ConfigureAwait(false);
         _telemetryTracker?.RecordResult(serialized, DateTimeOffset.UtcNow);
         var result = _serializer.Deserialize(serialized);

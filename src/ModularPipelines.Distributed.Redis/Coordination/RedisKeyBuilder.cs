@@ -1,3 +1,5 @@
+using ModularPipelines.Distributed;
+
 namespace ModularPipelines.Distributed.Redis.Coordination;
 
 /// <summary>
@@ -17,7 +19,7 @@ internal class RedisKeyBuilder
 
     public string Results => $"{_runPrefix}:results";
 
-    public string ResultChannel(string moduleTypeName) => $"{_runPrefix}:results:{moduleTypeName}";
+    public string ResultChannel(ModuleId moduleId) => $"{_runPrefix}:results:{moduleId}";
 
     public string Workers => $"{_runPrefix}:workers";
 
@@ -42,7 +44,7 @@ internal class RedisKeyBuilder
 
     public string ArtifactChunk(string artifactId, int chunkIndex) => $"{_runPrefix}:artifacts:data:{artifactId}:chunk:{chunkIndex}";
 
-    public string ArtifactIndex(string moduleTypeName) => $"{_runPrefix}:artifacts:index:{moduleTypeName}";
+    public string ArtifactIndex(ModuleId moduleId) => $"{_runPrefix}:artifacts:index:{moduleId}";
 
     /// <summary>
     /// Returns all non-channel keys (for setting expiration).

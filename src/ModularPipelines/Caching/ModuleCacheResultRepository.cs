@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
+using ModularPipelines.Distributed;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Enums;
@@ -344,8 +345,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         IReadOnlyList<string> inputFiles,
         IReadOnlyDictionary<string, string> hashes)
     {
-        fingerprint.Append("format", "2");
-        fingerprint.Append("module", module.GetType().AssemblyQualifiedName ?? module.GetType().FullName!);
+        fingerprint.Append("format", "3");
+        fingerprint.Append("module", ModuleId.FromType(module.GetType()).Value);
         if (configuration.CacheAssemblyVersionKey is { } assemblyVersionKey)
         {
             fingerprint.Append(
@@ -404,7 +405,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             .GetAllDependencies(module, availableModuleTypes, _dependencyRegistry, _metadataRegistry)
             .Select(dependency => dependency.DependencyType)
             .Distinct()
-            .OrderBy(dependencyType => dependencyType.FullName, StringComparer.Ordinal)
+            .OrderBy(dependencyType => ModuleId.FromType(dependencyType).Value, StringComparer.Ordinal)
             .ToArray();
     }
 
@@ -420,7 +421,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             var dependencyModule = internalContext.GetModule(dependencyType);
             if (dependencyModule is null)
             {
-                fingerprint.Append("dependency-missing", dependencyType.AssemblyQualifiedName!);
+                fingerprint.Append("dependency-missing", ModuleId.FromType(dependencyType).Value);
                 continue;
             }
 
@@ -438,7 +439,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         Type dependencyType,
         IModuleResult dependencyResult)
     {
-        fingerprint.Append("dependency", dependencyType.AssemblyQualifiedName!);
+        fingerprint.Append("dependency", ModuleId.FromType(dependencyType).Value);
         fingerprint.Append(
             "dependency-status",
             dependencyResult.Status is ModuleStatus.RestoredFromHistory or ModuleStatus.RestoredFromCache

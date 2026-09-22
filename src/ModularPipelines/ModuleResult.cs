@@ -7,6 +7,7 @@ using ModularPipelines.Distributed;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
+using ModularPipelines.Serialization;
 
 namespace ModularPipelines;
 
@@ -1074,7 +1075,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
 
         var valueType = valueTypeName is null
             ? typeof(T)
-            : Type.GetType(valueTypeName, throwOnError: false)
+            : StableTypeName.Resolve(valueTypeName)
               ?? throw new JsonException($"Unknown module result value type '{valueTypeName}'.");
         if (valueTypeName is not null && !DeclaredValueType.IsAssignableFrom(valueType))
         {
@@ -1127,7 +1128,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                 {
                     writer.WriteString(
                         "$valueType",
-                        runtimeValueType.AssemblyQualifiedName);
+                        StableTypeName.Get(runtimeValueType));
                 }
 
                 writer.WritePropertyName("Value");

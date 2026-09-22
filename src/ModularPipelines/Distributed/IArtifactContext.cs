@@ -35,14 +35,14 @@ public interface IArtifactContext
     /// <summary>
     /// Downloads a named artifact from a specific producer module to a local path.
     /// </summary>
-    /// <param name="producerModuleTypeName">The full name of the module that produced the artifact.</param>
+    /// <param name="producerModuleId">The stable identifier of the module that produced the artifact.</param>
     /// <param name="artifactName">The artifact name.</param>
     /// <param name="destinationPath">The local destination path.</param>
     /// <param name="cancellationToken">A token that cancels the operation.</param>
     /// <returns>The local path where the artifact was downloaded.</returns>
-#pragma warning disable RS0026 // String and generic producer overloads intentionally share the optional cancellation-token shape.
+#pragma warning disable RS0026 // Module ID and generic producer overloads intentionally share the optional cancellation-token shape.
     Task<string> DownloadAsync(
-        string producerModuleTypeName,
+        ModuleId producerModuleId,
         string artifactName,
         string destinationPath,
         CancellationToken cancellationToken = default);

@@ -226,11 +226,11 @@ public class ArtifactLifecycleManagerTests
 
         mockStore
             .Setup(s => s.ListArtifactsAsync(typeof(ProducerModule).FullName!, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new List<ArtifactReference> { artifactRef });
+            .ReturnsAsync([artifactRef]);
 
         mockStore
             .Setup(s => s.DownloadAsync(artifactRef, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new MemoryStream(new byte[] { 1, 2, 3 }));
+            .ReturnsAsync(new MemoryStream([1, 2, 3]));
 
         var options = Microsoft.Extensions.Options.Options.Create(new ArtifactOptions());
         var logger = Mock.Of<ILogger<ArtifactLifecycleManager>>();
@@ -265,7 +265,24 @@ public class ArtifactLifecycleManagerTests
 
         await manager.DownloadConsumedArtifactsAsync(typeof(Module<string>), CancellationToken.None);
 
-        mockStore.Verify(s => s.ListArtifactsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
+        mockStore.Verify(s => s.ListArtifactsAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Test]
+    public async Task Restore_Cache_Distinguishes_Colons_In_Module_And_Artifact_Ids()
+    {
+        var store = new Mock<IDistributedArtifactStore>();
+        store.Setup(instance => instance.ListArtifactsAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync([]);
+        var manager = new ArtifactLifecycleManager(store.Object,
+            Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
+            Mock.Of<ILogger<ArtifactLifecycleManager>>());
+        await manager.DownloadConsumedArtifactsForPathAsync("a:b", "c", Path.GetTempPath(),
+            typeof(ConsumerModule), CancellationToken.None);
+        await manager.DownloadConsumedArtifactsForPathAsync("a", "b:c", Path.GetTempPath(),
+            typeof(ConsumerModule), CancellationToken.None);
+        store.Verify(instance => instance.ListArtifactsAsync("a:b", It.IsAny<CancellationToken>()), Times.Once());
+        store.Verify(instance => instance.ListArtifactsAsync("a", It.IsAny<CancellationToken>()), Times.Once());
     }
 
     [Test]
@@ -280,11 +297,11 @@ public class ArtifactLifecycleManagerTests
 
             mockStore
                 .Setup(s => s.ListArtifactsAsync(typeof(ProducerModule).FullName!, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<ArtifactReference> { artifactRef });
+                .ReturnsAsync([artifactRef]);
 
             mockStore
                 .Setup(s => s.DownloadAsync(artifactRef, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new MemoryStream(new byte[] { 1, 2, 3 }));
+                .ReturnsAsync(new MemoryStream([1, 2, 3]));
 
             var options = Microsoft.Extensions.Options.Options.Create(new ArtifactOptions());
             var logger = Mock.Of<ILogger<ArtifactLifecycleManager>>();
@@ -317,7 +334,7 @@ public class ArtifactLifecycleManagerTests
 
             mockStore
                 .Setup(s => s.ListArtifactsAsync(typeof(ProducerModule).FullName!, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<ArtifactReference> { artifactRef });
+                .ReturnsAsync([artifactRef]);
 
             var callCount = 0;
             mockStore
@@ -325,7 +342,7 @@ public class ArtifactLifecycleManagerTests
                 .ReturnsAsync(() =>
                 {
                     callCount++;
-                    return new MemoryStream(new byte[] { 1, 2, 3 });
+                    return new MemoryStream([1, 2, 3]);
                 });
 
             var options = Microsoft.Extensions.Options.Options.Create(new ArtifactOptions());
@@ -358,7 +375,7 @@ public class ArtifactLifecycleManagerTests
 
             mockStore
                 .Setup(s => s.ListArtifactsAsync(typeof(ProducerModule).FullName!, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<ArtifactReference> { artifactRef });
+                .ReturnsAsync([artifactRef]);
 
             var downloadCount = 0;
             mockStore
@@ -366,7 +383,7 @@ public class ArtifactLifecycleManagerTests
                 .ReturnsAsync(() =>
                 {
                     Interlocked.Increment(ref downloadCount);
-                    return new MemoryStream(new byte[] { 1, 2, 3 });
+                    return new MemoryStream([1, 2, 3]);
                 });
 
             var options = Microsoft.Extensions.Options.Options.Create(new ArtifactOptions());

@@ -10,7 +10,7 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
     private readonly PriorityQueue<ModuleAssignment, AssignmentQueuePriority> _workQueue = new();
     private readonly SemaphoreSlim _workAvailable = new(0);
     private readonly Lock _queueLock = new();
-    private readonly ConcurrentDictionary<string, TaskCompletionSource<SerializedModuleResult>> _results = new();
+    private readonly ConcurrentDictionary<ModuleId, TaskCompletionSource<SerializedModuleResult>> _results = new();
     private readonly ConcurrentDictionary<int, WorkerRegistration> _workers = new();
     private readonly ConcurrentDictionary<int, WorkerStatus> _workerStatuses = new();
     private readonly ConcurrentDictionary<int, DateTimeOffset> _heartbeats = new();
@@ -38,7 +38,7 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
         _workAvailable.Release();
 
         // Pre-create the result TCS so WaitForResultAsync can be called before the result is published
-        _results.GetOrAdd(assignment.ModuleTypeName, _ => new TaskCompletionSource<SerializedModuleResult>());
+        _results.GetOrAdd(assignment.ModuleId, _ => new TaskCompletionSource<SerializedModuleResult>());
         return Task.CompletedTask;
     }
 
@@ -101,14 +101,14 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
 
     public Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken)
     {
-        var tcs = _results.GetOrAdd(result.ModuleTypeName, _ => new TaskCompletionSource<SerializedModuleResult>());
+        var tcs = _results.GetOrAdd(result.ModuleId, _ => new TaskCompletionSource<SerializedModuleResult>());
         tcs.TrySetResult(result);
         return Task.CompletedTask;
     }
 
-    public async Task<SerializedModuleResult> WaitForResultAsync(string moduleTypeName, CancellationToken cancellationToken)
+    public async Task<SerializedModuleResult> WaitForResultAsync(ModuleId moduleId, CancellationToken cancellationToken)
     {
-        var tcs = _results.GetOrAdd(moduleTypeName, _ => new TaskCompletionSource<SerializedModuleResult>());
+        var tcs = _results.GetOrAdd(moduleId, _ => new TaskCompletionSource<SerializedModuleResult>());
         return await tcs.Task.WaitAsync(cancellationToken).ConfigureAwait(false);
     }
 

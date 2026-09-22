@@ -284,7 +284,7 @@ public sealed class MyCustomCoordinator : IDistributedMasterCoordinator
         throw new NotImplementedException();
 
     public Task<SerializedModuleResult> WaitForResultAsync(
-        string moduleTypeName,
+        ModuleId moduleId,
         CancellationToken cancellationToken) =>
         throw new NotImplementedException();
 

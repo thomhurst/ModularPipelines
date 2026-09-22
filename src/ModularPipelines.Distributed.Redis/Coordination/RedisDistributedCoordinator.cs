@@ -135,20 +135,20 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         var json = JsonSerializer.Serialize(result);
 
         // Redis cannot cancel commands already sent; bound each wait and stop issuing later commands.
-        await _database.HashSetAsync(_keys.Results, result.ModuleTypeName, json)
+        await _database.HashSetAsync(_keys.Results, result.ModuleId.Value, json)
             .WaitAsync(cancellationToken).ConfigureAwait(false);
         cancellationToken.ThrowIfCancellationRequested();
         await _database.KeyExpireAsync(_keys.Results, _keyExpiration)
             .WaitAsync(cancellationToken).ConfigureAwait(false);
         cancellationToken.ThrowIfCancellationRequested();
-        await _subscriber.PublishAsync(RedisChannel.Literal(_keys.ResultChannel(result.ModuleTypeName)), json)
+        await _subscriber.PublishAsync(RedisChannel.Literal(_keys.ResultChannel(result.ModuleId)), json)
             .WaitAsync(cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<SerializedModuleResult> WaitForResultAsync(string moduleTypeName, CancellationToken cancellationToken)
+    public async Task<SerializedModuleResult> WaitForResultAsync(ModuleId moduleId, CancellationToken cancellationToken)
     {
         // Check if result already exists
-        var existing = await _database.HashGetAsync(_keys.Results, moduleTypeName);
+        var existing = await _database.HashGetAsync(_keys.Results, moduleId.Value).ConfigureAwait(false);
         if (!existing.IsNullOrEmpty)
         {
             return JsonSerializer.Deserialize<SerializedModuleResult>(existing.ToString())!;
@@ -156,7 +156,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
 
         // Subscribe and wait
         var tcs = new TaskCompletionSource<SerializedModuleResult>(TaskCreationOptions.RunContinuationsAsynchronously);
-        var channel = RedisChannel.Literal(_keys.ResultChannel(moduleTypeName));
+        var channel = RedisChannel.Literal(_keys.ResultChannel(moduleId));
 
         var subscription = await _subscriber.SubscribeAsync(channel);
         subscription.OnMessage(msg =>
@@ -168,7 +168,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         try
         {
             // Re-check after subscribing to close race condition
-            existing = await _database.HashGetAsync(_keys.Results, moduleTypeName);
+            existing = await _database.HashGetAsync(_keys.Results, moduleId.Value).ConfigureAwait(false);
             if (!existing.IsNullOrEmpty)
             {
                 tcs.TrySetResult(JsonSerializer.Deserialize<SerializedModuleResult>(existing.ToString())!);

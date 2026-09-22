@@ -1180,7 +1180,7 @@ public class ArtifactContractTests
             throw new NotSupportedException();
 
         public Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(
-            string moduleTypeName,
+            ModuleId moduleId,
             CancellationToken cancellationToken) =>
             Task.FromResult<IReadOnlyList<ArtifactReference>>([]);
 

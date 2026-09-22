@@ -82,15 +82,10 @@ public class RunReportTests
         }
     }
 
-    private sealed class FailingModule : Module<string>
+    private sealed class FailingModule(ISecretRegistry secretRegistry) : Module<string>
     {
         private const string RegisteredSecret = "report-secret-value";
-        private readonly ISecretRegistry _secretRegistry;
-
-        public FailingModule(ISecretRegistry secretRegistry)
-        {
-            _secretRegistry = secretRegistry;
-        }
+        private readonly ISecretRegistry _secretRegistry = secretRegistry;
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -141,15 +136,10 @@ public class RunReportTests
             Task.FromResult<string?>(typeof(T).FullName);
     }
 
-    private sealed class ThrowingEndHook : IPipelineEventHandler
+    private sealed class ThrowingEndHook(ISecretRegistry secretRegistry) : IPipelineEventHandler
     {
         private const string RegisteredSecret = "hook-secret-value";
-        private readonly ISecretRegistry _secretRegistry;
-
-        public ThrowingEndHook(ISecretRegistry secretRegistry)
-        {
-            _secretRegistry = secretRegistry;
-        }
+        private readonly ISecretRegistry _secretRegistry = secretRegistry;
 
         public Task OnPipelineEndAsync(
             IPipelineContext context,
@@ -2547,7 +2537,7 @@ public class RunReportTests
                         status.WorkerIndex == 1
                         && status.RunId == "current-run"
                         && status.UnattributedCommandCount == 3
-                        && status.ModuleCommandCounts![ModuleTypeIdentifier.Get(typeof(SuccessfulModule))] == 2),
+                        && status.ModuleCommandCounts![ModuleId.FromType(typeof(SuccessfulModule))] == 2),
                     It.IsAny<CancellationToken>()), Times.Once);
             }
         }
@@ -3022,7 +3012,7 @@ public class RunReportTests
     {
         var runStartedAt = DateTimeOffset.UtcNow;
         var module = new SuccessfulModule();
-        var moduleTypeIdentifier = ModuleTypeIdentifier.Get(typeof(SuccessfulModule));
+        var moduleTypeIdentifier = ModuleId.FromType(typeof(SuccessfulModule));
         var distributedOptions = OptionsFactory.Create(new DistributedOptions
         {
             Enabled = true,
@@ -3041,7 +3031,7 @@ public class RunReportTests
                 {
                     RunId = distributedOptions.Value.RunId,
                     UnattributedCommandCount = 3,
-                    ModuleCommandCounts = new Dictionary<string, int>(StringComparer.Ordinal)
+                    ModuleCommandCounts = new Dictionary<ModuleId, int>()
                     {
                         [moduleTypeIdentifier] = 3,
                     },
@@ -3050,7 +3040,7 @@ public class RunReportTests
                 {
                     RunId = distributedOptions.Value.RunId,
                     UnattributedCommandCount = 0,
-                    ModuleCommandCounts = new Dictionary<string, int>(StringComparer.Ordinal),
+                    ModuleCommandCounts = new Dictionary<ModuleId, int>(),
                 },
             ]);
         var commandExecutionCounter = new CommandExecutionCounter();
@@ -3257,7 +3247,7 @@ public class RunReportTests
                 {
                     RunId = distributedOptions.Value.RunId,
                     UnattributedCommandCount = 0,
-                    ModuleCommandCounts = new Dictionary<string, int>(StringComparer.Ordinal)
+                    ModuleCommandCounts = new Dictionary<ModuleId, int>()
                     {
                         ["worker-load-context-identifier"] = 3,
                     },
@@ -3325,7 +3315,7 @@ public class RunReportTests
                 .GetType(moduleTypeName, throwOnError: true)!;
             var firstModule = (IModule) Activator.CreateInstance(firstType)!;
             var secondModule = (IModule) Activator.CreateInstance(secondType)!;
-            var moduleTypeIdentifier = ModuleTypeIdentifier.Get(firstType);
+            var moduleTypeIdentifier = ModuleId.FromType(firstType);
             var runStartedAt = DateTimeOffset.UtcNow;
             var distributedOptions = OptionsFactory.Create(new DistributedOptions
             {
@@ -3345,7 +3335,7 @@ public class RunReportTests
                     {
                         RunId = distributedOptions.Value.RunId,
                         UnattributedCommandCount = 0,
-                        ModuleCommandCounts = new Dictionary<string, int>(StringComparer.Ordinal)
+                        ModuleCommandCounts = new Dictionary<ModuleId, int>()
                         {
                             [moduleTypeIdentifier] = 3,
                         },
@@ -3383,7 +3373,7 @@ public class RunReportTests
 
                 using (Assert.Multiple())
                 {
-                    await Assert.That(ModuleTypeIdentifier.Get(secondType))
+                    await Assert.That(ModuleId.FromType(secondType))
                         .IsEqualTo(moduleTypeIdentifier);
                     await Assert.That(report.CommandCount).IsEqualTo(13);
                     await Assert.That(report.UnattributedCommandCount).IsEqualTo(3);

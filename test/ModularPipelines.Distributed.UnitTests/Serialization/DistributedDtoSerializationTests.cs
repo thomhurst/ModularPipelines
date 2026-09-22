@@ -8,7 +8,6 @@ public class DistributedDtoSerializationTests
     {
         var expected = new ModuleAssignment(
             "BuildModule",
-            "System.String",
             ["Docker"],
             DateTimeOffset.UtcNow,
             new ModuleAssignmentOptions(TimeSpan.FromMilliseconds(1234), false),
@@ -23,6 +22,7 @@ public class DistributedDtoSerializationTests
 
         await Assert.That(actual).IsNotNull();
         await Assert.That(json).Contains("\"RequiredCapabilities\":[");
+        await Assert.That(json).Contains("\"ModuleId\":\"BuildModule\"");
         await Assert.That(json).DoesNotContain("MatrixTarget");
         await Assert.That(actual!.EnqueuedAt).IsEqualTo(expected.EnqueuedAt);
         await Assert.That(actual.RequiredCapabilities).Contains((Capability) "Docker");
@@ -65,7 +65,6 @@ public class DistributedDtoSerializationTests
     {
         var result = new SerializedModuleResult(
             "BuildModule",
-            "System.String",
             1,
             "{}",
             DateTimeOffset.UtcNow);
@@ -73,6 +72,8 @@ public class DistributedDtoSerializationTests
         var json = JsonSerializer.Serialize(result);
 
         await Assert.That(json).Contains("\"Payload\":\"{}\"");
+        await Assert.That(json).Contains("\"ModuleId\":\"BuildModule\"");
+        await Assert.That(json).DoesNotContain("ResultTypeName");
         await Assert.That(json).DoesNotContain("SerializedJson");
     }
 
@@ -82,7 +83,7 @@ public class DistributedDtoSerializationTests
         var now = DateTimeOffset.UtcNow;
         var expected = new SerializedModuleResult(
             "BuildModule",
-            "System.String",
+
             1,
             "{}",
             now)

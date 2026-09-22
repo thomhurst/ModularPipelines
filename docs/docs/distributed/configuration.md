@@ -7,6 +7,27 @@ sidebar_position: 3
 
 Distributed mode has two layers of configuration: the core `DistributedOptions` (shared across all coordinator implementations) and coordinator-specific options like `RedisDistributedOptions`.
 
+## Module identity and build compatibility
+
+Assignments, stored results, dependency references, artifact descriptors, and worker command counts use `ModuleId`. The value is case-sensitive and serializes as a JSON string. By default it derives from the module's full type name; generic arguments omit assembly versions. Assign an explicit ID to preserve identity when renaming or moving a module:
+
+```csharp
+using ModularPipelines.Attributes;
+
+[ModuleId("build.application")]
+public class BuildModule : Module<string>
+{
+    protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        => Task.FromResult("output");
+}
+```
+
+Each registered module must have a unique ID. Cache fingerprints also use this identity; existing assembly-version cache settings still control cache invalidation. This changes the fingerprint format, so existing caches are refreshed once.
+
+Workers publish `PipelineSchemaVersion` during registration, and masters include it in every assignment. The stamp includes the wire schema, registered module IDs, result type identities, and module assembly build IDs. Run the same pipeline binaries on every participant. Missing or mismatched stamps produce a schema mismatch error before module execution; they do not silently execute against a different build. A stable module ID does not bypass this build compatibility check.
+
+The wire DTO changes are breaking: upgrade masters, workers, and custom coordinators together. `WaitForResultAsync` accepts `ModuleId`, and `SerializedModuleResult` resolves its result type through the local registry rather than a remote result type name.
+
 ## DistributedOptions
 
 Passed to `AddDistributedMode()`. Controls the fundamental behavior of the master/worker system.
@@ -164,7 +185,7 @@ Pub/Sub channels (no TTL, ephemeral):
 
 | Channel | Purpose |
 |---------|---------|
-| `modpipe:{run}:results:{ModuleTypeName}` | Notifies the master when a specific module's result is ready |
+| `modpipe:{run}:results:{ModuleId}` | Notifies the master when a specific module's result is ready |
 | `modpipe:{run}:cancellation:signal` | Notifies all instances of a cancellation request |
 
 All storage keys have the configured TTL applied, so they are automatically cleaned up even if the pipeline crashes.

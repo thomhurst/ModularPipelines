@@ -161,6 +161,63 @@ public class ModuleCacheTests
             CancellationToken cancellationToken) => Task.FromResult("stable");
     }
 
+    [ModuleId("stable-cache-module")]
+    private sealed class OriginalNamedCacheModule : Module<string>
+    {
+        protected override void Configure(ModularPipelines.ModuleConfigurationBuilder module) => module
+            .WithCacheKeyPart("stable-id")
+            .WithCacheAssemblyVersionKey("v1");
+
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult("stable");
+    }
+
+    [ModuleId("stable-cache-module")]
+    private sealed class RenamedCacheModule : Module<string>
+    {
+        public static int ExecutionCount;
+
+        protected override void Configure(ModularPipelines.ModuleConfigurationBuilder module) => module
+            .WithCacheKeyPart("stable-id")
+            .WithCacheAssemblyVersionKey("v1");
+
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            return Task.FromResult("stable");
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task StableModuleId_Preserves_Cache_Hits_Across_Type_Renames()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-module-id-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        RenamedCacheModule.ExecutionCount = 0;
+
+        try
+        {
+            await RunStableIdPipelineAsync<OriginalNamedCacheModule>(temporaryDirectory);
+            var status = await RunStableIdPipelineAsync<RenamedCacheModule>(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(status).IsEqualTo(ModuleStatus.RestoredFromCache);
+                await Assert.That(RenamedCacheModule.ExecutionCount).IsEqualTo(0);
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
     private sealed class ReusedFingerprintModule : Module<string>
     {
         public const string EnvironmentVariable = "MODULARPIPELINES_REUSED_FINGERPRINT_TEST";
@@ -3432,6 +3489,25 @@ public class ModuleCacheTests
         return host.Services
             .GetRequiredService<IModuleResultRegistry>()
             .GetResult(typeof(CachedDependentModule))!
+            .Status;
+    }
+
+    private static async Task<ModuleStatus> RunStableIdPipelineAsync<TModule>(string workingDirectory)
+        where TModule : Module<string>
+    {
+        await using var host = await TestPipelineBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<TModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        return host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(TModule))!
             .Status;
     }
 

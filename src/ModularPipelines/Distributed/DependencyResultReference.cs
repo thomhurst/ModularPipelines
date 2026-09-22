@@ -4,5 +4,5 @@ namespace ModularPipelines.Distributed;
 /// Identifies a dependency result stored by the distributed coordinator.
 /// </summary>
 public record DependencyResultReference(
-    string ModuleTypeName,
+    ModuleId ModuleId,
     bool IsAvailable);

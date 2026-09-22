@@ -16,8 +16,8 @@ public static class DistributedCoordinatorContract
         var result = await dequeueTask.WaitAsync(TimeSpan.FromSeconds(5));
 
         await Assert.That(result).IsNotNull();
-        await Assert.That(result!.ModuleTypeName).IsEqualTo(assignment.ModuleTypeName);
-        await Assert.That(result.ResultTypeName).IsEqualTo(assignment.ResultTypeName);
+        await Assert.That(result!.ModuleId).IsEqualTo(assignment.ModuleId);
+        await Assert.That(result.PipelineSchemaVersion).IsEqualTo(assignment.PipelineSchemaVersion);
         await Assert.That(result.Configuration).IsEqualTo(assignment.Configuration);
     }
 
@@ -26,7 +26,7 @@ public static class DistributedCoordinatorContract
         Task? waitUntilReady = null)
     {
         var result = CreateResult("Contract.ResultRoundTrip");
-        var waitTask = coordinator.WaitForResultAsync(result.ModuleTypeName, CancellationToken.None);
+        var waitTask = coordinator.WaitForResultAsync(result.ModuleId, CancellationToken.None);
 
         await WaitUntilReadyAsync(waitUntilReady);
         await coordinator.PublishResultAsync(result, CancellationToken.None);
@@ -108,7 +108,7 @@ public static class DistributedCoordinatorContract
             new HashSet<Capability> { "common", "linux" },
             CancellationToken.None);
 
-        await Assert.That(claimed!.ModuleTypeName).IsEqualTo("Contract.Linux");
+        await Assert.That(claimed!.ModuleId).IsEqualTo("Contract.Linux");
     }
 
     public static async Task FinalMetricsKeepRegistrationAfterHeartbeatExpiresAsync(
@@ -162,21 +162,19 @@ public static class DistributedCoordinatorContract
         }
     }
 
-    private static ModuleAssignment CreateAssignment(string moduleTypeName)
+    private static ModuleAssignment CreateAssignment(ModuleId moduleId)
     {
         return new ModuleAssignment(
-            ModuleTypeName: moduleTypeName,
-            ResultTypeName: "System.String",
+            ModuleId: new ModuleId(moduleId),
             RequiredCapabilities: [],
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false));
     }
 
-    private static SerializedModuleResult CreateResult(string moduleTypeName)
+    private static SerializedModuleResult CreateResult(ModuleId moduleId)
     {
         return new SerializedModuleResult(
-            ModuleTypeName: moduleTypeName,
-            ResultTypeName: "System.String",
+            ModuleId: new ModuleId(moduleId),
             WorkerIndex: 1,
             Payload: "{\"value\":\"contract\"}",
             CompletedAt: DateTimeOffset.UtcNow);

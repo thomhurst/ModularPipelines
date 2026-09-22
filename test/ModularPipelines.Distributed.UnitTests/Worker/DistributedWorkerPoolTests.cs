@@ -29,8 +29,8 @@ public class DistributedWorkerPoolTests
             },
             (assignment, claimedAt, token) =>
             {
-                claimedTimes[assignment.ModuleTypeName] = claimedAt;
-                return assignment.ModuleTypeName == "first"
+                claimedTimes[assignment.ModuleId] = claimedAt;
+                return assignment.ModuleId == "first"
                     ? releaseFirst.Task.WaitAsync(token)
                     : Task.CompletedTask;
             },
@@ -274,7 +274,7 @@ public class DistributedWorkerPoolTests
 
     private static ModuleAssignment CreateAssignment(string name) => new(
         name,
-        typeof(int).FullName!,
+
         [],
         DateTimeOffset.UtcNow,
         new ModuleAssignmentOptions(null, false));

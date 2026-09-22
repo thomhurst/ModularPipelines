@@ -277,7 +277,7 @@ public class DistributedWorkPublisherTests
         // Assert
         await Assert.That(assignment.DependencyResultReferences).IsNotNull();
         await Assert.That(assignment.DependencyResultReferences!).HasSingleItem();
-        await Assert.That(assignment.DependencyResultReferences[0].ModuleTypeName)
+        await Assert.That(assignment.DependencyResultReferences[0].ModuleId)
             .IsEqualTo(typeof(DependencyModule).FullName!);
         await Assert.That(assignment.DependencyResultReferences[0].IsAvailable).IsTrue();
     }
@@ -311,7 +311,7 @@ public class DistributedWorkPublisherTests
         var assignment = publisher.CreateAssignment(new ConsumerModule());
 
         var reference = assignment.DependencyResultReferences!.Single();
-        await Assert.That(reference.ModuleTypeName).IsEqualTo(typeof(DependencyModule).FullName!);
+        await Assert.That(reference.ModuleId).IsEqualTo(typeof(DependencyModule).FullName!);
         await Assert.That(reference.IsAvailable).IsTrue();
     }
 
@@ -331,7 +331,7 @@ public class DistributedWorkPublisherTests
 
         await Assert.That(assignment.DependencyResultReferences).IsNotNull();
         await Assert.That(assignment.DependencyResultReferences!).HasSingleItem();
-        await Assert.That(assignment.DependencyResultReferences[0].ModuleTypeName).IsEqualTo(typeof(DependencyModule).FullName!);
+        await Assert.That(assignment.DependencyResultReferences[0].ModuleId).IsEqualTo(typeof(DependencyModule).FullName!);
     }
 
     [Test]
@@ -350,7 +350,7 @@ public class DistributedWorkPublisherTests
 
         await Assert.That(assignment.DependencyResultReferences).IsNotNull();
         await Assert.That(assignment.DependencyResultReferences!).HasSingleItem();
-        await Assert.That(assignment.DependencyResultReferences[0].ModuleTypeName)
+        await Assert.That(assignment.DependencyResultReferences[0].ModuleId)
             .IsEqualTo(typeof(SelectorDependencyModule).FullName!);
     }
 
@@ -381,7 +381,7 @@ public class DistributedWorkPublisherTests
 
         await Assert.That(assignment.DependencyResultReferences).IsNotNull();
         await Assert.That(assignment.DependencyResultReferences!).HasSingleItem();
-        await Assert.That(assignment.DependencyResultReferences[0].ModuleTypeName)
+        await Assert.That(assignment.DependencyResultReferences[0].ModuleId)
             .IsEqualTo(typeof(TaggedDependencyModule).FullName!);
     }
 
@@ -597,7 +597,7 @@ public class DistributedWorkPublisherTests
         await Assert.That(assignment.DependencyResultReferences).IsNotNull();
         await Assert.That(assignment.DependencyResultReferences!.Count).IsEqualTo(2);
 
-        var depTypeNames = assignment.DependencyResultReferences.Select(d => d.ModuleTypeName).ToHashSet();
+        var depTypeNames = assignment.DependencyResultReferences.Select(d => d.ModuleId).ToHashSet();
         await Assert.That(depTypeNames).Contains(typeof(DependencyModule).FullName!);
         await Assert.That(depTypeNames).Contains(typeof(IndependentModule).FullName!);
     }
@@ -620,7 +620,7 @@ public class DistributedWorkPublisherTests
         var assignment = publisher.CreateAssignment(module);
 
         var reference = assignment.DependencyResultReferences!.Single();
-        await Assert.That(reference.ModuleTypeName).IsEqualTo(typeof(DependencyModule).FullName!);
+        await Assert.That(reference.ModuleId).IsEqualTo(typeof(DependencyModule).FullName!);
         await Assert.That(reference.IsAvailable).IsFalse();
     }
 

@@ -20,7 +20,7 @@ public interface IDistributedArtifactStore
     /// <summary>
     /// Lists all artifacts produced by a specific module.
     /// </summary>
-    Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(string moduleTypeName, CancellationToken cancellationToken);
+    Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(ModuleId moduleId, CancellationToken cancellationToken);
 
     /// <summary>
     /// Deletes an artifact.

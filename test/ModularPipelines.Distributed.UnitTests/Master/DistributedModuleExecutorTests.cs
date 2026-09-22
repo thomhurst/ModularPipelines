@@ -38,7 +38,7 @@ public class DistributedModuleExecutorTests
         new(new ModuleAttributeEventService());
 
     private static ModuleResultRegistrar NewResultRegistrar(IModuleResultRegistry resultRegistry) =>
-        new ModuleResultRegistrar(resultRegistry, NullLogger<ModuleResultRegistrar>.Instance);
+        new(resultRegistry, NullLogger<ModuleResultRegistrar>.Instance);
 
     private static IParallelLimitProvider NewParallelLimitProvider(int maxParallelism = 2)
     {
@@ -294,7 +294,7 @@ public class DistributedModuleExecutorTests
         public TaskCompletionSource ResultWaitStarted { get; } =
             new(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        public ConcurrentDictionary<string, CancellationToken> ResultWaitTokens { get; } = new();
+        public ConcurrentDictionary<ModuleId, CancellationToken> ResultWaitTokens { get; } = new();
 
         public TaskCompletionSource WorkerQueryStarted { get; } =
             new(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -338,7 +338,7 @@ public class DistributedModuleExecutorTests
         {
             await inner.PublishResultAsync(result, cancellationToken);
             _publishedResults.GetOrAdd(
-                result.ModuleTypeName,
+                result.ModuleId,
                 _ => new TaskCompletionSource<SerializedModuleResult>(TaskCreationOptions.RunContinuationsAsynchronously)).TrySetResult(result);
         }
 
@@ -347,19 +347,19 @@ public class DistributedModuleExecutorTests
                 moduleType.FullName!,
                 _ => new TaskCompletionSource<SerializedModuleResult>(TaskCreationOptions.RunContinuationsAsynchronously)).Task;
 
-        public Task<SerializedModuleResult> WaitForResultAsync(string moduleTypeName, CancellationToken cancellationToken)
+        public Task<SerializedModuleResult> WaitForResultAsync(ModuleId moduleId, CancellationToken cancellationToken)
         {
             ResultWaitStarted.TrySetResult();
-            ResultWaitTokens[moduleTypeName] = cancellationToken;
+            ResultWaitTokens[moduleId] = cancellationToken;
             _resultWaits.GetOrAdd(
-                moduleTypeName,
+                moduleId,
                 _ => new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously)).TrySetResult();
-            return inner.WaitForResultAsync(moduleTypeName, cancellationToken);
+            return inner.WaitForResultAsync(moduleId, cancellationToken);
         }
 
         public Task WaitForResultStartedAsync(Type moduleType) =>
             _resultWaits.GetOrAdd(
-                moduleType.FullName!,
+                ModuleId.FromType(moduleType),
                 _ => new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously)).Task;
 
         public Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
@@ -467,6 +467,7 @@ public class DistributedModuleExecutorTests
         DistributedCacheHitTracker? cacheHitTracker = null,
         PipelineOptions? pipelineOptions = null,
         IParallelLimitProvider? parallelLimitProvider = null,
+        IEnumerable<IModule>? registeredModules = null,
         CancellationToken applicationStopping = default)
     {
         var lifetime = new Mock<IHostApplicationLifetime>();
@@ -515,7 +516,8 @@ public class DistributedModuleExecutorTests
             executorLogger ?? NullLogger<DistributedModuleExecutor>.Instance,
             cacheResultRepository,
             Microsoft.Extensions.Options.Options.Create(pipelineOptions ?? new PipelineOptions()),
-            cacheHitTracker);
+            cacheHitTracker,
+            registeredModules);
     }
 
     private static IServiceScopeFactory NewModuleLoggerScopeFactory(IInternalModuleLogger? moduleLogger = null)
@@ -590,13 +592,13 @@ public class DistributedModuleExecutorTests
         types.Register(module.GetType());
         var serializer = new ModuleResultSerializer(types);
         var coordinator = new Mock<IDistributedMasterCoordinator>();
-        coordinator.Setup(x => x.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .Returns<string, CancellationToken>((_, _) =>
+        coordinator.Setup(x => x.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
+            .Returns<ModuleId, CancellationToken>((_, _) =>
             {
                 context.TryApplyResult(module, accepted);
                 return collectionThrows
                     ? Task.FromException<SerializedModuleResult>(new InvalidOperationException("Collection failed"))
-                    : Task.FromResult(serializer.Serialize(candidate, module.GetType().FullName!, typeof(SimpleResult).FullName!, 1));
+                    : Task.FromResult(serializer.Serialize(candidate, module.GetType().FullName!, 1));
             });
         var executor = CreateExecutor(scheduler, resultRegistry: registry, coordinator: coordinator.Object,
             resultCollector: new DistributedResultCollector(coordinator.Object, serializer));
@@ -669,7 +671,7 @@ public class DistributedModuleExecutorTests
             It.IsAny<ModuleAssignment>(),
             It.IsAny<CancellationToken>()), Times.Never());
         coordinator.Verify(c => c.WaitForResultAsync(
-            It.IsAny<string>(),
+            It.IsAny<ModuleId>(),
             It.IsAny<CancellationToken>()), Times.Never());
         scheduler.Verify(c => c.MarkModuleStarted(typeof(CachedDistributedModule)), Times.Never());
         scheduler.Verify(c => c.MarkModuleCompleted(
@@ -948,8 +950,7 @@ public class DistributedModuleExecutorTests
         var successResult = CreateSuccessResult(new SimpleResult { Message = "done" }, "DistributedModule");
         var serialized = serializer.Serialize(
             successResult,
-            typeof(DistributedModule).FullName!,
-            typeof(SimpleResult).FullName!,
+            ModuleId.FromType(typeof(DistributedModule)),
             workerIndex: 1);
         // Act
         var executionTask = executor.ExecuteAsync([module]);
@@ -988,8 +989,7 @@ public class DistributedModuleExecutorTests
         var failureResult = CreateTypedFailureResult(module, new InvalidOperationException("Worker error"));
         var serialized = serializer.Serialize(
             failureResult,
-            typeof(DistributedModule).FullName!,
-            typeof(SimpleResult).FullName!,
+            ModuleId.FromType(typeof(DistributedModule)),
             workerIndex: 1);
         // Act
         var executionTask = executor.ExecuteAsync([module]);
@@ -1092,7 +1092,7 @@ public class DistributedModuleExecutorTests
         var serializedDependentResult = responseSerializer.Serialize(
             dependentResult,
             typeof(DependsOnDistributedModule).FullName!,
-            typeof(string).FullName!,
+
             workerIndex: 1);
 
         var calls = new ConcurrentQueue<string>();
@@ -1102,7 +1102,7 @@ public class DistributedModuleExecutorTests
                 It.IsAny<SerializedModuleResult>(),
                 It.IsAny<CancellationToken>()))
             .Callback<SerializedModuleResult, CancellationToken>((result, _) =>
-                calls.Enqueue($"result:{result.ModuleTypeName}"))
+                calls.Enqueue($"result:{result.ModuleId}"))
             .Returns(Task.CompletedTask);
         coordinator.Setup(instance => instance.EnqueueModuleAsync(
                 It.IsAny<ModuleAssignment>(),
@@ -1110,7 +1110,7 @@ public class DistributedModuleExecutorTests
             .Callback<ModuleAssignment, CancellationToken>((assignment, _) =>
             {
                 publishedAssignment = assignment;
-                calls.Enqueue($"assignment:{assignment.ModuleTypeName}");
+                calls.Enqueue($"assignment:{assignment.ModuleId}");
             })
             .Returns(Task.CompletedTask);
         coordinator.Setup(instance => instance.DequeueModuleAsync(
@@ -1166,7 +1166,7 @@ public class DistributedModuleExecutorTests
                 It.IsAny<SerializedModuleResult>(),
                 It.IsAny<CancellationToken>()))
             .Returns<SerializedModuleResult, CancellationToken>((result, _) =>
-                result.ModuleTypeName == typeof(DistributedModule).FullName
+                result.ModuleId == ModuleId.FromType(typeof(DistributedModule))
                     ? Task.FromException(new InvalidOperationException("Transient publish failure"))
                     : Task.CompletedTask);
         coordinator.Setup(instance => instance.SignalCompletionAsync(It.IsAny<CancellationToken>()))
@@ -1185,7 +1185,7 @@ public class DistributedModuleExecutorTests
         await Assert.That(exception!.Message).IsEqualTo("Transient publish failure");
         coordinator.Verify(instance => instance.PublishResultAsync(
             It.Is<SerializedModuleResult>(result =>
-                result.ModuleTypeName == typeof(AnotherDistributedModule).FullName),
+                result.ModuleId == ModuleId.FromType(typeof(AnotherDistributedModule))),
             It.IsAny<CancellationToken>()), Times.Never());
         coordinator.Verify(
             instance => instance.BroadcastCancellationAsync(CancellationToken.None),
@@ -1204,7 +1204,7 @@ public class DistributedModuleExecutorTests
         var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(c => c.EnqueueModuleAsync(It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        coordinator.Setup(c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+        coordinator.Setup(c => c.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new OperationCanceledException("Cancelled by test"));
         coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
@@ -1240,7 +1240,7 @@ public class DistributedModuleExecutorTests
         var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(c => c.EnqueueModuleAsync(It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        coordinator.Setup(c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+        coordinator.Setup(c => c.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new InvalidOperationException("Deserialization failed"));
         coordinator.Setup(c => c.PublishResultAsync(
                 It.IsAny<SerializedModuleResult>(),
@@ -1268,7 +1268,7 @@ public class DistributedModuleExecutorTests
         await Assert.That(registeredResult!.ExceptionOrDefault).IsNotNull();
         coordinator.Verify(c => c.PublishResultAsync(
             It.Is<SerializedModuleResult>(result =>
-                result.ModuleTypeName == typeof(DistributedModule).FullName),
+                result.ModuleId == ModuleId.FromType(typeof(DistributedModule))),
             CancellationToken.None), Times.Once());
     }
 
@@ -1287,7 +1287,7 @@ public class DistributedModuleExecutorTests
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         coordinator.Setup(instance => instance.WaitForResultAsync(
-                It.IsAny<string>(),
+                It.IsAny<ModuleId>(),
                 It.IsAny<CancellationToken>()))
             .ThrowsAsync(new InvalidOperationException("Result collection failed"));
         coordinator.Setup(instance => instance.PublishResultAsync(
@@ -1405,8 +1405,7 @@ public class DistributedModuleExecutorTests
         var successResult = CreateSuccessResult(new SimpleResult { Message = "done" }, "DistributedModule");
         var serialized = serializer.Serialize(
             successResult,
-            typeof(DistributedModule).FullName!,
-            typeof(SimpleResult).FullName!,
+            ModuleId.FromType(typeof(DistributedModule)),
             1);
 
         await innerCoordinator.PublishResultAsync(serialized, testCancellation);
@@ -1447,8 +1446,7 @@ public class DistributedModuleExecutorTests
         var failureResult = CreateTypedFailureResult(moduleA, new Exception("A failed"));
         var serializedFailure = serializer.Serialize(
             failureResult,
-            typeof(DistributedModule).FullName!,
-            typeof(SimpleResult).FullName!,
+            ModuleId.FromType(typeof(DistributedModule)),
             workerIndex: 1);
         // Act
         var executionTask = executor.ExecuteAsync([moduleA, moduleB]);
@@ -1487,14 +1485,12 @@ public class DistributedModuleExecutorTests
         var failureResult = CreateTypedFailureResult(failedModule, new Exception("failed"));
         var serializedFailure = serializer.Serialize(
             failureResult,
-            typeof(DistributedModule).FullName!,
-            typeof(SimpleResult).FullName!,
+            ModuleId.FromType(typeof(DistributedModule)),
             workerIndex: 1);
         var alwaysRunResult = CreateSuccessResult(42, nameof(AlwaysRunDistributedModule));
         var serializedAlwaysRunResult = serializer.Serialize(
             alwaysRunResult,
-            typeof(AlwaysRunDistributedModule).FullName!,
-            typeof(int).FullName!,
+            ModuleId.FromType(typeof(AlwaysRunDistributedModule)),
             workerIndex: 1);
         var coordinator = new InMemoryDistributedCoordinator();
         var noDequeue = new ResultTrackingCoordinator(coordinator);
@@ -1555,8 +1551,7 @@ public class DistributedModuleExecutorTests
         var failureResult = CreateTypedFailureResult(failedModule, new Exception("failed"));
         var serializedFailure = serializer.Serialize(
             failureResult,
-            typeof(DistributedModule).FullName!,
-            typeof(SimpleResult).FullName!,
+            ModuleId.FromType(typeof(DistributedModule)),
             workerIndex: 1);
         var coordinator = new InMemoryDistributedCoordinator();
         var noDequeue = new ResultTrackingCoordinator(coordinator);
@@ -1607,8 +1602,7 @@ public class DistributedModuleExecutorTests
         var failureResult = CreateTypedFailureResult(failedModule, new Exception("failed"));
         var serializedFailure = serializer.Serialize(
             failureResult,
-            typeof(DistributedModule).FullName!,
-            typeof(SimpleResult).FullName!,
+            ModuleId.FromType(typeof(DistributedModule)),
             workerIndex: 1);
         var moduleRunner = new Mock<IModuleRunner>();
         moduleRunner.Setup(x => x.ExecuteWithoutDependencyWaitAsync(
@@ -1638,7 +1632,7 @@ public class DistributedModuleExecutorTests
         var failedAssignment = await coordinator.DequeueModuleAsync(
             new HashSet<Capability>(),
             CancellationToken.None);
-        await Assert.That(failedAssignment?.ModuleTypeName).IsEqualTo(typeof(DistributedModule).FullName);
+        await Assert.That(failedAssignment?.ModuleId).IsEqualTo(typeof(DistributedModule).FullName!);
         await coordinator.PublishResultAsync(serializedFailure, CancellationToken.None);
 
         await trackingCoordinator.WaitForResultPublishedAsync(typeof(AlwaysRunDistributedModule))
@@ -1664,8 +1658,7 @@ public class DistributedModuleExecutorTests
         var failureResult = CreateTypedFailureResult(module, new Exception("pipeline failed"));
         var serializedFailure = serializer.Serialize(
             failureResult,
-            typeof(DistributedModule).FullName!,
-            typeof(SimpleResult).FullName!,
+            ModuleId.FromType(typeof(DistributedModule)),
             workerIndex: 1);
         var alwaysRunHandler = new Mock<IAlwaysRunHandler>();
         alwaysRunHandler.Setup(x => x.WaitForAlwaysRunModulesAsync(
@@ -1716,8 +1709,7 @@ public class DistributedModuleExecutorTests
         var failureResult = CreateTypedFailureResult(failedModule, new Exception("failed"));
         var serializedFailure = serializer.Serialize(
             failureResult,
-            typeof(DistributedModule).FullName!,
-            typeof(SimpleResult).FullName!,
+            ModuleId.FromType(typeof(DistributedModule)),
             workerIndex: 1);
         var resultCollector = new DistributedResultCollector(noDequeue, serializer);
         var moduleRunner = new Mock<IModuleRunner>();
@@ -1741,8 +1733,8 @@ public class DistributedModuleExecutorTests
         var externalWorkerAssignment = await coordinator.DequeueModuleAsync(
             new HashSet<Capability>(),
             CancellationToken.None);
-        await Assert.That(externalWorkerAssignment?.ModuleTypeName)
-            .IsEqualTo(typeof(DistributedModule).FullName);
+        await Assert.That(externalWorkerAssignment?.ModuleId)
+            .IsEqualTo(typeof(DistributedModule).FullName!);
         await coordinator.PublishResultAsync(serializedFailure, CancellationToken.None);
         await pipelineCancelled.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
 
@@ -2032,7 +2024,7 @@ public class DistributedModuleExecutorTests
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(LinuxOnlyModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
+        _ = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
         var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
@@ -2051,7 +2043,7 @@ public class DistributedModuleExecutorTests
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(UnixModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
+        _ = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
         var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
@@ -2075,7 +2067,7 @@ public class DistributedModuleExecutorTests
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(GroupedOperatingSystemModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
+        _ = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
         var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
@@ -2099,7 +2091,7 @@ public class DistributedModuleExecutorTests
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(MixedGroupedOperatingSystemModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
+        _ = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
         var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
@@ -2115,7 +2107,7 @@ public class DistributedModuleExecutorTests
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(MixedWorkerGroupedOperatingSystemModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
+        _ = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
         var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
@@ -2178,7 +2170,7 @@ public class DistributedModuleExecutorTests
             .Returns(Task.CompletedTask);
         coordinator.Setup(c => c.EnqueueModuleAsync(It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        coordinator.Setup(c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+        coordinator.Setup(c => c.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new OperationCanceledException());
 
         var module = new DistributedModule();
@@ -2209,7 +2201,7 @@ public class DistributedModuleExecutorTests
             .Returns(Task.CompletedTask);
         coordinator.Setup(c => c.EnqueueModuleAsync(It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        coordinator.Setup(c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+        coordinator.Setup(c => c.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new InvalidOperationException("Boom"));
         coordinator.Setup(c => c.BroadcastCancellationAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
@@ -2247,7 +2239,7 @@ public class DistributedModuleExecutorTests
             {
                 workerQueryStarted.TrySetResult();
                 await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
-                return Array.Empty<WorkerRegistration>();
+                return [];
             });
         coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
@@ -2341,10 +2333,13 @@ public class DistributedModuleExecutorTests
         var module = new AlwaysRunDistributedModule();
         var assignment = new ModuleAssignment(
             typeof(AlwaysRunDistributedModule).FullName!,
-            typeof(int).FullName!,
+
             [],
             DateTimeOffset.UtcNow,
-            new ModuleAssignmentOptions(null, AlwaysRun: true));
+            new ModuleAssignmentOptions(null, AlwaysRun: true))
+        {
+            PipelineSchemaVersion = CreateSchema(typeof(AlwaysRunDistributedModule)),
+        };
         var runnerStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var releaseRunner = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var resultPublished = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -2553,7 +2548,7 @@ public class DistributedModuleExecutorTests
 
         var result = await executor.ExecuteAsync([]);
 
-        await Assert.That(result.Count()).IsEqualTo(0);
+        await Assert.That(result.Count).IsEqualTo(0);
     }
 
     // =================================================================
@@ -2580,7 +2575,7 @@ public class DistributedModuleExecutorTests
 
         // Simulate worker result
         var successResult = CreateSuccessResult(new SimpleResult { Message = "ok" }, "DistributedModule");
-        var serialized = serializer.Serialize(successResult, typeof(DistributedModule).FullName!, typeof(SimpleResult).FullName!, 1);
+        var serialized = serializer.Serialize(successResult, ModuleId.FromType(typeof(DistributedModule)), 1);
         // Act
         var executionTask = executor.ExecuteAsync([module]);
         await noDequeue.ResultWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
@@ -2614,7 +2609,7 @@ public class DistributedModuleExecutorTests
             c => c.EnqueueModuleAsync(It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()),
             Times.Never());
         coordinator.Verify(
-            c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
+            c => c.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()),
             Times.Never());
         scheduler.Verify(
             s => s.MarkModuleCompleted(
@@ -2695,8 +2690,7 @@ public class DistributedModuleExecutorTests
         var successResult = CreateSuccessResult(new SimpleResult { Message = "ok" }, "DistributedModule");
         var serialized = serializer.Serialize(
             successResult,
-            typeof(DistributedModule).FullName!,
-            typeof(SimpleResult).FullName!,
+            ModuleId.FromType(typeof(DistributedModule)),
             1);
         var executionTask = executor.ExecuteAsync([module]);
         await noDequeue.ResultWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
@@ -2733,9 +2727,9 @@ public class DistributedModuleExecutorTests
                 It.IsAny<CancellationToken>()))
             .Returns<ModuleAssignment, CancellationToken>((_, token) => Task.FromCanceled(token));
         coordinator.Setup(c => c.WaitForResultAsync(
-                It.IsAny<string>(),
+                It.IsAny<ModuleId>(),
                 It.IsAny<CancellationToken>()))
-            .Returns<string, CancellationToken>((_, token) =>
+            .Returns<ModuleId, CancellationToken>((_, token) =>
                 Task.FromCanceled<SerializedModuleResult>(token));
         coordinator.Setup(c => c.DequeueModuleAsync(
                 It.IsAny<IReadOnlySet<Capability>>(),
@@ -2811,7 +2805,7 @@ public class DistributedModuleExecutorTests
         await Assert.That(resultRegistry.GetResult(typeof(DistributedModule)))
             .IsSameReferenceAs(moduleResult);
         coordinator.Verify(
-            c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
+            c => c.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()),
             Times.Never());
         scheduler.Verify(
             s => s.MarkModuleCompleted(typeof(DistributedModule), false, publishException, null),
@@ -2858,7 +2852,7 @@ public class DistributedModuleExecutorTests
         await Assert.That(resultRegistry.GetResult(typeof(ShortTimeoutDistributedModule)))
             .IsSameReferenceAs(moduleResult);
         coordinator.Verify(
-            c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
+            c => c.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()),
             Times.Never());
         scheduler.Verify(
             s => s.MarkModuleCompleted(typeof(ShortTimeoutDistributedModule), false, null, null),
@@ -2888,7 +2882,7 @@ public class DistributedModuleExecutorTests
 
         // Simulate worker failure (properly-typed so serializer accepts it)
         var failureResult = CreateTypedFailureResult(module, new Exception("Failed"));
-        var serialized = serializer.Serialize(failureResult, typeof(DistributedModule).FullName!, typeof(SimpleResult).FullName!, 1);
+        var serialized = serializer.Serialize(failureResult, ModuleId.FromType(typeof(DistributedModule)), 1);
         // Act
         var executionTask = executor.ExecuteAsync([module]);
         await noDequeue.ResultWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
@@ -2915,7 +2909,7 @@ public class DistributedModuleExecutorTests
         var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(c => c.EnqueueModuleAsync(It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        coordinator.Setup(c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+        coordinator.Setup(c => c.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new OperationCanceledException());
         coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
@@ -3004,8 +2998,7 @@ public class DistributedModuleExecutorTests
         var successResult = CreateSuccessResult(new SimpleResult { Message = "ok" }, "DistributedModule");
         var serialized = serializer.Serialize(
             successResult,
-            typeof(DistributedModule).FullName!,
-            typeof(SimpleResult).FullName!,
+            ModuleId.FromType(typeof(DistributedModule)),
             1);
         await coordinator.PublishResultAsync(serialized, CancellationToken.None);
         await executionTask;
@@ -3021,7 +3014,9 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    public async Task Executor_Waits_For_Configured_Minimum_Worker_Count()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Executor_Waits_For_Configured_Minimum_Worker_Count(bool hasFilteredModule)
     {
         var module = new DistributedModule();
         var moduleState = new ModuleState(module, typeof(DistributedModule));
@@ -3030,6 +3025,14 @@ public class DistributedModuleExecutorTests
         var noDequeue = new ResultTrackingCoordinator(coordinator);
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(DistributedModule));
+        IModule[] registeredModules = hasFilteredModule
+            ? [module, new AnotherDistributedModule()]
+            : [module];
+        foreach (var registered in registeredModules)
+        {
+            typeRegistry.Register(registered.GetType());
+        }
+
         var serializer = new ModuleResultSerializer(typeRegistry);
         var resultCollector = new DistributedResultCollector(noDequeue, serializer);
         var resultRegistry = new ModuleResultRegistry();
@@ -3048,14 +3051,18 @@ public class DistributedModuleExecutorTests
             resultRegistry: resultRegistry,
             coordinator: noDequeue,
             resultCollector: resultCollector,
-            distributedOptions: options);
+            distributedOptions: options,
+            registeredModules: registeredModules);
 
         var executionTask = executor.ExecuteAsync([module]);
         await noDequeue.WorkerQueryStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         await Assert.That(noDequeue.ResultWaitStarted.Task.IsCompleted).IsFalse();
 
         await coordinator.RegisterWorkerAsync(
-            new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
+            new WorkerRegistration(1, [], DateTimeOffset.UtcNow)
+            {
+                PipelineSchemaVersion = typeRegistry.GetPipelineSchemaVersion(),
+            },
             CancellationToken.None);
         noDequeue.ReleaseWorkerQuery();
         await noDequeue.ResultWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
@@ -3063,7 +3070,7 @@ public class DistributedModuleExecutorTests
         var serialized = serializer.Serialize(
             successResult,
             typeof(DistributedModule).FullName!,
-            typeof(SimpleResult).FullName!,
+
             1);
         await coordinator.PublishResultAsync(serialized, CancellationToken.None);
         await executionTask;
@@ -3096,7 +3103,7 @@ public class DistributedModuleExecutorTests
             .ReturnsAsync(serializer.Serialize(
                 CreateSuccessResult(new SimpleResult(), nameof(DistributedModule)),
                 typeof(DistributedModule).FullName!,
-                typeof(SimpleResult).FullName!,
+
                 workerIndex: 0));
 
         var executor = CreateExecutor(
@@ -3127,7 +3134,10 @@ public class DistributedModuleExecutorTests
         var coordinator = new Mock<IDistributedMasterCoordinator>();
         var registeredWorkers = new List<WorkerRegistration>
         {
-            new(1, [Capability.Linux], DateTimeOffset.UtcNow),
+            new(1, [Capability.Linux], DateTimeOffset.UtcNow)
+            {
+                PipelineSchemaVersion = CreateSchema(typeof(GpuOnlyModule)),
+            },
         };
         coordinator.Setup(c => c.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(() => registeredWorkers.AsReadOnly());
@@ -3180,7 +3190,7 @@ public class DistributedModuleExecutorTests
 
         coordinator.Verify(c => c.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()), Times.AtLeastOnce());
         coordinator.Verify(
-            c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
+            c => c.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()),
             Times.Never());
     }
 
@@ -3223,7 +3233,7 @@ public class DistributedModuleExecutorTests
         }
 
         coordinator.Verify(
-            c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
+            c => c.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()),
             Times.Never());
     }
 
@@ -3244,7 +3254,10 @@ public class DistributedModuleExecutorTests
             new WorkerRegistration(
                 1,
                 [Capability.Gpu],
-                DateTimeOffset.UtcNow),
+                DateTimeOffset.UtcNow)
+            {
+                PipelineSchemaVersion = CreateSchema(typeof(GpuOnlyModule)),
+            },
         ];
         var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(c => c.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
@@ -3262,7 +3275,7 @@ public class DistributedModuleExecutorTests
         var serializedResult = serializer.Serialize(
             CreateSuccessResult("gpu done", nameof(GpuOnlyModule)),
             typeof(GpuOnlyModule).FullName!,
-            typeof(string).FullName!,
+
             workerIndex: 1);
         coordinator.Setup(c => c.WaitForResultAsync(
                 typeof(GpuOnlyModule).FullName!,
@@ -3332,8 +3345,8 @@ public class DistributedModuleExecutorTests
             .Returns(Task.CompletedTask);
         coordinator.Setup(c => c.DequeueModuleAsync(It.IsAny<IReadOnlySet<Capability>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((ModuleAssignment?) null);
-        coordinator.Setup(c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .Returns<string, CancellationToken>(async (_, token) =>
+        coordinator.Setup(c => c.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
+            .Returns<ModuleId, CancellationToken>(async (_, token) =>
             {
                 await Task.Delay(Timeout.InfiniteTimeSpan, token);
                 throw new InvalidOperationException("Unreachable");
@@ -3358,4 +3371,35 @@ public class DistributedModuleExecutorTests
             It.IsAny<IModule>(),
             It.IsAny<CancellationToken>()), Times.Exactly(2));
     }
+    [Test]
+    [Arguments("")]
+    [Arguments("another-build")]
+    public async Task Registration_Schema_Mismatch_Fails_Before_Dispatch(string schema)
+    {
+        var module = new DistributedModule();
+        var scheduler = CreateMockScheduler(new ModuleState(module, typeof(DistributedModule)));
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(instance => instance.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync([new WorkerRegistration(1, [], DateTimeOffset.UtcNow) { PipelineSchemaVersion = schema }]);
+        var executor = CreateExecutor(scheduler, coordinator: coordinator.Object,
+            distributedOptions: new DistributedOptions { TotalInstances = 2, MinimumWorkerCount = 1 });
+
+        var failure = await Assert.That(async () => { await executor.ExecuteAsync([module]); })
+            .Throws<PipelineSchemaMismatchException>();
+        await Assert.That(failure!.Message).Contains("worker 1 schema");
+        coordinator.Verify(instance => instance.EnqueueModuleAsync(
+            It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()), Times.Never());
+    }
+
+    private static string CreateSchema(params Type[] moduleTypes)
+    {
+        var registry = new ModuleTypeRegistry();
+        foreach (var moduleType in moduleTypes)
+        {
+            registry.Register(moduleType);
+        }
+
+        return registry.GetPipelineSchemaVersion();
+    }
+
 }

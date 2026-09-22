@@ -8,15 +8,14 @@ public class CapabilityMatcherTests
     public async Task CanExecute_No_Requirements_Returns_True()
     {
         var assignment = new ModuleAssignment(
-            ModuleTypeName: "Test.Module",
-            ResultTypeName: "System.String",
+            ModuleId: "Test.Module",
             RequiredCapabilities: [],
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false));
 
         var worker = new WorkerRegistration(
             WorkerIndex: 1,
-            Capabilities: [ "linux" ],
+            Capabilities: ["linux"],
             RegisteredAt: DateTimeOffset.UtcNow);
 
         var result = CapabilityMatcher.CanExecute(assignment, worker);
@@ -28,15 +27,14 @@ public class CapabilityMatcherTests
     public async Task CanExecute_Matching_Capabilities_Returns_True()
     {
         var assignment = new ModuleAssignment(
-            ModuleTypeName: "Test.Module",
-            ResultTypeName: "System.String",
-            RequiredCapabilities: [ "docker", "linux" ],
+            ModuleId: "Test.Module",
+            RequiredCapabilities: ["docker", "linux"],
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false));
 
         var worker = new WorkerRegistration(
             WorkerIndex: 1,
-            Capabilities: [ "docker", "linux", "high-memory" ],
+            Capabilities: ["docker", "linux", "high-memory"],
             RegisteredAt: DateTimeOffset.UtcNow);
 
         var result = CapabilityMatcher.CanExecute(assignment, worker);
@@ -48,15 +46,14 @@ public class CapabilityMatcherTests
     public async Task CanExecute_Missing_Capability_Returns_False()
     {
         var assignment = new ModuleAssignment(
-            ModuleTypeName: "Test.Module",
-            ResultTypeName: "System.String",
-            RequiredCapabilities: [ "docker" ],
+            ModuleId: "Test.Module",
+            RequiredCapabilities: ["docker"],
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false));
 
         var worker = new WorkerRegistration(
             WorkerIndex: 1,
-            Capabilities: [ "linux" ],
+            Capabilities: ["linux"],
             RegisteredAt: DateTimeOffset.UtcNow);
 
         var result = CapabilityMatcher.CanExecute(assignment, worker);
@@ -68,15 +65,14 @@ public class CapabilityMatcherTests
     public async Task CanExecute_Case_Insensitive()
     {
         var assignment = new ModuleAssignment(
-            ModuleTypeName: "Test.Module",
-            ResultTypeName: "System.String",
-            RequiredCapabilities: [ "Docker" ],
+            ModuleId: "Test.Module",
+            RequiredCapabilities: ["Docker"],
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false));
 
         var worker = new WorkerRegistration(
             WorkerIndex: 1,
-            Capabilities: [ "docker" ],
+            Capabilities: ["docker"],
             RegisteredAt: DateTimeOffset.UtcNow);
 
         var result = CapabilityMatcher.CanExecute(assignment, worker);

@@ -332,6 +332,9 @@ public class ModuleResultContractTests
         var deserialized = JsonSerializer.Deserialize<ModuleResult<IRuntimeValue>>(json);
 
         var value = deserialized!.Value;
+        await Assert.That(json).Contains("\"$valueType\"");
+        await Assert.That(json).DoesNotContain("Version=");
+        await Assert.That(json).DoesNotContain("PublicKeyToken=");
         await Assert.That(value).IsTypeOf<RuntimeValue>();
         await Assert.That(((RuntimeValue) value).Derived).IsEqualTo("derived");
     }

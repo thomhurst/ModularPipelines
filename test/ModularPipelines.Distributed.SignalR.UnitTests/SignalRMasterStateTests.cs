@@ -15,13 +15,13 @@ public class SignalRMasterStateTests
         worker.TryAssign(assignment);
 
         // Fault injection at the fence acquisition boundary, after result admission.
-        using (await state.EnterAssignmentDeliveryFenceAsync(assignment.ModuleTypeName))
+        using (await state.EnterAssignmentDeliveryFenceAsync(assignment.ModuleId))
         {
         }
-        var fences = (System.Collections.Concurrent.ConcurrentDictionary<string, SemaphoreSlim>)
+        var fences = (System.Collections.Concurrent.ConcurrentDictionary<ModuleId, SemaphoreSlim>)
             typeof(SignalRMasterState).GetField("_assignmentDeliveryFences",
                 System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!.GetValue(state)!;
-        fences[assignment.ModuleTypeName].Dispose();
+        fences[assignment.ModuleId].Dispose();
 
         await Assert.That(async () => await state.TryCompleteWorkerResultAsync(worker, CreateResult()))
             .Throws<ObjectDisposedException>();
@@ -88,7 +88,7 @@ public class SignalRMasterStateTests
             };
             state.Registrations[i] = new WorkerRegistration(i, [], DateTimeOffset.UtcNow);
             state.PendingAssignments.Enqueue(new ModuleAssignment(
-                $"Module{i}", "System.String", [],
+                $"Module{i}", [],
                 DateTimeOffset.UtcNow, new ModuleAssignmentOptions(null, false)));
             state.ResultWaiters[$"Module{i}"] = new TaskCompletionSource<SerializedModuleResult>();
         }));
@@ -120,7 +120,7 @@ public class SignalRMasterStateTests
         await state.CompleteResultAsync(result);
 
         var waiter = state.ResultWaiters.GetOrAdd(
-            result.ModuleTypeName,
+            result.ModuleId,
             static _ => new TaskCompletionSource<SerializedModuleResult>(
                 TaskCreationOptions.RunContinuationsAsynchronously));
         await Assert.That(waiter.Task.IsCompletedSuccessfully).IsTrue();
@@ -134,7 +134,6 @@ public class SignalRMasterStateTests
             1,
             new ModuleAssignment(
                 "TestModule",
-                "System.String",
                 [],
                 DateTimeOffset.UtcNow,
                 new ModuleAssignmentOptions(null, false)));
@@ -179,7 +178,7 @@ public class SignalRMasterStateTests
         await Assert.That(pending.TryResume()).IsTrue();
         await Assert.That(state.TryClaimRedispatch(assignment)).IsFalse();
 
-        state.CompletePendingReconnect(assignment.ModuleTypeName);
+        state.CompletePendingReconnect(assignment.ModuleId);
     }
 
     [Test]
@@ -202,7 +201,7 @@ public class SignalRMasterStateTests
         await Assert.That(replacement.IsIdle).IsTrue();
         await Assert.That(state.TryClaimRedispatch(assignment)).IsTrue();
 
-        state.CompletePendingReconnect(assignment.ModuleTypeName);
+        state.CompletePendingReconnect(assignment.ModuleId);
     }
 
     [Test]
@@ -212,7 +211,7 @@ public class SignalRMasterStateTests
         {
             var state = new SignalRMasterState();
             var assignment = CreateAssignment();
-            state.ResultWaiters[assignment.ModuleTypeName] =
+            state.ResultWaiters[assignment.ModuleId] =
                 new TaskCompletionSource<SerializedModuleResult>(
                     TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -232,7 +231,7 @@ public class SignalRMasterStateTests
                 await start.Task;
                 return state.TryRestoreReconnect(
                     worker,
-                    assignment.ModuleTypeName,
+                    assignment.ModuleId,
                     out _);
             });
             var completion = Task.Run(async () =>
@@ -247,7 +246,7 @@ public class SignalRMasterStateTests
 
             foreach (var trackedWorker in workersToRelease)
             {
-                trackedWorker.TryCompleteAssignment(assignment.ModuleTypeName);
+                trackedWorker.TryCompleteAssignment(assignment.ModuleId);
             }
 
             await Assert.That(worker.IsIdle).IsTrue();
@@ -260,7 +259,7 @@ public class SignalRMasterStateTests
     {
         var state = new SignalRMasterState();
         var assignment = CreateAssignment();
-        state.ResultWaiters[assignment.ModuleTypeName] =
+        state.ResultWaiters[assignment.ModuleId] =
             new TaskCompletionSource<SerializedModuleResult>(
                 TaskCreationOptions.RunContinuationsAsynchronously);
         var pending = state.TrackPendingReconnect(CreateWorker(), assignment)!;
@@ -271,7 +270,7 @@ public class SignalRMasterStateTests
 
         var restored = state.TryRestoreReconnect(
             reconnect,
-            assignment.ModuleTypeName,
+            assignment.ModuleId,
             out var restoredAssignment);
 
         await Assert.That(restored).IsFalse();
@@ -284,7 +283,7 @@ public class SignalRMasterStateTests
     {
         var state = new SignalRMasterState();
         var assignment = CreateAssignment();
-        state.ResultWaiters[assignment.ModuleTypeName] =
+        state.ResultWaiters[assignment.ModuleId] =
             new TaskCompletionSource<SerializedModuleResult>(
                 TaskCreationOptions.RunContinuationsAsynchronously);
         var pending = state.TrackPendingReconnect(CreateWorker(), assignment)!;
@@ -337,7 +336,7 @@ public class SignalRMasterStateTests
     {
         var state = new SignalRMasterState();
         var assignment = CreateAssignment();
-        state.ResultWaiters[assignment.ModuleTypeName] =
+        state.ResultWaiters[assignment.ModuleId] =
             new TaskCompletionSource<SerializedModuleResult>(
                 TaskCreationOptions.RunContinuationsAsynchronously);
         var pending = state.TrackPendingReconnect(CreateWorker(), assignment)!;
@@ -355,7 +354,7 @@ public class SignalRMasterStateTests
         var state = new SignalRMasterState();
         var assignment = CreateAssignment();
         var retryWorker = CreateWorker(2, "retry");
-        state.ResultWaiters[assignment.ModuleTypeName] =
+        state.ResultWaiters[assignment.ModuleId] =
             new TaskCompletionSource<SerializedModuleResult>(
                 TaskCreationOptions.RunContinuationsAsynchronously);
         var pending = state.TrackPendingReconnect(CreateWorker(), assignment)!;
@@ -367,7 +366,7 @@ public class SignalRMasterStateTests
         var workersToRelease = await state.CompleteResultAsync(CreateResult());
         foreach (var worker in workersToRelease)
         {
-            worker.TryCompleteAssignment(assignment.ModuleTypeName);
+            worker.TryCompleteAssignment(assignment.ModuleId);
         }
 
         await Assert.That(workersToRelease).Contains(retryWorker);
@@ -422,7 +421,6 @@ public class SignalRMasterStateTests
     {
         return new ModuleAssignment(
             "TestModule",
-            "System.String",
             [],
             DateTimeOffset.UtcNow,
             new ModuleAssignmentOptions(null, false));
@@ -432,7 +430,6 @@ public class SignalRMasterStateTests
     {
         return new SerializedModuleResult(
             "TestModule",
-            "System.String",
             1,
             "{}",
             DateTimeOffset.UtcNow);

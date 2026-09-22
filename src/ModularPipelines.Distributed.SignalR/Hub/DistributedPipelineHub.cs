@@ -20,7 +20,7 @@ internal class DistributedPipelineHub(
     /// </summary>
     public async Task RegisterWorker(
         WorkerRegistration registration,
-        string? resumingModuleTypeName)
+        ModuleId? resumingModuleId)
     {
         var state = _masterState;
         var connectionId = Context.ConnectionId;
@@ -39,7 +39,7 @@ internal class DistributedPipelineHub(
             var supersededWorker = state.RegisterWorker(workerState);
             var supersededAssignment = supersededWorker?.ClearAssignment();
             if (supersededAssignment is not null
-                && state.ResultWaiters.TryGetValue(supersededAssignment.ModuleTypeName, out var waiter)
+                && state.ResultWaiters.TryGetValue(supersededAssignment.ModuleId, out var waiter)
                 && !waiter.Task.IsCompleted)
             {
                 supersededReconnect = state.TrackPendingReconnect(
@@ -48,7 +48,7 @@ internal class DistributedPipelineHub(
             }
 
             // The index alone cannot establish ownership of a previous process's execution.
-            restored = state.TryRestoreReconnect(workerState, resumingModuleTypeName, out recoveredAssignment);
+            restored = state.TryRestoreReconnect(workerState, resumingModuleId, out recoveredAssignment);
         }
 
         if (restored && _logger.IsEnabled(LogLevel.Information))
@@ -56,7 +56,7 @@ internal class DistributedPipelineHub(
             _logger.LogInformation(
                 "Worker {Index} reclaimed in-flight {Module}",
                 registration.WorkerIndex,
-                recoveredAssignment!.ModuleTypeName);
+                recoveredAssignment!.ModuleId);
         }
 
         if (supersededReconnect is not null)
@@ -119,7 +119,7 @@ internal class DistributedPipelineHub(
         if (_logger.IsEnabled(LogLevel.Debug))
         {
             _logger.LogDebug("Received result for {Module} from worker {Worker}",
-                result.ModuleTypeName, result.WorkerIndex);
+                result.ModuleId, result.WorkerIndex);
         }
 
         // 1. Complete the result and atomically capture workers involved in reconnect
@@ -137,7 +137,7 @@ internal class DistributedPipelineHub(
         // 2. Mark the sender and any reconnected original worker idle.
         foreach (var workerState in workersToRelease)
         {
-            if (workerState.TryCompleteAssignment(result.ModuleTypeName))
+            if (workerState.TryCompleteAssignment(result.ModuleId))
             {
                 await TryAssignPendingWork(workerState, state);
             }
@@ -147,10 +147,10 @@ internal class DistributedPipelineHub(
     /// <summary>
     /// Returns a stored module result after it becomes available.
     /// </summary>
-    public async Task<SerializedModuleResult> WaitForResult(string moduleTypeName)
+    public async Task<SerializedModuleResult> WaitForResult(ModuleId moduleId)
     {
         var waiter = _masterState.ResultWaiters.GetOrAdd(
-            moduleTypeName,
+            moduleId,
             static _ => new TaskCompletionSource<SerializedModuleResult>(
                 TaskCreationOptions.RunContinuationsAsynchronously));
 
@@ -192,7 +192,7 @@ internal class DistributedPipelineHub(
                     // Preserve registration and final metrics for run-report collection.
                     var inflight = workerState.ClearAssignment();
                     if (inflight is not null
-                        && _masterState.ResultWaiters.TryGetValue(inflight.ModuleTypeName, out var waiter)
+                        && _masterState.ResultWaiters.TryGetValue(inflight.ModuleId, out var waiter)
                         && !waiter.Task.IsCompleted)
                     {
                         pending = _masterState.TrackPendingReconnect(workerState, inflight);
@@ -246,17 +246,17 @@ internal class DistributedPipelineHub(
         }
 
         // Skip if the result arrived in the meantime.
-        if (state.ResultWaiters.TryGetValue(pending.Assignment.ModuleTypeName, out var waiter)
+        if (state.ResultWaiters.TryGetValue(pending.Assignment.ModuleId, out var waiter)
             && waiter.Task.IsCompleted)
         {
-            state.CompletePendingReconnect(pending.Assignment.ModuleTypeName);
+            state.CompletePendingReconnect(pending.Assignment.ModuleId);
             return;
         }
 
         logger.LogWarning(
             "Reconnect grace elapsed for worker {Index}; re-enqueuing in-flight module {Module}",
             pending.WorkerIndex,
-            pending.Assignment.ModuleTypeName);
+            pending.Assignment.ModuleId);
 
         state.PendingAssignments.Enqueue(pending.Assignment);
         state.WorkAvailable.Release();
@@ -276,7 +276,7 @@ internal class DistributedPipelineHub(
             // Skip if this module's result already arrived (e.g. the original worker's
             // result raced a disconnect re-enqueue). Prevents dispatching - and re-running
             // the side effects of - work that is already complete.
-            if (state.ResultWaiters.TryGetValue(assignment.ModuleTypeName, out var existingWaiter)
+            if (state.ResultWaiters.TryGetValue(assignment.ModuleId, out var existingWaiter)
                 && existingWaiter.Task.IsCompleted)
             {
                 continue;
@@ -296,14 +296,14 @@ internal class DistributedPipelineHub(
                 if (_logger.IsEnabled(LogLevel.Debug))
                 {
                     _logger.LogDebug("Assigning {Module} to worker {Index}",
-                        assignment.ModuleTypeName, workerState.Registration.WorkerIndex);
+                        assignment.ModuleId, workerState.Registration.WorkerIndex);
                 }
 
                 using var deliveryFence =
-                    await state.EnterAssignmentDeliveryFenceAsync(assignment.ModuleTypeName);
+                    await state.EnterAssignmentDeliveryFenceAsync(assignment.ModuleId).ConfigureAwait(false);
                 if (!state.TryClaimRedispatch(assignment, workerState))
                 {
-                    workerState.TryCompleteAssignment(assignment.ModuleTypeName);
+                    workerState.TryCompleteAssignment(assignment.ModuleId);
                     continue;
                 }
 
@@ -316,8 +316,8 @@ internal class DistributedPipelineHub(
                 {
                     // Send failed — undo the claim and re-queue so the module isn't lost.
                     _logger.LogWarning(ex, "Failed to assign {Module} to worker {Index}; re-queuing",
-                        assignment.ModuleTypeName, workerState.Registration.WorkerIndex);
-                    workerState.TryCompleteAssignment(assignment.ModuleTypeName);
+                        assignment.ModuleId, workerState.Registration.WorkerIndex);
+                    workerState.TryCompleteAssignment(assignment.ModuleId);
                     if (state.TryReturnRedispatchToQueue(assignment, workerState))
                     {
                         state.PendingAssignments.Enqueue(assignment);

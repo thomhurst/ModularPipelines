@@ -6,7 +6,7 @@ namespace ModularPipelines.Distributed;
 public record ArtifactReference(
     string ArtifactId,
     string Name,
-    string ModuleTypeName,
+    ModuleId ModuleId,
     long SizeBytes,
     string? ContentType,
     DateTimeOffset UploadedAt);
