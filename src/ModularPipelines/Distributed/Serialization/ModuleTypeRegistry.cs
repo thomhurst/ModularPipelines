@@ -48,7 +48,7 @@ internal class ModuleTypeRegistry
 
     public IReadOnlyList<Type> GetRegisteredModuleTypes()
     {
-        return _registry.Values.Select(entry => entry.ModuleType).ToArray();
+        return [.. _registry.Values.Select(entry => entry.ModuleType)];
     }
 
     public string GetPipelineSchemaVersion()
@@ -73,8 +73,19 @@ internal class ModuleTypeRegistry
     private static string GetModuleBuildIdentity(Type moduleType)
     {
         // ModuleId supplies the module's identity, including explicit rename overrides.
-        var argumentBuilds = string.Join("\0", moduleType.GetGenericArguments().Select(StableTypeName.GetBuildFingerprint));
-        return $"{moduleType.Module.ModuleVersionId}\0{argumentBuilds}";
+        var identity = new StringBuilder();
+        for (var current = moduleType; current is not null; current = current.BaseType)
+        {
+            identity.Append(current.Module.ModuleVersionId).Append('\0');
+            foreach (var argument in current.GetGenericArguments())
+            {
+                identity.Append(StableTypeName.GetBuildFingerprint(argument)).Append('\0');
+            }
+
+            identity.Append('\n');
+        }
+
+        return identity.ToString();
     }
 
     private static Type? GetResultType(Type moduleType)

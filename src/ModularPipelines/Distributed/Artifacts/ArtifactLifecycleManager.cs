@@ -24,7 +24,7 @@ internal class ArtifactLifecycleManager
         (ILogger?) AmbientModuleOutputContext.Current?.Logger ?? _logger;
 
     /// <summary>
-    /// Tracks completed and in-flight restores keyed by "{producerType}:{artifactName}:{normalizedRestorePath}".
+    /// Tracks completed and in-flight restores by module ID, artifact name, normalized path, and missing-artifact policy.
     /// Multiple modules consuming the same artifact to the same path share a single download.
     /// </summary>
     private readonly ConcurrentDictionary<(ModuleId Module, string Artifact, string Path, bool FailIfMissing), Lazy<Task>> _completedRestores = new();

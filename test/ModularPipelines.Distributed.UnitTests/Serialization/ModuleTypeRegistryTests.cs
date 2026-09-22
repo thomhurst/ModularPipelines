@@ -180,6 +180,57 @@ public class ModuleTypeRegistryTests
     [Test]
     [Arguments(0)]
     [Arguments(1)]
+    public async Task Schema_Detects_Different_Generic_Base_Argument_Builds(int intermediateLevels)
+    {
+        static Type BuildArgument(int version)
+        {
+            var assembly = System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(
+                new System.Reflection.AssemblyName("InheritedModuleArgumentBuild") { Version = new Version(version, 0, 0, 0) },
+                System.Reflection.Emit.AssemblyBuilderAccess.RunAndCollect);
+            return assembly.DefineDynamicModule("InheritedModuleArgumentBuild")
+                .DefineType("Argument", System.Reflection.TypeAttributes.Public).CreateType()!;
+        }
+
+        var assembly = System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(
+            new System.Reflection.AssemblyName("InheritedModuleBuild"),
+            System.Reflection.Emit.AssemblyBuilderAccess.RunAndCollect);
+        var module = assembly.DefineDynamicModule("InheritedModuleBuild");
+        const System.Reflection.TypeAttributes attributes =
+            System.Reflection.TypeAttributes.Public | System.Reflection.TypeAttributes.Abstract;
+        var baseBuilder = module.DefineType("GenericBase", attributes, typeof(Module<string>));
+        baseBuilder.DefineGenericParameters("T");
+        var genericBase = baseBuilder.CreateType()!;
+
+        Type BuildModule(string name, int version)
+        {
+            var parent = genericBase.MakeGenericType(BuildArgument(version));
+            for (var level = 0; level < intermediateLevels; level++)
+            {
+                parent = module.DefineType($"{name}Intermediate{level}", attributes, parent).CreateType()!;
+            }
+
+            var builder = module.DefineType(name, attributes, parent);
+            builder.SetCustomAttribute(new System.Reflection.Emit.CustomAttributeBuilder(
+                typeof(ModuleIdAttribute).GetConstructor([typeof(string)])!, ["inherited-generic-build"]));
+            return builder.CreateType()!;
+        }
+
+        var firstType = BuildModule("FirstModule", 1);
+        var secondType = BuildModule("SecondModule", 2);
+        var first = new ModuleTypeRegistry();
+        var second = new ModuleTypeRegistry();
+        first.Register(firstType);
+        second.Register(secondType);
+
+        await Assert.That(firstType.IsGenericType).IsFalse();
+        await Assert.That(ModuleId.FromType(firstType)).IsEqualTo(ModuleId.FromType(secondType));
+        await Assert.That(firstType.Module.ModuleVersionId).IsEqualTo(secondType.Module.ModuleVersionId);
+        await Assert.That(first.GetPipelineSchemaVersion()).IsNotEqualTo(second.GetPipelineSchemaVersion());
+    }
+
+    [Test]
+    [Arguments(0)]
+    [Arguments(1)]
     [Arguments(2)]
     public async Task Schema_Detects_Different_Result_Builds_With_Unchanged_Module_Binary(int shape)
     {
