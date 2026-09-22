@@ -69,6 +69,28 @@ public class ResultBuildIdentityTests
     }
 
     [Test]
+    public async Task Unserialized_Public_Field_Build_Does_Not_Change_Schema_Or_Reject_Result()
+    {
+        using var builds = new ResultBuilds(0, "UnserializedField");
+        var first = new ModuleTypeRegistry();
+        var second = new ModuleTypeRegistry();
+        first.Register(typeof(ResultModule<>).MakeGenericType(builds.First));
+        second.Register(typeof(ResultModule<>).MakeGenericType(builds.Second));
+
+        await Assert.That(builds.First.Module.ModuleVersionId).IsEqualTo(builds.Second.Module.ModuleVersionId);
+        await Assert.That(builds.First.GetField("Value")!.FieldType.Module.ModuleVersionId)
+            .IsNotEqualTo(builds.Second.GetField("Value")!.FieldType.Module.ModuleVersionId);
+        await Assert.That(JsonSerializer.Serialize(CreateValue(builds.First))).IsEqualTo("{}");
+        await Assert.That(JsonSerializer.Serialize(CreateValue(builds.Second))).IsEqualTo("{}");
+        await Assert.That(first.GetPipelineSchemaVersion()).IsEqualTo(second.GetPipelineSchemaVersion());
+
+        var localType = StableTypeName.Resolve(StableTypeName.Get(builds.First))!;
+        var remoteType = localType == builds.First ? builds.Second : builds.First;
+        var result = JsonSerializer.Deserialize<ModuleResult<object>>(SerializeValue(remoteType));
+        await Assert.That(result!.Value.GetType()).IsEqualTo(localType);
+    }
+
+    [Test]
     [Arguments(0)]
     [Arguments(1)]
     public async Task Schema_Rejects_Changed_Result_Base_With_Unchanged_Result_Binary(int intermediateLevels)
@@ -198,6 +220,9 @@ public class ResultBuildIdentityTests
                 typeof(JsonConverterAttribute).GetConstructor([typeof(Type)])!, [dependency]);
             switch (memberKind)
             {
+                case "UnserializedField":
+                    type.DefineField("Value", dependency, FieldAttributes.Public);
+                    break;
                 case "TypeConverter":
                     type.SetCustomAttribute(ConverterAttribute());
                     break;

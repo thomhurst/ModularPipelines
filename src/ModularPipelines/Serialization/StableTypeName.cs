@@ -138,10 +138,10 @@ internal static class StableTypeName
             }
         }
 
-        // Public fields can participate through IncludeFields; JsonInclude also opts in non-public fields.
+        // Serializer options leave IncludeFields disabled; fields require an explicit JsonInclude.
         foreach (var field in type.GetFields(flags))
         {
-            if ((field.IsPublic || field.IsDefined(typeof(JsonIncludeAttribute)))
+            if (field.IsDefined(typeof(JsonIncludeAttribute))
                 && field.GetCustomAttribute<JsonIgnoreAttribute>()?.Condition != JsonIgnoreCondition.Always)
             {
                 yield return (field, field.FieldType);
