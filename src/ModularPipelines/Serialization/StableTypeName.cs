@@ -12,9 +12,10 @@ internal static class StableTypeName
     private static readonly ConditionalWeakTable<Type, string> BuildFingerprints = [];
     // The trusted-platform list includes application assemblies. Only shared-framework
     // dependency manifests identify directories whose implementation builds may vary.
+    // The host separates these manifests with semicolons on every platform.
     private static readonly HashSet<string> SharedFrameworkDirectories =
         ((string?) AppContext.GetData("APP_CONTEXT_DEPS_FILES") ?? string.Empty)
-        .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries)
+        .Split(';', StringSplitOptions.RemoveEmptyEntries)
         .Where(path => Path.GetFileName(path) is "Microsoft.NETCore.App.deps.json"
             or "Microsoft.AspNetCore.App.deps.json" or "Microsoft.WindowsDesktop.App.deps.json")
         .Select(path => Path.GetDirectoryName(path)!)
