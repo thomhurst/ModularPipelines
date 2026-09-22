@@ -10,6 +10,15 @@ namespace ModularPipelines.Serialization;
 internal static class StableTypeName
 {
     private static readonly ConditionalWeakTable<Type, string> BuildFingerprints = [];
+    // The trusted-platform list includes application assemblies. Only shared-framework
+    // dependency manifests identify directories whose implementation builds may vary.
+    private static readonly HashSet<string> SharedFrameworkDirectories =
+        ((string?) AppContext.GetData("APP_CONTEXT_DEPS_FILES") ?? string.Empty)
+        .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries)
+        .Where(path => Path.GetFileName(path) is "Microsoft.NETCore.App.deps.json"
+            or "Microsoft.AspNetCore.App.deps.json" or "Microsoft.WindowsDesktop.App.deps.json")
+        .Select(path => Path.GetDirectoryName(path)!)
+        .ToHashSet(OperatingSystem.IsWindows() ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal);
 
     public static string Get(Type type) =>
         $"{GetTypeSpecification(type)}, {type.Assembly.GetName().Name}";
@@ -20,7 +29,8 @@ internal static class StableTypeName
 
     private static string GetBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions)
     {
-        var identity = $"{Get(type)}\0{type.Module.ModuleVersionId}";
+        var frameworkType = IsFrameworkAssembly(type.Assembly);
+        var identity = frameworkType ? Get(type) : $"{Get(type)}\0{type.Module.ModuleVersionId}";
         // Types can recur through base classes, generic arguments, and serialized members.
         if (!visitedTypes.Add(type))
         {
@@ -38,6 +48,13 @@ internal static class StableTypeName
             identity += $"\0Arguments={arguments}";
         }
 
+        // Framework servicing builds do not define the application's wire contract.
+        // Generic arguments still need validation, e.g. List<ApplicationResult>.
+        if (frameworkType)
+        {
+            return identity;
+        }
+
         // Node<T>.Next can be Node<Node<T>>. Expand each definition once, while still
         // recording every encountered construction and its argument builds above.
         if (!expandedDefinitions.Add(type.IsGenericType ? type.GetGenericTypeDefinition() : type))
@@ -50,7 +67,7 @@ internal static class StableTypeName
             identity += $"\0Base={GetBuildIdentity(baseType, visitedTypes, expandedDefinitions)}";
         }
 
-        foreach (var memberType in GetSerializedMemberTypes(type).Distinct().OrderBy(Get, StringComparer.Ordinal))
+        foreach (var memberType in GetSerializationContractTypes(type).Distinct().OrderBy(Get, StringComparer.Ordinal))
         {
             identity += $"\0Member={GetBuildIdentity(memberType, visitedTypes, expandedDefinitions)}";
         }
@@ -58,8 +75,40 @@ internal static class StableTypeName
         return identity;
     }
 
+    [UnconditionalSuppressMessage("SingleFile", "IL3000", Justification = "Locationless assemblies retain build validation; CoreLib is recognized by assembly identity.")]
+    public static bool IsFrameworkAssembly(Assembly assembly) =>
+        assembly == typeof(object).Assembly
+        || (!assembly.IsDynamic && !string.IsNullOrEmpty(assembly.Location)
+            && SharedFrameworkDirectories.Contains(Path.GetDirectoryName(assembly.Location)!));
+
     [UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Runtime result serialization and its build fingerprints are explicitly unsupported in trimmed applications.")]
-    private static IEnumerable<Type> GetSerializedMemberTypes(Type type)
+    private static IEnumerable<Type> GetSerializationContractTypes(Type type)
+    {
+        foreach (var converterType in GetConverterTypes(type))
+        {
+            yield return converterType;
+        }
+
+        foreach (var (member, memberType) in GetSerializedMembers(type))
+        {
+            yield return memberType;
+            foreach (var converterType in GetConverterTypes(member))
+            {
+                yield return converterType;
+            }
+        }
+
+        if (type.IsInterface)
+        {
+            foreach (var parent in type.GetInterfaces())
+            {
+                yield return parent;
+            }
+        }
+    }
+
+    [UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Runtime result serialization and its build fingerprints are explicitly unsupported in trimmed applications.")]
+    private static IEnumerable<(MemberInfo Member, Type Type)> GetSerializedMembers(Type type)
     {
         const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
         foreach (var property in type.GetProperties(flags))
@@ -69,7 +118,7 @@ internal static class StableTypeName
                     || property.IsDefined(typeof(JsonIncludeAttribute)))
                 && property.GetCustomAttribute<JsonIgnoreAttribute>()?.Condition != JsonIgnoreCondition.Always)
             {
-                yield return property.PropertyType;
+                yield return (property, property.PropertyType);
             }
         }
 
@@ -79,15 +128,20 @@ internal static class StableTypeName
             if ((field.IsPublic || field.IsDefined(typeof(JsonIncludeAttribute)))
                 && field.GetCustomAttribute<JsonIgnoreAttribute>()?.Condition != JsonIgnoreCondition.Always)
             {
-                yield return field.FieldType;
+                yield return (field, field.FieldType);
             }
         }
+    }
 
-        if (type.IsInterface)
+    private static IEnumerable<Type> GetConverterTypes(MemberInfo member)
+    {
+        if (member.GetCustomAttribute<JsonConverterAttribute>() is { } converter)
         {
-            foreach (var parent in type.GetInterfaces())
+            // A derived attribute can create the converter itself instead of supplying ConverterType.
+            yield return converter.GetType();
+            if (converter.ConverterType is { } converterType)
             {
-                yield return parent;
+                yield return converterType;
             }
         }
     }

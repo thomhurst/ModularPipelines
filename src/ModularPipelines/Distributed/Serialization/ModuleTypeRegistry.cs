@@ -76,6 +76,12 @@ internal class ModuleTypeRegistry
         var identity = new StringBuilder();
         for (var current = moduleType; current is not null; current = current.BaseType)
         {
+            if (StableTypeName.IsFrameworkAssembly(current.Assembly))
+            {
+                identity.Append(StableTypeName.GetBuildFingerprint(current)).Append('\n');
+                break;
+            }
+
             identity.Append(current.Module.ModuleVersionId).Append('\0');
             foreach (var argument in current.GetGenericArguments())
             {

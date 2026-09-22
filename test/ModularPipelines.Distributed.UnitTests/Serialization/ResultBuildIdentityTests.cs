@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.Loader;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using ModularPipelines.Attributes;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Enums;
@@ -42,6 +43,9 @@ public class ResultBuildIdentityTests
     [Arguments("Property", 0)]
     [Arguments("Property", 1)]
     [Arguments("Field", 0)]
+    [Arguments("TypeConverter", 0)]
+    [Arguments("PropertyConverter", 0)]
+    [Arguments("FieldConverter", 0)]
     public async Task Schema_And_Runtime_Reject_Changed_Member_With_Unchanged_Result_Binary(string memberKind, int intermediateLevels)
     {
         using var builds = new ResultBuilds(intermediateLevels, memberKind);
@@ -116,6 +120,23 @@ public class ResultBuildIdentityTests
             Status = ModuleStatus.Succeeded,
         });
 
+    public class ObjectConverter : JsonConverter<object>
+    {
+        public override bool CanConvert(Type typeToConvert) => true;
+
+        public override object Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            using var document = JsonDocument.ParseValue(ref reader);
+            return Activator.CreateInstance(typeToConvert)!;
+        }
+
+        public override void Write(Utf8JsonWriter writer, object value, JsonSerializerOptions options)
+        {
+            writer.WriteStartObject();
+            writer.WriteEndObject();
+        }
+    }
+
     private sealed class ResultBuilds : IDisposable
     {
         private readonly AssemblyLoadContext _firstContext = new(null, isCollectible: true);
@@ -128,8 +149,9 @@ public class ResultBuildIdentityTests
         public ResultBuilds(int intermediateLevels, string memberKind = "Base")
         {
             var baseName = $"ResultBase_{Guid.NewGuid():N}";
-            var firstBase = Load(_firstContext, BuildBase(baseName, "Original")).GetType("ResultBase")!;
-            Load(_secondContext, BuildBase(baseName, "Changed"));
+            var converter = memberKind.EndsWith("Converter", StringComparison.Ordinal);
+            var firstBase = Load(_firstContext, BuildBase(baseName, "Original", converter)).GetType("ResultBase")!;
+            Load(_secondContext, BuildBase(baseName, "Changed", converter));
 
             var derived = new PersistedAssemblyBuilder(new AssemblyName($"Derived_{Guid.NewGuid():N}"), typeof(object).Assembly);
             var module = derived.DefineDynamicModule("Derived");
@@ -148,30 +170,48 @@ public class ResultBuildIdentityTests
         private static Type DefineResultType(ModuleBuilder module, string name, Type dependency, string memberKind)
         {
             var type = module.DefineType(name, TypeAttributes.Public, memberKind == "Base" ? dependency : typeof(object));
-            if (memberKind == "Property")
+            CustomAttributeBuilder ConverterAttribute() => new(
+                typeof(JsonConverterAttribute).GetConstructor([typeof(Type)])!, [dependency]);
+            if (memberKind == "TypeConverter")
             {
-                var property = type.DefineProperty("Value", PropertyAttributes.None, dependency, null);
+                type.SetCustomAttribute(ConverterAttribute());
+            }
+            else if (memberKind is "Property" or "PropertyConverter")
+            {
+                var propertyType = memberKind == "PropertyConverter" ? typeof(object) : dependency;
+                var property = type.DefineProperty("Value", PropertyAttributes.None, propertyType, null);
+                if (memberKind == "PropertyConverter")
+                {
+                    property.SetCustomAttribute(ConverterAttribute());
+                }
+
                 var getter = type.DefineMethod("get_Value",
-                    MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig, dependency, Type.EmptyTypes);
+                    MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig, propertyType, Type.EmptyTypes);
                 var il = getter.GetILGenerator();
                 il.Emit(OpCodes.Ldnull);
                 il.Emit(OpCodes.Ret);
                 property.SetGetMethod(getter);
             }
-            else if (memberKind == "Field")
+            else if (memberKind is "Field" or "FieldConverter")
             {
-                var field = type.DefineField("Value", dependency, FieldAttributes.Public);
+                var fieldType = memberKind == "FieldConverter" ? typeof(object) : dependency;
+                var field = type.DefineField("Value", fieldType, FieldAttributes.Public);
                 field.SetCustomAttribute(new CustomAttributeBuilder(
-                    typeof(System.Text.Json.Serialization.JsonIncludeAttribute).GetConstructor(Type.EmptyTypes)!, []));
+                    typeof(JsonIncludeAttribute).GetConstructor(Type.EmptyTypes)!, []));
+                if (memberKind == "FieldConverter")
+                {
+                    field.SetCustomAttribute(ConverterAttribute());
+                }
             }
 
             return type.CreateType()!;
         }
 
-        private static byte[] BuildBase(string name, string propertyName)
+        private static byte[] BuildBase(string name, string propertyName, bool converter)
         {
             var assembly = new PersistedAssemblyBuilder(new AssemblyName(name), typeof(object).Assembly);
-            var type = assembly.DefineDynamicModule(name).DefineType("ResultBase", TypeAttributes.Public);
+            var type = assembly.DefineDynamicModule(name).DefineType("ResultBase", TypeAttributes.Public,
+                converter ? typeof(ObjectConverter) : typeof(object));
             var property = type.DefineProperty(propertyName, PropertyAttributes.None, typeof(string), null);
             var getter = type.DefineMethod($"get_{propertyName}",
                 MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig, typeof(string), Type.EmptyTypes);
