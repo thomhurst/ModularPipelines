@@ -939,6 +939,21 @@ public class GeneratorUtilsTests
     [Arguments("Token", "The authentication token value used to access the resource.", true)]
     [Arguments("SecretLocation", "The secret value to store.", true)]
     [Arguments("PrivateKeyLocation", "The private key content to send.", true)]
+    [Arguments("SslKeyFile", "Client Key - The base64 encoded content of a .pem or .crt file containing the client private key (for 2-way SSL).", true)]
+    [Arguments("SslKeyFile", "Client Key: Specify the base64-encoded contents of a .pem file containing the client private key.", true)]
+    [Arguments("SslKeyFile", "The base64 encoded private key of the PostgreSQL server.", true)]
+    [Arguments("KeyStoreFile", "The base64 encoded content of the KeyStore file.", true)]
+    [Arguments("WalletFile", "The wallet contents Oracle Goldengate uses to make connections to a database. This attribute is expected to be base64 encoded.", true)]
+    [Arguments("SslKeyFile", "Client Key - Path to the file containing the client private key.", false)]
+    [Arguments("SslKeyFile", "The file containing the base64 encoded private key.", false)]
+    [Arguments("KeyStoreFile", "Path to the KeyStore file.", false)]
+    [Arguments("WalletFile", "The wallet file to read.", false)]
+    [Arguments("TrustStoreFile", "The base64 encoded content of the TrustStore file.", false)]
+    [Arguments("SslCertFile", "Client Certificate - The base64 encoded content of a .pem file containing the client public key.", false)]
+    [Arguments("Credential", "ID of the oauth client credential or fully qualified identifier for the oauth client credential.", false)]
+    [Arguments("Credential", "ID of the oauth-client credential or fully qualified identifier for the oauth-client credential.", false)]
+    [Arguments("Credential", "The oauth client credential id of the oauth client resource.", false)]
+    [Arguments("Credential", "The credential value for the oauth client resource.", true)]
     public async Task IsSecretOption_Distinguishes_Material_From_Resource_Identifiers_And_Paths(
         string propertyName, string description, bool secret)
     {

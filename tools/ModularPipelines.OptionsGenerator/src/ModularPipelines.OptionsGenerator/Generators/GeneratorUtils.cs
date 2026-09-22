@@ -940,7 +940,7 @@ public static partial class GeneratorUtils
         ["Count", "Length", "Size", "Age", "Duration", "Validity", "Lifetime", "Seconds", "Minutes", "Hours", "Days"];
 
     private const string SecretDescriptionKeywordPattern =
-        @"secret|password|passphrase|token|credential|api[\s-]*key|private[\s-]*key|access[\s-]*key|secret[\s-]*key|service[\s-]*account[\s-]*key|one[\s-]*time[\s-]*password|otp";
+        @"secret|password|passphrase|token|credential|api[\s-]*key|private[\s-]*key|access[\s-]*key|secret[\s-]*key|service[\s-]*account[\s-]*key|one[\s-]*time[\s-]*password|otp|key[\s-]*store|wallet";
 
     private const string SecretMaterialTermPattern = @"value|contents?|body|material|payload";
 
@@ -1028,7 +1028,9 @@ public static partial class GeneratorUtils
 
     private static bool DescriptionIdentifiesSecretValue(string? description) =>
         !string.IsNullOrWhiteSpace(description)
-        && SecretMaterialDescriptionPattern().IsMatch(description);
+        && (SecretMaterialDescriptionPattern().IsMatch(description)
+            || (InlineFileContentDescriptionPattern().IsMatch(description)
+                && SecretKeywordDescriptionPattern().IsMatch(description)));
 
     [GeneratedRegex(
         @"\A\s*(?:(?:sets?|specifies?|controls?)\s+)?(?:the\s+)?(?:(?:maximum|minimum)\s+)?(?:total\s+)?(?:number|count)\s+of\b",
@@ -1042,6 +1044,10 @@ public static partial class GeneratorUtils
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex SecretMaterialDescriptionPattern();
 
+    [GeneratedRegex(@"\b(?:" + SecretDescriptionKeywordPattern + @")\b",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex SecretKeywordDescriptionPattern();
+
     internal static bool IsFilePathOption(string propertyName, string? description)
     {
         // Some CLIs use a -file name for inline file contents. An explicit content
@@ -1053,7 +1059,11 @@ public static partial class GeneratorUtils
                    NegatedFilePathPattern().Replace(description, string.Empty)));
     }
 
-    [GeneratedRegex(@"\A\s*(?:(?:sets?|specif(?:y|ies)|provides?|suppl(?:y|ies)|uses?)\s+)?(?:the\s+)?(?:(?:base64|base-64)(?:\s+|-)encoded\s+)?contents?\s+of\b",
+    [GeneratedRegex(@"\A\s*(?:[\w]+(?:[ -][\w]+){0,5}\s*(?::|\s-\s)\s*)?"
+        + @"(?:(?:sets?|specif(?:y|ies)|provides?|suppl(?:y|ies)|uses?)\s+)?(?:the\s+)?"
+        + @"(?:(?:(?:base64|base-64)(?:\s+|-)encoded\s+)?contents?\s+of\b"
+        + @"|(?:" + SecretDescriptionKeywordPattern + @")\s+contents?\b"
+        + @"|(?:base64|base-64)(?:\s+|-)encoded\s+(?:" + SecretDescriptionKeywordPattern + @")\b)",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex InlineFileContentDescriptionPattern();
 
@@ -1066,7 +1076,7 @@ public static partial class GeneratorUtils
     [GeneratedRegex(@"\bpath\s+to\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex FilePathDescriptionPattern();
 
-    [GeneratedRegex(@"\bID of the \w+ or fully qualified identifier\b|\bthe \w+ id of the \w+ resource\b"
+    [GeneratedRegex(@"\bID\s+of\s+the\s+[\w-]+(?:\s+[\w-]+)*?\s+or\s+fully\s+qualified\s+identifier\b|\bthe\s+[\w-]+(?:\s+[\w-]+)*?\s+id\s+of\s+the\s+[\w-]+(?:\s+[\w-]+)*?\s+resource\b"
         + @"|^(?:the\s+)?name of (?:the\s+)?[\w -]+?\s+to (?:create|update|delete)\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex ResourceIdentifierDescriptionPattern();
 
