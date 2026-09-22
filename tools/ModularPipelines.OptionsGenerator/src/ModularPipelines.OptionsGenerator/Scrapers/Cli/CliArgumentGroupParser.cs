@@ -62,6 +62,7 @@ internal static partial class CliArgumentGroupParser
                 stack,
                 declaration.Argument.Indentation,
                 preludeIndentation);
+            EndSingleOptionDescriptionGroup(stack, declaration.Argument, prelude, optionalOptionGroups);
             // Plain prose can separate unnamed groups, but cannot remove a sibling
             // argument from an established constraint group without an explicit heading.
             var preludeStartsGroup = StartsArgumentGroup(preludeLines, prelude)
@@ -166,6 +167,37 @@ internal static partial class CliArgumentGroupParser
         while (stack.Count > 1
                && (argumentIndentation < stack.Peek().Indentation
                    || preludeIndentation < stack.Peek().Indentation))
+        {
+            stack.Pop();
+        }
+    }
+
+    private static void EndSingleOptionDescriptionGroup(
+        Stack<ArgumentGroupBuilder> stack,
+        CliArgumentDefinition argument,
+        string? prelude,
+        IReadOnlyList<IReadOnlySet<string>>? optionalOptionGroups)
+    {
+        if (stack.Count == 1 || !string.IsNullOrWhiteSpace(prelude))
+        {
+            return;
+        }
+
+        var current = stack.Peek();
+        if (stack.Any(group => group.IsNamedBundle || Classify(group.Description) != CliArgumentGroupKind.None)
+            || string.IsNullOrWhiteSpace(current.Description)
+            || current.Arguments.Count == 0
+            || argument.Indentation != current.Indentation
+            || argument.Indentation != current.HeadingIndentation)
+        {
+            return;
+        }
+
+        // Co-indented prose introduces the following option. A synopsis bundle
+        // explicitly keeps any additional peer options within the same context.
+        var sharesOptionalGroup = optionalOptionGroups?.Any(group => group.Contains(argument.SwitchName)
+            && current.Arguments.All(member => group.Contains(member.SwitchName))) == true;
+        if (!sharesOptionalGroup)
         {
             stack.Pop();
         }
@@ -478,7 +510,7 @@ internal static partial class CliArgumentGroupParser
     [GeneratedRegex(@"^\s*\S\s+provide the argument\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex WrappedArgumentReferencePattern();
 
-    [GeneratedRegex(@"^(?:(?:Defines the )?configuration for|config for|parameters to support|(?:Bearer token|Basic) authentication with)\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    [GeneratedRegex(@"^(?:(?:Defines the )?configuration for|config for|parameters to support|(?:Bearer token|Basic) authentication with|(?:The )?properties of)\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex NamedBundleHeadingPattern();
 
     [GeneratedRegex(@"^(?:(?:[\w-]+\s+)*configuration for\b|options for\b)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
