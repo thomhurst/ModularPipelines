@@ -175,8 +175,9 @@ public partial class GcloudCliScraper : CliScraperBase
             {
                 // The declared value grammar can wrap across lines. Its brackets and
                 // spaces describe an option value, not additional positional operands.
-                var valuePattern = string.Concat(argument.ValueHint!.Select(character => char.IsWhiteSpace(character)
-                    ? @"\s+" : Regex.Escape(character.ToString()) + @"\s*"));
+                // Keep whitespace after the final value character so separate synopses stay separate.
+                var valuePattern = string.Join(@"\s*", argument.ValueHint!.Select(character => char.IsWhiteSpace(character)
+                    ? @"\s+" : Regex.Escape(character.ToString())));
                 normalized = Regex.Replace(normalized,
                     @"(?<![\w-])" + Regex.Escape(argument.SwitchName) + "=" + valuePattern + @"(?![\w])"
                     + @"(?:,\s*-[\w-]+(?:\s+|=)" + valuePattern + @"(?![\w]))?",

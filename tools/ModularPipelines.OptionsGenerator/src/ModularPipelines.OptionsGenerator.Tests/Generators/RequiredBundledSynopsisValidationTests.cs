@@ -9,13 +9,22 @@ public partial class RequiredConstructorValidationTests
     [Arguments("(TARGET --mode=MODE | --global)", false)]
     [Arguments("(--global | TARGET --mode=MODE)", false)]
     [Arguments("(TARGET --mode=MODE | --global --region=REGION)", true)]
-    public async Task Required_Bundled_Synopsis_Validates_Complete_Alternatives(string syntax, bool requiresRegion)
+    [Arguments("(TARGET --mode=MODE | --global)", false, "TARGET")]
+    [Arguments("(TARGET --mode=MODE | --global)", false, "--mode=MODE")]
+    [Arguments("(TARGET --mode=MODE | --global)", false, "TARGET --region=REGION")]
+    [Arguments("(TARGET --mode=MODE | --global)", false, "[TARGET]")]
+    [Arguments("(TARGET --mode=MODE | --global)", false, "(--mode=MODE | --region=REGION)")]
+    [Arguments("(TARGET --mode=MODE | --global) --mode=MODE", false, "TARGET", true)]
+    [Arguments("(TARGET --mode=MODE | --global)", false, "OBJECT")]
+    public async Task Required_Bundled_Synopsis_Validates_Complete_Alternatives(
+        string syntax, bool requiresRegion, string? alternateSyntax = null, bool requiresMode = false)
     {
+        var alternateSynopsis = alternateSyntax is null ? "" : $"\n    gcloud example run {alternateSyntax}";
         var help = $$"""
             NAME
                 gcloud example run - run an example
             SYNOPSIS
-                gcloud example run {{syntax}}
+                gcloud example run {{syntax}}{{alternateSynopsis}}
             POSITIONAL ARGUMENTS
                  [TARGET]
                     The target.
@@ -28,6 +37,7 @@ public partial class RequiredConstructorValidationTests
                     The region.
             """;
         var command = (await GcloudResourceArgumentTests.ScrapeFixture("example run", help)).Single();
+        await Assert.That(command.PositionalArguments.Single().IsRequired).IsFalse().Because(command.UsageSynopsis!);
         var generated = await Generate([.. command.Options], command.PositionalArguments, command.RequiredAlternativeGroups);
         var optionsType = Compile(generated).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
 
@@ -43,10 +53,22 @@ public partial class RequiredConstructorValidationTests
             optionsType.GetProperty("Global")!.SetValue(instance, global ? true : null);
             optionsType.GetProperty("Region")!.SetValue(instance, region ? "region" : null);
             var errors = new List<ValidationResult>();
+            var alternateValid = IsCompleteAlternateSynopsis(alternateSyntax, target, mode, region);
+            var primaryValid = (!requiresMode || mode) && ((target && mode) || (global && (!requiresRegion || region)));
 
             await Assert.That(Validator.TryValidateObject(instance, new(instance), errors, true))
-                .IsEqualTo((target && mode) || (global && (!requiresRegion || region)))
+                .IsEqualTo(alternateValid || primaryValid)
                 .Because($"Selection {selection}: {string.Join("; ", errors)}");
         }
     }
+
+    private static bool IsCompleteAlternateSynopsis(string? syntax, bool target, bool mode, bool region) => syntax switch
+    {
+        "TARGET" or "OBJECT" => target,
+        "--mode=MODE" => mode,
+        "TARGET --region=REGION" => target && region,
+        "[TARGET]" => true,
+        "(--mode=MODE | --region=REGION)" => mode || region,
+        _ => false,
+    };
 }

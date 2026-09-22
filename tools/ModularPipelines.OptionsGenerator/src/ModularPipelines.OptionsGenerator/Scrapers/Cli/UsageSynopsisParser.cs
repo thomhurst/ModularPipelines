@@ -193,6 +193,7 @@ public static class UsageSynopsisParser
         return new UsageSynopsisParseResult
         {
             Synopsis = synopsis,
+            OperandTokens = materializedOperandTokens,
             CommandMatched = true,
             MatchedCommandPartCount = commandMatch.PartCount,
             HasOperandTokens = parsedOperands.Arguments.Count > 0
@@ -344,6 +345,12 @@ public static class UsageSynopsisParser
         UsageSynopsisParseResult selected,
         IReadOnlyList<UsageSynopsisParseResult> candidates)
     {
+        if (candidates.Count > 1 && candidates.Any(candidate => candidate.RequiredAlternativeGroups
+                .Any(static group => group.IsRequired && group.Groups.Count > 0)))
+        {
+            return GetBundledCrossSynopsisGroups(selected, candidates);
+        }
+
         var candidateMemberKeys = candidates.Select(GetRequiredAlternativeMemberKeys).ToArray();
         return
         [
@@ -355,6 +362,75 @@ public static class UsageSynopsisParser
             .. GetCrossSynopsisRequiredAlternativeGroups(candidates, selected.PositionalArguments),
         ];
     }
+
+    private static IReadOnlyList<UsageRequiredAlternativeGroup> GetBundledCrossSynopsisGroups(
+        UsageSynopsisParseResult selected,
+        IReadOnlyList<UsageSynopsisParseResult> candidates)
+    {
+        var commonOptionalGroups = selected.RequiredAlternativeGroups.Where(group => !group.IsRequired
+            && candidates.All(candidate => candidate.RequiredAlternativeGroups.Any(alternative => HaveSameConstraint(group, alternative))));
+        var forms = candidates.Select(candidate => CreateRequiredSynopsisForm(candidate, selected.PositionalArguments)).ToArray();
+        var selectedNames = selected.PositionalArguments.Select(static argument => argument.PropertyName).ToHashSet(StringComparer.Ordinal);
+        if (forms.Any(static form => form.Members.Count == 0 && form.Groups.Count == 0)
+            || forms.SelectMany(static form => form.EnumerateMembers()).Any(member =>
+                member.PositionalPropertyName is { } name && !selectedNames.Contains(name)))
+        {
+            return [.. commonOptionalGroups];
+        }
+
+        // Accepted synopses are alternatives. Preserve each whole form, including its
+        // nested conjunctions, rather than retaining a constraint from partial overlap.
+        return [.. commonOptionalGroups, new UsageRequiredAlternativeGroup { Members = [], Groups = forms }];
+    }
+
+    private static UsageRequiredAlternativeGroup CreateRequiredSynopsisForm(
+        UsageSynopsisParseResult candidate,
+        IReadOnlyList<CliPositionalArgument> selectedArguments)
+    {
+        var mappedArguments = MapAlternativeArguments(candidate, selectedArguments);
+        var names = candidate.PositionalArguments.Zip(mappedArguments)
+            .GroupBy(static pair => pair.First.PropertyName, StringComparer.Ordinal)
+            .ToDictionary(static group => group.Key, static group => group.First().Second.PropertyName, StringComparer.Ordinal);
+        var groups = candidate.RequiredAlternativeGroups.Where(static group => group.IsRequired)
+            .Select(group => MapGroupPositionalNames(group, names)).ToArray();
+        var unconditional = ParseOperandTokens(GetUnconditionalTokens(candidate.OperandTokens), CommandLinePhase.EarlyOperand);
+        var members = GetRequiredAlternativeMembers(new ParsedOperands(
+            mappedArguments, candidate.UnparsedOperandTokens, unconditional.RequiredOptionSwitches));
+        return new UsageRequiredAlternativeGroup
+        {
+            IsChoice = false,
+            Members = CollapseOptionAliases(members, candidate.Synopsis ?? ""),
+            Groups = groups,
+        };
+    }
+
+    private static IEnumerable<string> GetUnconditionalTokens(IEnumerable<string> tokens)
+    {
+        foreach (var token in tokens)
+        {
+            if (!IsWrapped(token))
+            {
+                yield return token;
+                continue;
+            }
+
+            if (IsRequiredUsageToken(token) && SplitTopLevelAlternatives(TrimWrapper(token)).Count == 1)
+            {
+                foreach (var nested in GetUnconditionalTokens(Tokenize(TrimWrapper(token))))
+                {
+                    yield return nested;
+                }
+            }
+        }
+    }
+
+    private static UsageRequiredAlternativeGroup MapGroupPositionalNames(
+        UsageRequiredAlternativeGroup group, IReadOnlyDictionary<string, string> names) => group with
+        {
+            Members = [.. group.Members.Select(member => member.PositionalPropertyName is { } name && names.TryGetValue(name, out var mapped)
+            ? member with { PositionalPropertyName = mapped } : member)],
+            Groups = [.. group.Groups.Select(nested => MapGroupPositionalNames(nested, names))],
+        };
 
     // An optional constraint may apply globally only when every accepted form declares it.
     private static bool HaveSameConstraint(UsageRequiredAlternativeGroup left, UsageRequiredAlternativeGroup right) =>
@@ -425,6 +501,12 @@ public static class UsageSynopsisParser
 
     private static IReadOnlyList<UsageRequiredAlternativeMember> MapAlternativePositionalNames(
         UsageSynopsisParseResult candidate,
+        IReadOnlyList<CliPositionalArgument> selectedArguments) =>
+        GetRequiredAlternativeMembers(new ParsedOperands(
+            MapAlternativeArguments(candidate, selectedArguments), candidate.UnparsedOperandTokens, candidate.RequiredOptionSwitches));
+
+    private static CliPositionalArgument[] MapAlternativeArguments(
+        UsageSynopsisParseResult candidate,
         IReadOnlyList<CliPositionalArgument> selectedArguments)
     {
         var selectedPositionals = selectedArguments.Where(static argument => argument.AssociatedOptionSwitch is null).ToArray();
@@ -451,8 +533,7 @@ public static class UsageSynopsisParser
             }
         }
 
-        return GetRequiredAlternativeMembers(new ParsedOperands(
-            arguments, candidate.UnparsedOperandTokens, candidate.RequiredOptionSwitches));
+        return arguments;
     }
 
     private static bool SupportsRequiredAlternativeInference(IEnumerable<string> operandTokens)
@@ -852,6 +933,7 @@ public static class UsageSynopsisParser
             usage = usage with
             {
                 Synopsis = selected.Synopsis,
+                OperandTokens = selected.OperandTokens,
                 ArgumentGroupSynopsis = selected.ArgumentGroupSynopsis,
                 HasOperandTokens = selected.PositionalArguments.Count > 0 || selected.UnparsedOperandTokens.Count > 0,
                 PositionalArguments = selected.PositionalArguments,
@@ -2339,6 +2421,8 @@ public static class UsageSynopsisParser
 /// </summary>
 public sealed record UsageSynopsisParseResult
 {
+    internal IReadOnlyList<string> OperandTokens { get; init; } = [];
+
     // Retains option-group syntax that a tool defers while parsing positional operands.
     internal string? ArgumentGroupSynopsis { get; init; }
 
