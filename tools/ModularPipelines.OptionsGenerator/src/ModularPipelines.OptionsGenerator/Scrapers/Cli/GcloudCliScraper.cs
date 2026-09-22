@@ -145,7 +145,7 @@ public partial class GcloudCliScraper : CliScraperBase
             ArgumentGroups = parsedOptions.ArgumentGroups,
             RequiredAlternativeGroups = parsedOptions.RequiredAlternativeGroups,
             PositionalArguments = positionalArgs,
-            UsageSynopsis = usage.Synopsis,
+            UsageSynopsis = parsedOptions.Usage.Synopsis,
             SubDomainGroup = subDomain,
             Enums = enums
         };
@@ -201,13 +201,22 @@ public partial class GcloudCliScraper : CliScraperBase
             .Select(argument => NormalizePropertyName(argument.SwitchName)!));
         var usage = UsageSynopsisParser.RemoveCommandGroupPlaceholders(
             base.ParseUsageSynopsis(commandPath, helpText), dispatchPlaceholders);
-        var selected = argumentGroupSynopses
-            .Where(candidate => NormalizeWhitespace(candidate.Deferred) == NormalizeWhitespace(usage.Synopsis ?? ""))
-            .Select(candidate => candidate.Original).Distinct(StringComparer.Ordinal).ToArray();
         return usage with
         {
-            ArgumentGroupSynopsis = selected is [var selectedSynopsis] ? selectedSynopsis : null,
+            ArgumentGroupSynopsis = FindArgumentGroupSynopsis(usage.Synopsis),
+            RequirednessCandidates = [.. usage.RequirednessCandidates.Select(candidate => candidate with
+            {
+                ArgumentGroupSynopsis = FindArgumentGroupSynopsis(candidate.Synopsis),
+            })],
         };
+
+        string? FindArgumentGroupSynopsis(string? synopsis)
+        {
+            var selected = argumentGroupSynopses
+                .Where(candidate => NormalizeWhitespace(candidate.Deferred) == NormalizeWhitespace(synopsis ?? ""))
+                .Select(candidate => candidate.Original).Distinct(StringComparer.Ordinal).ToArray();
+            return selected is [var selectedSynopsis] ? selectedSynopsis : null;
+        }
 
         static string NormalizeWhitespace(string value) => string.Join(' ', value.Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries));
     }
@@ -314,7 +323,7 @@ public partial class GcloudCliScraper : CliScraperBase
 
     private (List<CliOptionDefinition> Options, IReadOnlyList<CliArgumentGroup> ArgumentGroups,
         IReadOnlyList<CliRequiredAlternativeGroup> RequiredAlternativeGroups,
-        IReadOnlyList<CliPositionalArgument> PositionalArguments) ParseArguments(
+        IReadOnlyList<CliPositionalArgument> PositionalArguments, UsageSynopsisParseResult Usage) ParseArguments(
         string helpText,
         IReadOnlyList<string> commandParts,
         string[] commandPath,
@@ -357,6 +366,7 @@ public partial class GcloudCliScraper : CliScraperBase
             }
         }
 
+        usage = UsageSynopsisParser.ResolveOptionUsage(usage, GetUsageOptions(options));
         var positionalArguments = ParsePositionalArguments(usage, commandPath, argumentGroups, options);
         foreach (var (name, argumentGroup) in sections)
         {
@@ -366,7 +376,7 @@ public partial class GcloudCliScraper : CliScraperBase
 
         ReconcileRequiredSynopsisChoices(usage.ArgumentGroupSynopsis ?? usage.Synopsis, options, requiredAlternativeGroups);
 
-        return (options, argumentGroups, requiredAlternativeGroups, positionalArguments);
+        return (options, argumentGroups, requiredAlternativeGroups, positionalArguments, usage);
     }
 
     private static void ReconcileRequiredSynopsisChoices(string? synopsis, IReadOnlyList<CliOptionDefinition> options,

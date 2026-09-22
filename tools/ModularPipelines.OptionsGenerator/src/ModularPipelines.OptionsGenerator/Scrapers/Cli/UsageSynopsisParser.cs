@@ -826,6 +826,7 @@ public static class UsageSynopsisParser
             usage = usage with
             {
                 Synopsis = selected.Synopsis,
+                ArgumentGroupSynopsis = selected.ArgumentGroupSynopsis,
                 HasOperandTokens = selected.PositionalArguments.Count > 0 || selected.UnparsedOperandTokens.Count > 0,
                 PositionalArguments = selected.PositionalArguments,
                 UnparsedOperandTokens = selected.UnparsedOperandTokens,
