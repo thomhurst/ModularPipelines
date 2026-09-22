@@ -54,13 +54,17 @@ public partial class RequiredConstructorValidationTests
             optionsType.GetProperty("Region")!.SetValue(instance, region ? "region" : null);
             var errors = new List<ValidationResult>();
             var alternateValid = IsCompleteAlternateSynopsis(alternateSyntax, target, mode, region);
-            var primaryValid = (!requiresMode || mode) && ((target && mode) || (global && (!requiresRegion || region)));
+            var primaryValid = IsCompletePrimarySynopsis(target, mode, global, region, requiresMode, requiresRegion);
 
             await Assert.That(Validator.TryValidateObject(instance, new(instance), errors, true))
                 .IsEqualTo(alternateValid || primaryValid)
                 .Because($"Selection {selection}: {string.Join("; ", errors)}");
         }
     }
+
+    private static bool IsCompletePrimarySynopsis(
+        bool target, bool mode, bool global, bool region, bool requiresMode, bool requiresRegion) =>
+        (!requiresMode || mode) && ((target && mode) || (global && (!requiresRegion || region)));
 
     private static bool IsCompleteAlternateSynopsis(string? syntax, bool target, bool mode, bool region) => syntax switch
     {
