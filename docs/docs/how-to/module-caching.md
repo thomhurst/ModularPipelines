@@ -38,6 +38,7 @@ Patterns are relative to `ModuleCacheOptions.WorkingDirectory`. They support `*`
 The fingerprint contains:
 
 - the module type and its assembly module version ID (MVID), unless explicitly overridden;
+- build fingerprints for generic arguments throughout the module's inheritance chain;
 - the content and relative path of every declared input;
 - explicit key parts and declared environment variable values;
 - normalized results from all direct, selector-based, and dynamic dependencies.
@@ -77,7 +78,9 @@ protected override void Configure(ModuleConfigurationBuilder module) => module
 ```
 
 You must update this key whenever the module implementation changes. Reusing it after a behavior
-change can restore stale results or artifacts. Cache misses log bounded fingerprint-component
+change can restore stale results or artifacts. This key only replaces the module assembly's MVID;
+generic argument builds still invalidate cached results, including arguments declared on base classes.
+Cache misses log bounded fingerprint-component
 diagnostics at `Debug`; user-controlled key parts, environment values, exception messages, and
 skip reasons appear only as SHA-256 hashes.
 

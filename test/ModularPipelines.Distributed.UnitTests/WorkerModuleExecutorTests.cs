@@ -4,6 +4,7 @@ using Kevlar;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
 using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.Worker;
@@ -51,6 +52,7 @@ public class WorkerModuleExecutorTests
         public void Release() => _release.TrySetResult();
     }
 
+    [ModuleId("parallel-worker-a")]
     private sealed class ParallelWorkerModuleA(WorkerConcurrencyProbe probe) : Module<int>
     {
         protected internal override Task<int> ExecuteAsync(
@@ -88,6 +90,7 @@ public class WorkerModuleExecutorTests
         }
     }
 
+    [ModuleId("declarative-retry-worker")]
     private sealed class DeclarativeRetryModule : RetryingModule
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module
@@ -338,7 +341,7 @@ public class WorkerModuleExecutorTests
 
         await run.WaitAsync(cancellationToken);
         await Assert.That(published.Select(result => result.ModuleId.Value).Order())
-            .IsEquivalentTo(modules.Select(module => module.GetType().FullName!).Order());
+            .IsEquivalentTo(modules.Select(module => ModuleId.FromType(module.GetType()).Value).Order());
         foreach (var result in published)
         {
             var failure = serializer.Deserialize(result)!;
@@ -385,7 +388,7 @@ public class WorkerModuleExecutorTests
         typeRegistry.Register(typeof(TModule));
         var serializer = new ModuleResultSerializer(typeRegistry);
         var assignment = new ModuleAssignment(
-            typeof(TModule).FullName!,
+            ModuleId.FromType(typeof(TModule)),
 
             [],
             DateTimeOffset.UtcNow,
@@ -418,7 +421,7 @@ public class WorkerModuleExecutorTests
         try
         {
             var serializedResult = await coordinator.WaitForResultAsync(
-                typeof(TModule).FullName!,
+                ModuleId.FromType(typeof(TModule)),
                 cancellationToken).WaitAsync(TimeSpan.FromSeconds(5), cancellationToken);
             await Assert.That(serializedResult.ExecutionTelemetry).IsNotNull();
             await Assert.That(serializedResult.ExecutionTelemetry!.ClaimedAt).IsNotEqualTo(default(DateTimeOffset));
@@ -432,7 +435,7 @@ public class WorkerModuleExecutorTests
     }
 
     private static ModuleAssignment CreateAssignment(IModule module, ModuleTypeRegistry registry) => new(
-        module.GetType().FullName!,
+        ModuleId.FromType(module.GetType()),
         [],
         DateTimeOffset.UtcNow,
         new ModuleAssignmentOptions(null, false))

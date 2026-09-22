@@ -93,6 +93,11 @@ internal static class StableTypeName
     [UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Runtime result serialization and its build fingerprints are explicitly unsupported in trimmed applications.")]
     private static IEnumerable<Type> GetSerializationContractTypes(Type type)
     {
+        foreach (var derived in type.GetCustomAttributes<JsonDerivedTypeAttribute>(inherit: false))
+        {
+            yield return derived.DerivedType;
+        }
+
         foreach (var converterType in GetConverterTypes(type))
         {
             yield return converterType;
