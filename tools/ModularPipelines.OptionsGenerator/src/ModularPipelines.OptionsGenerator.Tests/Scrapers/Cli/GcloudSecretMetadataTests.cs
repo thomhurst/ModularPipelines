@@ -34,6 +34,8 @@ public class GcloudSecretMetadataTests
 
     [Test]
     [Arguments("password", "PASSWORD", "Password", "The password value to send for authentication.")]
+    [Arguments("password", "SECRET_VALUE_REF", "Password", "The password value to send for authentication.")]
+    [Arguments("password", "KEY=VALUE", "Password", "Values should be in the form SECRET_NAME:SECRET_VERSION. The password value to send.")]
     [Arguments("password", "PASSWORD", "Password", "Password for authentication.")]
     [Arguments("token", "TOKEN", "Token", "The token contents to send for authentication.")]
     [Arguments("token", "TOKEN", "Token", "Token for authentication.")]

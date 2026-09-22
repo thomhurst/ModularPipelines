@@ -1043,13 +1043,30 @@ public static partial class GeneratorUtils
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex CostDescriptionPattern();
 
-    internal static bool IsSecretReference(string? valueSyntax, string? description, string? groupDescription = null) =>
-        (valueSyntax is not null && SecretReferenceSyntaxPattern().IsMatch(valueSyntax))
-        || (description is not null && SecretReferenceDescriptionPattern().IsMatch(description))
-        || (groupDescription is not null
-            && !DescriptionIdentifiesSecretValue(description)
-            && (valueSyntax is null || !SecretKeywordDescriptionPattern().IsMatch(valueSyntax))
-            && SecretReferenceDescriptionPattern().IsMatch(groupDescription));
+    internal static bool IsSecretReference(string? valueSyntax, string? description, string? groupDescription = null)
+    {
+        // Reference documentation can discuss the resolved secret without accepting its literal value.
+        if (description is not null
+            && (SecretInputDescriptionPattern().IsMatch(description)
+                || (InlineFileContentDescriptionPattern().IsMatch(description)
+                    && SecretKeywordDescriptionPattern().IsMatch(description))))
+        {
+            return false;
+        }
+
+        return (valueSyntax is not null && SecretReferenceSyntaxPattern().IsMatch(valueSyntax))
+               || (description is not null && SecretReferenceDescriptionPattern().IsMatch(description))
+               || (groupDescription is not null
+                   && !DescriptionIdentifiesSecretValue(description)
+                   && (valueSyntax is null || !SecretKeywordDescriptionPattern().IsMatch(valueSyntax))
+                   && SecretReferenceDescriptionPattern().IsMatch(groupDescription));
+    }
+
+    [GeneratedRegex(@"(?:\A|[.!?]\s+)\s*(?:(?:sets?|specifies?|provides?|supplies?)\s+)?(?:the\s+)?(?:"
+        + @"(?:" + SecretDescriptionKeywordPattern + @")\s+(?:" + SecretMaterialTermPattern + @")\b"
+        + @"|(?:" + SecretMaterialTermPattern + @")\s+(?:for|of)\s+(?:the\s+)?(?:" + SecretDescriptionKeywordPattern + @")\b)",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex SecretInputDescriptionPattern();
 
     [GeneratedRegex(@"\b(?:SECRET|PASSWORD|CREDENTIAL|TOKEN)(?:_VALUE)?_REF(?:ERENCE)?\b",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
