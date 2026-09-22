@@ -14,6 +14,9 @@ public record CliOptionDefinition
     /// <summary>Option-local prose for value classification, excluding inherited group documentation.</summary>
     internal string? ValueShapeDescription { get; init; }
 
+    /// <summary>Whether the documented value identifies resources instead of carrying credential contents.</summary>
+    internal bool IsResourceReference { get; init; }
+
     private const string CollectionProbeTypeName = "CollectionShapeProbe.Probe";
     private static readonly ConcurrentDictionary<string, CollectionShapeResolution> CollectionShapes = new(StringComparer.Ordinal);
     private static readonly Lazy<CSharpCompilation> CollectionProbeCompilation = new(CreateCollectionProbeCompilation);

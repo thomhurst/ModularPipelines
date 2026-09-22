@@ -401,7 +401,7 @@ public partial class GcloudCliScraper : CliScraperBase
             if (index >= 0)
             {
                 var previous = constraints[index];
-                replacement = PreserveDocumentedChoices(replacement, EnumerateConstraints(previous).ToArray());
+                replacement = PreserveDocumentedChoices(replacement, [.. EnumerateConstraints(previous)]);
                 constraints[index] = replacement with { IsRequired = previous.IsRequired };
             }
         }
@@ -796,6 +796,8 @@ public partial class GcloudCliScraper : CliScraperBase
     {
         var valueHint = argument.ValueHint ?? string.Empty;
         var description = argument.Documentation;
+        // Inherited binding documentation must not override an option's own credential syntax or prose.
+        var isResourceReference = GeneratorUtils.IsSecretReference(valueHint, argument.Description, description);
         var isFlag = string.IsNullOrEmpty(valueHint) || argument.IsNegatable;
         var hasCompositeSyntax = IsCompositeValueHint(valueHint);
         var isStructuredValue = hasCompositeSyntax
@@ -828,7 +830,8 @@ public partial class GcloudCliScraper : CliScraperBase
             IsNumeric = isNumeric,
             ValueSeparator = isFlag ? " " : "=",
             EnumDefinition = enumDefinition,
-            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag, argument.Description)
+            IsResourceReference = isResourceReference,
+            IsSecret = !isResourceReference && GeneratorUtils.IsSecretOption(propertyName, isFlag, argument.Description)
         };
     }
 
@@ -1038,7 +1041,7 @@ public partial class GcloudCliScraper : CliScraperBase
                 }) with
                 {
                     Description = argument.Documentation,
-                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, false, argument.Documentation),
+                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, false, argument.Description),
                 };
             })
             .OrderBy(argument => argument.PositionIndex);

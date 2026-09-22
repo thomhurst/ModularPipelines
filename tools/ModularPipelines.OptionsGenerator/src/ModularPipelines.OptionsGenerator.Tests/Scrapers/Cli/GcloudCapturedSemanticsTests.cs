@@ -43,6 +43,7 @@ public class GcloudCapturedSemanticsTests
             ("KafkaConnectionPropertiesConsumerFile", false),
             ("KafkaConnectionPropertiesProducerFile", false),
             ("Db2ConnectionPropertiesSslClientKeystashFile", false),
+            ("Secret", false),
         ];
         foreach (var (propertyName, secret) in cases)
         {

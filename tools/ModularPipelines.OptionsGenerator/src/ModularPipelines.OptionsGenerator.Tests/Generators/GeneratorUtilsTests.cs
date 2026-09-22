@@ -954,10 +954,58 @@ public class GeneratorUtilsTests
     [Arguments("Credential", "ID of the oauth-client credential or fully qualified identifier for the oauth-client credential.", false)]
     [Arguments("Credential", "The oauth client credential id of the oauth client resource.", false)]
     [Arguments("Credential", "The credential value for the oauth client resource.", true)]
+    [Arguments("CredentialSourceType", "Format of the credential source (JSON or text).", false)]
+    [Arguments("SubjectTokenType", "The type of token being used for authorization.", false)]
+    [Arguments("CredentialMode", "Credential mode to create the catalog with.", false)]
+    [Arguments("TokenFormat", "The format of the token.", false)]
+    [Arguments("TokenEncoding", "The encoding used for tokens.", false)]
+    [Arguments("TokenAlgorithm", "The signature algorithm used for tokens.", false)]
+    [Arguments("OauthTokenScope", "The scope to be used when generating an OAuth2 access token.", false)]
+    [Arguments("OidcTokenAudience", "The audience to be used when generating an OpenID Connect token.", false)]
+    [Arguments("HttpOauthTokenScopeOverride", "The scope to be used when generating an OAuth2 access token.", false)]
+    [Arguments("HttpOidcTokenAudienceOverride", "The audience to be used when generating an OpenID Connect token.", false)]
+    [Arguments("ProxySecretNamespace", "Namespace of the Kubernetes secret containing the proxy configuration.", false)]
+    [Arguments("ProxySecretArn", "ARN of the AWS Secrets Manager secret.", false)]
+    [Arguments("PrivateKeySecretVersion", "Secret containing the private key of the GitHub App.", false)]
+    [Arguments("SecuritySettingsAwsV4AccessKeyVersion", "The optional version identifier for the AWS access key.", false)]
+    [Arguments("SecretManagerRotationInterval", "Set the rotation period for secrets.", false)]
+    [Arguments("PasswordPolicyPasswordChangeInterval", "Minimum interval after which the password can be changed.", false)]
+    [Arguments("PasswordPolicyComplexity", "The complexity of the password.", false)]
+    [Arguments("TargetCostPerMillionInputTokens", "The target cost per million input tokens to filter profiles by, unit is 1 USD.", false)]
+    [Arguments("TargetCostPerMillionOutputTokens", "The target cost per million output tokens to filter profiles by, unit is 1 USD.", false)]
+    [Arguments("ThreeLeggedOauthTokenUrl", "The token endpoint for requesting tokens on behalf of an end user.", false)]
+    [Arguments("CustomOauthConfigTokenUri", "The OAuth2 token request URL.", false)]
+    [Arguments("CredentialSourceUrl", "The URL to obtain the credential from.", false)]
+    [Arguments("KerberosRootPrincipalPasswordUri", "Google Cloud Storage URI of a KMS encrypted file containing the root principal password.", false)]
+    [Arguments("ActiveDirectorySecretManagerKey", "The secret manager key storing administrator credentials.", false)]
+    [Arguments("Secret", "The resource name of the secret version.", false)]
+    [Arguments("CredentialSourceHeaders", "Headers to use when querying the credential-source-url.", true)]
+    [Arguments("CredentialType", "The credential value to send.", true)]
+    [Arguments("TokenFormat", "The token contents to send.", true)]
+    [Arguments("SecretVersion", "The secret value to send.", true)]
+    [Arguments("TokenUrl", "The token value to send as a URL.", true)]
+    [Arguments("TokenOverride", "The token value to send.", true)]
+    [Arguments("Token", "The token used to query the target cost per million tokens.", true)]
     public async Task IsSecretOption_Distinguishes_Material_From_Resource_Identifiers_And_Paths(
         string propertyName, string description, bool secret)
     {
         await Assert.That(GeneratorUtils.IsSecretOption(propertyName, false, description)).IsEqualTo(secret);
+    }
+
+    [Test]
+    [Arguments("[SECRET_ENV_VAR=SECRET_VALUE_REF,...]", "Secret bindings.", true)]
+    [Arguments("CREDENTIAL_REFERENCE", "Credential reference.", true)]
+    [Arguments("SECRET_VALUE_REF", "You can reference a secret value. To use the value of the secret, read the environment variable.", true)]
+    [Arguments("PASSWORD", "The password value to send.", false)]
+    [Arguments("SECRET_VALUE_REF", "The password value to send.", false)]
+    [Arguments("KEY=VALUE", "Values should be in the form SECRET_NAME:SECRET_VERSION. The password value to send.", false)]
+    [Arguments("KEY=VALUE", "Group details. Values should be in the form SECRET_NAME:SECRET_VERSION.", true)]
+    [Arguments("KEY=VALUE", "Example resource: SECRET_NAME:SECRET_VERSION. The password value to send.", false)]
+    [Arguments("SECRET_ENV_VAR", "List of secret environment variable names and secret paths to remove.", true)]
+    [Arguments("KEY=VALUE", "List of secret environment variables and their password values.", false)]
+    public async Task Secret_References_Require_Explicit_Reference_Syntax(string syntax, string description, bool reference)
+    {
+        await Assert.That(GeneratorUtils.IsSecretReference(syntax, description)).IsEqualTo(reference);
     }
 
     [Test]

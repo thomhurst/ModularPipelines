@@ -1811,7 +1811,7 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
-    public async Task GcloudDeveloperConnectCreate_Emits_Nested_Resource_And_Secret_Flags()
+    public async Task GcloudDeveloperConnectCreate_Emits_Nested_Resource_And_Secret_References()
     {
         const string helpText = """
             NAME
@@ -1870,10 +1870,11 @@ public partial class NestedArgumentGroupParsingTests
             .Contains("--http-config-basic-authentication-password-secret-version");
         await Assert.That(command.Options.Single(option => option.SwitchName == "--validate-only").Description!)
             .DoesNotContain("--crypto-key-config-reference");
-        await Assert.That(command.Options
-                .Single(option => option.SwitchName == "--http-config-basic-authentication-password-secret-version")
-                .IsSecret)
-            .IsTrue();
+        foreach (var option in command.Options.Where(option => option.SwitchName.EndsWith("-secret-version", StringComparison.Ordinal)))
+        {
+            await Assert.That(option.IsSecret).IsFalse()
+                .Because("SecretManager version identifiers reference credentials without containing their values.");
+        }
         await Assert.That(command.ArgumentGroups.Single().Groups)
             .Contains(group => group.Kind.HasFlag(CliArgumentGroupKind.Resource));
     }

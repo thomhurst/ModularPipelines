@@ -251,8 +251,8 @@ public class OptionTypeEnhancer
 
     private static bool IsInferredSecret(CliOptionDefinition option)
     {
-        // Documented enum choices are public metadata, not credential material.
-        if (option.EnumDefinition is not null)
+        // Documented enum choices and resource references do not contain credential material.
+        if (option.EnumDefinition is not null || option.IsResourceReference)
         {
             return false;
         }
