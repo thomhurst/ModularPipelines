@@ -159,6 +159,7 @@ public partial class GcloudCliScraper : CliScraperBase
 
     protected override UsageSynopsisParseResult ParseUsageSynopsis(string[] commandPath, string helpText)
     {
+        string? argumentGroupSynopsis = null;
         var groups = ExtractSections(helpText, "FLAGS", "REQUIRED FLAGS", "OPTIONAL FLAGS", "POSITIONAL ARGUMENTS")
             .Select(section => ParseSectionArgumentGroup(section.Name, section.Content)).ToArray();
         var declaredArguments = groups.SelectMany(group => group.FlattenArguments()).ToArray();
@@ -184,6 +185,7 @@ public partial class GcloudCliScraper : CliScraperBase
             // Defaults annotate the preceding option; they do not add operands or
             // change the nesting of option groups in the synopsis.
             normalized = SynopsisDefaultAnnotationPattern().Replace(normalized, "${option} ");
+            argumentGroupSynopsis ??= normalized;
             normalized = UsageSynopsisParser.DeferDocumentedOptionGroups(normalized, groups);
             helpText = helpText.Replace(synopsis, normalized, StringComparison.Ordinal);
         }
@@ -192,7 +194,10 @@ public partial class GcloudCliScraper : CliScraperBase
             .Where(argument => argument.IsPositional)
             .Select(argument => NormalizePropertyName(argument.SwitchName)!));
         return UsageSynopsisParser.RemoveCommandGroupPlaceholders(
-            base.ParseUsageSynopsis(commandPath, helpText), dispatchPlaceholders);
+            base.ParseUsageSynopsis(commandPath, helpText), dispatchPlaceholders) with
+        {
+            ArgumentGroupSynopsis = argumentGroupSynopsis,
+        };
     }
 
     protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
@@ -347,7 +352,69 @@ public partial class GcloudCliScraper : CliScraperBase
                 name == "REQUIRED FLAGS", allowPresenceRequirements: name != "OPTIONAL FLAGS");
         }
 
+        ReconcileRequiredSynopsisChoices(usage.ArgumentGroupSynopsis ?? usage.Synopsis, options, requiredAlternativeGroups);
+
         return (options, argumentGroups, requiredAlternativeGroups, positionalArguments);
+    }
+
+    private static void ReconcileRequiredSynopsisChoices(string? synopsis, IReadOnlyList<CliOptionDefinition> options,
+        List<CliRequiredAlternativeGroup> constraints)
+    {
+        foreach (var syntax in UsageSynopsisParser.GetRequiredOptionChoiceGroups(synopsis))
+        {
+            var switches = syntax.EnumerateMembers().Select(member => member.OptionSwitch!).ToArray();
+            if (switches.Distinct(StringComparer.Ordinal).Count() != switches.Length
+                || switches.Any(optionSwitch => !options.Any(option => option.SwitchName == optionSwitch)))
+            {
+                continue;
+            }
+
+            var replacement = Convert(syntax);
+            var names = replacement.PropertyNames.ToHashSet(StringComparer.Ordinal);
+            // Explicit required synopsis choices preserve both nested alternatives and
+            // conjunctions. Replace only a complete matching constraint; keep help prose
+            // and partially documented groups under the existing scraper rules.
+            var index = constraints.FindIndex(group => names.SetEquals(group.PropertyNames));
+            if (index >= 0)
+            {
+                constraints[index] = replacement;
+            }
+        }
+
+        CliRequiredAlternativeGroup Convert(UsageRequiredAlternativeGroup syntax)
+        {
+            var groups = syntax.Groups.Select(Convert).ToList();
+            var members = new List<CliRequiredAlternativeMember>();
+            foreach (var member in syntax.Members)
+            {
+                var alternatives = GetRequiredAlternativeMembers(new CliArgumentDefinition
+                {
+                    SwitchName = member.OptionSwitch!,
+                }, options, []).ToArray();
+                if (alternatives.Length > 1)
+                {
+                    groups.Add(new CliRequiredAlternativeGroup
+                    {
+                        IsRequired = member.IsRequired,
+                        IsMutuallyExclusive = true,
+                        Members = alternatives,
+                    });
+                }
+                else
+                {
+                    members.AddRange(alternatives.Select(alternative => alternative with { IsRequired = member.IsRequired }));
+                }
+            }
+
+            return new CliRequiredAlternativeGroup
+            {
+                IsRequired = syntax.IsRequired,
+                IsChoice = syntax.IsChoice,
+                IsMutuallyExclusive = syntax.IsChoice,
+                Members = members,
+                Groups = groups,
+            };
+        }
     }
 
     private static CliArgumentGroup MarkOptionalResourceGroups(CliArgumentGroup group, IReadOnlyList<IReadOnlySet<string>> optionalGroups)

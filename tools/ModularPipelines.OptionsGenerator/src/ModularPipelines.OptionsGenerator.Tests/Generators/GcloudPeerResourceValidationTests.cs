@@ -147,6 +147,10 @@ public partial class RequiredConstructorValidationTests
                 {
                     value = 1;
                 }
+                else if (property.PropertyType == typeof(IEnumerable<string>))
+                {
+                    value = new[] { "value" };
+                }
                 property.SetValue(instance, value);
             }
 

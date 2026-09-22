@@ -6,6 +6,31 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class GcloudSynopsisGroupReconcilerTests
 {
     [Test]
+    [Arguments("tool run [--first=FIRST | --second=SECOND]")]
+    [Arguments("tool run (--first=FIRST : --selector=SELECTOR | --second=SECOND)")]
+    [Arguments("tool run (--first=FIRST | OPERAND)")]
+    [Arguments("tool run (--first=FIRST; default=one | --second=SECOND)")]
+    public async Task Required_Option_Constraints_Exclude_Optional_Ambiguous_And_Operand_Syntax(string synopsis)
+    {
+        await Assert.That(UsageSynopsisParser.GetRequiredOptionChoiceGroups(synopsis)).IsEmpty();
+    }
+
+    [Test]
+    public async Task Required_Option_Constraints_Preserve_Nested_Choices_And_Optional_Selectors()
+    {
+        var group = UsageSynopsisParser.GetRequiredOptionChoiceGroups(
+            "tool run ((--first=FIRST | --second=SECOND) (--file=FILE | --prefix=PREFIX) | [--resource=RESOURCE : --selector=SELECTOR])").Single();
+        await Assert.That(group.IsChoice).IsTrue();
+        await Assert.That(group.IsRequired).IsTrue();
+        await Assert.That(group.Groups[0].Groups.Count).IsEqualTo(2);
+        await Assert.That(group.Groups[0].Groups.All(choice => choice.IsChoice && choice.IsRequired)).IsTrue();
+        var resource = group.Groups[1];
+        await Assert.That(resource.IsRequired).IsFalse();
+        await Assert.That(resource.Members[0].IsRequired).IsTrue();
+        await Assert.That(resource.Members[1].IsRequired).IsFalse();
+    }
+
+    [Test]
     public async Task Resource_Bundles_Identify_Their_Single_Primary_Option()
     {
         var bundles = UsageSynopsisParser.GetOptionBundles(

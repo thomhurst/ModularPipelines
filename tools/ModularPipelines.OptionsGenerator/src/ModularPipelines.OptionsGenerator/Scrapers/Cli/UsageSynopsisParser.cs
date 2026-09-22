@@ -1426,6 +1426,82 @@ public static class UsageSynopsisParser
         }
     }
 
+    internal static IEnumerable<UsageRequiredAlternativeGroup> GetRequiredOptionChoiceGroups(string? synopsis) =>
+        synopsis is null ? [] : Tokenize(synopsis)
+            .Where(token => token.StartsWith('(') && IsWrapped(token))
+            .Select(token => ParseOptionConstraint(token, true))
+            .OfType<UsageRequiredAlternativeGroup>()
+            .Where(group => group.IsChoice);
+
+    private static UsageRequiredAlternativeGroup? ParseOptionConstraint(string text, bool required)
+    {
+        if (IsWrapped(text) && Tokenize(text).Count == 1)
+        {
+            required &= !text.StartsWith('[');
+            text = TrimWrapper(text);
+        }
+
+        var tokens = TokenizeOptionGroup(text);
+        if (!ContainsOnlyInlineOptions(tokens) || (tokens.Contains(":") && tokens.Contains("|")))
+        {
+            return null;
+        }
+
+        var alternatives = SplitTopLevelAlternatives(text);
+        if (alternatives.Count > 1)
+        {
+            var branches = alternatives.Select(branch => ParseOptionConstraint(branch, true)).ToArray();
+            return branches.Any(branch => branch is null) ? null : new UsageRequiredAlternativeGroup
+            {
+                IsRequired = required,
+                Members = [],
+                Groups = [.. branches.OfType<UsageRequiredAlternativeGroup>()],
+            };
+        }
+
+        return ParseOptionBundle(tokens, required);
+    }
+
+    private static UsageRequiredAlternativeGroup? ParseOptionBundle(IReadOnlyList<string> tokens, bool required)
+    {
+        var members = new List<UsageRequiredAlternativeMember>();
+        var groups = new List<UsageRequiredAlternativeGroup>();
+        var requiredMember = true;
+        foreach (var token in tokens)
+        {
+            if (token == ":")
+            {
+                requiredMember = false;
+            }
+            else if (IsWrapped(token))
+            {
+                var nested = ParseOptionConstraint(token, requiredMember);
+                if (nested is null)
+                {
+                    return null;
+                }
+
+                groups.Add(nested);
+            }
+            else
+            {
+                members.AddRange(GetOptionSwitches(token).Select(optionSwitch => new UsageRequiredAlternativeMember
+                {
+                    OptionSwitch = optionSwitch.Replace("--[no-]", "--", StringComparison.Ordinal),
+                    IsRequired = requiredMember,
+                }));
+            }
+        }
+
+        return new UsageRequiredAlternativeGroup
+        {
+            IsRequired = required,
+            IsChoice = false,
+            Members = members,
+            Groups = groups,
+        };
+    }
+
     internal static IEnumerable<IReadOnlySet<string>> GetOptionalResourceOptionGroups(string? synopsis,
         IReadOnlyList<CliArgumentGroup>? documentedGroups = null)
     {
@@ -2187,6 +2263,9 @@ public static class UsageSynopsisParser
 /// </summary>
 public sealed record UsageSynopsisParseResult
 {
+    // Retains option-group syntax that a tool defers while parsing positional operands.
+    internal string? ArgumentGroupSynopsis { get; init; }
+
     internal static UsageSynopsisParseResult Empty { get; } = new();
 
     internal static UsageSynopsisParseResult Unmatched(string synopsis) => new()
