@@ -1053,7 +1053,7 @@ public static partial class GeneratorUtils
                    NegatedFilePathPattern().Replace(description, string.Empty)));
     }
 
-    [GeneratedRegex(@"\A\s*(?:the\s+)?(?:(?:base64|base-64)(?:\s+|-)encoded\s+)?contents?\s+of\b",
+    [GeneratedRegex(@"\A\s*(?:(?:sets?|specif(?:y|ies)|provides?|suppl(?:y|ies)|uses?)\s+)?(?:the\s+)?(?:(?:base64|base-64)(?:\s+|-)encoded\s+)?contents?\s+of\b",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex InlineFileContentDescriptionPattern();
 
