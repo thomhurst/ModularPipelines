@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,69 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai-platform", "local", "predict")]
-public record GcloudAiPlatformLocalPredictOptions : GcloudOptions
+public record GcloudAiPlatformLocalPredictOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// run prediction locally
+    /// </summary>
+    /// <param name="ModelDir">Path to the model.</param>
+    public GcloudAiPlatformLocalPredictOptions(
+        string ModelDir
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModelDir);
+        this.ModelDir = ModelDir;
+    }
+
+    public void Deconstruct(out string ModelDir)
+    {
+        ModelDir = this.ModelDir;
+    }
+
+    /// <summary>
+    /// Path to the model.
+    /// </summary>
+    [CliOption("--model-dir", Format = OptionFormat.EqualsSeparated)]
+    public string ModelDir { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a local file from which instances are read. Instances are in JSON format; newline delimited. An example of the JSON instances file: {"images": [0.0, ..., 0.1], "key": 3} {"images": [0.0, ..., 0.1], "key": 2} ... This flag accepts "-" for stdin.
+    /// </summary>
+    [CliOption("--json-instances", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonInstances { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a local file containing the body of JSON request. An example of a JSON request: { "instances": [ {"x": [1, 2], "y": [3, 4]}, {"x": [-1, -2], "y": [-3, -4]} ] } This flag accepts "-" for stdin.
+    /// </summary>
+    [CliOption("--json-request", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonRequest { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a local file from which instances are read. Instances are in UTF-8 encoded text format; newline delimited. An example of the text instances file: 107,4.9,2.5,4.5,1.7 100,5.7,2.8,4.1,1.3 ... This flag accepts "-" for stdin.
+    /// </summary>
+    [CliOption("--text-instances", Format = OptionFormat.EqualsSeparated)]
+    public string? TextInstances { get; set; }
+
+    /// <summary>
+    /// ML framework used to train this version of the model. If not specified, defaults to 'tensorflow'. FRAMEWORK must be one of: scikit-learn, tensorflow, xgboost.
+    /// </summary>
+    [CliOption("--framework", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAiPlatformLocalPredictFramework? Framework { get; set; }
+
+    /// <summary>
+    /// Name of the signature defined in the SavedModel to use for this job. Defaults to DEFAULT_SERVING_SIGNATURE_DEF_KEY in https://www.tensorflow.org/api_docs/python/tf/compat/v1/saved_model/signature_constants, which is "serving_default". Only applies to TensorFlow models.
+    /// </summary>
+    [CliOption("--signature-name", Format = OptionFormat.EqualsSeparated)]
+    public string? SignatureName { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(JsonInstances) ? 1 : 0) + (!string.IsNullOrWhiteSpace(JsonRequest) ? 1 : 0) + (!string.IsNullOrWhiteSpace(TextInstances) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of JsonInstances, JsonRequest, or TextInstances must be specified.", [nameof(JsonInstances), nameof(JsonRequest), nameof(TextInstances)]);
+        }
+        yield break;
+    }
+
 }

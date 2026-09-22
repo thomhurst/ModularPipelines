@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-management", "network-monitoring-providers", "generate-monitoring-point-config")]
 public record GcloudNetworkManagementNetworkMonitoringProvidersGenerateMonitoringPointConfigOptions : GcloudOptions
 {
+    /// <summary>
+    /// providers     generate-monitoring-point-config - generate a monitoring point config
+    /// </summary>
+    /// <param name="NetworkMonitoringProvider">NetworkMonitoringProvider resource - Name of the resource. Format: projects/{project}/locations/{location}/networkMonitoringProviders/{network_monitoring_provider} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network_monitoring_provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the networkMonitoringProvider or fully qualified identifier for the networkMonitoringProvider. To set the network_monitoring_provider attribute: ▸ provide the argument network_monitoring_provider on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkManagementNetworkMonitoringProvidersGenerateMonitoringPointConfigOptions(
+        string NetworkMonitoringProvider
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkMonitoringProvider);
+        this.NetworkMonitoringProvider = NetworkMonitoringProvider;
+    }
+
+    public void Deconstruct(out string NetworkMonitoringProvider)
+    {
+        NetworkMonitoringProvider = this.NetworkMonitoringProvider;
+    }
+
+    /// <summary>
+    /// NetworkMonitoringProvider resource - Name of the resource. Format: projects/{project}/locations/{location}/networkMonitoringProviders/{network_monitoring_provider} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network_monitoring_provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the networkMonitoringProvider resource. To set the location attribute: ▸ provide the argument network_monitoring_provider on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// NetworkMonitoringProvider resource - Name of the resource. Format: projects/{project}/locations/{location}/networkMonitoringProviders/{network_monitoring_provider} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network_monitoring_provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the networkMonitoringProvider or fully qualified identifier for the networkMonitoringProvider. To set the network_monitoring_provider attribute: ▸ provide the argument network_monitoring_provider on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NetworkMonitoringProvider { get; private init; }
+
 }

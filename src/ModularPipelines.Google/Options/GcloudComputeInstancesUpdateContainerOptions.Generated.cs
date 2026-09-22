@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,10 +22,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "update-container")]
-public record GcloudComputeInstancesUpdateContainerOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
-) : GcloudOptions
+public record GcloudComputeInstancesUpdateContainerOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// updates Compute Engine virtual     machine instances running container images
+    /// </summary>
+    /// <param name="InstanceName">Name of the instance to update. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances</param>
+    public GcloudComputeInstancesUpdateContainerOptions(
+        string InstanceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+    }
+
+    public void Deconstruct(out string InstanceName)
+    {
+        InstanceName = this.InstanceName;
+    }
+
     /// <summary>
     /// Sets container image in the declaration to the specified value. Empty string is not allowed.
     /// </summary>
@@ -47,7 +63,7 @@ public record GcloudComputeInstancesUpdateContainerOptions(
     /// Sets container restart policy to the specified value. POLICY must be one of: never, on-failure, always.
     /// </summary>
     [CliOption("--container-restart-policy", Format = OptionFormat.EqualsSeparated)]
-    public GcloudContainerRestartPolicy? ContainerRestartPolicy { get; set; }
+    public GcloudComputeInstancesUpdateContainerContainerRestartPolicy? ContainerRestartPolicy { get; set; }
 
     /// <summary>
     /// Sets configuration whether to keep container STDIN always open to the specified value.
@@ -134,9 +150,9 @@ public record GcloudComputeInstancesUpdateContainerOptions(
     public string? ContainerCommand { get; set; }
 
     /// <summary>
-    /// Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file.
+    /// Update environment variables KEY with value VALUE passed to container. ◆ Sets KEY to the specified value. ◆ Adds KEY = VALUE, if KEY is not yet declared. ◆ Only the last value of KEY is taken when KEY is repeated more than once. Values, declared with --container-env flag override those with the same KEY from file, provided in --container-env-file. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--container-env", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--container-env", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ContainerEnv { get; set; }
 
     /// <summary>
@@ -146,9 +162,9 @@ public record GcloudComputeInstancesUpdateContainerOptions(
     public string? ContainerEnvFile { get; set; }
 
     /// <summary>
-    /// Removes environment variables KEY from container declaration Does nothing, if a variable is not present.
+    /// Removes environment variables KEY from container declaration Does nothing, if a variable is not present. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-container-env", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-container-env", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveContainerEnv { get; set; }
 
     /// <summary>
@@ -164,9 +180,29 @@ public record GcloudComputeInstancesUpdateContainerOptions(
     public string? ContainerMountTmpfs { get; set; }
 
     /// <summary>
-    /// Removes volume mounts (host-path, tmpfs, disk) with mountPath: MOUNTPATH from container declaration. Does nothing, if a volume mount is not declared.
+    /// Removes volume mounts (host-path, tmpfs, disk) with mountPath: MOUNTPATH from container declaration. Does nothing, if a volume mount is not declared. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-container-mounts", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-container-mounts", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveContainerMounts { get; set; }
+
+    /// <summary>
+    /// Name of the instance to update. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearContainerArgs == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(ContainerArg) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearContainerArgs or ContainerArg may be specified.", [nameof(ClearContainerArgs), nameof(ContainerArg)]);
+        }
+        if ((ClearContainerCommand == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(ContainerCommand) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearContainerCommand or ContainerCommand may be specified.", [nameof(ClearContainerCommand), nameof(ContainerCommand)]);
+        }
+        yield break;
+    }
 
 }

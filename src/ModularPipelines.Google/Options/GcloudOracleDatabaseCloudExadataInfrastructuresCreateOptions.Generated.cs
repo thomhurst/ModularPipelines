@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "cloud-exadata-infrastructures", "create")]
-public record GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions : GcloudOptions
+public record GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new     ExadataInfrastructure
+    /// </summary>
+    /// <param name="CloudExadataInfrastructure">CloudExadataInfrastructure resource - Identifier. The name of the Exadata Infrastructure resource with the format: projects/{project}/locations/{region}/cloudExadataInfrastructures/{cloud_exadata_infrastructure} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_exadata_infrastructure on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cloudExadataInfrastructure or fully qualified identifier for the cloudExadataInfrastructure. To set the cloud_exadata_infrastructure attribute: ▸ provide the argument cloud_exadata_infrastructure on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions(
+        string CloudExadataInfrastructure
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CloudExadataInfrastructure);
+        this.CloudExadataInfrastructure = CloudExadataInfrastructure;
+    }
+
+    public void Deconstruct(out string CloudExadataInfrastructure)
+    {
+        CloudExadataInfrastructure = this.CloudExadataInfrastructure;
+    }
+
+    /// <summary>
+    /// CloudExadataInfrastructure resource - Identifier. The name of the Exadata Infrastructure resource with the format: projects/{project}/locations/{region}/cloudExadataInfrastructures/{cloud_exadata_infrastructure} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_exadata_infrastructure on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the cloudExadataInfrastructure resource. To set the location attribute: ▸ provide the argument cloud_exadata_infrastructure on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -67,7 +91,47 @@ public record GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions : Gcl
     /// Various properties of Exadata Infrastructure. The list of customer contacts. email The email address used by Oracle to send notifications regarding databases and infrastructure. Shorthand Example: --properties-customer-contacts=email=string --properties-customer-contacts=email=string JSON Example: --properties-customer-contacts='[{"email": "string"}]' File Example: --properties-customer-contacts=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--properties-customer-contacts", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? PropertiesCustomerContacts { get; set; }
+    public IEnumerable<string>? PropertiesCustomerContacts
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __PropertiesCustomerContactsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __PropertiesCustomerContactsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __PropertiesCustomerContactsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __PropertiesCustomerContactsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Various properties of Exadata Infrastructure. The database server type of the Exadata Infrastructure.
@@ -100,15 +164,15 @@ public record GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions : Gcl
     public int? MaintenanceWindowCustomActionTimeoutMins { get; set; }
 
     /// <summary>
-    /// Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Days during the week when maintenance should be performed. MAINTENANCE_WINDOW_DAYS_OF_WEEK must be one of: friday Friday monday Monday saturday Saturday sunday Sunday thursday Thursday tuesday Tuesday wednesday Wednesday
+    /// Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Days during the week when maintenance should be performed. MAINTENANCE_WINDOW_DAYS_OF_WEEK must be one of: friday Friday monday Monday saturday Saturday sunday Sunday thursday Thursday tuesday Tuesday wednesday Wednesday Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--maintenance-window-days-of-week", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--maintenance-window-days-of-week", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MaintenanceWindowDaysOfWeek { get; set; }
 
     /// <summary>
-    /// Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are: 0 - represents time slot 0:00 - 3:59 UTC 4 - represents time slot 4:00 - 7:59 UTC 8 - represents time slot 8:00 - 11:59 UTC 12 - represents time slot 12:00 - 15:59 UTC 16 - represents time slot 16:00 - 19:59 UTC 20 - represents time slot 20:00 - 23:59 UTC
+    /// Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are: 0 - represents time slot 0:00 - 3:59 UTC 4 - represents time slot 4:00 - 7:59 UTC 8 - represents time slot 8:00 - 11:59 UTC 12 - represents time slot 12:00 - 15:59 UTC 16 - represents time slot 16:00 - 19:59 UTC 20 - represents time slot 20:00 - 23:59 UTC Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--maintenance-window-hours-of-day", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--maintenance-window-hours-of-day", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MaintenanceWindowHoursOfDay { get; set; }
 
     /// <summary>
@@ -124,9 +188,9 @@ public record GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions : Gcl
     public string? MaintenanceWindowLeadTimeWeek { get; set; }
 
     /// <summary>
-    /// Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Months during the year when maintenance should be performed. MAINTENANCE_WINDOW_MONTHS must be one of: april The month of April. august The month of August. december The month of December. february The month of February. january The month of January. july The month of July. june The month of June. march The month of March. may The month of May. november The month of November. october The month of October. september The month of September.
+    /// Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Months during the year when maintenance should be performed. MAINTENANCE_WINDOW_MONTHS must be one of: april The month of April. august The month of August. december The month of December. february The month of February. january The month of January. july The month of July. june The month of June. march The month of March. may The month of May. november The month of November. october The month of October. september The month of September. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--maintenance-window-months", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--maintenance-window-months", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MaintenanceWindowMonths { get; set; }
 
     /// <summary>
@@ -142,9 +206,25 @@ public record GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions : Gcl
     public string? MaintenanceWindowPreference { get; set; }
 
     /// <summary>
-    /// Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week.
+    /// Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--maintenance-window-weeks-of-month", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--maintenance-window-weeks-of-month", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MaintenanceWindowWeeksOfMonth { get; set; }
+
+    /// <summary>
+    /// CloudExadataInfrastructure resource - Identifier. The name of the Exadata Infrastructure resource with the format: projects/{project}/locations/{region}/cloudExadataInfrastructures/{cloud_exadata_infrastructure} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_exadata_infrastructure on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cloudExadataInfrastructure or fully qualified identifier for the cloudExadataInfrastructure. To set the cloud_exadata_infrastructure attribute: ▸ provide the argument cloud_exadata_infrastructure on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CloudExadataInfrastructure { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(PropertiesShape) || (object?)PropertiesComputeCount is not null || ((object?)PropertiesCustomerContacts is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)PropertiesCustomerContacts, static item => item is not null) : ((object?)PropertiesCustomerContacts is global::System.Collections.Generic.IEnumerable<char> ? (object?)PropertiesCustomerContacts is not string || !string.IsNullOrWhiteSpace(PropertiesCustomerContacts?.ToString()) : ((object?)PropertiesCustomerContacts is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PropertiesCustomerContacts, static item => item is not null) : (PropertiesCustomerContacts is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PropertiesCustomerContacts), static item => item is not null))))) || !string.IsNullOrWhiteSpace(PropertiesDatabaseServerType) || (object?)PropertiesStorageCount is not null || !string.IsNullOrWhiteSpace(PropertiesStorageServerType) || (object?)PropertiesTotalStorageSizeGb is not null) && (!(!string.IsNullOrWhiteSpace(PropertiesShape))))
+        {
+            yield return new ValidationResult("PropertiesShape must be specified when other arguments in this group are specified.", [nameof(PropertiesShape)]);
+        }
+        yield break;
+    }
 
 }

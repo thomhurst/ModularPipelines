@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run", "jobs", "execute")]
-public record GcloudRunJobsExecuteOptions : GcloudOptions
+public record GcloudRunJobsExecuteOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// Specifies a container by name. Flags following --container will apply to the specified container. Flags that are not container-specific must be specified before --container.
@@ -38,7 +39,7 @@ public record GcloudRunJobsExecuteOptions : GcloudOptions
     /// The existing maximum time (deadline) a job task attempt can run for. If provided, an execution will be created with this value. Otherwise existing maximum time of the job is used. In the case of retries, this deadline applies to each attempt of a task. If the task attempt does not complete within this time, it will be killed. It is specified as a duration; for example, "10m5s" is ten minutes, and five seconds. If you don't specify a unit, seconds is assumed. For example, "10" is 10 seconds.
     /// </summary>
     [CliOption("--task-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? TaskTimeout { get; set; }
+    public string? TaskTimeout { get; set; }
 
     /// <summary>
     /// Number of tasks that must run to completion for the execution to be considered done. If provided, an execution will be created with this value. Otherwise the existing task count of the job is used.
@@ -47,15 +48,15 @@ public record GcloudRunJobsExecuteOptions : GcloudOptions
     public string? Tasks { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Comma-separated arguments passed to the command run by the container image. If provided, an execution will be created with the input values. Otherwise, the existing arguments of the job are used.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Comma-separated arguments passed to the command run by the container image. If provided, an execution will be created with the input values. Otherwise, the existing arguments of the job are used. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--args", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--args", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Args { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. List of key-value pairs to set as environment variables overrides for an execution of a job. If provided, an execution will be created with the merge result of the input values and the existing environment variables. New value overrides existing value if they have the same key. If not provided, existing environment variables are used.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. List of key-value pairs to set as environment variables overrides for an execution of a job. If provided, an execution will be created with the merge result of the input values and the existing environment variables. New value overrides existing value if they have the same key. If not provided, existing environment variables are used. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-env-vars", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-env-vars", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateEnvVars { get; set; }
 
     /// <summary>
@@ -69,5 +70,21 @@ public record GcloudRunJobsExecuteOptions : GcloudOptions
     /// </summary>
     [CliFlag("--wait")]
     public bool? Wait { get; set; }
+
+    /// <summary>
+    /// Job resource - Job to execute. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument JOB on the command line with a fully specified name; ◆ specify the job name from an interactive prompt with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the Job or fully qualified identifier for the Job. To set the jobs attribute: ◆ provide the argument JOB on the command line; ◆ specify the job name from an interactive prompt.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Job { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Async == true ? 1 : 0) + (Wait == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Async or Wait may be specified.", [nameof(Async), nameof(Wait)]);
+        }
+        yield break;
+    }
 
 }

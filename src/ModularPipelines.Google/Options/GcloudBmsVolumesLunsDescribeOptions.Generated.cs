@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bms", "volumes", "luns", "describe")]
 public record GcloudBmsVolumesLunsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Bare Metal Solution LUN
+    /// </summary>
+    /// <param name="Lun">Lun resource - lun. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lun on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the lun or fully qualified identifier for the lun. To set the lun attribute: ▸ provide the argument lun on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBmsVolumesLunsDescribeOptions(
+        string Lun
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Lun);
+        this.Lun = Lun;
+    }
+
+    public void Deconstruct(out string Lun)
+    {
+        Lun = this.Lun;
+    }
+
+    /// <summary>
+    /// Lun resource - lun. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lun on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Region of the resource. To set the region attribute: ▸ provide the argument lun on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Lun resource - lun. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lun on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Bare Metal Solution volume. To set the volume attribute: ▸ provide the argument lun on the command line with a fully specified name; ▸ provide the argument --volume on the command line.
+    /// </summary>
+    [CliOption("--volume", Format = OptionFormat.EqualsSeparated)]
+    public string? Volume { get; set; }
+
+    /// <summary>
+    /// Lun resource - lun. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lun on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the lun or fully qualified identifier for the lun. To set the lun attribute: ▸ provide the argument lun on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Lun { get; private init; }
+
 }

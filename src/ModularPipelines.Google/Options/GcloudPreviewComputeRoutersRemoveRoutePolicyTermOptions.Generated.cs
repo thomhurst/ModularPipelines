@@ -19,8 +19,57 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "routers", "remove-route-policy-term")]
-public record GcloudPreviewComputeRoutersRemoveRoutePolicyTermOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeRoutersRemoveRoutePolicyTermOptions : GcloudOptions
 {
+    /// <summary>
+    /// remove a route     policy term of a Compute Engine router
+    /// </summary>
+    /// <param name="PolicyName">Name of the route policy from which the term should be removed.</param>
+    /// <param name="Priority">Order of the term within the policy.</param>
+    /// <param name="Name">Name of the router to remove a route policy term from.</param>
+    public GcloudPreviewComputeRoutersRemoveRoutePolicyTermOptions(
+        string PolicyName,
+        string Priority,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(Priority);
+        this.Priority = Priority;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string PolicyName, out string Priority, out string Name)
+    {
+        PolicyName = this.PolicyName;
+        Priority = this.Priority;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the route policy from which the term should be removed.
+    /// </summary>
+    [CliOption("--policy-name", Format = OptionFormat.EqualsSeparated)]
+    public string PolicyName { get; private init; }
+
+    /// <summary>
+    /// Order of the term within the policy.
+    /// </summary>
+    [CliOption("--priority", Format = OptionFormat.EqualsSeparated)]
+    public string Priority { get; private init; }
+
+    /// <summary>
+    /// Region of the router to remove a route policy term from. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the router to remove a route policy term from.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

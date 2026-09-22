@@ -21,4 +21,44 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("firestore", "backups", "schedules", "update")]
 public record GcloudFirestoreBackupsSchedulesUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// updates a Cloud Firestore     backup schedule
+    /// </summary>
+    /// <param name="BackupSchedule">The backup schedule to operate on. For example, to operate on backup schedule 091a49a0-223f-4c98-8c69-a284abbdb26b: $ gcloud firestore backups schedules update \ --backup-schedule='091a49a0-223f-4c98-8c69-a284abbdb26b'</param>
+    /// <param name="Database">The database to operate on. For example, to operate on database foo: $ gcloud firestore backups schedules update --database='foo'</param>
+    public GcloudFirestoreBackupsSchedulesUpdateOptions(
+        string BackupSchedule,
+        string Database
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupSchedule);
+        this.BackupSchedule = BackupSchedule;
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+    }
+
+    public void Deconstruct(out string BackupSchedule, out string Database)
+    {
+        BackupSchedule = this.BackupSchedule;
+        Database = this.Database;
+    }
+
+    /// <summary>
+    /// The backup schedule to operate on. For example, to operate on backup schedule 091a49a0-223f-4c98-8c69-a284abbdb26b: $ gcloud firestore backups schedules update \ --backup-schedule='091a49a0-223f-4c98-8c69-a284abbdb26b'
+    /// </summary>
+    [CliOption("--backup-schedule", Format = OptionFormat.EqualsSeparated)]
+    public string BackupSchedule { get; private init; }
+
+    /// <summary>
+    /// The database to operate on. For example, to operate on database foo: $ gcloud firestore backups schedules update --database='foo'
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string Database { get; private init; }
+
+    /// <summary>
+    /// The rention of the backup. At what relative time in the future, compared to the creation time of the backup should the backup be deleted, i.e. keep backups for 7 days. For example, to set retention as 7 days. $ gcloud firestore backups schedules update --retention=7d
+    /// </summary>
+    [CliOption("--retention", Format = OptionFormat.EqualsSeparated)]
+    public string? Retention { get; set; }
+
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,529 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "tasks", "create")]
-public record GcloudDataplexTasksCreateOptions : GcloudOptions
+public record GcloudDataplexTasksCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Dataplex task resource
+    /// </summary>
+    /// <param name="ExecutionServiceAccount">Spec related to how a task is executed. This must be specified. Service account to use to execute a task. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="TriggerType">Spec related to Dataplex task scheduling and frequency settings. This must be specified. Trigger type of the user-specified Dataplex Task. TRIGGER_TYPE must be one of: on-demand The ON_DEMAND trigger type runs the Dataplex task one time shortly after task creation. recurring The RECURRING trigger type makes the task scheduled to run periodically. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="Task">Task resource - Arguments and flags that specify the Dataplex Task you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument task on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the task or fully qualified identifier for the task. To set the task attribute: ▸ provide the argument task on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexTasksCreateOptions(
+        string ExecutionServiceAccount,
+        string TriggerType,
+        string Task
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionServiceAccount);
+        this.ExecutionServiceAccount = ExecutionServiceAccount;
+        global::System.ArgumentNullException.ThrowIfNull(TriggerType);
+        this.TriggerType = TriggerType;
+        global::System.ArgumentNullException.ThrowIfNull(Task);
+        this.Task = Task;
+    }
+
+    public void Deconstruct(out string ExecutionServiceAccount, out string TriggerType, out string Task)
+    {
+        ExecutionServiceAccount = this.ExecutionServiceAccount;
+        TriggerType = this.TriggerType;
+        Task = this.Task;
+    }
+
+    /// <summary>
+    /// Spec related to how a task is executed. This must be specified. Service account to use to execute a task. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--execution-service-account", Format = OptionFormat.EqualsSeparated)]
+    public string ExecutionServiceAccount { get; private init; }
+
+    /// <summary>
+    /// Spec related to Dataplex task scheduling and frequency settings. This must be specified. Trigger type of the user-specified Dataplex Task. TRIGGER_TYPE must be one of: on-demand The ON_DEMAND trigger type runs the Dataplex task one time shortly after task creation. recurring The RECURRING trigger type makes the task scheduled to run periodically. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--trigger-type", Format = OptionFormat.EqualsSeparated)]
+    public string TriggerType { get; private init; }
+
+    /// <summary>
+    /// Task resource - Arguments and flags that specify the Dataplex Task you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument task on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Identifier of the Dataplex lake resource. To set the lake attribute: ▸ provide the argument task on the command line with a fully specified name; ▸ provide the argument --lake on the command line.
+    /// </summary>
+    [CliOption("--lake", Format = OptionFormat.EqualsSeparated)]
+    public string? Lake { get; set; }
+
+    /// <summary>
+    /// Task resource - Arguments and flags that specify the Dataplex Task you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument task on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the Dataplex resource. To set the location attribute: ▸ provide the argument task on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Spec related to how a task is executed. This must be specified. The arguments to pass to the task. The args can use placeholders of the format ${placeholder} as part of key/value string. These will be interpolated before passing the args to the driver. Currently supported placeholders: ▸ ${task_id} ▸ ${job_time} To pass positional args, set the key as TASK_ARGS. The value should be a comma-separated string of all the positional arguments. See https://cloud.google.com/sdk/gcloud/reference/topic/escaping for details on using a delimiter other than a comma. In case of other keys being present in the args, then TASK_ARGS will be passed as the last argument. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--execution-args", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ExecutionArgs { get; set; }
+
+    /// <summary>
+    /// Spec related to how a task is executed. This must be specified. The project in which jobs are run. By default, the project containing the Lake is used. If a project is provided, the --execution-service-account must belong to this same project.
+    /// </summary>
+    [CliOption("--execution-project", Format = OptionFormat.EqualsSeparated)]
+    public string? ExecutionProject { get; set; }
+
+    /// <summary>
+    /// Spec related to how a task is executed. This must be specified. The Cloud KMS key to use for encryption, of the form: projects/{project_number}/locations/{location_id}/keyRings/{key-ring-name}/cryptoKeys/{key-name}
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Spec related to how a task is executed. This must be specified. The maximum duration before the job execution expires.
+    /// </summary>
+    [CliOption("--max-job-execution-lifetime", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxJobExecutionLifetime { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Path to input notebook. This can be the Google Cloud Storage URI of the notebook file or the path to a Notebook Content. The execution args are accessible as environment variables (TASK_key=value). This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--notebook", Format = OptionFormat.EqualsSeparated)]
+    public string? Notebook { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Google Cloud Storage URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--notebook-archive-uris", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NotebookArchiveUris
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NotebookArchiveUrisSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NotebookArchiveUrisSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom notebook tasks. Google Cloud Storage URIs of files to be placed in the working directory of each executor. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--notebook-file-uris", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NotebookFileUris
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NotebookFileUrisSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NotebookFileUrisSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Compute resources needed for a Task when using Dataproc Serverless. Total number of job executors.
+    /// </summary>
+    [CliOption("--notebook-batch-executors-count", Format = OptionFormat.EqualsSeparated)]
+    public int? NotebookBatchExecutorsCount { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Compute resources needed for a Task when using Dataproc Serverless. Max configurable executors. If max_executors_count &gt; executors_count, then auto-scaling is enabled.
+    /// </summary>
+    [CliOption("--notebook-batch-max-executors-count", Format = OptionFormat.EqualsSeparated)]
+    public int? NotebookBatchMaxExecutorsCount { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Container Image Runtime Configuration. Optional custom container image for the job.
+    /// </summary>
+    [CliOption("--notebook-container-image", Format = OptionFormat.EqualsSeparated)]
+    public string? NotebookContainerImage { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Container Image Runtime Configuration. A list of Java JARS to add to the classpath. Valid input includes Cloud Storage URIs to Jar binaries. For example, gs://bucket-name/my/path/to/file.jar Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--notebook-container-image-java-jars", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NotebookContainerImageJavaJars
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NotebookContainerImageJavaJarsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NotebookContainerImageJavaJarsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Container Image Runtime Configuration. The properties to set on daemon config files. Property keys are specified in prefix:property format, for example core:hadoop.tmp.dir. For more information, see Cluster properties (https://cloud.google.com/dataproc/docs/concepts/cluster-properties) Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--notebook-container-image-properties", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? NotebookContainerImageProperties
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Cloud VPC Network used to run the infrastructure. List of network tags to apply to the job. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--notebook-vpc-network-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NotebookVpcNetworkTags
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NotebookVpcNetworkTagsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NotebookVpcNetworkTagsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Cloud VPC Network used to run the infrastructure. The Cloud VPC network identifier. At most one of these can be specified: The Cloud VPC network in which the job is run. By default, the Cloud VPC network named Default within the project is used.
+    /// </summary>
+    [CliOption("--notebook-vpc-network-name", Format = OptionFormat.EqualsSeparated)]
+    public string? NotebookVpcNetworkName { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Cloud VPC Network used to run the infrastructure. The Cloud VPC network identifier. At most one of these can be specified: The Cloud VPC sub-network in which the job is run.
+    /// </summary>
+    [CliOption("--notebook-vpc-sub-network-name", Format = OptionFormat.EqualsSeparated)]
+    public string? NotebookVpcSubNetworkName { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom Spark tasks. Google Cloud Storage URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--spark-archive-uris", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SparkArchiveUris
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SparkArchiveUrisSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SparkArchiveUrisSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom Spark tasks. Google Cloud Storage URIs of files to be placed in the working directory of each executor. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--spark-file-uris", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SparkFileUris
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SparkFileUrisSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SparkFileUrisSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom Spark tasks. The specification of the main method to call to drive the job. Specify either the jar file that contains the main class or the main class name. Exactly one of these must be specified: The name of the driver's main class. The jar file that contains the class must be in the default CLASSPATH or specified in jar_file_uris. The execution args are passed in as a sequence of named process arguments (--key=value).
+    /// </summary>
+    [CliOption("--spark-main-class", Format = OptionFormat.EqualsSeparated)]
+    public string? SparkMainClass { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom Spark tasks. The specification of the main method to call to drive the job. Specify either the jar file that contains the main class or the main class name. Exactly one of these must be specified: The Google Cloud Storage URI of the jar file that contains the main class. The execution args are passed in as a sequence of named process arguments (--key=value).
+    /// </summary>
+    [CliOption("--spark-main-jar-file-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? SparkMainJarFileUri { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom Spark tasks. The specification of the main method to call to drive the job. Specify either the jar file that contains the main class or the main class name. Exactly one of these must be specified: The Google Cloud Storage URI of the main Python file to use as the driver. Must be a .py file.
+    /// </summary>
+    [CliOption("--spark-python-script-file", Format = OptionFormat.EqualsSeparated)]
+    public string? SparkPythonScriptFile { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom Spark tasks. The specification of the main method to call to drive the job. Specify either the jar file that contains the main class or the main class name. Exactly one of these must be specified: The SQL query text.
+    /// </summary>
+    [CliOption("--spark-sql-script", Format = OptionFormat.EqualsSeparated)]
+    public string? SparkSqlScript { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Config related to running custom Spark tasks. The specification of the main method to call to drive the job. Specify either the jar file that contains the main class or the main class name. Exactly one of these must be specified: A reference to a query file. This can be the Google Cloud Storage URI of the query file or it can the path to a SqlScript Content.
+    /// </summary>
+    [CliOption("--spark-sql-script-file", Format = OptionFormat.EqualsSeparated)]
+    public string? SparkSqlScriptFile { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Compute resources needed for a Task when using Dataproc Serverless. Total number of job executors.
+    /// </summary>
+    [CliOption("--batch-executors-count", Format = OptionFormat.EqualsSeparated)]
+    public int? BatchExecutorsCount { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Compute resources needed for a Task when using Dataproc Serverless. Max configurable executors. If max_executors_count &gt; executors_count, then auto-scaling is enabled.
+    /// </summary>
+    [CliOption("--batch-max-executors-count", Format = OptionFormat.EqualsSeparated)]
+    public int? BatchMaxExecutorsCount { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Container Image Runtime Configuration. Optional custom container image for the job.
+    /// </summary>
+    [CliOption("--container-image", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerImage { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Container Image Runtime Configuration. A list of Java JARS to add to the classpath. Valid input includes Cloud Storage URIs to Jar binaries. For example, gs://bucket-name/my/path/to/file.jar Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--container-image-java-jars", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ContainerImageJavaJars
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ContainerImageJavaJarsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ContainerImageJavaJarsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Container Image Runtime Configuration. The properties to set on daemon config files. Property keys are specified in prefix:property format, for example core:hadoop.tmp.dir. For more information, see Cluster properties (https://cloud.google.com/dataproc/docs/concepts/cluster-properties) Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--container-image-properties", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ContainerImageProperties
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Container Image Runtime Configuration. A list of python packages to be installed. Valid formats include Cloud Storage URI to a PIP installable library. For example, gs://bucket-name/my/path/to/lib.tar.gz Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--container-image-python-packages", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ContainerImagePythonPackages
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ContainerImagePythonPackagesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ContainerImagePythonPackagesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Cloud VPC Network used to run the infrastructure. List of network tags to apply to the job. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--vpc-network-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? VpcNetworkTags
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __VpcNetworkTagsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __VpcNetworkTagsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Cloud VPC Network used to run the infrastructure. The Cloud VPC network identifier. At most one of these can be specified: The Cloud VPC network in which the job is run. By default, the Cloud VPC network named Default within the project is used.
+    /// </summary>
+    [CliOption("--vpc-network-name", Format = OptionFormat.EqualsSeparated)]
+    public string? VpcNetworkName { get; set; }
+
+    /// <summary>
+    /// Select which task you want to schedule and provide the required arguments for the task. The 2 types of tasks supported are:- ◆ spark tasks ◆ notebook tasks Exactly one of these must be specified: Cloud VPC Network used to run the infrastructure. The Cloud VPC network identifier. At most one of these can be specified: The Cloud VPC sub-network in which the job is run.
+    /// </summary>
+    [CliOption("--vpc-sub-network-name", Format = OptionFormat.EqualsSeparated)]
+    public string? VpcSubNetworkName { get; set; }
+
+    /// <summary>
+    /// Spec related to Dataplex task scheduling and frequency settings. This must be specified. Prevent the task from executing. This does not cancel already running tasks. It is intended to temporarily disable RECURRING tasks.
+    /// </summary>
+    [CliFlag("--trigger-disabled")]
+    public bool? TriggerDisabled { get; set; }
+
+    /// <summary>
+    /// Spec related to Dataplex task scheduling and frequency settings. This must be specified. Number of retry attempts before aborting. Set to zero to never attempt to retry a failed task.
+    /// </summary>
+    [CliOption("--trigger-max-retires", Format = OptionFormat.EqualsSeparated)]
+    public string? TriggerMaxRetires { get; set; }
+
+    /// <summary>
+    /// Spec related to Dataplex task scheduling and frequency settings. This must be specified. Cron schedule (https://en.wikipedia.org/wiki/Cron) for running tasks periodically.
+    /// </summary>
+    [CliOption("--trigger-schedule", Format = OptionFormat.EqualsSeparated)]
+    public string? TriggerSchedule { get; set; }
+
+    /// <summary>
+    /// Spec related to Dataplex task scheduling and frequency settings. This must be specified. The first run of the task begins after this time. If not specified, an ON_DEMAND task runs when it is submitted and a RECURRING task runs based on the trigger schedule.
+    /// </summary>
+    [CliOption("--trigger-start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? TriggerStartTime { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the Dataplex task.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Display name of the Dataplex task.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Task resource - Arguments and flags that specify the Dataplex Task you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument task on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the task or fully qualified identifier for the task. To set the task attribute: ▸ provide the argument task on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Task { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(Notebook) || ((object?)NotebookArchiveUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookArchiveUris is not string || !string.IsNullOrWhiteSpace(NotebookArchiveUris?.ToString()) : ((object?)NotebookArchiveUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookArchiveUris, static item => item is not null) : (NotebookArchiveUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookArchiveUris), static item => item is not null)))) || ((object?)NotebookFileUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookFileUris is not string || !string.IsNullOrWhiteSpace(NotebookFileUris?.ToString()) : ((object?)NotebookFileUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookFileUris, static item => item is not null) : (NotebookFileUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookFileUris), static item => item is not null))))) ? 1 : 0) + (((object?)NotebookBatchExecutorsCount is not null || (object?)NotebookBatchMaxExecutorsCount is not null) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(NotebookContainerImage) || ((object?)NotebookContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookContainerImageJavaJars is not string || !string.IsNullOrWhiteSpace(NotebookContainerImageJavaJars?.ToString()) : ((object?)NotebookContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookContainerImageJavaJars, static item => item is not null) : (NotebookContainerImageJavaJars is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookContainerImageJavaJars), static item => item is not null)))) || ((object?)NotebookContainerImageProperties is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookContainerImageProperties is not string || !string.IsNullOrWhiteSpace(NotebookContainerImageProperties?.ToString()) : ((object?)NotebookContainerImageProperties is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookContainerImageProperties, static item => item is not null) : (NotebookContainerImageProperties is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookContainerImageProperties), static item => item is not null))))) ? 1 : 0) + ((((object?)NotebookVpcNetworkTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookVpcNetworkTags is not string || !string.IsNullOrWhiteSpace(NotebookVpcNetworkTags?.ToString()) : ((object?)NotebookVpcNetworkTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookVpcNetworkTags, static item => item is not null) : (NotebookVpcNetworkTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookVpcNetworkTags), static item => item is not null)))) || !string.IsNullOrWhiteSpace(NotebookVpcNetworkName) || !string.IsNullOrWhiteSpace(NotebookVpcSubNetworkName)) ? 1 : 0) + ((((object?)SparkArchiveUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)SparkArchiveUris is not string || !string.IsNullOrWhiteSpace(SparkArchiveUris?.ToString()) : ((object?)SparkArchiveUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SparkArchiveUris, static item => item is not null) : (SparkArchiveUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SparkArchiveUris), static item => item is not null)))) || ((object?)SparkFileUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)SparkFileUris is not string || !string.IsNullOrWhiteSpace(SparkFileUris?.ToString()) : ((object?)SparkFileUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SparkFileUris, static item => item is not null) : (SparkFileUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SparkFileUris), static item => item is not null)))) || !string.IsNullOrWhiteSpace(SparkMainClass) || !string.IsNullOrWhiteSpace(SparkMainJarFileUri) || !string.IsNullOrWhiteSpace(SparkPythonScriptFile) || !string.IsNullOrWhiteSpace(SparkSqlScript) || !string.IsNullOrWhiteSpace(SparkSqlScriptFile)) ? 1 : 0) + (((object?)BatchExecutorsCount is not null || (object?)BatchMaxExecutorsCount is not null) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(ContainerImage) || ((object?)ContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<char> ? (object?)ContainerImageJavaJars is not string || !string.IsNullOrWhiteSpace(ContainerImageJavaJars?.ToString()) : ((object?)ContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ContainerImageJavaJars, static item => item is not null) : (ContainerImageJavaJars is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ContainerImageJavaJars), static item => item is not null)))) || ((object?)ContainerImageProperties is global::System.Collections.Generic.IEnumerable<char> ? (object?)ContainerImageProperties is not string || !string.IsNullOrWhiteSpace(ContainerImageProperties?.ToString()) : ((object?)ContainerImageProperties is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ContainerImageProperties, static item => item is not null) : (ContainerImageProperties is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ContainerImageProperties), static item => item is not null)))) || ((object?)ContainerImagePythonPackages is global::System.Collections.Generic.IEnumerable<char> ? (object?)ContainerImagePythonPackages is not string || !string.IsNullOrWhiteSpace(ContainerImagePythonPackages?.ToString()) : ((object?)ContainerImagePythonPackages is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ContainerImagePythonPackages, static item => item is not null) : (ContainerImagePythonPackages is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ContainerImagePythonPackages), static item => item is not null))))) ? 1 : 0) + ((((object?)VpcNetworkTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)VpcNetworkTags is not string || !string.IsNullOrWhiteSpace(VpcNetworkTags?.ToString()) : ((object?)VpcNetworkTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)VpcNetworkTags, static item => item is not null) : (VpcNetworkTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)VpcNetworkTags), static item => item is not null)))) || !string.IsNullOrWhiteSpace(VpcNetworkName) || !string.IsNullOrWhiteSpace(VpcSubNetworkName)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (Notebook, NotebookArchiveUris, or NotebookFileUris), (NotebookBatchExecutorsCount or NotebookBatchMaxExecutorsCount), (NotebookContainerImage, NotebookContainerImageJavaJars, or NotebookContainerImageProperties), (NotebookVpcNetworkTags, NotebookVpcNetworkName, or NotebookVpcSubNetworkName), (SparkArchiveUris, SparkFileUris, SparkMainClass, SparkMainJarFileUri, SparkPythonScriptFile, SparkSqlScript, or SparkSqlScriptFile), (BatchExecutorsCount or BatchMaxExecutorsCount), (ContainerImage, ContainerImageJavaJars, ContainerImageProperties, or ContainerImagePythonPackages), or (VpcNetworkTags, VpcNetworkName, or VpcSubNetworkName) must be specified.", [nameof(Notebook), nameof(NotebookArchiveUris), nameof(NotebookFileUris), nameof(NotebookBatchExecutorsCount), nameof(NotebookBatchMaxExecutorsCount), nameof(NotebookContainerImage), nameof(NotebookContainerImageJavaJars), nameof(NotebookContainerImageProperties), nameof(NotebookVpcNetworkTags), nameof(NotebookVpcNetworkName), nameof(NotebookVpcSubNetworkName), nameof(SparkArchiveUris), nameof(SparkFileUris), nameof(SparkMainClass), nameof(SparkMainJarFileUri), nameof(SparkPythonScriptFile), nameof(SparkSqlScript), nameof(SparkSqlScriptFile), nameof(BatchExecutorsCount), nameof(BatchMaxExecutorsCount), nameof(ContainerImage), nameof(ContainerImageJavaJars), nameof(ContainerImageProperties), nameof(ContainerImagePythonPackages), nameof(VpcNetworkTags), nameof(VpcNetworkName), nameof(VpcSubNetworkName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Notebook) || ((object?)NotebookArchiveUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookArchiveUris is not string || !string.IsNullOrWhiteSpace(NotebookArchiveUris?.ToString()) : ((object?)NotebookArchiveUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookArchiveUris, static item => item is not null) : (NotebookArchiveUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookArchiveUris), static item => item is not null)))) || ((object?)NotebookFileUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookFileUris is not string || !string.IsNullOrWhiteSpace(NotebookFileUris?.ToString()) : ((object?)NotebookFileUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookFileUris, static item => item is not null) : (NotebookFileUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookFileUris), static item => item is not null)))) || (object?)NotebookBatchExecutorsCount is not null || (object?)NotebookBatchMaxExecutorsCount is not null || !string.IsNullOrWhiteSpace(NotebookContainerImage) || ((object?)NotebookContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookContainerImageJavaJars is not string || !string.IsNullOrWhiteSpace(NotebookContainerImageJavaJars?.ToString()) : ((object?)NotebookContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookContainerImageJavaJars, static item => item is not null) : (NotebookContainerImageJavaJars is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookContainerImageJavaJars), static item => item is not null)))) || ((object?)NotebookContainerImageProperties is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookContainerImageProperties is not string || !string.IsNullOrWhiteSpace(NotebookContainerImageProperties?.ToString()) : ((object?)NotebookContainerImageProperties is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookContainerImageProperties, static item => item is not null) : (NotebookContainerImageProperties is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookContainerImageProperties), static item => item is not null)))) || ((object?)NotebookVpcNetworkTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookVpcNetworkTags is not string || !string.IsNullOrWhiteSpace(NotebookVpcNetworkTags?.ToString()) : ((object?)NotebookVpcNetworkTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookVpcNetworkTags, static item => item is not null) : (NotebookVpcNetworkTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookVpcNetworkTags), static item => item is not null)))) || !string.IsNullOrWhiteSpace(NotebookVpcNetworkName) || !string.IsNullOrWhiteSpace(NotebookVpcSubNetworkName) || ((object?)SparkArchiveUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)SparkArchiveUris is not string || !string.IsNullOrWhiteSpace(SparkArchiveUris?.ToString()) : ((object?)SparkArchiveUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SparkArchiveUris, static item => item is not null) : (SparkArchiveUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SparkArchiveUris), static item => item is not null)))) || ((object?)SparkFileUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)SparkFileUris is not string || !string.IsNullOrWhiteSpace(SparkFileUris?.ToString()) : ((object?)SparkFileUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SparkFileUris, static item => item is not null) : (SparkFileUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SparkFileUris), static item => item is not null)))) || !string.IsNullOrWhiteSpace(SparkMainClass) || !string.IsNullOrWhiteSpace(SparkMainJarFileUri) || !string.IsNullOrWhiteSpace(SparkPythonScriptFile) || !string.IsNullOrWhiteSpace(SparkSqlScript) || !string.IsNullOrWhiteSpace(SparkSqlScriptFile) || (object?)BatchExecutorsCount is not null || (object?)BatchMaxExecutorsCount is not null || !string.IsNullOrWhiteSpace(ContainerImage) || ((object?)ContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<char> ? (object?)ContainerImageJavaJars is not string || !string.IsNullOrWhiteSpace(ContainerImageJavaJars?.ToString()) : ((object?)ContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ContainerImageJavaJars, static item => item is not null) : (ContainerImageJavaJars is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ContainerImageJavaJars), static item => item is not null)))) || ((object?)ContainerImageProperties is global::System.Collections.Generic.IEnumerable<char> ? (object?)ContainerImageProperties is not string || !string.IsNullOrWhiteSpace(ContainerImageProperties?.ToString()) : ((object?)ContainerImageProperties is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ContainerImageProperties, static item => item is not null) : (ContainerImageProperties is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ContainerImageProperties), static item => item is not null)))) || ((object?)ContainerImagePythonPackages is global::System.Collections.Generic.IEnumerable<char> ? (object?)ContainerImagePythonPackages is not string || !string.IsNullOrWhiteSpace(ContainerImagePythonPackages?.ToString()) : ((object?)ContainerImagePythonPackages is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ContainerImagePythonPackages, static item => item is not null) : (ContainerImagePythonPackages is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ContainerImagePythonPackages), static item => item is not null)))) || ((object?)VpcNetworkTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)VpcNetworkTags is not string || !string.IsNullOrWhiteSpace(VpcNetworkTags?.ToString()) : ((object?)VpcNetworkTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)VpcNetworkTags, static item => item is not null) : (VpcNetworkTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)VpcNetworkTags), static item => item is not null)))) || !string.IsNullOrWhiteSpace(VpcNetworkName) || !string.IsNullOrWhiteSpace(VpcSubNetworkName)) && (!string.IsNullOrWhiteSpace(Notebook) || ((object?)NotebookArchiveUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookArchiveUris is not string || !string.IsNullOrWhiteSpace(NotebookArchiveUris?.ToString()) : ((object?)NotebookArchiveUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookArchiveUris, static item => item is not null) : (NotebookArchiveUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookArchiveUris), static item => item is not null)))) || ((object?)NotebookFileUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookFileUris is not string || !string.IsNullOrWhiteSpace(NotebookFileUris?.ToString()) : ((object?)NotebookFileUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookFileUris, static item => item is not null) : (NotebookFileUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookFileUris), static item => item is not null))))) && (!(!string.IsNullOrWhiteSpace(Notebook))))
+        {
+            yield return new ValidationResult("Notebook must be specified when other arguments in this group are specified.", [nameof(Notebook)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Notebook) || ((object?)NotebookArchiveUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookArchiveUris is not string || !string.IsNullOrWhiteSpace(NotebookArchiveUris?.ToString()) : ((object?)NotebookArchiveUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookArchiveUris, static item => item is not null) : (NotebookArchiveUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookArchiveUris), static item => item is not null)))) || ((object?)NotebookFileUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookFileUris is not string || !string.IsNullOrWhiteSpace(NotebookFileUris?.ToString()) : ((object?)NotebookFileUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookFileUris, static item => item is not null) : (NotebookFileUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookFileUris), static item => item is not null)))) || (object?)NotebookBatchExecutorsCount is not null || (object?)NotebookBatchMaxExecutorsCount is not null || !string.IsNullOrWhiteSpace(NotebookContainerImage) || ((object?)NotebookContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookContainerImageJavaJars is not string || !string.IsNullOrWhiteSpace(NotebookContainerImageJavaJars?.ToString()) : ((object?)NotebookContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookContainerImageJavaJars, static item => item is not null) : (NotebookContainerImageJavaJars is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookContainerImageJavaJars), static item => item is not null)))) || ((object?)NotebookContainerImageProperties is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookContainerImageProperties is not string || !string.IsNullOrWhiteSpace(NotebookContainerImageProperties?.ToString()) : ((object?)NotebookContainerImageProperties is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookContainerImageProperties, static item => item is not null) : (NotebookContainerImageProperties is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookContainerImageProperties), static item => item is not null)))) || ((object?)NotebookVpcNetworkTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookVpcNetworkTags is not string || !string.IsNullOrWhiteSpace(NotebookVpcNetworkTags?.ToString()) : ((object?)NotebookVpcNetworkTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookVpcNetworkTags, static item => item is not null) : (NotebookVpcNetworkTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookVpcNetworkTags), static item => item is not null)))) || !string.IsNullOrWhiteSpace(NotebookVpcNetworkName) || !string.IsNullOrWhiteSpace(NotebookVpcSubNetworkName) || ((object?)SparkArchiveUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)SparkArchiveUris is not string || !string.IsNullOrWhiteSpace(SparkArchiveUris?.ToString()) : ((object?)SparkArchiveUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SparkArchiveUris, static item => item is not null) : (SparkArchiveUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SparkArchiveUris), static item => item is not null)))) || ((object?)SparkFileUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)SparkFileUris is not string || !string.IsNullOrWhiteSpace(SparkFileUris?.ToString()) : ((object?)SparkFileUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SparkFileUris, static item => item is not null) : (SparkFileUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SparkFileUris), static item => item is not null)))) || !string.IsNullOrWhiteSpace(SparkMainClass) || !string.IsNullOrWhiteSpace(SparkMainJarFileUri) || !string.IsNullOrWhiteSpace(SparkPythonScriptFile) || !string.IsNullOrWhiteSpace(SparkSqlScript) || !string.IsNullOrWhiteSpace(SparkSqlScriptFile) || (object?)BatchExecutorsCount is not null || (object?)BatchMaxExecutorsCount is not null || !string.IsNullOrWhiteSpace(ContainerImage) || ((object?)ContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<char> ? (object?)ContainerImageJavaJars is not string || !string.IsNullOrWhiteSpace(ContainerImageJavaJars?.ToString()) : ((object?)ContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ContainerImageJavaJars, static item => item is not null) : (ContainerImageJavaJars is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ContainerImageJavaJars), static item => item is not null)))) || ((object?)ContainerImageProperties is global::System.Collections.Generic.IEnumerable<char> ? (object?)ContainerImageProperties is not string || !string.IsNullOrWhiteSpace(ContainerImageProperties?.ToString()) : ((object?)ContainerImageProperties is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ContainerImageProperties, static item => item is not null) : (ContainerImageProperties is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ContainerImageProperties), static item => item is not null)))) || ((object?)ContainerImagePythonPackages is global::System.Collections.Generic.IEnumerable<char> ? (object?)ContainerImagePythonPackages is not string || !string.IsNullOrWhiteSpace(ContainerImagePythonPackages?.ToString()) : ((object?)ContainerImagePythonPackages is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ContainerImagePythonPackages, static item => item is not null) : (ContainerImagePythonPackages is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ContainerImagePythonPackages), static item => item is not null)))) || ((object?)VpcNetworkTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)VpcNetworkTags is not string || !string.IsNullOrWhiteSpace(VpcNetworkTags?.ToString()) : ((object?)VpcNetworkTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)VpcNetworkTags, static item => item is not null) : (VpcNetworkTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)VpcNetworkTags), static item => item is not null)))) || !string.IsNullOrWhiteSpace(VpcNetworkName) || !string.IsNullOrWhiteSpace(VpcSubNetworkName)) && (((object?)NotebookVpcNetworkTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookVpcNetworkTags is not string || !string.IsNullOrWhiteSpace(NotebookVpcNetworkTags?.ToString()) : ((object?)NotebookVpcNetworkTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookVpcNetworkTags, static item => item is not null) : (NotebookVpcNetworkTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookVpcNetworkTags), static item => item is not null)))) || !string.IsNullOrWhiteSpace(NotebookVpcNetworkName) || !string.IsNullOrWhiteSpace(NotebookVpcSubNetworkName)) && ((!string.IsNullOrWhiteSpace(NotebookVpcNetworkName) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NotebookVpcSubNetworkName) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of NotebookVpcNetworkName or NotebookVpcSubNetworkName may be specified.", [nameof(NotebookVpcNetworkName), nameof(NotebookVpcSubNetworkName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Notebook) || ((object?)NotebookArchiveUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookArchiveUris is not string || !string.IsNullOrWhiteSpace(NotebookArchiveUris?.ToString()) : ((object?)NotebookArchiveUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookArchiveUris, static item => item is not null) : (NotebookArchiveUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookArchiveUris), static item => item is not null)))) || ((object?)NotebookFileUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookFileUris is not string || !string.IsNullOrWhiteSpace(NotebookFileUris?.ToString()) : ((object?)NotebookFileUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookFileUris, static item => item is not null) : (NotebookFileUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookFileUris), static item => item is not null)))) || (object?)NotebookBatchExecutorsCount is not null || (object?)NotebookBatchMaxExecutorsCount is not null || !string.IsNullOrWhiteSpace(NotebookContainerImage) || ((object?)NotebookContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookContainerImageJavaJars is not string || !string.IsNullOrWhiteSpace(NotebookContainerImageJavaJars?.ToString()) : ((object?)NotebookContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookContainerImageJavaJars, static item => item is not null) : (NotebookContainerImageJavaJars is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookContainerImageJavaJars), static item => item is not null)))) || ((object?)NotebookContainerImageProperties is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookContainerImageProperties is not string || !string.IsNullOrWhiteSpace(NotebookContainerImageProperties?.ToString()) : ((object?)NotebookContainerImageProperties is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookContainerImageProperties, static item => item is not null) : (NotebookContainerImageProperties is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookContainerImageProperties), static item => item is not null)))) || ((object?)NotebookVpcNetworkTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookVpcNetworkTags is not string || !string.IsNullOrWhiteSpace(NotebookVpcNetworkTags?.ToString()) : ((object?)NotebookVpcNetworkTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookVpcNetworkTags, static item => item is not null) : (NotebookVpcNetworkTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookVpcNetworkTags), static item => item is not null)))) || !string.IsNullOrWhiteSpace(NotebookVpcNetworkName) || !string.IsNullOrWhiteSpace(NotebookVpcSubNetworkName) || ((object?)SparkArchiveUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)SparkArchiveUris is not string || !string.IsNullOrWhiteSpace(SparkArchiveUris?.ToString()) : ((object?)SparkArchiveUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SparkArchiveUris, static item => item is not null) : (SparkArchiveUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SparkArchiveUris), static item => item is not null)))) || ((object?)SparkFileUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)SparkFileUris is not string || !string.IsNullOrWhiteSpace(SparkFileUris?.ToString()) : ((object?)SparkFileUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SparkFileUris, static item => item is not null) : (SparkFileUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SparkFileUris), static item => item is not null)))) || !string.IsNullOrWhiteSpace(SparkMainClass) || !string.IsNullOrWhiteSpace(SparkMainJarFileUri) || !string.IsNullOrWhiteSpace(SparkPythonScriptFile) || !string.IsNullOrWhiteSpace(SparkSqlScript) || !string.IsNullOrWhiteSpace(SparkSqlScriptFile) || (object?)BatchExecutorsCount is not null || (object?)BatchMaxExecutorsCount is not null || !string.IsNullOrWhiteSpace(ContainerImage) || ((object?)ContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<char> ? (object?)ContainerImageJavaJars is not string || !string.IsNullOrWhiteSpace(ContainerImageJavaJars?.ToString()) : ((object?)ContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ContainerImageJavaJars, static item => item is not null) : (ContainerImageJavaJars is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ContainerImageJavaJars), static item => item is not null)))) || ((object?)ContainerImageProperties is global::System.Collections.Generic.IEnumerable<char> ? (object?)ContainerImageProperties is not string || !string.IsNullOrWhiteSpace(ContainerImageProperties?.ToString()) : ((object?)ContainerImageProperties is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ContainerImageProperties, static item => item is not null) : (ContainerImageProperties is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ContainerImageProperties), static item => item is not null)))) || ((object?)ContainerImagePythonPackages is global::System.Collections.Generic.IEnumerable<char> ? (object?)ContainerImagePythonPackages is not string || !string.IsNullOrWhiteSpace(ContainerImagePythonPackages?.ToString()) : ((object?)ContainerImagePythonPackages is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ContainerImagePythonPackages, static item => item is not null) : (ContainerImagePythonPackages is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ContainerImagePythonPackages), static item => item is not null)))) || ((object?)VpcNetworkTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)VpcNetworkTags is not string || !string.IsNullOrWhiteSpace(VpcNetworkTags?.ToString()) : ((object?)VpcNetworkTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)VpcNetworkTags, static item => item is not null) : (VpcNetworkTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)VpcNetworkTags), static item => item is not null)))) || !string.IsNullOrWhiteSpace(VpcNetworkName) || !string.IsNullOrWhiteSpace(VpcSubNetworkName)) && (((object?)SparkArchiveUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)SparkArchiveUris is not string || !string.IsNullOrWhiteSpace(SparkArchiveUris?.ToString()) : ((object?)SparkArchiveUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SparkArchiveUris, static item => item is not null) : (SparkArchiveUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SparkArchiveUris), static item => item is not null)))) || ((object?)SparkFileUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)SparkFileUris is not string || !string.IsNullOrWhiteSpace(SparkFileUris?.ToString()) : ((object?)SparkFileUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SparkFileUris, static item => item is not null) : (SparkFileUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SparkFileUris), static item => item is not null)))) || !string.IsNullOrWhiteSpace(SparkMainClass) || !string.IsNullOrWhiteSpace(SparkMainJarFileUri) || !string.IsNullOrWhiteSpace(SparkPythonScriptFile) || !string.IsNullOrWhiteSpace(SparkSqlScript) || !string.IsNullOrWhiteSpace(SparkSqlScriptFile)) && ((!string.IsNullOrWhiteSpace(SparkMainClass) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SparkMainJarFileUri) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SparkPythonScriptFile) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SparkSqlScript) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SparkSqlScriptFile) ? 1 : 0) != 1))
+        {
+            yield return new ValidationResult("Exactly one of SparkMainClass, SparkMainJarFileUri, SparkPythonScriptFile, SparkSqlScript, or SparkSqlScriptFile must be specified.", [nameof(SparkMainClass), nameof(SparkMainJarFileUri), nameof(SparkPythonScriptFile), nameof(SparkSqlScript), nameof(SparkSqlScriptFile)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Notebook) || ((object?)NotebookArchiveUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookArchiveUris is not string || !string.IsNullOrWhiteSpace(NotebookArchiveUris?.ToString()) : ((object?)NotebookArchiveUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookArchiveUris, static item => item is not null) : (NotebookArchiveUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookArchiveUris), static item => item is not null)))) || ((object?)NotebookFileUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookFileUris is not string || !string.IsNullOrWhiteSpace(NotebookFileUris?.ToString()) : ((object?)NotebookFileUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookFileUris, static item => item is not null) : (NotebookFileUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookFileUris), static item => item is not null)))) || (object?)NotebookBatchExecutorsCount is not null || (object?)NotebookBatchMaxExecutorsCount is not null || !string.IsNullOrWhiteSpace(NotebookContainerImage) || ((object?)NotebookContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookContainerImageJavaJars is not string || !string.IsNullOrWhiteSpace(NotebookContainerImageJavaJars?.ToString()) : ((object?)NotebookContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookContainerImageJavaJars, static item => item is not null) : (NotebookContainerImageJavaJars is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookContainerImageJavaJars), static item => item is not null)))) || ((object?)NotebookContainerImageProperties is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookContainerImageProperties is not string || !string.IsNullOrWhiteSpace(NotebookContainerImageProperties?.ToString()) : ((object?)NotebookContainerImageProperties is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookContainerImageProperties, static item => item is not null) : (NotebookContainerImageProperties is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookContainerImageProperties), static item => item is not null)))) || ((object?)NotebookVpcNetworkTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)NotebookVpcNetworkTags is not string || !string.IsNullOrWhiteSpace(NotebookVpcNetworkTags?.ToString()) : ((object?)NotebookVpcNetworkTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NotebookVpcNetworkTags, static item => item is not null) : (NotebookVpcNetworkTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NotebookVpcNetworkTags), static item => item is not null)))) || !string.IsNullOrWhiteSpace(NotebookVpcNetworkName) || !string.IsNullOrWhiteSpace(NotebookVpcSubNetworkName) || ((object?)SparkArchiveUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)SparkArchiveUris is not string || !string.IsNullOrWhiteSpace(SparkArchiveUris?.ToString()) : ((object?)SparkArchiveUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SparkArchiveUris, static item => item is not null) : (SparkArchiveUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SparkArchiveUris), static item => item is not null)))) || ((object?)SparkFileUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)SparkFileUris is not string || !string.IsNullOrWhiteSpace(SparkFileUris?.ToString()) : ((object?)SparkFileUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SparkFileUris, static item => item is not null) : (SparkFileUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SparkFileUris), static item => item is not null)))) || !string.IsNullOrWhiteSpace(SparkMainClass) || !string.IsNullOrWhiteSpace(SparkMainJarFileUri) || !string.IsNullOrWhiteSpace(SparkPythonScriptFile) || !string.IsNullOrWhiteSpace(SparkSqlScript) || !string.IsNullOrWhiteSpace(SparkSqlScriptFile) || (object?)BatchExecutorsCount is not null || (object?)BatchMaxExecutorsCount is not null || !string.IsNullOrWhiteSpace(ContainerImage) || ((object?)ContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<char> ? (object?)ContainerImageJavaJars is not string || !string.IsNullOrWhiteSpace(ContainerImageJavaJars?.ToString()) : ((object?)ContainerImageJavaJars is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ContainerImageJavaJars, static item => item is not null) : (ContainerImageJavaJars is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ContainerImageJavaJars), static item => item is not null)))) || ((object?)ContainerImageProperties is global::System.Collections.Generic.IEnumerable<char> ? (object?)ContainerImageProperties is not string || !string.IsNullOrWhiteSpace(ContainerImageProperties?.ToString()) : ((object?)ContainerImageProperties is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ContainerImageProperties, static item => item is not null) : (ContainerImageProperties is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ContainerImageProperties), static item => item is not null)))) || ((object?)ContainerImagePythonPackages is global::System.Collections.Generic.IEnumerable<char> ? (object?)ContainerImagePythonPackages is not string || !string.IsNullOrWhiteSpace(ContainerImagePythonPackages?.ToString()) : ((object?)ContainerImagePythonPackages is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ContainerImagePythonPackages, static item => item is not null) : (ContainerImagePythonPackages is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ContainerImagePythonPackages), static item => item is not null)))) || ((object?)VpcNetworkTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)VpcNetworkTags is not string || !string.IsNullOrWhiteSpace(VpcNetworkTags?.ToString()) : ((object?)VpcNetworkTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)VpcNetworkTags, static item => item is not null) : (VpcNetworkTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)VpcNetworkTags), static item => item is not null)))) || !string.IsNullOrWhiteSpace(VpcNetworkName) || !string.IsNullOrWhiteSpace(VpcSubNetworkName)) && (((object?)VpcNetworkTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)VpcNetworkTags is not string || !string.IsNullOrWhiteSpace(VpcNetworkTags?.ToString()) : ((object?)VpcNetworkTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)VpcNetworkTags, static item => item is not null) : (VpcNetworkTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)VpcNetworkTags), static item => item is not null)))) || !string.IsNullOrWhiteSpace(VpcNetworkName) || !string.IsNullOrWhiteSpace(VpcSubNetworkName)) && ((!string.IsNullOrWhiteSpace(VpcNetworkName) ? 1 : 0) + (!string.IsNullOrWhiteSpace(VpcSubNetworkName) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of VpcNetworkName or VpcSubNetworkName may be specified.", [nameof(VpcNetworkName), nameof(VpcSubNetworkName)]);
+        }
+        yield break;
+    }
+
 }

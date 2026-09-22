@@ -19,8 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "network-policies", "describe")]
-public record GcloudVmwareNetworkPoliciesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Vm
-) : GcloudOptions
+public record GcloudVmwareNetworkPoliciesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a VMware Engine network     policy
+    /// </summary>
+    /// <param name="NetworkPolicy">VMware Engine Network Policy resource - network_policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the VMware Engine Network Policy or fully qualified identifier for the VMware Engine Network Policy. To set the network-policy attribute: ▸ provide the argument network_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVmwareNetworkPoliciesDescribeOptions(
+        string NetworkPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkPolicy);
+        this.NetworkPolicy = NetworkPolicy;
+    }
+
+    public void Deconstruct(out string NetworkPolicy)
+    {
+        NetworkPolicy = this.NetworkPolicy;
+    }
+
+    /// <summary>
+    /// VMware Engine Network Policy resource - network_policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The resource name of the location. To set the location attribute: ▸ provide the argument network_policy on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// VMware Engine Network Policy resource - network_policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the VMware Engine Network Policy or fully qualified identifier for the VMware Engine Network Policy. To set the network-policy attribute: ▸ provide the argument network_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NetworkPolicy { get; private init; }
+
 }

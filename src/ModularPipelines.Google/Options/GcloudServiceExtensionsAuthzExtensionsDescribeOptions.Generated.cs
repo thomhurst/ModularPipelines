@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("service-extensions", "authz-extensions", "describe")]
 public record GcloudServiceExtensionsAuthzExtensionsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an     AuthzExtension resource
+    /// </summary>
+    /// <param name="AuthzExtension">AuthzExtension resource - The ID of the AuthzExtension resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument authz_extension on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the AuthzExtension or fully qualified identifier for the AuthzExtension. To set the authz_extension attribute: ▸ provide the argument authz_extension on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudServiceExtensionsAuthzExtensionsDescribeOptions(
+        string AuthzExtension
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthzExtension);
+        this.AuthzExtension = AuthzExtension;
+    }
+
+    public void Deconstruct(out string AuthzExtension)
+    {
+        AuthzExtension = this.AuthzExtension;
+    }
+
+    /// <summary>
+    /// AuthzExtension resource - The ID of the AuthzExtension resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument authz_extension on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud region in which the resource is located. To set the location attribute: ▸ provide the argument authz_extension on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// AuthzExtension resource - The ID of the AuthzExtension resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument authz_extension on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the AuthzExtension or fully qualified identifier for the AuthzExtension. To set the authz_extension attribute: ▸ provide the argument authz_extension on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AuthzExtension { get; private init; }
+
 }

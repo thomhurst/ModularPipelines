@@ -21,4 +21,84 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("backup-dr", "backup-plan-associations", "create")]
 public record GcloudBackupDrBackupPlanAssociationsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new backup plan     association
+    /// </summary>
+    /// <param name="BackupPlan">Backup Plan resource - The backup plan to be applied to the resource. E.g., projects/sample-project/locations/us-central1/backupPlans/sample-backup-plan This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --backup-plan on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --backup-plan on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the Backup Plan or fully qualified identifier for the Backup Plan. To set the name attribute: ▸ provide the argument --backup-plan on the command line.</param>
+    /// <param name="Resource">The resource to which the backup plan is to be applied. E.g., projects/sample-project/zones/us-central1-a/instances/sample-instance</param>
+    /// <param name="ResourceType">Type of resource to which the backup plan should be applied. For example: ◆ compute.&lt;UNIVERSE_DOMAIN&gt;/Instance for Compute Engine instances. ◆ file.&lt;UNIVERSE_DOMAIN&gt;/Instance for Filestore instances.</param>
+    /// <param name="BackupPlanAssociation">Backup Plan Association resource - Name of the backup plan association to be created. Once the backup plan association is created, this name can't be changed. The name must be unique for a project and location. To create backup plan associations in a project that's different from the backup plan, use the --workload-project flag. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the Backup Plan Association or fully qualified identifier for the Backup Plan Association. To set the name attribute: ▸ provide the argument BACKUP_PLAN_ASSOCIATION on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBackupDrBackupPlanAssociationsCreateOptions(
+        string BackupPlan,
+        string Resource,
+        string ResourceType,
+        string BackupPlanAssociation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupPlan);
+        this.BackupPlan = BackupPlan;
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+        global::System.ArgumentNullException.ThrowIfNull(BackupPlanAssociation);
+        this.BackupPlanAssociation = BackupPlanAssociation;
+    }
+
+    public void Deconstruct(out string BackupPlan, out string Resource, out string ResourceType, out string BackupPlanAssociation)
+    {
+        BackupPlan = this.BackupPlan;
+        Resource = this.Resource;
+        ResourceType = this.ResourceType;
+        BackupPlanAssociation = this.BackupPlanAssociation;
+    }
+
+    /// <summary>
+    /// Backup Plan resource - The backup plan to be applied to the resource. E.g., projects/sample-project/locations/us-central1/backupPlans/sample-backup-plan This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --backup-plan on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --backup-plan on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the Backup Plan or fully qualified identifier for the Backup Plan. To set the name attribute: ▸ provide the argument --backup-plan on the command line.
+    /// </summary>
+    [CliOption("--backup-plan", Format = OptionFormat.EqualsSeparated)]
+    public string BackupPlan { get; private init; }
+
+    /// <summary>
+    /// The resource to which the backup plan is to be applied. E.g., projects/sample-project/zones/us-central1-a/instances/sample-instance
+    /// </summary>
+    [CliOption("--resource", Format = OptionFormat.EqualsSeparated)]
+    public string Resource { get; private init; }
+
+    /// <summary>
+    /// Type of resource to which the backup plan should be applied. For example: ◆ compute.&lt;UNIVERSE_DOMAIN&gt;/Instance for Compute Engine instances. ◆ file.&lt;UNIVERSE_DOMAIN&gt;/Instance for Filestore instances.
+    /// </summary>
+    [CliOption("--resource-type", Format = OptionFormat.EqualsSeparated)]
+    public string ResourceType { get; private init; }
+
+    /// <summary>
+    /// Backup Plan Association resource - Name of the backup plan association to be created. Once the backup plan association is created, this name can't be changed. The name must be unique for a project and location. To create backup plan associations in a project that's different from the backup plan, use the --workload-project flag. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location of the Backup Plan Association. To set the location attribute: ▸ provide the argument BACKUP_PLAN_ASSOCIATION on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Backup Plan Association resource - Name of the backup plan association to be created. Once the backup plan association is created, this name can't be changed. The name must be unique for a project and location. To create backup plan associations in a project that's different from the backup plan, use the --workload-project flag. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Cloud project id for the Backup Plan Association. To set the workload-project attribute: ▸ provide the argument BACKUP_PLAN_ASSOCIATION on the command line with a fully specified name; ▸ provide the argument --workload-project on the command line; ▸ provide the argument --project on the command line; ▸ set the property core/project.
+    /// </summary>
+    [CliOption("--workload-project", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkloadProject { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Backup Plan Association resource - Name of the backup plan association to be created. Once the backup plan association is created, this name can't be changed. The name must be unique for a project and location. To create backup plan associations in a project that's different from the backup plan, use the --workload-project flag. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the Backup Plan Association or fully qualified identifier for the Backup Plan Association. To set the name attribute: ▸ provide the argument BACKUP_PLAN_ASSOCIATION on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackupPlanAssociation { get; private init; }
+
 }

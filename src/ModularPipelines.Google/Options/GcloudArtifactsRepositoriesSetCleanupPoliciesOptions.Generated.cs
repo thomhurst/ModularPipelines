@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,57 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "repositories", "set-cleanup-policies")]
-public record GcloudArtifactsRepositoriesSetCleanupPoliciesOptions : GcloudOptions
+public record GcloudArtifactsRepositoriesSetCleanupPoliciesOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// set or update cleanup     policies for an Artifact Registry repository
+    /// </summary>
+    /// <param name="Repository">Repository resource - The parent Artifact Registry repository for the list of cleanup policies. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the repository or fully qualified identifier for the repository. To set the repository attribute: ▸ provide the argument repository on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudArtifactsRepositoriesSetCleanupPoliciesOptions(
+        string Repository
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Repository);
+        this.Repository = Repository;
+    }
+
+    public void Deconstruct(out string Repository)
+    {
+        Repository = this.Repository;
+    }
+
+    /// <summary>
+    /// Repository resource - The parent Artifact Registry repository for the list of cleanup policies. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the repository. Overrides the default artifacts/location property value for this command invocation. To configure the default location, use the command: gcloud config set artifacts/location. To set the location attribute: ▸ provide the argument repository on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Disable deleting images according to cleanup policies.
+    /// </summary>
+    [CliFlag("--dry-run")]
+    public bool? DryRun { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Path to a local JSON formatted file containing valid cleanup policies.
+    /// </summary>
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
+    public string? Policy { get; set; }
+
+    /// <summary>
+    /// Repository resource - The parent Artifact Registry repository for the list of cleanup policies. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the repository or fully qualified identifier for the repository. To set the repository attribute: ▸ provide the argument repository on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Repository { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(DryRun == true || !string.IsNullOrWhiteSpace(Policy)))
+        {
+            yield return new ValidationResult("At least one of DryRun or Policy must be specified.", [nameof(DryRun), nameof(Policy)]);
+        }
+        yield break;
+    }
+
 }

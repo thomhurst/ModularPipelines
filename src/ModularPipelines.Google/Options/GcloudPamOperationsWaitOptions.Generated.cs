@@ -21,4 +21,45 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("pam", "operations", "wait")]
 public record GcloudPamOperationsWaitOptions : GcloudOptions
 {
+    /// <summary>
+    /// poll a Privileged Access Manager long running     operation
+    /// </summary>
+    /// <param name="Operation">Operation resource - Name of the operation to poll. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [privilegedaccessmanager.projects.locations.operations, privilegedaccessmanager.folders.locations.operations, privilegedaccessmanager.organizations.locations.operations]. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument operation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPamOperationsWaitOptions(
+        string Operation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+    }
+
+    public void Deconstruct(out string Operation)
+    {
+        Operation = this.Operation;
+    }
+
+    /// <summary>
+    /// Operation resource - Name of the operation to poll. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [privilegedaccessmanager.projects.locations.operations, privilegedaccessmanager.folders.locations.operations, privilegedaccessmanager.organizations.locations.operations]. This must be specified. The name of the folder To set the folder attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --folder on the command line. Must be specified for resource of type [privilegedaccessmanager.folders.locations.operations].
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Operation resource - Name of the operation to poll. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [privilegedaccessmanager.projects.locations.operations, privilegedaccessmanager.folders.locations.operations, privilegedaccessmanager.organizations.locations.operations]. This must be specified. The resource location To set the location attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Operation resource - Name of the operation to poll. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [privilegedaccessmanager.projects.locations.operations, privilegedaccessmanager.folders.locations.operations, privilegedaccessmanager.organizations.locations.operations]. This must be specified. The name of the organization To set the organization attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [privilegedaccessmanager.organizations.locations.operations].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Operation resource - Name of the operation to poll. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [privilegedaccessmanager.projects.locations.operations, privilegedaccessmanager.folders.locations.operations, privilegedaccessmanager.organizations.locations.operations]. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument operation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Operation { get; private init; }
+
 }

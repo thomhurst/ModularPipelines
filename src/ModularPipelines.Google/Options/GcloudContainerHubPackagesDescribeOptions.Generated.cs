@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerHubPackagesDescribeOptions : GcloudOptions
 {
     /// <summary>
+    /// describe Package Rollouts Fleet     Package
+    /// </summary>
+    /// <param name="FleetPackage">Fleet package resource - The Fleet Package to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument fleet_package on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the fleet-package or fully qualified identifier for the fleet-package. To set the fleet-package attribute: ▸ provide the argument fleet_package on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerHubPackagesDescribeOptions(
+        string FleetPackage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FleetPackage);
+        this.FleetPackage = FleetPackage;
+    }
+
+    public void Deconstruct(out string FleetPackage)
+    {
+        FleetPackage = this.FleetPackage;
+    }
+
+    /// <summary>
+    /// Fleet package resource - The Fleet Package to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument fleet_package on the command line with a fully specified name; ◆ set the property core/project. This must be specified. Google Cloud zone or region for the fleet-package. To set the location attribute: ▸ provide the argument fleet_package on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property config_delivery/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Show more information about the Fleet Package.
     /// </summary>
     [CliFlag("--show-cluster-status")]
     public bool? ShowClusterStatus { get; set; }
+
+    /// <summary>
+    /// Fleet package resource - The Fleet Package to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument fleet_package on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the fleet-package or fully qualified identifier for the fleet-package. To set the fleet-package attribute: ▸ provide the argument fleet_package on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FleetPackage { get; private init; }
 
 }

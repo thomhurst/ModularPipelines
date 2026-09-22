@@ -21,4 +21,122 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("vector-search", "collections", "indexes", "create")]
 public record GcloudVectorSearchCollectionsIndexesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create an index
+    /// </summary>
+    /// <param name="IndexField">The collection schema field to index.</param>
+    /// <param name="Index">Index resource - Identifier. name of resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the index or fully qualified identifier for the index. To set the index attribute: ▸ provide the argument index on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVectorSearchCollectionsIndexesCreateOptions(
+        string IndexField,
+        string Index
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IndexField);
+        this.IndexField = IndexField;
+        global::System.ArgumentNullException.ThrowIfNull(Index);
+        this.Index = Index;
+    }
+
+    public void Deconstruct(out string IndexField, out string Index)
+    {
+        IndexField = this.IndexField;
+        Index = this.Index;
+    }
+
+    /// <summary>
+    /// The collection schema field to index.
+    /// </summary>
+    [CliOption("--index-field", Format = OptionFormat.EqualsSeparated)]
+    public string IndexField { get; private init; }
+
+    /// <summary>
+    /// Index resource - Identifier. name of resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The collection id of the index resource. To set the collection attribute: ▸ provide the argument index on the command line with a fully specified name; ▸ provide the argument --collection on the command line.
+    /// </summary>
+    [CliOption("--collection", Format = OptionFormat.EqualsSeparated)]
+    public string? Collection { get; set; }
+
+    /// <summary>
+    /// Index resource - Identifier. name of resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the index resource. To set the location attribute: ▸ provide the argument index on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Arguments for the index type. Dense ScaNN index configuration. Feature norm type. DENSE_SCANN_FEATURE_NORM_TYPE must be one of: none No norm applied. unit-l2-norm Unit L2 norm.
+    /// </summary>
+    [CliOption("--dense-scann-feature-norm-type", Format = OptionFormat.EqualsSeparated)]
+    public string? DenseScannFeatureNormType { get; set; }
+
+    /// <summary>
+    /// Arguments for the index type. Dense ScaNN index configuration. User-specified description of the index
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Arguments for the index type. Dense ScaNN index configuration. User-specified display name of the index
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Arguments for the index type. Dense ScaNN index configuration. Distance metric used for indexing. If not specified, will default to DOT_PRODUCT. DISTANCE_METRIC must be one of: cosine-distance Cosine distance metric. dot-product Dot product distance metric.
+    /// </summary>
+    [CliOption("--distance-metric", Format = OptionFormat.EqualsSeparated)]
+    public string? DistanceMetric { get; set; }
+
+    /// <summary>
+    /// Arguments for the index type. Dense ScaNN index configuration. The fields to push into the index to enable fast ANN inline filtering. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--filter-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? FilterFields { get; set; }
+
+    /// <summary>
+    /// Arguments for the index type. Dense ScaNN index configuration. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// Arguments for the index type. Dense ScaNN index configuration. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Arguments for the index type. Dense ScaNN index configuration. The fields to push into the index to enable inline data retrieval. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--store-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? StoreFields { get; set; }
+
+    /// <summary>
+    /// Arguments for the infra type. Represents dedicated infrastructure for the index. Arguments for the mode. Specification for autoscaling. Mode of the dedicated infrastructure. DEDICATED_INFRASTRUCTURE_MODE must be one of: performance-optimized This is Performance optimized on E2 or equivalent family. storage-optimized This is storage optimized variation.
+    /// </summary>
+    [CliOption("--dedicated-infrastructure-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? DedicatedInfrastructureMode { get; set; }
+
+    /// <summary>
+    /// Arguments for the infra type. Represents dedicated infrastructure for the index. Arguments for the mode. Specification for autoscaling. The maximum number of replicas. Must be &gt;= min_replica_count and &lt;= 1000. For the v1beta version, if not set or set to 0, defaults to the greater of min_replica_count and 5. For all other versions, if not set or set to 0, defaults to the greater of min_replica_count and 2.
+    /// </summary>
+    [CliOption("--dedicated-infrastructure-autoscaling-spec-max-replica-count", Format = OptionFormat.EqualsSeparated)]
+    public int? DedicatedInfrastructureAutoscalingSpecMaxReplicaCount { get; set; }
+
+    /// <summary>
+    /// Arguments for the infra type. Represents dedicated infrastructure for the index. Arguments for the mode. Specification for autoscaling. The minimum number of replicas. If not set or set to 0, defaults to 2. Must be &gt;= 1 and &lt;= 1000.
+    /// </summary>
+    [CliOption("--dedicated-infrastructure-autoscaling-spec-min-replica-count", Format = OptionFormat.EqualsSeparated)]
+    public int? DedicatedInfrastructureAutoscalingSpecMinReplicaCount { get; set; }
+
+    /// <summary>
+    /// Index resource - Identifier. name of resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the index or fully qualified identifier for the index. To set the index attribute: ▸ provide the argument index on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Index { get; private init; }
+
 }

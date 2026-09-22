@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("components", "remove")]
-public record GcloudComponentsRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> ComponentId
-) : GcloudOptions
+public record GcloudComponentsRemoveOptions : GcloudOptions
 {
+    /// <summary>
+    /// remove one or more installed components
+    /// </summary>
+    /// <param name="ComponentId">The IDs of the components to be removed.</param>
+    public GcloudComponentsRemoveOptions(
+        IEnumerable<string> ComponentId
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ComponentId);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ComponentId));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ComponentId));
+            }
+
+            ComponentId = materialized;
+        }
+        this.ComponentId = ComponentId;
+    }
+
+    public void Deconstruct(out IEnumerable<string> ComponentId)
+    {
+        ComponentId = this.ComponentId;
+    }
+
+    /// <summary>
+    /// The IDs of the components to be removed.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> ComponentId { get; private init; }
+
 }

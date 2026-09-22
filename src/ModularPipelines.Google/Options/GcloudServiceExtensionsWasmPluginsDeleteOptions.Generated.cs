@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudServiceExtensionsWasmPluginsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a WasmPlugin     resource
+    /// </summary>
+    /// <param name="WasmPlugin">WasmPlugin resource - The WasmPlugin resource to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument wasm_plugin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the WasmPlugin or fully qualified identifier for the WasmPlugin. To set the wasm_plugin attribute: ▸ provide the argument wasm_plugin on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudServiceExtensionsWasmPluginsDeleteOptions(
+        string WasmPlugin
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WasmPlugin);
+        this.WasmPlugin = WasmPlugin;
+    }
+
+    public void Deconstruct(out string WasmPlugin)
+    {
+        WasmPlugin = this.WasmPlugin;
+    }
+
+    /// <summary>
+    /// WasmPlugin resource - The WasmPlugin resource to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument wasm_plugin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location ID. To set the location attribute: ▸ provide the argument wasm_plugin on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ use global location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// WasmPlugin resource - The WasmPlugin resource to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument wasm_plugin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the WasmPlugin or fully qualified identifier for the WasmPlugin. To set the wasm_plugin attribute: ▸ provide the argument wasm_plugin on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WasmPlugin { get; private init; }
 
 }

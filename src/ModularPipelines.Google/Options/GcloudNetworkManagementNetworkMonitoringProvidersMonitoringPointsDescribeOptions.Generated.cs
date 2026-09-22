@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-management", "network-monitoring-providers", "monitoring-points", "describe")]
 public record GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// points     describe - describe a Monitoring Point
+    /// </summary>
+    /// <param name="MonitoringPoint">MonitoringPoint resource - Name of the resource. Format: projects/{project}/locations/{location}/networkMonitoringProviders/{network_monitoring_provider}/monitoringPoints/{monitoring_point} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument monitoring_point on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the monitoringPoint or fully qualified identifier for the monitoringPoint. To set the monitoring_point attribute: ▸ provide the argument monitoring_point on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDescribeOptions(
+        string MonitoringPoint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MonitoringPoint);
+        this.MonitoringPoint = MonitoringPoint;
+    }
+
+    public void Deconstruct(out string MonitoringPoint)
+    {
+        MonitoringPoint = this.MonitoringPoint;
+    }
+
+    /// <summary>
+    /// MonitoringPoint resource - Name of the resource. Format: projects/{project}/locations/{location}/networkMonitoringProviders/{network_monitoring_provider}/monitoringPoints/{monitoring_point} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument monitoring_point on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the monitoringPoint resource. To set the location attribute: ▸ provide the argument monitoring_point on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// MonitoringPoint resource - Name of the resource. Format: projects/{project}/locations/{location}/networkMonitoringProviders/{network_monitoring_provider}/monitoringPoints/{monitoring_point} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument monitoring_point on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The networkMonitoringProvider id of the monitoringPoint resource. To set the network-monitoring-provider attribute: ▸ provide the argument monitoring_point on the command line with a fully specified name; ▸ provide the argument --network-monitoring-provider on the command line.
+    /// </summary>
+    [CliOption("--network-monitoring-provider", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkMonitoringProvider { get; set; }
+
+    /// <summary>
+    /// MonitoringPoint resource - Name of the resource. Format: projects/{project}/locations/{location}/networkMonitoringProviders/{network_monitoring_provider}/monitoringPoints/{monitoring_point} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument monitoring_point on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the monitoringPoint or fully qualified identifier for the monitoringPoint. To set the monitoring_point attribute: ▸ provide the argument monitoring_point on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MonitoringPoint { get; private init; }
+
 }

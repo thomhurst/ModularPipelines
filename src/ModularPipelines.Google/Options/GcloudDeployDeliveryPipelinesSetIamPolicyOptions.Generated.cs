@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "delivery-pipelines", "set-iam-policy")]
-public record GcloudDeployDeliveryPipelinesSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Iam
-) : GcloudOptions
+public record GcloudDeployDeliveryPipelinesSetIamPolicyOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// set the IAM policy for a     Cloud Deploy delivery pipeline
+    /// </summary>
+    /// <param name="PolicyFile">Delivery pipeline resource - The delivery pipeline for which to set the IAM policy.. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument delivery_pipeline on the command line with a fully specified name; ◆ set the property deploy/delivery_pipeline with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudDeployDeliveryPipelinesSetIamPolicyOptions(
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string PolicyFile)
+    {
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// Delivery pipeline resource - The delivery pipeline for which to set the IAM policy.. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument delivery_pipeline on the command line with a fully specified name; ◆ set the property deploy/delivery_pipeline with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Location of the delivery_pipeline. To set the region attribute: ◆ provide the argument delivery_pipeline on the command line with a fully specified name; ◆ set the property deploy/delivery_pipeline with a fully specified name; ◆ provide the argument --region on the command line; ◆ set the property deploy/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Delivery pipeline resource - The delivery pipeline for which to set the IAM policy.. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument delivery_pipeline on the command line with a fully specified name; ◆ set the property deploy/delivery_pipeline with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the delivery_pipeline or fully qualified identifier for the delivery_pipeline. To set the delivery_pipeline attribute: ◆ provide the argument delivery_pipeline on the command line; ◆ set the property deploy/delivery_pipeline.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? DeliveryPipeline { get; set; }
+
+    /// <summary>
+    /// Delivery pipeline resource - The delivery pipeline for which to set the IAM policy.. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument delivery_pipeline on the command line with a fully specified name; ◆ set the property deploy/delivery_pipeline with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DeliveryPipeline) || !string.IsNullOrWhiteSpace(Region)) && (!(!string.IsNullOrWhiteSpace(Region))))
+        {
+            yield return new ValidationResult("Region must be specified when other arguments in this group are specified.", [nameof(Region)]);
+        }
+        yield break;
+    }
+
 }

@@ -34,9 +34,15 @@ public record GcloudDockerOptions : GcloudOptions
     public string? DockerHost { get; set; }
 
     /// <summary>
-    /// Address of the Google Cloud Registry.
+    /// Address of the Google Cloud Registry. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--server", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--server", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Server { get; set; }
+
+    /// <summary>
+    /// Arguments to pass to Docker. The '--' argument must be specified between gcloud specific args on the left and DOCKER_ARGS on the right.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
+    public IEnumerable<string>? DockerArgs { get; set; }
 
 }

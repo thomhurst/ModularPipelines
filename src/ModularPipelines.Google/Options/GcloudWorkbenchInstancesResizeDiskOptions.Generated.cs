@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,63 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workbench", "instances", "resize-disk")]
-public record GcloudWorkbenchInstancesResizeDiskOptions : GcloudOptions
+public record GcloudWorkbenchInstancesResizeDiskOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// resizes the workbench instance's     disk
+    /// </summary>
+    /// <param name="Instance">Instance resource - User-defined unique name of this instance. The instance name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudWorkbenchInstancesResizeDiskOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Instance resource - User-defined unique name of this instance. The instance name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location of this environment https://cloud.google.com/compute/docs/regions-zones/#locations. To set the location attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property notebooks/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Disk resizing configurations Amount needs to be greater than the existing size. Exactly one of these must be specified: Size of boot disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB).
+    /// </summary>
+    [CliOption("--boot-disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? BootDiskSize { get; set; }
+
+    /// <summary>
+    /// Disk resizing configurations Amount needs to be greater than the existing size. Exactly one of these must be specified: Size of data disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB).
+    /// </summary>
+    [CliOption("--data-disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? DataDiskSize { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Instance resource - User-defined unique name of this instance. The instance name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((object?)BootDiskSize is not null ? 1 : 0) + ((object?)DataDiskSize is not null ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of BootDiskSize or DataDiskSize must be specified.", [nameof(BootDiskSize), nameof(DataDiskSize)]);
+        }
+        yield break;
+    }
+
 }

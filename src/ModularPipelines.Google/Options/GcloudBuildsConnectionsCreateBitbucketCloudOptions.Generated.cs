@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -21,4 +22,86 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("builds", "connections", "create", "bitbucket-cloud")]
 public record GcloudBuildsConnectionsCreateBitbucketCloudOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Cloud Build     Connection for Bitbucket Cloud
+    /// </summary>
+    /// <param name="AuthorizerTokenSecretVersion">Secret containing the repository_read,repository_admin, pullrequest_read, webhook repository/project/workspace access token.</param>
+    /// <param name="ReadAuthorizerTokenSecretVersion">Secret containing the repository_read repository/project/workspace access token.</param>
+    /// <param name="WebhookSecretSecretVersion">Secret containing the webhook secret string for validating webhook events sent by Bitbucket Cloud.</param>
+    /// <param name="Workspace">Workspace of the Bitbucket Cloud instance.</param>
+    /// <param name="Connection">Connection resource - Connection to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection or fully qualified identifier for the connection. To set the connection attribute: ▸ provide the argument connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBuildsConnectionsCreateBitbucketCloudOptions(
+        string AuthorizerTokenSecretVersion,
+        string ReadAuthorizerTokenSecretVersion,
+        string WebhookSecretSecretVersion,
+        string Workspace,
+        string Connection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizerTokenSecretVersion);
+        this.AuthorizerTokenSecretVersion = AuthorizerTokenSecretVersion;
+        global::System.ArgumentNullException.ThrowIfNull(ReadAuthorizerTokenSecretVersion);
+        this.ReadAuthorizerTokenSecretVersion = ReadAuthorizerTokenSecretVersion;
+        global::System.ArgumentNullException.ThrowIfNull(WebhookSecretSecretVersion);
+        this.WebhookSecretSecretVersion = WebhookSecretSecretVersion;
+        global::System.ArgumentNullException.ThrowIfNull(Workspace);
+        this.Workspace = Workspace;
+        global::System.ArgumentNullException.ThrowIfNull(Connection);
+        this.Connection = Connection;
+    }
+
+    public void Deconstruct(out string AuthorizerTokenSecretVersion, out string ReadAuthorizerTokenSecretVersion, out string WebhookSecretSecretVersion, out string Workspace, out string Connection)
+    {
+        AuthorizerTokenSecretVersion = this.AuthorizerTokenSecretVersion;
+        ReadAuthorizerTokenSecretVersion = this.ReadAuthorizerTokenSecretVersion;
+        WebhookSecretSecretVersion = this.WebhookSecretSecretVersion;
+        Workspace = this.Workspace;
+        Connection = this.Connection;
+    }
+
+    /// <summary>
+    /// Secret containing the repository_read,repository_admin, pullrequest_read, webhook repository/project/workspace access token.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--authorizer-token-secret-version", Format = OptionFormat.EqualsSeparated)]
+    public string AuthorizerTokenSecretVersion { get; private init; }
+
+    /// <summary>
+    /// Secret containing the repository_read repository/project/workspace access token.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--read-authorizer-token-secret-version", Format = OptionFormat.EqualsSeparated)]
+    public string ReadAuthorizerTokenSecretVersion { get; private init; }
+
+    /// <summary>
+    /// Secret containing the webhook secret string for validating webhook events sent by Bitbucket Cloud.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--webhook-secret-secret-version", Format = OptionFormat.EqualsSeparated)]
+    public string WebhookSecretSecretVersion { get; private init; }
+
+    /// <summary>
+    /// Workspace of the Bitbucket Cloud instance.
+    /// </summary>
+    [CliOption("--workspace", Format = OptionFormat.EqualsSeparated)]
+    public string Workspace { get; private init; }
+
+    /// <summary>
+    /// Connection resource - Connection to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Google Cloud region. To set the region attribute: ▸ provide the argument connection on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property builds/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Connection resource - Connection to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection or fully qualified identifier for the connection. To set the connection attribute: ▸ provide the argument connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Connection { get; private init; }
+
 }

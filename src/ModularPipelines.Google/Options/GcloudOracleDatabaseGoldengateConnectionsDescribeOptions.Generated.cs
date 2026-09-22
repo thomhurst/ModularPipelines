@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("oracle-database", "goldengate-connections", "describe")]
 public record GcloudOracleDatabaseGoldengateConnectionsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get details of a     GoldengateConnection
+    /// </summary>
+    /// <param name="GoldengateConnection">GoldengateConnection resource - The name of the GoldengateConnection in the following format: projects/{project}/locations/{location}/goldengateConnections/{goldengate_connection}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument goldengate_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the goldengateConnection or fully qualified identifier for the goldengateConnection. To set the goldengate_connection attribute: ▸ provide the argument goldengate_connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudOracleDatabaseGoldengateConnectionsDescribeOptions(
+        string GoldengateConnection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GoldengateConnection);
+        this.GoldengateConnection = GoldengateConnection;
+    }
+
+    public void Deconstruct(out string GoldengateConnection)
+    {
+        GoldengateConnection = this.GoldengateConnection;
+    }
+
+    /// <summary>
+    /// GoldengateConnection resource - The name of the GoldengateConnection in the following format: projects/{project}/locations/{location}/goldengateConnections/{goldengate_connection}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument goldengate_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the goldengateConnection resource. To set the location attribute: ▸ provide the argument goldengate_connection on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// GoldengateConnection resource - The name of the GoldengateConnection in the following format: projects/{project}/locations/{location}/goldengateConnections/{goldengate_connection}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument goldengate_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the goldengateConnection or fully qualified identifier for the goldengateConnection. To set the goldengate_connection attribute: ▸ provide the argument goldengate_connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GoldengateConnection { get; private init; }
+
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,117 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "routers", "create")]
-public record GcloudPreviewComputeRoutersCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeRoutersCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Compute Engine router
+    /// </summary>
+    /// <param name="Name">Name of the router to create.</param>
+    public GcloudPreviewComputeRoutersCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The NCC Gateway URI for this router.
+    /// </summary>
+    [CliOption("--ncc-gateway", Format = OptionFormat.EqualsSeparated)]
+    public string? NccGateway { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The network for this router
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// The new advertisement mode for this router. MODE must be one of: CUSTOM Custom (user-configured) BGP advertisements. DEFAULT Default (Google-managed) BGP advertisements.
+    /// </summary>
+    [CliOption("--advertisement-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? AdvertisementMode { get; set; }
+
+    /// <summary>
+    /// The optional BGP autonomous system number (ASN) for this router. Must be a 16-bit or 32-bit private ASN as defined in https://tools.ietf.org/html/rfc6996, for example --asn=64512.
+    /// </summary>
+    [CliOption("--asn", Format = OptionFormat.EqualsSeparated)]
+    public string? Asn { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The range of valid BGP Identifiers for this Router. Must be a link-local IPv4 range from 169.254.0.0/16, of size at least /30, even if the BGP sessions are over IPv6. It must not overlap with any IPv4 BGP session ranges. This is commonly called "router ID" by other vendors.
+    /// </summary>
+    [CliOption("--bgp-identifier-range", Format = OptionFormat.EqualsSeparated)]
+    public string? BgpIdentifierRange { get; set; }
+
+    /// <summary>
+    /// An optional description of this router.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Indicates if a router is dedicated for use with encrypted interconnect attachments (VLAN attachments).
+    /// </summary>
+    [CliFlag("--encrypted-interconnect-router")]
+    public bool? EncryptedInterconnectRouter { get; set; }
+
+    /// <summary>
+    /// The interval between BGP keepalive messages that are sent to the peer. If set, this value must be between 20 and 60 seconds. The default is 20 seconds. See $ gcloud topic datetimes for information on duration formats. BGP systems exchange keepalive messages to determine whether a link or host has failed or is no longer available. Hold time is the length of time in seconds that the BGP session is considered operational without any activity. After the hold time expires, the session is dropped. Hold time is three times the interval at which keepalive messages are sent, and the hold time is the maximum number of seconds allowed to elapse between successive keepalive messages that BGP receives from a peer. BGP will use the smaller of either the local hold time value or the peer's hold time value as the hold time for the BGP connection between the two peers.
+    /// </summary>
+    [CliOption("--keepalive-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? KeepaliveInterval { get; set; }
+
+    /// <summary>
+    /// Region of the router to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of Resource Manager tags to attach to the router. Key-value pairs must be provided in the form tagKeys/{TagKey_Numeric_ID}=tagValues/{TagValue_Numeric_ID}. See Listing tag keys (https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing#listing_keys). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
+
+    /// <summary>
+    /// The list of pre-defined groups of IP ranges to dynamically advertise on this router. This list can only be specified in custom advertisement mode. GROUP must be (only one value is supported): ALL_SUBNETS Automatically advertise all available subnets. This excludes any routes learned for subnets that use VPC Network Peering. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--set-advertisement-groups", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SetAdvertisementGroups { get; set; }
+
+    /// <summary>
+    /// The list of individual IP ranges, in CIDR format, to dynamically advertise on this router. Each IP range can (optionally) be given a text description DESC. For example, to advertise a specific range, use --set-advertisement-ranges=192.168.10.0/24. To store a description with the range, use --set-advertisement-ranges=192.168.10.0/24=my-networks. This list can only be specified in custom advertisement mode. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--set-advertisement-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SetAdvertisementRanges { get; set; }
+
+    /// <summary>
+    /// Name of the router to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(NccGateway) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Network) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of NccGateway or Network must be specified.", [nameof(NccGateway), nameof(Network)]);
+        }
+        yield break;
+    }
+
 }

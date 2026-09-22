@@ -19,8 +19,57 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "routers", "remove-named-set-element")]
-public record GcloudPreviewComputeRoutersRemoveNamedSetElementOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeRoutersRemoveNamedSetElementOptions : GcloudOptions
 {
+    /// <summary>
+    /// remove an element     from a named set of a Compute Engine router
+    /// </summary>
+    /// <param name="SetElement">CEL expression for the element.</param>
+    /// <param name="SetName">Name of the match set.</param>
+    /// <param name="Name">Name of the router to update.</param>
+    public GcloudPreviewComputeRoutersRemoveNamedSetElementOptions(
+        string SetElement,
+        string SetName,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SetElement);
+        this.SetElement = SetElement;
+        global::System.ArgumentNullException.ThrowIfNull(SetName);
+        this.SetName = SetName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string SetElement, out string SetName, out string Name)
+    {
+        SetElement = this.SetElement;
+        SetName = this.SetName;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// CEL expression for the element.
+    /// </summary>
+    [CliOption("--set-element", Format = OptionFormat.EqualsSeparated)]
+    public string SetElement { get; private init; }
+
+    /// <summary>
+    /// Name of the match set.
+    /// </summary>
+    [CliOption("--set-name", Format = OptionFormat.EqualsSeparated)]
+    public string SetName { get; private init; }
+
+    /// <summary>
+    /// Region of the router to update. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the router to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

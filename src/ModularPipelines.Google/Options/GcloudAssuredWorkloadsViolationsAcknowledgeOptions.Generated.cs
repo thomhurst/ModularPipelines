@@ -21,4 +21,62 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("assured", "workloads", "violations", "acknowledge")]
 public record GcloudAssuredWorkloadsViolationsAcknowledgeOptions : GcloudOptions
 {
+    /// <summary>
+    /// acknowledge an existing     Assured Workloads compliance violation
+    /// </summary>
+    /// <param name="Comment">Business justification used added to acknowledge a violation.</param>
+    /// <param name="Violation">Violation resource - The Assured Workloads violation resource to acknowledge. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the violation or fully qualified identifier for the violation. To set the violation attribute: ▸ provide the argument violation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAssuredWorkloadsViolationsAcknowledgeOptions(
+        string Comment,
+        string Violation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Comment);
+        this.Comment = Comment;
+        global::System.ArgumentNullException.ThrowIfNull(Violation);
+        this.Violation = Violation;
+    }
+
+    public void Deconstruct(out string Comment, out string Violation)
+    {
+        Comment = this.Comment;
+        Violation = this.Violation;
+    }
+
+    /// <summary>
+    /// Business justification used added to acknowledge a violation.
+    /// </summary>
+    [CliOption("--comment", Format = OptionFormat.EqualsSeparated)]
+    public string Comment { get; private init; }
+
+    /// <summary>
+    /// Violation resource - The Assured Workloads violation resource to acknowledge. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location for the violation. To set the location attribute: ▸ provide the argument violation on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Violation resource - The Assured Workloads violation resource to acknowledge. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The parent organization for the violation. To set the organization attribute: ▸ provide the argument violation on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Violation resource - The Assured Workloads violation resource to acknowledge. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The workload for the violation. To set the workload attribute: ▸ provide the argument violation on the command line with a fully specified name; ▸ provide the argument --workload on the command line.
+    /// </summary>
+    [CliOption("--workload", Format = OptionFormat.EqualsSeparated)]
+    public string? Workload { get; set; }
+
+    /// <summary>
+    /// the acknowledge type for specified violation, which is one of: SINGLE_VIOLATION - to acknowledge specified violation, EXISTING_CHILD_RESOURCE_VIOLATIONS - to acknowledge specified org policy violation and all associated child resource violations.
+    /// </summary>
+    [CliOption("--acknowledge-type", Format = OptionFormat.EqualsSeparated)]
+    public string? AcknowledgeType { get; set; }
+
+    /// <summary>
+    /// Violation resource - The Assured Workloads violation resource to acknowledge. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the violation or fully qualified identifier for the violation. To set the violation attribute: ▸ provide the argument violation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Violation { get; private init; }
+
 }

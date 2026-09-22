@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,194 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vector-search", "collections", "data-objects", "search")]
-public record GcloudVectorSearchCollectionsDataObjectsSearchOptions : GcloudOptions
+public record GcloudVectorSearchCollectionsDataObjectsSearchOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// search data objects     from a Vector Search collection
+    /// </summary>
+    /// <param name="Collection">The collection to search data objects from.</param>
+    /// <param name="Location">Location of the collection.</param>
+    public GcloudVectorSearchCollectionsDataObjectsSearchOptions(
+        string Collection,
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Collection);
+        this.Collection = Collection;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Collection, out string Location)
+    {
+        Collection = this.Collection;
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// The collection to search data objects from.
+    /// </summary>
+    [CliOption("--collection", Format = OptionFormat.EqualsSeparated)]
+    public string Collection { get; private init; }
+
+    /// <summary>
+    /// Location of the collection.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Search type Exactly one of these must be specified: Semantic Search The vector field to search. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--semantic-search-field", Format = OptionFormat.EqualsSeparated)]
+    public string? SemanticSearchField { get; set; }
+
+    /// <summary>
+    /// Search type Exactly one of these must be specified: Semantic Search The query text for semantic search. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--semantic-search-text", Format = OptionFormat.EqualsSeparated)]
+    public string? SemanticSearchText { get; set; }
+
+    /// <summary>
+    /// Search type Exactly one of these must be specified: Semantic Search The task type of the query embedding for semantic search. SEMANTIC_TASK_TYPE must be one of: classification Specifies that the given text will be classified. clustering Specifies that the embeddings will be used for clustering. code-retrieval-query Specifies that the embeddings will be used for code retrieval. fact-verification Specifies that the embeddings will be used for fact verification. question-answering Specifies that the embeddings will be used for question answering. retrieval-document Specifies the given text is a document from the corpus being searched. retrieval-query Specifies the given text is a query in a search/retrieval setting. semantic-similarity Specifies the given text will be used for STS. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--semantic-task-type", Format = OptionFormat.EqualsSeparated)]
+    public string? SemanticTaskType { get; set; }
+
+    /// <summary>
+    /// Search type Exactly one of these must be specified: Text Search The data field names to search. This flag argument must be specified if any of the other arguments in this group are specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--text-search-data-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? TextSearchDataFields
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __TextSearchDataFieldsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __TextSearchDataFieldsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Search type Exactly one of these must be specified: Text Search The query text for text search. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--text-search-text", Format = OptionFormat.EqualsSeparated)]
+    public string? TextSearchText { get; set; }
+
+    /// <summary>
+    /// Search type Exactly one of these must be specified: Vector Search Path to a JSON file containing dense or sparse vector to search with. ▸ Example file content for dense vector: { "dense": { "values": [ 0.7, 0.6, 0.5, 0.4 ] } } ▸ Example file content for sparse vector: { "sparse": { "indices": [1, 5, 10], "values": [0.1, 0.5, 0.21] } } This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--vector-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? VectorFromFile { get; set; }
+
+    /// <summary>
+    /// Search type Exactly one of these must be specified: Vector Search The vector field to search. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--vector-search-field", Format = OptionFormat.EqualsSeparated)]
+    public string? VectorSearchField { get; set; }
+
+    /// <summary>
+    /// Search type Exactly one of these must be specified: Vector Search The distance metric to use for the KNN search. If not specified, dot-product will be used as the default. DISTANCE_METRIC must be one of: cosine-distance Cosine distance metric. dot-product Dot product distance metric.
+    /// </summary>
+    [CliOption("--distance-metric", Format = OptionFormat.EqualsSeparated)]
+    public string? DistanceMetric { get; set; }
+
+    /// <summary>
+    /// A filter expression in JSON format to apply to the search, e.g. '{"genre": {"$eq": "sci-fi"}}'.
+    /// </summary>
+    [CliOption("--json-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonFilter { get; set; }
+
+    /// <summary>
+    /// The number of nearest neighbors to return. Default is 10.
+    /// </summary>
+    [CliOption("--top-k", Format = OptionFormat.EqualsSeparated)]
+    public string? TopK { get; set; }
+
+    /// <summary>
+    /// Output fields List of data fields to include in the output. Use * to include all data fields. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--output-data-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? OutputDataFields { get; set; }
+
+    /// <summary>
+    /// Output fields List of metadata fields to include in the output. Use * to include all metadata fields. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--output-metadata-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? OutputMetadataFields { get; set; }
+
+    /// <summary>
+    /// Output fields List of vector fields to include in the output. Use * to include all vector fields. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--output-vector-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? OutputVectorFields { get; set; }
+
+    /// <summary>
+    /// Search Hint At most one of these can be specified: Use Index Options Full resource name or ID of the index to use for the search. This flag is compatible only with Semantic Search and Vector Search.
+    /// </summary>
+    [CliOption("--use-index", Format = OptionFormat.EqualsSeparated)]
+    public string? UseIndex { get; set; }
+
+    /// <summary>
+    /// Search Hint At most one of these can be specified: If set to true, the search will use the system's default K-Nearest Neighbor (KNN) index engine. This flag is compatible only with Semantic Search and Vector Search.
+    /// </summary>
+    [CliFlag("--use-knn")]
+    public bool? UseKnn { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(SemanticSearchField) || !string.IsNullOrWhiteSpace(SemanticSearchText) || !string.IsNullOrWhiteSpace(SemanticTaskType)) ? 1 : 0) + ((((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<char> ? (object?)TextSearchDataFields is not string || !string.IsNullOrWhiteSpace(TextSearchDataFields?.ToString()) : ((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TextSearchDataFields, static item => item is not null) : (TextSearchDataFields is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TextSearchDataFields), static item => item is not null)))) || !string.IsNullOrWhiteSpace(TextSearchText)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(VectorFromFile) || !string.IsNullOrWhiteSpace(VectorSearchField) || !string.IsNullOrWhiteSpace(DistanceMetric)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (SemanticSearchField, SemanticSearchText, or SemanticTaskType), (TextSearchDataFields or TextSearchText), or (VectorFromFile, VectorSearchField, or DistanceMetric) must be specified.", [nameof(SemanticSearchField), nameof(SemanticSearchText), nameof(SemanticTaskType), nameof(TextSearchDataFields), nameof(TextSearchText), nameof(VectorFromFile), nameof(VectorSearchField), nameof(DistanceMetric)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SemanticSearchField) || !string.IsNullOrWhiteSpace(SemanticSearchText) || !string.IsNullOrWhiteSpace(SemanticTaskType) || ((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<char> ? (object?)TextSearchDataFields is not string || !string.IsNullOrWhiteSpace(TextSearchDataFields?.ToString()) : ((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TextSearchDataFields, static item => item is not null) : (TextSearchDataFields is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TextSearchDataFields), static item => item is not null)))) || !string.IsNullOrWhiteSpace(TextSearchText) || !string.IsNullOrWhiteSpace(VectorFromFile) || !string.IsNullOrWhiteSpace(VectorSearchField) || !string.IsNullOrWhiteSpace(DistanceMetric)) && (!string.IsNullOrWhiteSpace(SemanticSearchField) || !string.IsNullOrWhiteSpace(SemanticSearchText) || !string.IsNullOrWhiteSpace(SemanticTaskType)) && (!(!string.IsNullOrWhiteSpace(SemanticSearchField))))
+        {
+            yield return new ValidationResult("SemanticSearchField must be specified when other arguments in this group are specified.", [nameof(SemanticSearchField)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SemanticSearchField) || !string.IsNullOrWhiteSpace(SemanticSearchText) || !string.IsNullOrWhiteSpace(SemanticTaskType) || ((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<char> ? (object?)TextSearchDataFields is not string || !string.IsNullOrWhiteSpace(TextSearchDataFields?.ToString()) : ((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TextSearchDataFields, static item => item is not null) : (TextSearchDataFields is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TextSearchDataFields), static item => item is not null)))) || !string.IsNullOrWhiteSpace(TextSearchText) || !string.IsNullOrWhiteSpace(VectorFromFile) || !string.IsNullOrWhiteSpace(VectorSearchField) || !string.IsNullOrWhiteSpace(DistanceMetric)) && (!string.IsNullOrWhiteSpace(SemanticSearchField) || !string.IsNullOrWhiteSpace(SemanticSearchText) || !string.IsNullOrWhiteSpace(SemanticTaskType)) && (!(!string.IsNullOrWhiteSpace(SemanticSearchText))))
+        {
+            yield return new ValidationResult("SemanticSearchText must be specified when other arguments in this group are specified.", [nameof(SemanticSearchText)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SemanticSearchField) || !string.IsNullOrWhiteSpace(SemanticSearchText) || !string.IsNullOrWhiteSpace(SemanticTaskType) || ((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<char> ? (object?)TextSearchDataFields is not string || !string.IsNullOrWhiteSpace(TextSearchDataFields?.ToString()) : ((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TextSearchDataFields, static item => item is not null) : (TextSearchDataFields is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TextSearchDataFields), static item => item is not null)))) || !string.IsNullOrWhiteSpace(TextSearchText) || !string.IsNullOrWhiteSpace(VectorFromFile) || !string.IsNullOrWhiteSpace(VectorSearchField) || !string.IsNullOrWhiteSpace(DistanceMetric)) && (!string.IsNullOrWhiteSpace(SemanticSearchField) || !string.IsNullOrWhiteSpace(SemanticSearchText) || !string.IsNullOrWhiteSpace(SemanticTaskType)) && (!(!string.IsNullOrWhiteSpace(SemanticTaskType))))
+        {
+            yield return new ValidationResult("SemanticTaskType must be specified when other arguments in this group are specified.", [nameof(SemanticTaskType)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SemanticSearchField) || !string.IsNullOrWhiteSpace(SemanticSearchText) || !string.IsNullOrWhiteSpace(SemanticTaskType) || ((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<char> ? (object?)TextSearchDataFields is not string || !string.IsNullOrWhiteSpace(TextSearchDataFields?.ToString()) : ((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TextSearchDataFields, static item => item is not null) : (TextSearchDataFields is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TextSearchDataFields), static item => item is not null)))) || !string.IsNullOrWhiteSpace(TextSearchText) || !string.IsNullOrWhiteSpace(VectorFromFile) || !string.IsNullOrWhiteSpace(VectorSearchField) || !string.IsNullOrWhiteSpace(DistanceMetric)) && (((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<char> ? (object?)TextSearchDataFields is not string || !string.IsNullOrWhiteSpace(TextSearchDataFields?.ToString()) : ((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TextSearchDataFields, static item => item is not null) : (TextSearchDataFields is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TextSearchDataFields), static item => item is not null)))) || !string.IsNullOrWhiteSpace(TextSearchText)) && (!(((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<char> ? (object?)TextSearchDataFields is not string || !string.IsNullOrWhiteSpace(TextSearchDataFields?.ToString()) : ((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TextSearchDataFields, static item => item is not null) : (TextSearchDataFields is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TextSearchDataFields), static item => item is not null)))))))
+        {
+            yield return new ValidationResult("TextSearchDataFields must be specified when other arguments in this group are specified.", [nameof(TextSearchDataFields)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SemanticSearchField) || !string.IsNullOrWhiteSpace(SemanticSearchText) || !string.IsNullOrWhiteSpace(SemanticTaskType) || ((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<char> ? (object?)TextSearchDataFields is not string || !string.IsNullOrWhiteSpace(TextSearchDataFields?.ToString()) : ((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TextSearchDataFields, static item => item is not null) : (TextSearchDataFields is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TextSearchDataFields), static item => item is not null)))) || !string.IsNullOrWhiteSpace(TextSearchText) || !string.IsNullOrWhiteSpace(VectorFromFile) || !string.IsNullOrWhiteSpace(VectorSearchField) || !string.IsNullOrWhiteSpace(DistanceMetric)) && (((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<char> ? (object?)TextSearchDataFields is not string || !string.IsNullOrWhiteSpace(TextSearchDataFields?.ToString()) : ((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TextSearchDataFields, static item => item is not null) : (TextSearchDataFields is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TextSearchDataFields), static item => item is not null)))) || !string.IsNullOrWhiteSpace(TextSearchText)) && (!(!string.IsNullOrWhiteSpace(TextSearchText))))
+        {
+            yield return new ValidationResult("TextSearchText must be specified when other arguments in this group are specified.", [nameof(TextSearchText)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SemanticSearchField) || !string.IsNullOrWhiteSpace(SemanticSearchText) || !string.IsNullOrWhiteSpace(SemanticTaskType) || ((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<char> ? (object?)TextSearchDataFields is not string || !string.IsNullOrWhiteSpace(TextSearchDataFields?.ToString()) : ((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TextSearchDataFields, static item => item is not null) : (TextSearchDataFields is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TextSearchDataFields), static item => item is not null)))) || !string.IsNullOrWhiteSpace(TextSearchText) || !string.IsNullOrWhiteSpace(VectorFromFile) || !string.IsNullOrWhiteSpace(VectorSearchField) || !string.IsNullOrWhiteSpace(DistanceMetric)) && (!string.IsNullOrWhiteSpace(VectorFromFile) || !string.IsNullOrWhiteSpace(VectorSearchField) || !string.IsNullOrWhiteSpace(DistanceMetric)) && (!(!string.IsNullOrWhiteSpace(VectorFromFile))))
+        {
+            yield return new ValidationResult("VectorFromFile must be specified when other arguments in this group are specified.", [nameof(VectorFromFile)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SemanticSearchField) || !string.IsNullOrWhiteSpace(SemanticSearchText) || !string.IsNullOrWhiteSpace(SemanticTaskType) || ((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<char> ? (object?)TextSearchDataFields is not string || !string.IsNullOrWhiteSpace(TextSearchDataFields?.ToString()) : ((object?)TextSearchDataFields is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TextSearchDataFields, static item => item is not null) : (TextSearchDataFields is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TextSearchDataFields), static item => item is not null)))) || !string.IsNullOrWhiteSpace(TextSearchText) || !string.IsNullOrWhiteSpace(VectorFromFile) || !string.IsNullOrWhiteSpace(VectorSearchField) || !string.IsNullOrWhiteSpace(DistanceMetric)) && (!string.IsNullOrWhiteSpace(VectorFromFile) || !string.IsNullOrWhiteSpace(VectorSearchField) || !string.IsNullOrWhiteSpace(DistanceMetric)) && (!(!string.IsNullOrWhiteSpace(VectorSearchField))))
+        {
+            yield return new ValidationResult("VectorSearchField must be specified when other arguments in this group are specified.", [nameof(VectorSearchField)]);
+        }
+        if (((!string.IsNullOrWhiteSpace(UseIndex)) ? 1 : 0) + ((UseKnn == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (UseIndex) or (UseKnn) may be specified.", [nameof(UseIndex), nameof(UseKnn)]);
+        }
+        yield break;
+    }
+
 }

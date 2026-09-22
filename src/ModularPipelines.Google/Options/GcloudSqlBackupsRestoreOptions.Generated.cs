@@ -6,10 +6,13 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +22,503 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "backups", "restore")]
-public record GcloudSqlBackupsRestoreOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
-) : GcloudOptions
+public record GcloudSqlBackupsRestoreOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// restores a backup of a Cloud SQL instance
+    /// </summary>
+    /// <param name="RestoreInstance">The ID of the target Cloud SQL instance that the backup is restored to.</param>
+    /// <param name="Id">The ID of the backup run to restore from or the backup NAME for restore to existing/new instance. To find the NAME, run the following command: $ gcloud sql backups list --filter=instance:{instance}</param>
+    public GcloudSqlBackupsRestoreOptions(
+        string RestoreInstance,
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RestoreInstance);
+        this.RestoreInstance = RestoreInstance;
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string RestoreInstance, out string Id)
+    {
+        RestoreInstance = this.RestoreInstance;
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// The ID of the target Cloud SQL instance that the backup is restored to.
+    /// </summary>
+    [CliOption("--restore-instance", Format = OptionFormat.EqualsSeparated)]
+    public string RestoreInstance { get; private init; }
+
+    /// <summary>
+    /// Activation policy for this instance. This specifies when the instance should be activated and is applicable only when the instance state is RUNNABLE. The default is always. More information on activation policies can be found here: https://cloud.google.com/sql/docs/mysql/start-stop-restart-instance#activation_policy. ACTIVATION_POLICY must be one of: always, never.
+    /// </summary>
+    [CliOption("--activation-policy", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSqlBackupsRestoreActivationPolicy? ActivationPolicy { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of the DNS servers to be used for Active Directory. Only available for SQL Server instances. E.g: 10.0.0.1,10.0.0.2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ActiveDirectoryDnsServers { get; set; }
+
+    /// <summary>
+    /// Managed Service for Microsoft Active Directory domain this instance is joined to. Only available for SQL Server instances.
+    /// </summary>
+    [CliOption("--active-directory-domain", Format = OptionFormat.EqualsSeparated)]
+    public string? ActiveDirectoryDomain { get; set; }
+
+    /// <summary>
+    /// Defines the Active Directory mode. Only available for SQL Server instances. ACTIVE_DIRECTORY_MODE must be one of: MANAGED_ACTIVE_DIRECTORY, CUSTOMER_MANAGED_ACTIVE_DIRECTORY.
+    /// </summary>
+    [CliOption("--active-directory-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? ActiveDirectoryMode { get; set; }
+
+    /// <summary>
+    /// Defines the organizational unit to be used for Active Directory. Only available for SQL Server instances. E.g: OU=Cloud,DC=ad,DC=example,DC=com
+    /// </summary>
+    [CliOption("--active-directory-organizational-unit", Format = OptionFormat.EqualsSeparated)]
+    public string? ActiveDirectoryOrganizationalUnit { get; set; }
+
+    /// <summary>
+    /// The secret manager key storing administrator credentials. Only available for SQL Server instances.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--active-directory-secret-manager-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ActiveDirectorySecretManagerKey { get; set; }
+
+    /// <summary>
+    /// Assign a public IP address to the instance. This is a public, externally available IPv4 address that you can use to connect to your instance when properly authorized. Use --assign-ip to enable and --no-assign-ip to disable.
+    /// </summary>
+    [CliFlag("--assign-ip")]
+    public bool? AssignIp { get; set; }
+
+    /// <summary>
+    /// Negates --assign-ip. Assign a public IP address to the instance. This is a public, externally available IPv4 address that you can use to connect to your instance when properly authorized. Use --assign-ip to enable and --no-assign-ip to disable.
+    /// </summary>
+    [CliFlag("--no-assign-ip")]
+    public bool? NoAssignIp { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The location, as a Cloud Storage bucket, to which audit files are uploaded. The URI is in the form gs://bucketName/folderName. Only available for SQL Server instances.
+    /// </summary>
+    [CliOption("--audit-bucket-path", Format = OptionFormat.EqualsSeparated)]
+    public string? AuditBucketPath { get; set; }
+
+    /// <summary>
+    /// The number of days for audit log retention on disk, for example, 3dfor 3 days. Only available for SQL Server instances.
+    /// </summary>
+    [CliOption("--audit-retention-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? AuditRetentionInterval { get; set; }
+
+    /// <summary>
+    /// How often to upload audit logs (audit files), for example, 30mfor 30 minutes. Only available for SQL Server instances.
+    /// </summary>
+    [CliOption("--audit-upload-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? AuditUploadInterval { get; set; }
+
+    /// <summary>
+    /// The list of external networks that are allowed to connect to the instance. Specified in CIDR notation, also known as 'slash' notation (e.g. 192.168.100.0/24). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AuthorizedNetworks { get; set; }
+
+    /// <summary>
+    /// Specifies level of availability. AVAILABILITY_TYPE must be one of: regional Provides high availability and is recommended for production instances; instance automatically fails over to another zone within your selected region. zonal Provides no failover capability. This is the default.
+    /// </summary>
+    [CliOption("--availability-type", Format = OptionFormat.EqualsSeparated)]
+    public string? AvailabilityType { get; set; }
+
+    /// <summary>
+    /// Enables daily backup. Enabled by default, use --no-backup to disable.
+    /// </summary>
+    [CliFlag("--backup")]
+    public bool? Backup { get; set; }
+
+    /// <summary>
+    /// Negates --backup. Enables daily backup. Enabled by default, use --no-backup to disable.
+    /// </summary>
+    [CliFlag("--no-backup")]
+    public bool? NoBackup { get; set; }
+
+    /// <summary>
+    /// The ID of the instance that the backup was taken from. This argument must be specified when the backup instance is different from the restore instance. If it is not specified, the backup instance is considered the same as the restore instance. This flag is not supported when restore happens from backup name, only supported when restore happens from backup ID in timestamp format.
+    /// </summary>
+    [CliOption("--backup-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupInstance { get; set; }
+
+    /// <summary>
+    /// Choose where to store your backups. Backups are stored in the closest multi-region location to you by default. Only customize if needed.
+    /// </summary>
+    [CliOption("--backup-location", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupLocation { get; set; }
+
+    /// <summary>
+    /// The project of the instance to which the backup belongs. If it isn't specified, backup and restore instances are in the same project. This flag is not supported when restore happens from backup name, only supported when restore happens from backup ID in timestamp format.
+    /// </summary>
+    [CliOption("--backup-project", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupProject { get; set; }
+
+    /// <summary>
+    /// Start time of daily backups, specified in the HH:MM format, in the UTC timezone.
+    /// </summary>
+    [CliOption("--backup-start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupStartTime { get; set; }
+
+    /// <summary>
+    /// Clears the Active Directory configuration.
+    /// </summary>
+    [CliFlag("--clear-active-directory")]
+    public bool? ClearActiveDirectory { get; set; }
+
+    /// <summary>
+    /// Removes the list of DNS Servers from the Active Directory Config.
+    /// </summary>
+    [CliFlag("--clear-active-directory-dns-servers")]
+    public bool? ClearActiveDirectoryDnsServers { get; set; }
+
+    /// <summary>
+    /// Disables CMEK in the restored instance.
+    /// </summary>
+    [CliOption("--clear-disk-encryption", Format = OptionFormat.EqualsSeparated)]
+    public string? ClearDiskEncryption { get; set; }
+
+    /// <summary>
+    /// Clears the network setting. This is useful to restore a backup to a different project or region where the original network configuration isn't available.
+    /// </summary>
+    [CliFlag("--clear-network")]
+    public bool? ClearNetwork { get; set; }
+
+    /// <summary>
+    /// Cloud SQL server-level collation setting, which specifies the set of rules for comparing characters in a character set.
+    /// </summary>
+    [CliOption("--collation", Format = OptionFormat.EqualsSeparated)]
+    public string? Collation { get; set; }
+
+    /// <summary>
+    /// Cloud SQL Connector enforcement mode. It determines how Cloud SQL Connectors are used in the connection. See the list of modes here (https://cloud.google.com/sql/docs/mysql/admin-api/rest/v1beta4/instances#connectorenforcement). CONNECTOR_ENFORCEMENT must be one of: CONNECTOR_ENFORCEMENT_UNSPECIFIED The requirement for Cloud SQL connectors is unknown. NOT_REQUIRED Does not require Cloud SQL connectors. REQUIRED Requires all connections to use Cloud SQL connectors, including the Cloud SQL Auth Proxy and Cloud SQL Java, Python, and Go connectors. Note: This disables all existing authorized networks.
+    /// </summary>
+    [CliOption("--connector-enforcement", Format = OptionFormat.EqualsSeparated)]
+    public string? ConnectorEnforcement { get; set; }
+
+    /// <summary>
+    /// Whole number value indicating how many cores are desired in the machine. Both --cpu and --memory must be specified if a custom machine type is desired, and the --tier flag must be omitted.--cpu and --memory flags are not compatible with the Enterprise Plus edition. These flags should not be used when creating an Enterprise Plus edition, as the machine configuration is determined by the --tier flag instead.
+    /// </summary>
+    [CliOption("--cpu", Format = OptionFormat.EqualsSeparated)]
+    public string? Cpu { get; set; }
+
+    /// <summary>
+    /// The database engine type and versions. If left unspecified, no changes occur. See the list of database versions at https://cloud.google.com/sql/docs/mysql/admin-api/rest/v1beta4/SqlDatabaseVersion. Note for restore to new instance major version upgrades are not supported. Only minor version upgrades are allowed.
+    /// </summary>
+    [CliOption("--database-version", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseVersion { get; set; }
+
+    /// <summary>
+    /// Enable deletion protection on a Cloud SQL instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
+    /// </summary>
+    [CliFlag("--deletion-protection")]
+    public bool? DeletionProtection { get; set; }
+
+    /// <summary>
+    /// Negates --deletion-protection. Enable deletion protection on a Cloud SQL instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
+    /// </summary>
+    [CliFlag("--no-deletion-protection")]
+    public bool? NoDeletionProtection { get; set; }
+
+    /// <summary>
+    /// Date when the deny maintenance period ends, that is 2021-01-10.
+    /// </summary>
+    [CliOption("--deny-maintenance-period-end-date", Format = OptionFormat.EqualsSeparated)]
+    public string? DenyMaintenancePeriodEndDate { get; set; }
+
+    /// <summary>
+    /// Date when the deny maintenance period begins, that is 2020-11-01.
+    /// </summary>
+    [CliOption("--deny-maintenance-period-start-date", Format = OptionFormat.EqualsSeparated)]
+    public string? DenyMaintenancePeriodStartDate { get; set; }
+
+    /// <summary>
+    /// Time when the deny maintenance period starts or ends, that is 05:00:00.
+    /// </summary>
+    [CliOption("--deny-maintenance-period-time", Format = OptionFormat.EqualsSeparated)]
+    public string? DenyMaintenancePeriodTime { get; set; }
+
+    /// <summary>
+    /// Specifies the edition of Cloud SQL instance. EDITION must be one of: enterprise, enterprise-plus.
+    /// </summary>
+    [CliOption("--edition", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSqlBackupsRestoreEdition? Edition { get; set; }
+
+    /// <summary>
+    /// Allows for data recovery from a specific point in time, down to a fraction of a second. Must have automatic backups enabled to use. Make sure storage can support at least 7 days of logs.
+    /// </summary>
+    [CliFlag("--enable-bin-log")]
+    public bool? EnableBinLog { get; set; }
+
+    /// <summary>
+    /// Enable a private path for Google Cloud services. This flag specifies whether the instance is accessible to internal Google Cloud services such as BigQuery. This is only applicable to MySQL and PostgreSQL instances that don't use public IP. Currently, SQL Server isn't supported.
+    /// </summary>
+    [CliFlag("--enable-google-private-path")]
+    public bool? EnableGooglePrivatePath { get; set; }
+
+    /// <summary>
+    /// Allows for data recovery from a specific point in time, down to a fraction of a second, using write-ahead logs. Must have automatic backups enabled to use. Make sure storage can support at least 7 days of logs.
+    /// </summary>
+    [CliFlag("--enable-point-in-time-recovery")]
+    public bool? EnablePointInTimeRecovery { get; set; }
+
+    /// <summary>
+    /// Enables the final backup to be taken at the time of instance deletion. Use --final-backup to enable and --no-final-backup to disable.
+    /// </summary>
+    [CliFlag("--final-backup")]
+    public bool? FinalBackup { get; set; }
+
+    /// <summary>
+    /// Negates --final-backup. Enables the final backup to be taken at the time of instance deletion. Use --final-backup to enable and --no-final-backup to disable.
+    /// </summary>
+    [CliFlag("--no-final-backup")]
+    public bool? NoFinalBackup { get; set; }
+
+    /// <summary>
+    /// Specifies number of days to retain final backup. The valid range is between 1 and 365. For instances managed by BackupDR, the valid range is between 1 day and 10 years (3653 days). Default value is 30 days.
+    /// </summary>
+    [CliOption("--final-backup-retention-days", Format = OptionFormat.EqualsSeparated)]
+    public string? FinalBackupRetentionDays { get; set; }
+
+    /// <summary>
+    /// Enable enhanced query insights for Enterprise Plus edition to provide more detailed query analytics.
+    /// </summary>
+    [CliFlag("--insights-config-enhanced-query-insights-enabled")]
+    public bool? InsightsConfigEnhancedQueryInsightsEnabled { get; set; }
+
+    /// <summary>
+    /// Enable query insights feature to provide query and query plan analytics.
+    /// </summary>
+    [CliFlag("--insights-config-query-insights-enabled")]
+    public bool? InsightsConfigQueryInsightsEnabled { get; set; }
+
+    /// <summary>
+    /// Number of query plans to sample every minute. Default value is 5. Allowed range: 0 to 20.
+    /// </summary>
+    [CliOption("--insights-config-query-plans-per-minute", Format = OptionFormat.EqualsSeparated)]
+    public string? InsightsConfigQueryPlansPerMinute { get; set; }
+
+    /// <summary>
+    /// Sets the default query length limit. For Cloud SQL Enterprise edition, the range is from 256 to 4500 (in bytes) and the default query length is 1024 bytes. For Cloud SQL Enterprise Plus edition, the range is from 1024 to 100,000 (in bytes) and the default query length is 10,000 bytes.
+    /// </summary>
+    [CliOption("--insights-config-query-string-length", Format = OptionFormat.EqualsSeparated)]
+    public string? InsightsConfigQueryStringLength { get; set; }
+
+    /// <summary>
+    /// Allow application tags to be recorded by the query insights feature.
+    /// </summary>
+    [CliFlag("--insights-config-record-application-tags")]
+    public bool? InsightsConfigRecordApplicationTags { get; set; }
+
+    /// <summary>
+    /// Allow the client address to be recorded by the query insights feature.
+    /// </summary>
+    [CliFlag("--insights-config-record-client-address")]
+    public bool? InsightsConfigRecordClientAddress { get; set; }
+
+    /// <summary>
+    /// Which channel's updates to apply during the maintenance window. If not specified, Cloud SQL chooses the timing of updates to your instance. MAINTENANCE_RELEASE_CHANNEL must be one of: preview Preview updates release prior to production updates. You may wish to use the preview channel for dev/test applications so that you can preview their compatibility with your application prior to the production release. production Production updates are stable and recommended for applications in production. week5 week5 updates release after the production updates. Use the week5 channel to receive a 5 week advance notification about the upcoming maintenance, so you can prepare your application for the release.
+    /// </summary>
+    [CliOption("--maintenance-release-channel", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceReleaseChannel { get; set; }
+
+    /// <summary>
+    /// Day of week for maintenance window, in UTC time zone. MAINTENANCE_WINDOW_DAY must be one of: SUN, MON, TUE, WED, THU, FRI, SAT.
+    /// </summary>
+    [CliOption("--maintenance-window-day", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSqlBackupsRestoreMaintenanceWindowDay? MaintenanceWindowDay { get; set; }
+
+    /// <summary>
+    /// Hour of day for maintenance window, in UTC time zone.
+    /// </summary>
+    [CliOption("--maintenance-window-hour", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowHour { get; set; }
+
+    /// <summary>
+    /// Whole number value indicating how much memory is desired in the machine. A size unit should be provided (eg. 3072MiB or 9GiB) - if no units are specified, GiB is assumed. Both --cpu and --memory must be specified if a custom machine type is desired, and the --tier flag must be omitted. --cpu and --memory flags are not compatible with the Enterprise Plus edition. These flags should not be used when creating an Enterprise Plus edition, as the machine configuration is determined by the --tier flag instead.
+    /// </summary>
+    [CliOption("--memory", Format = OptionFormat.EqualsSeparated)]
+    public string? Memory { get; set; }
+
+    /// <summary>
+    /// Network in the current project that the instance will be part of. To specify using a network with a shared VPC, use the full URL of the network. For an example host project, 'testproject', and shared network, 'testsharednetwork', this would use the form: --network=projects/testproject/global/networks/testsharednetwork
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Specified if users connecting over IP must use SSL.
+    /// </summary>
+    [CliFlag("--require-ssl")]
+    public bool? RequireSsl { get; set; }
+
+    /// <summary>
+    /// How many backups to keep. The valid range is between 1 and 365. Default value is 7 for Enterprise edition instances. For Enterprise_Plus, default value is 15. Applicable only if --no-backups is not specified.
+    /// </summary>
+    [CliOption("--retained-backups-count", Format = OptionFormat.EqualsSeparated)]
+    public int? RetainedBackupsCount { get; set; }
+
+    /// <summary>
+    /// How many days of transaction logs to keep. The valid range is between 1 and 35. Only use this option when point-in-time recovery is enabled. If logs are stored on disk, storage size for transaction logs could increase when the number of days for log retention increases. For Enterprise, default and max retention values are 7 and 7 respectively. For Enterprise_Plus, default and max retention values are 14 and 35.
+    /// </summary>
+    [CliOption("--retained-transaction-log-days", Format = OptionFormat.EqualsSeparated)]
+    public string? RetainedTransactionLogDays { get; set; }
+
+    /// <summary>
+    /// Set the SSL mode of the instance. SSL_MODE must be one of: ALLOW_UNENCRYPTED_AND_ENCRYPTED Allow non-SSL and SSL connections. For SSL connections, client certificate will not be verified. ENCRYPTED_ONLY Only allow connections encrypted with SSL/TLS. TRUSTED_CLIENT_CERTIFICATE_REQUIRED Only allow connections encrypted with SSL/TLS and with valid client certificates.
+    /// </summary>
+    [CliOption("--ssl-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? SslMode { get; set; }
+
+    /// <summary>
+    /// Storage size can be increased, but it cannot be decreased; storage increases are permanent for the life of the instance. With this setting enabled, a spike in storage requirements can result in permanently increased storage costs for your instance. However, if an instance runs out of available space, it can result in the instance going offline, dropping existing connections. This setting is enabled by default. Use --storage-auto-increase to enable and --no-storage-auto-increase to disable.
+    /// </summary>
+    [CliFlag("--storage-auto-increase")]
+    public bool? StorageAutoIncrease { get; set; }
+
+    /// <summary>
+    /// Negates --storage-auto-increase. Storage size can be increased, but it cannot be decreased; storage increases are permanent for the life of the instance. With this setting enabled, a spike in storage requirements can result in permanently increased storage costs for your instance. However, if an instance runs out of available space, it can result in the instance going offline, dropping existing connections. This setting is enabled by default. Use --storage-auto-increase to enable and --no-storage-auto-increase to disable.
+    /// </summary>
+    [CliFlag("--no-storage-auto-increase")]
+    public bool? NoStorageAutoIncrease { get; set; }
+
+    /// <summary>
+    /// Indicates how many IOPS to provision for the data disk. This sets the number of I/O operations per second that the disk can handle.
+    /// </summary>
+    [CliOption("--storage-provisioned-iops", Format = OptionFormat.EqualsSeparated)]
+    public int? StorageProvisionedIops { get; set; }
+
+    /// <summary>
+    /// Indicates how much throughput to provision for the data disk. This sets the throughput in MB per second that the disk can handle.
+    /// </summary>
+    [CliOption("--storage-provisioned-throughput", Format = OptionFormat.EqualsSeparated)]
+    public string? StorageProvisionedThroughput { get; set; }
+
+    /// <summary>
+    /// Amount of storage allocated to the instance. Must be an integer number of GB. The default is 10GB. Information on storage limits can be found here: https://cloud.google.com/sql/docs/quotas#storage_limits
+    /// </summary>
+    [CliOption("--storage-size", Format = OptionFormat.EqualsSeparated)]
+    public int? StorageSize { get; set; }
+
+    /// <summary>
+    /// The storage type for the instance, determined by the selected machine type. STORAGE_TYPE must be one of: SSD, HDD, HYPERDISK_BALANCED.
+    /// </summary>
+    [CliOption("--storage-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSqlBackupsRestoreStorageType? StorageType { get; set; }
+
+    /// <summary>
+    /// Specifies the machine type for the instance. The usage of this flag depends on the selected --edition. Enterprise Edition: Use --tier for shared-core instances (e.g., db-f1-micro, db-g1-small). For dedicated-core instances, do not use --tier; instead, customize your instance by specifying its CPU and memory with the --cpu and --memory flags. Enterprise Plus Edition: --tier is required to specify the predefined machine type. The --cpu and --memory flags are not supported for Enterprise Plus. Examples include db-perf-optimized-N-2 (N2 series) or db-c4a-highmem-2 (C4A series). For a detailed list of available machine types and series, refer to the documentation for your database engine: ◆ MySQL: https://cloud.google.com/sql/docs/mysql/machine-series-overview ◆ PostgreSQL: https://cloud.google.com/sql/docs/postgres/machine-series-overview ◆ SQL Server: https://cloud.google.com/sql/docs/sqlserver/machine-series-overview Learn more about how machine types, CPU, and memory affect pricing: https://cloud.google.com/sql/pricing
+    /// </summary>
+    [CliOption("--tier", Format = OptionFormat.EqualsSeparated)]
+    public string? Tier { get; set; }
+
+    /// <summary>
+    /// Set a non-default time zone. Only available for SQL Server instances.
+    /// </summary>
+    [CliOption("--time-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? TimeZone { get; set; }
+
+    /// <summary>
+    /// Time to synchronously wait for the operation to complete, after which the operation continues asynchronously. Ignored if --async flag is specified. By default, set to 3600s. To wait indefinitely, set to unlimited.
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? Timeout { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of projects. Each project in this list might be represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be established from specified consumer projects. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--allowed-psc-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AllowedPscProjects { get; set; }
+
+    /// <summary>
+    /// Enable connecting to the Cloud SQL instance with Private Service Connect.
+    /// </summary>
+    [CliFlag("--enable-private-service-connect")]
+    public bool? EnablePrivateServiceConnect { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --disk-encryption-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--disk-encryption-key", Format = OptionFormat.EqualsSeparated)]
+    public string? DiskEncryptionKey { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-keyring on the command line.
+    /// </summary>
+    [CliOption("--disk-encryption-key-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? DiskEncryptionKeyKeyring { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-location on the command line.
+    /// </summary>
+    [CliOption("--disk-encryption-key-location", Format = OptionFormat.EqualsSeparated)]
+    public string? DiskEncryptionKeyLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-project on the command line; ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--disk-encryption-key-project", Format = OptionFormat.EqualsSeparated)]
+    public string? DiskEncryptionKeyProject { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at most one of these can be specified: (DEPRECATED) Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.). Flag --gce-zone is deprecated and will be removed by release 255.0.0. Use --zone instead.
+    /// </summary>
+    [CliOption("--gce-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? GceZone { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Preferred secondary Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
+    /// </summary>
+    [CliOption("--secondary-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? SecondaryZone { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// The ID of the backup run to restore from or the backup NAME for restore to existing/new instance. To find the NAME, run the following command: $ gcloud sql backups list --filter=instance:{instance}
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Id { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DiskEncryptionKey) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyKeyring) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyLocation) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyProject)) && (!(!string.IsNullOrWhiteSpace(DiskEncryptionKey))))
+        {
+            yield return new ValidationResult("DiskEncryptionKey must be specified when other arguments in this group are specified.", [nameof(DiskEncryptionKey)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(GceZone) || !string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Region or (GceZone, SecondaryZone, or Zone) may be specified.", [nameof(Region), nameof(GceZone), nameof(SecondaryZone), nameof(Zone)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Region) || !string.IsNullOrWhiteSpace(GceZone) || !string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone)) && ((!string.IsNullOrWhiteSpace(GceZone) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone)) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of GceZone or (SecondaryZone or Zone) may be specified.", [nameof(GceZone), nameof(SecondaryZone), nameof(Zone)]);
+        }
+        yield break;
+    }
+
 }

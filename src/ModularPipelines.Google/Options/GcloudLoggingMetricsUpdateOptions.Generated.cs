@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,63 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "metrics", "update")]
-public record GcloudLoggingMetricsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string MetricName
-) : GcloudOptions
+public record GcloudLoggingMetricsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// based     metric
+    /// </summary>
+    /// <param name="MetricName">The name of the log-based metric to update.</param>
+    public GcloudLoggingMetricsUpdateOptions(
+        string MetricName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MetricName);
+        this.MetricName = MetricName;
+    }
+
+    public void Deconstruct(out string MetricName)
+    {
+        MetricName = this.MetricName;
+    }
+
+    /// <summary>
+    /// Data about the metric to update. Exactly one of these must be specified: A path to a YAML file specifying the updates to be made to the logs-based metric. For an example of the file structure, see https://cloud.google.com/logging/docs/logs-based-metrics/distribution-metrics#example. Use a full or relative path to a local file containing the value of config.
+    /// </summary>
+    [CliOption("--config-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigFromFile { get; set; }
+
+    /// <summary>
+    /// Data about the metric to update. Exactly one of these must be specified: Or at least one of these can be specified: Arguments to specify information about simple counter logs-based metrics. The Log Bucket name which owns the log-based metric.
+    /// </summary>
+    [CliOption("--bucket-name", Format = OptionFormat.EqualsSeparated)]
+    public string? BucketName { get; set; }
+
+    /// <summary>
+    /// Data about the metric to update. Exactly one of these must be specified: Or at least one of these can be specified: Arguments to specify information about simple counter logs-based metrics. A new description for the metric. If omitted, the description is not changed.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Data about the metric to update. Exactly one of these must be specified: Or at least one of these can be specified: Arguments to specify information about simple counter logs-based metrics. A new filter string for the metric. If omitted, the filter is not changed.
+    /// </summary>
+    [CliOption("--log-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? LogFilter { get; set; }
+
+    /// <summary>
+    /// The name of the log-based metric to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MetricName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ConfigFromFile) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(BucketName) || !string.IsNullOrWhiteSpace(Description) || !string.IsNullOrWhiteSpace(LogFilter)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ConfigFromFile or (BucketName, Description, or LogFilter) must be specified.", [nameof(ConfigFromFile), nameof(BucketName), nameof(Description), nameof(LogFilter)]);
+        }
+        yield break;
+    }
+
 }

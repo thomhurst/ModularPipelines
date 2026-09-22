@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cloud-shell", "get-mount-command")]
-public record GcloudCloudShellGetMountCommandOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string MountDir
-) : GcloudOptions
+public record GcloudCloudShellGetMountCommandOptions : GcloudOptions
 {
+    /// <summary>
+    /// prints a command to mount the Cloud     Shell home directory via sshfs
+    /// </summary>
+    /// <param name="MountDir">Local directory onto which the Cloud Shell home directory should be mounted.</param>
+    public GcloudCloudShellGetMountCommandOptions(
+        string MountDir
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MountDir);
+        this.MountDir = MountDir;
+    }
+
+    public void Deconstruct(out string MountDir)
+    {
+        MountDir = this.MountDir;
+    }
+
     /// <summary>
     /// If enabled gcloud will regenerate and overwrite the files associated with a broken SSH key without asking for confirmation in both interactive and non-interactive environment. If disabled gcloud will not attempt to regenerate the files associated with a broken SSH key and fail in both interactive and non-interactive environment.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudCloudShellGetMountCommandOptions(
     /// </summary>
     [CliFlag("--ssh-key-file")]
     public bool? SshKeyFile { get; set; }
+
+    /// <summary>
+    /// Local directory onto which the Cloud Shell home directory should be mounted.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MountDir { get; private init; }
 
 }

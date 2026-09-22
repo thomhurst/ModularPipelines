@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "keys", "versions", "destroy")]
-public record GcloudKmsKeysVersionsDestroyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Version
-) : GcloudOptions
+public record GcloudKmsKeysVersionsDestroyOptions : GcloudOptions
 {
+    /// <summary>
+    /// schedule a version to be destroyed
+    /// </summary>
+    /// <param name="Version">Name of the version to destroy.</param>
+    public GcloudKmsKeysVersionsDestroyOptions(
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string Version)
+    {
+        Version = this.Version;
+    }
+
     /// <summary>
     /// The containing key.
     /// </summary>
@@ -40,5 +55,11 @@ public record GcloudKmsKeysVersionsDestroyOptions(
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// Name of the version to destroy.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Version { get; private init; }
 
 }

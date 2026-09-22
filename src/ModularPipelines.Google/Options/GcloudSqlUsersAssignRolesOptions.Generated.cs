@@ -19,8 +19,75 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "users", "assign-roles")]
-public record GcloudSqlUsersAssignRolesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Username
-) : GcloudOptions
+public record GcloudSqlUsersAssignRolesOptions : GcloudOptions
 {
+    /// <summary>
+    /// updates a user's database roles in a given     instance
+    /// </summary>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    /// <param name="Type">Cloud SQL user's type. It determines the method to authenticate the user during login. See the list of user types at https://cloud.google.com/sql/docs/postgres/admin-api/rest/v1beta4/SqlUserType</param>
+    /// <param name="Username">Cloud SQL username.</param>
+    public GcloudSqlUsersAssignRolesOptions(
+        string Instance,
+        string Type,
+        string Username
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+    }
+
+    public void Deconstruct(out string Instance, out string Type, out string Username)
+    {
+        Instance = this.Instance;
+        Type = this.Type;
+        Username = this.Username;
+    }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string Instance { get; private init; }
+
+    /// <summary>
+    /// Cloud SQL user's type. It determines the method to authenticate the user during login. See the list of user types at https://cloud.google.com/sql/docs/postgres/admin-api/rest/v1beta4/SqlUserType
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string Type { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of database roles to be assigned to the user. This option is only available for MySQL and PostgreSQL instances. You can include predefined Cloud SQL roles, like cloudsqlsuperuser, or your own custom roles. Custom roles must be created in the database before you can assign them. You can create roles using the CREATE ROLE statement for both MySQL and PostgreSQL. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--database-roles", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? DatabaseRoles { get; set; }
+
+    /// <summary>
+    /// Cloud SQL user's hostname expressed as a specific IP address or address range. % denotes an unrestricted hostname. Applicable flag for MySQL instances; ignored for all other engines. Note, if you connect to your instance using IP addresses, you must add your client IP address as an authorized address, even if your hostname is unrestricted. For more information, see Configure IP (https://cloud.google.com/sql/docs/mysql/configure-ip).
+    /// </summary>
+    [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
+    public string? Host { get; set; }
+
+    /// <summary>
+    /// A boolean flag for revoking existing database roles from the user. This option is only available for MySQL and PostgreSQL instances.
+    /// </summary>
+    [CliFlag("--revoke-existing-roles")]
+    public bool? RevokeExistingRoles { get; set; }
+
+    /// <summary>
+    /// Cloud SQL username.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Username { get; private init; }
+
 }

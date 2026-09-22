@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,68 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "security-policies", "export")]
-public record GcloudPreviewComputeSecurityPoliciesExportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeSecurityPoliciesExportOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// export security policy     configs into YAML or JSON files
+    /// </summary>
+    /// <param name="FileName">The name of the file to export the security policy config to.</param>
+    /// <param name="Name">Name of the security policy to export.</param>
+    public GcloudPreviewComputeSecurityPoliciesExportOptions(
+        string FileName,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileName);
+        this.FileName = FileName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string FileName, out string Name)
+    {
+        FileName = this.FileName;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the file to export the security policy config to.
+    /// </summary>
+    [CliOption("--file-name", Format = OptionFormat.EqualsSeparated)]
+    public string FileName { get; private init; }
+
+    /// <summary>
+    /// The format of the file to export the security policy config to. Specify either yaml or json. Defaults to yaml if not specified. FILE_FORMAT must be one of: json, yaml.
+    /// </summary>
+    [CliOption("--file-format", Format = OptionFormat.EqualsSeparated)]
+    public GcloudPreviewComputeSecurityPoliciesExportFileFormat? FileFormat { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the security policy is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the security policy to export. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the security policy to export.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
+
 }

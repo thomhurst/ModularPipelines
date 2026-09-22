@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,75 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("parametermanager", "parameters", "versions", "create")]
-public record GcloudParameterManagerParametersVersionsCreateOptions : GcloudOptions
+public record GcloudParameterManagerParametersVersionsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// creates an Parameter     Manager parameter version
+    /// </summary>
+    /// <param name="ParameterVersion">ParameterVersion resource - Identifier. [Output only] The resource name of the ParameterVersion in the format projects/*/locations/*/parameters/*/versions/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument parameter_version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the parameterVersion or fully qualified identifier for the parameterVersion. To set the parameter_version attribute: ▸ provide the argument parameter_version on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudParameterManagerParametersVersionsCreateOptions(
+        string ParameterVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ParameterVersion);
+        this.ParameterVersion = ParameterVersion;
+    }
+
+    public void Deconstruct(out string ParameterVersion)
+    {
+        ParameterVersion = this.ParameterVersion;
+    }
+
+    /// <summary>
+    /// ParameterVersion resource - Identifier. [Output only] The resource name of the ParameterVersion in the format projects/*/locations/*/parameters/*/versions/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument parameter_version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the parameterVersion resource. To set the location attribute: ▸ provide the argument parameter_version on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// ParameterVersion resource - Identifier. [Output only] The resource name of the ParameterVersion in the format projects/*/locations/*/parameters/*/versions/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument parameter_version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The parameter id of the parameterVersion resource. To set the parameter attribute: ▸ provide the argument parameter_version on the command line with a fully specified name; ▸ provide the argument --parameter on the command line.
+    /// </summary>
+    [CliOption("--parameter", Format = OptionFormat.EqualsSeparated)]
+    public string? Parameter { get; set; }
+
+    /// <summary>
+    /// Message for storing a ParameterVersion resource's payload data This must be specified. Exactly one of these must be specified: bytes data for storing payload.
+    /// </summary>
+    [CliOption("--payload-data", Format = OptionFormat.EqualsSeparated)]
+    public string? PayloadData { get; set; }
+
+    /// <summary>
+    /// Message for storing a ParameterVersion resource's payload data This must be specified. Exactly one of these must be specified: bytes data for storing payload. Use a full or relative path to a local file containing the value of payload_data.
+    /// </summary>
+    [CliOption("--payload-data-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PayloadDataFromFile { get; set; }
+
+    /// <summary>
+    /// Disabled boolean to determine if a ParameterVersion acts as a metadata only resource (payload is never returned if disabled is true). If true any calls will always default to BASIC view even if the user explicitly passes FULL view as part of the request. A render call on a disabled resource fails with an error. Default value is False.
+    /// </summary>
+    [CliFlag("--disabled")]
+    public bool? Disabled { get; set; }
+
+    /// <summary>
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// ParameterVersion resource - Identifier. [Output only] The resource name of the ParameterVersion in the format projects/*/locations/*/parameters/*/versions/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument parameter_version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the parameterVersion or fully qualified identifier for the parameterVersion. To set the parameter_version attribute: ▸ provide the argument parameter_version on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ParameterVersion { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(PayloadData) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PayloadDataFromFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of PayloadData or PayloadDataFromFile must be specified.", [nameof(PayloadData), nameof(PayloadDataFromFile)]);
+        }
+        yield break;
+    }
+
 }

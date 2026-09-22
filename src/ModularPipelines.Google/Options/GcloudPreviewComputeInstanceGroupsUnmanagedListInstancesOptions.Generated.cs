@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instance-groups", "unmanaged", "list-instances")]
-public record GcloudPreviewComputeInstanceGroupsUnmanagedListInstancesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInstanceGroupsUnmanagedListInstancesOptions : GcloudOptions
 {
+    /// <summary>
+    /// list     instances present in the instance group
+    /// </summary>
+    /// <param name="Name">Name of the instance group to operate on.</param>
+    public GcloudPreviewComputeInstanceGroupsUnmanagedListInstancesOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// A regular expression to filter the names of the results on. Any names that do not match the entire regular expression will be filtered out.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudPreviewComputeInstanceGroupsUnmanagedListInstancesOptions(
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the instance group to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

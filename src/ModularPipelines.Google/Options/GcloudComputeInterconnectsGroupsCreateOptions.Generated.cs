@@ -19,8 +19,52 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "groups", "create")]
-public record GcloudComputeInterconnectsGroupsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeInterconnectsGroupsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Compute Engine     interconnect group
+    /// </summary>
+    /// <param name="IntendedTopologyCapability">The reliability the user intends this group to be capable of, in terms of the Interconnect product SLAs.</param>
+    /// <param name="Name">Name of the interconnect group to create.</param>
+    public GcloudComputeInterconnectsGroupsCreateOptions(
+        string IntendedTopologyCapability,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IntendedTopologyCapability);
+        this.IntendedTopologyCapability = IntendedTopologyCapability;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string IntendedTopologyCapability, out string Name)
+    {
+        IntendedTopologyCapability = this.IntendedTopologyCapability;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The reliability the user intends this group to be capable of, in terms of the Interconnect product SLAs.
+    /// </summary>
+    [CliOption("--intended-topology-capability", Format = OptionFormat.EqualsSeparated)]
+    public string IntendedTopologyCapability { get; private init; }
+
+    /// <summary>
+    /// An optional, textual description for the interconnect group.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Member interconnects to add to the interconnect group initially. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--interconnects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Interconnects { get; set; }
+
+    /// <summary>
+    /// Name of the interconnect group to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

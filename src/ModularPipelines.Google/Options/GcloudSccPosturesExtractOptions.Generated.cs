@@ -21,4 +21,56 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("scc", "postures", "extract")]
 public record GcloudSccPosturesExtractOptions : GcloudOptions
 {
+    /// <summary>
+    /// extract a Cloud Security Command Center     posture from a workload
+    /// </summary>
+    /// <param name="Workload">Workload from where policies has to be extracted into a posture. It can be in one of the following formats: projects/projectNumber, folders/folderNumber, organizations/organizationNumber.</param>
+    /// <param name="Posture">Posture resource - The name of the posture to be created. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postures/&lt;postureID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the posture or fully qualified identifier for the posture. To set the posture attribute: ▸ provide the argument posture on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSccPosturesExtractOptions(
+        string Workload,
+        string Posture
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Workload);
+        this.Workload = Workload;
+        global::System.ArgumentNullException.ThrowIfNull(Posture);
+        this.Posture = Posture;
+    }
+
+    public void Deconstruct(out string Workload, out string Posture)
+    {
+        Workload = this.Workload;
+        Posture = this.Posture;
+    }
+
+    /// <summary>
+    /// Workload from where policies has to be extracted into a posture. It can be in one of the following formats: projects/projectNumber, folders/folderNumber, organizations/organizationNumber.
+    /// </summary>
+    [CliOption("--workload", Format = OptionFormat.EqualsSeparated)]
+    public string Workload { get; private init; }
+
+    /// <summary>
+    /// Posture resource - The name of the posture to be created. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postures/&lt;postureID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the location where the resource exists (for example, global). To set the location attribute: ▸ provide the argument posture on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Posture resource - The name of the posture to be created. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postures/&lt;postureID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the organization which is the parent of the resource. To set the organization attribute: ▸ provide the argument posture on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Posture resource - The name of the posture to be created. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postures/&lt;postureID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the posture or fully qualified identifier for the posture. To set the posture attribute: ▸ provide the argument posture on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Posture { get; private init; }
+
 }

@@ -22,9 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudEdgeCloudNetworkingRoutersDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a Distributed Cloud     Edge Network router
+    /// </summary>
+    /// <param name="Router">Router resource - Distributed Cloud Edge Network router to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument router on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the router or fully qualified identifier for the router. To set the router attribute: ▸ provide the argument router on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEdgeCloudNetworkingRoutersDeleteOptions(
+        string Router
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Router);
+        this.Router = Router;
+    }
+
+    public void Deconstruct(out string Router)
+    {
+        Router = this.Router;
+    }
+
+    /// <summary>
+    /// Router resource - Distributed Cloud Edge Network router to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument router on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The global location name. To set the location attribute: ▸ provide the argument router on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Router resource - Distributed Cloud Edge Network router to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument router on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Google Distributed Cloud Edge zone. To set the zone attribute: ▸ provide the argument router on the command line with a fully specified name; ▸ provide the argument --zone on the command line.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Router resource - Distributed Cloud Edge Network router to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument router on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the router or fully qualified identifier for the router. To set the router attribute: ▸ provide the argument router on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Router { get; private init; }
 
 }

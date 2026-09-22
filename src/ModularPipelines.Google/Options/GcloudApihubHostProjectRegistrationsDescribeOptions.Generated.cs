@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apihub", "host-project-registrations", "describe")]
 public record GcloudApihubHostProjectRegistrationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Host Project     Registration
+    /// </summary>
+    /// <param name="HostProjectRegistration">HostProjectRegistration resource - Host project registration resource name. projects/{project}/locations/{location}/hostProjectRegistrations/{host_project_registration_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument host_project_registration on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hostProjectRegistration or fully qualified identifier for the hostProjectRegistration. To set the host_project_registration attribute: ▸ provide the argument host_project_registration on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubHostProjectRegistrationsDescribeOptions(
+        string HostProjectRegistration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HostProjectRegistration);
+        this.HostProjectRegistration = HostProjectRegistration;
+    }
+
+    public void Deconstruct(out string HostProjectRegistration)
+    {
+        HostProjectRegistration = this.HostProjectRegistration;
+    }
+
+    /// <summary>
+    /// HostProjectRegistration resource - Host project registration resource name. projects/{project}/locations/{location}/hostProjectRegistrations/{host_project_registration_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument host_project_registration on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the hostProjectRegistration resource. To set the location attribute: ▸ provide the argument host_project_registration on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// HostProjectRegistration resource - Host project registration resource name. projects/{project}/locations/{location}/hostProjectRegistrations/{host_project_registration_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument host_project_registration on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hostProjectRegistration or fully qualified identifier for the hostProjectRegistration. To set the host_project_registration attribute: ▸ provide the argument host_project_registration on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string HostProjectRegistration { get; private init; }
+
 }

@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "global-vm-extension-policies", "describe")]
-public record GcloudComputeGlobalVmExtensionPoliciesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeGlobalVmExtensionPoliciesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Compute     Engine global VM extension policy
+    /// </summary>
+    /// <param name="Name">Name of the global vm extension policy to describe.</param>
+    public GcloudComputeGlobalVmExtensionPoliciesDescribeOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the global vm extension policy to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

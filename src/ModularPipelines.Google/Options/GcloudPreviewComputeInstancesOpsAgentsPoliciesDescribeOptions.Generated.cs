@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instances", "ops-agents", "policies", "describe")]
-public record GcloudPreviewComputeInstancesOpsAgentsPoliciesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyId
-) : GcloudOptions
+public record GcloudPreviewComputeInstancesOpsAgentsPoliciesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a     Google Cloud Observability agents policy for the Ops Agent
+    /// </summary>
+    /// <param name="Zone">Zone of the agents policy.</param>
+    /// <param name="PolicyId">ID of the policy. This ID must contain only lowercase letters, numbers, and hyphens, end with a number or a letter, be between 1-63 characters, and be unique within the project.</param>
+    public GcloudPreviewComputeInstancesOpsAgentsPoliciesDescribeOptions(
+        string Zone,
+        string PolicyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyId);
+        this.PolicyId = PolicyId;
+    }
+
+    public void Deconstruct(out string Zone, out string PolicyId)
+    {
+        Zone = this.Zone;
+        PolicyId = this.PolicyId;
+    }
+
+    /// <summary>
+    /// Zone of the agents policy.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
+    /// <summary>
+    /// ID of the policy. This ID must contain only lowercase letters, numbers, and hyphens, end with a number or a letter, be between 1-63 characters, and be unique within the project.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyId { get; private init; }
+
 }

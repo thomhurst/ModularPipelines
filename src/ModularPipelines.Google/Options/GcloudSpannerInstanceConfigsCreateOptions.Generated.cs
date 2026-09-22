@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,111 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "instance-configs", "create")]
-public record GcloudSpannerInstanceConfigsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceConfig
-) : GcloudOptions
+public record GcloudSpannerInstanceConfigsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Cloud Spanner instance     configuration
+    /// </summary>
+    /// <param name="InstanceConfig">Cloud Spanner instance configuration. The 'custom-' prefix is required to avoid name conflicts with Google-managed configurations.</param>
+    public GcloudSpannerInstanceConfigsCreateOptions(
+        string InstanceConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceConfig);
+        this.InstanceConfig = InstanceConfig;
+    }
+
+    public void Deconstruct(out string InstanceConfig)
+    {
+        InstanceConfig = this.InstanceConfig;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Command-line flags to setup a custom instance configuration replicas: The name of the Google-managed instance configuration, based on which your custom configuration is created. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--base-config", Format = OptionFormat.EqualsSeparated)]
+    public string? BaseConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Command-line flags to setup a custom instance configuration replicas: The geographic placement of nodes in this instance configuration and their replication types. location The location of the serving resources, e.g. "us-central1". type The type of replica. Items in the list are separated by ":". The allowed values and formats are as follows. READ_ONLY Read-only replicas only support reads (not writes). Read-only replicas: ▫ Maintain a full copy of your data. ▫ Serve reads. ▫ Do not participate in voting to commit writes. ▫ Are not eligible to become a leader. READ_WRITE Read-write replicas support both reads and writes. These replicas: ▫ Maintain a full copy of your data. ▫ Serve reads. ▫ Can vote whether to commit a write. ▫ Participate in leadership election. ▫ Are eligible to become a leader. WITNESS Witness replicas don't support reads but do participate in voting to commit writes. Witness replicas: ▫ Do not maintain a full copy of data. ▫ Do not serve reads. ▫ Vote whether to commit writes. ▫ Participate in leader election but are not eligible to become leader. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--replicas", Format = OptionFormat.EqualsSeparated)]
+    public string? Replicas { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Command-line flags to setup a custom instance configuration using clone options: The ID of the instance config, based on which this configuration is created. The clone is an independent copy of this config. Available configurations can be found by running "gcloud spanner instance-configs list" This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--clone-config", Format = OptionFormat.EqualsSeparated)]
+    public string? CloneConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Command-line flags to setup a custom instance configuration using clone options: Add new replicas while cloning from the source config.
+    /// </summary>
+    [CliOption("--add-replicas", Format = OptionFormat.EqualsSeparated)]
+    public string? AddReplicas { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Command-line flags to setup a custom instance configuration using clone options: Skip replicas from the source config while cloning. Each replica in the list must exist in the source config replicas list.
+    /// </summary>
+    [CliOption("--skip-replicas", Format = OptionFormat.EqualsSeparated)]
+    public string? SkipReplicas { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The name of this instance configuration as it appears in UIs. Must specify this option if creating an instance-config with --replicas.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Used for optimistic concurrency control.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string? Etag { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// If specified, validate that the creation will succeed without creating the instance configuration.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Cloud Spanner instance configuration. The 'custom-' prefix is required to avoid name conflicts with Google-managed configurations.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceConfig { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(BaseConfig) || !string.IsNullOrWhiteSpace(Replicas)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(CloneConfig) || !string.IsNullOrWhiteSpace(AddReplicas) || !string.IsNullOrWhiteSpace(SkipReplicas)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (BaseConfig or Replicas) or (CloneConfig, AddReplicas, or SkipReplicas) must be specified.", [nameof(BaseConfig), nameof(Replicas), nameof(CloneConfig), nameof(AddReplicas), nameof(SkipReplicas)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BaseConfig) || !string.IsNullOrWhiteSpace(Replicas) || !string.IsNullOrWhiteSpace(CloneConfig) || !string.IsNullOrWhiteSpace(AddReplicas) || !string.IsNullOrWhiteSpace(SkipReplicas)) && (!string.IsNullOrWhiteSpace(BaseConfig) || !string.IsNullOrWhiteSpace(Replicas)) && (!(!string.IsNullOrWhiteSpace(BaseConfig))))
+        {
+            yield return new ValidationResult("BaseConfig must be specified when other arguments in this group are specified.", [nameof(BaseConfig)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BaseConfig) || !string.IsNullOrWhiteSpace(Replicas) || !string.IsNullOrWhiteSpace(CloneConfig) || !string.IsNullOrWhiteSpace(AddReplicas) || !string.IsNullOrWhiteSpace(SkipReplicas)) && (!string.IsNullOrWhiteSpace(BaseConfig) || !string.IsNullOrWhiteSpace(Replicas)) && (!(!string.IsNullOrWhiteSpace(Replicas))))
+        {
+            yield return new ValidationResult("Replicas must be specified when other arguments in this group are specified.", [nameof(Replicas)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BaseConfig) || !string.IsNullOrWhiteSpace(Replicas) || !string.IsNullOrWhiteSpace(CloneConfig) || !string.IsNullOrWhiteSpace(AddReplicas) || !string.IsNullOrWhiteSpace(SkipReplicas)) && (!string.IsNullOrWhiteSpace(CloneConfig) || !string.IsNullOrWhiteSpace(AddReplicas) || !string.IsNullOrWhiteSpace(SkipReplicas)) && (!(!string.IsNullOrWhiteSpace(CloneConfig))))
+        {
+            yield return new ValidationResult("CloneConfig must be specified when other arguments in this group are specified.", [nameof(CloneConfig)]);
+        }
+        yield break;
+    }
+
 }

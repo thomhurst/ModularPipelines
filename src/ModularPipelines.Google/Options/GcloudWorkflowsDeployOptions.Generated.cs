@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workflows", "deploy")]
-public record GcloudWorkflowsDeployOptions : GcloudOptions
+public record GcloudWorkflowsDeployOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create or update a workflow
+    /// </summary>
+    /// <param name="Workflow">Workflow resource - Name of the workflow to deploy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workflow on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workflow or fully qualified identifier for the workflow. To set the workflow attribute: ▸ provide the argument workflow on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudWorkflowsDeployOptions(
+        string Workflow
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Workflow);
+        this.Workflow = Workflow;
+    }
+
+    public void Deconstruct(out string Workflow)
+    {
+        Workflow = this.Workflow;
+    }
+
+    /// <summary>
+    /// Workflow resource - Name of the workflow to deploy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workflow on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud location for the workflow. Alternatively, set the property [workflows/location]. To set the location attribute: ▸ provide the argument workflow on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property workflows/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -47,9 +71,9 @@ public record GcloudWorkflowsDeployOptions : GcloudOptions
     public string? ExecutionHistoryLevel { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -65,9 +89,9 @@ public record GcloudWorkflowsDeployOptions : GcloudOptions
     public string? Source { get; set; }
 
     /// <summary>
-    /// List of tags KEY=VALUE pairs to bind. Each item must be expressed as "&lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;". Example: 123/environment=production,123/costCenter=marketing
+    /// List of tags KEY=VALUE pairs to bind. Each item must be expressed as "&lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;". Example: 123/environment=production,123/costCenter=marketing Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
@@ -83,21 +107,67 @@ public record GcloudWorkflowsDeployOptions : GcloudOptions
     public string? EnvVarsFile { get; set; }
 
     /// <summary>
-    /// Flags to configure user-defined environment variables for a workflow. Keys can't be empty strings and can't start with `GOOGLE` or `WORKFLOWS`. We recommend that environment variable keys consist solely of uppercase letters, digits, and underscores (`_`), and that they don't begin with a digit. Consider prefixing your user-defined environment variables with a unique key to avoid conflicts with other variables. If your value contains commas, prefix the mapping with a different delimiter character enclosed between `^` (example 1). Use special characters in your shell with caution as they might not work as intended or need escaping (example 2 escapes a `$` in Bash). Example 1: --set-env-vars ^@^KEY1=ONE,VALUE,WITH,COMMAS@KEY2=VALUE2 Example 2: --set-env-vars ^$^KEY1=VALUE1\$KEY2=VALUE,WITH,COMMAS,TOO A maximum of 20 user-defined environment variables can be defined. Each definition string (`KEY=value`) is limited to 4 KiB. All keys and values are converted to strings. At most one of these can be specified: Removes user-defined environment variables from a workflow based on a list of environment variable keys to be removed. Example: gcloud workflows deploy ${workflow_name} --remove-env-vars policy,retry_count...
+    /// Flags to configure user-defined environment variables for a workflow. Keys can't be empty strings and can't start with `GOOGLE` or `WORKFLOWS`. We recommend that environment variable keys consist solely of uppercase letters, digits, and underscores (`_`), and that they don't begin with a digit. Consider prefixing your user-defined environment variables with a unique key to avoid conflicts with other variables. If your value contains commas, prefix the mapping with a different delimiter character enclosed between `^` (example 1). Use special characters in your shell with caution as they might not work as intended or need escaping (example 2 escapes a `$` in Bash). Example 1: --set-env-vars ^@^KEY1=ONE,VALUE,WITH,COMMAS@KEY2=VALUE2 Example 2: --set-env-vars ^$^KEY1=VALUE1\$KEY2=VALUE,WITH,COMMAS,TOO A maximum of 20 user-defined environment variables can be defined. Each definition string (`KEY=value`) is limited to 4 KiB. All keys and values are converted to strings. At most one of these can be specified: Removes user-defined environment variables from a workflow based on a list of environment variable keys to be removed. Example: gcloud workflows deploy ${workflow_name} --remove-env-vars policy,retry_count... Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-env-vars", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveEnvVars { get; set; }
+    [CliOption("--remove-env-vars", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveEnvVars
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveEnvVarsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveEnvVarsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Flags to configure user-defined environment variables for a workflow. Keys can't be empty strings and can't start with `GOOGLE` or `WORKFLOWS`. We recommend that environment variable keys consist solely of uppercase letters, digits, and underscores (`_`), and that they don't begin with a digit. Consider prefixing your user-defined environment variables with a unique key to avoid conflicts with other variables. If your value contains commas, prefix the mapping with a different delimiter character enclosed between `^` (example 1). Use special characters in your shell with caution as they might not work as intended or need escaping (example 2 escapes a `$` in Bash). Example 1: --set-env-vars ^@^KEY1=ONE,VALUE,WITH,COMMAS@KEY2=VALUE2 Example 2: --set-env-vars ^$^KEY1=VALUE1\$KEY2=VALUE,WITH,COMMAS,TOO A maximum of 20 user-defined environment variables can be defined. Each definition string (`KEY=value`) is limited to 4 KiB. All keys and values are converted to strings. At most one of these can be specified: Sets environment variables for the workflow based on a comma-separated list of key-value pairs. Will overwrite a workflow's existing environment variables. Example: gcloud workflows deploy ${workflow_name} --set-env-vars policy=global,retry_count=5
+    /// Flags to configure user-defined environment variables for a workflow. Keys can't be empty strings and can't start with `GOOGLE` or `WORKFLOWS`. We recommend that environment variable keys consist solely of uppercase letters, digits, and underscores (`_`), and that they don't begin with a digit. Consider prefixing your user-defined environment variables with a unique key to avoid conflicts with other variables. If your value contains commas, prefix the mapping with a different delimiter character enclosed between `^` (example 1). Use special characters in your shell with caution as they might not work as intended or need escaping (example 2 escapes a `$` in Bash). Example 1: --set-env-vars ^@^KEY1=ONE,VALUE,WITH,COMMAS@KEY2=VALUE2 Example 2: --set-env-vars ^$^KEY1=VALUE1\$KEY2=VALUE,WITH,COMMAS,TOO A maximum of 20 user-defined environment variables can be defined. Each definition string (`KEY=value`) is limited to 4 KiB. All keys and values are converted to strings. At most one of these can be specified: Sets environment variables for the workflow based on a comma-separated list of key-value pairs. Will overwrite a workflow's existing environment variables. Example: gcloud workflows deploy ${workflow_name} --set-env-vars policy=global,retry_count=5 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-env-vars", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? SetEnvVars { get; set; }
+    [CliOption("--set-env-vars", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? SetEnvVars
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
-    /// Flags to configure user-defined environment variables for a workflow. Keys can't be empty strings and can't start with `GOOGLE` or `WORKFLOWS`. We recommend that environment variable keys consist solely of uppercase letters, digits, and underscores (`_`), and that they don't begin with a digit. Consider prefixing your user-defined environment variables with a unique key to avoid conflicts with other variables. If your value contains commas, prefix the mapping with a different delimiter character enclosed between `^` (example 1). Use special characters in your shell with caution as they might not work as intended or need escaping (example 2 escapes a `$` in Bash). Example 1: --set-env-vars ^@^KEY1=ONE,VALUE,WITH,COMMAS@KEY2=VALUE2 Example 2: --set-env-vars ^$^KEY1=VALUE1\$KEY2=VALUE,WITH,COMMAS,TOO A maximum of 20 user-defined environment variables can be defined. Each definition string (`KEY=value`) is limited to 4 KiB. All keys and values are converted to strings. At most one of these can be specified: Updates existing or adds new user-defined environment variables based on a comma-separated list of key-value pairs. Example: gcloud workflows deploy ${workflow_name} --update-env-vars policy=regional,retry_count=2
+    /// Flags to configure user-defined environment variables for a workflow. Keys can't be empty strings and can't start with `GOOGLE` or `WORKFLOWS`. We recommend that environment variable keys consist solely of uppercase letters, digits, and underscores (`_`), and that they don't begin with a digit. Consider prefixing your user-defined environment variables with a unique key to avoid conflicts with other variables. If your value contains commas, prefix the mapping with a different delimiter character enclosed between `^` (example 1). Use special characters in your shell with caution as they might not work as intended or need escaping (example 2 escapes a `$` in Bash). Example 1: --set-env-vars ^@^KEY1=ONE,VALUE,WITH,COMMAS@KEY2=VALUE2 Example 2: --set-env-vars ^$^KEY1=VALUE1\$KEY2=VALUE,WITH,COMMAS,TOO A maximum of 20 user-defined environment variables can be defined. Each definition string (`KEY=value`) is limited to 4 KiB. All keys and values are converted to strings. At most one of these can be specified: Updates existing or adds new user-defined environment variables based on a comma-separated list of key-value pairs. Example: gcloud workflows deploy ${workflow_name} --update-env-vars policy=regional,retry_count=2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-env-vars", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? UpdateEnvVars { get; set; }
+    [CliOption("--update-env-vars", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? UpdateEnvVars
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// Workflow resource - Name of the workflow to deploy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workflow on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workflow or fully qualified identifier for the workflow. To set the workflow attribute: ▸ provide the argument workflow on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Workflow { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearEnvVars == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(EnvVarsFile) ? 1 : 0) + (((object?)RemoveEnvVars is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveEnvVars is not string || !string.IsNullOrWhiteSpace(RemoveEnvVars?.ToString()) : ((object?)RemoveEnvVars is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveEnvVars, static item => item is not null) : (RemoveEnvVars is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveEnvVars), static item => item is not null)))) ? 1 : 0) + (((object?)SetEnvVars is global::System.Collections.Generic.IEnumerable<char> ? (object?)SetEnvVars is not string || !string.IsNullOrWhiteSpace(SetEnvVars?.ToString()) : ((object?)SetEnvVars is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SetEnvVars, static item => item is not null) : (SetEnvVars is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SetEnvVars), static item => item is not null)))) ? 1 : 0) + (((object?)UpdateEnvVars is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateEnvVars is not string || !string.IsNullOrWhiteSpace(UpdateEnvVars?.ToString()) : ((object?)UpdateEnvVars is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateEnvVars, static item => item is not null) : (UpdateEnvVars is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateEnvVars), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearEnvVars, EnvVarsFile, RemoveEnvVars, SetEnvVars, or UpdateEnvVars may be specified.", [nameof(ClearEnvVars), nameof(EnvVarsFile), nameof(RemoveEnvVars), nameof(SetEnvVars), nameof(UpdateEnvVars)]);
+        }
+        yield break;
+    }
 
 }

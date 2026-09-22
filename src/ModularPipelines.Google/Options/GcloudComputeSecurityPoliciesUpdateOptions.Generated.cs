@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,10 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "security-policies", "update")]
-public record GcloudComputeSecurityPoliciesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeSecurityPoliciesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Compute Engine security     policy
+    /// </summary>
+    /// <param name="Name">Name of the security policy to update.</param>
+    public GcloudComputeSecurityPoliciesUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// An optional, textual description for the security policy.
     /// </summary>
@@ -37,34 +53,34 @@ public record GcloudComputeSecurityPoliciesUpdateOptions(
     public bool? EnableLayer7DdosDefense { get; set; }
 
     /// <summary>
-    /// A comma-separated list of custom Content-Type header values to apply JSON parsing for preconfigured WAF rules. Only applicable when JSON parsing is enabled, like --json-parsing=STANDARD. When configuring a Content-Type header value, only the type/subtype needs to be specified, and the parameters should be excluded.
+    /// A comma-separated list of custom Content-Type header values to apply JSON parsing for preconfigured WAF rules. Only applicable when JSON parsing is enabled, like --json-parsing=STANDARD. When configuring a Content-Type header value, only the type/subtype needs to be specified, and the parameters should be excluded. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--json-custom-content-types", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--json-custom-content-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? JsonCustomContentTypes { get; set; }
 
     /// <summary>
     /// The JSON parsing behavior for this rule. Must be one of the following values: [DISABLED, STANDARD, STANDARD_WITH_GRAPHQL]. JSON_PARSING must be one of: DISABLED, STANDARD, STANDARD_WITH_GRAPHQL.
     /// </summary>
     [CliOption("--json-parsing", Format = OptionFormat.EqualsSeparated)]
-    public GcloudJsonParsing? JsonParsing { get; set; }
+    public GcloudComputeSecurityPoliciesUpdateJsonParsing? JsonParsing { get; set; }
 
     /// <summary>
     /// The visibility type indicates whether the rules are opaque or transparent. VISIBILITY_TYPE must be one of: STANDARD, PREMIUM.
     /// </summary>
     [CliOption("--layer7-ddos-defense-rule-visibility", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLayer7DdosDefenseRuleVisibility? Layer7DdosDefenseRuleVisibility { get; set; }
+    public GcloudComputeSecurityPoliciesUpdateLayer7DdosDefenseRuleVisibility? Layer7DdosDefenseRuleVisibility { get; set; }
 
     /// <summary>
     /// The level of detail to display for WAF logging. LOG_LEVEL must be one of: NORMAL, VERBOSE.
     /// </summary>
     [CliOption("--log-level", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLogLevel? LogLevel { get; set; }
+    public GcloudComputeSecurityPoliciesUpdateLogLevel? LogLevel { get; set; }
 
     /// <summary>
     /// The DDoS protection level for network load balancing and instances with external IPs. NETWORK_DDOS_PROTECTION must be one of: STANDARD, ADVANCED, ADVANCED_PREVIEW.
     /// </summary>
     [CliOption("--network-ddos-protection", Format = OptionFormat.EqualsSeparated)]
-    public GcloudNetworkDdosProtection? NetworkDdosProtection { get; set; }
+    public GcloudComputeSecurityPoliciesUpdateNetworkDdosProtection? NetworkDdosProtection { get; set; }
 
     /// <summary>
     /// The reCAPTCHA site key to be used for rules using the redirect action and the google-recaptcha redirect type under the security policy.
@@ -73,9 +89,9 @@ public record GcloudComputeSecurityPoliciesUpdateOptions(
     public string? RecaptchaRedirectSiteKey { get; set; }
 
     /// <summary>
-    /// A comma-separated list of request header names to use for resolving the caller's user IP address.
+    /// A comma-separated list of request header names to use for resolving the caller's user IP address. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--user-ip-request-headers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--user-ip-request-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? UserIpRequestHeaders { get; set; }
 
     /// <summary>
@@ -89,5 +105,21 @@ public record GcloudComputeSecurityPoliciesUpdateOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the security policy to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
 
 }

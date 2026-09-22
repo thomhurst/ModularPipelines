@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "bqexports", "update")]
-public record GcloudSccBqexportsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BigQueryExport
-) : GcloudOptions
+public record GcloudSccBqexportsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Security Command Center BigQuery     export
+    /// </summary>
+    /// <param name="BigQueryExport">ID of the BigQuery export e.g. my-bq-export or the full resource name of the BigQuery export e.g. organizations/123/bigQueryExports/my-bq-export.</param>
+    public GcloudSccBqexportsUpdateOptions(
+        string BigQueryExport
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BigQueryExport);
+        this.BigQueryExport = BigQueryExport;
+    }
+
+    public void Deconstruct(out string BigQueryExport)
+    {
+        BigQueryExport = this.BigQueryExport;
+    }
+
     /// <summary>
     /// The dataset to write findings updates to.
     /// </summary>
@@ -70,5 +86,21 @@ public record GcloudSccBqexportsUpdateOptions(
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
+
+    /// <summary>
+    /// ID of the BigQuery export e.g. my-bq-export or the full resource name of the BigQuery export e.g. organizations/123/bigQueryExports/my-bq-export.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BigQueryExport { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Folder, Organization, or Project may be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
 
 }

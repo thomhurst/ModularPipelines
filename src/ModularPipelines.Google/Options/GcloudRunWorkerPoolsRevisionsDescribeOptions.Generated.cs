@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunWorkerPoolsRevisionsDescribeOptions : GcloudOptions
 {
     /// <summary>
+    /// obtain details about a given     worker pool revision
+    /// </summary>
+    /// <param name="WorkerPoolRevision">Revision resource - Worker pool revision to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument WORKER_POOL_REVISION on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the revision or fully qualified identifier for the revision. To set the revision attribute: ▸ provide the argument WORKER_POOL_REVISION on the command line.</param>
+    public GcloudRunWorkerPoolsRevisionsDescribeOptions(
+        string WorkerPoolRevision
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkerPoolRevision);
+        this.WorkerPoolRevision = WorkerPoolRevision;
+    }
+
+    public void Deconstruct(out string WorkerPoolRevision)
+    {
+        WorkerPoolRevision = this.WorkerPoolRevision;
+    }
+
+    /// <summary>
     /// Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Revision resource - Worker pool revision to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument WORKER_POOL_REVISION on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the revision or fully qualified identifier for the revision. To set the revision attribute: ▸ provide the argument WORKER_POOL_REVISION on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WorkerPoolRevision { get; private init; }
 
 }

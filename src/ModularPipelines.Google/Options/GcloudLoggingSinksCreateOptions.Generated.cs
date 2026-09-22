@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,30 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "sinks", "create")]
-public record GcloudLoggingSinksCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SinkName
-) : GcloudOptions
+public record GcloudLoggingSinksCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a log sink
+    /// </summary>
+    /// <param name="SinkName">The name for the sink.</param>
+    /// <param name="Destination">The destination for the sink.</param>
+    public GcloudLoggingSinksCreateOptions(
+        string SinkName,
+        string Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SinkName);
+        this.SinkName = SinkName;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    public void Deconstruct(out string SinkName, out string Destination)
+    {
+        SinkName = this.SinkName;
+        Destination = this.Destination;
+    }
+
     /// <summary>
     /// Writer identity for the sink. This flag can only be used if the destination is a log bucket in a different project. The writer identity is automatically generated when it is not provided for a sink.
     /// </summary>
@@ -72,27 +93,49 @@ public record GcloudLoggingSinksCreateOptions(
     public bool? UsePartitionedTables { get; set; }
 
     /// <summary>
-    /// Settings for sink exporting data to BigQuery. At most one of these can be specified: Billing account of the sink to create.
+    /// At most one of these can be specified: Billing account of the sink to create.
     /// </summary>
     [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
     public string? BillingAccount { get; set; }
 
     /// <summary>
-    /// Settings for sink exporting data to BigQuery. At most one of these can be specified: Folder of the sink to create.
+    /// At most one of these can be specified: Folder of the sink to create.
     /// </summary>
     [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
     public string? Folder { get; set; }
 
     /// <summary>
-    /// Settings for sink exporting data to BigQuery. At most one of these can be specified: Organization of the sink to create.
+    /// At most one of these can be specified: Organization of the sink to create.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
 
     /// <summary>
-    /// Settings for sink exporting data to BigQuery. At most one of these can be specified: Project of the sink to create. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// At most one of these can be specified: Project of the sink to create. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation: they specify both the project of the resource to operate on, and the project for API enablement checks, quota, and billing. To specify a different project for quota and billing, use the --billing-project flag or the billing/quota_project property.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
+
+    /// <summary>
+    /// The name for the sink.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SinkName { get; private init; }
+
+    /// <summary>
+    /// The destination for the sink.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Destination { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BillingAccount) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BillingAccount, Folder, Organization, or Project may be specified.", [nameof(BillingAccount), nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
 
 }

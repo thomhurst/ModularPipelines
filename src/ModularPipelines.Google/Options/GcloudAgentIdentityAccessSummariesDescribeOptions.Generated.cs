@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("agent-identity", "access-summaries", "describe")]
 public record GcloudAgentIdentityAccessSummariesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an access     summary
+    /// </summary>
+    /// <param name="AccessSummary">AccessSummary resource - Name of the resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument access_summary on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the accessSummary or fully qualified identifier for the accessSummary. To set the access_summary attribute: ▸ provide the argument access_summary on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAgentIdentityAccessSummariesDescribeOptions(
+        string AccessSummary
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccessSummary);
+        this.AccessSummary = AccessSummary;
+    }
+
+    public void Deconstruct(out string AccessSummary)
+    {
+        AccessSummary = this.AccessSummary;
+    }
+
+    /// <summary>
+    /// AccessSummary resource - Name of the resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument access_summary on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the accessSummary resource. To set the location attribute: ▸ provide the argument access_summary on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// AccessSummary resource - Name of the resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument access_summary on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the accessSummary or fully qualified identifier for the accessSummary. To set the access_summary attribute: ▸ provide the argument access_summary on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AccessSummary { get; private init; }
+
 }

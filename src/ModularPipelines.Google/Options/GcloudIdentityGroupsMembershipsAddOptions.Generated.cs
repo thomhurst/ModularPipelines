@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("identity", "groups", "memberships", "add")]
 public record GcloudIdentityGroupsMembershipsAddOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new membership in an     existing group
+    /// </summary>
+    /// <param name="GroupEmail">The email address of the group the new membership is being added to.</param>
+    /// <param name="MemberEmail">The email address of the group or user being added to a group.</param>
+    public GcloudIdentityGroupsMembershipsAddOptions(
+        string GroupEmail,
+        string MemberEmail
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupEmail);
+        this.GroupEmail = GroupEmail;
+        global::System.ArgumentNullException.ThrowIfNull(MemberEmail);
+        this.MemberEmail = MemberEmail;
+    }
+
+    public void Deconstruct(out string GroupEmail, out string MemberEmail)
+    {
+        GroupEmail = this.GroupEmail;
+        MemberEmail = this.MemberEmail;
+    }
+
+    /// <summary>
+    /// The email address of the group the new membership is being added to.
+    /// </summary>
+    [CliOption("--group-email", Format = OptionFormat.EqualsSeparated)]
+    public string GroupEmail { get; private init; }
+
+    /// <summary>
+    /// The email address of the group or user being added to a group.
+    /// </summary>
+    [CliOption("--member-email", Format = OptionFormat.EqualsSeparated)]
+    public string MemberEmail { get; private init; }
+
+    /// <summary>
+    /// Optional time of expiration for the membership. This is given as a duration from now, for example '30d', '6m', '3y' for 30 days, 6 months, or 3 years respectively.
+    /// </summary>
+    [CliOption("--expiration", Format = OptionFormat.EqualsSeparated)]
+    public string? Expiration { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of roles for a member within the Group. If not specified, MEMBER will be used as a default value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--roles", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Roles { get; set; }
+
 }

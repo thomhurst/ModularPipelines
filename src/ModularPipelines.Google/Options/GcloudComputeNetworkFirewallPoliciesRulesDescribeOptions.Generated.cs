@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,62 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "network-firewall-policies", "rules", "describe")]
-public record GcloudComputeNetworkFirewallPoliciesRulesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
-) : GcloudOptions
+public record GcloudComputeNetworkFirewallPoliciesRulesDescribeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// describes a     Compute Engine network firewall policy rule
+    /// </summary>
+    /// <param name="FirewallPolicy">Firewall policy ID with which to describe rule.</param>
+    /// <param name="Priority">Priority of the rule to be described. Valid in [0, 2147483547].</param>
+    public GcloudComputeNetworkFirewallPoliciesRulesDescribeOptions(
+        string FirewallPolicy,
+        string Priority
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallPolicy);
+        this.FirewallPolicy = FirewallPolicy;
+        global::System.ArgumentNullException.ThrowIfNull(Priority);
+        this.Priority = Priority;
+    }
+
+    public void Deconstruct(out string FirewallPolicy, out string Priority)
+    {
+        FirewallPolicy = this.FirewallPolicy;
+        Priority = this.Priority;
+    }
+
+    /// <summary>
+    /// Firewall policy ID with which to describe rule.
+    /// </summary>
+    [CliOption("--firewall-policy", Format = OptionFormat.EqualsSeparated)]
+    public string FirewallPolicy { get; private init; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the firewall policy to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--firewall-policy-region", Format = OptionFormat.EqualsSeparated)]
+    public string? FirewallPolicyRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the firewall policy is global.
+    /// </summary>
+    [CliFlag("--global-firewall-policy")]
+    public bool? GlobalFirewallPolicy { get; set; }
+
+    /// <summary>
+    /// Priority of the rule to be described. Valid in [0, 2147483547].
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Priority { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(FirewallPolicyRegion) ? 1 : 0) + (GlobalFirewallPolicy == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of FirewallPolicyRegion or GlobalFirewallPolicy may be specified.", [nameof(FirewallPolicyRegion), nameof(GlobalFirewallPolicy)]);
+        }
+        yield break;
+    }
+
 }

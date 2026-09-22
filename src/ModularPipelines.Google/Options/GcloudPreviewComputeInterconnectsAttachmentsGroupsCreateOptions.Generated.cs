@@ -19,8 +19,52 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "attachments", "groups", "create")]
-public record GcloudPreviewComputeInterconnectsAttachmentsGroupsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInterconnectsAttachmentsGroupsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a     Compute Engine interconnect attachment group
+    /// </summary>
+    /// <param name="IntendedAvailabilitySla">The availability SLA that the user intends this group to support.</param>
+    /// <param name="Name">Name of the interconnect attachment group to create.</param>
+    public GcloudPreviewComputeInterconnectsAttachmentsGroupsCreateOptions(
+        string IntendedAvailabilitySla,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IntendedAvailabilitySla);
+        this.IntendedAvailabilitySla = IntendedAvailabilitySla;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string IntendedAvailabilitySla, out string Name)
+    {
+        IntendedAvailabilitySla = this.IntendedAvailabilitySla;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The availability SLA that the user intends this group to support.
+    /// </summary>
+    [CliOption("--intended-availability-sla", Format = OptionFormat.EqualsSeparated)]
+    public string IntendedAvailabilitySla { get; private init; }
+
+    /// <summary>
+    /// Member interconnect attachments to add to the interconnect attachment group initially. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--attachments", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Attachments { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the interconnect attachment group.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Name of the interconnect attachment group to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

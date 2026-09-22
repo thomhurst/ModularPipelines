@@ -22,9 +22,50 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamWorkloadIdentityPoolsProvidersKeysUndeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// undelete a     workload identity pool provider key
+    /// </summary>
+    /// <param name="Key">Workload identity pool provider key resource - The workload identity pool provider key to undelete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workload identity pool provider key or fully qualified identifier for the workload identity pool provider key. To set the key attribute: ▸ provide the argument key on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamWorkloadIdentityPoolsProvidersKeysUndeleteOptions(
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Key)
+    {
+        Key = this.Key;
+    }
+
+    /// <summary>
+    /// Workload identity pool provider key resource - The workload identity pool provider key to undelete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location name. To set the location attribute: ▸ provide the argument key on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Workload identity pool provider key resource - The workload identity pool provider key to undelete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The ID for the provider, which becomes the final component of the resource name. This value must be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix gcp- is reserved for use by Google, and may not be specified. To set the provider attribute: ▸ provide the argument key on the command line with a fully specified name; ▸ provide the argument --provider on the command line.
+    /// </summary>
+    [CliOption("--provider", Format = OptionFormat.EqualsSeparated)]
+    public string? Provider { get; set; }
+
+    /// <summary>
+    /// Workload identity pool provider key resource - The workload identity pool provider key to undelete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The ID to use for the pool, which becomes the final component of the resource name. This value should be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix gcp- is reserved for use by Google, and may not be specified. To set the workload-identity-pool attribute: ▸ provide the argument key on the command line with a fully specified name; ▸ provide the argument --workload-identity-pool on the command line.
+    /// </summary>
+    [CliOption("--workload-identity-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkloadIdentityPool { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Workload identity pool provider key resource - The workload identity pool provider key to undelete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workload identity pool provider key or fully qualified identifier for the workload identity pool provider key. To set the key attribute: ▸ provide the argument key on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Key { get; private init; }
 
 }

@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "capabilities", "describe")]
-public record GcloudResourceManagerCapabilitiesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string CapabilityId
-) : GcloudOptions
+public record GcloudResourceManagerCapabilitiesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show whether a Capability     is enabled
+    /// </summary>
+    /// <param name="CapabilityId">ID for the capability you want to describe.</param>
+    public GcloudResourceManagerCapabilitiesDescribeOptions(
+        string CapabilityId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CapabilityId);
+        this.CapabilityId = CapabilityId;
+    }
+
+    public void Deconstruct(out string CapabilityId)
+    {
+        CapabilityId = this.CapabilityId;
+    }
+
+    /// <summary>
+    /// ID for the capability you want to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CapabilityId { get; private init; }
+
 }

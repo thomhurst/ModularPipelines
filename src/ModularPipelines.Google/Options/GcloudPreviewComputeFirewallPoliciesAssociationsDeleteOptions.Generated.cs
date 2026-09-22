@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "firewall-policies", "associations", "delete")]
-public record GcloudPreviewComputeFirewallPoliciesAssociationsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeFirewallPoliciesAssociationsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a     Compute Engine organization firewall policy association
+    /// </summary>
+    /// <param name="FirewallPolicy">Short name or ID of the firewall policy ID of the association.</param>
+    /// <param name="Name">Name of the association to delete.</param>
+    public GcloudPreviewComputeFirewallPoliciesAssociationsDeleteOptions(
+        string FirewallPolicy,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallPolicy);
+        this.FirewallPolicy = FirewallPolicy;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string FirewallPolicy, out string Name)
+    {
+        FirewallPolicy = this.FirewallPolicy;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Short name or ID of the firewall policy ID of the association.
+    /// </summary>
+    [CliOption("--firewall-policy", Format = OptionFormat.EqualsSeparated)]
+    public string FirewallPolicy { get; private init; }
+
+    /// <summary>
+    /// ID of the organization in which the firewall policy is to be detached. Must be set if FIREWALL_POLICY is short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Name of the association to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

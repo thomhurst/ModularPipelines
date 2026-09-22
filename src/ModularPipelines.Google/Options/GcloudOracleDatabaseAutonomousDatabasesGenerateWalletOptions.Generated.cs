@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -21,4 +22,57 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("oracle-database", "autonomous-databases", "generate-wallet")]
 public record GcloudOracleDatabaseAutonomousDatabasesGenerateWalletOptions : GcloudOptions
 {
+    /// <summary>
+    /// generate     wallet for an AutonomousDatabase
+    /// </summary>
+    /// <param name="Password">The password used to encrypt the keys inside the wallet. The password must be a minimum of 8 characters.</param>
+    /// <param name="AutonomousDatabase">AutonomousDatabase resource - The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument autonomous_database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the autonomousDatabase or fully qualified identifier for the autonomousDatabase. To set the autonomous_database attribute: ▸ provide the argument autonomous_database on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudOracleDatabaseAutonomousDatabasesGenerateWalletOptions(
+        string Password,
+        string AutonomousDatabase
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Password);
+        this.Password = Password;
+        global::System.ArgumentNullException.ThrowIfNull(AutonomousDatabase);
+        this.AutonomousDatabase = AutonomousDatabase;
+    }
+
+    public void Deconstruct(out string Password, out string AutonomousDatabase)
+    {
+        Password = this.Password;
+        AutonomousDatabase = this.AutonomousDatabase;
+    }
+
+    /// <summary>
+    /// The password used to encrypt the keys inside the wallet. The password must be a minimum of 8 characters.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
+    public string Password { get; private init; }
+
+    /// <summary>
+    /// AutonomousDatabase resource - The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument autonomous_database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the autonomousDatabase resource. To set the location attribute: ▸ provide the argument autonomous_database on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// True when requesting regional connection strings in PDB connect info, applicable to cross-region Data Guard only.
+    /// </summary>
+    [CliFlag("--is-regional")]
+    public bool? IsRegional { get; set; }
+
+    /// <summary>
+    /// The type of wallet generation for the Autonomous Database. The default value is SINGLE. TYPE must be one of: all Used to generate wallet for all databases in the region. single Used to generate wallet for a single database.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string? Type { get; set; }
+
+    /// <summary>
+    /// AutonomousDatabase resource - The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument autonomous_database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the autonomousDatabase or fully qualified identifier for the autonomousDatabase. To set the autonomous_database attribute: ▸ provide the argument autonomous_database on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AutonomousDatabase { get; private init; }
+
 }

@@ -19,8 +19,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "os-config", "os-policy-assignments", "describe")]
-public record GcloudComputeOsConfigOsPolicyAssignmentsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Os
-) : GcloudOptions
+public record GcloudComputeOsConfigOsPolicyAssignmentsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an OS     policy assignment
+    /// </summary>
+    /// <param name="OsPolicyAssignment">OS policy assignment resource - OS policy assignment to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument os_policy_assignment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the OS policy assignment or fully qualified identifier for the OS policy assignment. To set the os_policy_assignment attribute: ▸ provide the argument os_policy_assignment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeOsConfigOsPolicyAssignmentsDescribeOptions(
+        string OsPolicyAssignment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OsPolicyAssignment);
+        this.OsPolicyAssignment = OsPolicyAssignment;
+    }
+
+    public void Deconstruct(out string OsPolicyAssignment)
+    {
+        OsPolicyAssignment = this.OsPolicyAssignment;
+    }
+
+    /// <summary>
+    /// OS policy assignment resource - OS policy assignment to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument os_policy_assignment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the OS policy assignment. To set the location attribute: ▸ provide the argument os_policy_assignment on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/zone.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// OS policy assignment resource - OS policy assignment to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument os_policy_assignment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the OS policy assignment or fully qualified identifier for the OS policy assignment. To set the os_policy_assignment attribute: ▸ provide the argument os_policy_assignment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OsPolicyAssignment { get; private init; }
+
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,92 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "aspect-types", "create")]
-public record GcloudDataplexAspectTypesCreateOptions : GcloudOptions
+public record GcloudDataplexAspectTypesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Dataplex Aspect Type
+    /// </summary>
+    /// <param name="MetadataTemplateFileName">The name of the JSON or YAML file to define Metadata Template.</param>
+    /// <param name="AspectType">Aspect type resource - Arguments and flags that define the Dataplex aspect type you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument aspect_type on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the aspect type or fully qualified identifier for the aspect type. To set the aspect_type attribute: ▸ provide the argument aspect_type on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexAspectTypesCreateOptions(
+        string MetadataTemplateFileName,
+        string AspectType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MetadataTemplateFileName);
+        this.MetadataTemplateFileName = MetadataTemplateFileName;
+        global::System.ArgumentNullException.ThrowIfNull(AspectType);
+        this.AspectType = AspectType;
+    }
+
+    public void Deconstruct(out string MetadataTemplateFileName, out string AspectType)
+    {
+        MetadataTemplateFileName = this.MetadataTemplateFileName;
+        AspectType = this.AspectType;
+    }
+
+    /// <summary>
+    /// The name of the JSON or YAML file to define Metadata Template.
+    /// </summary>
+    [CliOption("--metadata-template-file-name", Format = OptionFormat.EqualsSeparated)]
+    public string MetadataTemplateFileName { get; private init; }
+
+    /// <summary>
+    /// Aspect type resource - Arguments and flags that define the Dataplex aspect type you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument aspect_type on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataplex resource. To set the location attribute: ▸ provide the argument aspect_type on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Data classification of the Aspect Type. DATA_CLASSIFICATION must be (only one value is supported): METADATA_AND_DATA.
+    /// </summary>
+    [CliOption("--data-classification", Format = OptionFormat.EqualsSeparated)]
+    public string? DataClassification { get; set; }
+
+    /// <summary>
+    /// Description of the Aspect Type.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Display name of the Aspect Type.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Validate the create action, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Aspect type resource - Arguments and flags that define the Dataplex aspect type you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument aspect_type on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the aspect type or fully qualified identifier for the aspect type. To set the aspect_type attribute: ▸ provide the argument aspect_type on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AspectType { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Async == true ? 1 : 0) + (ValidateOnly == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Async or ValidateOnly may be specified.", [nameof(Async), nameof(ValidateOnly)]);
+        }
+        yield break;
+    }
+
 }

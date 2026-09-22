@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBackupDrBackupVaultsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete the specified Backup Vault
+    /// </summary>
+    /// <param name="BackupVault">Backup Vault resource - Name of the backup vault to delete. Before you delete, take a look at the prerequisites here (https://cloud.google.com/backup-disaster-recovery/docs/configuration/decommission). The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Backup Vault or fully qualified identifier for the Backup Vault. To set the name attribute: ▸ provide the argument backup_vault on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBackupDrBackupVaultsDeleteOptions(
+        string BackupVault
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupVault);
+        this.BackupVault = BackupVault;
+    }
+
+    public void Deconstruct(out string BackupVault)
+    {
+        BackupVault = this.BackupVault;
+    }
+
+    /// <summary>
+    /// Backup Vault resource - Name of the backup vault to delete. Before you delete, take a look at the prerequisites here (https://cloud.google.com/backup-disaster-recovery/docs/configuration/decommission). The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Backup Vault. To set the location attribute: ▸ provide the argument backup_vault on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Allow idempotent deletion of backup vault. The request will still succeed in case the backup vault does not exist.
     /// </summary>
     [CliFlag("--allow-missing")]
@@ -44,5 +67,11 @@ public record GcloudBackupDrBackupVaultsDeleteOptions : GcloudOptions
     /// </summary>
     [CliFlag("--ignore-inactive-datasources")]
     public bool? IgnoreInactiveDatasources { get; set; }
+
+    /// <summary>
+    /// Backup Vault resource - Name of the backup vault to delete. Before you delete, take a look at the prerequisites here (https://cloud.google.com/backup-disaster-recovery/docs/configuration/decommission). The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Backup Vault or fully qualified identifier for the Backup Vault. To set the name attribute: ▸ provide the argument backup_vault on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackupVault { get; private init; }
 
 }

@@ -21,4 +21,72 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("filestore", "instances", "restore")]
 public record GcloudFilestoreInstancesRestoreOptions : GcloudOptions
 {
+    /// <summary>
+    /// restore a Filestore instance from a     backup
+    /// </summary>
+    /// <param name="FileShare">File share to restore from the backup.</param>
+    /// <param name="SourceBackup">Name of the Filestore backup to restore from.</param>
+    /// <param name="SourceBackupRegion">Region of the Filestore backup to restore from.</param>
+    /// <param name="Instance">Instance resource - Arguments and flags that specify the Filestore instance to restore. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudFilestoreInstancesRestoreOptions(
+        string FileShare,
+        string SourceBackup,
+        string SourceBackupRegion,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileShare);
+        this.FileShare = FileShare;
+        global::System.ArgumentNullException.ThrowIfNull(SourceBackup);
+        this.SourceBackup = SourceBackup;
+        global::System.ArgumentNullException.ThrowIfNull(SourceBackupRegion);
+        this.SourceBackupRegion = SourceBackupRegion;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string FileShare, out string SourceBackup, out string SourceBackupRegion, out string Instance)
+    {
+        FileShare = this.FileShare;
+        SourceBackup = this.SourceBackup;
+        SourceBackupRegion = this.SourceBackupRegion;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// File share to restore from the backup.
+    /// </summary>
+    [CliOption("--file-share", Format = OptionFormat.EqualsSeparated)]
+    public string FileShare { get; private init; }
+
+    /// <summary>
+    /// Name of the Filestore backup to restore from.
+    /// </summary>
+    [CliOption("--source-backup", Format = OptionFormat.EqualsSeparated)]
+    public string SourceBackup { get; private init; }
+
+    /// <summary>
+    /// Region of the Filestore backup to restore from.
+    /// </summary>
+    [CliOption("--source-backup-region", Format = OptionFormat.EqualsSeparated)]
+    public string SourceBackupRegion { get; private init; }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Filestore instance to restore. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The zone of the Filestore instance. To set the zone attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --zone on the command line; ▸ set the property filestore/zone.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Filestore instance to restore. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
 }

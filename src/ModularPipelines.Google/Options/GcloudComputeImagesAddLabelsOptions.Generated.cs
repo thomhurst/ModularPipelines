@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "images", "add-labels")]
-public record GcloudComputeImagesAddLabelsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImageName
-) : GcloudOptions
+public record GcloudComputeImagesAddLabelsOptions : GcloudOptions
 {
+    /// <summary>
+    /// add labels to Google Compute Engine     images
+    /// </summary>
+    /// <param name="Labels">A list of labels to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="ImageName">Name of the disk image to operate on.</param>
+    public GcloudComputeImagesAddLabelsOptions(
+        IReadOnlyList<KeyValue> Labels,
+        string ImageName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Labels);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(Labels));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Labels));
+            }
+
+            Labels = materialized;
+        }
+        this.Labels = Labels;
+        global::System.ArgumentNullException.ThrowIfNull(ImageName);
+        this.ImageName = ImageName;
+    }
+
+    public void Deconstruct(out IReadOnlyList<KeyValue> Labels, out string ImageName)
+    {
+        Labels = this.Labels;
+        ImageName = this.ImageName;
+    }
+
+    /// <summary>
+    /// A list of labels to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue> Labels { get; private init; }
+
+    /// <summary>
+    /// Name of the disk image to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ImageName { get; private init; }
+
 }

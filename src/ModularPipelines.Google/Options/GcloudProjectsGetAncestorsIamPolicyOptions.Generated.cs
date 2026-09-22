@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudProjectsGetAncestorsIamPolicyOptions : GcloudOptions
 {
     /// <summary>
+    /// get IAM policies for a project     and its ancestors
+    /// </summary>
+    /// <param name="ProjectId">Project resource - ID for the project you want to get IAM policy for. This represents a Cloud resource. This must be specified. ID of the project or fully qualified identifier for the project. To set the project_id attribute: ▸ provide the argument project_id on the command line.</param>
+    public GcloudProjectsGetAncestorsIamPolicyOptions(
+        string ProjectId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectId);
+        this.ProjectId = ProjectId;
+    }
+
+    public void Deconstruct(out string ProjectId)
+    {
+        ProjectId = this.ProjectId;
+    }
+
+    /// <summary>
     /// Include deny policies on the project and its ancestors in the result
     /// </summary>
     [CliFlag("--include-deny")]
     public bool? IncludeDeny { get; set; }
+
+    /// <summary>
+    /// Project resource - ID for the project you want to get IAM policy for. This represents a Cloud resource. This must be specified. ID of the project or fully qualified identifier for the project. To set the project_id attribute: ▸ provide the argument project_id on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ProjectId { get; private init; }
 
 }

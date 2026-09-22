@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,86 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "notifications", "create")]
-public record GcloudSccNotificationsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NotificationConfigId
-) : GcloudOptions
+public record GcloudSccNotificationsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Security Command Center     notification config
+    /// </summary>
+    /// <param name="PubsubTopic">The Pub/Sub topic which will receive notifications. Its format is "projects/[project_id]/topics/[topic]".</param>
+    /// <param name="NotificationConfigId">The ID of the notification config. Formatted as "organizations/123/notificationConfigs/456" or just "456".</param>
+    public GcloudSccNotificationsCreateOptions(
+        string PubsubTopic,
+        string NotificationConfigId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PubsubTopic);
+        this.PubsubTopic = PubsubTopic;
+        global::System.ArgumentNullException.ThrowIfNull(NotificationConfigId);
+        this.NotificationConfigId = NotificationConfigId;
+    }
+
+    public void Deconstruct(out string PubsubTopic, out string NotificationConfigId)
+    {
+        PubsubTopic = this.PubsubTopic;
+        NotificationConfigId = this.NotificationConfigId;
+    }
+
+    /// <summary>
+    /// The Pub/Sub topic which will receive notifications. Its format is "projects/[project_id]/topics/[topic]".
+    /// </summary>
+    [CliOption("--pubsub-topic", Format = OptionFormat.EqualsSeparated)]
+    public string PubsubTopic { get; private init; }
+
+    /// <summary>
+    /// The text that will be used to describe a notification configuration.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Filter to be used for notification config.
+    /// </summary>
+    [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
+    public string? Filter { get; set; }
+
+    /// <summary>
+    /// If data residency is enabled, specify the Security Command Center location in which to create the notification. The resulting notificationConfig resource is stored only in this location. Only findings that are issued in this location are sent to Pub/Sub. If data residency is not enabled, specifying the --location flag creates the notification by using Security Command Center API v2, and the only valid value for the flag is global.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Folder where the notification config resides. Formatted as folders/456 or just 456.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Organization where the notification config resides. Formatted as organizations/123 or just 123.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Project (ID or number) where the notification config resides. Formatted as projects/789 or just 789.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// The ID of the notification config. Formatted as "organizations/123/notificationConfigs/456" or just "456".
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NotificationConfigId { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Folder, Organization, or Project may be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

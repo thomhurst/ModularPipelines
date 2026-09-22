@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerAiProfilesServingStackVersionsListOptions : GcloudOptions
 {
     /// <summary>
+    /// list supported     serving stack versions that were used to generate the inference     profiles
+    /// </summary>
+    /// <param name="ServingStack">The serving stack to filter serving stack versions by.</param>
+    public GcloudContainerAiProfilesServingStackVersionsListOptions(
+        string ServingStack
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServingStack);
+        this.ServingStack = ServingStack;
+    }
+
+    public void Deconstruct(out string ServingStack)
+    {
+        ServingStack = this.ServingStack;
+    }
+
+    /// <summary>
+    /// The serving stack to filter serving stack versions by.
+    /// </summary>
+    [CliOption("--serving-stack", Format = OptionFormat.EqualsSeparated)]
+    public string ServingStack { get; private init; }
+
+    /// <summary>
     /// The model to filter serving stack versions by.
     /// </summary>
     [CliOption("--model", Format = OptionFormat.EqualsSeparated)]

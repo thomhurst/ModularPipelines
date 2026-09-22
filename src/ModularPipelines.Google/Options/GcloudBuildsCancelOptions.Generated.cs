@@ -19,14 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "cancel")]
-public record GcloudBuildsCancelOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Builds
-) : GcloudOptions
+public record GcloudBuildsCancelOptions : GcloudOptions
 {
+    /// <summary>
+    /// cancel an ongoing build
+    /// </summary>
+    /// <param name="Builds">IDs of builds to cancel</param>
+    public GcloudBuildsCancelOptions(
+        IEnumerable<string> Builds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Builds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Builds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Builds));
+            }
+
+            Builds = materialized;
+        }
+        this.Builds = Builds;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Builds)
+    {
+        Builds = this.Builds;
+    }
+
     /// <summary>
     /// The region of the Cloud Build Service to use. Must be set to a supported region name (e.g. us-central1). If unset, builds/region, which is the default region to use when working with Cloud Build resources, is used. If builds/region is unset, region is set to global. Note: Region must be specified in 2nd gen repo; global is not supported.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// IDs of builds to cancel
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Builds { get; private init; }
 
 }

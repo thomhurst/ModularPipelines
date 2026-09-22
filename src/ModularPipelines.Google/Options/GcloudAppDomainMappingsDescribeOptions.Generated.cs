@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "domain-mappings", "describe")]
-public record GcloudAppDomainMappingsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Domain
-) : GcloudOptions
+public record GcloudAppDomainMappingsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describes a specified domain mapping
+    /// </summary>
+    /// <param name="Domain">A valid domain which may begin with a wildcard, such as: example.com or *.example.com</param>
+    public GcloudAppDomainMappingsDescribeOptions(
+        string Domain
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+    }
+
+    public void Deconstruct(out string Domain)
+    {
+        Domain = this.Domain;
+    }
+
+    /// <summary>
+    /// A valid domain which may begin with a wildcard, such as: example.com or *.example.com
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Domain { get; private init; }
+
 }

@@ -21,4 +21,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("auth", "configure-docker")]
 public record GcloudAuthConfigureDockerOptions : GcloudOptions
 {
+    /// <summary>
+    /// The comma-separated list of registries to configure the credential helper for. Container Registry is a service for storing private container images. For available registries, see https://cloud.google.com/container-registry/docs/pushing-and-pulling#add-registry.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Registries { get; set; }
+
 }

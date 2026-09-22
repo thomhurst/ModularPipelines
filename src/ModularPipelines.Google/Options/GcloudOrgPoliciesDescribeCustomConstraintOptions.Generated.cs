@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org-policies", "describe-custom-constraint")]
-public record GcloudOrgPoliciesDescribeCustomConstraintOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string CustomConstraint
-) : GcloudOptions
+public record GcloudOrgPoliciesDescribeCustomConstraintOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a custom     constraint
+    /// </summary>
+    /// <param name="Organization">Organization ID.</param>
+    /// <param name="CustomConstraint">Name of the custom constraint.</param>
+    public GcloudOrgPoliciesDescribeCustomConstraintOptions(
+        string Organization,
+        string CustomConstraint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Organization);
+        this.Organization = Organization;
+        global::System.ArgumentNullException.ThrowIfNull(CustomConstraint);
+        this.CustomConstraint = CustomConstraint;
+    }
+
+    public void Deconstruct(out string Organization, out string CustomConstraint)
+    {
+        Organization = this.Organization;
+        CustomConstraint = this.CustomConstraint;
+    }
+
+    /// <summary>
+    /// Organization ID.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string Organization { get; private init; }
+
+    /// <summary>
+    /// Name of the custom constraint.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CustomConstraint { get; private init; }
+
 }

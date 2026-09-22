@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudOracleDatabaseExascaleDbStorageVaultsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete an     ExascaleDbStorageVault
+    /// </summary>
+    /// <param name="ExascaleDbStorageVault">ExascaleDbStorageVault resource - The name of the ExascaleDbStorageVault in the following format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument exascale_db_storage_vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the exascaleDbStorageVault or fully qualified identifier for the exascaleDbStorageVault. To set the exascale_db_storage_vault attribute: ▸ provide the argument exascale_db_storage_vault on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudOracleDatabaseExascaleDbStorageVaultsDeleteOptions(
+        string ExascaleDbStorageVault
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExascaleDbStorageVault);
+        this.ExascaleDbStorageVault = ExascaleDbStorageVault;
+    }
+
+    public void Deconstruct(out string ExascaleDbStorageVault)
+    {
+        ExascaleDbStorageVault = this.ExascaleDbStorageVault;
+    }
+
+    /// <summary>
+    /// ExascaleDbStorageVault resource - The name of the ExascaleDbStorageVault in the following format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument exascale_db_storage_vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the exascaleDbStorageVault resource. To set the location attribute: ▸ provide the argument exascale_db_storage_vault on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -32,5 +55,11 @@ public record GcloudOracleDatabaseExascaleDbStorageVaultsDeleteOptions : GcloudO
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
+
+    /// <summary>
+    /// ExascaleDbStorageVault resource - The name of the ExascaleDbStorageVault in the following format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument exascale_db_storage_vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the exascaleDbStorageVault or fully qualified identifier for the exascaleDbStorageVault. To set the exascale_db_storage_vault attribute: ▸ provide the argument exascale_db_storage_vault on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ExascaleDbStorageVault { get; private init; }
 
 }

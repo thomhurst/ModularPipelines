@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudFilestoreInstancesDescribeOptions : GcloudOptions
 {
     /// <summary>
+    /// show metadata for a Filestore     instance
+    /// </summary>
+    /// <param name="Instance">Instance resource - The instance to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudFilestoreInstancesDescribeOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Instance resource - The instance to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The zone of the instance. To set the zone attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --zone on the command line; ▸ provide the argument region on the command line; ▸ provide the argument location on the command line; ▸ set the property filestore/zone; ▸ set the property filestore/region; ▸ set the property filestore/location.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
     /// Location of the Cloud Filestore instance/operation.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
@@ -32,5 +55,11 @@ public record GcloudFilestoreInstancesDescribeOptions : GcloudOptions
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Instance resource - The instance to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
 
 }

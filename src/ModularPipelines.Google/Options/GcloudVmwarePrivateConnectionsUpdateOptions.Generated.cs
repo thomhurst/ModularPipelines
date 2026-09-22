@@ -23,6 +23,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudVmwarePrivateConnectionsUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// update a Google Cloud Private     Connection
+    /// </summary>
+    /// <param name="PrivateConnection">Private Connection resource - private_connection. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument private_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Private Connection or fully qualified identifier for the Private Connection. To set the private-connection attribute: ▸ provide the argument private_connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVmwarePrivateConnectionsUpdateOptions(
+        string PrivateConnection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PrivateConnection);
+        this.PrivateConnection = PrivateConnection;
+    }
+
+    public void Deconstruct(out string PrivateConnection)
+    {
+        PrivateConnection = this.PrivateConnection;
+    }
+
+    /// <summary>
+    /// Private Connection resource - private_connection. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument private_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The resource name of the location. To set the location attribute: ▸ provide the argument private_connection on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
@@ -44,6 +67,12 @@ public record GcloudVmwarePrivateConnectionsUpdateOptions : GcloudOptions
     /// Updated routing mode for this Private Connection. ROUTING_MODE must be one of: GLOBAL, REGIONAL.
     /// </summary>
     [CliOption("--routing-mode", Format = OptionFormat.EqualsSeparated)]
-    public GcloudRoutingMode? RoutingMode { get; set; }
+    public GcloudVmwarePrivateConnectionsUpdateRoutingMode? RoutingMode { get; set; }
+
+    /// <summary>
+    /// Private Connection resource - private_connection. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument private_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Private Connection or fully qualified identifier for the Private Connection. To set the private-connection attribute: ▸ provide the argument private_connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PrivateConnection { get; private init; }
 
 }

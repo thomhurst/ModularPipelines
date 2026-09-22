@@ -6,10 +6,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +23,91 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("active-directory", "domains", "trusts", "create")]
 public record GcloudActiveDirectoryDomainsTrustsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Microsoft Active     Directory Trust between a Managed Microsoft AD domain and another     domain
+    /// </summary>
+    /// <param name="TargetDnsIpAddresses">Target DNS server IP addresses that can resolve the target domain. Only IPv4 is supported. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="TargetDomainName">Target domain name for the Managed Microsoft AD Trust.</param>
+    /// <param name="Domain">Domain resource - Name of the Managed Microsoft AD domain you want to create an AD trust from. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument domain on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the domain or fully qualified identifier for the domain. To set the domain attribute: ▸ provide the argument domain on the command line.</param>
+    public GcloudActiveDirectoryDomainsTrustsCreateOptions(
+        IEnumerable<string> TargetDnsIpAddresses,
+        string TargetDomainName,
+        string Domain
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(TargetDnsIpAddresses);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(TargetDnsIpAddresses));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(TargetDnsIpAddresses));
+            }
+
+            TargetDnsIpAddresses = materialized;
+        }
+        this.TargetDnsIpAddresses = TargetDnsIpAddresses;
+        global::System.ArgumentNullException.ThrowIfNull(TargetDomainName);
+        this.TargetDomainName = TargetDomainName;
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+    }
+
+    public void Deconstruct(out IEnumerable<string> TargetDnsIpAddresses, out string TargetDomainName, out string Domain)
+    {
+        TargetDnsIpAddresses = this.TargetDnsIpAddresses;
+        TargetDomainName = this.TargetDomainName;
+        Domain = this.Domain;
+    }
+
+    /// <summary>
+    /// Target DNS server IP addresses that can resolve the target domain. Only IPv4 is supported. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--target-dns-ip-addresses", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> TargetDnsIpAddresses { get; private init; }
+
+    /// <summary>
+    /// Target domain name for the Managed Microsoft AD Trust.
+    /// </summary>
+    [CliOption("--target-domain-name", Format = OptionFormat.EqualsSeparated)]
+    public string TargetDomainName { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Direction of the trust. Must be one of: INBOUND, OUTBOUND, BIDIRECTIONAL. Default is BIDIRECTIONAL. DIRECTION must be one of: bidirectional, inbound, outbound, trust-direction-unspecified.
+    /// </summary>
+    [CliOption("--direction", Format = OptionFormat.EqualsSeparated)]
+    public GcloudActiveDirectoryDomainsTrustsCreateDirection? Direction { get; set; }
+
+    /// <summary>
+    /// Trust handshake secret with target domain. The secret will not be stored. If not specified, command will prompt user for secret.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--handshake-secret", Format = OptionFormat.EqualsSeparated)]
+    public string? HandshakeSecret { get; set; }
+
+    /// <summary>
+    /// If specified, trusted side will only have selective access to approved set of resources. Otherwise, the trusted side has forest/domain wide access. Default is false.
+    /// </summary>
+    [CliFlag("--selective-authentication")]
+    public bool? SelectiveAuthentication { get; set; }
+
+    /// <summary>
+    /// Type of the trust. Must be FOREST or EXTERNAL. Default is FOREST. TYPE must be one of: external, forest, trust-type-unspecified.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudActiveDirectoryDomainsTrustsCreateType? Type { get; set; }
+
+    /// <summary>
+    /// Domain resource - Name of the Managed Microsoft AD domain you want to create an AD trust from. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument domain on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the domain or fully qualified identifier for the domain. To set the domain attribute: ▸ provide the argument domain on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Domain { get; private init; }
+
 }

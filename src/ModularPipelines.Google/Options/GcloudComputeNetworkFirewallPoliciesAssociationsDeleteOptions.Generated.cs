@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,62 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "network-firewall-policies", "associations", "delete")]
-public record GcloudComputeNetworkFirewallPoliciesAssociationsDeleteOptions : GcloudOptions
+public record GcloudComputeNetworkFirewallPoliciesAssociationsDeleteOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// delete a new     association between a firewall policy and an network or folder resource
+    /// </summary>
+    /// <param name="FirewallPolicy">Firewall policy ID with which to delete association.</param>
+    /// <param name="Name">Name of the association to delete.</param>
+    public GcloudComputeNetworkFirewallPoliciesAssociationsDeleteOptions(
+        string FirewallPolicy,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallPolicy);
+        this.FirewallPolicy = FirewallPolicy;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string FirewallPolicy, out string Name)
+    {
+        FirewallPolicy = this.FirewallPolicy;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Firewall policy ID with which to delete association.
+    /// </summary>
+    [CliOption("--firewall-policy", Format = OptionFormat.EqualsSeparated)]
+    public string FirewallPolicy { get; private init; }
+
+    /// <summary>
+    /// Name of the association to delete.
+    /// </summary>
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the firewall policy to delete. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--firewall-policy-region", Format = OptionFormat.EqualsSeparated)]
+    public string? FirewallPolicyRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the firewall policy is global.
+    /// </summary>
+    [CliFlag("--global-firewall-policy")]
+    public bool? GlobalFirewallPolicy { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(FirewallPolicyRegion) ? 1 : 0) + (GlobalFirewallPolicy == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of FirewallPolicyRegion or GlobalFirewallPolicy may be specified.", [nameof(FirewallPolicyRegion), nameof(GlobalFirewallPolicy)]);
+        }
+        yield break;
+    }
+
 }

@@ -19,8 +19,57 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "routers", "nats", "rules", "describe")]
-public record GcloudPreviewComputeRoutersNatsRulesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RuleNumber
-) : GcloudOptions
+public record GcloudPreviewComputeRoutersNatsRulesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Rule in a     Compute Engine NAT
+    /// </summary>
+    /// <param name="Nat">Name of the NAT that contains the Rule</param>
+    /// <param name="Router">Router to use for NAT.</param>
+    /// <param name="RuleNumber">Number that uniquely identifies the Rule to operate on</param>
+    public GcloudPreviewComputeRoutersNatsRulesDescribeOptions(
+        string Nat,
+        string Router,
+        string RuleNumber
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Nat);
+        this.Nat = Nat;
+        global::System.ArgumentNullException.ThrowIfNull(Router);
+        this.Router = Router;
+        global::System.ArgumentNullException.ThrowIfNull(RuleNumber);
+        this.RuleNumber = RuleNumber;
+    }
+
+    public void Deconstruct(out string Nat, out string Router, out string RuleNumber)
+    {
+        Nat = this.Nat;
+        Router = this.Router;
+        RuleNumber = this.RuleNumber;
+    }
+
+    /// <summary>
+    /// Name of the NAT that contains the Rule
+    /// </summary>
+    [CliOption("--nat", Format = OptionFormat.EqualsSeparated)]
+    public string Nat { get; private init; }
+
+    /// <summary>
+    /// Router to use for NAT.
+    /// </summary>
+    [CliOption("--router", Format = OptionFormat.EqualsSeparated)]
+    public string Router { get; private init; }
+
+    /// <summary>
+    /// Region of the NAT containing the Rule to describe. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Number that uniquely identifies the Rule to operate on
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RuleNumber { get; private init; }
+
 }

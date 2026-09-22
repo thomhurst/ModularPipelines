@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,10 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instances", "add-access-config")]
-public record GcloudPreviewComputeInstancesAddAccessConfigOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
-) : GcloudOptions
+public record GcloudPreviewComputeInstancesAddAccessConfigOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Compute     Engine virtual machine access configuration
+    /// </summary>
+    /// <param name="InstanceName">Name of the instance to operate on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances</param>
+    public GcloudPreviewComputeInstancesAddAccessConfigOptions(
+        string InstanceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+    }
+
+    public void Deconstruct(out string InstanceName)
+    {
+        InstanceName = this.InstanceName;
+    }
+
     /// <summary>
     /// Specifies the name of the new access configuration. external-nat is used as the default if this flag is not provided. Since ONE_TO_ONE_NAT is currently the only access-config type, it is not recommended that you change this value.
     /// </summary>
@@ -46,7 +62,7 @@ public record GcloudPreviewComputeInstancesAddAccessConfigOptions(
     /// Specifies the network tier of the access configuration. NETWORK_TIER must be one of: PREMIUM, STANDARD. The default value is PREMIUM.
     /// </summary>
     [CliOption("--network-tier", Format = OptionFormat.EqualsSeparated)]
-    public GcloudNetworkTier? NetworkTier { get; set; }
+    public GcloudPreviewComputeInstancesAddAccessConfigNetworkTier? NetworkTier { get; set; }
 
     /// <summary>
     /// Zone of the instance to operate on. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
@@ -77,5 +93,25 @@ public record GcloudPreviewComputeInstancesAddAccessConfigOptions(
     /// </summary>
     [CliFlag("--no-public-ptr-domain")]
     public bool? NoPublicPtrDomain { get; set; }
+
+    /// <summary>
+    /// Name of the instance to operate on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((PublicPtr == true ? 1 : 0) + (NoPublicPtr == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of PublicPtr or NoPublicPtr may be specified.", [nameof(PublicPtr), nameof(NoPublicPtr)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(PublicPtrDomain) ? 1 : 0) + (NoPublicPtrDomain == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of PublicPtrDomain or NoPublicPtrDomain may be specified.", [nameof(PublicPtrDomain), nameof(NoPublicPtrDomain)]);
+        }
+        yield break;
+    }
 
 }

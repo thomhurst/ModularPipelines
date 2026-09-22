@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,85 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("recommender", "insights", "describe")]
-public record GcloudRecommenderInsightsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Insight
-) : GcloudOptions
+public record GcloudRecommenderInsightsDescribeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// describe an insight
+    /// </summary>
+    /// <param name="InsightType">Insight type to describe insights</param>
+    /// <param name="Location">Location</param>
+    /// <param name="Insight">insight to describe</param>
+    public GcloudRecommenderInsightsDescribeOptions(
+        string InsightType,
+        string Location,
+        string Insight
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InsightType);
+        this.InsightType = InsightType;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Insight);
+        this.Insight = Insight;
+    }
+
+    public void Deconstruct(out string InsightType, out string Location, out string Insight)
+    {
+        InsightType = this.InsightType;
+        Location = this.Location;
+        Insight = this.Insight;
+    }
+
+    /// <summary>
+    /// Insight type to describe insights
+    /// </summary>
+    [CliOption("--insight-type", Format = OptionFormat.EqualsSeparated)]
+    public string InsightType { get; private init; }
+
+    /// <summary>
+    /// Location
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Currently four mutually exclusive flags are supported, --project, --billing-account, --folder, --organization. Exactly one of these must be specified: The Google Cloud Platform billing account ID to use for this invocation.
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string? BillingAccount { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Currently four mutually exclusive flags are supported, --project, --billing-account, --folder, --organization. Exactly one of these must be specified: The Google Cloud Platform folder ID to use for this invocation.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Currently four mutually exclusive flags are supported, --project, --billing-account, --folder, --organization. Exactly one of these must be specified: The Google Cloud Platform organization ID to use for this invocation.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Currently four mutually exclusive flags are supported, --project, --billing-account, --folder, --organization. Exactly one of these must be specified: The Google Cloud Platform project ID. Overrides the default core/project property value for this command invocation.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// insight to describe
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Insight { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BillingAccount) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of BillingAccount, Folder, Organization, or Project must be specified.", [nameof(BillingAccount), nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

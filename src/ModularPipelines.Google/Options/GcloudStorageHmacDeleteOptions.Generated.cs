@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "hmac", "delete")]
-public record GcloudStorageHmacDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AccessId
-) : GcloudOptions
+public record GcloudStorageHmacDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// remove a service account HMAC
+    /// </summary>
+    /// <param name="AccessId">Access ID for HMAC key to delete.</param>
+    public GcloudStorageHmacDeleteOptions(
+        string AccessId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccessId);
+        this.AccessId = AccessId;
+    }
+
+    public void Deconstruct(out string AccessId)
+    {
+        AccessId = this.AccessId;
+    }
+
+    /// <summary>
+    /// Access ID for HMAC key to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AccessId { get; private init; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,57 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auth", "activate-service-account")]
-public record GcloudAuthActivateServiceAccountOptions : GcloudOptions
+public record GcloudAuthActivateServiceAccountOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// authorize access to Google Cloud     with a service account
+    /// </summary>
+    /// <param name="KeyFile">Path to the private key file.</param>
+    public GcloudAuthActivateServiceAccountOptions(
+        string KeyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyFile);
+        this.KeyFile = KeyFile;
+    }
+
+    public void Deconstruct(out string KeyFile)
+    {
+        KeyFile = this.KeyFile;
+    }
+
+    /// <summary>
+    /// Path to the private key file.
+    /// </summary>
+    [CliOption("--key-file", Format = OptionFormat.EqualsSeparated)]
+    public string KeyFile { get; private init; }
+
+    /// <summary>
+    /// At most one of these can be specified: Path to a file containing the password for the service account private key (only for a .p12 file).
+    /// </summary>
+    [CliOption("--password-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PasswordFile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Prompt for the password for the service account private key (only for a .p12 file).
+    /// </summary>
+    [CliFlag("--prompt-for-password")]
+    public bool? PromptForPassword { get; set; }
+
+    /// <summary>
+    /// E-mail address of the service account.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Account { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(PasswordFile) ? 1 : 0) + (PromptForPassword == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of PasswordFile or PromptForPassword may be specified.", [nameof(PasswordFile), nameof(PromptForPassword)]);
+        }
+        yield break;
+    }
+
 }

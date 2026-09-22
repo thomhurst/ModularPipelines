@@ -19,8 +19,69 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "target-pools", "remove-instances")]
-public record GcloudPreviewComputeTargetPoolsRemoveInstancesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeTargetPoolsRemoveInstancesOptions : GcloudOptions
 {
+    /// <summary>
+    /// remove instances     from a target pool
+    /// </summary>
+    /// <param name="Instances">Specifies a list of instances to remove from the target pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Name">The name of the target pool from which to remove the instances.</param>
+    public GcloudPreviewComputeTargetPoolsRemoveInstancesOptions(
+        IEnumerable<string> Instances,
+        string Name
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Instances);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Instances));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Instances));
+            }
+
+            Instances = materialized;
+        }
+        this.Instances = Instances;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Instances, out string Name)
+    {
+        Instances = this.Instances;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Specifies a list of instances to remove from the target pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--instances", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Instances { get; private init; }
+
+    /// <summary>
+    /// Zone of the instances to remove from the target pool. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--instances-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? InstancesZone { get; set; }
+
+    /// <summary>
+    /// Region of the target pool to operate on. If not specified, it will be set to the region of the instances. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Zone of the instances to remove from the target pool. DEPRECATED, use --instances-zone. If not specified, you will be prompted to select a zone. Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// The name of the target pool from which to remove the instances.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

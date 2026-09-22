@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +23,103 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-services", "multicast-group-ranges", "create")]
 public record GcloudNetworkServicesMulticastGroupRangesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a multicast     group range
+    /// </summary>
+    /// <param name="MulticastDomain">The multicast domain to be used.</param>
+    /// <param name="ReservedInternalRange">The reserved internal range to be used.</param>
+    /// <param name="MulticastGroupRange">Multicast group range resource - Name of the multicast group range to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_group_range on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the multicast group range or fully qualified identifier for the multicast group range. To set the multicast_group_range attribute: ▸ provide the argument multicast_group_range on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkServicesMulticastGroupRangesCreateOptions(
+        string MulticastDomain,
+        string ReservedInternalRange,
+        string MulticastGroupRange
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MulticastDomain);
+        this.MulticastDomain = MulticastDomain;
+        global::System.ArgumentNullException.ThrowIfNull(ReservedInternalRange);
+        this.ReservedInternalRange = ReservedInternalRange;
+        global::System.ArgumentNullException.ThrowIfNull(MulticastGroupRange);
+        this.MulticastGroupRange = MulticastGroupRange;
+    }
+
+    public void Deconstruct(out string MulticastDomain, out string ReservedInternalRange, out string MulticastGroupRange)
+    {
+        MulticastDomain = this.MulticastDomain;
+        ReservedInternalRange = this.ReservedInternalRange;
+        MulticastGroupRange = this.MulticastGroupRange;
+    }
+
+    /// <summary>
+    /// The multicast domain to be used.
+    /// </summary>
+    [CliOption("--multicast-domain", Format = OptionFormat.EqualsSeparated)]
+    public string MulticastDomain { get; private init; }
+
+    /// <summary>
+    /// The reserved internal range to be used.
+    /// </summary>
+    [CliOption("--reserved-internal-range", Format = OptionFormat.EqualsSeparated)]
+    public string ReservedInternalRange { get; private init; }
+
+    /// <summary>
+    /// Multicast group range resource - Name of the multicast group range to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_group_range on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument multicast_group_range on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// An optional list of consumer projects that can use this multicast group range. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--consumer-accept-list", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ConsumerAcceptList { get; set; }
+
+    /// <summary>
+    /// The description for the multicast group range.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Distribution scope of this multicast group range. DISTRIBUTION_SCOPE must be one of: distribution-scope-unspecified, intra-region, intra-zone.
+    /// </summary>
+    [CliOption("--distribution-scope", Format = OptionFormat.EqualsSeparated)]
+    public GcloudNetworkServicesMulticastGroupRangesCreateDistributionScope? DistributionScope { get; set; }
+
+    /// <summary>
+    /// Whether to enable logging for this multicast group range. Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--enable-logging")]
+    public bool? EnableLogging { get; set; }
+
+    /// <summary>
+    /// Negates --enable-logging. Whether to enable logging for this multicast group range. Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--no-enable-logging")]
+    public bool? NoEnableLogging { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Whether an empty consumer accept list will reject all consumer projects.
+    /// </summary>
+    [CliFlag("--require-explicit-accept")]
+    public bool? RequireExplicitAccept { get; set; }
+
+    /// <summary>
+    /// Multicast group range resource - Name of the multicast group range to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_group_range on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the multicast group range or fully qualified identifier for the multicast group range. To set the multicast_group_range attribute: ▸ provide the argument multicast_group_range on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MulticastGroupRange { get; private init; }
+
 }

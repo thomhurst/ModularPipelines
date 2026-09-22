@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services", "operations", "describe")]
-public record GcloudServicesOperationsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Operation
-) : GcloudOptions
+public record GcloudServicesOperationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describes an operation resource for a     given operation name
+    /// </summary>
+    /// <param name="Operation">The name of the operation to describe.</param>
+    public GcloudServicesOperationsDescribeOptions(
+        string Operation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+    }
+
+    public void Deconstruct(out string Operation)
+    {
+        Operation = this.Operation;
+    }
+
     /// <summary>
     /// (DEPRECATED) This flag is deprecated. This flag is deprecated.
     /// </summary>
     [CliOption("--full", Format = OptionFormat.EqualsSeparated)]
     public string? Full { get; set; }
+
+    /// <summary>
+    /// The name of the operation to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Operation { get; private init; }
 
 }

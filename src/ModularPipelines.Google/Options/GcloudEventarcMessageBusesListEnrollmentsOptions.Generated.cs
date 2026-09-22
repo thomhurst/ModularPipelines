@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("eventarc", "message-buses", "list-enrollments")]
 public record GcloudEventarcMessageBusesListEnrollmentsOptions : GcloudOptions
 {
+    /// <summary>
+    /// list Eventarc enrollments     attached to an Eventarc message bus
+    /// </summary>
+    /// <param name="MessageBus">Message bus resource - The message bus on which to list enrollments. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument message_bus on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the message bus or fully qualified identifier for the message bus. To set the message-bus attribute: ▸ provide the argument message_bus on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEventarcMessageBusesListEnrollmentsOptions(
+        string MessageBus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MessageBus);
+        this.MessageBus = MessageBus;
+    }
+
+    public void Deconstruct(out string MessageBus)
+    {
+        MessageBus = this.MessageBus;
+    }
+
+    /// <summary>
+    /// Message bus resource - The message bus on which to list enrollments. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument message_bus on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location for the Eventarc message bus, which should be one of the supported regions. Alternatively, set the [eventarc/location] property. To set the location attribute: ▸ provide the argument message_bus on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property eventarc/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Message bus resource - The message bus on which to list enrollments. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument message_bus on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the message bus or fully qualified identifier for the message bus. To set the message-bus attribute: ▸ provide the argument message_bus on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MessageBus { get; private init; }
+
 }

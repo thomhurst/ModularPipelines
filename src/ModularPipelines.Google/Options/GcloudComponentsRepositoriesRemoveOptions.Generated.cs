@@ -27,4 +27,10 @@ public record GcloudComponentsRepositoriesRemoveOptions : GcloudOptions
     [CliFlag("--all")]
     public bool? All { get; set; }
 
+    /// <summary>
+    /// Zero or more URLs for the component repositories you want to remove. If none are given, you will be prompted to choose which existing repository you want to remove.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Url { get; set; }
+
 }

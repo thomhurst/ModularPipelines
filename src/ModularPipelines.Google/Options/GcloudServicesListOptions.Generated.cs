@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services", "list")]
-public record GcloudServicesListOptions : GcloudOptions
+public record GcloudServicesListOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// At most one of these can be specified: Return the services available to the project to enable. This list will include any services that the project has already enabled.
@@ -32,5 +33,15 @@ public record GcloudServicesListOptions : GcloudOptions
     /// </summary>
     [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Available == true ? 1 : 0) + (Enabled == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Available or Enabled may be specified.", [nameof(Available), nameof(Enabled)]);
+        }
+        yield break;
+    }
 
 }

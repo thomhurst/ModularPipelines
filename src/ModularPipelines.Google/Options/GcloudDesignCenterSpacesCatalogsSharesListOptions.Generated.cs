@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("design-center", "spaces", "catalogs", "shares", "list")]
 public record GcloudDesignCenterSpacesCatalogsSharesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list shares
+    /// </summary>
+    /// <param name="Catalog">Catalog resource - The parent resource from which a list of shares is requested. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▸ provide the argument --catalog on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDesignCenterSpacesCatalogsSharesListOptions(
+        string Catalog
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+    }
+
+    public void Deconstruct(out string Catalog)
+    {
+        Catalog = this.Catalog;
+    }
+
+    /// <summary>
+    /// Catalog resource - The parent resource from which a list of shares is requested. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▸ provide the argument --catalog on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--catalog", Format = OptionFormat.EqualsSeparated)]
+    public string Catalog { get; private init; }
+
+    /// <summary>
+    /// Catalog resource - The parent resource from which a list of shares is requested. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the catalog resource. To set the location attribute: ▸ provide the argument --catalog on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Catalog resource - The parent resource from which a list of shares is requested. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The space id of the catalog resource. To set the space attribute: ▸ provide the argument --catalog on the command line with a fully specified name; ▸ provide the argument --space on the command line.
+    /// </summary>
+    [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
+    public string? Space { get; set; }
+
 }

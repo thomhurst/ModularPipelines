@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,85 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-services", "multicast-group-range-activations", "create")]
 public record GcloudNetworkServicesMulticastGroupRangeActivationsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a     multicast group range activation
+    /// </summary>
+    /// <param name="MulticastDomainActivation">The multicast domain activation to be used.</param>
+    /// <param name="MulticastGroupRange">The multicast group range to be used.</param>
+    /// <param name="MulticastGroupRangeActivation">Multicast group range activation resource - Name of the multicast group range activation to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_group_range_activation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the multicast group range activation or fully qualified identifier for the multicast group range activation. To set the multicast_group_range_activation attribute: ▸ provide the argument multicast_group_range_activation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkServicesMulticastGroupRangeActivationsCreateOptions(
+        string MulticastDomainActivation,
+        string MulticastGroupRange,
+        string MulticastGroupRangeActivation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MulticastDomainActivation);
+        this.MulticastDomainActivation = MulticastDomainActivation;
+        global::System.ArgumentNullException.ThrowIfNull(MulticastGroupRange);
+        this.MulticastGroupRange = MulticastGroupRange;
+        global::System.ArgumentNullException.ThrowIfNull(MulticastGroupRangeActivation);
+        this.MulticastGroupRangeActivation = MulticastGroupRangeActivation;
+    }
+
+    public void Deconstruct(out string MulticastDomainActivation, out string MulticastGroupRange, out string MulticastGroupRangeActivation)
+    {
+        MulticastDomainActivation = this.MulticastDomainActivation;
+        MulticastGroupRange = this.MulticastGroupRange;
+        MulticastGroupRangeActivation = this.MulticastGroupRangeActivation;
+    }
+
+    /// <summary>
+    /// The multicast domain activation to be used.
+    /// </summary>
+    [CliOption("--multicast-domain-activation", Format = OptionFormat.EqualsSeparated)]
+    public string MulticastDomainActivation { get; private init; }
+
+    /// <summary>
+    /// The multicast group range to be used.
+    /// </summary>
+    [CliOption("--multicast-group-range", Format = OptionFormat.EqualsSeparated)]
+    public string MulticastGroupRange { get; private init; }
+
+    /// <summary>
+    /// Multicast group range activation resource - Name of the multicast group range activation to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_group_range_activation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument multicast_group_range_activation on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The description for the multicast group.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Whether to enable logging for this multicast group range activation. Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--enable-logging")]
+    public bool? EnableLogging { get; set; }
+
+    /// <summary>
+    /// Negates --enable-logging. Whether to enable logging for this multicast group range activation. Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--no-enable-logging")]
+    public bool? NoEnableLogging { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Multicast group range activation resource - Name of the multicast group range activation to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_group_range_activation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the multicast group range activation or fully qualified identifier for the multicast group range activation. To set the multicast_group_range_activation attribute: ▸ provide the argument multicast_group_range_activation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MulticastGroupRangeActivation { get; private init; }
+
 }

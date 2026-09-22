@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "backups", "delete")]
-public record GcloudSqlBackupsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
-) : GcloudOptions
+public record GcloudSqlBackupsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a backup of a Cloud SQL instance
+    /// </summary>
+    /// <param name="Id">The ID of the backup run. To find the ID, run the following command: $ gcloud sql backups list -i {instance}.Or, the NAME of the backup. To find the NAME, run the following command: $ gcloud sql backups list --filter=instance:{instance}</param>
+    public GcloudSqlBackupsDeleteOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudSqlBackupsDeleteOptions(
     /// </summary>
     [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
     public string? Instance { get; set; }
+
+    /// <summary>
+    /// The ID of the backup run. To find the ID, run the following command: $ gcloud sql backups list -i {instance}.Or, the NAME of the backup. To find the NAME, run the following command: $ gcloud sql backups list --filter=instance:{instance}
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Id { get; private init; }
 
 }

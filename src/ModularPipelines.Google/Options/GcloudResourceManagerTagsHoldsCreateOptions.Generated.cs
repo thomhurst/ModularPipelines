@@ -19,8 +19,58 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "tags", "holds", "create")]
-public record GcloudResourceManagerTagsHoldsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Parent
-) : GcloudOptions
+public record GcloudResourceManagerTagsHoldsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a TagHold resource
+    /// </summary>
+    /// <param name="Holder">The name of the resource where the TagValue is being used. Must be less than 200 characters.</param>
+    /// <param name="Parent">Tag value name or namespaced name.</param>
+    public GcloudResourceManagerTagsHoldsCreateOptions(
+        string Holder,
+        string Parent
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Holder);
+        this.Holder = Holder;
+        global::System.ArgumentNullException.ThrowIfNull(Parent);
+        this.Parent = Parent;
+    }
+
+    public void Deconstruct(out string Holder, out string Parent)
+    {
+        Holder = this.Holder;
+        Parent = this.Parent;
+    }
+
+    /// <summary>
+    /// The name of the resource where the TagValue is being used. Must be less than 200 characters.
+    /// </summary>
+    [CliOption("--holder", Format = OptionFormat.EqualsSeparated)]
+    public string Holder { get; private init; }
+
+    /// <summary>
+    /// A URL where an end user can learn more about removing this hold.
+    /// </summary>
+    [CliOption("--help-link", Format = OptionFormat.EqualsSeparated)]
+    public string? HelpLink { get; set; }
+
+    /// <summary>
+    /// Region or zone where the TagHold will be stored. If not provided, the TagHold will be stored in a "global" region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// An optional string representing the origin of this request. This field should include human-understandable information to distinguish origins from each other. Must be less than 200 characters.
+    /// </summary>
+    [CliOption("--origin", Format = OptionFormat.EqualsSeparated)]
+    public string? Origin { get; set; }
+
+    /// <summary>
+    /// Tag value name or namespaced name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Parent { get; private init; }
+
 }

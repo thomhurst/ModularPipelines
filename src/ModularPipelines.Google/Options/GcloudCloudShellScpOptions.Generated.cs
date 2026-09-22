@@ -22,6 +22,39 @@ namespace ModularPipelines.Google.Options;
 public record GcloudCloudShellScpOptions : GcloudOptions
 {
     /// <summary>
+    /// copies files between Cloud Shell and the local     machine
+    /// </summary>
+    /// <param name="CloudshellLocalhostSrc">Specifies the files to copy.</param>
+    /// <param name="CloudshellLocalhostDest">Specifies a destination for the source files.</param>
+    public GcloudCloudShellScpOptions(
+        IEnumerable<string> CloudshellLocalhostSrc,
+        string CloudshellLocalhostDest
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(CloudshellLocalhostSrc);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CloudshellLocalhostSrc));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(CloudshellLocalhostSrc));
+            }
+
+            CloudshellLocalhostSrc = materialized;
+        }
+        this.CloudshellLocalhostSrc = CloudshellLocalhostSrc;
+        global::System.ArgumentNullException.ThrowIfNull(CloudshellLocalhostDest);
+        this.CloudshellLocalhostDest = CloudshellLocalhostDest;
+    }
+
+    public void Deconstruct(out IEnumerable<string> CloudshellLocalhostSrc, out string CloudshellLocalhostDest)
+    {
+        CloudshellLocalhostSrc = this.CloudshellLocalhostSrc;
+        CloudshellLocalhostDest = this.CloudshellLocalhostDest;
+    }
+
+    /// <summary>
     /// If provided, prints the command that would be run to standard out instead of executing it.
     /// </summary>
     [CliFlag("--dry-run")]
@@ -50,5 +83,17 @@ public record GcloudCloudShellScpOptions : GcloudOptions
     /// </summary>
     [CliFlag("--ssh-key-file")]
     public bool? SshKeyFile { get; set; }
+
+    /// <summary>
+    /// Specifies the files to copy.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> CloudshellLocalhostSrc { get; private init; }
+
+    /// <summary>
+    /// Specifies a destination for the source files.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CloudshellLocalhostDest { get; private init; }
 
 }

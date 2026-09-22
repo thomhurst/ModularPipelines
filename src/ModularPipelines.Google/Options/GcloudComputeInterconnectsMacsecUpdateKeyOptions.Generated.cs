@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "macsec", "update-key")]
-public record GcloudComputeInterconnectsMacsecUpdateKeyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeInterconnectsMacsecUpdateKeyOptions : GcloudOptions
 {
+    /// <summary>
+    /// shared key in a     Compute Engine interconnect MACsec configuration
+    /// </summary>
+    /// <param name="KeyName">A name of pre-shared key being added to MACsec configuration of the interconnect. The name must be 1-63 characters long, and comply with RFC1035.</param>
+    /// <param name="Name">Name of the interconnect to update.</param>
+    public GcloudComputeInterconnectsMacsecUpdateKeyOptions(
+        string KeyName,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyName);
+        this.KeyName = KeyName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string KeyName, out string Name)
+    {
+        KeyName = this.KeyName;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// A name of pre-shared key being added to MACsec configuration of the interconnect. The name must be 1-63 characters long, and comply with RFC1035.
+    /// </summary>
+    [CliOption("--key-name", Format = OptionFormat.EqualsSeparated)]
+    public string KeyName { get; private init; }
+
+    /// <summary>
+    /// A RFC3339 timestamp on or after which the key is valid. startTime can be in the future. If the keychain has a single key, --start-time can be omitted. If the keychain has multiple keys, --start-time is mandatory for each key. The start times of two consecutive keys must be at least 6 hours apart.
+    /// </summary>
+    [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? StartTime { get; set; }
+
+    /// <summary>
+    /// Name of the interconnect to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

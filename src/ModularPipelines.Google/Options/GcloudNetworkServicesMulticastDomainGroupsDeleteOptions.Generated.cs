@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkServicesMulticastDomainGroupsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a multicast     domain group
+    /// </summary>
+    /// <param name="MulticastDomainGroup">Multicast domain group resource - The multicast domain group to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_domain_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the multicast domain group or fully qualified identifier for the multicast domain group. To set the multicast_domain_group attribute: ▸ provide the argument multicast_domain_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkServicesMulticastDomainGroupsDeleteOptions(
+        string MulticastDomainGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MulticastDomainGroup);
+        this.MulticastDomainGroup = MulticastDomainGroup;
+    }
+
+    public void Deconstruct(out string MulticastDomainGroup)
+    {
+        MulticastDomainGroup = this.MulticastDomainGroup;
+    }
+
+    /// <summary>
+    /// Multicast domain group resource - The multicast domain group to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_domain_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument multicast_domain_group on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Multicast domain group resource - The multicast domain group to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_domain_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the multicast domain group or fully qualified identifier for the multicast domain group. To set the multicast_domain_group attribute: ▸ provide the argument multicast_domain_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MulticastDomainGroup { get; private init; }
 
 }

@@ -6,10 +6,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +23,184 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("netapp", "active-directories", "create")]
 public record GcloudNetappActiveDirectoriesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Cloud NetApp Active     Directory
+    /// </summary>
+    /// <param name="Dns">A comma separated list of DNS server IP addresses for the Active Directory domain. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Domain">The Active Directory domain.</param>
+    /// <param name="NetBiosPrefix">NetBIOS prefix name of the server.</param>
+    /// <param name="Password">Password of the Active Directory domain administrator.</param>
+    /// <param name="Username">Username of the Active Directory domain administrator.</param>
+    /// <param name="ActiveDirectory">Active directory resource - The Active Directory to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument active_directory on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the active_directory or fully qualified identifier for the active_directory. To set the active_directory attribute: ▸ provide the argument active_directory on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetappActiveDirectoriesCreateOptions(
+        IEnumerable<string> Dns,
+        string Domain,
+        string NetBiosPrefix,
+        string Password,
+        string Username,
+        string ActiveDirectory
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Dns);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Dns));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Dns));
+            }
+
+            Dns = materialized;
+        }
+        this.Dns = Dns;
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+        global::System.ArgumentNullException.ThrowIfNull(NetBiosPrefix);
+        this.NetBiosPrefix = NetBiosPrefix;
+        global::System.ArgumentNullException.ThrowIfNull(Password);
+        this.Password = Password;
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+        global::System.ArgumentNullException.ThrowIfNull(ActiveDirectory);
+        this.ActiveDirectory = ActiveDirectory;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Dns, out string Domain, out string NetBiosPrefix, out string Password, out string Username, out string ActiveDirectory)
+    {
+        Dns = this.Dns;
+        Domain = this.Domain;
+        NetBiosPrefix = this.NetBiosPrefix;
+        Password = this.Password;
+        Username = this.Username;
+        ActiveDirectory = this.ActiveDirectory;
+    }
+
+    /// <summary>
+    /// A comma separated list of DNS server IP addresses for the Active Directory domain. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--dns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Dns { get; private init; }
+
+    /// <summary>
+    /// The Active Directory domain.
+    /// </summary>
+    [CliOption("--domain", Format = OptionFormat.EqualsSeparated)]
+    public string Domain { get; private init; }
+
+    /// <summary>
+    /// NetBIOS prefix name of the server.
+    /// </summary>
+    [CliOption("--net-bios-prefix", Format = OptionFormat.EqualsSeparated)]
+    public string NetBiosPrefix { get; private init; }
+
+    /// <summary>
+    /// Password of the Active Directory domain administrator.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
+    public string Password { get; private init; }
+
+    /// <summary>
+    /// Username of the Active Directory domain administrator.
+    /// </summary>
+    [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
+    public string Username { get; private init; }
+
+    /// <summary>
+    /// Active directory resource - The Active Directory to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument active_directory on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the active_directory. To set the location attribute: ▸ provide the argument active_directory on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Members of the Active Directory built-in Administrators group. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--administrators", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Administrators { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Users to be added to the Built-in Backup Operator Active Directory group. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--backup-operators", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? BackupOperators { get; set; }
+
+    /// <summary>
+    /// A description of the Cloud NetApp Active Directory
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The Boolean value indiciating whether AES encryption will be enabled for SMB communication.
+    /// </summary>
+    [CliOption("--enable-aes", Format = OptionFormat.EqualsSeparated)]
+    public string? EnableAes { get; set; }
+
+    /// <summary>
+    /// Boolean flag that specifies whether or not LDAP traffic needs to be signed.
+    /// </summary>
+    [CliOption("--enable-ldap-signing", Format = OptionFormat.EqualsSeparated)]
+    public string? EnableLdapSigning { get; set; }
+
+    /// <summary>
+    /// Boolean flag that specifies whether traffic between SMB server to Domain Controller (DC) will be encrypted.
+    /// </summary>
+    [CliOption("--encrypt-dc-connections", Format = OptionFormat.EqualsSeparated)]
+    public string? EncryptDcConnections { get; set; }
+
+    /// <summary>
+    /// Name of the Active Directory machine.
+    /// </summary>
+    [CliOption("--kdc-hostname", Format = OptionFormat.EqualsSeparated)]
+    public string? KdcHostname { get; set; }
+
+    /// <summary>
+    /// KDC server IP address for the Active Directory machine.
+    /// </summary>
+    [CliOption("--kdc-ip", Format = OptionFormat.EqualsSeparated)]
+    public string? KdcIp { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Boolean flag that allows access to local users and LDAP users. If access is needed only for LDAP users, it has to be disabled.
+    /// </summary>
+    [CliOption("--nfs-users-with-ldap", Format = OptionFormat.EqualsSeparated)]
+    public string? NfsUsersWithLdap { get; set; }
+
+    /// <summary>
+    /// The Organizational Unit (OU) within the Windows Active Directory the user belongs to.
+    /// </summary>
+    [CliOption("--organizational-unit", Format = OptionFormat.EqualsSeparated)]
+    public string? OrganizationalUnit { get; set; }
+
+    /// <summary>
+    /// Domain users to be given the Security privilege. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--security-operators", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SecurityOperators { get; set; }
+
+    /// <summary>
+    /// The Active Directory site the service will limit Domain Controller discovery to.
+    /// </summary>
+    [CliOption("--site", Format = OptionFormat.EqualsSeparated)]
+    public string? Site { get; set; }
+
+    /// <summary>
+    /// Active directory resource - The Active Directory to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument active_directory on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the active_directory or fully qualified identifier for the active_directory. To set the active_directory attribute: ▸ provide the argument active_directory on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ActiveDirectory { get; private init; }
+
 }

@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("preview", "compute", "storage-pools", "list-disks")]
 public record GcloudPreviewComputeStoragePoolsListDisksOptions : GcloudOptions
 {
+    /// <summary>
+    /// view the disks that are     in a storage pool
+    /// </summary>
+    /// <param name="StoragePool">Storage pool resource - Name of the storage pool you want to inspect. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument storage_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the storage pool or fully qualified identifier for the storage pool. To set the storage_pool attribute: ▸ provide the argument storage_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPreviewComputeStoragePoolsListDisksOptions(
+        string StoragePool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StoragePool);
+        this.StoragePool = StoragePool;
+    }
+
+    public void Deconstruct(out string StoragePool)
+    {
+        StoragePool = this.StoragePool;
+    }
+
+    /// <summary>
+    /// Storage pool resource - Name of the storage pool you want to inspect. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument storage_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Google Compute Engine zone. To set the zone attribute: ▸ provide the argument storage_pool on the command line with a fully specified name; ▸ provide the argument --zone on the command line; ▸ set the property compute/zone.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Storage pool resource - Name of the storage pool you want to inspect. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument storage_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the storage pool or fully qualified identifier for the storage pool. To set the storage_pool attribute: ▸ provide the argument storage_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string StoragePool { get; private init; }
+
 }

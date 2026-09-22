@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scheduler", "jobs", "update", "pubsub")]
-public record GcloudSchedulerJobsUpdatePubsubOptions : GcloudOptions
+public record GcloudSchedulerJobsUpdatePubsubOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Cloud Scheduler job with a     Pub/Sub target
+    /// </summary>
+    /// <param name="Job">Job resource - Job to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the job or fully qualified identifier for the job. To set the job attribute: ▸ provide the argument job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSchedulerJobsUpdatePubsubOptions(
+        string Job
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Job);
+        this.Job = Job;
+    }
+
+    public void Deconstruct(out string Job)
+    {
+        Job = this.Job;
+    }
+
+    /// <summary>
+    /// Job resource - Job to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the job. By default, uses the location of the current project's App Engine app if there is an associated app. To set the location attribute: ▸ provide the argument job on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ defaults to App Engine's app location if not provided &amp; an app exists.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Human-readable description of the job.
     /// </summary>
@@ -47,16 +71,42 @@ public record GcloudSchedulerJobsUpdatePubsubOptions : GcloudOptions
     public bool? ClearAttributes { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of attribute keys to remove with the form "KEY1,KEY2".
+    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of attribute keys to remove with the form "KEY1,KEY2". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-attributes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveAttributes { get; set; }
+    [CliOption("--remove-attributes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveAttributes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveAttributesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveAttributesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of attributes. Each attribute has the form "NAME=VALUE". You can specify up to 100 attributes.
+    /// At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of attributes. Each attribute has the form "NAME=VALUE". You can specify up to 100 attributes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-attributes", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? UpdateAttributes { get; set; }
+    [CliOption("--update-attributes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? UpdateAttributes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
     /// At most one of these can be specified: Clear the field corresponding to --max-backoff.
@@ -141,5 +191,49 @@ public record GcloudSchedulerJobsUpdatePubsubOptions : GcloudOptions
     /// </summary>
     [CliOption("--message-body-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? MessageBodyFromFile { get; set; }
+
+    /// <summary>
+    /// Job resource - Job to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the job or fully qualified identifier for the job. To set the job attribute: ▸ provide the argument job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Job { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearAttributes == true ? 1 : 0) + ((((object?)RemoveAttributes is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAttributes is not string || !string.IsNullOrWhiteSpace(RemoveAttributes?.ToString()) : ((object?)RemoveAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAttributes, static item => item is not null) : (RemoveAttributes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAttributes), static item => item is not null)))) || ((object?)UpdateAttributes is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateAttributes is not string || !string.IsNullOrWhiteSpace(UpdateAttributes?.ToString()) : ((object?)UpdateAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateAttributes, static item => item is not null) : (UpdateAttributes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateAttributes), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearAttributes or (RemoveAttributes or UpdateAttributes) may be specified.", [nameof(ClearAttributes), nameof(RemoveAttributes), nameof(UpdateAttributes)]);
+        }
+        if ((ClearMaxBackoff == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxBackoff) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearMaxBackoff or MaxBackoff may be specified.", [nameof(ClearMaxBackoff), nameof(MaxBackoff)]);
+        }
+        if ((ClearMaxDoublings == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxDoublings) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearMaxDoublings or MaxDoublings may be specified.", [nameof(ClearMaxDoublings), nameof(MaxDoublings)]);
+        }
+        if ((ClearMaxRetryAttempts == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxRetryAttempts) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearMaxRetryAttempts or MaxRetryAttempts may be specified.", [nameof(ClearMaxRetryAttempts), nameof(MaxRetryAttempts)]);
+        }
+        if ((ClearMaxRetryDuration == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxRetryDuration) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearMaxRetryDuration or MaxRetryDuration may be specified.", [nameof(ClearMaxRetryDuration), nameof(MaxRetryDuration)]);
+        }
+        if ((ClearMinBackoff == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(MinBackoff) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearMinBackoff or MinBackoff may be specified.", [nameof(ClearMinBackoff), nameof(MinBackoff)]);
+        }
+        if ((ClearTimeZone == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(TimeZone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearTimeZone or TimeZone may be specified.", [nameof(ClearTimeZone), nameof(TimeZone)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MessageBody) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MessageBodyFromFile) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of MessageBody or MessageBodyFromFile may be specified.", [nameof(MessageBody), nameof(MessageBodyFromFile)]);
+        }
+        yield break;
+    }
 
 }

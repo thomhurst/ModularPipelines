@@ -21,4 +21,44 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("pubsub", "lite-reservations", "update")]
 public record GcloudPubsubLiteReservationsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a Pub/Sub Lite reservation
+    /// </summary>
+    /// <param name="ThroughputCapacity">Reservation throughput capacity. Every unit of throughput capacity is equivalent to 1 MiB/s of published messages or 2 MiB/s of subscribed messages.</param>
+    /// <param name="Reservation">Reservation resource - Reservation to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument reservation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the reservation or fully qualified identifier for the reservation. To set the reservation attribute: ▸ provide the argument reservation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPubsubLiteReservationsUpdateOptions(
+        string ThroughputCapacity,
+        string Reservation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ThroughputCapacity);
+        this.ThroughputCapacity = ThroughputCapacity;
+        global::System.ArgumentNullException.ThrowIfNull(Reservation);
+        this.Reservation = Reservation;
+    }
+
+    public void Deconstruct(out string ThroughputCapacity, out string Reservation)
+    {
+        ThroughputCapacity = this.ThroughputCapacity;
+        Reservation = this.Reservation;
+    }
+
+    /// <summary>
+    /// Reservation throughput capacity. Every unit of throughput capacity is equivalent to 1 MiB/s of published messages or 2 MiB/s of subscribed messages.
+    /// </summary>
+    [CliOption("--throughput-capacity", Format = OptionFormat.EqualsSeparated)]
+    public string ThroughputCapacity { get; private init; }
+
+    /// <summary>
+    /// Reservation resource - Reservation to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument reservation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location of the Pub/Sub Lite resource. To set the location attribute: ▸ provide the argument reservation on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Reservation resource - Reservation to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument reservation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the reservation or fully qualified identifier for the reservation. To set the reservation attribute: ▸ provide the argument reservation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Reservation { get; private init; }
+
 }

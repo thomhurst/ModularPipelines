@@ -19,8 +19,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "certificates", "describe")]
-public record GcloudPrivatecaCertificatesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Certificate
-) : GcloudOptions
+public record GcloudPrivatecaCertificatesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get metadata for a certificate
+    /// </summary>
+    /// <param name="Certificate">CERTIFICATE resource - The certificate for which to obtain metadata. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument certificate on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CERTIFICATE or fully qualified identifier for the CERTIFICATE. To set the certificate attribute: ▸ provide the argument certificate on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPrivatecaCertificatesDescribeOptions(
+        string Certificate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Certificate);
+        this.Certificate = Certificate;
+    }
+
+    public void Deconstruct(out string Certificate)
+    {
+        Certificate = this.Certificate;
+    }
+
+    /// <summary>
+    /// CERTIFICATE resource - The certificate for which to obtain metadata. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument certificate on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the CERTIFICATE. To set the issuer-location attribute: ▸ provide the argument certificate on the command line with a fully specified name; ▸ provide the argument --issuer-location on the command line; ▸ set the property privateca/location.
+    /// </summary>
+    [CliOption("--issuer-location", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerLocation { get; set; }
+
+    /// <summary>
+    /// CERTIFICATE resource - The certificate for which to obtain metadata. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument certificate on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The ID of the issuing CA Pool. To set the issuer-pool attribute: ▸ provide the argument certificate on the command line with a fully specified name; ▸ provide the argument --issuer-pool on the command line.
+    /// </summary>
+    [CliOption("--issuer-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerPool { get; set; }
+
+    /// <summary>
+    /// CERTIFICATE resource - The certificate for which to obtain metadata. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument certificate on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CERTIFICATE or fully qualified identifier for the CERTIFICATE. To set the certificate attribute: ▸ provide the argument certificate on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Certificate { get; private init; }
+
 }

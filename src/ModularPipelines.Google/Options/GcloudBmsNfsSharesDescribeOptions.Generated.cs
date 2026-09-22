@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bms", "nfs-shares", "describe")]
 public record GcloudBmsNfsSharesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Bare Metal solution NFS share
+    /// </summary>
+    /// <param name="NfsShare">Nfs share resource - nfs_share. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument nfs_share on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the nfs_share or fully qualified identifier for the nfs_share. To set the nfs_share attribute: ▸ provide the argument nfs_share on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBmsNfsSharesDescribeOptions(
+        string NfsShare
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NfsShare);
+        this.NfsShare = NfsShare;
+    }
+
+    public void Deconstruct(out string NfsShare)
+    {
+        NfsShare = this.NfsShare;
+    }
+
+    /// <summary>
+    /// Nfs share resource - nfs_share. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument nfs_share on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Region of the resource. To set the region attribute: ▸ provide the argument nfs_share on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Nfs share resource - nfs_share. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument nfs_share on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the nfs_share or fully qualified identifier for the nfs_share. To set the nfs_share attribute: ▸ provide the argument nfs_share on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NfsShare { get; private init; }
+
 }

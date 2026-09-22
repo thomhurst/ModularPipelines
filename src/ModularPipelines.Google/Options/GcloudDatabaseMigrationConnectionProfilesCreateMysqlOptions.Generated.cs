@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -22,8 +23,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "connection-profiles", "create", "mysql")]
-public record GcloudDatabaseMigrationConnectionProfilesCreateMysqlOptions : GcloudOptions
+public record GcloudDatabaseMigrationConnectionProfilesCreateMysqlOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a     Database Migration Service connection profile for MySQL
+    /// </summary>
+    /// <param name="ConnectionProfile">Connection profile resource - The connection profile to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ▸ provide the argument connection_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatabaseMigrationConnectionProfilesCreateMysqlOptions(
+        string ConnectionProfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionProfile);
+        this.ConnectionProfile = ConnectionProfile;
+    }
+
+    public void Deconstruct(out string ConnectionProfile)
+    {
+        ConnectionProfile = this.ConnectionProfile;
+    }
+
+    /// <summary>
+    /// Connection profile resource - The connection profile to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the connection_profile. To set the region attribute: ▸ provide the argument connection_profile on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// Waits for the operation in progress to complete before returning.
     /// </summary>
@@ -43,22 +67,22 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateMysqlOptions : Gclo
     public string? EndpointMode { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Database provider, for managed databases. PROVIDER must be one of: RDS, CLOUDSQL.
     /// </summary>
     [CliOption("--provider", Format = OptionFormat.EqualsSeparated)]
-    public GcloudProvider? Provider { get; set; }
+    public GcloudDatabaseMigrationConnectionProfilesCreateMysqlProvider? Provider { get; set; }
 
     /// <summary>
     /// The role of the connection profile. ROLE must be one of: SOURCE, DESTINATION.
     /// </summary>
     [CliOption("--role", Format = OptionFormat.EqualsSeparated)]
-    public GcloudRole? Role { get; set; }
+    public GcloudDatabaseMigrationConnectionProfilesCreateMysqlRole? Role { get; set; }
 
     /// <summary>
     /// x509 PEM-encoded certificate of the CA that signed the database server's certificate. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service will use this certificate to verify it's connecting to the correct host. Database Migration Service encrypts the value when storing it.
@@ -70,7 +94,7 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateMysqlOptions : Gclo
     /// The type of SSL configuration. SSL_TYPE must be one of: SERVER_ONLY, SERVER_CLIENT, REQUIRED, NONE.
     /// </summary>
     [CliOption("--ssl-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudSslType? SslType { get; set; }
+    public GcloudDatabaseMigrationConnectionProfilesCreateMysqlSslType? SslType { get; set; }
 
     /// <summary>
     /// x509 PEM-encoded certificate that will be used by the replica to authenticate against the database server. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service encrypts the value when storing it.
@@ -81,6 +105,7 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateMysqlOptions : Gclo
     /// <summary>
     /// Unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with the Client Certificate. The value for this flag needs to be the content of the certificate file, not the path to the file. For example, on a Linux machine you can use command substitution: &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;. Database Migration Service encrypts the value when storing it.
     /// </summary>
+    [SecretValue]
     [CliOption("--private-key", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateKey { get; set; }
 
@@ -128,15 +153,35 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateMysqlOptions : Gclo
     public string? PrivateConnection { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --private-connection on the command line. Or at least one of these can be specified: Service attachment resource - Resource ID of the service attachment. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --psc-service-attachment on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the region attribute: ▸ provide the argument --psc-service-attachment on the command line with a fully specified name; ▸ provide the argument --region on the command line. ID of the service_attachment or fully qualified identifier for the service_attachment. To set the service_attachment attribute:
+    /// At most one of these can be specified: ▸ provide the argument --private-connection on the command line. Or at least one of these can be specified: Service attachment resource - Resource ID of the service attachment. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --psc-service-attachment on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the region attribute: ▸ provide the argument --psc-service-attachment on the command line with a fully specified name; ▸ provide the argument --region on the command line. ID of the service_attachment or fully qualified identifier for the service_attachment. To set the service_attachment attribute:
     /// </summary>
     [CliOption("--psc-service-attachment", Format = OptionFormat.EqualsSeparated)]
     public string? PscServiceAttachment { get; set; }
 
     /// <summary>
-    /// ▸ provide the argument --psc-service-attachment on the command line. use static ip connectivity
+    /// At most one of these can be specified: ▸ provide the argument --psc-service-attachment on the command line. use static ip connectivity
     /// </summary>
     [CliFlag("--static-ip-connectivity")]
     public bool? StaticIpConnectivity { get; set; }
+
+    /// <summary>
+    /// Connection profile resource - The connection profile to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ▸ provide the argument connection_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConnectionProfile { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Password) ? 1 : 0) + (PromptForPassword == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Password or PromptForPassword may be specified.", [nameof(Password), nameof(PromptForPassword)]);
+        }
+        if (((!string.IsNullOrWhiteSpace(PrivateConnection)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(PscServiceAttachment)) ? 1 : 0) + ((StaticIpConnectivity == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (PrivateConnection), (PscServiceAttachment), or (StaticIpConnectivity) may be specified.", [nameof(PrivateConnection), nameof(PscServiceAttachment), nameof(StaticIpConnectivity)]);
+        }
+        yield break;
+    }
 
 }

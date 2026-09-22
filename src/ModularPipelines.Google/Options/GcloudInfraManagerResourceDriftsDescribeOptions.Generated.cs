@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("infra-manager", "resource-drifts", "describe")]
 public record GcloudInfraManagerResourceDriftsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe resource drifts
+    /// </summary>
+    /// <param name="ResourceDrift">ResourceDrift resource - The resource drift to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument resource_drift on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the resourceDrift or fully qualified identifier for the resourceDrift. To set the resource_drift attribute: ▸ provide the argument resource_drift on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudInfraManagerResourceDriftsDescribeOptions(
+        string ResourceDrift
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceDrift);
+        this.ResourceDrift = ResourceDrift;
+    }
+
+    public void Deconstruct(out string ResourceDrift)
+    {
+        ResourceDrift = this.ResourceDrift;
+    }
+
+    /// <summary>
+    /// ResourceDrift resource - The resource drift to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument resource_drift on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. locations TBD To set the location attribute: ▸ provide the argument resource_drift on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property infra-manager/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// ResourceDrift resource - The resource drift to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument resource_drift on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. preview TBD To set the preview attribute: ▸ provide the argument resource_drift on the command line with a fully specified name; ▸ provide the argument --preview on the command line.
+    /// </summary>
+    [CliOption("--preview", Format = OptionFormat.EqualsSeparated)]
+    public string? Preview { get; set; }
+
+    /// <summary>
+    /// ResourceDrift resource - The resource drift to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument resource_drift on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the resourceDrift or fully qualified identifier for the resourceDrift. To set the resource_drift attribute: ▸ provide the argument resource_drift on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ResourceDrift { get; private init; }
+
 }

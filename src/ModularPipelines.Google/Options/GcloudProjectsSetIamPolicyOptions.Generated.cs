@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("projects", "set-iam-policy")]
-public record GcloudProjectsSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ProjectIdOrNumber
-) : GcloudOptions
+public record GcloudProjectsSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set IAM policy for a project
+    /// </summary>
+    /// <param name="ProjectIdOrNumber">ID or number for the project you want to set IAM policy for.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudProjectsSetIamPolicyOptions(
+        string ProjectIdOrNumber,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectIdOrNumber);
+        this.ProjectIdOrNumber = ProjectIdOrNumber;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string ProjectIdOrNumber, out string PolicyFile)
+    {
+        ProjectIdOrNumber = this.ProjectIdOrNumber;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// ID or number for the project you want to set IAM policy for.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ProjectIdOrNumber { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

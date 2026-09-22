@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("scheduler", "operations", "describe")]
 public record GcloudSchedulerOperationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show the latest status of an     operation
+    /// </summary>
+    /// <param name="Name">The full name of the Cloud Scheduler operation to describe. Format: projects/{project}/locations/{location}/operations/{operation}</param>
+    public GcloudSchedulerOperationsDescribeOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The full name of the Cloud Scheduler operation to describe. Format: projects/{project}/locations/{location}/operations/{operation}
+    /// </summary>
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string Name { get; private init; }
+
 }

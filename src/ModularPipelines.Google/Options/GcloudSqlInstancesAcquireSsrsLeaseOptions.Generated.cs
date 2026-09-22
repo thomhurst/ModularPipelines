@@ -19,8 +19,68 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "acquire-ssrs-lease")]
-public record GcloudSqlInstancesAcquireSsrsLeaseOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudSqlInstancesAcquireSsrsLeaseOptions : GcloudOptions
 {
+    /// <summary>
+    /// acquires a SQL Server Reporting     Services lease on a Cloud SQL instance
+    /// </summary>
+    /// <param name="ReportDatabase">Existing or new report database name in the Cloud SQL for SQL Server instance that is used for SSRS setup.</param>
+    /// <param name="ServiceLogin">Existing login in the Cloud SQL for SQL Server instance that is used as the service login for SSRS setup.</param>
+    /// <param name="SetupLogin">Existing login in the Cloud SQL for SQL Server instance that is used as the setup login for SSRS setup.</param>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    public GcloudSqlInstancesAcquireSsrsLeaseOptions(
+        string ReportDatabase,
+        string ServiceLogin,
+        string SetupLogin,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReportDatabase);
+        this.ReportDatabase = ReportDatabase;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceLogin);
+        this.ServiceLogin = ServiceLogin;
+        global::System.ArgumentNullException.ThrowIfNull(SetupLogin);
+        this.SetupLogin = SetupLogin;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string ReportDatabase, out string ServiceLogin, out string SetupLogin, out string Instance)
+    {
+        ReportDatabase = this.ReportDatabase;
+        ServiceLogin = this.ServiceLogin;
+        SetupLogin = this.SetupLogin;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Existing or new report database name in the Cloud SQL for SQL Server instance that is used for SSRS setup.
+    /// </summary>
+    [CliOption("--report-database", Format = OptionFormat.EqualsSeparated)]
+    public string ReportDatabase { get; private init; }
+
+    /// <summary>
+    /// Existing login in the Cloud SQL for SQL Server instance that is used as the service login for SSRS setup.
+    /// </summary>
+    [CliOption("--service-login", Format = OptionFormat.EqualsSeparated)]
+    public string ServiceLogin { get; private init; }
+
+    /// <summary>
+    /// Existing login in the Cloud SQL for SQL Server instance that is used as the setup login for SSRS setup.
+    /// </summary>
+    [CliOption("--setup-login", Format = OptionFormat.EqualsSeparated)]
+    public string SetupLogin { get; private init; }
+
+    /// <summary>
+    /// Time duration, in hours, that the lease will be active to allow SSRS setup. Default lease duration is 5 hours if this flag is not specified.
+    /// </summary>
+    [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
+    public string? Duration { get; set; }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
 }

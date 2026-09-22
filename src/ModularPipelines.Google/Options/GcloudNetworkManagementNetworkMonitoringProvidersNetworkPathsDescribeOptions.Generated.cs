@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-management", "network-monitoring-providers", "network-paths", "describe")]
 public record GcloudNetworkManagementNetworkMonitoringProvidersNetworkPathsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// paths     describe - describe a Network Path
+    /// </summary>
+    /// <param name="NetworkPath">NetworkPath resource - Name of the resource. Format: projects/{project}/locations/{location}/networkMonitoringProviders/{network_monitoring_provider}/networkPaths/{network_path} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network_path on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the networkPath or fully qualified identifier for the networkPath. To set the network_path attribute: ▸ provide the argument network_path on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkManagementNetworkMonitoringProvidersNetworkPathsDescribeOptions(
+        string NetworkPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkPath);
+        this.NetworkPath = NetworkPath;
+    }
+
+    public void Deconstruct(out string NetworkPath)
+    {
+        NetworkPath = this.NetworkPath;
+    }
+
+    /// <summary>
+    /// NetworkPath resource - Name of the resource. Format: projects/{project}/locations/{location}/networkMonitoringProviders/{network_monitoring_provider}/networkPaths/{network_path} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network_path on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the networkPath resource. To set the location attribute: ▸ provide the argument network_path on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// NetworkPath resource - Name of the resource. Format: projects/{project}/locations/{location}/networkMonitoringProviders/{network_monitoring_provider}/networkPaths/{network_path} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network_path on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The networkMonitoringProvider id of the networkPath resource. To set the network-monitoring-provider attribute: ▸ provide the argument network_path on the command line with a fully specified name; ▸ provide the argument --network-monitoring-provider on the command line.
+    /// </summary>
+    [CliOption("--network-monitoring-provider", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkMonitoringProvider { get; set; }
+
+    /// <summary>
+    /// NetworkPath resource - Name of the resource. Format: projects/{project}/locations/{location}/networkMonitoringProviders/{network_monitoring_provider}/networkPaths/{network_path} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network_path on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the networkPath or fully qualified identifier for the networkPath. To set the network_path attribute: ▸ provide the argument network_path on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NetworkPath { get; private init; }
+
 }

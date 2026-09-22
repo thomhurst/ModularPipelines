@@ -20,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "networks", "create")]
-public record GcloudComputeNetworksCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeNetworksCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Compute Engine network
+    /// </summary>
+    /// <param name="Name">Name of the network to create.</param>
+    public GcloudComputeNetworksCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// The BGP routing mode for this network. If not specified, defaults to regional. MODE must be one of: global Cloud Routers in this network advertise subnetworks from all regions to their BGP peers, and program instances in all regions with the router's best learned BGP routes. regional Cloud Routers in this network advertise subnetworks from their local region only to their BGP peers, and program instances in their local region only with the router's best learned BGP routes.
     /// </summary>
@@ -79,9 +94,9 @@ public record GcloudComputeNetworksCreateOptions(
     public string? Range { get; set; }
 
     /// <summary>
-    /// A comma-separated list of Resource Manager tags to apply to the network.
+    /// A comma-separated list of Resource Manager tags to apply to the network. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
@@ -113,5 +128,11 @@ public record GcloudComputeNetworksCreateOptions(
     /// </summary>
     [CliOption("--bgp-bps-inter-region-cost", Format = OptionFormat.EqualsSeparated)]
     public string? BgpBpsInterRegionCost { get; set; }
+
+    /// <summary>
+    /// Name of the network to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

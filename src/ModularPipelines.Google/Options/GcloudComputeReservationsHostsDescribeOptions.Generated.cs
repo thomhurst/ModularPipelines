@@ -22,6 +22,35 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComputeReservationsHostsDescribeOptions : GcloudOptions
 {
     /// <summary>
+    /// describe a Google Compute     Engine host in a reservation
+    /// </summary>
+    /// <param name="HostName">Host resource - The name of the host to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument host_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the host or fully qualified identifier for the host. To set the host_name attribute: ▸ provide the argument host_name on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeReservationsHostsDescribeOptions(
+        string HostName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HostName);
+        this.HostName = HostName;
+    }
+
+    public void Deconstruct(out string HostName)
+    {
+        HostName = this.HostName;
+    }
+
+    /// <summary>
+    /// Host resource - The name of the host to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument host_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The association of the host. To set the association attribute: ▸ provide the argument host_name on the command line with a fully specified name; ▸ provide the argument --association on the command line; ▸ Fallback for association.
+    /// </summary>
+    [CliOption("--association", Format = OptionFormat.EqualsSeparated)]
+    public string? Association { get; set; }
+
+    /// <summary>
+    /// Host resource - The name of the host to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument host_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Google Compute Engine zone. To set the zone attribute: ▸ provide the argument host_name on the command line with a fully specified name; ▸ provide the argument --zone on the command line; ▸ set the property compute/zone.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
     /// Name of the reservation the host is associated with.
     /// </summary>
     [CliOption("--reservation", Format = OptionFormat.EqualsSeparated)]
@@ -32,5 +61,11 @@ public record GcloudComputeReservationsHostsDescribeOptions : GcloudOptions
     /// </summary>
     [CliOption("--reservation-block", Format = OptionFormat.EqualsSeparated)]
     public string? ReservationBlock { get; set; }
+
+    /// <summary>
+    /// Host resource - The name of the host to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument host_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the host or fully qualified identifier for the host. To set the host_name attribute: ▸ provide the argument host_name on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string HostName { get; private init; }
 
 }

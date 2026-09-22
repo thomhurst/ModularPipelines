@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkServicesEndpointPoliciesExportOptions : GcloudOptions
 {
     /// <summary>
+    /// export endpoint policy
+    /// </summary>
+    /// <param name="EndpointPolicy">Endpoint policy resource - Name of the endpoint policy to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the endpoint policy or fully qualified identifier for the endpoint policy. To set the endpoint_policy attribute: ▸ provide the argument endpoint_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkServicesEndpointPoliciesExportOptions(
+        string EndpointPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EndpointPolicy);
+        this.EndpointPolicy = EndpointPolicy;
+    }
+
+    public void Deconstruct(out string EndpointPolicy)
+    {
+        EndpointPolicy = this.EndpointPolicy;
+    }
+
+    /// <summary>
+    /// Endpoint policy resource - Name of the endpoint policy to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument endpoint_policy on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Path to a YAML file where the configuration will be exported. The exported data will not contain any output-only fields. Alternatively, you may omit this flag to write to standard output. For a schema describing the export/import format, see $CLOUDSDKROOT/lib/googlecloudsdk/schemas/...
     /// </summary>
     [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
     public string? Destination { get; set; }
+
+    /// <summary>
+    /// Endpoint policy resource - Name of the endpoint policy to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the endpoint policy or fully qualified identifier for the endpoint policy. To set the endpoint_policy attribute: ▸ provide the argument endpoint_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EndpointPolicy { get; private init; }
 
 }

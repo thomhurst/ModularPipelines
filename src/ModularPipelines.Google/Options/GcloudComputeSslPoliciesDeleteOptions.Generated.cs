@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,36 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "ssl-policies", "delete")]
-public record GcloudComputeSslPoliciesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> SslPolicy
-) : GcloudOptions
+public record GcloudComputeSslPoliciesDeleteOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// delete Compute Engine SSL policies
+    /// </summary>
+    /// <param name="SslPolicy">Names of the SSL policies to delete.</param>
+    public GcloudComputeSslPoliciesDeleteOptions(
+        IEnumerable<string> SslPolicy
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SslPolicy);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SslPolicy));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SslPolicy));
+            }
+
+            SslPolicy = materialized;
+        }
+        this.SslPolicy = SslPolicy;
+    }
+
+    public void Deconstruct(out IEnumerable<string> SslPolicy)
+    {
+        SslPolicy = this.SslPolicy;
+    }
+
     /// <summary>
     /// At most one of these can be specified: If set, the SSL policies are global.
     /// </summary>
@@ -34,5 +61,21 @@ public record GcloudComputeSslPoliciesDeleteOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Names of the SSL policies to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> SslPolicy { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
 
 }

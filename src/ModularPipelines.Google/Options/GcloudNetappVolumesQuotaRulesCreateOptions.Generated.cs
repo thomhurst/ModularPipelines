@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,85 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("netapp", "volumes", "quota-rules", "create")]
 public record GcloudNetappVolumesQuotaRulesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Cloud NetApp Volume     Quota Rule
+    /// </summary>
+    /// <param name="DiskLimitMib">The disk limit in MiB for the quota rule.</param>
+    /// <param name="Type">String indicating the type of quota rule. The supported values are: 'DEFAULT_USER_QUOTA','DEFAULT_GROUP_QUOTA','INDIVIDUAL_USER_QUOTA','INDIVIDUAL_GROUP_QUOTA'</param>
+    /// <param name="QuotaRule">Quota rule resource - The Quota rule to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument quota_rule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the volume attribute: ◆ provide the argument quota_rule on the command line with a fully specified name; ◆ provide the argument --volume on the command line. This must be specified. ID of the quota_rule or fully qualified identifier for the quota_rule. To set the quota_rule attribute: ▸ provide the argument quota_rule on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetappVolumesQuotaRulesCreateOptions(
+        string DiskLimitMib,
+        string Type,
+        string QuotaRule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DiskLimitMib);
+        this.DiskLimitMib = DiskLimitMib;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(QuotaRule);
+        this.QuotaRule = QuotaRule;
+    }
+
+    public void Deconstruct(out string DiskLimitMib, out string Type, out string QuotaRule)
+    {
+        DiskLimitMib = this.DiskLimitMib;
+        Type = this.Type;
+        QuotaRule = this.QuotaRule;
+    }
+
+    /// <summary>
+    /// The disk limit in MiB for the quota rule.
+    /// </summary>
+    [CliOption("--disk-limit-mib", Format = OptionFormat.EqualsSeparated)]
+    public string DiskLimitMib { get; private init; }
+
+    /// <summary>
+    /// String indicating the type of quota rule. The supported values are: 'DEFAULT_USER_QUOTA','DEFAULT_GROUP_QUOTA','INDIVIDUAL_USER_QUOTA','INDIVIDUAL_GROUP_QUOTA'
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string Type { get; private init; }
+
+    /// <summary>
+    /// Quota rule resource - The Quota rule to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument quota_rule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the volume attribute: ◆ provide the argument quota_rule on the command line with a fully specified name; ◆ provide the argument --volume on the command line. This must be specified. The location of the quota_rule. To set the location attribute: ▸ provide the argument quota_rule on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A description of the Cloud NetApp Quota rule
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The target of the quota rule. Identified by a Unix UID/GID, Windows SID, or null for default.
+    /// </summary>
+    [CliOption("--target", Format = OptionFormat.EqualsSeparated)]
+    public string? Target { get; set; }
+
+    /// <summary>
+    /// Volume resource - The volume for which quota rule applies. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. ID of the volume or fully qualified identifier for the volume. To set the volume attribute: ◆ provide the argument --volume on the command line.
+    /// </summary>
+    [CliOption("--volume", Format = OptionFormat.EqualsSeparated)]
+    public string? Volume { get; set; }
+
+    /// <summary>
+    /// Quota rule resource - The Quota rule to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument quota_rule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the volume attribute: ◆ provide the argument quota_rule on the command line with a fully specified name; ◆ provide the argument --volume on the command line. This must be specified. ID of the quota_rule or fully qualified identifier for the quota_rule. To set the quota_rule attribute: ▸ provide the argument quota_rule on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string QuotaRule { get; private init; }
+
 }

@@ -19,8 +19,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "backend-services", "add-signed-url-key")]
-public record GcloudPreviewComputeBackendServicesAddSignedUrlKeyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendServiceName
-) : GcloudOptions
+public record GcloudPreviewComputeBackendServicesAddSignedUrlKeyOptions : GcloudOptions
 {
+    /// <summary>
+    /// add Cloud CDN     Signed URL key to a backend service
+    /// </summary>
+    /// <param name="KeyFile">The file containing the RFC 4648 Section 5 base64url encoded 128-bit secret key for Cloud CDN Signed URL. It is vital that the key is strongly random. One way to generate such a key is with the following command: head -c 16 /dev/random | base64 | tr +/ -_ &gt; [KEY_FILE_NAME]</param>
+    /// <param name="KeyName">Name of the Cloud CDN Signed URL key.</param>
+    /// <param name="BackendServiceName">Name of the backend service to operate on.</param>
+    public GcloudPreviewComputeBackendServicesAddSignedUrlKeyOptions(
+        string KeyFile,
+        string KeyName,
+        string BackendServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyFile);
+        this.KeyFile = KeyFile;
+        global::System.ArgumentNullException.ThrowIfNull(KeyName);
+        this.KeyName = KeyName;
+        global::System.ArgumentNullException.ThrowIfNull(BackendServiceName);
+        this.BackendServiceName = BackendServiceName;
+    }
+
+    public void Deconstruct(out string KeyFile, out string KeyName, out string BackendServiceName)
+    {
+        KeyFile = this.KeyFile;
+        KeyName = this.KeyName;
+        BackendServiceName = this.BackendServiceName;
+    }
+
+    /// <summary>
+    /// The file containing the RFC 4648 Section 5 base64url encoded 128-bit secret key for Cloud CDN Signed URL. It is vital that the key is strongly random. One way to generate such a key is with the following command: head -c 16 /dev/random | base64 | tr +/ -_ &gt; [KEY_FILE_NAME]
+    /// </summary>
+    [CliOption("--key-file", Format = OptionFormat.EqualsSeparated)]
+    public string KeyFile { get; private init; }
+
+    /// <summary>
+    /// Name of the Cloud CDN Signed URL key.
+    /// </summary>
+    [CliOption("--key-name", Format = OptionFormat.EqualsSeparated)]
+    public string KeyName { get; private init; }
+
+    /// <summary>
+    /// Name of the backend service to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackendServiceName { get; private init; }
+
 }

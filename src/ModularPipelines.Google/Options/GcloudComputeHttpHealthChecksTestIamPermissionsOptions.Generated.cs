@@ -21,4 +21,49 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "http-health-checks", "test-iam-permissions")]
 public record GcloudComputeHttpHealthChecksTestIamPermissionsOptions : GcloudOptions
 {
+    /// <summary>
+    /// test IAM     permissions for a Compute Engine HTTP health check
+    /// </summary>
+    /// <param name="Permissions">Permissions to be tested. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="HttpHealthCheck">Http health check resource - The name of the HTTP health check to test permissions for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument http_health_check on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the http health check or fully qualified identifier for the http health check. To set the http_health_check attribute: ▸ provide the argument http_health_check on the command line.</param>
+    public GcloudComputeHttpHealthChecksTestIamPermissionsOptions(
+        IEnumerable<string> Permissions,
+        string HttpHealthCheck
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Permissions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Permissions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Permissions));
+            }
+
+            Permissions = materialized;
+        }
+        this.Permissions = Permissions;
+        global::System.ArgumentNullException.ThrowIfNull(HttpHealthCheck);
+        this.HttpHealthCheck = HttpHealthCheck;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Permissions, out string HttpHealthCheck)
+    {
+        Permissions = this.Permissions;
+        HttpHealthCheck = this.HttpHealthCheck;
+    }
+
+    /// <summary>
+    /// Permissions to be tested. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--permissions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Permissions { get; private init; }
+
+    /// <summary>
+    /// Http health check resource - The name of the HTTP health check to test permissions for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument http_health_check on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the http health check or fully qualified identifier for the http health check. To set the http_health_check attribute: ▸ provide the argument http_health_check on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string HttpHealthCheck { get; private init; }
+
 }

@@ -20,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run", "services", "logs", "read")]
-public record GcloudRunServicesLogsReadOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Service
-) : GcloudOptions
+public record GcloudRunServicesLogsReadOptions : GcloudOptions
 {
+    /// <summary>
+    /// read logs for a Cloud Run service
+    /// </summary>
+    /// <param name="Service">Name for a Cloud Run service.</param>
+    public GcloudRunServicesLogsReadOptions(
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string Service)
+    {
+        Service = this.Service;
+    }
+
     /// <summary>
     /// Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
@@ -40,12 +55,18 @@ public record GcloudRunServicesLogsReadOptions(
     /// Ordering of returned log entries based on timestamp field. ORDER must be one of: desc, asc.
     /// </summary>
     [CliOption("--order", Format = OptionFormat.EqualsSeparated)]
-    public GcloudOrder? Order { get; set; }
+    public GcloudRunServicesLogsReadOrder? Order { get; set; }
 
     /// <summary>
     /// Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Name for a Cloud Run service.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Service { get; private init; }
 
 }

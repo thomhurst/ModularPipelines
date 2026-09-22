@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,8 +22,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("metastore", "services", "create")]
-public record GcloudMetastoreServicesCreateOptions : GcloudOptions
+public record GcloudMetastoreServicesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Dataproc Metastore service
+    /// </summary>
+    /// <param name="Service">Service resource - Arguments and flags that specify the Dataproc Metastore service you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMetastoreServicesCreateOptions(
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string Service)
+    {
+        Service = this.Service;
+    }
+
+    /// <summary>
+    /// Service resource - Arguments and flags that specify the Dataproc Metastore service you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataproc Metastore service. If not specified, will use default metastore/location. To set the location attribute: ▸ provide the argument service on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property metastore/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -72,9 +96,9 @@ public record GcloudMetastoreServicesCreateOptions : GcloudOptions
     public string? HiveMetastoreVersion { get; set; }
 
     /// <summary>
-    /// Encryption configuration for the metastore service. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// Encryption configuration for the metastore service. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -90,79 +114,127 @@ public record GcloudMetastoreServicesCreateOptions : GcloudOptions
     public string? ReleaseChannel { get; set; }
 
     /// <summary>
-    /// Encryption configuration for the metastore service. List of tag KEY=VALUE pairs to add.
+    /// Encryption configuration for the metastore service. List of tag KEY=VALUE pairs to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Encryption configuration for the metastore service. Auxiliary versions configuration for the Dataproc Metastore service. When specified, a secondary Hive metastore service is created along with the primary service. At most one of these can be specified: Comma-separated list of auxiliary Hive metastore versions to deploy. Auxiliary Hive metastore versions must be less than the primary Hive metastore service's version.
+    /// Auxiliary versions configuration for the Dataproc Metastore service. When specified, a secondary Hive metastore service is created along with the primary service. At most one of these can be specified: Comma-separated list of auxiliary Hive metastore versions to deploy. Auxiliary Hive metastore versions must be less than the primary Hive metastore service's version. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--auxiliary-versions", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AuxiliaryVersions { get; set; }
+    [CliOption("--auxiliary-versions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AuxiliaryVersions
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AuxiliaryVersionsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AuxiliaryVersionsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Encryption configuration for the metastore service. Auxiliary versions configuration for the Dataproc Metastore service. When specified, a secondary Hive metastore service is created along with the primary service. At most one of these can be specified: Path to a YAML file containing the auxiliary versions configuration for Dataproc Metastore instance. The file should contain a unique auxiliary service name and auxiliary version that is lower than the primary service version. The primary version's Hive metastore configs are applied to the auxiliary version. Additional Hive metastore configs can be specified for the auxiliary version using "config_overrides". If a specified config property has already been overridden in the primary Hive metastore version's configs, the auxiliary version's override takes precedence. The contents of the file should be structured as follows: YAML: - name: aux-service1 version: x.y.z config_overrides: key1: value1 key2: value2 ... - name: aux-service2 version: x.y.z config_overrides: key1: value1 key2: value2 ... ...
+    /// Auxiliary versions configuration for the Dataproc Metastore service. When specified, a secondary Hive metastore service is created along with the primary service. At most one of these can be specified: Path to a YAML file containing the auxiliary versions configuration for Dataproc Metastore instance. The file should contain a unique auxiliary service name and auxiliary version that is lower than the primary service version. The primary version's Hive metastore configs are applied to the auxiliary version. Additional Hive metastore configs can be specified for the auxiliary version using "config_overrides". If a specified config property has already been overridden in the primary Hive metastore version's configs, the auxiliary version's override takes precedence. The contents of the file should be structured as follows: YAML: - name: aux-service1 version: x.y.z config_overrides: key1: value1 key2: value2 ... - name: aux-service2 version: x.y.z config_overrides: key1: value1 key2: value2 ... ...
     /// </summary>
     [CliOption("--auxiliary-versions-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? AuxiliaryVersionsFromFile { get; set; }
 
     /// <summary>
-    /// Encryption configuration for the metastore service. Network configuration for the metastore service. At most one of these can be specified: The list of subnetworks from which the service can be accessed. This can be the subnetwork's ID, fully-qualified URL, or relative name in the form projects/{project_id}/regions/{region_id}/subnetworks/{subnetwork}.
+    /// Network configuration for the metastore service. At most one of these can be specified: The list of subnetworks from which the service can be accessed. This can be the subnetwork's ID, fully-qualified URL, or relative name in the form projects/{project_id}/regions/{region_id}/subnetworks/{subnetwork}. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--consumer-subnetworks", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ConsumerSubnetworks { get; set; }
+    [CliOption("--consumer-subnetworks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ConsumerSubnetworks
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ConsumerSubnetworksSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ConsumerSubnetworksSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Encryption configuration for the metastore service. Network configuration for the metastore service. At most one of these can be specified: The name of the network on which the service can be accessed. This can be the network's ID, fully-qualified URL, or relative name in the form projects/{project_id}/global/networks/{network}. If "network", "consumer-subnetworks" and "network-config" are unspecified, the "default" network will be used.
+    /// Network configuration for the metastore service. At most one of these can be specified: The name of the network on which the service can be accessed. This can be the network's ID, fully-qualified URL, or relative name in the form projects/{project_id}/global/networks/{network}. If "network", "consumer-subnetworks" and "network-config" are unspecified, the "default" network will be used.
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
 
     /// <summary>
-    /// Encryption configuration for the metastore service. Network configuration for the metastore service. At most one of these can be specified: Path to a YAML file containing the network configuration for Dataproc Metastore instance. The contents of the file should be structured as follows: YAML: consumers: ▸ subnetwork: projects/{project_id}/regions/{region_id}/subnetworks/{subnetwork_id} ▸ subnetwork: projects/{project_id}/regions/{region_id}/subnetworks/{subnetwork_id} ...
+    /// Network configuration for the metastore service. At most one of these can be specified: Path to a YAML file containing the network configuration for Dataproc Metastore instance. The contents of the file should be structured as follows: YAML: consumers: ▸ subnetwork: projects/{project_id}/regions/{region_id}/subnetworks/{subnetwork_id} ▸ subnetwork: projects/{project_id}/regions/{region_id}/subnetworks/{subnetwork_id} ...
     /// </summary>
     [CliOption("--network-config-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? NetworkConfigFromFile { get; set; }
 
     /// <summary>
-    /// Encryption configuration for the metastore service. Configuration properties specific to running Hive metastore software as the metastore service. At most one of these can be specified: A mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore.
+    /// Configuration properties specific to running Hive metastore software as the metastore service. At most one of these can be specified: A mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--hive-metastore-configs", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? HiveMetastoreConfigs { get; set; }
+    [CliOption("--hive-metastore-configs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? HiveMetastoreConfigs
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
-    /// Encryption configuration for the metastore service. Configuration properties specific to running Hive metastore software as the metastore service. At most one of these can be specified: Path to a XML file containing a mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore. For example: hive-site.xml &lt;configuration&gt; &lt;property&gt; &lt;name&gt;hive.metastore.warehouse.dir&lt;/name&gt; &lt;value&gt;${test.warehouse.dir}&lt;/value&gt; &lt;description&gt;&lt;/description&gt; &lt;/property&gt; &lt;/configuration&gt; Use a full or relative path to a local file containing the value of hive_metastore_configs.
+    /// Configuration properties specific to running Hive metastore software as the metastore service. At most one of these can be specified: Path to a XML file containing a mapping of Hive metastore configuration key-value pairs to apply to the Hive metastore. For example: hive-site.xml &lt;configuration&gt; &lt;property&gt; &lt;name&gt;hive.metastore.warehouse.dir&lt;/name&gt; &lt;value&gt;${test.warehouse.dir}&lt;/value&gt; &lt;description&gt;&lt;/description&gt; &lt;/property&gt; &lt;/configuration&gt; Use a full or relative path to a local file containing the value of hive_metastore_configs.
     /// </summary>
     [CliOption("--hive-metastore-configs-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? HiveMetastoreConfigsFromFile { get; set; }
 
     /// <summary>
-    /// Encryption configuration for the metastore service. The instance size of the Dataproc Metastore instance. At most one of these can be specified: The instance size of the service. INSTANCE_SIZE must be one of: extra-large Extra large instance size, maps to a scaling factor of 6.0. extra-small Extra small instance size, maps to a scaling factor of 0.1. large Large instance size, maps to a scaling factor of 3.0. medium Medium instance size, maps to a scaling factor of 1.0. small Small instance size, maps to a scaling factor of 0.5.
+    /// The instance size of the Dataproc Metastore instance. At most one of these can be specified: The instance size of the service. INSTANCE_SIZE must be one of: extra-large Extra large instance size, maps to a scaling factor of 6.0. extra-small Extra small instance size, maps to a scaling factor of 0.1. large Large instance size, maps to a scaling factor of 3.0. medium Medium instance size, maps to a scaling factor of 1.0. small Small instance size, maps to a scaling factor of 0.5.
     /// </summary>
     [CliOption("--instance-size", Format = OptionFormat.EqualsSeparated)]
     public string? InstanceSize { get; set; }
 
     /// <summary>
-    /// Encryption configuration for the metastore service. The instance size of the Dataproc Metastore instance. At most one of these can be specified: The scaling factor of the service. Can be one of [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0].
+    /// The instance size of the Dataproc Metastore instance. At most one of these can be specified: The scaling factor of the service. Can be one of [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0].
     /// </summary>
     [CliOption("--scaling-factor", Format = OptionFormat.EqualsSeparated)]
     public string? ScalingFactor { get; set; }
 
     /// <summary>
-    /// Encryption configuration for the metastore service. The instance size of the Dataproc Metastore instance. At most one of these can be specified: The tier of the service. TIER must be one of: developer The developer tier provides limited scalability and no fault tolerance. Good for low-cost proof-of-concept. enterprise The enterprise tier provides multi-zone high availability, and sufficient scalability for enterprise-level Dataproc Metastore workloads.
+    /// The instance size of the Dataproc Metastore instance. At most one of these can be specified: The tier of the service. TIER must be one of: developer The developer tier provides limited scalability and no fault tolerance. Good for low-cost proof-of-concept. enterprise The enterprise tier provides multi-zone high availability, and sufficient scalability for enterprise-level Dataproc Metastore workloads.
     /// </summary>
     [CliOption("--tier", Format = OptionFormat.EqualsSeparated)]
     public string? Tier { get; set; }
 
     /// <summary>
-    /// Encryption configuration for the metastore service. The instance size of the Dataproc Metastore instance. At most one of these can be specified: Or at least one of these can be specified: The autoscaling configuration of the Dataproc Metastore instance. The maximum scaling factor allowed by the autoscaler. Can be one of [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0]. The default value is 6.0.
+    /// The instance size of the Dataproc Metastore instance. At most one of these can be specified: Or at least one of these can be specified: The autoscaling configuration of the Dataproc Metastore instance. The maximum scaling factor allowed by the autoscaler. Can be one of [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0]. The default value is 6.0.
     /// </summary>
     [CliOption("--max-scaling-factor", Format = OptionFormat.EqualsSeparated)]
     public string? MaxScalingFactor { get; set; }
 
     /// <summary>
-    /// Encryption configuration for the metastore service. The instance size of the Dataproc Metastore instance. At most one of these can be specified: Or at least one of these can be specified: The autoscaling configuration of the Dataproc Metastore instance. The minimum scaling factor allowed by the autoscaler. Can be one of [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0]. The default value is 0.1.
+    /// The instance size of the Dataproc Metastore instance. At most one of these can be specified: Or at least one of these can be specified: The autoscaling configuration of the Dataproc Metastore instance. The minimum scaling factor allowed by the autoscaler. Can be one of [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0]. The default value is 0.1.
     /// </summary>
     [CliOption("--min-scaling-factor", Format = OptionFormat.EqualsSeparated)]
     public string? MinScalingFactor { get; set; }
@@ -189,7 +261,7 @@ public record GcloudMetastoreServicesCreateOptions : GcloudOptions
     /// The one hour maintenance window that specifies when Dataproc Metastore may perform system maintenance operation to the service, in UTC time. The day of week when the window starts, e.g., sun. MAINTENANCE_WINDOW_DAY must be one of: fri, mon, sat, sun, thu, tue, wed. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--maintenance-window-day", Format = OptionFormat.EqualsSeparated)]
-    public GcloudMaintenanceWindowDay? MaintenanceWindowDay { get; set; }
+    public GcloudMetastoreServicesCreateMaintenanceWindowDay? MaintenanceWindowDay { get; set; }
 
     /// <summary>
     /// The one hour maintenance window that specifies when Dataproc Metastore may perform system maintenance operation to the service, in UTC time. The hour of day (0-23) when the window starts. This flag argument must be specified if any of the other arguments in this group are specified.
@@ -198,27 +270,79 @@ public record GcloudMetastoreServicesCreateOptions : GcloudOptions
     public string? MaintenanceWindowHour { get; set; }
 
     /// <summary>
-    /// The one hour maintenance window that specifies when Dataproc Metastore may perform system maintenance operation to the service, in UTC time. Scheduled backup configurations to enable a scheduled backup of the metastore service. At most one of these can be specified: Path to a JSON file containing a mapping of scheduled backup configurations key-value pairs to apply to the scheduled backup. For example: backup_configs.json { "enabled": true, "cron_schedule": "0 * * * *", "backup_location": "gs://example-bucket", "time_zone": "UTC" } Use a full or relative path to a local file containing the value of scheduled_backup_configs.
+    /// Scheduled backup configurations to enable a scheduled backup of the metastore service. At most one of these can be specified: Path to a JSON file containing a mapping of scheduled backup configurations key-value pairs to apply to the scheduled backup. For example: backup_configs.json { "enabled": true, "cron_schedule": "0 * * * *", "backup_location": "gs://example-bucket", "time_zone": "UTC" } Use a full or relative path to a local file containing the value of scheduled_backup_configs.
     /// </summary>
     [CliOption("--scheduled-backup-configs-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? ScheduledBackupConfigsFromFile { get; set; }
 
     /// <summary>
-    /// The one hour maintenance window that specifies when Dataproc Metastore may perform system maintenance operation to the service, in UTC time. Scheduled backup configurations to enable a scheduled backup of the metastore service. At most one of these can be specified: Or at least one of these can be specified: Scheduled backup configurations to enable a scheduled backup of the metastore service. Enable or disable scheduled backups for the Metastore service.
+    /// Scheduled backup configurations to enable a scheduled backup of the metastore service. At most one of these can be specified: Or at least one of these can be specified: Scheduled backup configurations to enable a scheduled backup of the metastore service. Enable or disable scheduled backups for the Metastore service.
     /// </summary>
     [CliFlag("--enable-scheduled-backup")]
     public bool? EnableScheduledBackup { get; set; }
 
     /// <summary>
-    /// The one hour maintenance window that specifies when Dataproc Metastore may perform system maintenance operation to the service, in UTC time. Scheduled backup configurations to enable a scheduled backup of the metastore service. At most one of these can be specified: Or at least one of these can be specified: Scheduled backup configurations to enable a scheduled backup of the metastore service. Specify the frequency of a scheduled backup of the metastore service.
+    /// Scheduled backup configurations to enable a scheduled backup of the metastore service. At most one of these can be specified: Or at least one of these can be specified: Scheduled backup configurations to enable a scheduled backup of the metastore service. Specify the frequency of a scheduled backup of the metastore service.
     /// </summary>
     [CliOption("--scheduled-backup-cron", Format = OptionFormat.EqualsSeparated)]
     public string? ScheduledBackupCron { get; set; }
 
     /// <summary>
-    /// The one hour maintenance window that specifies when Dataproc Metastore may perform system maintenance operation to the service, in UTC time. Scheduled backup configurations to enable a scheduled backup of the metastore service. At most one of these can be specified: Or at least one of these can be specified: Scheduled backup configurations to enable a scheduled backup of the metastore service. Set the Cloud Storage URI to store the scheduled backups of the metastore service.
+    /// Scheduled backup configurations to enable a scheduled backup of the metastore service. At most one of these can be specified: Or at least one of these can be specified: Scheduled backup configurations to enable a scheduled backup of the metastore service. Set the Cloud Storage URI to store the scheduled backups of the metastore service.
     /// </summary>
     [CliOption("--scheduled-backup-location", Format = OptionFormat.EqualsSeparated)]
     public string? ScheduledBackupLocation { get; set; }
+
+    /// <summary>
+    /// Service resource - Arguments and flags that specify the Dataproc Metastore service you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Service { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)AuxiliaryVersions is global::System.Collections.Generic.IEnumerable<char> ? (object?)AuxiliaryVersions is not string || !string.IsNullOrWhiteSpace(AuxiliaryVersions?.ToString()) : ((object?)AuxiliaryVersions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AuxiliaryVersions, static item => item is not null) : (AuxiliaryVersions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AuxiliaryVersions), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(AuxiliaryVersionsFromFile) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AuxiliaryVersions or AuxiliaryVersionsFromFile may be specified.", [nameof(AuxiliaryVersions), nameof(AuxiliaryVersionsFromFile)]);
+        }
+        if ((((object?)ConsumerSubnetworks is global::System.Collections.Generic.IEnumerable<char> ? (object?)ConsumerSubnetworks is not string || !string.IsNullOrWhiteSpace(ConsumerSubnetworks?.ToString()) : ((object?)ConsumerSubnetworks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ConsumerSubnetworks, static item => item is not null) : (ConsumerSubnetworks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ConsumerSubnetworks), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Network) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NetworkConfigFromFile) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ConsumerSubnetworks, Network, or NetworkConfigFromFile may be specified.", [nameof(ConsumerSubnetworks), nameof(Network), nameof(NetworkConfigFromFile)]);
+        }
+        if ((((object?)HiveMetastoreConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)HiveMetastoreConfigs is not string || !string.IsNullOrWhiteSpace(HiveMetastoreConfigs?.ToString()) : ((object?)HiveMetastoreConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)HiveMetastoreConfigs, static item => item is not null) : (HiveMetastoreConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)HiveMetastoreConfigs), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(HiveMetastoreConfigsFromFile) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of HiveMetastoreConfigs or HiveMetastoreConfigsFromFile may be specified.", [nameof(HiveMetastoreConfigs), nameof(HiveMetastoreConfigsFromFile)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(InstanceSize) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ScalingFactor) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Tier) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(MaxScalingFactor) || !string.IsNullOrWhiteSpace(MinScalingFactor)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of InstanceSize, ScalingFactor, Tier, or (MaxScalingFactor or MinScalingFactor) may be specified.", [nameof(InstanceSize), nameof(ScalingFactor), nameof(Tier), nameof(MaxScalingFactor), nameof(MinScalingFactor)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KerberosPrincipal) || !string.IsNullOrWhiteSpace(Keytab) || !string.IsNullOrWhiteSpace(Krb5Config)) && (!(!string.IsNullOrWhiteSpace(KerberosPrincipal))))
+        {
+            yield return new ValidationResult("KerberosPrincipal must be specified when other arguments in this group are specified.", [nameof(KerberosPrincipal)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KerberosPrincipal) || !string.IsNullOrWhiteSpace(Keytab) || !string.IsNullOrWhiteSpace(Krb5Config)) && (!(!string.IsNullOrWhiteSpace(Keytab))))
+        {
+            yield return new ValidationResult("Keytab must be specified when other arguments in this group are specified.", [nameof(Keytab)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KerberosPrincipal) || !string.IsNullOrWhiteSpace(Keytab) || !string.IsNullOrWhiteSpace(Krb5Config)) && (!(!string.IsNullOrWhiteSpace(Krb5Config))))
+        {
+            yield return new ValidationResult("Krb5Config must be specified when other arguments in this group are specified.", [nameof(Krb5Config)]);
+        }
+        if (((object?)MaintenanceWindowDay is not null || !string.IsNullOrWhiteSpace(MaintenanceWindowHour)) && (!((object?)MaintenanceWindowDay is not null)))
+        {
+            yield return new ValidationResult("MaintenanceWindowDay must be specified when other arguments in this group are specified.", [nameof(MaintenanceWindowDay)]);
+        }
+        if (((object?)MaintenanceWindowDay is not null || !string.IsNullOrWhiteSpace(MaintenanceWindowHour)) && (!(!string.IsNullOrWhiteSpace(MaintenanceWindowHour))))
+        {
+            yield return new ValidationResult("MaintenanceWindowHour must be specified when other arguments in this group are specified.", [nameof(MaintenanceWindowHour)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ScheduledBackupConfigsFromFile) ? 1 : 0) + ((EnableScheduledBackup == true || !string.IsNullOrWhiteSpace(ScheduledBackupCron) || !string.IsNullOrWhiteSpace(ScheduledBackupLocation)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ScheduledBackupConfigsFromFile or (EnableScheduledBackup, ScheduledBackupCron, or ScheduledBackupLocation) may be specified.", [nameof(ScheduledBackupConfigsFromFile), nameof(EnableScheduledBackup), nameof(ScheduledBackupCron), nameof(ScheduledBackupLocation)]);
+        }
+        yield break;
+    }
 
 }

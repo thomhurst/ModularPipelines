@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-connectivity", "transports", "remote-profiles", "describe")]
 public record GcloudNetworkConnectivityTransportsRemoteProfilesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe     a remote transport profile
+    /// </summary>
+    /// <param name="RemoteTransportProfile">RemoteTransportProfile resource - Name of the remote transport profile to be described. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument remote_transport_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the remoteTransportProfile or fully qualified identifier for the remoteTransportProfile. To set the remote_transport_profile attribute: ▸ provide the argument remote_transport_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkConnectivityTransportsRemoteProfilesDescribeOptions(
+        string RemoteTransportProfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RemoteTransportProfile);
+        this.RemoteTransportProfile = RemoteTransportProfile;
+    }
+
+    public void Deconstruct(out string RemoteTransportProfile)
+    {
+        RemoteTransportProfile = this.RemoteTransportProfile;
+    }
+
+    /// <summary>
+    /// RemoteTransportProfile resource - Name of the remote transport profile to be described. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument remote_transport_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the region attribute: ▸ provide the argument remote_transport_profile on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// RemoteTransportProfile resource - Name of the remote transport profile to be described. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument remote_transport_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the remoteTransportProfile or fully qualified identifier for the remoteTransportProfile. To set the remote_transport_profile attribute: ▸ provide the argument remote_transport_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RemoteTransportProfile { get; private init; }
+
 }

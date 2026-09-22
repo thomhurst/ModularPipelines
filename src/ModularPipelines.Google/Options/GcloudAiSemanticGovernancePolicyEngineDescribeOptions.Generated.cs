@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("ai", "semantic-governance-policy-engine", "describe")]
 public record GcloudAiSemanticGovernancePolicyEngineDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe the     semantic governance policy engine config
+    /// </summary>
+    /// <param name="Location">Cloud location of the semantic governance policy engine.</param>
+    public GcloudAiSemanticGovernancePolicyEngineDescribeOptions(
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Location)
+    {
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// Cloud location of the semantic governance policy engine.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
 }

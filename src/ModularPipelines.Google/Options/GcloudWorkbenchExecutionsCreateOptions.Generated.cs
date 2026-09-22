@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,229 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workbench", "executions", "create")]
-public record GcloudWorkbenchExecutionsCreateOptions : GcloudOptions
+public record GcloudWorkbenchExecutionsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Workbench execution
+    /// </summary>
+    /// <param name="Region">Region resource - Cloud region to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the region or fully qualified identifier for the region. To set the region attribute: ▸ provide the argument --region on the command line.</param>
+    /// <param name="DisplayName">Configuration of the execution job. This must be specified. The display name of the execution. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="GcsOutputUri">Configuration of the execution job. This must be specified. The Cloud Storage location to upload notebook execution results to. Format: gs://bucket-name. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="ServiceAccount">Configuration of the execution job. This must be specified. The service account to run the execution as This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="AcceleratorCount">Compute configuration of the execution job. The machine configuration of the runtime. The number of accelerators used by the runtime.</param>
+    /// <param name="AcceleratorType">Compute configuration of the execution job. The machine configuration of the runtime. The type of hardware accelerator used by the runtime. If specified, --accelerator-count must also be specified. ACCELERATOR_TYPE must be one of: NVIDIA_TESLA_V100, NVIDIA_TESLA_T4, NVIDIA_TESLA_A100, NVIDIA_A100_80GB, NVIDIA_L4.</param>
+    /// <param name="MachineType">Compute configuration of the execution job. The machine configuration of the runtime. The Compute Engine machine type selected for the runtime.</param>
+    /// <param name="DiskSizeGb">The configuration for the data disk of the runtime. The disk size of the runtime in GB. If specified, the --disk-type must also be specified. The minimum size is 10GB and the maximum is 65536GB.</param>
+    /// <param name="DiskType">The configuration for the data disk of the runtime. The type of the disk. DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME, HYPERDISK_BALANCED.</param>
+    public GcloudWorkbenchExecutionsCreateOptions(
+        string Region,
+        string DisplayName,
+        string GcsOutputUri,
+        string ServiceAccount,
+        int AcceleratorCount,
+        GcloudWorkbenchExecutionsCreateAcceleratorType AcceleratorType,
+        string MachineType,
+        int DiskSizeGb,
+        GcloudWorkbenchExecutionsCreateDiskType DiskType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(GcsOutputUri);
+        this.GcsOutputUri = GcsOutputUri;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceAccount);
+        this.ServiceAccount = ServiceAccount;
+        this.AcceleratorCount = AcceleratorCount;
+        this.AcceleratorType = AcceleratorType;
+        global::System.ArgumentNullException.ThrowIfNull(MachineType);
+        this.MachineType = MachineType;
+        this.DiskSizeGb = DiskSizeGb;
+        this.DiskType = DiskType;
+    }
+
+    public void Deconstruct(out string Region, out string DisplayName, out string GcsOutputUri, out string ServiceAccount, out int AcceleratorCount, out GcloudWorkbenchExecutionsCreateAcceleratorType AcceleratorType, out string MachineType, out int DiskSizeGb, out GcloudWorkbenchExecutionsCreateDiskType DiskType)
+    {
+        Region = this.Region;
+        DisplayName = this.DisplayName;
+        GcsOutputUri = this.GcsOutputUri;
+        ServiceAccount = this.ServiceAccount;
+        AcceleratorCount = this.AcceleratorCount;
+        AcceleratorType = this.AcceleratorType;
+        MachineType = this.MachineType;
+        DiskSizeGb = this.DiskSizeGb;
+        DiskType = this.DiskType;
+    }
+
+    /// <summary>
+    /// Region resource - Cloud region to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the region or fully qualified identifier for the region. To set the region attribute: ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// Configuration of the execution job. This must be specified. The display name of the execution. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Configuration of the execution job. This must be specified. The Cloud Storage location to upload notebook execution results to. Format: gs://bucket-name. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--gcs-output-uri", Format = OptionFormat.EqualsSeparated)]
+    public string GcsOutputUri { get; private init; }
+
+    /// <summary>
+    /// Configuration of the execution job. This must be specified. The service account to run the execution as This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string ServiceAccount { get; private init; }
+
+    /// <summary>
+    /// Compute configuration of the execution job. The machine configuration of the runtime. The number of accelerators used by the runtime.
+    /// </summary>
+    [CliOption("--accelerator-count", Format = OptionFormat.EqualsSeparated)]
+    public int AcceleratorCount { get; private init; }
+
+    /// <summary>
+    /// Compute configuration of the execution job. The machine configuration of the runtime. The type of hardware accelerator used by the runtime. If specified, --accelerator-count must also be specified. ACCELERATOR_TYPE must be one of: NVIDIA_TESLA_V100, NVIDIA_TESLA_T4, NVIDIA_TESLA_A100, NVIDIA_A100_80GB, NVIDIA_L4.
+    /// </summary>
+    [CliOption("--accelerator-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudWorkbenchExecutionsCreateAcceleratorType AcceleratorType { get; private init; }
+
+    /// <summary>
+    /// Compute configuration of the execution job. The machine configuration of the runtime. The Compute Engine machine type selected for the runtime.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string MachineType { get; private init; }
+
+    /// <summary>
+    /// The configuration for the data disk of the runtime. The disk size of the runtime in GB. If specified, the --disk-type must also be specified. The minimum size is 10GB and the maximum is 65536GB.
+    /// </summary>
+    [CliOption("--disk-size-gb", Format = OptionFormat.EqualsSeparated)]
+    public int DiskSizeGb { get; private init; }
+
+    /// <summary>
+    /// The configuration for the data disk of the runtime. The type of the disk. DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME, HYPERDISK_BALANCED.
+    /// </summary>
+    [CliOption("--disk-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudWorkbenchExecutionsCreateDiskType DiskType { get; private init; }
+
+    /// <summary>
+    /// Configuration of the execution job. This must be specified. The max running time of the execution job, as a duration. See '$ gcloud topic datetimes' for details on formatting the input duration.
+    /// </summary>
+    [CliOption("--execution-timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? ExecutionTimeout { get; set; }
+
+    /// <summary>
+    /// Configuration of the execution job. This must be specified. The kernel name to use for the execution.
+    /// </summary>
+    [CliOption("--kernel-name", Format = OptionFormat.EqualsSeparated)]
+    public string? KernelName { get; set; }
+
+    /// <summary>
+    /// Configuration of the execution job. This must be specified. Source of the notebook to execute. Exactly one of these must be specified: The direct notebook content as IPYNB. This can be a local filepath to an .ipynb file or can be set to - to read content from stdin.
+    /// </summary>
+    [CliOption("--direct-content", Format = OptionFormat.EqualsSeparated)]
+    public string? DirectContent { get; set; }
+
+    /// <summary>
+    /// Configuration of the execution job. This must be specified. Source of the notebook to execute. Exactly one of these must be specified: Or at least one of these can be specified: The Cloud Storage notebook source. The Cloud Storage uri pointing to the notebook. Format: gs://bucket/notebook_file.ipynb This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--gcs-notebook-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? GcsNotebookUri { get; set; }
+
+    /// <summary>
+    /// Configuration of the execution job. This must be specified. Source of the notebook to execute. Exactly one of these must be specified: Or at least one of these can be specified: The Cloud Storage notebook source. The version of the Cloud Storage object to read. If unset, the current version of the object will be used.
+    /// </summary>
+    [CliOption("--generation", Format = OptionFormat.EqualsSeparated)]
+    public string? Generation { get; set; }
+
+    /// <summary>
+    /// The network configuration for the runtime. Enable public internet access for the runtime. Enabled by default, use --no-enable-internet-access to disable.
+    /// </summary>
+    [CliFlag("--enable-internet-access")]
+    public bool? EnableInternetAccess { get; set; }
+
+    /// <summary>
+    /// Negates --enable-internet-access. The network configuration for the runtime. Enable public internet access for the runtime. Enabled by default, use --no-enable-internet-access to disable.
+    /// </summary>
+    [CliFlag("--no-enable-internet-access")]
+    public bool? NoEnableInternetAccess { get; set; }
+
+    /// <summary>
+    /// Network resource - The name of the VPC that this runtime is in. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --network on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. ID of the network or fully qualified identifier for the network. To set the network attribute: ▸ provide the argument --network on the command line.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Subnetwork resource - The name of the subnetwork that this runtime is in. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --subnetwork on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. ID of the subnetwork or fully qualified identifier for the subnetwork. To set the subnetwork attribute: ▸ provide the argument --subnetwork on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--subnetwork", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnetwork { get; set; }
+
+    /// <summary>
+    /// Subnetwork resource - The name of the subnetwork that this runtime is in. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --subnetwork on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. Google Cloud region of this subnetwork https://cloud.google.com/compute/docs/regions-zones/#locations. To set the subnetwork-region attribute: ▸ provide the argument --subnetwork on the command line with a fully specified name; ▸ provide the argument --subnetwork-region on the command line.
+    /// </summary>
+    [CliOption("--subnetwork-region", Format = OptionFormat.EqualsSeparated)]
+    public string? SubnetworkRegion { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS encryption key (customer-managed encryption key) used to protect the execution. The key must be in the same region as the execution. If not specified, Google-managed encryption will be used. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ▸ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS encryption key (customer-managed encryption key) used to protect the execution. The key must be in the same region as the execution. If not specified, Google-managed encryption will be used. The arguments in this group can be used to specify the attributes of this resource. KMS keyring id of the key. To set the kms-keyring attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS encryption key (customer-managed encryption key) used to protect the execution. The key must be in the same region as the execution. If not specified, Google-managed encryption will be used. The arguments in this group can be used to specify the attributes of this resource. Cloud location for the key. To set the kms-location attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS encryption key (customer-managed encryption key) used to protect the execution. The key must be in the same region as the execution. If not specified, Google-managed encryption will be used. The arguments in this group can be used to specify the attributes of this resource. Cloud project id for the key. To set the kms-project attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --kms-project on the command line.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DirectContent) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(GcsNotebookUri) || !string.IsNullOrWhiteSpace(Generation)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of DirectContent or (GcsNotebookUri or Generation) must be specified.", [nameof(DirectContent), nameof(GcsNotebookUri), nameof(Generation)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DirectContent) || !string.IsNullOrWhiteSpace(GcsNotebookUri) || !string.IsNullOrWhiteSpace(Generation)) && (!string.IsNullOrWhiteSpace(GcsNotebookUri) || !string.IsNullOrWhiteSpace(Generation)) && (!string.IsNullOrWhiteSpace(GcsNotebookUri) || !string.IsNullOrWhiteSpace(Generation)) && (!(!string.IsNullOrWhiteSpace(GcsNotebookUri))))
+        {
+            yield return new ValidationResult("GcsNotebookUri must be specified when other arguments in this group are specified.", [nameof(GcsNotebookUri)]);
+        }
+        if ((EnableInternetAccess == true ? 1 : 0) + (NoEnableInternetAccess == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of EnableInternetAccess or NoEnableInternetAccess must be specified.", [nameof(EnableInternetAccess), nameof(NoEnableInternetAccess)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Subnetwork) || !string.IsNullOrWhiteSpace(SubnetworkRegion)) && (!(!string.IsNullOrWhiteSpace(Subnetwork))))
+        {
+            yield return new ValidationResult("Subnetwork must be specified when other arguments in this group are specified.", [nameof(Subnetwork)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        yield break;
+    }
+
 }

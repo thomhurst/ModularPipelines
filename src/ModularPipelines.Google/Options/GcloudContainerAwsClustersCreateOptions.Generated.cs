@@ -6,10 +6,13 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +22,350 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "aws", "clusters", "create")]
-public record GcloudContainerAwsClustersCreateOptions : GcloudOptions
+public record GcloudContainerAwsClustersCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create an Anthos cluster on AWS
+    /// </summary>
+    /// <param name="AwsRegion">AWS region to deploy the cluster.</param>
+    /// <param name="ClusterVersion">Kubernetes version to use for the cluster.</param>
+    /// <param name="ConfigEncryptionKmsKeyArn">Amazon Resource Name (ARN) of the AWS KMS key to encrypt the user data.</param>
+    /// <param name="DatabaseEncryptionKmsKeyArn">Amazon Resource Name (ARN) of the AWS KMS key to encrypt the cluster secrets.</param>
+    /// <param name="FleetProject">ID or number of the Fleet host project where the cluster is registered.</param>
+    /// <param name="IamInstanceProfile">Name or ARN of the IAM instance profile associated with the cluster.</param>
+    /// <param name="PodAddressCidrBlocks">IP address range for the pods in this cluster in CIDR notation (e.g. 10.0.0.0/8).</param>
+    /// <param name="RoleArn">Amazon Resource Name (ARN) of the IAM role to assume when managing AWS resources.</param>
+    /// <param name="ServiceAddressCidrBlocks">IP address range for the services IPs in CIDR notation (e.g. 10.0.0.0/8).</param>
+    /// <param name="SubnetIds">Subnet ID of an existing VNET to use for the cluster control plane. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="VpcId">VPC associated with the cluster.</param>
+    /// <param name="Cluster">Cluster resource - cluster to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerAwsClustersCreateOptions(
+        string AwsRegion,
+        string ClusterVersion,
+        string ConfigEncryptionKmsKeyArn,
+        string DatabaseEncryptionKmsKeyArn,
+        string FleetProject,
+        string IamInstanceProfile,
+        string PodAddressCidrBlocks,
+        string RoleArn,
+        string ServiceAddressCidrBlocks,
+        IEnumerable<string> SubnetIds,
+        string VpcId,
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AwsRegion);
+        this.AwsRegion = AwsRegion;
+        global::System.ArgumentNullException.ThrowIfNull(ClusterVersion);
+        this.ClusterVersion = ClusterVersion;
+        global::System.ArgumentNullException.ThrowIfNull(ConfigEncryptionKmsKeyArn);
+        this.ConfigEncryptionKmsKeyArn = ConfigEncryptionKmsKeyArn;
+        global::System.ArgumentNullException.ThrowIfNull(DatabaseEncryptionKmsKeyArn);
+        this.DatabaseEncryptionKmsKeyArn = DatabaseEncryptionKmsKeyArn;
+        global::System.ArgumentNullException.ThrowIfNull(FleetProject);
+        this.FleetProject = FleetProject;
+        global::System.ArgumentNullException.ThrowIfNull(IamInstanceProfile);
+        this.IamInstanceProfile = IamInstanceProfile;
+        global::System.ArgumentNullException.ThrowIfNull(PodAddressCidrBlocks);
+        this.PodAddressCidrBlocks = PodAddressCidrBlocks;
+        global::System.ArgumentNullException.ThrowIfNull(RoleArn);
+        this.RoleArn = RoleArn;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceAddressCidrBlocks);
+        this.ServiceAddressCidrBlocks = ServiceAddressCidrBlocks;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SubnetIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SubnetIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SubnetIds));
+            }
+
+            SubnetIds = materialized;
+        }
+        this.SubnetIds = SubnetIds;
+        global::System.ArgumentNullException.ThrowIfNull(VpcId);
+        this.VpcId = VpcId;
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string AwsRegion, out string ClusterVersion, out string ConfigEncryptionKmsKeyArn, out string DatabaseEncryptionKmsKeyArn, out string FleetProject, out string IamInstanceProfile, out string PodAddressCidrBlocks, out string RoleArn, out string ServiceAddressCidrBlocks, out IEnumerable<string> SubnetIds, out string VpcId, out string Cluster)
+    {
+        AwsRegion = this.AwsRegion;
+        ClusterVersion = this.ClusterVersion;
+        ConfigEncryptionKmsKeyArn = this.ConfigEncryptionKmsKeyArn;
+        DatabaseEncryptionKmsKeyArn = this.DatabaseEncryptionKmsKeyArn;
+        FleetProject = this.FleetProject;
+        IamInstanceProfile = this.IamInstanceProfile;
+        PodAddressCidrBlocks = this.PodAddressCidrBlocks;
+        RoleArn = this.RoleArn;
+        ServiceAddressCidrBlocks = this.ServiceAddressCidrBlocks;
+        SubnetIds = this.SubnetIds;
+        VpcId = this.VpcId;
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// AWS region to deploy the cluster.
+    /// </summary>
+    [CliOption("--aws-region", Format = OptionFormat.EqualsSeparated)]
+    public string AwsRegion { get; private init; }
+
+    /// <summary>
+    /// Kubernetes version to use for the cluster.
+    /// </summary>
+    [CliOption("--cluster-version", Format = OptionFormat.EqualsSeparated)]
+    public string ClusterVersion { get; private init; }
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the AWS KMS key to encrypt the user data.
+    /// </summary>
+    [CliOption("--config-encryption-kms-key-arn", Format = OptionFormat.EqualsSeparated)]
+    public string ConfigEncryptionKmsKeyArn { get; private init; }
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the AWS KMS key to encrypt the cluster secrets.
+    /// </summary>
+    [CliOption("--database-encryption-kms-key-arn", Format = OptionFormat.EqualsSeparated)]
+    public string DatabaseEncryptionKmsKeyArn { get; private init; }
+
+    /// <summary>
+    /// ID or number of the Fleet host project where the cluster is registered.
+    /// </summary>
+    [CliOption("--fleet-project", Format = OptionFormat.EqualsSeparated)]
+    public string FleetProject { get; private init; }
+
+    /// <summary>
+    /// Name or ARN of the IAM instance profile associated with the cluster.
+    /// </summary>
+    [CliOption("--iam-instance-profile", Format = OptionFormat.EqualsSeparated)]
+    public string IamInstanceProfile { get; private init; }
+
+    /// <summary>
+    /// IP address range for the pods in this cluster in CIDR notation (e.g. 10.0.0.0/8).
+    /// </summary>
+    [CliOption("--pod-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
+    public string PodAddressCidrBlocks { get; private init; }
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the IAM role to assume when managing AWS resources.
+    /// </summary>
+    [CliOption("--role-arn", Format = OptionFormat.EqualsSeparated)]
+    public string RoleArn { get; private init; }
+
+    /// <summary>
+    /// IP address range for the services IPs in CIDR notation (e.g. 10.0.0.0/8).
+    /// </summary>
+    [CliOption("--service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
+    public string ServiceAddressCidrBlocks { get; private init; }
+
+    /// <summary>
+    /// Subnet ID of an existing VNET to use for the cluster control plane. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--subnet-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> SubnetIds { get; private init; }
+
+    /// <summary>
+    /// VPC associated with the cluster.
+    /// </summary>
+    [CliOption("--vpc-id", Format = OptionFormat.EqualsSeparated)]
+    public string VpcId { get; private init; }
+
+    /// <summary>
+    /// Cluster resource - cluster to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the cluster. To set the location attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_aws/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Groups of users that can perform operations as a cluster administrator. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--admin-groups", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdminGroups { get; set; }
+
+    /// <summary>
+    /// Users that can perform operations as a cluster administrator. If not specified, the value of property core/account is used. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdminUsers { get; set; }
+
+    /// <summary>
+    /// Annotations for the cluster. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Annotations { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Set Binary Authorization evaluation mode for this cluster. BINAUTHZ_EVALUATION_MODE must be one of: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE.
+    /// </summary>
+    [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? BinauthzEvaluationMode { get; set; }
+
+    /// <summary>
+    /// Description for the cluster.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Disable the default per node pool subnet security group rules on the control plane security group. When disabled, at least one security group that allows node pools to send traffic to the control plane on ports TCP/443 and TCP/8132 must be provided.
+    /// </summary>
+    [CliFlag("--disable-per-node-pool-sg-rules")]
+    public bool? DisablePerNodePoolSgRules { get; set; }
+
+    /// <summary>
+    /// Enables managed collection for Managed Service for Prometheus in the cluster. See https://cloud.google.com/stackdriver/docs/managed-prometheus/setup-managed#enable-mgdcoll-gke for more info. Managed Prometheus is enabled by default for cluster versions 1.27 or greater, use --no-enable-managed-prometheus to disable.
+    /// </summary>
+    [CliFlag("--enable-managed-prometheus")]
+    public bool? EnableManagedPrometheus { get; set; }
+
+    /// <summary>
+    /// Negates --enable-managed-prometheus. Enables managed collection for Managed Service for Prometheus in the cluster. See https://cloud.google.com/stackdriver/docs/managed-prometheus/setup-managed#enable-mgdcoll-gke for more info. Managed Prometheus is enabled by default for cluster versions 1.27 or greater, use --no-enable-managed-prometheus to disable.
+    /// </summary>
+    [CliFlag("--no-enable-managed-prometheus")]
+    public bool? NoEnableManagedPrometheus { get; set; }
+
+    /// <summary>
+    /// AWS EC2 instance type for the control plane's nodes.
+    /// </summary>
+    [CliOption("--instance-type", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceType { get; set; }
+
+    /// <summary>
+    /// Set the components that have logging enabled. Examples: $ gcloud container aws clusters create --logging=SYSTEM $ gcloud container aws clusters create --logging=SYSTEM,WORKLOAD COMPONENT must be one of: SYSTEM, WORKLOAD.
+    /// </summary>
+    [CliOption("--logging", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudContainerAwsClustersCreateLogging>? Logging { get; set; }
+
+    /// <summary>
+    /// Number of I/O operations per second (IOPS) to provision for the main volume.
+    /// </summary>
+    [CliOption("--main-volume-iops", Format = OptionFormat.EqualsSeparated)]
+    public int? MainVolumeIops { get; set; }
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the AWS KMS key to encrypt the main volume.
+    /// </summary>
+    [CliOption("--main-volume-kms-key-arn", Format = OptionFormat.EqualsSeparated)]
+    public string? MainVolumeKmsKeyArn { get; set; }
+
+    /// <summary>
+    /// Size of the main volume. The value must be a whole number followed by a size unit of GB for gigabyte, or TB for terabyte. If no size unit is specified, GB is assumed.
+    /// </summary>
+    [CliOption("--main-volume-size", Format = OptionFormat.EqualsSeparated)]
+    public int? MainVolumeSize { get; set; }
+
+    /// <summary>
+    /// Throughput to provision for the main volume, in MiB/s. Only valid if the volume type is GP3. If volume type is GP3 and throughput is not provided, it defaults to 125.
+    /// </summary>
+    [CliOption("--main-volume-throughput", Format = OptionFormat.EqualsSeparated)]
+    public string? MainVolumeThroughput { get; set; }
+
+    /// <summary>
+    /// Type of the main volume. MAIN_VOLUME_TYPE must be one of: gp2, gp3.
+    /// </summary>
+    [CliOption("--main-volume-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudContainerAwsClustersCreateMainVolumeType? MainVolumeType { get; set; }
+
+    /// <summary>
+    /// Identifier for the assumed role session.
+    /// </summary>
+    [CliOption("--role-session-name", Format = OptionFormat.EqualsSeparated)]
+    public string? RoleSessionName { get; set; }
+
+    /// <summary>
+    /// Number of I/O operations per second (IOPS) to provision for the root volume.
+    /// </summary>
+    [CliOption("--root-volume-iops", Format = OptionFormat.EqualsSeparated)]
+    public int? RootVolumeIops { get; set; }
+
+    /// <summary>
+    /// Amazon Resource Name (ARN) of the AWS KMS key to encrypt the root volume.
+    /// </summary>
+    [CliOption("--root-volume-kms-key-arn", Format = OptionFormat.EqualsSeparated)]
+    public string? RootVolumeKmsKeyArn { get; set; }
+
+    /// <summary>
+    /// Size of the root volume. The value must be a whole number followed by a size unit of GB for gigabyte, or TB for terabyte. If no size unit is specified, GB is assumed.
+    /// </summary>
+    [CliOption("--root-volume-size", Format = OptionFormat.EqualsSeparated)]
+    public int? RootVolumeSize { get; set; }
+
+    /// <summary>
+    /// Throughput to provision for the root volume, in MiB/s. Only valid if the volume type is GP3. If volume type is GP3 and throughput is not provided, it defaults to 125.
+    /// </summary>
+    [CliOption("--root-volume-throughput", Format = OptionFormat.EqualsSeparated)]
+    public string? RootVolumeThroughput { get; set; }
+
+    /// <summary>
+    /// Type of the root volume. ROOT_VOLUME_TYPE must be one of: gp2, gp3.
+    /// </summary>
+    [CliOption("--root-volume-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudContainerAwsClustersCreateRootVolumeType? RootVolumeType { get; set; }
+
+    /// <summary>
+    /// IDs of additional security groups to add to the control plane's nodes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--security-group-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SecurityGroupIds { get; set; }
+
+    /// <summary>
+    /// Name of the EC2 key pair authorized to login to the control plane's nodes.
+    /// </summary>
+    [CliOption("--ssh-ec2-key-pair", Format = OptionFormat.EqualsSeparated)]
+    public string? SshEc2KeyPair { get; set; }
+
+    /// <summary>
+    /// Applies the given tags (comma separated) on the cluster. Example: $ gcloud container aws clusters create EXAMPLE_CLUSTER \ --tags=tag1=one,tag2=two Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Validate the cluster to create, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Proxy config ARN of the AWS Secrets Manager secret that contains a proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--proxy-secret-arn", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretArn { get; set; }
+
+    /// <summary>
+    /// Proxy config Version ID string of the AWS Secrets Manager secret that contains a proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--proxy-secret-version-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretVersionId { get; set; }
+
+    /// <summary>
+    /// Cluster resource - cluster to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ProxySecretArn) || !string.IsNullOrWhiteSpace(ProxySecretVersionId)) && (!(!string.IsNullOrWhiteSpace(ProxySecretArn))))
+        {
+            yield return new ValidationResult("ProxySecretArn must be specified when other arguments in this group are specified.", [nameof(ProxySecretArn)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ProxySecretArn) || !string.IsNullOrWhiteSpace(ProxySecretVersionId)) && (!(!string.IsNullOrWhiteSpace(ProxySecretVersionId))))
+        {
+            yield return new ValidationResult("ProxySecretVersionId must be specified when other arguments in this group are specified.", [nameof(ProxySecretVersionId)]);
+        }
+        yield break;
+    }
+
 }

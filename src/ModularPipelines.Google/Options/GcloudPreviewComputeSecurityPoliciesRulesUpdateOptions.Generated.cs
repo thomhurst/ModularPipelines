@@ -20,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "security-policies", "rules", "update")]
-public record GcloudPreviewComputeSecurityPoliciesRulesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
-) : GcloudOptions
+public record GcloudPreviewComputeSecurityPoliciesRulesUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a Compute     Engine security policy rule
+    /// </summary>
+    /// <param name="Priority">The priority of the rule to update. Rules are evaluated in order from highest priority to lowest priority where 0 is the highest priority and 2147483647 is the lowest priority.</param>
+    public GcloudPreviewComputeSecurityPoliciesRulesUpdateOptions(
+        string Priority
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Priority);
+        this.Priority = Priority;
+    }
+
+    public void Deconstruct(out string Priority)
+    {
+        Priority = this.Priority;
+    }
+
     /// <summary>
     /// The action to take if the request matches the match condition. ACTION must be one of: allow Allows the request from HTTP(S) Load Balancing. deny Denies the request from TCP/SSL Proxy and Network Load Balancing. deny-403 Denies the request from HTTP(S) Load Balancing, with an HTTP response status code of 403. deny-404 Denies the request from HTTP(S) Load Balancing, with an HTTP response status code of 404. deny-502 Denies the request from HTTP(S) Load Balancing, with an HTTP response status code of 502. rate-based-ban Enforces rate-based ban action from HTTP(S) Load Balancing, based on rate limit options. redirect Redirects the request from HTTP(S) Load Balancing, based on redirect options. redirect-to-recaptcha (DEPRECATED) Redirects the request from HTTP(S) Load Balancing, for reCAPTCHA Enterprise assessment. This flag choice is deprecated. Use --action=redirect and --redirect-type=google-recaptcha instead. throttle Enforces throttle action from HTTP(S) Load Balancing, based on rate limit options.
     /// </summary>
@@ -64,7 +79,7 @@ public record GcloudPreviewComputeSecurityPoliciesRulesUpdateOptions(
     /// Different key types available to enforce the rate limit threshold limit on: ◆ ip: each client IP address has this limit enforced separately ◆ all: a single limit is applied to all requests matching this rule ◆ http-header: key type takes the value of the HTTP header configured in enforce-on-key-name as the key value ◆ xff-ip: takes the original IP address specified in the X-Forwarded-For header as the key ◆ http-cookie: key type takes the value of the HTTP cookie configured in enforce-on-key-name as the key value ◆ http-path: key type takes the value of the URL path in the request ◆ sni: key type takes the value of the server name indication from the TLS session of the HTTPS request ◆ region-code: key type takes the value of the region code from which the request originates ◆ tls-ja3-fingerprint: key type takes the value of JA3 TLS/SSL fingerprint if the client connects using HTTPS, HTTP/2 or HTTP/3 ◆ user-ip: key type takes the IP address of the originating client, which is resolved based on user-ip-request-headers configured with the security policy ◆ tls-ja4-fingerprint: key type takes the value of JA4 TLS/SSL fingerprint if the client connects using HTTPS, HTTP/2 or HTTP/3 ◆ asn: key type takes the value of the Autonomous System Number from which the request originates ENFORCE_ON_KEY must be one of: ip, all, http-header, xff-ip, http-cookie, http-path, sni, region-code, tls-ja3-fingerprint, user-ip, tls-ja4-fingerprint, asn.
     /// </summary>
     [CliOption("--enforce-on-key", Format = OptionFormat.EqualsSeparated)]
-    public GcloudEnforceOnKey? EnforceOnKey { get; set; }
+    public GcloudPreviewComputeSecurityPoliciesRulesUpdateEnforceOnKey? EnforceOnKey { get; set; }
 
     /// <summary>
     /// Specify up to 3 key type/name pairs to rate limit. Valid key types are: ◆ ip: each client IP address has this limit enforced separately ◆ all: a single limit is applied to all requests matching this rule ◆ http-header: key type takes the value of the HTTP header configured in enforce-on-key-name as the key value ◆ xff-ip: takes the original IP address specified in the X-Forwarded-For header as the key ◆ http-cookie: key type takes the value of the HTTP cookie configured in enforce-on-key-name as the key value ◆ http-path: key type takes the value of the URL path in the request ◆ sni: key type takes the value of the server name indication from the TLS session of the HTTPS request ◆ region-code: key type takes the value of the region code from which the request originates ◆ tls-ja3-fingerprint: key type takes the value of JA3 TLS/SSL fingerprint if the client connects using HTTPS, HTTP/2 or HTTP/3 ◆ user-ip: key type takes the IP address of the originating client, which is resolved based on user-ip-request-headers configured with the security policy ◆ tls-ja4-fingerprint: key type takes the value of JA4 TLS/SSL fingerprint if the client connects using HTTPS, HTTP/2 or HTTP/3 ◆ asn: key type takes the value of the Autonomous System Number from which the request originates Key names are only applicable to the following key types: ◆ http-header: The name of the HTTP header whose value is taken as the key value. ◆ http-cookie: The name of the HTTP cookie whose value is taken as the key value.
@@ -82,7 +97,7 @@ public record GcloudPreviewComputeSecurityPoliciesRulesUpdateOptions(
     /// Action to take when requests are above the given threshold. When a request is denied, return the specified HTTP response code. When a request is redirected, use the redirect options based on --exceed-redirect-type and --exceed-redirect-target below. EXCEED_ACTION must be one of: deny-403, deny-404, deny-429, deny-502, deny, redirect.
     /// </summary>
     [CliOption("--exceed-action", Format = OptionFormat.EqualsSeparated)]
-    public GcloudExceedAction? ExceedAction { get; set; }
+    public GcloudPreviewComputeSecurityPoliciesRulesUpdateExceedAction? ExceedAction { get; set; }
 
     /// <summary>
     /// URL target for the redirect action that is configured as the exceed action when the redirect type is external-302.
@@ -94,7 +109,7 @@ public record GcloudPreviewComputeSecurityPoliciesRulesUpdateOptions(
     /// Type for the redirect action that is configured as the exceed action. EXCEED_REDIRECT_TYPE must be one of: google-recaptcha, external-302.
     /// </summary>
     [CliOption("--exceed-redirect-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudExceedRedirectType? ExceedRedirectType { get; set; }
+    public GcloudPreviewComputeSecurityPoliciesRulesUpdateExceedRedirectType? ExceedRedirectType { get; set; }
 
     /// <summary>
     /// If specified, the action will not be enforced. Use --preview to enable and --no-preview to disable.
@@ -121,15 +136,15 @@ public record GcloudPreviewComputeSecurityPoliciesRulesUpdateOptions(
     public string? RateLimitThresholdIntervalSec { get; set; }
 
     /// <summary>
-    /// A comma-separated list of site keys to be used during the validation of reCAPTCHA action-tokens. The provided site keys need to be created from the reCAPTCHA API under the same project where the security policy is created.
+    /// A comma-separated list of site keys to be used during the validation of reCAPTCHA action-tokens. The provided site keys need to be created from the reCAPTCHA API under the same project where the security policy is created. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--recaptcha-action-site-keys", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--recaptcha-action-site-keys", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RecaptchaActionSiteKeys { get; set; }
 
     /// <summary>
-    /// A comma-separated list of site keys to be used during the validation of reCAPTCHA session-tokens. The provided site keys need to be created from the reCAPTCHA API under the same project where the security policy is created.
+    /// A comma-separated list of site keys to be used during the validation of reCAPTCHA session-tokens. The provided site keys need to be created from the reCAPTCHA API under the same project where the security policy is created. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--recaptcha-session-site-keys", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--recaptcha-session-site-keys", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RecaptchaSessionSiteKeys { get; set; }
 
     /// <summary>
@@ -142,7 +157,7 @@ public record GcloudPreviewComputeSecurityPoliciesRulesUpdateOptions(
     /// Type for the redirect action. Default to external-302 if unspecified while --redirect-target is given. REDIRECT_TYPE must be one of: google-recaptcha, external-302.
     /// </summary>
     [CliOption("--redirect-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudRedirectType? RedirectType { get; set; }
+    public GcloudPreviewComputeSecurityPoliciesRulesUpdateRedirectType? RedirectType { get; set; }
 
     /// <summary>
     /// Region of the security policy to update. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
@@ -151,9 +166,9 @@ public record GcloudPreviewComputeSecurityPoliciesRulesUpdateOptions(
     public string? Region { get; set; }
 
     /// <summary>
-    /// A comma-separated list of header names and header values to add to requests that match this rule.
+    /// A comma-separated list of header names and header values to add to requests that match this rule. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--request-headers-to-add", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--request-headers-to-add", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RequestHeadersToAdd { get; set; }
 
     /// <summary>
@@ -169,51 +184,57 @@ public record GcloudPreviewComputeSecurityPoliciesRulesUpdateOptions(
     public string? Expression { get; set; }
 
     /// <summary>
-    /// Security policy rule matcher. The destination IPs/IP ranges to match for this rule. To match all IPs specify *.
+    /// Security policy rule matcher. The destination IPs/IP ranges to match for this rule. To match all IPs specify *. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-dest-ip-ranges", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--network-dest-ip-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NetworkDestIpRanges { get; set; }
 
     /// <summary>
-    /// Security policy rule matcher. The destination ports to match for this rule. Each element can be an 16-bit unsigned decimal number (e.g. "80") or range (e.g."0-1023"), To match all destination ports specify *.
+    /// Security policy rule matcher. The destination ports to match for this rule. Each element can be an 16-bit unsigned decimal number (e.g. "80") or range (e.g."0-1023"), To match all destination ports specify *. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-dest-ports", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--network-dest-ports", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NetworkDestPorts { get; set; }
 
     /// <summary>
-    /// Security policy rule matcher. The IP protocols to match for this rule. Each element can be an 8-bit unsigned decimal number (e.g. "6"), range (e.g."253-254"), or one of the following protocol names: "tcp", "udp", "icmp", "esp", "ah", "ipip", or "sctp". To match all protocols specify *.
+    /// Security policy rule matcher. The IP protocols to match for this rule. Each element can be an 8-bit unsigned decimal number (e.g. "6"), range (e.g."253-254"), or one of the following protocol names: "tcp", "udp", "icmp", "esp", "ah", "ipip", or "sctp". To match all protocols specify *. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-ip-protocols", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--network-ip-protocols", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NetworkIpProtocols { get; set; }
 
     /// <summary>
-    /// Security policy rule matcher. BGP Autonomous System Number associated with the source IP address to match for this rule.
+    /// Security policy rule matcher. BGP Autonomous System Number associated with the source IP address to match for this rule. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-src-asns", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--network-src-asns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NetworkSrcAsns { get; set; }
 
     /// <summary>
-    /// Security policy rule matcher. The source IPs/IP ranges to match for this rule. To match all IPs specify *.
+    /// Security policy rule matcher. The source IPs/IP ranges to match for this rule. To match all IPs specify *. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-src-ip-ranges", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--network-src-ip-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NetworkSrcIpRanges { get; set; }
 
     /// <summary>
-    /// Security policy rule matcher. The source ports to match for this rule. Each element can be an 16-bit unsigned decimal number (e.g. "80") or range (e.g."0-1023"), To match all source ports specify *.
+    /// Security policy rule matcher. The source ports to match for this rule. Each element can be an 16-bit unsigned decimal number (e.g. "80") or range (e.g."0-1023"), To match all source ports specify *. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-src-ports", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--network-src-ports", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NetworkSrcPorts { get; set; }
 
     /// <summary>
-    /// Security policy rule matcher. The two letter ISO 3166-1 alpha-2 country code associated with the source IP address to match for this rule. To match all region codes specify *.
+    /// Security policy rule matcher. The two letter ISO 3166-1 alpha-2 country code associated with the source IP address to match for this rule. To match all region codes specify *. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-src-region-codes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--network-src-region-codes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NetworkSrcRegionCodes { get; set; }
 
     /// <summary>
-    /// --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. The source IPs/IP ranges to match for this rule. To match all IPs specify *.
+    /// --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. The source IPs/IP ranges to match for this rule. To match all IPs specify *. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--src-ip-ranges", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--src-ip-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SrcIpRanges { get; set; }
+
+    /// <summary>
+    /// The priority of the rule to update. Rules are evaluated in order from highest priority to lowest priority where 0 is the highest priority and 2147483647 is the lowest priority.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Priority { get; private init; }
 
 }

@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("design-center", "spaces", "application-templates", "describe")]
 public record GcloudDesignCenterSpacesApplicationTemplatesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an     application template
+    /// </summary>
+    /// <param name="ApplicationTemplate">ApplicationTemplate resource - The application template name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the applicationTemplate or fully qualified identifier for the applicationTemplate. To set the application_template attribute: ▸ provide the argument application_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDesignCenterSpacesApplicationTemplatesDescribeOptions(
+        string ApplicationTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApplicationTemplate);
+        this.ApplicationTemplate = ApplicationTemplate;
+    }
+
+    public void Deconstruct(out string ApplicationTemplate)
+    {
+        ApplicationTemplate = this.ApplicationTemplate;
+    }
+
+    /// <summary>
+    /// ApplicationTemplate resource - The application template name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the applicationTemplate resource. To set the location attribute: ▸ provide the argument application_template on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// ApplicationTemplate resource - The application template name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The space id of the applicationTemplate resource. To set the space attribute: ▸ provide the argument application_template on the command line with a fully specified name; ▸ provide the argument --space on the command line.
+    /// </summary>
+    [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
+    public string? Space { get; set; }
+
+    /// <summary>
+    /// ApplicationTemplate resource - The application template name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the applicationTemplate or fully qualified identifier for the applicationTemplate. To set the application_template attribute: ▸ provide the argument application_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ApplicationTemplate { get; private init; }
+
 }

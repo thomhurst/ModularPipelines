@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "network-edge-security-services", "update")]
-public record GcloudPreviewComputeNetworkEdgeSecurityServicesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeNetworkEdgeSecurityServicesUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a     network edge security service
+    /// </summary>
+    /// <param name="Name">Name of the network edge security service to update.</param>
+    public GcloudPreviewComputeNetworkEdgeSecurityServicesUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// An optional, textual description for the network edge security service.
     /// </summary>
@@ -46,5 +61,11 @@ public record GcloudPreviewComputeNetworkEdgeSecurityServicesUpdateOptions(
     /// </summary>
     [CliOption("--security-policy-region", Format = OptionFormat.EqualsSeparated)]
     public string? SecurityPolicyRegion { get; set; }
+
+    /// <summary>
+    /// Name of the network edge security service to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

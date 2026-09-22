@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bms", "ssh-keys", "remove")]
-public record GcloudBmsSshKeysRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Ssh
-) : GcloudOptions
+public record GcloudBmsSshKeysRemoveOptions : GcloudOptions
 {
+    /// <summary>
+    /// remove an SSH key in Bare Metal Solution given     its name
+    /// </summary>
+    /// <param name="SshKey">SSH key resource - ssh_key. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ssh_key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument ssh_key on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the SSH key or fully qualified identifier for the SSH key. To set the ssh_key attribute: ▸ provide the argument ssh_key on the command line.</param>
+    public GcloudBmsSshKeysRemoveOptions(
+        string SshKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SshKey);
+        this.SshKey = SshKey;
+    }
+
+    public void Deconstruct(out string SshKey)
+    {
+        SshKey = this.SshKey;
+    }
+
+    /// <summary>
+    /// SSH key resource - ssh_key. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ssh_key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument ssh_key on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the SSH key or fully qualified identifier for the SSH key. To set the ssh_key attribute: ▸ provide the argument ssh_key on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SshKey { get; private init; }
+
 }

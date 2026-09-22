@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataflow", "jobs", "describe")]
-public record GcloudDataflowJobsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string JobId
-) : GcloudOptions
+public record GcloudDataflowJobsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// outputs the Job object resulting from the     Get API
+    /// </summary>
+    /// <param name="JobId">Job ID to operate on.</param>
+    public GcloudDataflowJobsDescribeOptions(
+        string JobId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+    }
+
+    public void Deconstruct(out string JobId)
+    {
+        JobId = this.JobId;
+    }
+
     /// <summary>
     /// Retrieve the full Job rather than the summary view
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudDataflowJobsDescribeOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Job ID to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string JobId { get; private init; }
 
 }

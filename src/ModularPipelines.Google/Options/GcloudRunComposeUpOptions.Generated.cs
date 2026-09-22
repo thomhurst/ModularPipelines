@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run", "compose", "up")]
-public record GcloudRunComposeUpOptions : GcloudOptions
+public record GcloudRunComposeUpOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// Whether to enable allowing unauthenticated access to the service. This may take a few moments to take effect. Use --allow-unauthenticated to enable and --no-allow-unauthenticated to disable.
@@ -56,5 +57,21 @@ public record GcloudRunComposeUpOptions : GcloudOptions
     /// </summary>
     [CliFlag("--no-build")]
     public bool? NoBuild { get; set; }
+
+    /// <summary>
+    /// The compose yaml file to deploy from a Compose directory to Cloud Run.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? ComposeFile { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Build == true ? 1 : 0) + (NoBuild == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Build or NoBuild may be specified.", [nameof(Build), nameof(NoBuild)]);
+        }
+        yield break;
+    }
 
 }

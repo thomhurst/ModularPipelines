@@ -21,4 +21,89 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("artifacts", "attachments", "create")]
 public record GcloudArtifactsAttachmentsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// creates an Artifact Registry     attachment in a repository
+    /// </summary>
+    /// <param name="AttachmentType">Type of the attachment</param>
+    /// <param name="Files">Comma-seperated list of files that are part of this attachment Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Target">Target of the attachment, should be fully qualified version name</param>
+    /// <param name="Attachment">Attachment resource - The Artifact Registry attachment name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the attachment or fully qualified identifier for the attachment. To set the name attribute: ▸ provide the argument attachment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudArtifactsAttachmentsCreateOptions(
+        string AttachmentType,
+        IEnumerable<string> Files,
+        string Target,
+        string Attachment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AttachmentType);
+        this.AttachmentType = AttachmentType;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Files);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Files));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Files));
+            }
+
+            Files = materialized;
+        }
+        this.Files = Files;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+        global::System.ArgumentNullException.ThrowIfNull(Attachment);
+        this.Attachment = Attachment;
+    }
+
+    public void Deconstruct(out string AttachmentType, out IEnumerable<string> Files, out string Target, out string Attachment)
+    {
+        AttachmentType = this.AttachmentType;
+        Files = this.Files;
+        Target = this.Target;
+        Attachment = this.Attachment;
+    }
+
+    /// <summary>
+    /// Type of the attachment
+    /// </summary>
+    [CliOption("--attachment-type", Format = OptionFormat.EqualsSeparated)]
+    public string AttachmentType { get; private init; }
+
+    /// <summary>
+    /// Comma-seperated list of files that are part of this attachment Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--files", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Files { get; private init; }
+
+    /// <summary>
+    /// Target of the attachment, should be fully qualified version name
+    /// </summary>
+    [CliOption("--target", Format = OptionFormat.EqualsSeparated)]
+    public string Target { get; private init; }
+
+    /// <summary>
+    /// Attachment resource - The Artifact Registry attachment name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the attachment. To set the location attribute: ▸ provide the argument attachment on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Attachment resource - The Artifact Registry attachment name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Repository of the attachment. To set the repository attribute: ▸ provide the argument attachment on the command line with a fully specified name; ▸ provide the argument --repository on the command line; ▸ set the property artifacts/repository.
+    /// </summary>
+    [CliOption("--repository", Format = OptionFormat.EqualsSeparated)]
+    public string? Repository { get; set; }
+
+    /// <summary>
+    /// Namespace of the attachment
+    /// </summary>
+    [CliOption("--attachment-namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? AttachmentNamespace { get; set; }
+
+    /// <summary>
+    /// Attachment resource - The Artifact Registry attachment name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the attachment or fully qualified identifier for the attachment. To set the name attribute: ▸ provide the argument attachment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Attachment { get; private init; }
+
 }

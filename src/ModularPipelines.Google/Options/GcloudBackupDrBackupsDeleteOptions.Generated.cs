@@ -22,6 +22,41 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBackupDrBackupsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete the specified Backup
+    /// </summary>
+    /// <param name="Backup">Backup resource - Name of the backup to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Backup or fully qualified identifier for the Backup. To set the name attribute: ▸ provide the argument backup on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBackupDrBackupsDeleteOptions(
+        string Backup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Backup);
+        this.Backup = Backup;
+    }
+
+    public void Deconstruct(out string Backup)
+    {
+        Backup = this.Backup;
+    }
+
+    /// <summary>
+    /// Backup resource - Name of the backup to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The ID of the Backup Vault. To set the backup-vault attribute: ▸ provide the argument backup on the command line with a fully specified name; ▸ provide the argument --backup-vault on the command line.
+    /// </summary>
+    [CliOption("--backup-vault", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupVault { get; set; }
+
+    /// <summary>
+    /// Backup resource - Name of the backup to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The ID of the Data Source. To set the data-source attribute: ▸ provide the argument backup on the command line with a fully specified name; ▸ provide the argument --data-source on the command line.
+    /// </summary>
+    [CliOption("--data-source", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSource { get; set; }
+
+    /// <summary>
+    /// Backup resource - Name of the backup to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Backup. To set the location attribute: ▸ provide the argument backup on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
@@ -32,5 +67,11 @@ public record GcloudBackupDrBackupsDeleteOptions : GcloudOptions
     /// </summary>
     [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Backup resource - Name of the backup to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Backup or fully qualified identifier for the Backup. To set the name attribute: ▸ provide the argument backup on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Backup { get; private init; }
 
 }

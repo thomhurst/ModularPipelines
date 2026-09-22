@@ -40,6 +40,7 @@ internal partial class Gcloud : IGcloud
         IGcloudApihub apihub,
         IGcloudApp app,
         IGcloudApphub apphub,
+        IGcloudAppTopology appTopology,
         IGcloudArtifacts artifacts,
         IGcloudAsset asset,
         IGcloudAssured assured,
@@ -174,6 +175,7 @@ internal partial class Gcloud : IGcloud
         Apihub = apihub;
         App = app;
         Apphub = apphub;
+        AppTopology = appTopology;
         Artifacts = artifacts;
         Asset = asset;
         Assured = assured;
@@ -337,6 +339,9 @@ internal partial class Gcloud : IGcloud
 
     /// <inheritdoc />
     public IGcloudApphub Apphub { get; }
+
+    /// <inheritdoc />
+    public IGcloudAppTopology AppTopology { get; }
 
     /// <inheritdoc />
     public IGcloudArtifacts Artifacts { get; }

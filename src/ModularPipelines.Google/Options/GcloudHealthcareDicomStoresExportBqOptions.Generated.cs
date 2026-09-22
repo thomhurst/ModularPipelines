@@ -21,4 +21,68 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("healthcare", "dicom-stores", "export", "bq")]
 public record GcloudHealthcareDicomStoresExportBqOptions : GcloudOptions
 {
+    /// <summary>
+    /// export a Cloud Healthcare API     API DICOM store to BigQuery
+    /// </summary>
+    /// <param name="BqTable">The BigQuery table where the DICOM store should be written. If this table does not exist, a new table with the given name will be created.</param>
+    /// <param name="DicomStore">DicomStore resource - Cloud Healthcare API DICOM store to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dicom_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dicomStore or fully qualified identifier for the dicomStore. To set the dicom_store attribute: ▸ provide the argument dicom_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudHealthcareDicomStoresExportBqOptions(
+        string BqTable,
+        string DicomStore
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BqTable);
+        this.BqTable = BqTable;
+        global::System.ArgumentNullException.ThrowIfNull(DicomStore);
+        this.DicomStore = DicomStore;
+    }
+
+    public void Deconstruct(out string BqTable, out string DicomStore)
+    {
+        BqTable = this.BqTable;
+        DicomStore = this.DicomStore;
+    }
+
+    /// <summary>
+    /// The BigQuery table where the DICOM store should be written. If this table does not exist, a new table with the given name will be created.
+    /// </summary>
+    [CliOption("--bq-table", Format = OptionFormat.EqualsSeparated)]
+    public string BqTable { get; private init; }
+
+    /// <summary>
+    /// DicomStore resource - Cloud Healthcare API DICOM store to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dicom_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud Healthcare dataset. To set the dataset attribute: ▸ provide the argument dicom_store on the command line with a fully specified name; ▸ provide the argument --dataset on the command line.
+    /// </summary>
+    [CliOption("--dataset", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSet { get; set; }
+
+    /// <summary>
+    /// DicomStore resource - Cloud Healthcare API DICOM store to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dicom_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location. To set the location attribute: ▸ provide the argument dicom_store on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property healthcare/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// If the destination table already exists and this flag is TRUE, the table will be overwritten by the contents of the DICOM store. If the flag is not set and the destination table already exists, the export call returns an error.
+    /// </summary>
+    [CliFlag("--overwrite-table")]
+    public bool? OverwriteTable { get; set; }
+
+    /// <summary>
+    /// Determines whether the existing table in the destination is to be overwritten or appended to. WRITE_DISPOSITION must be one of: write-append Append data to the existing table. write-empty Only export data if the destination table is empty. write-truncate Erase all existing data in a table before writing the instances.
+    /// </summary>
+    [CliOption("--write-disposition", Format = OptionFormat.EqualsSeparated)]
+    public string? WriteDisposition { get; set; }
+
+    /// <summary>
+    /// DicomStore resource - Cloud Healthcare API DICOM store to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dicom_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dicomStore or fully qualified identifier for the dicomStore. To set the dicom_store attribute: ▸ provide the argument dicom_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DicomStore { get; private init; }
+
 }

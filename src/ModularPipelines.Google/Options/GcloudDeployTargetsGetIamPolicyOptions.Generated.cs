@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("deploy", "targets", "get-iam-policy")]
 public record GcloudDeployTargetsGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the IAM policy for a Cloud     Deploy target
+    /// </summary>
+    /// <param name="Target">Target resource - The target for which to display the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument target on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the target or fully qualified identifier for the target. To set the target attribute: ▸ provide the argument target on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDeployTargetsGetIamPolicyOptions(
+        string Target
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+    }
+
+    public void Deconstruct(out string Target)
+    {
+        Target = this.Target;
+    }
+
+    /// <summary>
+    /// Target resource - The target for which to display the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument target on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the target. To set the region attribute: ▸ provide the argument target on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property deploy/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Target resource - The target for which to display the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument target on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the target or fully qualified identifier for the target. To set the target attribute: ▸ provide the argument target on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Target { get; private init; }
+
 }

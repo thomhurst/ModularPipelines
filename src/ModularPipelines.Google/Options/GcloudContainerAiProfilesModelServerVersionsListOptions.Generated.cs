@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "ai", "profiles", "model-server-versions", "list")]
 public record GcloudContainerAiProfilesModelServerVersionsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list supported     model server versions
+    /// </summary>
+    /// <param name="Model">The model.</param>
+    /// <param name="ModelServer">The model server. If not specified, this defaults to any model server.</param>
+    public GcloudContainerAiProfilesModelServerVersionsListOptions(
+        string Model,
+        string ModelServer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Model);
+        this.Model = Model;
+        global::System.ArgumentNullException.ThrowIfNull(ModelServer);
+        this.ModelServer = ModelServer;
+    }
+
+    public void Deconstruct(out string Model, out string ModelServer)
+    {
+        Model = this.Model;
+        ModelServer = this.ModelServer;
+    }
+
+    /// <summary>
+    /// The model.
+    /// </summary>
+    [CliOption("--model", Format = OptionFormat.EqualsSeparated)]
+    public string Model { get; private init; }
+
+    /// <summary>
+    /// The model server. If not specified, this defaults to any model server.
+    /// </summary>
+    [CliOption("--model-server", Format = OptionFormat.EqualsSeparated)]
+    public string ModelServer { get; private init; }
+
 }

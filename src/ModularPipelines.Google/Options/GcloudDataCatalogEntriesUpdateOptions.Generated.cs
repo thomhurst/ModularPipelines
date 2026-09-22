@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,20 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "entries", "update")]
-public record GcloudDataCatalogEntriesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Entry
-) : GcloudOptions
+public record GcloudDataCatalogEntriesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Entry resource - Entry to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Entry group of the entry. To set the entry-group attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --entry-group on the command line.
+    /// </summary>
+    [CliOption("--entry-group", Format = OptionFormat.EqualsSeparated)]
+    public string? EntryGroup { get; set; }
+
+    /// <summary>
+    /// Entry resource - Entry to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Location of the entry. To set the location attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Textual description of the entry.
     /// </summary>
@@ -42,10 +53,32 @@ public record GcloudDataCatalogEntriesUpdateOptions(
     public string? LookupEntry { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: A list of file patterns to add to the current list.
+    /// At most one of these can be specified: A list of file patterns to add to the current list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-file-patterns", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddFilePatterns { get; set; }
+    [CliOption("--add-file-patterns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddFilePatterns
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddFilePatternsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddFilePatternsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: At most one of these can be specified: If specified, clear the current list of file patterns.
@@ -54,10 +87,32 @@ public record GcloudDataCatalogEntriesUpdateOptions(
     public bool? ClearFilePatterns { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: A list of file patterns to remove from the current list.
+    /// At most one of these can be specified: At most one of these can be specified: A list of file patterns to remove from the current list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-file-patterns", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveFilePatterns { get; set; }
+    [CliOption("--remove-file-patterns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveFilePatterns
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveFilePatternsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveFilePatternsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Link to the resource in external system. If --type is not used, then --linked-resource may be provided.
@@ -78,15 +133,65 @@ public record GcloudDataCatalogEntriesUpdateOptions(
     public string? UserSpecifiedType { get; set; }
 
     /// <summary>
-    /// New column schema for the entry. A schema consists of a list of column names along with their types, descriptions, modes, and nested subcolumns. For example: - column: first_name description: First name mode: REQUIRED type: STRING - column: last_name description: Last name mode: REQUIRED type: STRING - column: addresses description: Addresses mode: REPEATED type: RECORD subcolumns: - column: city description: City mode: NULLABLE type: STRING - column: state description: State mode: NULLABLE type: STRING At most one of these can be specified: Inline schema for the entry. When specifying a schema via this argument, only column names and types should be provided. Column modes will default to NULLABLE, and column descriptions and nested subcolumns are not supported.
+    /// New column schema for the entry. A schema consists of a list of column names along with their types, descriptions, modes, and nested subcolumns. For example: - column: first_name description: First name mode: REQUIRED type: STRING - column: last_name description: Last name mode: REQUIRED type: STRING - column: addresses description: Addresses mode: REPEATED type: RECORD subcolumns: - column: city description: City mode: NULLABLE type: STRING - column: state description: State mode: NULLABLE type: STRING At most one of these can be specified: Inline schema for the entry. When specifying a schema via this argument, only column names and types should be provided. Column modes will default to NULLABLE, and column descriptions and nested subcolumns are not supported. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--schema", Format = OptionFormat.EqualsSeparated)]
-    public string? Schema { get; set; }
+    [CliOption("--schema", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Schema
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SchemaSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SchemaSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// New column schema for the entry. A schema consists of a list of column names along with their types, descriptions, modes, and nested subcolumns. For example: - column: first_name description: First name mode: REQUIRED type: STRING - column: last_name description: Last name mode: REQUIRED type: STRING - column: addresses description: Addresses mode: REPEATED type: RECORD subcolumns: - column: city description: City mode: NULLABLE type: STRING - column: state description: State mode: NULLABLE type: STRING At most one of these can be specified: Path to a JSON or YAML file containing the schema for the entry. This can be used to specify schemas with column descriptions, column modes other than NULLABLE, and nested subcolumns. Use a full or relative path to a local file containing the value of schema.
     /// </summary>
     [CliOption("--schema-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? SchemaFromFile { get; set; }
+
+    /// <summary>
+    /// Entry resource - Entry to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the entry or fully qualified identifier for the entry. To set the entry attribute: ◆ provide the argument entry on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Entry { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Entry) || !string.IsNullOrWhiteSpace(EntryGroup) || !string.IsNullOrWhiteSpace(Location)) && (!(!string.IsNullOrWhiteSpace(Entry))))
+        {
+            yield return new ValidationResult("Entry must be specified when other arguments in this group are specified.", [nameof(Entry)]);
+        }
+        if (((((object?)AddFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddFilePatterns is not string || !string.IsNullOrWhiteSpace(AddFilePatterns?.ToString()) : ((object?)AddFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddFilePatterns, static item => item is not null) : (AddFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddFilePatterns), static item => item is not null)))) || ClearFilePatterns == true || ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveFilePatterns is not string || !string.IsNullOrWhiteSpace(RemoveFilePatterns?.ToString()) : ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveFilePatterns, static item => item is not null) : (RemoveFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveFilePatterns), static item => item is not null))))) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(LinkedResource) || !string.IsNullOrWhiteSpace(UserSpecifiedSystem) || !string.IsNullOrWhiteSpace(UserSpecifiedType)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (AddFilePatterns, ClearFilePatterns, or RemoveFilePatterns) or (LinkedResource, UserSpecifiedSystem, or UserSpecifiedType) may be specified.", [nameof(AddFilePatterns), nameof(ClearFilePatterns), nameof(RemoveFilePatterns), nameof(LinkedResource), nameof(UserSpecifiedSystem), nameof(UserSpecifiedType)]);
+        }
+        if ((((object?)AddFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddFilePatterns is not string || !string.IsNullOrWhiteSpace(AddFilePatterns?.ToString()) : ((object?)AddFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddFilePatterns, static item => item is not null) : (AddFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddFilePatterns), static item => item is not null)))) || ClearFilePatterns == true || ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveFilePatterns is not string || !string.IsNullOrWhiteSpace(RemoveFilePatterns?.ToString()) : ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveFilePatterns, static item => item is not null) : (RemoveFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveFilePatterns), static item => item is not null)))) || !string.IsNullOrWhiteSpace(LinkedResource) || !string.IsNullOrWhiteSpace(UserSpecifiedSystem) || !string.IsNullOrWhiteSpace(UserSpecifiedType)) && (((object?)AddFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddFilePatterns is not string || !string.IsNullOrWhiteSpace(AddFilePatterns?.ToString()) : ((object?)AddFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddFilePatterns, static item => item is not null) : (AddFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddFilePatterns), static item => item is not null)))) || ClearFilePatterns == true || ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveFilePatterns is not string || !string.IsNullOrWhiteSpace(RemoveFilePatterns?.ToString()) : ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveFilePatterns, static item => item is not null) : (RemoveFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveFilePatterns), static item => item is not null))))) && ((ClearFilePatterns == true ? 1 : 0) + (((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveFilePatterns is not string || !string.IsNullOrWhiteSpace(RemoveFilePatterns?.ToString()) : ((object?)RemoveFilePatterns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveFilePatterns, static item => item is not null) : (RemoveFilePatterns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveFilePatterns), static item => item is not null)))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearFilePatterns or RemoveFilePatterns may be specified.", [nameof(ClearFilePatterns), nameof(RemoveFilePatterns)]);
+        }
+        if ((((object?)Schema is global::System.Collections.Generic.IEnumerable<char> ? (object?)Schema is not string || !string.IsNullOrWhiteSpace(Schema?.ToString()) : ((object?)Schema is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Schema, static item => item is not null) : (Schema is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Schema), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SchemaFromFile) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Schema or SchemaFromFile may be specified.", [nameof(Schema), nameof(SchemaFromFile)]);
+        }
+        yield break;
+    }
 
 }

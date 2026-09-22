@@ -21,4 +21,44 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("preview", "compute", "target-https-proxies", "set-quic-override")]
 public record GcloudPreviewComputeTargetHttpsProxiesSetQuicOverrideOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the     QUIC override policy for a Compute Engine target HTTPS proxy
+    /// </summary>
+    /// <param name="QuicOverride">QUIC policy for the TargetHttpsProxy resource. QUIC_OVERRIDE must be one of: disable The load balancer will not attempt to negotiate QUIC with clients. enable The load balancer will attempt to negotiate QUIC with clients. none No overrides to the default QUIC policy.</param>
+    /// <param name="TargetHttpsProxy">Target HTTPS proxy resource - The target HTTPS proxy to set the QUIC override for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument target_https_proxy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the target HTTPS proxy or fully qualified identifier for the target HTTPS proxy. To set the target_https_proxy attribute: ▸ provide the argument target_https_proxy on the command line.</param>
+    public GcloudPreviewComputeTargetHttpsProxiesSetQuicOverrideOptions(
+        string QuicOverride,
+        string TargetHttpsProxy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(QuicOverride);
+        this.QuicOverride = QuicOverride;
+        global::System.ArgumentNullException.ThrowIfNull(TargetHttpsProxy);
+        this.TargetHttpsProxy = TargetHttpsProxy;
+    }
+
+    public void Deconstruct(out string QuicOverride, out string TargetHttpsProxy)
+    {
+        QuicOverride = this.QuicOverride;
+        TargetHttpsProxy = this.TargetHttpsProxy;
+    }
+
+    /// <summary>
+    /// QUIC policy for the TargetHttpsProxy resource. QUIC_OVERRIDE must be one of: disable The load balancer will not attempt to negotiate QUIC with clients. enable The load balancer will attempt to negotiate QUIC with clients. none No overrides to the default QUIC policy.
+    /// </summary>
+    [CliOption("--quic-override", Format = OptionFormat.EqualsSeparated)]
+    public string QuicOverride { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Target HTTPS proxy resource - The target HTTPS proxy to set the QUIC override for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument target_https_proxy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the target HTTPS proxy or fully qualified identifier for the target HTTPS proxy. To set the target_https_proxy attribute: ▸ provide the argument target_https_proxy on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string TargetHttpsProxy { get; private init; }
+
 }
