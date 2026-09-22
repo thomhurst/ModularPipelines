@@ -385,13 +385,18 @@ public partial class NestedArgumentGroupParsingTests
             "--region", "--cron-schedule", "--display-name", "--execution-display-name",
             "--gcs-output-uri", "--service-account", "--gcs-notebook-uri",
         ]);
-        await Assert.That(command.RequiredAlternativeGroups).Count().IsEqualTo(2);
-        foreach (var group in command.RequiredAlternativeGroups)
+        await Assert.That(command.RequiredAlternativeGroups).Count().IsEqualTo(4);
+        foreach (var group in command.RequiredAlternativeGroups.Where(group => group.RequiredWhen is null))
         {
             await Assert.That(group.IsRequired).IsFalse();
             await Assert.That(group.IsChoice).IsFalse();
             await Assert.That(group.Groups).IsEmpty();
         }
+
+        var companions = command.RequiredAlternativeGroups.Where(group => group.RequiredWhen is not null).ToArray();
+        await Assert.That(companions.Select(group => $"{group.RequiredWhen!.PropertyName}:{group.Members.Single().PropertyName}"))
+            .IsEquivalentTo(["AcceleratorType:AcceleratorCount", "DiskSizeGb:DiskType"]);
+        await Assert.That(companions.All(group => group.IsRequired && group.Members.Single().IsRequired)).IsTrue();
 
         var subnetwork = command.RequiredAlternativeGroups.Single(group => group.PropertyNames.Contains("Subnetwork"));
         await Assert.That(subnetwork.Members.Select(member => member.OptionSwitch!))

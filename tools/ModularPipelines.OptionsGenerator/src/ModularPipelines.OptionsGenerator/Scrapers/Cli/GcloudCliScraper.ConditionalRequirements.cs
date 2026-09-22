@@ -8,13 +8,12 @@ public partial class GcloudCliScraper
     private static void ApplyNamedConditionalRequirements(IReadOnlyList<CliOptionDefinition> options,
         List<CliRequiredAlternativeGroup> constraints)
     {
-        var dependencies = options.SelectMany(option => NamedRequirementPattern().Matches(option.Description ?? "")
-            .Select(match => (Option: option, Trigger: match.Groups["switch"].Value)))
+        var bySwitch = options.ToDictionary(option => option.SwitchName, StringComparer.Ordinal);
+        var dependencies = options.SelectMany(option => GetNamedRequirements(option, bySwitch))
             .GroupBy(dependency => dependency.Trigger, StringComparer.Ordinal);
         foreach (var dependency in dependencies)
         {
-            var trigger = options.FirstOrDefault(option => option.SwitchName == dependency.Key);
-            if (trigger is null)
+            if (!bySwitch.TryGetValue(dependency.Key, out var trigger))
             {
                 continue;
             }
@@ -51,6 +50,25 @@ public partial class GcloudCliScraper
         }
     }
 
+    private static IEnumerable<(CliOptionDefinition Option, string Trigger)> GetNamedRequirements(
+        CliOptionDefinition option, Dictionary<string, CliOptionDefinition> bySwitch)
+    {
+        foreach (Match match in NamedRequirementPattern().Matches(option.Description ?? ""))
+        {
+            yield return (option, match.Groups["switch"].Value);
+        }
+
+        // This wording describes a companion required by the current flag, rather
+        // than a flag that activates the current option's own requirement.
+        foreach (Match match in RequiredCompanionPattern().Matches(option.ValueShapeDescription ?? option.Description ?? ""))
+        {
+            if (bySwitch.TryGetValue(match.Groups["switch"].Value, out var companion))
+            {
+                yield return (companion, option.SwitchName);
+            }
+        }
+    }
+
     private static CliRequiredAlternativeGroup MarkNamedRequiredMembers(CliRequiredAlternativeGroup group,
         IReadOnlySet<string> required) => group with
         {
@@ -63,4 +81,7 @@ public partial class GcloudCliScraper
 
     [GeneratedRegex(@"\bRequired\s+to\s+be\s+set\s+when\s+(?<switch>--[\w-]+)\s+is\s+used\b", RegexOptions.IgnoreCase)]
     private static partial Regex NamedRequirementPattern();
+
+    [GeneratedRegex(@"\bIf\s+specified,?\s+(?:the\s+)?(?<switch>--[\w-]+)\s+must\s+also\s+be\s+specified\b", RegexOptions.IgnoreCase)]
+    private static partial Regex RequiredCompanionPattern();
 }

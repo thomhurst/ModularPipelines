@@ -521,12 +521,23 @@ public partial class GcloudCliScraper : CliScraperBase
     {
         var arguments = group.FlattenArguments().ToArray();
         var optional = arguments.Length > 0 && arguments.All(argument => !argument.IsPositional)
-            && optionalGroups.Any(switches => switches.SetEquals(arguments.Select(argument => argument.SwitchName)));
+            && (optionalGroups.Any(switches => switches.SetEquals(arguments.Select(argument => argument.SwitchName)))
+                || arguments.All(argument => IsIndependentlyOptional(argument, optionalGroups)));
         return group with
         {
             Kind = optional ? group.Kind | CliArgumentGroupKind.Optional : group.Kind,
             Groups = [.. group.Groups.Select(nested => MarkOptionalResourceGroups(nested, optionalGroups))],
         };
+    }
+
+    private static bool IsIndependentlyOptional(CliArgumentDefinition argument, IReadOnlyList<IReadOnlySet<string>> optionalGroups)
+    {
+        var negativeSwitch = $"--no-{argument.SwitchName[2..]}";
+        var hasNegativeForm = argument.IsNegatable || DescriptionMentionsSwitch(argument.Documentation, negativeSwitch);
+        // Prose can collect several independent optional selectors into one group. A
+        // default-enabled flag may appear only in its negative form in the synopsis.
+        return optionalGroups.Any(switches => switches.Count == 1
+            && (switches.Contains(argument.SwitchName) || (hasNegativeForm && switches.Contains(negativeSwitch))));
     }
 
     private static void ApplyRequiredGroups(
