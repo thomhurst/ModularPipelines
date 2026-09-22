@@ -32,7 +32,7 @@ public record GcloudFirestoreDatabasesUpdateOptions : GcloudOptions
     /// The concurrency control mode to use for this database. CONCURRENCY_MODE must be one of: optimistic, pessimistic.
     /// </summary>
     [CliOption("--concurrency-mode", Format = OptionFormat.EqualsSeparated)]
-    public GcloudConcurrencyMode? ConcurrencyMode { get; set; }
+    public GcloudFirestoreDatabasesUpdateConcurrencyMode? ConcurrencyMode { get; set; }
 
     /// <summary>
     /// Database resource - Cloud Firestore database to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --database on the command line with a fully specified name; ◆ the default value of argument [--database] is (default) with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the database or fully qualified identifier for the database. To set the database attribute: ◆ provide the argument --database on the command line; ◆ the default value of argument [--database] is (default).
@@ -68,6 +68,6 @@ public record GcloudFirestoreDatabasesUpdateOptions : GcloudOptions
     /// Database resource - Cloud Firestore database to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --database on the command line with a fully specified name; ◆ the default value of argument [--database] is (default) with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The database type. TYPE must be one of: datastore-mode, firestore-native.
     /// </summary>
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudType? Type { get; set; }
+    public GcloudFirestoreDatabasesUpdateType? Type { get; set; }
 
 }

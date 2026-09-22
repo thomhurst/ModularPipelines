@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,165 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("certificate-manager", "certificates", "create")]
-public record GcloudCertificateManagerCertificatesCreateOptions : GcloudOptions
+public record GcloudCertificateManagerCertificatesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a certificate
+    /// </summary>
+    /// <param name="Certificate">Certificate resource - The name of the certificate to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument certificate on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the certificate or fully qualified identifier for the certificate. To set the certificate attribute: ▸ provide the argument certificate on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudCertificateManagerCertificatesCreateOptions(
+        string Certificate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Certificate);
+        this.Certificate = Certificate;
+    }
+
+    public void Deconstruct(out string Certificate)
+    {
+        Certificate = this.Certificate;
+    }
+
+    /// <summary>
+    /// Certificate resource - The name of the certificate to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument certificate on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Certificate Manager location. To set the location attribute: ▸ provide the argument certificate on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ default value of location is [global].
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Configuration for creating and uploading certificates to Cloud Certificate Manager. Exactly one of these must be specified: Configuration for uploading self-managed certificates and keys. Certificate data in PEM-encoded form. Use a full or relative path to a local file containing the value of certificate_file. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--certificate-file", Format = OptionFormat.EqualsSeparated)]
+    public string? CertificateFile { get; set; }
+
+    /// <summary>
+    /// Configuration for creating and uploading certificates to Cloud Certificate Manager. Exactly one of these must be specified: Configuration for uploading self-managed certificates and keys. Private key data in PEM-encoded form. Use a full or relative path to a local file containing the value of private_key_file. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--private-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateKeyFile { get; set; }
+
+    /// <summary>
+    /// Configuration for creating and uploading certificates to Cloud Certificate Manager. Exactly one of these must be specified: Configuration for creating new managed certificates. Public domain name(s) to create a certificate for. ▸ If a DNS authorization is provided for the domain, the certificate will be validated against the DNS record you added as part of the authorization flow. ▸ If no DNS authorization is provided, Certificate Manager will attempt to validate the domain against the serving endpoint directly. You may list multiple, comma-separated domain names to include multiple names as Subject Alternative Names on the issued certificate. This flag argument must be specified if any of the other arguments in this group are specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--domains", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Domains
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __DomainsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __DomainsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Configuration for creating and uploading certificates to Cloud Certificate Manager. Exactly one of these must be specified: Configuration for creating new managed certificates. At most one of these can be specified: Name(s) of the DNS authorizations for each listed domain. Note that each domain requires a matching authorization, and any domain that fails authorization will prevent issuance and/or renewal of the certificate. To reference multiple DNS authorizations, provide a list of comma separated DNS authorization resource names or URLs. For example: $ gcloud certificate-manager certificates create \ --dns-authorizations=api-example-com,www-example-com Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--dns-authorizations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? DnsAuthorizations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __DnsAuthorizationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __DnsAuthorizationsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Configuration for creating and uploading certificates to Cloud Certificate Manager. Exactly one of these must be specified: Configuration for creating new managed certificates. At most one of these can be specified: Name of the Certificate Issuance Config to use for issuance.
+    /// </summary>
+    [CliOption("--issuance-config", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuanceConfig { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Human-readable description of the resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Scope of the managed certificate. This determines which services the certificate can be attached to/associated with. Defaults to DEFAULT. SCOPE must be one of: all-regions Certificates with scope ALL_REGIONS are currently used for Cross-region Internal Application Load Balancer only. client-auth Certificates with scope CLIENT_AUTH are used for client authentication. default Certificates with DEFAULT scope are used for Load Balancing and Cloud CDN. If unsure, choose this option. edge-cache Certificates with scope EDGE_CACHE are special-purposed certificates, scoped for use with Media Edge services only.
+    /// </summary>
+    [CliOption("--scope", Format = OptionFormat.EqualsSeparated)]
+    public string? Scope { get; set; }
+
+    /// <summary>
+    /// List of tags KEY=VALUE pairs to bind. Each item must be expressed as &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;. Example: 123/environment=production,123/costCenter=marketing Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
+
+    /// <summary>
+    /// Certificate resource - The name of the certificate to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument certificate on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the certificate or fully qualified identifier for the certificate. To set the certificate attribute: ▸ provide the argument certificate on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Certificate { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(CertificateFile) || !string.IsNullOrWhiteSpace(PrivateKeyFile)) ? 1 : 0) + ((((object?)Domains is global::System.Collections.Generic.IEnumerable<char> ? (object?)Domains is not string || !string.IsNullOrWhiteSpace(Domains?.ToString()) : ((object?)Domains is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Domains, static item => item is not null) : (Domains is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Domains), static item => item is not null)))) || ((object?)DnsAuthorizations is global::System.Collections.Generic.IEnumerable<char> ? (object?)DnsAuthorizations is not string || !string.IsNullOrWhiteSpace(DnsAuthorizations?.ToString()) : ((object?)DnsAuthorizations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DnsAuthorizations, static item => item is not null) : (DnsAuthorizations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DnsAuthorizations), static item => item is not null)))) || !string.IsNullOrWhiteSpace(IssuanceConfig)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (CertificateFile or PrivateKeyFile) or (Domains, DnsAuthorizations, or IssuanceConfig) must be specified.", [nameof(CertificateFile), nameof(PrivateKeyFile), nameof(Domains), nameof(DnsAuthorizations), nameof(IssuanceConfig)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CertificateFile) || !string.IsNullOrWhiteSpace(PrivateKeyFile) || ((object?)Domains is global::System.Collections.Generic.IEnumerable<char> ? (object?)Domains is not string || !string.IsNullOrWhiteSpace(Domains?.ToString()) : ((object?)Domains is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Domains, static item => item is not null) : (Domains is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Domains), static item => item is not null)))) || ((object?)DnsAuthorizations is global::System.Collections.Generic.IEnumerable<char> ? (object?)DnsAuthorizations is not string || !string.IsNullOrWhiteSpace(DnsAuthorizations?.ToString()) : ((object?)DnsAuthorizations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DnsAuthorizations, static item => item is not null) : (DnsAuthorizations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DnsAuthorizations), static item => item is not null)))) || !string.IsNullOrWhiteSpace(IssuanceConfig)) && (!string.IsNullOrWhiteSpace(CertificateFile) || !string.IsNullOrWhiteSpace(PrivateKeyFile)) && (!(!string.IsNullOrWhiteSpace(CertificateFile))))
+        {
+            yield return new ValidationResult("CertificateFile must be specified when other arguments in this group are specified.", [nameof(CertificateFile)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CertificateFile) || !string.IsNullOrWhiteSpace(PrivateKeyFile) || ((object?)Domains is global::System.Collections.Generic.IEnumerable<char> ? (object?)Domains is not string || !string.IsNullOrWhiteSpace(Domains?.ToString()) : ((object?)Domains is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Domains, static item => item is not null) : (Domains is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Domains), static item => item is not null)))) || ((object?)DnsAuthorizations is global::System.Collections.Generic.IEnumerable<char> ? (object?)DnsAuthorizations is not string || !string.IsNullOrWhiteSpace(DnsAuthorizations?.ToString()) : ((object?)DnsAuthorizations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DnsAuthorizations, static item => item is not null) : (DnsAuthorizations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DnsAuthorizations), static item => item is not null)))) || !string.IsNullOrWhiteSpace(IssuanceConfig)) && (!string.IsNullOrWhiteSpace(CertificateFile) || !string.IsNullOrWhiteSpace(PrivateKeyFile)) && (!(!string.IsNullOrWhiteSpace(PrivateKeyFile))))
+        {
+            yield return new ValidationResult("PrivateKeyFile must be specified when other arguments in this group are specified.", [nameof(PrivateKeyFile)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CertificateFile) || !string.IsNullOrWhiteSpace(PrivateKeyFile) || ((object?)Domains is global::System.Collections.Generic.IEnumerable<char> ? (object?)Domains is not string || !string.IsNullOrWhiteSpace(Domains?.ToString()) : ((object?)Domains is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Domains, static item => item is not null) : (Domains is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Domains), static item => item is not null)))) || ((object?)DnsAuthorizations is global::System.Collections.Generic.IEnumerable<char> ? (object?)DnsAuthorizations is not string || !string.IsNullOrWhiteSpace(DnsAuthorizations?.ToString()) : ((object?)DnsAuthorizations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DnsAuthorizations, static item => item is not null) : (DnsAuthorizations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DnsAuthorizations), static item => item is not null)))) || !string.IsNullOrWhiteSpace(IssuanceConfig)) && (((object?)Domains is global::System.Collections.Generic.IEnumerable<char> ? (object?)Domains is not string || !string.IsNullOrWhiteSpace(Domains?.ToString()) : ((object?)Domains is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Domains, static item => item is not null) : (Domains is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Domains), static item => item is not null)))) || ((object?)DnsAuthorizations is global::System.Collections.Generic.IEnumerable<char> ? (object?)DnsAuthorizations is not string || !string.IsNullOrWhiteSpace(DnsAuthorizations?.ToString()) : ((object?)DnsAuthorizations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DnsAuthorizations, static item => item is not null) : (DnsAuthorizations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DnsAuthorizations), static item => item is not null)))) || !string.IsNullOrWhiteSpace(IssuanceConfig)) && (!(((object?)Domains is global::System.Collections.Generic.IEnumerable<char> ? (object?)Domains is not string || !string.IsNullOrWhiteSpace(Domains?.ToString()) : ((object?)Domains is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Domains, static item => item is not null) : (Domains is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Domains), static item => item is not null)))))))
+        {
+            yield return new ValidationResult("Domains must be specified when other arguments in this group are specified.", [nameof(Domains)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CertificateFile) || !string.IsNullOrWhiteSpace(PrivateKeyFile) || ((object?)Domains is global::System.Collections.Generic.IEnumerable<char> ? (object?)Domains is not string || !string.IsNullOrWhiteSpace(Domains?.ToString()) : ((object?)Domains is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Domains, static item => item is not null) : (Domains is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Domains), static item => item is not null)))) || ((object?)DnsAuthorizations is global::System.Collections.Generic.IEnumerable<char> ? (object?)DnsAuthorizations is not string || !string.IsNullOrWhiteSpace(DnsAuthorizations?.ToString()) : ((object?)DnsAuthorizations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DnsAuthorizations, static item => item is not null) : (DnsAuthorizations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DnsAuthorizations), static item => item is not null)))) || !string.IsNullOrWhiteSpace(IssuanceConfig)) && (((object?)Domains is global::System.Collections.Generic.IEnumerable<char> ? (object?)Domains is not string || !string.IsNullOrWhiteSpace(Domains?.ToString()) : ((object?)Domains is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Domains, static item => item is not null) : (Domains is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Domains), static item => item is not null)))) || ((object?)DnsAuthorizations is global::System.Collections.Generic.IEnumerable<char> ? (object?)DnsAuthorizations is not string || !string.IsNullOrWhiteSpace(DnsAuthorizations?.ToString()) : ((object?)DnsAuthorizations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DnsAuthorizations, static item => item is not null) : (DnsAuthorizations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DnsAuthorizations), static item => item is not null)))) || !string.IsNullOrWhiteSpace(IssuanceConfig)) && ((((object?)DnsAuthorizations is global::System.Collections.Generic.IEnumerable<char> ? (object?)DnsAuthorizations is not string || !string.IsNullOrWhiteSpace(DnsAuthorizations?.ToString()) : ((object?)DnsAuthorizations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DnsAuthorizations, static item => item is not null) : (DnsAuthorizations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DnsAuthorizations), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(IssuanceConfig) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of DnsAuthorizations or IssuanceConfig may be specified.", [nameof(DnsAuthorizations), nameof(IssuanceConfig)]);
+        }
+        yield break;
+    }
+
 }

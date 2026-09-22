@@ -19,8 +19,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "target-tcp-proxies", "test-iam-permissions")]
-public record GcloudComputeTargetTcpProxiesTestIamPermissionsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeTargetTcpProxiesTestIamPermissionsOptions : GcloudOptions
 {
+    /// <summary>
+    /// test IAM     permissions for a target TCP proxy
+    /// </summary>
+    /// <param name="Permissions">Set of permissions to check for the resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Name">Name of the target TCP proxy to test IAM permissions for.</param>
+    public GcloudComputeTargetTcpProxiesTestIamPermissionsOptions(
+        IEnumerable<string> Permissions,
+        string Name
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Permissions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Permissions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Permissions));
+            }
+
+            Permissions = materialized;
+        }
+        this.Permissions = Permissions;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Permissions, out string Name)
+    {
+        Permissions = this.Permissions;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Set of permissions to check for the resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--permissions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Permissions { get; private init; }
+
+    /// <summary>
+    /// Name of the target TCP proxy to test IAM permissions for.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,75 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "attachments", "download")]
-public record GcloudArtifactsAttachmentsDownloadOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Attachment
-) : GcloudOptions
+public record GcloudArtifactsAttachmentsDownloadOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// download an Artifact Registry     attachment from a repository
+    /// </summary>
+    /// <param name="Destination">Path where you want to save the downloaded attachment files.</param>
+    public GcloudArtifactsAttachmentsDownloadOptions(
+        string Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    public void Deconstruct(out string Destination)
+    {
+        Destination = this.Destination;
+    }
+
+    /// <summary>
+    /// Path where you want to save the downloaded attachment files.
+    /// </summary>
+    [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
+    public string Destination { get; private init; }
+
+    /// <summary>
+    /// Attachment resource - The Artifact Registry attachment name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Location of the attachment. To set the location attribute: ◆ provide the argument attachment on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Attachment resource - The Artifact Registry attachment name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Repository of the attachment. To set the repository attribute: ◆ provide the argument attachment on the command line with a fully specified name; ◆ provide the argument --repository on the command line; ◆ set the property artifacts/repository.
+    /// </summary>
+    [CliOption("--repository", Format = OptionFormat.EqualsSeparated)]
+    public string? Repository { get; set; }
+
+    /// <summary>
+    /// If specified, the chunk size (bytes) to use for downloading the package.
+    /// </summary>
+    [CliOption("--chunk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? ChunkSize { get; set; }
+
+    /// <summary>
+    /// For Docker-format repositories only. The version name of the OCI artifact to download.
+    /// </summary>
+    [CliOption("--oci-version-name", Format = OptionFormat.EqualsSeparated)]
+    public string? OciVersionName { get; set; }
+
+    /// <summary>
+    /// Specifies the number of threads to use for downloading the attachment files in parallel.
+    /// </summary>
+    [CliOption("--parallelism", Format = OptionFormat.EqualsSeparated)]
+    public string? Parallelism { get; set; }
+
+    /// <summary>
+    /// Attachment resource - The Artifact Registry attachment name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the attachment or fully qualified identifier for the attachment. To set the name attribute: ◆ provide the argument attachment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Attachment { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Attachment) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(Repository)) && (!(!string.IsNullOrWhiteSpace(Attachment))))
+        {
+            yield return new ValidationResult("Attachment must be specified when other arguments in this group are specified.", [nameof(Attachment)]);
+        }
+        yield break;
+    }
+
 }

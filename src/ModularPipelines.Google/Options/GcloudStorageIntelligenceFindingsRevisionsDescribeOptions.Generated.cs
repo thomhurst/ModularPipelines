@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "intelligence-findings", "revisions", "describe")]
-public record GcloudStorageIntelligenceFindingsRevisionsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RevisionId
-) : GcloudOptions
+public record GcloudStorageIntelligenceFindingsRevisionsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// historical     revision description of a finding
+    /// </summary>
+    /// <param name="FindingId">The ID of the intelligence finding the revision belongs to.</param>
+    /// <param name="RevisionId">The ID of the revision to describe.</param>
+    public GcloudStorageIntelligenceFindingsRevisionsDescribeOptions(
+        string FindingId,
+        string RevisionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FindingId);
+        this.FindingId = FindingId;
+        global::System.ArgumentNullException.ThrowIfNull(RevisionId);
+        this.RevisionId = RevisionId;
+    }
+
+    public void Deconstruct(out string FindingId, out string RevisionId)
+    {
+        FindingId = this.FindingId;
+        RevisionId = this.RevisionId;
+    }
+
+    /// <summary>
+    /// The ID of the intelligence finding the revision belongs to.
+    /// </summary>
+    [CliOption("--finding-id", Format = OptionFormat.EqualsSeparated)]
+    public string FindingId { get; private init; }
+
+    /// <summary>
+    /// The ID of the revision to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RevisionId { get; private init; }
+
 }

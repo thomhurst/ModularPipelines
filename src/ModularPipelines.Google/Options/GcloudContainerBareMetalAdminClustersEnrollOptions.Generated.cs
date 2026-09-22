@@ -21,4 +21,56 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "bare-metal", "admin-clusters", "enroll")]
 public record GcloudContainerBareMetalAdminClustersEnrollOptions : GcloudOptions
 {
+    /// <summary>
+    /// enroll an Anthos on     bare metal admin cluster
+    /// </summary>
+    /// <param name="AdminClusterMembership">Admin cluster membership resource - membership of the admin cluster. Membership can be the membership ID or the full resource name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-cluster-membership on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the admin_cluster_membership or fully qualified identifier for the admin_cluster_membership. To set the admin_cluster_membership attribute: ▸ provide the argument --admin-cluster-membership on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="AdminCluster">Admin cluster resource - admin cluster to enroll The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument admin_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the admin_cluster or fully qualified identifier for the admin_cluster. To set the admin_cluster attribute: ▸ provide the argument admin_cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerBareMetalAdminClustersEnrollOptions(
+        string AdminClusterMembership,
+        string AdminCluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AdminClusterMembership);
+        this.AdminClusterMembership = AdminClusterMembership;
+        global::System.ArgumentNullException.ThrowIfNull(AdminCluster);
+        this.AdminCluster = AdminCluster;
+    }
+
+    public void Deconstruct(out string AdminClusterMembership, out string AdminCluster)
+    {
+        AdminClusterMembership = this.AdminClusterMembership;
+        AdminCluster = this.AdminCluster;
+    }
+
+    /// <summary>
+    /// Admin cluster membership resource - membership of the admin cluster. Membership can be the membership ID or the full resource name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-cluster-membership on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the admin_cluster_membership or fully qualified identifier for the admin_cluster_membership. To set the admin_cluster_membership attribute: ▸ provide the argument --admin-cluster-membership on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--admin-cluster-membership", Format = OptionFormat.EqualsSeparated)]
+    public string AdminClusterMembership { get; private init; }
+
+    /// <summary>
+    /// Admin cluster resource - admin cluster to enroll The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument admin_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the admin_cluster. To set the location attribute: ▸ provide the argument admin_cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_bare_metal/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Admin cluster membership resource - membership of the admin cluster. Membership can be the membership ID or the full resource name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-cluster-membership on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the admin_cluster_membership. To set the location attribute: ▸ provide the argument --admin-cluster-membership on the command line with a fully specified name; ▸ provide the argument --admin-cluster-membership-location on the command line.
+    /// </summary>
+    [CliOption("--admin-cluster-membership-location", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminClusterMembershipLocation { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Admin cluster resource - admin cluster to enroll The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument admin_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the admin_cluster or fully qualified identifier for the admin_cluster. To set the admin_cluster attribute: ▸ provide the argument admin_cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AdminCluster { get; private init; }
+
 }

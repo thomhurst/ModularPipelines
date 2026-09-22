@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerFleetPackagesRolloutsListOptions : GcloudOptions
 {
     /// <summary>
+    /// list Rollouts of a Fleet     Package
+    /// </summary>
+    /// <param name="FleetPackage">Parent Fleet Package of the Rollout.</param>
+    public GcloudContainerFleetPackagesRolloutsListOptions(
+        string FleetPackage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FleetPackage);
+        this.FleetPackage = FleetPackage;
+    }
+
+    public void Deconstruct(out string FleetPackage)
+    {
+        FleetPackage = this.FleetPackage;
+    }
+
+    /// <summary>
+    /// Parent Fleet Package of the Rollout.
+    /// </summary>
+    [CliOption("--fleet-package", Format = OptionFormat.EqualsSeparated)]
+    public string FleetPackage { get; private init; }
+
+    /// <summary>
     /// Show less verbose output.
     /// </summary>
     [CliFlag("--less")]

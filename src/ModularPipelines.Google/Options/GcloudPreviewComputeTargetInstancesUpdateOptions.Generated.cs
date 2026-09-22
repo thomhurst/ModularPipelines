@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "target-instances", "update")]
-public record GcloudPreviewComputeTargetInstancesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeTargetInstancesUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a Compute Engine     target instance
+    /// </summary>
+    /// <param name="Name">Name of the target instance to update.</param>
+    public GcloudPreviewComputeTargetInstancesUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// The security policy that will be set for this target instance. To remove the policy from this target instance set the policy to an empty string.
     /// </summary>
@@ -40,5 +55,11 @@ public record GcloudPreviewComputeTargetInstancesUpdateOptions(
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the target instance to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudApiGatewayApisDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// deletes an API
+    /// </summary>
+    /// <param name="Api">Api resource - Name for API which will be deleted. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument api on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument api on the command line with a fully specified name; ◆ Location for API and API Configs. Defaults to global. This must be specified. ID of the api or fully qualified identifier for the api. To set the api attribute: ▸ provide the argument api on the command line.</param>
+    public GcloudApiGatewayApisDeleteOptions(
+        string Api
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Api);
+        this.Api = Api;
+    }
+
+    public void Deconstruct(out string Api)
+    {
+        Api = this.Api;
+    }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Api resource - Name for API which will be deleted. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument api on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument api on the command line with a fully specified name; ◆ Location for API and API Configs. Defaults to global. This must be specified. ID of the api or fully qualified identifier for the api. To set the api attribute: ▸ provide the argument api on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Api { get; private init; }
 
 }

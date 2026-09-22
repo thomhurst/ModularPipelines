@@ -21,4 +21,73 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("deploy", "rollouts", "retry-job")]
 public record GcloudDeployRolloutsRetryJobOptions : GcloudOptions
 {
+    /// <summary>
+    /// retries a specified job, phase     combination on a rollout
+    /// </summary>
+    /// <param name="JobId">Job ID on a rollout resource</param>
+    /// <param name="PhaseId">Phase ID on a rollout resource</param>
+    /// <param name="Rollout">Rollout resource - The name of the Rollout. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rollout on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the rollout or fully qualified identifier for the rollout. To set the rollout attribute: ▸ provide the argument rollout on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDeployRolloutsRetryJobOptions(
+        string JobId,
+        string PhaseId,
+        string Rollout
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+        global::System.ArgumentNullException.ThrowIfNull(PhaseId);
+        this.PhaseId = PhaseId;
+        global::System.ArgumentNullException.ThrowIfNull(Rollout);
+        this.Rollout = Rollout;
+    }
+
+    public void Deconstruct(out string JobId, out string PhaseId, out string Rollout)
+    {
+        JobId = this.JobId;
+        PhaseId = this.PhaseId;
+        Rollout = this.Rollout;
+    }
+
+    /// <summary>
+    /// Job ID on a rollout resource
+    /// </summary>
+    [CliOption("--job-id", Format = OptionFormat.EqualsSeparated)]
+    public string JobId { get; private init; }
+
+    /// <summary>
+    /// Phase ID on a rollout resource
+    /// </summary>
+    [CliOption("--phase-id", Format = OptionFormat.EqualsSeparated)]
+    public string PhaseId { get; private init; }
+
+    /// <summary>
+    /// Rollout resource - The name of the Rollout. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rollout on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The delivery pipeline associated with the rollout. Alternatively, set the property [deploy/delivery-pipeline]. To set the delivery-pipeline attribute: ▸ provide the argument rollout on the command line with a fully specified name; ▸ provide the argument --delivery-pipeline on the command line; ▸ set the property deploy/delivery_pipeline.
+    /// </summary>
+    [CliOption("--delivery-pipeline", Format = OptionFormat.EqualsSeparated)]
+    public string? DeliveryPipeline { get; set; }
+
+    /// <summary>
+    /// Rollout resource - The name of the Rollout. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rollout on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the rollout. Alternatively, set the property [deploy/region]. To set the region attribute: ▸ provide the argument rollout on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property deploy/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Rollout resource - The name of the Rollout. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rollout on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The release associated with the rollout. To set the release attribute: ▸ provide the argument rollout on the command line with a fully specified name; ▸ provide the argument --release on the command line.
+    /// </summary>
+    [CliOption("--release", Format = OptionFormat.EqualsSeparated)]
+    public string? Release { get; set; }
+
+    /// <summary>
+    /// Deploy policies to override Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--override-deploy-policies", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? OverrideDeployPolicies { get; set; }
+
+    /// <summary>
+    /// Rollout resource - The name of the Rollout. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rollout on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the rollout or fully qualified identifier for the rollout. To set the rollout attribute: ▸ provide the argument rollout on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Rollout { get; private init; }
+
 }

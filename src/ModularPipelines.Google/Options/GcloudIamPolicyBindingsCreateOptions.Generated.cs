@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,134 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "policy-bindings", "create")]
-public record GcloudIamPolicyBindingsCreateOptions : GcloudOptions
+public record GcloudIamPolicyBindingsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create PolicyBinding instance
+    /// </summary>
+    /// <param name="Policy">The resource name of the policy to be bound. The binding parent and policy must belong to the same organization.</param>
+    /// <param name="PolicyBinding">PolicyBinding resource - Identifier. The name of the policy binding, in the format {binding_parent/locations/{location}/policyBindings/{policy_binding_id}. The binding parent is the closest Resource Manager resource (project, folder, or organization) to the binding target. Format: ◆ projects/{project_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ projects/{project_number}/locations/{location}/policyBindings/{policy_binding_id} ◆ folders/{folder_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ organizations/{organization_id}/locations/{location}/policyBindings/{policy_binding_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.policyBindings, iam.organizations.locations.policyBindings, iam.projects.locations.policyBindings]. This must be specified. ID of the policyBinding or fully qualified identifier for the policyBinding. To set the policy_binding attribute: ▸ provide the argument policy_binding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamPolicyBindingsCreateOptions(
+        string Policy,
+        string PolicyBinding
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Policy);
+        this.Policy = Policy;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyBinding);
+        this.PolicyBinding = PolicyBinding;
+    }
+
+    public void Deconstruct(out string Policy, out string PolicyBinding)
+    {
+        Policy = this.Policy;
+        PolicyBinding = this.PolicyBinding;
+    }
+
+    /// <summary>
+    /// The resource name of the policy to be bound. The binding parent and policy must belong to the same organization.
+    /// </summary>
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
+    public string Policy { get; private init; }
+
+    /// <summary>
+    /// PolicyBinding resource - Identifier. The name of the policy binding, in the format {binding_parent/locations/{location}/policyBindings/{policy_binding_id}. The binding parent is the closest Resource Manager resource (project, folder, or organization) to the binding target. Format: ◆ projects/{project_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ projects/{project_number}/locations/{location}/policyBindings/{policy_binding_id} ◆ folders/{folder_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ organizations/{organization_id}/locations/{location}/policyBindings/{policy_binding_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.policyBindings, iam.organizations.locations.policyBindings, iam.projects.locations.policyBindings]. This must be specified. The folder id of the policyBinding resource. To set the folder attribute: ▸ provide the argument policy_binding on the command line with a fully specified name; ▸ provide the argument --folder on the command line. Must be specified for resource of type [iam.folders.locations.policyBindings].
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// PolicyBinding resource - Identifier. The name of the policy binding, in the format {binding_parent/locations/{location}/policyBindings/{policy_binding_id}. The binding parent is the closest Resource Manager resource (project, folder, or organization) to the binding target. Format: ◆ projects/{project_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ projects/{project_number}/locations/{location}/policyBindings/{policy_binding_id} ◆ folders/{folder_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ organizations/{organization_id}/locations/{location}/policyBindings/{policy_binding_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.policyBindings, iam.organizations.locations.policyBindings, iam.projects.locations.policyBindings]. This must be specified. The location id of the policyBinding resource. To set the location attribute: ▸ provide the argument policy_binding on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// PolicyBinding resource - Identifier. The name of the policy binding, in the format {binding_parent/locations/{location}/policyBindings/{policy_binding_id}. The binding parent is the closest Resource Manager resource (project, folder, or organization) to the binding target. Format: ◆ projects/{project_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ projects/{project_number}/locations/{location}/policyBindings/{policy_binding_id} ◆ folders/{folder_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ organizations/{organization_id}/locations/{location}/policyBindings/{policy_binding_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.policyBindings, iam.organizations.locations.policyBindings, iam.projects.locations.policyBindings]. This must be specified. The organization id of the policyBinding resource. To set the organization attribute: ▸ provide the argument policy_binding on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [iam.organizations.locations.policyBindings].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// The full resource name of the resource to which the policy will be bound. Immutable once set. This must be specified. Arguments for the target. At most one of these can be specified: The full resource name that's used for principal access boundary policy bindings. The principal set must be directly parented by the policy binding's parent or same as the parent if the target is a project, folder, or organization. Examples: ▫ For bindings parented by an organization: ◇ Organization: //cloudresourcemanager.googleapis.com/organizations/ORGANIZATION_ID ◇ Workforce Identity: //iam.googleapis.com/locations/global/workforcePools/WORKFORCE_POOL_ID ◇ Workspace Identity: //iam.googleapis.com/locations/global/workspace/WORKSPACE_ID ▫ For bindings parented by a folder: ◇ Folder: //cloudresourcemanager.googleapis.com/folders/FOLDER_ID ▫ For bindings parented by a project: ◇ Project: ▹ //cloudresourcemanager.googleapis.com/projects/PROJECT_NUMBER ▹ //cloudresourcemanager.googleapis.com/projects/PROJECT_ID ◇ Workload Identity Pool: //iam.googleapis.com/projects/PROJECT_NUMBER/locations/LOCATION/workloadIdentityPools/WORKLOAD_POOL_ID
+    /// </summary>
+    [CliOption("--target-principal-set", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetPrincipalSet { get; set; }
+
+    /// <summary>
+    /// The full resource name of the resource to which the policy will be bound. Immutable once set. This must be specified. Arguments for the target. At most one of these can be specified: The full resource name that's used for access policy bindings. Examples: ▹ Organization: //cloudresourcemanager.googleapis.com/organizations/ORGANIZATION_ID ▹ Folder: //cloudresourcemanager.googleapis.com/folders/FOLDER_ID ▹ Project: ▪ //cloudresourcemanager.googleapis.com/projects/PROJECT_NUMBER ▪ //cloudresourcemanager.googleapis.com/projects/PROJECT_ID
+    /// </summary>
+    [CliOption("--target-resource", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetResource { get; set; }
+
+    /// <summary>
+    /// User-defined annotations. See https://google.aip.dev/148#annotations for more details such as format and size limitations. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --annotations=string=string JSON Example: --annotations='{"string": "string"}' File Example: --annotations=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Annotations { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The description of the policy binding. Must be less than or equal to 63 characters.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// The etag for the policy binding. If this is provided on update, it must match the server's etag.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string? Etag { get; set; }
+
+    /// <summary>
+    /// The kind of the policy to attach in this binding. This field must be one of the following: ◆ Left empty (will be automatically set to the policy kind) ◆ The input policy kind. POLICY_KIND must be one of: access Access policy kind. principal-access-boundary Principal access boundary policy kind
+    /// </summary>
+    [CliOption("--policy-kind", Format = OptionFormat.EqualsSeparated)]
+    public string? PolicyKind { get; set; }
+
+    /// <summary>
+    /// Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() &lt; 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' &amp;&amp; document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI.
+    /// </summary>
+    [CliOption("--condition-description", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionDescription { get; set; }
+
+    /// <summary>
+    /// Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() &lt; 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' &amp;&amp; document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. Textual representation of an expression in Common Expression Language syntax.
+    /// </summary>
+    [CliOption("--condition-expression", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionExpression { get; set; }
+
+    /// <summary>
+    /// Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() &lt; 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' &amp;&amp; document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file.
+    /// </summary>
+    [CliOption("--condition-location", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionLocation { get; set; }
+
+    /// <summary>
+    /// Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() &lt; 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' &amp;&amp; document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression.
+    /// </summary>
+    [CliOption("--condition-title", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionTitle { get; set; }
+
+    /// <summary>
+    /// PolicyBinding resource - Identifier. The name of the policy binding, in the format {binding_parent/locations/{location}/policyBindings/{policy_binding_id}. The binding parent is the closest Resource Manager resource (project, folder, or organization) to the binding target. Format: ◆ projects/{project_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ projects/{project_number}/locations/{location}/policyBindings/{policy_binding_id} ◆ folders/{folder_id}/locations/{location}/policyBindings/{policy_binding_id} ◆ organizations/{organization_id}/locations/{location}/policyBindings/{policy_binding_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.policyBindings, iam.organizations.locations.policyBindings, iam.projects.locations.policyBindings]. This must be specified. ID of the policyBinding or fully qualified identifier for the policyBinding. To set the policy_binding attribute: ▸ provide the argument policy_binding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyBinding { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(TargetPrincipalSet) ? 1 : 0) + (!string.IsNullOrWhiteSpace(TargetResource) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of TargetPrincipalSet or TargetResource must be specified.", [nameof(TargetPrincipalSet), nameof(TargetResource)]);
+        }
+        yield break;
+    }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "delete")]
-public record GcloudSqlInstancesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudSqlInstancesDeleteOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// deletes a Cloud SQL instance
+    /// </summary>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    public GcloudSqlInstancesDeleteOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -52,5 +68,21 @@ public record GcloudSqlInstancesDeleteOptions(
     /// </summary>
     [CliOption("--final-backup-retention-days", Format = OptionFormat.EqualsSeparated)]
     public string? FinalBackupRetentionDays { get; set; }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(FinalBackupExpiryTime) ? 1 : 0) + (!string.IsNullOrWhiteSpace(FinalBackupRetentionDays) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of FinalBackupExpiryTime or FinalBackupRetentionDays may be specified.", [nameof(FinalBackupExpiryTime), nameof(FinalBackupRetentionDays)]);
+        }
+        yield break;
+    }
 
 }

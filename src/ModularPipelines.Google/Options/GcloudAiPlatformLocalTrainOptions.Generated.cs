@@ -21,4 +21,75 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("ai-platform", "local", "train")]
 public record GcloudAiPlatformLocalTrainOptions : GcloudOptions
 {
+    /// <summary>
+    /// run an AI Platform training job locally
+    /// </summary>
+    /// <param name="ModuleName">Name of the module to run.</param>
+    public GcloudAiPlatformLocalTrainOptions(
+        string ModuleName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModuleName);
+        this.ModuleName = ModuleName;
+    }
+
+    public void Deconstruct(out string ModuleName)
+    {
+        ModuleName = this.ModuleName;
+    }
+
+    /// <summary>
+    /// Name of the module to run.
+    /// </summary>
+    [CliOption("--module-name", Format = OptionFormat.EqualsSeparated)]
+    public string ModuleName { get; private init; }
+
+    /// <summary>
+    /// Runs the provided code in distributed mode by providing cluster configurations as environment variables to subprocesses
+    /// </summary>
+    [CliFlag("--distributed")]
+    public bool? Distributed { get; set; }
+
+    /// <summary>
+    /// Number of evaluators with which to run. Ignored if --distributed is not specified. Default: 0
+    /// </summary>
+    [CliOption("--evaluator-count", Format = OptionFormat.EqualsSeparated)]
+    public int? EvaluatorCount { get; set; }
+
+    /// <summary>
+    /// Cloud Storage path or local_directory in which to store training outputs and other data needed for training. This path will be passed to your TensorFlow program as the --job-dir command-line arg. The benefit of specifying this field is that AI Platform will validate the path for use in training. However, note that your training program will need to parse the provided --job-dir argument.
+    /// </summary>
+    [CliOption("--job-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? JobDir { get; set; }
+
+    /// <summary>
+    /// Path to a Python package to build. This should point to a local directory containing the Python source for the job. It will be built using setuptools (which must be installed) using its parent directory as context. If the parent directory contains a setup.py file, the build will use that; otherwise, it will use a simple built-in one.
+    /// </summary>
+    [CliOption("--package-path", Format = OptionFormat.EqualsSeparated)]
+    public string? PackagePath { get; set; }
+
+    /// <summary>
+    /// Number of parameter servers with which to run. Ignored if --distributed is not specified. Default: 2
+    /// </summary>
+    [CliOption("--parameter-server-count", Format = OptionFormat.EqualsSeparated)]
+    public int? ParameterServerCount { get; set; }
+
+    /// <summary>
+    /// Start of the range of ports reserved by the local cluster. This command will use a contiguous block of ports equal to parameter-server-count + worker-count + 1. If --distributed is not specified, this flag is ignored.
+    /// </summary>
+    [CliOption("--start-port", Format = OptionFormat.EqualsSeparated)]
+    public string? StartPort { get; set; }
+
+    /// <summary>
+    /// Number of workers with which to run. Ignored if --distributed is not specified. Default: 2
+    /// </summary>
+    [CliOption("--worker-count", Format = OptionFormat.EqualsSeparated)]
+    public int? WorkerCount { get; set; }
+
+    /// <summary>
+    /// Additional user arguments to be forwarded to user code. Any relative paths will be relative to the parent directory of --package-path. The '--' argument must be specified between gcloud specific args on the left and USER_ARGS on the right.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
+    public IEnumerable<string>? UserArgs { get; set; }
+
 }

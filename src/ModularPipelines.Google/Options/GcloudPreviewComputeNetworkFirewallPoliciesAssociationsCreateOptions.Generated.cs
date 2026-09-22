@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,74 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "network-firewall-policies", "associations", "create")]
-public record GcloudPreviewComputeNetworkFirewallPoliciesAssociationsCreateOptions : GcloudOptions
+public record GcloudPreviewComputeNetworkFirewallPoliciesAssociationsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new association between a firewall policy and a network
+    /// </summary>
+    /// <param name="FirewallPolicy">Firewall policy ID with which to create association.</param>
+    /// <param name="Network">Name of the network with which the association is created.</param>
+    public GcloudPreviewComputeNetworkFirewallPoliciesAssociationsCreateOptions(
+        string FirewallPolicy,
+        string Network
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallPolicy);
+        this.FirewallPolicy = FirewallPolicy;
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+    }
+
+    public void Deconstruct(out string FirewallPolicy, out string Network)
+    {
+        FirewallPolicy = this.FirewallPolicy;
+        Network = this.Network;
+    }
+
+    /// <summary>
+    /// Firewall policy ID with which to create association.
+    /// </summary>
+    [CliOption("--firewall-policy", Format = OptionFormat.EqualsSeparated)]
+    public string FirewallPolicy { get; private init; }
+
+    /// <summary>
+    /// Name of the network with which the association is created.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// Name of the association.
+    /// </summary>
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// By default, if you attempt to insert an association to a network that is already associated with a firewall policy the method will fail. If this is set, the existing association will be deleted at the same time that the new association is created.
+    /// </summary>
+    [CliFlag("--replace-association-on-target")]
+    public bool? ReplaceAssociationOnTarget { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the firewall policy to create. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--firewall-policy-region", Format = OptionFormat.EqualsSeparated)]
+    public string? FirewallPolicyRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the firewall policy is global.
+    /// </summary>
+    [CliFlag("--global-firewall-policy")]
+    public bool? GlobalFirewallPolicy { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(FirewallPolicyRegion) ? 1 : 0) + (GlobalFirewallPolicy == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of FirewallPolicyRegion or GlobalFirewallPolicy may be specified.", [nameof(FirewallPolicyRegion), nameof(GlobalFirewallPolicy)]);
+        }
+        yield break;
+    }
+
 }

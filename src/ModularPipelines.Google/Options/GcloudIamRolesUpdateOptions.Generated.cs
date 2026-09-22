@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,93 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "roles", "update")]
-public record GcloudIamRolesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RoleId
-) : GcloudOptions
+public record GcloudIamRolesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update an IAM custom role
+    /// </summary>
+    /// <param name="RoleId">ID of the custom role to update. You must also specify the --organization or --project flag.</param>
+    public GcloudIamRolesUpdateOptions(
+        string RoleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoleId);
+        this.RoleId = RoleId;
+    }
+
+    public void Deconstruct(out string RoleId)
+    {
+        RoleId = this.RoleId;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization of the role you want to update.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Project of the role you want to update. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation: they specify both the project of the resource to operate on, and the project for API enablement checks, quota, and billing. To specify a different project for quota and billing, use the --billing-project flag or the billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// The YAML file you want to use to update a role. Can not be specified with other flags except role-id.
+    /// </summary>
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public string? File { get; set; }
+
+    /// <summary>
+    /// The following flags determine the fields need to be updated. You can update a role by specifying the following flags, or you can update a role from a YAML file by specifying the file flag. The permissions you want to add to the role. Use commas to separate them. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--add-permissions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddPermissions { get; set; }
+
+    /// <summary>
+    /// The following flags determine the fields need to be updated. You can update a role by specifying the following flags, or you can update a role from a YAML file by specifying the file flag. The description of the role you want to update.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The following flags determine the fields need to be updated. You can update a role by specifying the following flags, or you can update a role from a YAML file by specifying the file flag. The permissions of the role you want to set. Use commas to separate them. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--permissions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Permissions { get; set; }
+
+    /// <summary>
+    /// The following flags determine the fields need to be updated. You can update a role by specifying the following flags, or you can update a role from a YAML file by specifying the file flag. The permissions you want to remove from the role. Use commas to separate them. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--remove-permissions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemovePermissions { get; set; }
+
+    /// <summary>
+    /// The following flags determine the fields need to be updated. You can update a role by specifying the following flags, or you can update a role from a YAML file by specifying the file flag. The state of the role you want to update.
+    /// </summary>
+    [CliOption("--stage", Format = OptionFormat.EqualsSeparated)]
+    public string? Stage { get; set; }
+
+    /// <summary>
+    /// The following flags determine the fields need to be updated. You can update a role by specifying the following flags, or you can update a role from a YAML file by specifying the file flag. The title of the role you want to update.
+    /// </summary>
+    [CliOption("--title", Format = OptionFormat.EqualsSeparated)]
+    public string? Title { get; set; }
+
+    /// <summary>
+    /// ID of the custom role to update. You must also specify the --organization or --project flag.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RoleId { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Organization or Project must be specified.", [nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

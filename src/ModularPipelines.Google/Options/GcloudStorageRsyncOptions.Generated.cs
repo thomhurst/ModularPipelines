@@ -19,15 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "rsync")]
-public record GcloudStorageRsyncOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Source
-) : GcloudOptions
+public record GcloudStorageRsyncOptions : GcloudOptions
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
+    /// synchronize content of two buckets/directories
     /// </summary>
-    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
-    public string? AdditionalHeaders { get; set; }
+    /// <param name="Source">The source container path.</param>
+    /// <param name="Destination">The destination container path.</param>
+    public GcloudStorageRsyncOptions(
+        string Source,
+        string Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    public void Deconstruct(out string Source, out string Destination)
+    {
+        Source = this.Source;
+        Destination = this.Destination;
+    }
+
+    /// <summary>
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdditionalHeaders { get; set; }
 
     /// <summary>
     /// Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl
@@ -78,15 +98,15 @@ public record GcloudStorageRsyncOptions(
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Exclude objects matching regex pattern from rsync. Note that this is a Python regular expression, not a pure wildcard pattern. For example, matching a string ending in "abc" is .*abc$ rather than *abc. Also note that the exclude path is relative, as opposed to absolute (similar to Linux rsync and tar exclude options). For the Windows cmd.exe command line interpreter, use ^ as an escape character instead of \ and escape the | character. When using Windows PowerShell, use ' instead of " and surround the | character with ".
+    /// Exclude objects matching regex pattern from rsync. Note that this is a Python regular expression, not a pure wildcard pattern. For example, matching a string ending in "abc" is .*abc$ rather than *abc. Also note that the exclude path is relative, as opposed to absolute (similar to Linux rsync and tar exclude options). For the Windows cmd.exe command line interpreter, use ^ as an escape character instead of \ and escape the | character. When using Windows PowerShell, use ' instead of " and surround the | character with ". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Exclude { get; set; }
 
     /// <summary>
-    /// Applies gzip transport encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This also saves network bandwidth while leaving the data uncompressed in Cloud Storage. When you specify the --gzip-in-flight option, files being uploaded are compressed in-memory and on-the-wire only. Both the local files and Cloud Storage objects remain uncompressed. The uploaded objects retain the Content-Type and name of the original files.
+    /// Applies gzip transport encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This also saves network bandwidth while leaving the data uncompressed in Cloud Storage. When you specify the --gzip-in-flight option, files being uploaded are compressed in-memory and on-the-wire only. Both the local files and Cloud Storage objects remain uncompressed. The uploaded objects retain the Content-Type and name of the original files. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--gzip-in-flight", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--gzip-in-flight", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? GzipInFlight { get; set; }
 
     /// <summary>
@@ -130,5 +150,17 @@ public record GcloudStorageRsyncOptions(
     /// </summary>
     [CliFlag("--skip-unsupported")]
     public bool? SkipUnsupported { get; set; }
+
+    /// <summary>
+    /// The source container path.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Source { get; private init; }
+
+    /// <summary>
+    /// The destination container path.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Destination { get; private init; }
 
 }

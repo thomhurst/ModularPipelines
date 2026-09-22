@@ -8,7 +8,7 @@ public class GcloudPubsubServiceAccountTests
     [Test]
     public async Task IngestionServiceAccountsRenderNamesAndEmails()
     {
-        var arguments = BuildArguments(new GcloudPubsubTopicsUpdateOptions
+        var arguments = BuildArguments(new GcloudPubsubTopicsUpdateOptions("topic")
         {
             AwsMskIngestionServiceAccount = "msk-importer",
             AzureEventHubsIngestionServiceAccount =
@@ -20,6 +20,7 @@ public class GcloudPubsubServiceAccountTests
 
         await AssertArguments(arguments,
         [
+            "topic",
             "--aws-msk-ingestion-service-account=msk-importer",
             "--azure-event-hubs-ingestion-service-account="
             + "azure-ingestion@project.iam.gserviceaccount.com",

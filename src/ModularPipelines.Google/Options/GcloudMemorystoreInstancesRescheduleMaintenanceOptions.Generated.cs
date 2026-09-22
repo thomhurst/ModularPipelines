@@ -21,4 +21,56 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("memorystore", "instances", "reschedule-maintenance")]
 public record GcloudMemorystoreInstancesRescheduleMaintenanceOptions : GcloudOptions
 {
+    /// <summary>
+    /// reschedule     maintenance window for an instance
+    /// </summary>
+    /// <param name="RescheduleType">If reschedule type is SPECIFIC_TIME, schedule_time must be set. RESCHEDULE_TYPE must be one of: immediate If the user wants to schedule the maintenance to happen now. specific-time If the user wants to reschedule the maintenance to a specific time.</param>
+    /// <param name="Instance">Instance resource - Name of the instance to reschedule maintenance for: projects/{project}/locations/{location_id}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMemorystoreInstancesRescheduleMaintenanceOptions(
+        string RescheduleType,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RescheduleType);
+        this.RescheduleType = RescheduleType;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string RescheduleType, out string Instance)
+    {
+        RescheduleType = this.RescheduleType;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// If reschedule type is SPECIFIC_TIME, schedule_time must be set. RESCHEDULE_TYPE must be one of: immediate If the user wants to schedule the maintenance to happen now. specific-time If the user wants to reschedule the maintenance to a specific time.
+    /// </summary>
+    [CliOption("--reschedule-type", Format = OptionFormat.EqualsSeparated)]
+    public string RescheduleType { get; private init; }
+
+    /// <summary>
+    /// Instance resource - Name of the instance to reschedule maintenance for: projects/{project}/locations/{location_id}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the instance resource. To set the location attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Timestamp when the maintenance shall be rescheduled to if reschedule_type=SPECIFIC_TIME, in RFC 3339 format. Example: 2012-11-15T16:19:00.094Z.
+    /// </summary>
+    [CliOption("--schedule-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduleTime { get; set; }
+
+    /// <summary>
+    /// Instance resource - Name of the instance to reschedule maintenance for: projects/{project}/locations/{location_id}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
 }

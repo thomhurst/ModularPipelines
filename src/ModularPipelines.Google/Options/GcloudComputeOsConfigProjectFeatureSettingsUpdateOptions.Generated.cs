@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "os-config", "project-feature-settings", "update")]
 public record GcloudComputeOsConfigProjectFeatureSettingsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update VM     Manager project feature settings
+    /// </summary>
+    /// <param name="PatchAndConfigFeatureSet">Specifies the feature set for VM Manager. PATCH_AND_CONFIG_FEATURE_SET must be one of: full Full set of VM Manager functionality (alias for osconfig-c). limited Limited feature set. Enables only the basic set of features (alias for osconfig-b). osconfig-b Limited feature set. Enables only the basic set of features. osconfig-c Full set of VM Manager functionality.</param>
+    public GcloudComputeOsConfigProjectFeatureSettingsUpdateOptions(
+        string PatchAndConfigFeatureSet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PatchAndConfigFeatureSet);
+        this.PatchAndConfigFeatureSet = PatchAndConfigFeatureSet;
+    }
+
+    public void Deconstruct(out string PatchAndConfigFeatureSet)
+    {
+        PatchAndConfigFeatureSet = this.PatchAndConfigFeatureSet;
+    }
+
+    /// <summary>
+    /// Specifies the feature set for VM Manager. PATCH_AND_CONFIG_FEATURE_SET must be one of: full Full set of VM Manager functionality (alias for osconfig-c). limited Limited feature set. Enables only the basic set of features (alias for osconfig-b). osconfig-b Limited feature set. Enables only the basic set of features. osconfig-c Full set of VM Manager functionality.
+    /// </summary>
+    [CliOption("--patch-and-config-feature-set", Format = OptionFormat.EqualsSeparated)]
+    public string PatchAndConfigFeatureSet { get; private init; }
+
 }

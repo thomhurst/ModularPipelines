@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dataproc", "batches", "cancel")]
 public record GcloudDataprocBatchesCancelOptions : GcloudOptions
 {
+    /// <summary>
+    /// cancel a batch job without removing batch     resources
+    /// </summary>
+    /// <param name="Batch">Batch resource - ID of the batch job to cancel. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument batch on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the batch or fully qualified identifier for the batch. To set the batch attribute: ▸ provide the argument batch on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataprocBatchesCancelOptions(
+        string Batch
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Batch);
+        this.Batch = Batch;
+    }
+
+    public void Deconstruct(out string Batch)
+    {
+        Batch = this.Batch;
+    }
+
+    /// <summary>
+    /// Batch resource - ID of the batch job to cancel. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument batch on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Dataproc region for the batch. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. Overrides the default dataproc/region property value for this command invocation. To set the region attribute: ▸ provide the argument batch on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property dataproc/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Batch resource - ID of the batch job to cancel. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument batch on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the batch or fully qualified identifier for the batch. To set the batch attribute: ▸ provide the argument batch on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Batch { get; private init; }
+
 }

@@ -22,9 +22,9 @@ namespace ModularPipelines.Google.Options;
 public record GcloudFunctionsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Regions containing functions to list. By default, functions from the region configured in [functions/region] property are listed.
+    /// Regions containing functions to list. By default, functions from the region configured in [functions/region] property are listed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--regions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--regions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Regions { get; set; }
 
     /// <summary>

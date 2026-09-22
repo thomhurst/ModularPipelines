@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,75 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai-platform", "predict")]
-public record GcloudAiPlatformPredictOptions : GcloudOptions
+public record GcloudAiPlatformPredictOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// run AI Platform online prediction
+    /// </summary>
+    /// <param name="Model">Name of the model.</param>
+    public GcloudAiPlatformPredictOptions(
+        string Model
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Model);
+        this.Model = Model;
+    }
+
+    public void Deconstruct(out string Model)
+    {
+        Model = this.Model;
+    }
+
+    /// <summary>
+    /// Name of the model.
+    /// </summary>
+    [CliOption("--model", Format = OptionFormat.EqualsSeparated)]
+    public string Model { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a local file from which instances are read. Instances are in JSON format; newline delimited. An example of the JSON instances file: {"images": [0.0, ..., 0.1], "key": 3} {"images": [0.0, ..., 0.1], "key": 2} ... This flag accepts "-" for stdin.
+    /// </summary>
+    [CliOption("--json-instances", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonInstances { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a local file containing the body of JSON request. An example of a JSON request: { "instances": [ {"x": [1, 2], "y": [3, 4]}, {"x": [-1, -2], "y": [-3, -4]} ] } This flag accepts "-" for stdin.
+    /// </summary>
+    [CliOption("--json-request", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonRequest { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a local file from which instances are read. Instances are in UTF-8 encoded text format; newline delimited. An example of the text instances file: 107,4.9,2.5,4.5,1.7 100,5.7,2.8,4.1,1.3 ... This flag accepts "-" for stdin.
+    /// </summary>
+    [CliOption("--text-instances", Format = OptionFormat.EqualsSeparated)]
+    public string? TextInstances { get; set; }
+
+    /// <summary>
+    /// Google Cloud region of the regional endpoint to use for this command. For the global endpoint, the region needs to be specified as global. Learn more about regional endpoints and see a list of available regions: https://cloud.google.com/ai-platform/prediction/docs/regional-endpoints REGION must be one of: global, asia-east1, asia-northeast1, asia-southeast1, australia-southeast1, europe-west1, europe-west2, europe-west3, europe-west4, northamerica-northeast1, us-central1, us-east1, us-east4, us-west1.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the signature defined in the SavedModel to use for this job. Defaults to DEFAULT_SERVING_SIGNATURE_DEF_KEY in https://www.tensorflow.org/api_docs/python/tf/compat/v1/saved_model/signature_constants, which is "serving_default". Only applies to TensorFlow models.
+    /// </summary>
+    [CliOption("--signature-name", Format = OptionFormat.EqualsSeparated)]
+    public string? SignatureName { get; set; }
+
+    /// <summary>
+    /// Model version to be used. If unspecified, the default version of the model will be used. To list model versions run $ gcloud ai-platform versions list
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string? Version { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(JsonInstances) ? 1 : 0) + (!string.IsNullOrWhiteSpace(JsonRequest) ? 1 : 0) + (!string.IsNullOrWhiteSpace(TextInstances) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of JsonInstances, JsonRequest, or TextInstances must be specified.", [nameof(JsonInstances), nameof(JsonRequest), nameof(TextInstances)]);
+        }
+        yield break;
+    }
+
 }

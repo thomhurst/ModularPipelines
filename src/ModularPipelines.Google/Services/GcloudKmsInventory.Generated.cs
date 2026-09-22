@@ -55,11 +55,11 @@ public class GcloudKmsInventory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetProtectedResourcesSummaryAsync(
-        GcloudKmsInventoryGetProtectedResourcesSummaryOptions? options = null,
+        GcloudKmsInventoryGetProtectedResourcesSummaryOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudKmsInventoryGetProtectedResourcesSummaryOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class GcloudKmsInventory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SearchProtectedResourcesAsync(
-        GcloudKmsInventorySearchProtectedResourcesOptions? options = null,
+        GcloudKmsInventorySearchProtectedResourcesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudKmsInventorySearchProtectedResourcesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

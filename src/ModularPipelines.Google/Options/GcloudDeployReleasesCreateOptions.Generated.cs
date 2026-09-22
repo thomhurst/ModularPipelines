@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,18 +21,47 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "releases", "create")]
-public record GcloudDeployReleasesCreateOptions : GcloudOptions
+public record GcloudDeployReleasesCreateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// Annotations to apply to the release. Annotations take the form of key/value string pairs. Examples: Add annotations: $ gcloud deploy releases create \ --annotations="from_target=test,status=stable"
+    /// creates a new release, delivery pipeline     qualified
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Release">Release resource - The name of the Release. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument release on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the release or fully qualified identifier for the release. To set the release attribute: ▸ provide the argument release on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDeployReleasesCreateOptions(
+        string Release
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Release);
+        this.Release = Release;
+    }
+
+    public void Deconstruct(out string Release)
+    {
+        Release = this.Release;
+    }
+
+    /// <summary>
+    /// Release resource - The name of the Release. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument release on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The delivery pipeline associated with the release. Alternatively, set the property [deploy/delivery-pipeline]. To set the delivery-pipeline attribute: ▸ provide the argument release on the command line with a fully specified name; ▸ provide the argument --delivery-pipeline on the command line; ▸ set the property deploy/delivery_pipeline.
+    /// </summary>
+    [CliOption("--delivery-pipeline", Format = OptionFormat.EqualsSeparated)]
+    public string? DeliveryPipeline { get; set; }
+
+    /// <summary>
+    /// Release resource - The name of the Release. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument release on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the release. Alternatively, set the property [deploy/region]. To set the region attribute: ▸ provide the argument release on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property deploy/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Annotations to apply to the release. Annotations take the form of key/value string pairs. Examples: Add annotations: $ gcloud deploy releases create \ --annotations="from_target=test,status=stable" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Annotations { get; set; }
 
     /// <summary>
-    /// Deployment parameters to apply to the release. Deployment parameters take the form of key/value string pairs. Examples: Add deployment parameters: $ gcloud deploy releases create \ --deploy-parameters="key1=value1,key2=value2"
+    /// Deployment parameters to apply to the release. Deployment parameters take the form of key/value string pairs. Examples: Add deployment parameters: $ gcloud deploy releases create \ --deploy-parameters="key1=value1,key2=value2" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--deploy-parameters", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--deploy-parameters", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? DeployParameters { get; set; }
 
     /// <summary>
@@ -83,15 +113,15 @@ public record GcloudDeployReleasesCreateOptions : GcloudOptions
     public string? KustomizeVersion { get; set; }
 
     /// <summary>
-    /// Labels to apply to the release. Labels take the form of key/value string pairs. Examples: Add labels: $ gcloud deploy releases create --labels="commit=abc123,author=foo"
+    /// Labels to apply to the release. Labels take the form of key/value string pairs. Examples: Add labels: $ gcloud deploy releases create --labels="commit=abc123,author=foo" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Deploy policies to override
+    /// Deploy policies to override Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--override-deploy-policies", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--override-deploy-policies", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? OverrideDeployPolicies { get; set; }
 
     /// <summary>
@@ -113,10 +143,32 @@ public record GcloudDeployReleasesCreateOptions : GcloudOptions
     public string? BuildArtifacts { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Reference to a collection of individual image name to image full path replacements. For example: $ gcloud deploy releases create foo \ --images image1=path/to/image1:v1@sha256:45db24
+    /// At most one of these can be specified: Reference to a collection of individual image name to image full path replacements. For example: $ gcloud deploy releases create foo \ --images image1=path/to/image1:v1@sha256:45db24 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--images", Format = OptionFormat.EqualsSeparated)]
-    public string? Images { get; set; }
+    [CliOption("--images", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Images
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ImagesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ImagesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Skips creating a rollout in the first target defined in the delivery pipeline.
@@ -131,16 +183,24 @@ public record GcloudDeployReleasesCreateOptions : GcloudOptions
     public bool? EnableInitialRollout { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Annotations to apply to the initial rollout when creating the release. Annotations take the form of key/value string pairs. Examples: Add annotations: $ gcloud deploy releases create \ --initial-rollout-annotations="from_target=test,status=stable"
+    /// At most one of these can be specified: Or at least one of these can be specified: Annotations to apply to the initial rollout when creating the release. Annotations take the form of key/value string pairs. Examples: Add annotations: $ gcloud deploy releases create \ --initial-rollout-annotations="from_target=test,status=stable" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--initial-rollout-annotations", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? InitialRolloutAnnotations { get; set; }
+    [CliOption("--initial-rollout-annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? InitialRolloutAnnotations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Labels to apply to the initial rollout when creating the release. Labels take the form of key/value string pairs. Examples: Add labels: $ gcloud deploy releases create \ initial-rollout-labels="commit=abc123,author=foo"
+    /// At most one of these can be specified: Or at least one of these can be specified: Labels to apply to the initial rollout when creating the release. Labels take the form of key/value string pairs. Examples: Add labels: $ gcloud deploy releases create \ initial-rollout-labels="commit=abc123,author=foo" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--initial-rollout-labels", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? InitialRolloutLabels { get; set; }
+    [CliOption("--initial-rollout-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? InitialRolloutLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
     /// At most one of these can be specified: Or at least one of these can be specified: The phase to start the initial rollout at when creating the release. The phase ID must be a valid phase on the rollout. If not specified, then the rollout will start at the first phase. Examples: Start rollout at stable phase: $ gcloud deploy releases create --initial-rollout-phase-id=stable
@@ -171,5 +231,29 @@ public record GcloudDeployReleasesCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }
+
+    /// <summary>
+    /// Release resource - The name of the Release. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument release on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the release or fully qualified identifier for the release. To set the release attribute: ▸ provide the argument release on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Release { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BuildArtifacts) ? 1 : 0) + (((object?)Images is global::System.Collections.Generic.IEnumerable<char> ? (object?)Images is not string || !string.IsNullOrWhiteSpace(Images?.ToString()) : ((object?)Images is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Images, static item => item is not null) : (Images is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Images), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BuildArtifacts or Images may be specified.", [nameof(BuildArtifacts), nameof(Images)]);
+        }
+        if ((DisableInitialRollout == true ? 1 : 0) + ((EnableInitialRollout == true || ((object?)InitialRolloutAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)InitialRolloutAnnotations is not string || !string.IsNullOrWhiteSpace(InitialRolloutAnnotations?.ToString()) : ((object?)InitialRolloutAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)InitialRolloutAnnotations, static item => item is not null) : (InitialRolloutAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)InitialRolloutAnnotations), static item => item is not null)))) || ((object?)InitialRolloutLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)InitialRolloutLabels is not string || !string.IsNullOrWhiteSpace(InitialRolloutLabels?.ToString()) : ((object?)InitialRolloutLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)InitialRolloutLabels, static item => item is not null) : (InitialRolloutLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)InitialRolloutLabels), static item => item is not null)))) || !string.IsNullOrWhiteSpace(InitialRolloutPhaseId)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisableInitialRollout or (EnableInitialRollout, InitialRolloutAnnotations, InitialRolloutLabels, or InitialRolloutPhaseId) may be specified.", [nameof(DisableInitialRollout), nameof(EnableInitialRollout), nameof(InitialRolloutAnnotations), nameof(InitialRolloutLabels), nameof(InitialRolloutPhaseId)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(FromK8sManifest) ? 1 : 0) + (!string.IsNullOrWhiteSpace(FromRunManifest) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(SkaffoldFile) || !string.IsNullOrWhiteSpace(Source)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of FromK8sManifest, FromRunManifest, or (SkaffoldFile or Source) may be specified.", [nameof(FromK8sManifest), nameof(FromRunManifest), nameof(SkaffoldFile), nameof(Source)]);
+        }
+        yield break;
+    }
 
 }

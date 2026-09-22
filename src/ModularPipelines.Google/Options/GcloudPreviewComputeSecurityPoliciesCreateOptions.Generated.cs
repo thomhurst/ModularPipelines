@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,10 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "security-policies", "create")]
-public record GcloudPreviewComputeSecurityPoliciesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeSecurityPoliciesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Compute Engine     security policy
+    /// </summary>
+    /// <param name="Name">Name of the security policy to create.</param>
+    public GcloudPreviewComputeSecurityPoliciesCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// An optional, textual description for the security policy.
     /// </summary>
@@ -34,7 +50,7 @@ public record GcloudPreviewComputeSecurityPoliciesCreateOptions(
     /// The format of the file to create the security policy config from. Specify either yaml or json. Defaults to yaml if not specified. Will be ignored if --file-name is not specified. FILE_FORMAT must be one of: json, yaml.
     /// </summary>
     [CliOption("--file-format", Format = OptionFormat.EqualsSeparated)]
-    public GcloudFileFormat? FileFormat { get; set; }
+    public GcloudPreviewComputeSecurityPoliciesCreateFileFormat? FileFormat { get; set; }
 
     /// <summary>
     /// Creation options. At most one of these can be specified: The name of the JSON or YAML file to create a security policy config from.
@@ -46,7 +62,7 @@ public record GcloudPreviewComputeSecurityPoliciesCreateOptions(
     /// Creation options. At most one of these can be specified: The type indicates the intended use of the security policy. SECURITY_POLICY_TYPE must be one of: CLOUD_ARMOR, CLOUD_ARMOR_EDGE, CLOUD_ARMOR_NETWORK.
     /// </summary>
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudType? Type { get; set; }
+    public GcloudPreviewComputeSecurityPoliciesCreateType? Type { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: If set, the security policy is global.
@@ -59,5 +75,25 @@ public record GcloudPreviewComputeSecurityPoliciesCreateOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the security policy to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(FileName) ? 1 : 0) + ((object?)Type is not null ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of FileName or Type may be specified.", [nameof(FileName), nameof(Type)]);
+        }
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
 
 }

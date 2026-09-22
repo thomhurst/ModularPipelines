@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("run", "jobs", "executions", "describe-latest")]
 public record GcloudRunJobsExecutionsDescribeLatestOptions : GcloudOptions
 {
+    /// <summary>
+    /// obtain details about the     latest execution of a job
+    /// </summary>
+    /// <param name="Job">Job resource - Job to describe the latest execution of. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Job or fully qualified identifier for the Job. To set the jobs attribute: ▸ provide the argument --job on the command line.</param>
+    public GcloudRunJobsExecutionsDescribeLatestOptions(
+        string Job
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Job);
+        this.Job = Job;
+    }
+
+    public void Deconstruct(out string Job)
+    {
+        Job = this.Job;
+    }
+
+    /// <summary>
+    /// Job resource - Job to describe the latest execution of. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Job or fully qualified identifier for the Job. To set the jobs attribute: ▸ provide the argument --job on the command line.
+    /// </summary>
+    [CliOption("--job", Format = OptionFormat.EqualsSeparated)]
+    public string Job { get; private init; }
+
+    /// <summary>
+    /// Region in which the resource can be found. Alternatively, set the property [run/region].
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

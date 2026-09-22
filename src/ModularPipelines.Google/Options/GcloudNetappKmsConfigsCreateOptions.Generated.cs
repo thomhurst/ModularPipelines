@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,80 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("netapp", "kms-configs", "create")]
 public record GcloudNetappKmsConfigsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Cloud NetApp Volumes KMS Config
+    /// </summary>
+    /// <param name="KmsKey">Kms key resource - The Cloud KMS (Key Management Service) Crypto Key that will be used The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the kms_key or fully qualified identifier for the kms_key. To set the kms-key attribute: ▸ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="KmsConfig">Kms config resource - The KMS Config to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument kms_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the kms_config or fully qualified identifier for the kms_config. To set the kms_config attribute: ▸ provide the argument kms_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetappKmsConfigsCreateOptions(
+        string KmsKey,
+        string KmsConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KmsKey);
+        this.KmsKey = KmsKey;
+        global::System.ArgumentNullException.ThrowIfNull(KmsConfig);
+        this.KmsConfig = KmsConfig;
+    }
+
+    public void Deconstruct(out string KmsKey, out string KmsConfig)
+    {
+        KmsKey = this.KmsKey;
+        KmsConfig = this.KmsConfig;
+    }
+
+    /// <summary>
+    /// Kms key resource - The Cloud KMS (Key Management Service) Crypto Key that will be used The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the kms_key or fully qualified identifier for the kms_key. To set the kms-key attribute: ▸ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string KmsKey { get; private init; }
+
+    /// <summary>
+    /// Kms config resource - The KMS Config to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument kms_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the kms_config. To set the location attribute: ▸ provide the argument kms_config on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Kms key resource - The Cloud KMS (Key Management Service) Crypto Key that will be used The arguments in this group can be used to specify the attributes of this resource. This must be specified. The KMS keyring of the kms_key To set the kms-keyring attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Kms key resource - The Cloud KMS (Key Management Service) Crypto Key that will be used The arguments in this group can be used to specify the attributes of this resource. This must be specified. The Cloud location for the kms_key. To set the kms-location attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --kms-location on the command line; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Kms key resource - The Cloud KMS (Key Management Service) Crypto Key that will be used The arguments in this group can be used to specify the attributes of this resource. This must be specified. The Cloud project for the kms_key. To set the kms-project attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --kms-project on the command line; ▸ set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A description of the Cloud NetApp KMS Config
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Kms config resource - The KMS Config to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument kms_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the kms_config or fully qualified identifier for the kms_config. To set the kms_config attribute: ▸ provide the argument kms_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string KmsConfig { get; private init; }
+
 }

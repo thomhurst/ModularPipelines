@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,67 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("managed-kafka", "topics", "create")]
 public record GcloudManagedKafkaTopicsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Managed Service for Apache     Kafka topic
+    /// </summary>
+    /// <param name="Partitions">The number of partitions in a topic. You can increase the partition count for a topic, but you cannot decrease it. Increasing partitions for a topic that uses a key might change how messages are distributed.</param>
+    /// <param name="ReplicationFactor">The number of replicas of each partition. A replication factor of 3 is recommended for high availability.</param>
+    /// <param name="Topic">Topic resource - Identifies the name of the topic that this command creates. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument topic on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the topic or fully qualified identifier for the topic. To set the topic attribute: ▸ provide the argument topic on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudManagedKafkaTopicsCreateOptions(
+        string Partitions,
+        string ReplicationFactor,
+        string Topic
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Partitions);
+        this.Partitions = Partitions;
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationFactor);
+        this.ReplicationFactor = ReplicationFactor;
+        global::System.ArgumentNullException.ThrowIfNull(Topic);
+        this.Topic = Topic;
+    }
+
+    public void Deconstruct(out string Partitions, out string ReplicationFactor, out string Topic)
+    {
+        Partitions = this.Partitions;
+        ReplicationFactor = this.ReplicationFactor;
+        Topic = this.Topic;
+    }
+
+    /// <summary>
+    /// The number of partitions in a topic. You can increase the partition count for a topic, but you cannot decrease it. Increasing partitions for a topic that uses a key might change how messages are distributed.
+    /// </summary>
+    [CliOption("--partitions", Format = OptionFormat.EqualsSeparated)]
+    public string Partitions { get; private init; }
+
+    /// <summary>
+    /// The number of replicas of each partition. A replication factor of 3 is recommended for high availability.
+    /// </summary>
+    [CliOption("--replication-factor", Format = OptionFormat.EqualsSeparated)]
+    public string ReplicationFactor { get; private init; }
+
+    /// <summary>
+    /// Topic resource - Identifies the name of the topic that this command creates. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument topic on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The cluster name. To set the cluster attribute: ▸ provide the argument topic on the command line with a fully specified name; ▸ provide the argument --cluster on the command line.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Topic resource - Identifies the name of the topic that this command creates. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument topic on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location of the Managed Service for Apache Kafka resource. See https://cloud.google.com/managed-service-for-apache-kafka/docs/locations for a list of supported locations. To set the location attribute: ▸ provide the argument topic on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Configuration for the topic that are overridden from the cluster defaults. The key of the map is a Kafka topic property name, for example: cleanup.policy=compact,compression.type=producer. If you provide a map with a key that already exists, only that configuration is updated. If the map contains a key that does not exist, the entry is appended to the topic configuration. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--configs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Configs { get; set; }
+
+    /// <summary>
+    /// Topic resource - Identifies the name of the topic that this command creates. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument topic on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the topic or fully qualified identifier for the topic. To set the topic attribute: ▸ provide the argument topic on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Topic { get; private init; }
+
 }

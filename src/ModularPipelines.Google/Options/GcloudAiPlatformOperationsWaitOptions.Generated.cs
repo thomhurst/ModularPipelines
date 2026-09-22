@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai-platform", "operations", "wait")]
-public record GcloudAiPlatformOperationsWaitOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Operation
-) : GcloudOptions
+public record GcloudAiPlatformOperationsWaitOptions : GcloudOptions
 {
+    /// <summary>
+    /// wait for an AI Platform operation to     complete
+    /// </summary>
+    /// <param name="Operation">Name of the operation.</param>
+    public GcloudAiPlatformOperationsWaitOptions(
+        string Operation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+    }
+
+    public void Deconstruct(out string Operation)
+    {
+        Operation = this.Operation;
+    }
+
     /// <summary>
     /// Google Cloud region of the regional endpoint to use for this command. If unspecified, the command uses the global endpoint of the AI Platform Training and Prediction API. Learn more about regional endpoints and see a list of available regions: https://cloud.google.com/ai-platform/prediction/docs/regional-endpoints REGION must be one of: asia-east1, asia-northeast1, asia-southeast1, australia-southeast1, europe-west1, europe-west2, europe-west3, europe-west4, northamerica-northeast1, us-central1, us-east1, us-east4, us-west1.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the operation.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Operation { get; private init; }
 
 }

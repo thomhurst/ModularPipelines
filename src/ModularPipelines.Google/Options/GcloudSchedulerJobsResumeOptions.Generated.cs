@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("scheduler", "jobs", "resume")]
 public record GcloudSchedulerJobsResumeOptions : GcloudOptions
 {
+    /// <summary>
+    /// resume execution of a paused job
+    /// </summary>
+    /// <param name="Job">Job resource - The job to resume. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the job or fully qualified identifier for the job. To set the job attribute: ▸ provide the argument job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSchedulerJobsResumeOptions(
+        string Job
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Job);
+        this.Job = Job;
+    }
+
+    public void Deconstruct(out string Job)
+    {
+        Job = this.Job;
+    }
+
+    /// <summary>
+    /// Job resource - The job to resume. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the job. By default, uses the location of the current project's App Engine app if there is an associated app. To set the location attribute: ▸ provide the argument job on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ defaults to App Engine's app location if not provided &amp; an app exists.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Job resource - The job to resume. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the job or fully qualified identifier for the job. To set the job attribute: ▸ provide the argument job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Job { get; private init; }
+
 }

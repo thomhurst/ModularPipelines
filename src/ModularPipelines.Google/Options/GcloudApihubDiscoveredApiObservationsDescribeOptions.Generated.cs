@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apihub", "discovered-api-observations", "describe")]
 public record GcloudApihubDiscoveredApiObservationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Discovered     Api Observation
+    /// </summary>
+    /// <param name="DiscoveredApiObservation">DiscoveredApiObservation resource - The name of the DiscoveredApiObservation to retrieve. Format: projects/{project}/locations/{location}/discoveredApiObservations/{discovered_api_observation} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument discovered_api_observation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the discoveredApiObservation or fully qualified identifier for the discoveredApiObservation. To set the discovered_api_observation attribute: ▸ provide the argument discovered_api_observation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubDiscoveredApiObservationsDescribeOptions(
+        string DiscoveredApiObservation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DiscoveredApiObservation);
+        this.DiscoveredApiObservation = DiscoveredApiObservation;
+    }
+
+    public void Deconstruct(out string DiscoveredApiObservation)
+    {
+        DiscoveredApiObservation = this.DiscoveredApiObservation;
+    }
+
+    /// <summary>
+    /// DiscoveredApiObservation resource - The name of the DiscoveredApiObservation to retrieve. Format: projects/{project}/locations/{location}/discoveredApiObservations/{discovered_api_observation} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument discovered_api_observation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the discoveredApiObservation resource. To set the location attribute: ▸ provide the argument discovered_api_observation on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// DiscoveredApiObservation resource - The name of the DiscoveredApiObservation to retrieve. Format: projects/{project}/locations/{location}/discoveredApiObservations/{discovered_api_observation} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument discovered_api_observation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the discoveredApiObservation or fully qualified identifier for the discoveredApiObservation. To set the discovered_api_observation attribute: ▸ provide the argument discovered_api_observation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DiscoveredApiObservation { get; private init; }
+
 }

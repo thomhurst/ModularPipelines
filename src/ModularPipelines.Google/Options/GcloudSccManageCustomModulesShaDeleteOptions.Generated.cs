@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "manage", "custom-modules", "sha", "delete")]
-public record GcloudSccManageCustomModulesShaDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ModuleIdOrName
-) : GcloudOptions
+public record GcloudSccManageCustomModulesShaDeleteOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// delete a Security Health     Analytics custom module
+    /// </summary>
+    /// <param name="ModuleIdOrName">The custom module ID or name. The expected format is {parent}/[locations/global]/securityHealthAnalyticsCustomModules/{module_id} or just {module_id}. Where module_id is a numeric identifier 1-20 characters in length. Parent is of the form organizations/{id}, projects/{id or name}, folders/{id}.</param>
+    public GcloudSccManageCustomModulesShaDeleteOptions(
+        string ModuleIdOrName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModuleIdOrName);
+        this.ModuleIdOrName = ModuleIdOrName;
+    }
+
+    public void Deconstruct(out string ModuleIdOrName)
+    {
+        ModuleIdOrName = this.ModuleIdOrName;
+    }
+
     /// <summary>
     /// If present, the request is validated (including IAM checks) but no action is taken.
     /// </summary>
@@ -52,5 +68,21 @@ public record GcloudSccManageCustomModulesShaDeleteOptions(
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
+
+    /// <summary>
+    /// The custom module ID or name. The expected format is {parent}/[locations/global]/securityHealthAnalyticsCustomModules/{module_id} or just {module_id}. Where module_id is a numeric identifier 1-20 characters in length. Parent is of the form organizations/{id}, projects/{id or name}, folders/{id}.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ModuleIdOrName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Parent) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Folder, Organization, Parent, or Project may be specified.", [nameof(Folder), nameof(Organization), nameof(Parent), nameof(Project)]);
+        }
+        yield break;
+    }
 
 }

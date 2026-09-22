@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("agent-registry", "endpoints", "describe")]
 public record GcloudAgentRegistryEndpointsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// retrieve endpoint details
+    /// </summary>
+    /// <param name="Endpoint">Endpoint resource - The name of the endpoint to retrieve. Format: projects/{project}/locations/{location}/endpoints/{endpoint} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the endpoint or fully qualified identifier for the endpoint. To set the endpoint attribute: ▸ provide the argument endpoint on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAgentRegistryEndpointsDescribeOptions(
+        string Endpoint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Endpoint);
+        this.Endpoint = Endpoint;
+    }
+
+    public void Deconstruct(out string Endpoint)
+    {
+        Endpoint = this.Endpoint;
+    }
+
+    /// <summary>
+    /// Endpoint resource - The name of the endpoint to retrieve. Format: projects/{project}/locations/{location}/endpoints/{endpoint} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the endpoint resource. To set the location attribute: ▸ provide the argument endpoint on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Endpoint resource - The name of the endpoint to retrieve. Format: projects/{project}/locations/{location}/endpoints/{endpoint} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the endpoint or fully qualified identifier for the endpoint. To set the endpoint attribute: ▸ provide the argument endpoint on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Endpoint { get; private init; }
+
 }

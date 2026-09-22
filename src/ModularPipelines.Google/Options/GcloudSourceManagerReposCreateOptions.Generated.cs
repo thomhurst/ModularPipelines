@@ -21,4 +21,86 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("source-manager", "repos", "create")]
 public record GcloudSourceManagerReposCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Secure Source Manager     repository
+    /// </summary>
+    /// <param name="Instance">A Secure Source Manager instance ID.</param>
+    /// <param name="Repository">Repository resource - The Secure Source Manager repository to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the repository or fully qualified identifier for the repository. To set the repository attribute: ▸ provide the argument repository on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSourceManagerReposCreateOptions(
+        string Instance,
+        string Repository
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+        global::System.ArgumentNullException.ThrowIfNull(Repository);
+        this.Repository = Repository;
+    }
+
+    public void Deconstruct(out string Instance, out string Repository)
+    {
+        Instance = this.Instance;
+        Repository = this.Repository;
+    }
+
+    /// <summary>
+    /// A Secure Source Manager instance ID.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string Instance { get; private init; }
+
+    /// <summary>
+    /// Repository resource - The Secure Source Manager repository to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Secure Source Manager location. To set the region attribute: ▸ provide the argument repository on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Description of the repository. Cannot exceed 500 characters.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// The service account to attach to the repository.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Repository initialization configuration. Default branch name of the repository.
+    /// </summary>
+    [CliOption("--default-branch", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultBranch { get; set; }
+
+    /// <summary>
+    /// Repository initialization configuration. List of gitignore template names user can choose from. Full list can be found here: https://cloud.google.com/secure-source-manager/docs/reference/rest/v1/projects.locations.repositories#InitialConfig Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--gitignores", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Gitignores { get; set; }
+
+    /// <summary>
+    /// Repository initialization configuration. License template name user can choose from. Full list can be found here: https://cloud.google.com/secure-source-manager/docs/reference/rest/v1/projects.locations.repositories#InitialConfig
+    /// </summary>
+    [CliOption("--license", Format = OptionFormat.EqualsSeparated)]
+    public string? License { get; set; }
+
+    /// <summary>
+    /// Repository initialization configuration. README template name. Valid template name(s) are: default.
+    /// </summary>
+    [CliOption("--readme", Format = OptionFormat.EqualsSeparated)]
+    public string? Readme { get; set; }
+
+    /// <summary>
+    /// Repository resource - The Secure Source Manager repository to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the repository or fully qualified identifier for the repository. To set the repository attribute: ▸ provide the argument repository on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Repository { get; private init; }
+
 }

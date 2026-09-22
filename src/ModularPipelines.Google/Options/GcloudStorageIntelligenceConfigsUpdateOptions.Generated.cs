@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,170 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "intelligence-configs", "update")]
-public record GcloudStorageIntelligenceConfigsUpdateOptions : GcloudOptions
+public record GcloudStorageIntelligenceConfigsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies organization id for the storage intelligence config.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies project for the storage intelligence config.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies sub-folder id for the storage intelligence config.
+    /// </summary>
+    [CliOption("--sub-folder", Format = OptionFormat.EqualsSeparated)]
+    public string? SubFolder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies storage intelligence config to be inherited from parent.
+    /// </summary>
+    [CliFlag("--inherit-from-parent")]
+    public bool? InheritFromParent { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Enables Storage Intelligence for TRIAL edition.
+    /// </summary>
+    [CliFlag("--trial-edition")]
+    public bool? TrialEdition { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Sets filter for bucket id regexes to exclude. Accepts list of bucket id regexes in comma separated format. If the regex contains special characters that may have a specific meaning in the shell, escape them using backslashes(\). To clear bucket id regexes list, provide flag with an empty list. e.g --exclude-bucket-id-regexes="" or --exclude-bucket-id-regexes= . Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--exclude-bucket-id-regexes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ExcludeBucketIdRegexes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ExcludeBucketIdRegexesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ExcludeBucketIdRegexesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Sets filter for bucket id regexes to include. Accepts list of bucket id regexes in comma separated format. If the regex contains special characters that may have a specific meaning in the shell, escape them using backslashes(\). To clear bucket id regexes list, provide flag with empty list. e.g --include-bucket-id-regexes="" or --include-bucket-id-regexes= . Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--include-bucket-id-regexes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? IncludeBucketIdRegexes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __IncludeBucketIdRegexesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __IncludeBucketIdRegexesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Comma separated list of locations (https://cloud.google.com/storage/docs/locations#available-locations) to exclude in storage intelligence filter. To clear excluded locations, provide flag with empty list. e.g --exclude-locations="" or --exclude-locations= . Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--exclude-locations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ExcludeLocations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ExcludeLocationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ExcludeLocationsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Comma separated list of locations (https://cloud.google.com/storage/docs/locations#available-locations) to include in storage intelligence filter. To clear included locations, provide flag with empty list. e.g --include-locations="" or --include-locations= . Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--include-locations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? IncludeLocations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __IncludeLocationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __IncludeLocationsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SubFolder) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Organization, Project, or SubFolder must be specified.", [nameof(Organization), nameof(Project), nameof(SubFolder)]);
+        }
+        if ((InheritFromParent == true ? 1 : 0) + ((TrialEdition == true || ((object?)ExcludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludeBucketIdRegexes is not string || !string.IsNullOrWhiteSpace(ExcludeBucketIdRegexes?.ToString()) : ((object?)ExcludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludeBucketIdRegexes, static item => item is not null) : (ExcludeBucketIdRegexes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludeBucketIdRegexes), static item => item is not null)))) || ((object?)IncludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<char> ? (object?)IncludeBucketIdRegexes is not string || !string.IsNullOrWhiteSpace(IncludeBucketIdRegexes?.ToString()) : ((object?)IncludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IncludeBucketIdRegexes, static item => item is not null) : (IncludeBucketIdRegexes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IncludeBucketIdRegexes), static item => item is not null)))) || ((object?)ExcludeLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludeLocations is not string || !string.IsNullOrWhiteSpace(ExcludeLocations?.ToString()) : ((object?)ExcludeLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludeLocations, static item => item is not null) : (ExcludeLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludeLocations), static item => item is not null)))) || ((object?)IncludeLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)IncludeLocations is not string || !string.IsNullOrWhiteSpace(IncludeLocations?.ToString()) : ((object?)IncludeLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IncludeLocations, static item => item is not null) : (IncludeLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IncludeLocations), static item => item is not null))))) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of InheritFromParent or (TrialEdition, ExcludeBucketIdRegexes, IncludeBucketIdRegexes, ExcludeLocations, or IncludeLocations) must be specified.", [nameof(InheritFromParent), nameof(TrialEdition), nameof(ExcludeBucketIdRegexes), nameof(IncludeBucketIdRegexes), nameof(ExcludeLocations), nameof(IncludeLocations)]);
+        }
+        if ((InheritFromParent == true || TrialEdition == true || ((object?)ExcludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludeBucketIdRegexes is not string || !string.IsNullOrWhiteSpace(ExcludeBucketIdRegexes?.ToString()) : ((object?)ExcludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludeBucketIdRegexes, static item => item is not null) : (ExcludeBucketIdRegexes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludeBucketIdRegexes), static item => item is not null)))) || ((object?)IncludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<char> ? (object?)IncludeBucketIdRegexes is not string || !string.IsNullOrWhiteSpace(IncludeBucketIdRegexes?.ToString()) : ((object?)IncludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IncludeBucketIdRegexes, static item => item is not null) : (IncludeBucketIdRegexes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IncludeBucketIdRegexes), static item => item is not null)))) || ((object?)ExcludeLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludeLocations is not string || !string.IsNullOrWhiteSpace(ExcludeLocations?.ToString()) : ((object?)ExcludeLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludeLocations, static item => item is not null) : (ExcludeLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludeLocations), static item => item is not null)))) || ((object?)IncludeLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)IncludeLocations is not string || !string.IsNullOrWhiteSpace(IncludeLocations?.ToString()) : ((object?)IncludeLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IncludeLocations, static item => item is not null) : (IncludeLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IncludeLocations), static item => item is not null))))) && (TrialEdition == true || ((object?)ExcludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludeBucketIdRegexes is not string || !string.IsNullOrWhiteSpace(ExcludeBucketIdRegexes?.ToString()) : ((object?)ExcludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludeBucketIdRegexes, static item => item is not null) : (ExcludeBucketIdRegexes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludeBucketIdRegexes), static item => item is not null)))) || ((object?)IncludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<char> ? (object?)IncludeBucketIdRegexes is not string || !string.IsNullOrWhiteSpace(IncludeBucketIdRegexes?.ToString()) : ((object?)IncludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IncludeBucketIdRegexes, static item => item is not null) : (IncludeBucketIdRegexes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IncludeBucketIdRegexes), static item => item is not null)))) || ((object?)ExcludeLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludeLocations is not string || !string.IsNullOrWhiteSpace(ExcludeLocations?.ToString()) : ((object?)ExcludeLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludeLocations, static item => item is not null) : (ExcludeLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludeLocations), static item => item is not null)))) || ((object?)IncludeLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)IncludeLocations is not string || !string.IsNullOrWhiteSpace(IncludeLocations?.ToString()) : ((object?)IncludeLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IncludeLocations, static item => item is not null) : (IncludeLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IncludeLocations), static item => item is not null))))) && ((((object?)ExcludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludeBucketIdRegexes is not string || !string.IsNullOrWhiteSpace(ExcludeBucketIdRegexes?.ToString()) : ((object?)ExcludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludeBucketIdRegexes, static item => item is not null) : (ExcludeBucketIdRegexes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludeBucketIdRegexes), static item => item is not null)))) ? 1 : 0) + (((object?)IncludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<char> ? (object?)IncludeBucketIdRegexes is not string || !string.IsNullOrWhiteSpace(IncludeBucketIdRegexes?.ToString()) : ((object?)IncludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IncludeBucketIdRegexes, static item => item is not null) : (IncludeBucketIdRegexes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IncludeBucketIdRegexes), static item => item is not null)))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ExcludeBucketIdRegexes or IncludeBucketIdRegexes may be specified.", [nameof(ExcludeBucketIdRegexes), nameof(IncludeBucketIdRegexes)]);
+        }
+        if ((InheritFromParent == true || TrialEdition == true || ((object?)ExcludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludeBucketIdRegexes is not string || !string.IsNullOrWhiteSpace(ExcludeBucketIdRegexes?.ToString()) : ((object?)ExcludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludeBucketIdRegexes, static item => item is not null) : (ExcludeBucketIdRegexes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludeBucketIdRegexes), static item => item is not null)))) || ((object?)IncludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<char> ? (object?)IncludeBucketIdRegexes is not string || !string.IsNullOrWhiteSpace(IncludeBucketIdRegexes?.ToString()) : ((object?)IncludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IncludeBucketIdRegexes, static item => item is not null) : (IncludeBucketIdRegexes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IncludeBucketIdRegexes), static item => item is not null)))) || ((object?)ExcludeLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludeLocations is not string || !string.IsNullOrWhiteSpace(ExcludeLocations?.ToString()) : ((object?)ExcludeLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludeLocations, static item => item is not null) : (ExcludeLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludeLocations), static item => item is not null)))) || ((object?)IncludeLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)IncludeLocations is not string || !string.IsNullOrWhiteSpace(IncludeLocations?.ToString()) : ((object?)IncludeLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IncludeLocations, static item => item is not null) : (IncludeLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IncludeLocations), static item => item is not null))))) && (TrialEdition == true || ((object?)ExcludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludeBucketIdRegexes is not string || !string.IsNullOrWhiteSpace(ExcludeBucketIdRegexes?.ToString()) : ((object?)ExcludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludeBucketIdRegexes, static item => item is not null) : (ExcludeBucketIdRegexes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludeBucketIdRegexes), static item => item is not null)))) || ((object?)IncludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<char> ? (object?)IncludeBucketIdRegexes is not string || !string.IsNullOrWhiteSpace(IncludeBucketIdRegexes?.ToString()) : ((object?)IncludeBucketIdRegexes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IncludeBucketIdRegexes, static item => item is not null) : (IncludeBucketIdRegexes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IncludeBucketIdRegexes), static item => item is not null)))) || ((object?)ExcludeLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludeLocations is not string || !string.IsNullOrWhiteSpace(ExcludeLocations?.ToString()) : ((object?)ExcludeLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludeLocations, static item => item is not null) : (ExcludeLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludeLocations), static item => item is not null)))) || ((object?)IncludeLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)IncludeLocations is not string || !string.IsNullOrWhiteSpace(IncludeLocations?.ToString()) : ((object?)IncludeLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IncludeLocations, static item => item is not null) : (IncludeLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IncludeLocations), static item => item is not null))))) && ((((object?)ExcludeLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludeLocations is not string || !string.IsNullOrWhiteSpace(ExcludeLocations?.ToString()) : ((object?)ExcludeLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludeLocations, static item => item is not null) : (ExcludeLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludeLocations), static item => item is not null)))) ? 1 : 0) + (((object?)IncludeLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)IncludeLocations is not string || !string.IsNullOrWhiteSpace(IncludeLocations?.ToString()) : ((object?)IncludeLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IncludeLocations, static item => item is not null) : (IncludeLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IncludeLocations), static item => item is not null)))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ExcludeLocations or IncludeLocations may be specified.", [nameof(ExcludeLocations), nameof(IncludeLocations)]);
+        }
+        yield break;
+    }
+
 }

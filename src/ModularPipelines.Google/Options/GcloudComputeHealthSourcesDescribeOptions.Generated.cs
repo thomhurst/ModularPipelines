@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "health-sources", "describe")]
 public record GcloudComputeHealthSourcesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a health source
+    /// </summary>
+    /// <param name="HealthSource">Health source resource - Name of the health source you want to inspect. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument health_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the health source or fully qualified identifier for the health source. To set the health_source attribute: ▸ provide the argument health_source on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeHealthSourcesDescribeOptions(
+        string HealthSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HealthSource);
+        this.HealthSource = HealthSource;
+    }
+
+    public void Deconstruct(out string HealthSource)
+    {
+        HealthSource = this.HealthSource;
+    }
+
+    /// <summary>
+    /// Health source resource - Name of the health source you want to inspect. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument health_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Google Compute Engine region. To set the region attribute: ▸ provide the argument health_source on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property compute/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Health source resource - Name of the health source you want to inspect. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument health_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the health source or fully qualified identifier for the health source. To set the health_source attribute: ▸ provide the argument health_source on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string HealthSource { get; private init; }
+
 }

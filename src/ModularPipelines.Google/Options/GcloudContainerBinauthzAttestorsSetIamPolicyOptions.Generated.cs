@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "binauthz", "attestors", "set-iam-policy")]
-public record GcloudContainerBinauthzAttestorsSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AttestorName
-) : GcloudOptions
+public record GcloudContainerBinauthzAttestorsSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the IAM policy for     an attestor
+    /// </summary>
+    /// <param name="AttestorName">The name of the attestor whose IAM policy will be updated.</param>
+    /// <param name="PolicyFile">The JSON or YAML file containing the IAM policy.</param>
+    public GcloudContainerBinauthzAttestorsSetIamPolicyOptions(
+        string AttestorName,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AttestorName);
+        this.AttestorName = AttestorName;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string AttestorName, out string PolicyFile)
+    {
+        AttestorName = this.AttestorName;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// The name of the attestor whose IAM policy will be updated.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AttestorName { get; private init; }
+
+    /// <summary>
+    /// The JSON or YAML file containing the IAM policy.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "fleet", "workload-identity", "scope-tenancy-pool", "set")]
 public record GcloudContainerFleetWorkloadIdentityScopeTenancyPoolSetOptions : GcloudOptions
 {
+    /// <summary>
+    /// set Scope     Tenancy Pool
+    /// </summary>
+    /// <param name="WorkloadIdentityPool">Workloadidentitypool resource - The group of arguments defining a Workload Identity Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument WORKLOAD_IDENTITY_POOL on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument WORKLOAD_IDENTITY_POOL on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property gkehub/location. This must be specified. ID of the workloadidentitypool or fully qualified identifier for the workloadidentitypool. To set the workloadidentitypool attribute: ▸ provide the argument WORKLOAD_IDENTITY_POOL on the command line.</param>
+    public GcloudContainerFleetWorkloadIdentityScopeTenancyPoolSetOptions(
+        string WorkloadIdentityPool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadIdentityPool);
+        this.WorkloadIdentityPool = WorkloadIdentityPool;
+    }
+
+    public void Deconstruct(out string WorkloadIdentityPool)
+    {
+        WorkloadIdentityPool = this.WorkloadIdentityPool;
+    }
+
+    /// <summary>
+    /// Workloadidentitypool resource - The group of arguments defining a Workload Identity Pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument WORKLOAD_IDENTITY_POOL on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument WORKLOAD_IDENTITY_POOL on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property gkehub/location. This must be specified. ID of the workloadidentitypool or fully qualified identifier for the workloadidentitypool. To set the workloadidentitypool attribute: ▸ provide the argument WORKLOAD_IDENTITY_POOL on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WorkloadIdentityPool { get; private init; }
+
 }

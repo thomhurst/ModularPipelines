@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,235 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-management", "connectivity-tests", "create")]
-public record GcloudNetworkManagementConnectivityTestsCreateOptions : GcloudOptions
+public record GcloudNetworkManagementConnectivityTestsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new     connectivity test
+    /// </summary>
+    /// <param name="ConnectivityTest">Connectivity test resource - Name of the connectivity test you want to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connectivity_test on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connectivity test or fully qualified identifier for the connectivity test. To set the connectivity_test attribute: ▸ provide the argument connectivity_test on the command line.</param>
+    public GcloudNetworkManagementConnectivityTestsCreateOptions(
+        string ConnectivityTest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectivityTest);
+        this.ConnectivityTest = ConnectivityTest;
+    }
+
+    public void Deconstruct(out string ConnectivityTest)
+    {
+        ConnectivityTest = this.ConnectivityTest;
+    }
+
+    /// <summary>
+    /// At least one of these must be specified: A Cloud SQL instance URI as the destination endpoint.
+    /// </summary>
+    [CliOption("--destination-cloud-sql-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationCloudSqlInstance { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A forwarding rule URI as the destination endpoint.
+    /// </summary>
+    [CliOption("--destination-forwarding-rule", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationForwardingRule { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A cluster URI for Google Kubernetes Engine master as the destination endpoint.
+    /// </summary>
+    [CliOption("--destination-gke-master-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationGkeMasterCluster { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A GKE Pod URI as the destination endpoint.
+    /// </summary>
+    [CliOption("--destination-gke-pod", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationGkePod { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A Compute Engine instance URI as the destination endpoint.
+    /// </summary>
+    [CliOption("--destination-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationInstance { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: The IP address of the destination which can be an external or internal IP.
+    /// </summary>
+    [CliOption("--destination-ip-address", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationIpAddress { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A Redis cluster URI as the destination endpoint.
+    /// </summary>
+    [CliOption("--destination-redis-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationRedisCluster { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A Redis instance URI as the destination endpoint.
+    /// </summary>
+    [CliOption("--destination-redis-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationRedisInstance { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: App Engine version URI as the source endpoint.
+    /// </summary>
+    [CliOption("--source-app-engine-version", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceAppEngineVersion { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A Cloud function URI as the source endpoint.
+    /// </summary>
+    [CliOption("--source-cloud-function", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceCloudFunction { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Cloud Run job URI as the source endpoint.
+    /// </summary>
+    [CliOption("--source-cloud-run-job", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceCloudRunJob { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Cloud Run revision URI as the source endpoint.
+    /// </summary>
+    [CliOption("--source-cloud-run-revision", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceCloudRunRevision { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A Cloud SQL instance URI as the source endpoint.
+    /// </summary>
+    [CliOption("--source-cloud-sql-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceCloudSqlInstance { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: DMS private connection URI as the source endpoint.
+    /// </summary>
+    [CliOption("--source-dms-private-connection", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceDmsPrivateConnection { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A cluster URI for Google Kubernetes Engine master as the source endpoint.
+    /// </summary>
+    [CliOption("--source-gke-master-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceGkeMasterCluster { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A GKE Pod URI as the source endpoint.
+    /// </summary>
+    [CliOption("--source-gke-pod", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceGkePod { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A Compute Engine instance URI as the source endpoint.
+    /// </summary>
+    [CliOption("--source-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceInstance { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: The IP address of the source which can be an external or internal IP.
+    /// </summary>
+    [CliOption("--source-ip-address", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceIpAddress { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// This boolean controls whether to skip firewall checking.
+    /// </summary>
+    [CliFlag("--bypass-firewall-checks")]
+    public bool? BypassFirewallChecks { get; set; }
+
+    /// <summary>
+    /// The description of the connectivity test.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// A hostname as the destination endpoint. Only applicable for Google Kubernetes Engine.
+    /// </summary>
+    [CliOption("--destination-fqdn", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationFqdn { get; set; }
+
+    /// <summary>
+    /// A VPC network URI for the destination endpoint. Used only when the source is an external IP address endpoint, and the destination is an internal IP address endpoint.
+    /// </summary>
+    [CliOption("--destination-network", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationNetwork { get; set; }
+
+    /// <summary>
+    /// The IP protocol port of the destination. Only applicable when protocol is TCP or UDP.
+    /// </summary>
+    [CliOption("--destination-port", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationPort { get; set; }
+
+    /// <summary>
+    /// Project ID of the destination endpoint.
+    /// </summary>
+    [CliOption("--destination-project", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationProject { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// IDs of other projects involved in the connectivity test, besides the source and destination project. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--other-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? OtherProjects { get; set; }
+
+    /// <summary>
+    /// Type of protocol for the test. When not provided, "TCP" is assumed.
+    /// </summary>
+    [CliOption("--protocol", Format = OptionFormat.EqualsSeparated)]
+    public string? Protocol { get; set; }
+
+    /// <summary>
+    /// This boolean controls whether return traces (from the destination to the source) will be additionally calculated if packet successfully reaches the destination from the source.
+    /// </summary>
+    [CliFlag("--round-trip")]
+    public bool? RoundTrip { get; set; }
+
+    /// <summary>
+    /// A VPC network URI for the source endpoint. Used according to the source-network-type flag.
+    /// </summary>
+    [CliOption("--source-network", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceNetwork { get; set; }
+
+    /// <summary>
+    /// Type of the network where the source is located. SOURCE_NETWORK_TYPE must be one of: gcp-network A VPC network. Should be used for internal IP addresses in VPC networks. The source-network field should be set to the URI of this network. Only endpoints within this network will be considered. internet Internet. Should be used for internet-routable external IP addresses or IP addresses for global Google APIs and services. non-gcp-network A network outside of Google Cloud (for example, an on-premises network or another cloud provider network). Should be used for internal IP addresses outside of Google Cloud. The source-network field should be set to the URI of the VPC network containing a corresponding Cloud VPN tunnel, Cloud Interconnect VLAN attachment, or a router appliance instance. Only endpoints reachable from the provided VPC network via the routes to networks outside of Google Cloud will be considered. unspecified Unspecified. The test will analyze all possible IP address locations. This might take longer and produce inaccurate or ambiguous results, so prefer specifying an explicit network type. The source-project field should be set to the project where the Google Cloud endpoint is located, or where the endpoint outside of Google Cloud should be reachable from (via routes to networks outside of Google Cloud). The project might also be inferred from the Connectivity Test project or other projects referenced in the request.
+    /// </summary>
+    [CliOption("--source-network-type", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceNetworkType { get; set; }
+
+    /// <summary>
+    /// Project ID of the source endpoint.
+    /// </summary>
+    [CliOption("--source-project", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceProject { get; set; }
+
+    /// <summary>
+    /// Connectivity test resource - Name of the connectivity test you want to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connectivity_test on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connectivity test or fully qualified identifier for the connectivity test. To set the connectivity_test attribute: ▸ provide the argument connectivity_test on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConnectivityTest { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(DestinationCloudSqlInstance) || !string.IsNullOrWhiteSpace(DestinationForwardingRule) || !string.IsNullOrWhiteSpace(DestinationGkeMasterCluster) || !string.IsNullOrWhiteSpace(DestinationGkePod) || !string.IsNullOrWhiteSpace(DestinationInstance) || !string.IsNullOrWhiteSpace(DestinationIpAddress) || !string.IsNullOrWhiteSpace(DestinationRedisCluster) || !string.IsNullOrWhiteSpace(DestinationRedisInstance)))
+        {
+            yield return new ValidationResult("At least one of DestinationCloudSqlInstance, DestinationForwardingRule, DestinationGkeMasterCluster, DestinationGkePod, DestinationInstance, DestinationIpAddress, DestinationRedisCluster, or DestinationRedisInstance must be specified.", [nameof(DestinationCloudSqlInstance), nameof(DestinationForwardingRule), nameof(DestinationGkeMasterCluster), nameof(DestinationGkePod), nameof(DestinationInstance), nameof(DestinationIpAddress), nameof(DestinationRedisCluster), nameof(DestinationRedisInstance)]);
+        }
+        if (!(!string.IsNullOrWhiteSpace(SourceAppEngineVersion) || !string.IsNullOrWhiteSpace(SourceCloudFunction) || !string.IsNullOrWhiteSpace(SourceCloudRunJob) || !string.IsNullOrWhiteSpace(SourceCloudRunRevision) || !string.IsNullOrWhiteSpace(SourceCloudSqlInstance) || !string.IsNullOrWhiteSpace(SourceDmsPrivateConnection) || !string.IsNullOrWhiteSpace(SourceGkeMasterCluster) || !string.IsNullOrWhiteSpace(SourceGkePod) || !string.IsNullOrWhiteSpace(SourceInstance) || !string.IsNullOrWhiteSpace(SourceIpAddress)))
+        {
+            yield return new ValidationResult("At least one of SourceAppEngineVersion, SourceCloudFunction, SourceCloudRunJob, SourceCloudRunRevision, SourceCloudSqlInstance, SourceDmsPrivateConnection, SourceGkeMasterCluster, SourceGkePod, SourceInstance, or SourceIpAddress must be specified.", [nameof(SourceAppEngineVersion), nameof(SourceCloudFunction), nameof(SourceCloudRunJob), nameof(SourceCloudRunRevision), nameof(SourceCloudSqlInstance), nameof(SourceDmsPrivateConnection), nameof(SourceGkeMasterCluster), nameof(SourceGkePod), nameof(SourceInstance), nameof(SourceIpAddress)]);
+        }
+        yield break;
+    }
+
 }

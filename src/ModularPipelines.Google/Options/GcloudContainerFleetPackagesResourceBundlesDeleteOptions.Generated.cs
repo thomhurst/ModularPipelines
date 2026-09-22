@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "packages", "resource-bundles", "delete")]
-public record GcloudContainerFleetPackagesResourceBundlesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudContainerFleetPackagesResourceBundlesDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete Package     Rollouts Resource Bundle
+    /// </summary>
+    /// <param name="Name">Resource name.</param>
+    public GcloudContainerFleetPackagesResourceBundlesDeleteOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// If true, force deletion of any child resources. Otherwise, attempting to delete a Resource Bundle with children will fail.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudContainerFleetPackagesResourceBundlesDeleteOptions(
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// Resource name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

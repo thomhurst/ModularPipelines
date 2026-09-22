@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("backup-dr", "service-config", "init")]
 public record GcloudBackupDrServiceConfigInitOptions : GcloudOptions
 {
+    /// <summary>
+    /// initialize a Backup and DR Service     configuration
+    /// </summary>
+    /// <param name="Location">Location resource - The location for which the service configuration should be created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.</param>
+    /// <param name="ResourceType">The resource type to which the default service configuration will be applied. Examples include, "compute.&lt;UNIVERSE_DOMAIN&gt;.com/Instance"</param>
+    public GcloudBackupDrServiceConfigInitOptions(
+        string Location,
+        string ResourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    public void Deconstruct(out string Location, out string ResourceType)
+    {
+        Location = this.Location;
+        ResourceType = this.ResourceType;
+    }
+
+    /// <summary>
+    /// Location resource - The location for which the service configuration should be created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The resource type to which the default service configuration will be applied. Examples include, "compute.&lt;UNIVERSE_DOMAIN&gt;.com/Instance"
+    /// </summary>
+    [CliOption("--resource-type", Format = OptionFormat.EqualsSeparated)]
+    public string ResourceType { get; private init; }
+
+    /// <summary>
+    /// Wait for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Cloud SQL Edition: (Required only for Cloud SQL instances, ignored otherwise). The edition of the Cloud SQL instance. Possible values: "ENTERPRISE" - Enterprise edition. "ENTERPRISE_PLUS" - Enterprise Plus edition.
+    /// </summary>
+    [CliOption("--cloudsql-edition", Format = OptionFormat.EqualsSeparated)]
+    public string? CloudsqlEdition { get; set; }
+
 }

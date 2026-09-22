@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "vmware", "clusters", "update")]
-public record GcloudContainerVmwareClustersUpdateOptions : GcloudOptions
+public record GcloudContainerVmwareClustersUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update an Anthos cluster on     VMware
+    /// </summary>
+    /// <param name="Cluster">Cluster resource - cluster to update The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerVmwareClustersUpdateOptions(
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Cluster)
+    {
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Cluster resource - cluster to update The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the cluster. To set the location attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_vmware/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// User cluster authorization configurations to bootstrap onto the admin cluster Users that will be granted the cluster-admin role on the cluster, providing full access to the cluster. To add multiple users, specify one in each flag. When updating, the update command overwrites the whole grant list. Specify all existing and new users that you want to be cluster administrators. Examples: $ gcloud container vmware clusters update --admin-users alice@example.com --admin-users bob@example.com
     /// </summary>
@@ -40,13 +64,13 @@ public record GcloudContainerVmwareClustersUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster Anthos on VMware cluster load balancer configurations Populate one of the load balancers. MetalLB Configuration At most one of these can be specified: MetalLB load balancer configurations. Examples: To specify MetalLB load balancer configurations for two address pools pool1 and pool2, $ gcloud gcloud container vmware clusters update --metal-lb-config-address-pools 'pool=pool1,avoid-buggy-ips=True,manual-assign=True,addresses=192.168.1.1/32;192.168.1.2-192.168.1.3' --metal-lb-config-address-pools 'pool=pool2,avoid-buggy-ips=False,manual-assign=False,addresses=192.168.2.1/32;192.168.2.2-192.168.2.3' Use quote around the flag value to escape semicolon in the terminal.
+    /// Anthos on VMware cluster load balancer configurations Populate one of the load balancers. MetalLB Configuration At most one of these can be specified: MetalLB load balancer configurations. Examples: To specify MetalLB load balancer configurations for two address pools pool1 and pool2, $ gcloud gcloud container vmware clusters update --metal-lb-config-address-pools 'pool=pool1,avoid-buggy-ips=True,manual-assign=True,addresses=192.168.1.1/32;192.168.1.2-192.168.1.3' --metal-lb-config-address-pools 'pool=pool2,avoid-buggy-ips=False,manual-assign=False,addresses=192.168.2.1/32;192.168.2.2-192.168.2.3' Use quote around the flag value to escape semicolon in the terminal.
     /// </summary>
     [CliOption("--metal-lb-config-address-pools", Format = OptionFormat.EqualsSeparated)]
     public string? MetalLbConfigAddressPools { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster VMware User Cluster network configurations IP configuration used by the VMware User Cluster Static IP configuration group At most one of these can be specified: Static IP configurations. Expect an individual IP address, an individual IP address with an optional hostname, or a CIDR block. Example: To specify two Static IP blocks, $ gcloud gcloud container vmware clusters update --static-ip-config-ip-blocks 'gateway=192.168.0.1,netmask=255.255.255.0,ips=192.168.1.1;0.0.0.0 localhost;192.168.1.2/16' --static-ip-config-ip-blocks 'gateway=192.168.1.1,netmask=255.255.0.0,ips=8.8.8.8;4.4.4.4' Use quote around the flag value to escape semicolon in the terminal.
+    /// VMware User Cluster network configurations IP configuration used by the VMware User Cluster Static IP configuration group At most one of these can be specified: Static IP configurations. Expect an individual IP address, an individual IP address with an optional hostname, or a CIDR block. Example: To specify two Static IP blocks, $ gcloud gcloud container vmware clusters update --static-ip-config-ip-blocks 'gateway=192.168.0.1,netmask=255.255.255.0,ips=192.168.1.1;0.0.0.0 localhost;192.168.1.2/16' --static-ip-config-ip-blocks 'gateway=192.168.1.1,netmask=255.255.0.0,ips=8.8.8.8;4.4.4.4' Use quote around the flag value to escape semicolon in the terminal.
     /// </summary>
     [CliOption("--static-ip-config-ip-blocks", Format = OptionFormat.EqualsSeparated)]
     public string? StaticIpConfigIpBlocks { get; set; }
@@ -70,16 +94,38 @@ public record GcloudContainerVmwareClustersUpdateOptions : GcloudOptions
     public string? Version { get; set; }
 
     /// <summary>
-    /// Upgrade policy for the cluster. At most one of these can be specified: Add the given key-value pairs to the current annotations, or update its value if the key already exists.
+    /// At most one of these can be specified: Add the given key-value pairs to the current annotations, or update its value if the key already exists.
     /// </summary>
     [CliOption("--add-annotations", Format = OptionFormat.EqualsSeparated)]
     public string? AddAnnotations { get; set; }
 
     /// <summary>
-    /// Upgrade policy for the cluster. At most one of these can be specified: Remove annotations of the given keys.
+    /// At most one of these can be specified: Remove annotations of the given keys. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-annotations", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveAnnotations { get; set; }
+    [CliOption("--remove-annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveAnnotations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveAnnotationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveAnnotationsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Control plane node configurations Number of CPUs for each admin cluster node that serve as control planes for this VMware user cluster. (default: 4 CPUs)
@@ -94,51 +140,91 @@ public record GcloudContainerVmwareClustersUpdateOptions : GcloudOptions
     public string? Memory { get; set; }
 
     /// <summary>
-    /// Control plane node configurations Auto resize configurations At most one of these can be specified: Disable controle plane node auto resize.
+    /// Auto resize configurations At most one of these can be specified: Disable controle plane node auto resize.
     /// </summary>
     [CliFlag("--disable-auto-resize")]
     public bool? DisableAutoResize { get; set; }
 
     /// <summary>
-    /// Control plane node configurations Auto resize configurations At most one of these can be specified: Enable controle plane node auto resize.
+    /// Auto resize configurations At most one of these can be specified: Enable controle plane node auto resize.
     /// </summary>
     [CliFlag("--enable-auto-resize")]
     public bool? EnableAutoResize { get; set; }
 
     /// <summary>
-    /// Control plane node configurations Anti-affinity group configurations At most one of these can be specified: If set, spread nodes across at least three physical hosts (requires at least three hosts). Enabled by default.
+    /// Anti-affinity group configurations At most one of these can be specified: If set, spread nodes across at least three physical hosts (requires at least three hosts). Enabled by default.
     /// </summary>
     [CliFlag("--disable-aag-config")]
     public bool? DisableAagConfig { get; set; }
 
     /// <summary>
-    /// Control plane node configurations Anti-affinity group configurations At most one of these can be specified: If set, enable anti-affinity group config.
+    /// Anti-affinity group configurations At most one of these can be specified: If set, enable anti-affinity group config.
     /// </summary>
     [CliFlag("--enable-aag-config")]
     public bool? EnableAagConfig { get; set; }
 
     /// <summary>
-    /// Control plane node configurations Auto-repair configurations At most one of these can be specified: If set, disables auto repair.
+    /// Auto-repair configurations At most one of these can be specified: If set, disables auto repair.
     /// </summary>
     [CliFlag("--disable-auto-repair")]
     public bool? DisableAutoRepair { get; set; }
 
     /// <summary>
-    /// Control plane node configurations Auto-repair configurations At most one of these can be specified: If set, deploy the cluster-health-controller.
+    /// Auto-repair configurations At most one of these can be specified: If set, deploy the cluster-health-controller.
     /// </summary>
     [CliFlag("--enable-auto-repair")]
     public bool? EnableAutoRepair { get; set; }
 
     /// <summary>
-    /// Control plane node configurations Storage configurations At most one of these can be specified: If set, vSphere CSI components are not deployed in the VMware User Cluster. Enabled by default.
+    /// Storage configurations At most one of these can be specified: If set, vSphere CSI components are not deployed in the VMware User Cluster. Enabled by default.
     /// </summary>
     [CliFlag("--disable-vsphere-csi")]
     public bool? DisableVsphereCsi { get; set; }
 
     /// <summary>
-    /// Control plane node configurations Storage configurations At most one of these can be specified: If set, vSphere CSI components are deployed in the VMware User Cluster.
+    /// Storage configurations At most one of these can be specified: If set, vSphere CSI components are deployed in the VMware User Cluster.
     /// </summary>
     [CliFlag("--enable-vsphere-csi")]
     public bool? EnableVsphereCsi { get; set; }
+
+    /// <summary>
+    /// Cluster resource - cluster to update The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(MetalLbConfigAddressPools) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of MetalLbConfigAddressPools may be specified.", [nameof(MetalLbConfigAddressPools)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(StaticIpConfigIpBlocks) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of StaticIpConfigIpBlocks may be specified.", [nameof(StaticIpConfigIpBlocks)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AddAnnotations) ? 1 : 0) + (((object?)RemoveAnnotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAnnotations is not string || !string.IsNullOrWhiteSpace(RemoveAnnotations?.ToString()) : ((object?)RemoveAnnotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAnnotations, static item => item is not null) : (RemoveAnnotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAnnotations), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AddAnnotations or RemoveAnnotations may be specified.", [nameof(AddAnnotations), nameof(RemoveAnnotations)]);
+        }
+        if ((DisableAutoResize == true ? 1 : 0) + (EnableAutoResize == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisableAutoResize or EnableAutoResize may be specified.", [nameof(DisableAutoResize), nameof(EnableAutoResize)]);
+        }
+        if ((DisableAagConfig == true ? 1 : 0) + (EnableAagConfig == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisableAagConfig or EnableAagConfig may be specified.", [nameof(DisableAagConfig), nameof(EnableAagConfig)]);
+        }
+        if ((DisableAutoRepair == true ? 1 : 0) + (EnableAutoRepair == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisableAutoRepair or EnableAutoRepair may be specified.", [nameof(DisableAutoRepair), nameof(EnableAutoRepair)]);
+        }
+        if ((DisableVsphereCsi == true ? 1 : 0) + (EnableVsphereCsi == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisableVsphereCsi or EnableVsphereCsi may be specified.", [nameof(DisableVsphereCsi), nameof(EnableVsphereCsi)]);
+        }
+        yield break;
+    }
 
 }

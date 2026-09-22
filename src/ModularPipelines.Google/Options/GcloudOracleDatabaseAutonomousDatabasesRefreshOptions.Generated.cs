@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("oracle-database", "autonomous-databases", "refresh")]
 public record GcloudOracleDatabaseAutonomousDatabasesRefreshOptions : GcloudOptions
 {
+    /// <summary>
+    /// refresh an     AutonomousDatabase clone
+    /// </summary>
+    /// <param name="RefreshCutoffTime">The timestamp to which the Autonomous Database refreshable clone will be refreshed. Changes made in the primary database after this timestamp are not part of the data refresh.</param>
+    /// <param name="AutonomousDatabase">AutonomousDatabase resource - The name of the AutonomousDatabase resource. Format: projects/{project}/location/{location}/autonomousDatabases/{autonomous_database} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument autonomous_database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the autonomousDatabase or fully qualified identifier for the autonomousDatabase. To set the autonomous_database attribute: ▸ provide the argument autonomous_database on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudOracleDatabaseAutonomousDatabasesRefreshOptions(
+        string RefreshCutoffTime,
+        string AutonomousDatabase
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RefreshCutoffTime);
+        this.RefreshCutoffTime = RefreshCutoffTime;
+        global::System.ArgumentNullException.ThrowIfNull(AutonomousDatabase);
+        this.AutonomousDatabase = AutonomousDatabase;
+    }
+
+    public void Deconstruct(out string RefreshCutoffTime, out string AutonomousDatabase)
+    {
+        RefreshCutoffTime = this.RefreshCutoffTime;
+        AutonomousDatabase = this.AutonomousDatabase;
+    }
+
+    /// <summary>
+    /// The timestamp to which the Autonomous Database refreshable clone will be refreshed. Changes made in the primary database after this timestamp are not part of the data refresh.
+    /// </summary>
+    [CliOption("--refresh-cutoff-time", Format = OptionFormat.EqualsSeparated)]
+    public string RefreshCutoffTime { get; private init; }
+
+    /// <summary>
+    /// AutonomousDatabase resource - The name of the AutonomousDatabase resource. Format: projects/{project}/location/{location}/autonomousDatabases/{autonomous_database} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument autonomous_database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the autonomousDatabase resource. To set the location attribute: ▸ provide the argument autonomous_database on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// AutonomousDatabase resource - The name of the AutonomousDatabase resource. Format: projects/{project}/location/{location}/autonomousDatabases/{autonomous_database} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument autonomous_database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the autonomousDatabase or fully qualified identifier for the autonomousDatabase. To set the autonomous_database attribute: ▸ provide the argument autonomous_database on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AutonomousDatabase { get; private init; }
+
 }

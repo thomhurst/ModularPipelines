@@ -19,8 +19,87 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy-troubleshoot", "iam")]
-public record GcloudPolicyTroubleshootIamOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Resource
-) : GcloudOptions
+public record GcloudPolicyTroubleshootIamOptions : GcloudOptions
 {
+    /// <summary>
+    /// troubleshoot the IAM Policy
+    /// </summary>
+    /// <param name="Permission">Cloud IAM permission to check, e.g. "resourcemanager.projects.get".</param>
+    /// <param name="PrincipalEmail">Email address that identifies the principal to check. Only Google Accounts and service accounts are supported.</param>
+    /// <param name="Resource">Full resource name that access is checked against. See: https://cloud.google.com/iam/docs/resource-names.</param>
+    public GcloudPolicyTroubleshootIamOptions(
+        string Permission,
+        string PrincipalEmail,
+        string Resource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Permission);
+        this.Permission = Permission;
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalEmail);
+        this.PrincipalEmail = PrincipalEmail;
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+    }
+
+    public void Deconstruct(out string Permission, out string PrincipalEmail, out string Resource)
+    {
+        Permission = this.Permission;
+        PrincipalEmail = this.PrincipalEmail;
+        Resource = this.Resource;
+    }
+
+    /// <summary>
+    /// Cloud IAM permission to check, e.g. "resourcemanager.projects.get".
+    /// </summary>
+    [CliOption("--permission", Format = OptionFormat.EqualsSeparated)]
+    public string Permission { get; private init; }
+
+    /// <summary>
+    /// Email address that identifies the principal to check. Only Google Accounts and service accounts are supported.
+    /// </summary>
+    [CliOption("--principal-email", Format = OptionFormat.EqualsSeparated)]
+    public string PrincipalEmail { get; private init; }
+
+    /// <summary>
+    /// The request destination IP address to use when checking conditional bindings. For example, 198.1.1.1.
+    /// </summary>
+    [CliOption("--destination-ip", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationIp { get; set; }
+
+    /// <summary>
+    /// The request destination port to use when checking conditional bindings. For example, 8080.
+    /// </summary>
+    [CliOption("--destination-port", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationPort { get; set; }
+
+    /// <summary>
+    /// The request timestamp to use when checking conditional bindings. This string must adhere to UTC format (RFC 3339). For example,2021-01-01T00:00:00Z. See: https://tools.ietf.org/html/rfc3339
+    /// </summary>
+    [CliOption("--request-time", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestTime { get; set; }
+
+    /// <summary>
+    /// The resource name value to use when checking conditional bindings. See: https://cloud.google.com/iam/docs/conditions-resource-attributes#resource-name.
+    /// </summary>
+    [CliOption("--resource-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ResourceName { get; set; }
+
+    /// <summary>
+    /// The resource service value to use when checking conditional bindings. See: https://cloud.google.com/iam/docs/conditions-resource-attributes#resource-service
+    /// </summary>
+    [CliOption("--resource-service", Format = OptionFormat.EqualsSeparated)]
+    public string? ResourceService { get; set; }
+
+    /// <summary>
+    /// The resource type value to use when checking conditional bindings. See: https://cloud.google.com/iam/docs/conditions-resource-attributes#resource-type
+    /// </summary>
+    [CliOption("--resource-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ResourceType { get; set; }
+
+    /// <summary>
+    /// Full resource name that access is checked against. See: https://cloud.google.com/iam/docs/resource-names.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Resource { get; private init; }
+
 }

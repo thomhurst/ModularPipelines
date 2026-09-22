@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "images", "describe")]
-public record GcloudContainerImagesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImageName
-) : GcloudOptions
+public record GcloudContainerImagesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// lists information about the specified     image
+    /// </summary>
+    /// <param name="ImageName">The fully qualified name(s) of image(s) to describe. The name(s) should be formatted as *.gcr.io/PROJECT_ID/IMAGE_PATH@sha256:DIGEST or *.gcr.io/PROJECT_ID/IMAGE_PATH:TAG.</param>
+    public GcloudContainerImagesDescribeOptions(
+        string ImageName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageName);
+        this.ImageName = ImageName;
+    }
+
+    public void Deconstruct(out string ImageName)
+    {
+        ImageName = this.ImageName;
+    }
+
+    /// <summary>
+    /// The fully qualified name(s) of image(s) to describe. The name(s) should be formatted as *.gcr.io/PROJECT_ID/IMAGE_PATH@sha256:DIGEST or *.gcr.io/PROJECT_ID/IMAGE_PATH:TAG.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ImageName { get; private init; }
+
 }

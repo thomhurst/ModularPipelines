@@ -21,4 +21,89 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("edge-cloud", "networking", "routers", "add-bgp-peer")]
 public record GcloudEdgeCloudNetworkingRoutersAddBgpPeerOptions : GcloudOptions
 {
+    /// <summary>
+    /// add a BGP peer to a     Distributed Cloud Edge Network router
+    /// </summary>
+    /// <param name="Interface">The name of the interface for this BGP peer.</param>
+    /// <param name="PeerAsn">The BGP autonomous system number (ASN) for this BGP peer. Must be a 16-bit or 32-bit private ASN as defined in https://tools.ietf.org/html/rfc6996, for example --asn=64512.</param>
+    /// <param name="PeerIpv4Range">The IPv4 link-local address range of the peer router.</param>
+    /// <param name="PeerName">The name of the new BGP peer being added.</param>
+    /// <param name="Router">Router resource - The router to which we add a bgp peer. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument router on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the router or fully qualified identifier for the router. To set the router attribute: ▸ provide the argument router on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEdgeCloudNetworkingRoutersAddBgpPeerOptions(
+        string Interface,
+        string PeerAsn,
+        string PeerIpv4Range,
+        string PeerName,
+        string Router
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Interface);
+        this.Interface = Interface;
+        global::System.ArgumentNullException.ThrowIfNull(PeerAsn);
+        this.PeerAsn = PeerAsn;
+        global::System.ArgumentNullException.ThrowIfNull(PeerIpv4Range);
+        this.PeerIpv4Range = PeerIpv4Range;
+        global::System.ArgumentNullException.ThrowIfNull(PeerName);
+        this.PeerName = PeerName;
+        global::System.ArgumentNullException.ThrowIfNull(Router);
+        this.Router = Router;
+    }
+
+    public void Deconstruct(out string Interface, out string PeerAsn, out string PeerIpv4Range, out string PeerName, out string Router)
+    {
+        Interface = this.Interface;
+        PeerAsn = this.PeerAsn;
+        PeerIpv4Range = this.PeerIpv4Range;
+        PeerName = this.PeerName;
+        Router = this.Router;
+    }
+
+    /// <summary>
+    /// The name of the interface for this BGP peer.
+    /// </summary>
+    [CliOption("--interface", Format = OptionFormat.EqualsSeparated)]
+    public string Interface { get; private init; }
+
+    /// <summary>
+    /// The BGP autonomous system number (ASN) for this BGP peer. Must be a 16-bit or 32-bit private ASN as defined in https://tools.ietf.org/html/rfc6996, for example --asn=64512.
+    /// </summary>
+    [CliOption("--peer-asn", Format = OptionFormat.EqualsSeparated)]
+    public string PeerAsn { get; private init; }
+
+    /// <summary>
+    /// The IPv4 link-local address range of the peer router.
+    /// </summary>
+    [CliOption("--peer-ipv4-range", Format = OptionFormat.EqualsSeparated)]
+    public string PeerIpv4Range { get; private init; }
+
+    /// <summary>
+    /// The name of the new BGP peer being added.
+    /// </summary>
+    [CliOption("--peer-name", Format = OptionFormat.EqualsSeparated)]
+    public string PeerName { get; private init; }
+
+    /// <summary>
+    /// Router resource - The router to which we add a bgp peer. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument router on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the router. To set the location attribute: ▸ provide the argument router on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Router resource - The router to which we add a bgp peer. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument router on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The zone of the router. To set the zone attribute: ▸ provide the argument router on the command line with a fully specified name; ▸ provide the argument --zone on the command line.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Router resource - The router to which we add a bgp peer. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument router on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the router or fully qualified identifier for the router. To set the router attribute: ▸ provide the argument router on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Router { get; private init; }
+
 }

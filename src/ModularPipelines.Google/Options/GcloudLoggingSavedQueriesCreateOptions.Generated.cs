@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,156 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "saved-queries", "create")]
-public record GcloudLoggingSavedQueriesCreateOptions : GcloudOptions
+public record GcloudLoggingSavedQueriesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Logging saved query
+    /// </summary>
+    /// <param name="DisplayName">Display name for the saved query.</param>
+    /// <param name="Location">Location to create the saved query in.</param>
+    /// <param name="Visibility">Visibility of the saved query. VISIBILITY must be one of: private, shared.</param>
+    public GcloudLoggingSavedQueriesCreateOptions(
+        string DisplayName,
+        string Location,
+        GcloudLoggingSavedQueriesCreateVisibility Visibility
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        this.Visibility = Visibility;
+    }
+
+    public void Deconstruct(out string DisplayName, out string Location, out GcloudLoggingSavedQueriesCreateVisibility Visibility)
+    {
+        DisplayName = this.DisplayName;
+        Location = this.Location;
+        Visibility = this.Visibility;
+    }
+
+    /// <summary>
+    /// Display name for the saved query.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Location to create the saved query in.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Visibility of the saved query. VISIBILITY must be one of: private, shared.
+    /// </summary>
+    [CliOption("--visibility", Format = OptionFormat.EqualsSeparated)]
+    public GcloudLoggingSavedQueriesCreateVisibility Visibility { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: SQL query text.
+    /// </summary>
+    [CliOption("--sql-query-text", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlQueryText { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Filter expression for the log-based query.
+    /// </summary>
+    [CliOption("--log-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? LogFilter { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Comma-separated list of fields to include in the summary. This flag must be specified if --summary-field-start or --summary-field-end are provided. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--summary-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SummaryFields
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SummaryFieldsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SummaryFieldsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Setting for number of characters to display for each summary field: characters will be counted from the end of the string. Requires the --summary-fields flag to be specified as well.
+    /// </summary>
+    [CliOption("--summary-field-end", Format = OptionFormat.EqualsSeparated)]
+    public string? SummaryFieldEnd { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Setting for number of characters to display for each summary field: characters will be counted from the start of the string. Requires the --summary-fields flag to be specified as well.
+    /// </summary>
+    [CliOption("--summary-field-start", Format = OptionFormat.EqualsSeparated)]
+    public string? SummaryFieldStart { get; set; }
+
+    /// <summary>
+    /// A textual description for the saved query.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// ID of the saved query to create.
+    /// </summary>
+    [CliOption("--id", Format = OptionFormat.EqualsSeparated)]
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Billing account of the saved query to create.
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string? BillingAccount { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Folder of the saved query to create.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Organization of the saved query to create.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Project of the saved query to create. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation: they specify both the project of the resource to operate on, and the project for API enablement checks, quota, and billing. To specify a different project for quota and billing, use the --billing-project flag or the billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(SqlQueryText) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(LogFilter) || ((object?)SummaryFields is global::System.Collections.Generic.IEnumerable<char> ? (object?)SummaryFields is not string || !string.IsNullOrWhiteSpace(SummaryFields?.ToString()) : ((object?)SummaryFields is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SummaryFields, static item => item is not null) : (SummaryFields is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SummaryFields), static item => item is not null)))) || !string.IsNullOrWhiteSpace(SummaryFieldEnd) || !string.IsNullOrWhiteSpace(SummaryFieldStart)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of SqlQueryText or (LogFilter, SummaryFields, SummaryFieldEnd, or SummaryFieldStart) must be specified.", [nameof(SqlQueryText), nameof(LogFilter), nameof(SummaryFields), nameof(SummaryFieldEnd), nameof(SummaryFieldStart)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SqlQueryText) || !string.IsNullOrWhiteSpace(LogFilter) || ((object?)SummaryFields is global::System.Collections.Generic.IEnumerable<char> ? (object?)SummaryFields is not string || !string.IsNullOrWhiteSpace(SummaryFields?.ToString()) : ((object?)SummaryFields is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SummaryFields, static item => item is not null) : (SummaryFields is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SummaryFields), static item => item is not null)))) || !string.IsNullOrWhiteSpace(SummaryFieldEnd) || !string.IsNullOrWhiteSpace(SummaryFieldStart)) && (!string.IsNullOrWhiteSpace(LogFilter) || ((object?)SummaryFields is global::System.Collections.Generic.IEnumerable<char> ? (object?)SummaryFields is not string || !string.IsNullOrWhiteSpace(SummaryFields?.ToString()) : ((object?)SummaryFields is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SummaryFields, static item => item is not null) : (SummaryFields is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SummaryFields), static item => item is not null)))) || !string.IsNullOrWhiteSpace(SummaryFieldEnd) || !string.IsNullOrWhiteSpace(SummaryFieldStart)) && ((!string.IsNullOrWhiteSpace(SummaryFieldEnd) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SummaryFieldStart) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of SummaryFieldEnd or SummaryFieldStart may be specified.", [nameof(SummaryFieldEnd), nameof(SummaryFieldStart)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BillingAccount) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BillingAccount, Folder, Organization, or Project may be specified.", [nameof(BillingAccount), nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

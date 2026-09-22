@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("tasks", "cmek-config", "describe")]
 public record GcloudTasksCmekConfigDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get CMEK configuration for Cloud Tasks     in the specified location
+    /// </summary>
+    /// <param name="Location">Google Cloud location for the KMS key.</param>
+    public GcloudTasksCmekConfigDescribeOptions(
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Location)
+    {
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// Google Cloud location for the KMS key.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
 }

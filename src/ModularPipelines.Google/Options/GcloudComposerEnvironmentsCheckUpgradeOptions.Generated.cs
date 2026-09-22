@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("composer", "environments", "check-upgrade")]
-public record GcloudComposerEnvironmentsCheckUpgradeOptions : GcloudOptions
+public record GcloudComposerEnvironmentsCheckUpgradeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// check that upgrading a Cloud     Composer environment does not result in PyPI module conflicts
+    /// </summary>
+    /// <param name="Environment">Environment resource - The environment to check upgrade for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: ▸ provide the argument environment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComposerEnvironmentsCheckUpgradeOptions(
+        string Environment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Environment);
+        this.Environment = Environment;
+    }
+
+    public void Deconstruct(out string Environment)
+    {
+        Environment = this.Environment;
+    }
+
+    /// <summary>
+    /// Environment resource - The environment to check upgrade for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Region where Composer environment runs or in which to create the environment. To set the location attribute: ▸ provide the argument environment on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property composer/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -38,5 +62,21 @@ public record GcloudComposerEnvironmentsCheckUpgradeOptions : GcloudOptions
     /// </summary>
     [CliOption("--image-version", Format = OptionFormat.EqualsSeparated)]
     public string? ImageVersion { get; set; }
+
+    /// <summary>
+    /// Environment resource - The environment to check upgrade for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: ▸ provide the argument environment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Environment { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(AirflowVersion) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ImageVersion) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AirflowVersion or ImageVersion may be specified.", [nameof(AirflowVersion), nameof(ImageVersion)]);
+        }
+        yield break;
+    }
 
 }

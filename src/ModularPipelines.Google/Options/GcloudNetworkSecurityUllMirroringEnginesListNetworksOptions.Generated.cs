@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-security", "ull-mirroring-engines", "list-networks")]
 public record GcloudNetworkSecurityUllMirroringEnginesListNetworksOptions : GcloudOptions
 {
+    /// <summary>
+    /// list networks     configured for mirroring for a Google Cloud ULL Mirroring Engine
+    /// </summary>
+    /// <param name="UllMirroringEngine">Ull mirroring engine resource - The ULL Mirroring Engine. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ULL_MIRRORING_ENGINE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the ull_mirroring_engine or fully qualified identifier for the ull_mirroring_engine. To set the ull_mirroring_engine attribute: ▸ provide the argument ULL_MIRRORING_ENGINE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecurityUllMirroringEnginesListNetworksOptions(
+        string UllMirroringEngine
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UllMirroringEngine);
+        this.UllMirroringEngine = UllMirroringEngine;
+    }
+
+    public void Deconstruct(out string UllMirroringEngine)
+    {
+        UllMirroringEngine = this.UllMirroringEngine;
+    }
+
+    /// <summary>
+    /// Ull mirroring engine resource - The ULL Mirroring Engine. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ULL_MIRRORING_ENGINE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud zone for the ull_mirroring_engine. To set the location attribute: ▸ provide the argument ULL_MIRRORING_ENGINE on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Ull mirroring engine resource - The ULL Mirroring Engine. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ULL_MIRRORING_ENGINE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the ull_mirroring_engine or fully qualified identifier for the ull_mirroring_engine. To set the ull_mirroring_engine attribute: ▸ provide the argument ULL_MIRRORING_ENGINE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string UllMirroringEngine { get; private init; }
+
 }

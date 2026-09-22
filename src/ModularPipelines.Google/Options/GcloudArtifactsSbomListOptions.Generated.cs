@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "sbom", "list")]
-public record GcloudArtifactsSbomListOptions : GcloudOptions
+public record GcloudArtifactsSbomListOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// If specified, all requests to Artifact Analysis for occurrences will go to location specified
@@ -44,5 +45,15 @@ public record GcloudArtifactsSbomListOptions : GcloudOptions
     /// </summary>
     [CliOption("--resource-prefix", Format = OptionFormat.EqualsSeparated)]
     public string? ResourcePrefix { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Dependency) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Resource) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ResourcePrefix) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Dependency, Resource, or ResourcePrefix may be specified.", [nameof(Dependency), nameof(Resource), nameof(ResourcePrefix)]);
+        }
+        yield break;
+    }
 
 }

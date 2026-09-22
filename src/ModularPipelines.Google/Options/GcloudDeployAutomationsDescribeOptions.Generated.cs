@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("deploy", "automations", "describe")]
 public record GcloudDeployAutomationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details for an Automation
+    /// </summary>
+    /// <param name="Automation">Automation resource - The name of the automation you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument automation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the automation or fully qualified identifier for the automation. To set the automation attribute: ▸ provide the argument automation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDeployAutomationsDescribeOptions(
+        string Automation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Automation);
+        this.Automation = Automation;
+    }
+
+    public void Deconstruct(out string Automation)
+    {
+        Automation = this.Automation;
+    }
+
+    /// <summary>
+    /// Automation resource - The name of the automation you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument automation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Cloud Deploy delivery pipeline. To set the delivery-pipeline attribute: ▸ provide the argument automation on the command line with a fully specified name; ▸ provide the argument --delivery-pipeline on the command line; ▸ set the property deploy/delivery_pipeline.
+    /// </summary>
+    [CliOption("--delivery-pipeline", Format = OptionFormat.EqualsSeparated)]
+    public string? DeliveryPipeline { get; set; }
+
+    /// <summary>
+    /// Automation resource - The name of the automation you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument automation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the automation. To set the region attribute: ▸ provide the argument automation on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property deploy/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Automation resource - The name of the automation you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument automation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the automation or fully qualified identifier for the automation. To set the automation attribute: ▸ provide the argument automation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Automation { get; private init; }
+
 }

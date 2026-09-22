@@ -21,4 +21,44 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "vmware", "clusters", "upgrade")]
 public record GcloudContainerVmwareClustersUpgradeOptions : GcloudOptions
 {
+    /// <summary>
+    /// centrally upgrade an Anthos     cluster on VMware
+    /// </summary>
+    /// <param name="Version">Anthos Cluster on VMware version for the cluster resource</param>
+    /// <param name="Cluster">Cluster resource - cluster to upgrade The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerVmwareClustersUpgradeOptions(
+        string Version,
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Version, out string Cluster)
+    {
+        Version = this.Version;
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Anthos Cluster on VMware version for the cluster resource
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string Version { get; private init; }
+
+    /// <summary>
+    /// Cluster resource - cluster to upgrade The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the cluster. To set the location attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_vmware/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Cluster resource - cluster to upgrade The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
 }

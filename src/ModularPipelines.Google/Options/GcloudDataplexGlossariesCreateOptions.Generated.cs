@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "glossaries", "create")]
-public record GcloudDataplexGlossariesCreateOptions : GcloudOptions
+public record GcloudDataplexGlossariesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Dataplex Glossary resource
+    /// </summary>
+    /// <param name="Glossary">Glossary resource - Arguments and flags that define the Dataplex Glossary you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument glossary on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the glossary or fully qualified identifier for the glossary. To set the glossary attribute: ▸ provide the argument glossary on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexGlossariesCreateOptions(
+        string Glossary
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Glossary);
+        this.Glossary = Glossary;
+    }
+
+    public void Deconstruct(out string Glossary)
+    {
+        Glossary = this.Glossary;
+    }
+
+    /// <summary>
+    /// Glossary resource - Arguments and flags that define the Dataplex Glossary you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument glossary on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataplex resource. To set the location attribute: ▸ provide the argument glossary on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Description of the Glossary.
     /// </summary>
@@ -35,9 +59,9 @@ public record GcloudDataplexGlossariesCreateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -51,5 +75,21 @@ public record GcloudDataplexGlossariesCreateOptions : GcloudOptions
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Glossary resource - Arguments and flags that define the Dataplex Glossary you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument glossary on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the glossary or fully qualified identifier for the glossary. To set the glossary attribute: ▸ provide the argument glossary on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Glossary { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Async == true ? 1 : 0) + (ValidateOnly == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Async or ValidateOnly may be specified.", [nameof(Async), nameof(ValidateOnly)]);
+        }
+        yield break;
+    }
 
 }

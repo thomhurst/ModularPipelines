@@ -19,8 +19,79 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "reservations", "sub-blocks", "test-iam-permissions")]
-public record GcloudPreviewComputeReservationsSubBlocksTestIamPermissionsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Reservation
-) : GcloudOptions
+public record GcloudPreviewComputeReservationsSubBlocksTestIamPermissionsOptions : GcloudOptions
 {
+    /// <summary>
+    /// test     IAM permissions on a Compute Engine reservation sub-block
+    /// </summary>
+    /// <param name="BlockName">The name of the reservation block.</param>
+    /// <param name="Permissions">Set of permissions to check for the resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="SubBlockName">The name of the reservation sub block.</param>
+    /// <param name="Reservation">Name of the reservation to test-iam-permissions.</param>
+    public GcloudPreviewComputeReservationsSubBlocksTestIamPermissionsOptions(
+        string BlockName,
+        IEnumerable<string> Permissions,
+        string SubBlockName,
+        string Reservation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BlockName);
+        this.BlockName = BlockName;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Permissions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Permissions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Permissions));
+            }
+
+            Permissions = materialized;
+        }
+        this.Permissions = Permissions;
+        global::System.ArgumentNullException.ThrowIfNull(SubBlockName);
+        this.SubBlockName = SubBlockName;
+        global::System.ArgumentNullException.ThrowIfNull(Reservation);
+        this.Reservation = Reservation;
+    }
+
+    public void Deconstruct(out string BlockName, out IEnumerable<string> Permissions, out string SubBlockName, out string Reservation)
+    {
+        BlockName = this.BlockName;
+        Permissions = this.Permissions;
+        SubBlockName = this.SubBlockName;
+        Reservation = this.Reservation;
+    }
+
+    /// <summary>
+    /// The name of the reservation block.
+    /// </summary>
+    [CliOption("--block-name", Format = OptionFormat.EqualsSeparated)]
+    public string BlockName { get; private init; }
+
+    /// <summary>
+    /// Set of permissions to check for the resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--permissions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Permissions { get; private init; }
+
+    /// <summary>
+    /// The name of the reservation sub block.
+    /// </summary>
+    [CliOption("--sub-block-name", Format = OptionFormat.EqualsSeparated)]
+    public string SubBlockName { get; private init; }
+
+    /// <summary>
+    /// Zone of the reservation to test-iam-permissions. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the reservation to test-iam-permissions.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Reservation { get; private init; }
+
 }

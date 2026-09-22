@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "firewall-policies", "get-iam-policy")]
-public record GcloudPreviewComputeFirewallPoliciesGetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FirewallPolicy
-) : GcloudOptions
+public record GcloudPreviewComputeFirewallPoliciesGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the IAM     policy for a Compute Engine organization firewall policy
+    /// </summary>
+    /// <param name="FirewallPolicy">Short name or ID of the firewall policy to get IAM policy.</param>
+    public GcloudPreviewComputeFirewallPoliciesGetIamPolicyOptions(
+        string FirewallPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallPolicy);
+        this.FirewallPolicy = FirewallPolicy;
+    }
+
+    public void Deconstruct(out string FirewallPolicy)
+    {
+        FirewallPolicy = this.FirewallPolicy;
+    }
+
     /// <summary>
     /// Organization ID in which the organization firewall policy is to be described. Must be set if FIREWALL_POLICY is short name.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
+
+    /// <summary>
+    /// Short name or ID of the firewall policy to get IAM policy.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FirewallPolicy { get; private init; }
 
 }

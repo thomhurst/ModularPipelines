@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,50 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "identity-service", "apply")]
-public record GcloudContainerFleetIdentityServiceApplyOptions : GcloudOptions
+public record GcloudContainerFleetIdentityServiceApplyOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// At least one of these must be specified: The path to an identity-service.yaml configuration file.
+    /// </summary>
+    [CliOption("--fleet-default-member-config", Format = OptionFormat.EqualsSeparated)]
+    public string? FleetDefaultMemberConfig { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Exactly one of these must be specified: The path to an identity-service.yaml configuration file.
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Exactly one of these must be specified: Applies the fleet-level default membership configuration to a membership. ORIGIN must be (only one value is supported): fleet.
+    /// </summary>
+    [CliOption("--origin", Format = OptionFormat.EqualsSeparated)]
+    public string? Origin { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Membership resource - The group of arguments defining a membership. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --membership on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. ID of the membership or fully qualified identifier for the membership. To set the membership attribute: ▸ provide the argument --membership on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--membership", Format = OptionFormat.EqualsSeparated)]
+    public string? Membership { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Location for the membership. To set the location attribute: ▸ provide the argument --membership on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property gkehub/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(FleetDefaultMemberConfig) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(Config) || !string.IsNullOrWhiteSpace(Origin) || !string.IsNullOrWhiteSpace(Membership)))
+        {
+            yield return new ValidationResult("At least one of FleetDefaultMemberConfig, Location, Config, Origin, or Membership must be specified.", [nameof(FleetDefaultMemberConfig), nameof(Location), nameof(Config), nameof(Origin), nameof(Membership)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(FleetDefaultMemberConfig) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(Config) || !string.IsNullOrWhiteSpace(Origin) || !string.IsNullOrWhiteSpace(Membership)) && ((!string.IsNullOrWhiteSpace(Config) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Origin) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of Config or Origin may be specified.", [nameof(Config), nameof(Origin)]);
+        }
+        yield break;
+    }
+
 }

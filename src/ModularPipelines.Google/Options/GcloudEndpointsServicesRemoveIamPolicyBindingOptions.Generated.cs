@@ -21,4 +21,49 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("endpoints", "services", "remove-iam-policy-binding")]
 public record GcloudEndpointsServicesRemoveIamPolicyBindingOptions : GcloudOptions
 {
+    /// <summary>
+    /// remove IAM policy     binding from a service
+    /// </summary>
+    /// <param name="Member">The principal to remove the binding for. Should be of the form user|group|serviceAccount:email or domain:domain. Examples: user:test-user@gmail.com, group:admins@example.com, serviceAccount:test123@example.domain.com, or domain:example.domain.com. Deleted principals have an additional deleted: prefix and a ?uid=UID suffix, where UID is a unique identifier for the principal. Example: deleted:user:test-user@gmail.com?uid=123456789012345678901. Some resources also accept the following special values: ◆ allUsers - Special identifier that represents anyone who is on the internet, with or without a Google account. ◆ allAuthenticatedUsers - Special identifier that represents anyone who is authenticated with a Google account or a service account.</param>
+    /// <param name="Role">The role to remove the principal from.</param>
+    /// <param name="Service">Service resource - The device registry for which to remove IAM policy binding from. This represents a Cloud resource. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line.</param>
+    public GcloudEndpointsServicesRemoveIamPolicyBindingOptions(
+        string Member,
+        string Role,
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Member);
+        this.Member = Member;
+        global::System.ArgumentNullException.ThrowIfNull(Role);
+        this.Role = Role;
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string Member, out string Role, out string Service)
+    {
+        Member = this.Member;
+        Role = this.Role;
+        Service = this.Service;
+    }
+
+    /// <summary>
+    /// The principal to remove the binding for. Should be of the form user|group|serviceAccount:email or domain:domain. Examples: user:test-user@gmail.com, group:admins@example.com, serviceAccount:test123@example.domain.com, or domain:example.domain.com. Deleted principals have an additional deleted: prefix and a ?uid=UID suffix, where UID is a unique identifier for the principal. Example: deleted:user:test-user@gmail.com?uid=123456789012345678901. Some resources also accept the following special values: ◆ allUsers - Special identifier that represents anyone who is on the internet, with or without a Google account. ◆ allAuthenticatedUsers - Special identifier that represents anyone who is authenticated with a Google account or a service account.
+    /// </summary>
+    [CliOption("--member", Format = OptionFormat.EqualsSeparated)]
+    public string Member { get; private init; }
+
+    /// <summary>
+    /// The role to remove the principal from.
+    /// </summary>
+    [CliOption("--role", Format = OptionFormat.EqualsSeparated)]
+    public string Role { get; private init; }
+
+    /// <summary>
+    /// Service resource - The device registry for which to remove IAM policy binding from. This represents a Cloud resource. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Service { get; private init; }
+
 }

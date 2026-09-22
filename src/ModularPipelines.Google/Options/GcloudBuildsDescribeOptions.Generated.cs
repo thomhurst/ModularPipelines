@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "describe")]
-public record GcloudBuildsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Build
-) : GcloudOptions
+public record GcloudBuildsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get information about a particular build
+    /// </summary>
+    /// <param name="Build">The build to describe. The ID of the build is printed at the end of the build submission process, or in the ID column when listing builds.</param>
+    public GcloudBuildsDescribeOptions(
+        string Build
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Build);
+        this.Build = Build;
+    }
+
+    public void Deconstruct(out string Build)
+    {
+        Build = this.Build;
+    }
+
     /// <summary>
     /// The region of the Cloud Build Service to use. Must be set to a supported region name (e.g. us-central1). If unset, builds/region, which is the default region to use when working with Cloud Build resources, is used. If builds/region is unset, region is set to global. Note: Region must be specified in 2nd gen repo; global is not supported.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// The build to describe. The ID of the build is printed at the end of the build submission process, or in the ID column when listing builds.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Build { get; private init; }
 
 }

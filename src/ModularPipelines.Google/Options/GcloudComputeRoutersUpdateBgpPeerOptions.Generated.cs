@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,402 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "routers", "update-bgp-peer")]
-public record GcloudComputeRoutersUpdateBgpPeerOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeRoutersUpdateBgpPeerOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a BGP peer on a Compute     Engine router
+    /// </summary>
+    /// <param name="PeerName">The name of the new BGP peer being updated.</param>
+    /// <param name="Name">Name of the router to operate on.</param>
+    public GcloudComputeRoutersUpdateBgpPeerOptions(
+        string PeerName,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PeerName);
+        this.PeerName = PeerName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string PeerName, out string Name)
+    {
+        PeerName = this.PeerName;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the new BGP peer being updated.
+    /// </summary>
+    [CliOption("--peer-name", Format = OptionFormat.EqualsSeparated)]
+    public string PeerName { get; private init; }
+
+    /// <summary>
+    /// The priority of routes advertised to this BGP peer. In the case where there is more than one matching route of maximum length, the routes with lowest priority value win. 0 &lt;= priority &lt;= 65535. If not specified, will use Google-managed priorities.
+    /// </summary>
+    [CliOption("--advertised-route-priority", Format = OptionFormat.EqualsSeparated)]
+    public string? AdvertisedRoutePriority { get; set; }
+
+    /// <summary>
+    /// The new advertisement mode for this peer. MODE must be one of: CUSTOM Custom (user-configured) BGP advertisements. DEFAULT Default (Google-managed) BGP advertisements.
+    /// </summary>
+    [CliOption("--advertisement-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? AdvertisementMode { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// If specified, remove MD5 authentication from the BGP peer.
+    /// </summary>
+    [CliFlag("--clear-md5-authentication-key")]
+    public bool? ClearMd5AuthenticationKey { get; set; }
+
+    /// <summary>
+    /// An integral value 0 &lt;= priority &lt;= 65535, to be applied to all custom learned route IP address ranges for this peer. If not specified, a Google-managed priority value of 100 is used. The routes with the lowest priority value win.
+    /// </summary>
+    [CliOption("--custom-learned-route-priority", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomLearnedRoutePriority { get; set; }
+
+    /// <summary>
+    /// If IPv4 is enabled, the peer connection can be established with IPv4 route exchange. If disabled, no IPv4 route exchange is allowed on any active session. Use --enable-ipv4 to enable and --no-enable-ipv4 to disable.
+    /// </summary>
+    [CliFlag("--enable-ipv4")]
+    public bool? EnableIpv4 { get; set; }
+
+    /// <summary>
+    /// Negates --enable-ipv4. If IPv4 is enabled, the peer connection can be established with IPv4 route exchange. If disabled, no IPv4 route exchange is allowed on any active session. Use --enable-ipv4 to enable and --no-enable-ipv4 to disable.
+    /// </summary>
+    [CliFlag("--no-enable-ipv4")]
+    public bool? NoEnableIpv4 { get; set; }
+
+    /// <summary>
+    /// If IPv6 is enabled, the peer connection can be established with IPv6 route exchange. If disabled, no IPv6 route exchange is allowed on any active session. Use --enable-ipv6 to enable and --no-enable-ipv6 to disable.
+    /// </summary>
+    [CliFlag("--enable-ipv6")]
+    public bool? EnableIpv6 { get; set; }
+
+    /// <summary>
+    /// Negates --enable-ipv6. If IPv6 is enabled, the peer connection can be established with IPv6 route exchange. If disabled, no IPv6 route exchange is allowed on any active session. Use --enable-ipv6 to enable and --no-enable-ipv6 to disable.
+    /// </summary>
+    [CliFlag("--no-enable-ipv6")]
+    public bool? NoEnableIpv6 { get; set; }
+
+    /// <summary>
+    /// If enabled, the peer connection can be established with routing information. If disabled, any active session with the peer is terminated and all associated routing information is removed. Use --enabled to enable and --no-enabled to disable.
+    /// </summary>
+    [CliFlag("--enabled")]
+    public bool? Enabled { get; set; }
+
+    /// <summary>
+    /// Negates --enabled. If enabled, the peer connection can be established with routing information. If disabled, any active session with the peer is terminated and all associated routing information is removed. Use --enabled to enable and --no-enabled to disable.
+    /// </summary>
+    [CliFlag("--no-enabled")]
+    public bool? NoEnabled { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of export policies. Passing an empty string removes all export policies. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--export-policies", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ExportPolicies { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of import policies. Passing an empty string removes all import policies. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--import-policies", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ImportPolicies { get; set; }
+
+    /// <summary>
+    /// The name of the interface for this BGP peer.
+    /// </summary>
+    [CliOption("--interface", Format = OptionFormat.EqualsSeparated)]
+    public string? Interface { get; set; }
+
+    /// <summary>
+    /// The address of the Cloud Router interface for this BGP peer. Must be a link-local IPv4 address in the range 169.254.0.0/16 or an ULA IPv6 address in the range fdff:1::/64. It must also be in the same subnet as the interface address of the peer router.
+    /// </summary>
+    [CliOption("--ip-address", Format = OptionFormat.EqualsSeparated)]
+    public string? IpAddress { get; set; }
+
+    /// <summary>
+    /// If IPv4 route exchange is enabled for IPv6-based BGP, the IPv4 next hop address of the Cloud Router interface for this BGP peer. Ignored otherwise. Must be a Google owned link-local IPv4 address in the range 169.254.0.0/16 and must belong to the same subnet as the interface address of the peer router.
+    /// </summary>
+    [CliOption("--ipv4-nexthop-address", Format = OptionFormat.EqualsSeparated)]
+    public string? Ipv4NexthopAddress { get; set; }
+
+    /// <summary>
+    /// If IPv6 route exchange is enabled for IPv4-based BGP, the IPv6 next hop address of the Cloud Router interface for this BGP peer. Ignored otherwise. Must be a Google owned global unicast IPv6 address belonging to the range 2600:2d00:0:2:0:0:0:0/64 or 2600:2d00:0:3:0:0:0:0/64 and must belong to same subnet as the interface address of the peer router.
+    /// </summary>
+    [CliOption("--ipv6-nexthop-address", Format = OptionFormat.EqualsSeparated)]
+    public string? Ipv6NexthopAddress { get; set; }
+
+    /// <summary>
+    /// The MD5 authentication key for this BGP peer. Maximum length is 80 characters. Can contain only printable ASCII characters.
+    /// </summary>
+    [CliOption("--md5-authentication-key", Format = OptionFormat.EqualsSeparated)]
+    public string? Md5AuthenticationKey { get; set; }
+
+    /// <summary>
+    /// The BGP autonomous system number (ASN) for this BGP peer. Must be a 16-bit or 32-bit private ASN as defined in https://tools.ietf.org/html/rfc6996, for example --asn=64512.
+    /// </summary>
+    [CliOption("--peer-asn", Format = OptionFormat.EqualsSeparated)]
+    public string? PeerAsn { get; set; }
+
+    /// <summary>
+    /// The address of the peer router. Must be a link-local IPv4 address in the range 169.254.0.0/16 or an ULA IPv6 address in the range fdff:1::/64.
+    /// </summary>
+    [CliOption("--peer-ip-address", Format = OptionFormat.EqualsSeparated)]
+    public string? PeerIpAddress { get; set; }
+
+    /// <summary>
+    /// If IPv4 route exchange is enabled for IPv6-based BGP, the IPv4 next hop address of the peer router. Ignored otherwise. Must be a Google owned link-local IPv4 address in the range 169.254.0.0/16.
+    /// </summary>
+    [CliOption("--peer-ipv4-nexthop-address", Format = OptionFormat.EqualsSeparated)]
+    public string? PeerIpv4NexthopAddress { get; set; }
+
+    /// <summary>
+    /// If IPv6 route exchange is enabled for IPv4-based BGP, the IPv6 next hop address of the peer router. Ignored otherwise. Must be a Google owned global unicast IPv6 address belonging to the range 2600:2d00:0:2:0:0:0:0/64 or 2600:2d00:0:3:0:0:0:0/64.
+    /// </summary>
+    [CliOption("--peer-ipv6-nexthop-address", Format = OptionFormat.EqualsSeparated)]
+    public string? PeerIpv6NexthopAddress { get; set; }
+
+    /// <summary>
+    /// Region of the router to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// The list of pre-defined groups of IP ranges to dynamically advertise on this peer. This list can only be specified in custom advertisement mode. GROUP must be (only one value is supported): ALL_SUBNETS Automatically advertise all available subnets. This excludes any routes learned for subnets that use VPC Network Peering. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--set-advertisement-groups", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SetAdvertisementGroups { get; set; }
+
+    /// <summary>
+    /// The list of individual IP ranges, in CIDR format, to dynamically advertise on this peer. Each IP range can (optionally) be given a text description DESC. For example, to advertise a specific range, use --set-advertisement-ranges=192.168.10.0/24. To store a description with the range, use --set-advertisement-ranges=192.168.10.0/24=my-networks. This list can only be specified in custom advertisement mode. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--set-advertisement-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SetAdvertisementRanges { get; set; }
+
+    /// <summary>
+    /// The list of user-defined custom learned route IP address ranges for this peer. This list is a comma separated IP address ranges such as 1.2.3.4,6.7.0.0/16,2001:db8:abcd:12::/64 where each IP address range must be a valid CIDR-formatted prefix. If an IP address is provided without a subnet mask, it is interpreted as a /32 singular IP address range for IPv4, and /128 for IPv6. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--set-custom-learned-route-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SetCustomLearnedRouteRanges { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: A list of pre-defined groups of IP ranges to dynamically advertise on this peer. This list is appended to any existing advertisements. This field can only be specified in custom advertisement mode. GROUP must be (only one value is supported): ALL_SUBNETS Automatically advertise all available subnets. This excludes any routes learned for subnets that use VPC Network Peering. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--add-advertisement-groups", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddAdvertisementGroups
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddAdvertisementGroupsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddAdvertisementGroupsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At most one of these can be specified: A list of individual IP ranges, in CIDR format, to dynamically advertise on this peer. This list is appended to any existing advertisements. Each IP range can (optionally) be given a text description DESC. For example, to advertise a specific range, use --advertisement-ranges=192.168.10.0/24. To store a description with the range, use --advertisement-ranges=192.168.10.0/24=my-networks. This list can only be specified in custom advertisement mode. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--add-advertisement-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddAdvertisementRanges
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddAdvertisementRangesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddAdvertisementRangesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At most one of these can be specified: A list of pre-defined groups of IP ranges to remove from dynamic advertisement on this peer. Each group in the list must exist in the current set of custom advertisements. This field can only be specified in custom advertisement mode. GROUP must be (only one value is supported): ALL_SUBNETS Automatically advertise all available subnets. This excludes any routes learned for subnets that use VPC Network Peering. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--remove-advertisement-groups", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveAdvertisementGroups
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveAdvertisementGroupsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveAdvertisementGroupsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At most one of these can be specified: A list of individual IP ranges, in CIDR format, to remove from dynamic advertisement on this peer. Each IP range in the list must exist in the current set of custom advertisements. This field can only be specified in custom advertisement mode. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--remove-advertisement-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveAdvertisementRanges
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveAdvertisementRangesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveAdvertisementRangesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At most one of these can be specified: A list of user-defined custom learned route IP address ranges to be added to this peer. This list is a comma separated IP address ranges such as 1.2.3.4,6.7.0.0/16,2001:db8:abcd:12::/64 where each IP address range must be a valid CIDR-formatted prefix. If an IP address is provided without a subnet mask, it is interpreted as a /32 singular IP address range for IPv4, and /128 for IPv6. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--add-custom-learned-route-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddCustomLearnedRouteRanges
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddCustomLearnedRouteRangesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddCustomLearnedRouteRangesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At most one of these can be specified: A list of user-defined custom learned route IP address ranges to be removed from this peer. This list is a comma separated IP address ranges such as 1.2.3.4,6.7.0.0/16,2001:db8:abcd:12::/64 where each IP address range must be a valid CIDR-formatted prefix. If an IP address is provided without a subnet mask, it is interpreted as a /32 singular IP address range for IPv4, and /128 for IPv6. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--remove-custom-learned-route-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveCustomLearnedRouteRanges
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveCustomLearnedRouteRangesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveCustomLearnedRouteRangesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Arguments to update BFD (Bidirectional Forwarding Detection) settings: The minimum receive interval between BFD control packets. The default is 1000 milliseconds. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--bfd-min-receive-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? BfdMinReceiveInterval { get; set; }
+
+    /// <summary>
+    /// Arguments to update BFD (Bidirectional Forwarding Detection) settings: The minimum transmit interval between BFD control packets. The default is 1000 milliseconds. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--bfd-min-transmit-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? BfdMinTransmitInterval { get; set; }
+
+    /// <summary>
+    /// Arguments to update BFD (Bidirectional Forwarding Detection) settings: The number of consecutive BFD control packets that must be missed before BFD declares that a peer is unavailable.
+    /// </summary>
+    [CliOption("--bfd-multiplier", Format = OptionFormat.EqualsSeparated)]
+    public string? BfdMultiplier { get; set; }
+
+    /// <summary>
+    /// Arguments to update BFD (Bidirectional Forwarding Detection) settings: The BFD session initialization mode for this BGP peer. Must be one of: ACTIVE - The Cloud Router will initiate the BFD session for this BGP peer. PASSIVE - The Cloud Router will wait for the peer router to initiate the BFD session for this BGP peer. DISABLED - BFD is disabled for this BGP peer. BFD_SESSION_INITIALIZATION_MODE must be one of: ACTIVE The Cloud Router will initiate the BFD session for this BGP peer. DISABLED BFD is disabled for this BGP peer. PASSIVE The Cloud Router will wait for the peer router to initiate the BFD session for this BGP peer.
+    /// </summary>
+    [CliOption("--bfd-session-initialization-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? BfdSessionInitializationMode { get; set; }
+
+    /// <summary>
+    /// Name of the router to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)AddAdvertisementGroups is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAdvertisementGroups is not string || !string.IsNullOrWhiteSpace(AddAdvertisementGroups?.ToString()) : ((object?)AddAdvertisementGroups is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAdvertisementGroups, static item => item is not null) : (AddAdvertisementGroups is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAdvertisementGroups), static item => item is not null)))) ? 1 : 0) + (((object?)AddAdvertisementRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAdvertisementRanges is not string || !string.IsNullOrWhiteSpace(AddAdvertisementRanges?.ToString()) : ((object?)AddAdvertisementRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAdvertisementRanges, static item => item is not null) : (AddAdvertisementRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAdvertisementRanges), static item => item is not null)))) ? 1 : 0) + (((object?)RemoveAdvertisementGroups is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAdvertisementGroups is not string || !string.IsNullOrWhiteSpace(RemoveAdvertisementGroups?.ToString()) : ((object?)RemoveAdvertisementGroups is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAdvertisementGroups, static item => item is not null) : (RemoveAdvertisementGroups is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAdvertisementGroups), static item => item is not null)))) ? 1 : 0) + (((object?)RemoveAdvertisementRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAdvertisementRanges is not string || !string.IsNullOrWhiteSpace(RemoveAdvertisementRanges?.ToString()) : ((object?)RemoveAdvertisementRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAdvertisementRanges, static item => item is not null) : (RemoveAdvertisementRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAdvertisementRanges), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AddAdvertisementGroups, AddAdvertisementRanges, RemoveAdvertisementGroups, or RemoveAdvertisementRanges may be specified.", [nameof(AddAdvertisementGroups), nameof(AddAdvertisementRanges), nameof(RemoveAdvertisementGroups), nameof(RemoveAdvertisementRanges)]);
+        }
+        if ((((object?)AddCustomLearnedRouteRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddCustomLearnedRouteRanges is not string || !string.IsNullOrWhiteSpace(AddCustomLearnedRouteRanges?.ToString()) : ((object?)AddCustomLearnedRouteRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddCustomLearnedRouteRanges, static item => item is not null) : (AddCustomLearnedRouteRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddCustomLearnedRouteRanges), static item => item is not null)))) ? 1 : 0) + (((object?)RemoveCustomLearnedRouteRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveCustomLearnedRouteRanges is not string || !string.IsNullOrWhiteSpace(RemoveCustomLearnedRouteRanges?.ToString()) : ((object?)RemoveCustomLearnedRouteRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveCustomLearnedRouteRanges, static item => item is not null) : (RemoveCustomLearnedRouteRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveCustomLearnedRouteRanges), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AddCustomLearnedRouteRanges or RemoveCustomLearnedRouteRanges may be specified.", [nameof(AddCustomLearnedRouteRanges), nameof(RemoveCustomLearnedRouteRanges)]);
+        }
+        yield break;
+    }
+
 }

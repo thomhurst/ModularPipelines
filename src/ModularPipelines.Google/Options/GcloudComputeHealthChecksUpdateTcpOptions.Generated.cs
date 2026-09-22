@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "health-checks", "update", "tcp")]
-public record GcloudComputeHealthChecksUpdateTcpOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeHealthChecksUpdateTcpOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a TCP health check
+    /// </summary>
+    /// <param name="Name">Name of the TCP health check to update.</param>
+    public GcloudComputeHealthChecksUpdateTcpOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
@@ -72,16 +88,16 @@ public record GcloudComputeHealthChecksUpdateTcpOptions(
     public string? Response { get; set; }
 
     /// <summary>
-    /// Define the list of Google Cloud regions from which health checks are performed. This option is supported only for global health checks that will be referenced by DNS routing policies. If specified, the --check-interval field should be at least 30 seconds. The --proxy-header and --request fields (for TCP health checks) are not supported with this option. If --source-regions is specified for a health check, then that health check cannot be used by a backend service or by a managed instance group (for autohealing).
+    /// Define the list of Google Cloud regions from which health checks are performed. This option is supported only for global health checks that will be referenced by DNS routing policies. If specified, the --check-interval field should be at least 30 seconds. The --proxy-header and --request fields (for TCP health checks) are not supported with this option. If --source-regions is specified for a health check, then that health check cannot be used by a backend service or by a managed instance group (for autohealing). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--source-regions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--source-regions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SourceRegions { get; set; }
 
     /// <summary>
     /// If Google Compute Engine doesn't receive a healthy response from the instance by the time specified by the value of this flag, the health check request is considered a failure. For example, specifying 10s will cause the check to wait for 10 seconds before considering the request a failure. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? Timeout { get; set; }
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// The number of consecutive health check failures before a healthy instance is marked as unhealthy.
@@ -118,5 +134,21 @@ public record GcloudComputeHealthChecksUpdateTcpOptions(
     /// </summary>
     [CliFlag("--use-serving-port")]
     public bool? UseServingPort { get; set; }
+
+    /// <summary>
+    /// Name of the TCP health check to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
 
 }

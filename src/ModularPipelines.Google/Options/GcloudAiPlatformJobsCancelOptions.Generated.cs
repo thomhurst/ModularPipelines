@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai-platform", "jobs", "cancel")]
-public record GcloudAiPlatformJobsCancelOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Job
-) : GcloudOptions
+public record GcloudAiPlatformJobsCancelOptions : GcloudOptions
 {
+    /// <summary>
+    /// cancel a running AI Platform job
+    /// </summary>
+    /// <param name="Job">Name of the job.</param>
+    public GcloudAiPlatformJobsCancelOptions(
+        string Job
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Job);
+        this.Job = Job;
+    }
+
+    public void Deconstruct(out string Job)
+    {
+        Job = this.Job;
+    }
+
+    /// <summary>
+    /// Name of the job.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Job { get; private init; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identity", "groups", "update")]
-public record GcloudIdentityGroupsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Email
-) : GcloudOptions
+public record GcloudIdentityGroupsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a group
+    /// </summary>
+    /// <param name="Email">The email address of the group to be updated.</param>
+    public GcloudIdentityGroupsUpdateOptions(
+        string Email
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Email);
+        this.Email = Email;
+    }
+
+    public void Deconstruct(out string Email)
+    {
+        Email = this.Email;
+    }
+
     /// <summary>
     /// Query that determines the memberships of the dynamic group. Example of a query: --dynamic-user-query="user.organizations.exists(org,org.title=='SWE')"
     /// </summary>
@@ -58,5 +74,25 @@ public record GcloudIdentityGroupsUpdateOptions(
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// The email address of the group to be updated.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Email { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearDescription == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Description) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearDescription or Description may be specified.", [nameof(ClearDescription), nameof(Description)]);
+        }
+        if ((ClearDisplayName == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(DisplayName) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearDisplayName or DisplayName may be specified.", [nameof(ClearDisplayName), nameof(DisplayName)]);
+        }
+        yield break;
+    }
 
 }

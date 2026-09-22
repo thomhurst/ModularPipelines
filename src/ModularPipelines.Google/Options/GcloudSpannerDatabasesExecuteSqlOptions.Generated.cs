@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,98 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "databases", "execute-sql")]
-public record GcloudSpannerDatabasesExecuteSqlOptions : GcloudOptions
+public record GcloudSpannerDatabasesExecuteSqlOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// executes a SQL query against a Cloud     Spanner database
+    /// </summary>
+    /// <param name="Sql">The SQL query to issue to the database. Cloud Spanner SQL is described at https://cloud.google.com/spanner/docs/query-syntax</param>
+    /// <param name="Database">Database resource - The Cloud Spanner database to execute the SQL query against. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the database or fully qualified identifier for the database. To set the database attribute: ▸ provide the argument database on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSpannerDatabasesExecuteSqlOptions(
+        string Sql,
+        string Database
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Sql);
+        this.Sql = Sql;
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+    }
+
+    public void Deconstruct(out string Sql, out string Database)
+    {
+        Sql = this.Sql;
+        Database = this.Database;
+    }
+
+    /// <summary>
+    /// The SQL query to issue to the database. Cloud Spanner SQL is described at https://cloud.google.com/spanner/docs/query-syntax
+    /// </summary>
+    [CliOption("--sql", Format = OptionFormat.EqualsSeparated)]
+    public string Sql { get; private init; }
+
+    /// <summary>
+    /// Database resource - The Cloud Spanner database to execute the SQL query against. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud Spanner instance for the database. To set the instance attribute: ▸ provide the argument database on the command line with a fully specified name; ▸ provide the argument --instance on the command line; ▸ set the property spanner/instance.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Database role user assumes while accessing the database.
+    /// </summary>
+    [CliOption("--database-role", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseRole { get; set; }
+
+    /// <summary>
+    /// Execute DML statement using Partitioned DML
+    /// </summary>
+    [CliFlag("--enable-partitioned-dml")]
+    public bool? EnablePartitionedDml { get; set; }
+
+    /// <summary>
+    /// The priority for the execute SQL request. PRIORITY must be one of: high, low, medium, unspecified.
+    /// </summary>
+    [CliOption("--priority", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSpannerDatabasesExecuteSqlPriority? Priority { get; set; }
+
+    /// <summary>
+    /// Mode in which the query must be processed. QUERY_MODE must be one of: NORMAL Returns only the query result, without any information about the query plan. PLAN Returns only the query plan, without any result rows or execution statistics information. PROFILE Returns the query plan, overall execution statistics, operator-level execution statistics, along with the result rows. WITH_PLAN_AND_STATS Returns the query plan, overall (but not operator-level) execution statistics, along with the results. WITH_STATS Returns the overall (but not operator-level) execution statistics along with the results.
+    /// </summary>
+    [CliOption("--query-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? QueryMode { get; set; }
+
+    /// <summary>
+    /// Maximum time to wait for the SQL query to complete. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? Timeout { get; set; }
+
+    /// <summary>
+    /// Read-only query timestamp bound. The default is --strong. See https://cloud.google.com/spanner/docs/timestamp-bounds. At most one of these can be specified: Perform a query at the given timestamp.
+    /// </summary>
+    [CliOption("--read-timestamp", Format = OptionFormat.EqualsSeparated)]
+    public string? ReadTimestamp { get; set; }
+
+    /// <summary>
+    /// Read-only query timestamp bound. The default is --strong. See https://cloud.google.com/spanner/docs/timestamp-bounds. At most one of these can be specified: Perform a strong query.
+    /// </summary>
+    [CliFlag("--strong")]
+    public bool? Strong { get; set; }
+
+    /// <summary>
+    /// Database resource - The Cloud Spanner database to execute the SQL query against. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the database or fully qualified identifier for the database. To set the database attribute: ▸ provide the argument database on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Database { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ReadTimestamp) ? 1 : 0) + (Strong == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ReadTimestamp or Strong may be specified.", [nameof(ReadTimestamp), nameof(Strong)]);
+        }
+        yield break;
+    }
+
 }

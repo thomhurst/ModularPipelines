@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,63 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "logical-views", "update")]
-public record GcloudBigtableLogicalViewsUpdateOptions : GcloudOptions
+public record GcloudBigtableLogicalViewsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Bigtable logical view
+    /// </summary>
+    /// <param name="LogicalView">Logical view resource - The logical view to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument logical_view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the logical view or fully qualified identifier for the logical view. To set the name attribute: ▸ provide the argument logical_view on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBigtableLogicalViewsUpdateOptions(
+        string LogicalView
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogicalView);
+        this.LogicalView = LogicalView;
+    }
+
+    public void Deconstruct(out string LogicalView)
+    {
+        LogicalView = this.LogicalView;
+    }
+
+    /// <summary>
+    /// Logical view resource - The logical view to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument logical_view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Bigtable instance for the logical view. To set the instance attribute: ▸ provide the argument logical_view on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Whether the view is protected from deletion.
+    /// </summary>
+    [CliOption("--deletion-protection", Format = OptionFormat.EqualsSeparated)]
+    public string? DeletionProtection { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: The query of the view.
+    /// </summary>
+    [CliOption("--query", Format = OptionFormat.EqualsSeparated)]
+    public string? Query { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Logical view resource - The logical view to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument logical_view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the logical view or fully qualified identifier for the logical view. To set the name attribute: ▸ provide the argument logical_view on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string LogicalView { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(DeletionProtection) || !string.IsNullOrWhiteSpace(Query)))
+        {
+            yield return new ValidationResult("At least one of DeletionProtection or Query must be specified.", [nameof(DeletionProtection), nameof(Query)]);
+        }
+        yield break;
+    }
+
 }

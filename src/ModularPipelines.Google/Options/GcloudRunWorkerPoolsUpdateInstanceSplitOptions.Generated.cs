@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,14 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run", "worker-pools", "update-instance-split")]
-public record GcloudRunWorkerPoolsUpdateInstanceSplitOptions : GcloudOptions
+public record GcloudRunWorkerPoolsUpdateInstanceSplitOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// WorkerPool resource - WorkerPool to update instance split of. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument WORKER_POOL on the command line with a fully specified name; ◆ specify the workerpool name from an interactive prompt with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The Cloud region for the WorkerPool. Overrides the default run/region property value for this command invocation. To set the region attribute: ◆ provide the argument WORKER_POOL on the command line with a fully specified name; ◆ specify the workerpool name from an interactive prompt with a fully specified name; ◆ provide the argument --region on the command line; ◆ set the property run/region; ◆ specify the region from an interactive prompt.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -40,9 +47,51 @@ public record GcloudRunWorkerPoolsUpdateInstanceSplitOptions : GcloudOptions
     public bool? ToLatest { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Comma separated list of instance assignments in the form REVISION-NAME=PERCENTAGE. REVISION-NAME must be the name for a revision for the worker as returned by 'gcloud run workers revisions list --worker=WORKER' . PERCENTAGE must be an integer percentage between 0 and 100 inclusive. Ex worker-nw9hs=10,worker-nw9hs=20 Up to 100 percent of instances may be assigned. If the total of 100 percent of instances is assigned, the Worker instance split is updated as specified. If under 100 percent of instance split is assigned, the Worker instance split is updated as specified for revisions with assignments and instance split is scaled up or down proportionally as needed for revision that are currently serving workload but that do not have new assignments. For example assume revision-1 is serving 40 percent of workload and revision-2 is serving 60 percent. If revision-1 is assigned 45 percent of instances and no assignment is made for revision-2, the worker is updated with revsion-1 assigned 45 percent of instances and revision-2 scaled down to 55 percent. You can use "LATEST" as a special revision name to always put the given percentage of instance split on the latest ready revision.
+    /// At most one of these can be specified: Comma separated list of instance assignments in the form REVISION-NAME=PERCENTAGE. REVISION-NAME must be the name for a revision for the worker as returned by 'gcloud run workers revisions list --worker=WORKER' . PERCENTAGE must be an integer percentage between 0 and 100 inclusive. Ex worker-nw9hs=10,worker-nw9hs=20 Up to 100 percent of instances may be assigned. If the total of 100 percent of instances is assigned, the Worker instance split is updated as specified. If under 100 percent of instance split is assigned, the Worker instance split is updated as specified for revisions with assignments and instance split is scaled up or down proportionally as needed for revision that are currently serving workload but that do not have new assignments. For example assume revision-1 is serving 40 percent of workload and revision-2 is serving 60 percent. If revision-1 is assigned 45 percent of instances and no assignment is made for revision-2, the worker is updated with revsion-1 assigned 45 percent of instances and revision-2 scaled down to 55 percent. You can use "LATEST" as a special revision name to always put the given percentage of instance split on the latest ready revision. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--to-revisions", Format = OptionFormat.EqualsSeparated)]
-    public string? ToRevisions { get; set; }
+    [CliOption("--to-revisions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ToRevisions
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ToRevisionsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ToRevisionsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// WorkerPool resource - WorkerPool to update instance split of. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument WORKER_POOL on the command line with a fully specified name; ◆ specify the workerpool name from an interactive prompt with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the WorkerPool or fully qualified identifier for the WorkerPool. To set the worker-pool attribute: ◆ provide the argument WORKER_POOL on the command line; ◆ specify the workerpool name from an interactive prompt.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? WorkerPool { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ToLatest == true ? 1 : 0) + (((object?)ToRevisions is global::System.Collections.Generic.IEnumerable<char> ? (object?)ToRevisions is not string || !string.IsNullOrWhiteSpace(ToRevisions?.ToString()) : ((object?)ToRevisions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ToRevisions, static item => item is not null) : (ToRevisions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ToRevisions), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ToLatest or ToRevisions may be specified.", [nameof(ToLatest), nameof(ToRevisions)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(WorkerPool) || !string.IsNullOrWhiteSpace(Region)) && (!(!string.IsNullOrWhiteSpace(Region))))
+        {
+            yield return new ValidationResult("Region must be specified when other arguments in this group are specified.", [nameof(Region)]);
+        }
+        yield break;
+    }
 
 }

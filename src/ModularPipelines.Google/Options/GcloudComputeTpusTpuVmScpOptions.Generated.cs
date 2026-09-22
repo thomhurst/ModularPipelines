@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,8 +21,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "tpus", "tpu-vm", "scp")]
-public record GcloudComputeTpusTpuVmScpOptions : GcloudOptions
+public record GcloudComputeTpusTpuVmScpOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// copy files to and from a Cloud TPU VM via     SCP
+    /// </summary>
+    /// <param name="UserInstanceSrc">Specifies the files to copy.</param>
+    /// <param name="UserInstanceDest">Specifies a destination for the source files.</param>
+    public GcloudComputeTpusTpuVmScpOptions(
+        IEnumerable<string> UserInstanceSrc,
+        string UserInstanceDest
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(UserInstanceSrc);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(UserInstanceSrc));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(UserInstanceSrc));
+            }
+
+            UserInstanceSrc = materialized;
+        }
+        this.UserInstanceSrc = UserInstanceSrc;
+        global::System.ArgumentNullException.ThrowIfNull(UserInstanceDest);
+        this.UserInstanceDest = UserInstanceDest;
+    }
+
+    public void Deconstruct(out IEnumerable<string> UserInstanceSrc, out string UserInstanceDest)
+    {
+        UserInstanceSrc = this.UserInstanceSrc;
+        UserInstanceDest = this.UserInstanceDest;
+    }
+
     /// <summary>
     /// Enable compression.
     /// </summary>
@@ -74,7 +108,7 @@ public record GcloudComputeTpusTpuVmScpOptions : GcloudOptions
     /// Override the default behavior of StrictHostKeyChecking for the connection. By default, StrictHostKeyChecking is set to 'no' the first time you connect to an instance, and will be set to 'yes' for all subsequent connections. STRICT_HOST_KEY_CHECKING must be one of: yes, no, ask.
     /// </summary>
     [CliOption("--strict-host-key-checking", Format = OptionFormat.EqualsSeparated)]
-    public GcloudStrictHostKeyChecking? StrictHostKeyChecking { get; set; }
+    public GcloudComputeTpusTpuVmScpStrictHostKeyChecking? StrictHostKeyChecking { get; set; }
 
     /// <summary>
     /// TPU worker to connect to. The supported value is a single 0-based index of the worker in the case of a TPU Pod. When also using the --command flag, it additionally supports a comma-separated list (e.g. '1,4,6'), range (e.g. '1-3'), or special keyword ``all" to run the command concurrently on each of the specified workers. Note that when targeting multiple workers, you should run 'ssh-add' with your private key prior to executing the gcloud command. Default: 'ssh-add ~/.ssh/google_compute_engine'.
@@ -99,5 +133,27 @@ public record GcloudComputeTpusTpuVmScpOptions : GcloudOptions
     /// </summary>
     [CliOption("--ssh-key-expire-after", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyExpireAfter { get; set; }
+
+    /// <summary>
+    /// Specifies the files to copy.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> UserInstanceSrc { get; private init; }
+
+    /// <summary>
+    /// Specifies a destination for the source files.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string UserInstanceDest { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(SshKeyExpiration) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SshKeyExpireAfter) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SshKeyExpiration or SshKeyExpireAfter may be specified.", [nameof(SshKeyExpiration), nameof(SshKeyExpireAfter)]);
+        }
+        yield break;
+    }
 
 }

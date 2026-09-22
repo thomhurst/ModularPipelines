@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-security", "mirroring-deployments", "describe")]
 public record GcloudNetworkSecurityMirroringDeploymentsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a     Mirroring Deployment
+    /// </summary>
+    /// <param name="MirroringDeployment">Mirroring deployment resource - Mirroring Deployment. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument MIRRORING_DEPLOYMENT on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the mirroring deployment or fully qualified identifier for the mirroring deployment. To set the deployment-id attribute: ▸ provide the argument MIRRORING_DEPLOYMENT on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecurityMirroringDeploymentsDescribeOptions(
+        string MirroringDeployment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MirroringDeployment);
+        this.MirroringDeployment = MirroringDeployment;
+    }
+
+    public void Deconstruct(out string MirroringDeployment)
+    {
+        MirroringDeployment = this.MirroringDeployment;
+    }
+
+    /// <summary>
+    /// Mirroring deployment resource - Mirroring Deployment. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument MIRRORING_DEPLOYMENT on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the mirroring deployment. To set the location attribute: ▸ provide the argument MIRRORING_DEPLOYMENT on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Mirroring deployment resource - Mirroring Deployment. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument MIRRORING_DEPLOYMENT on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the mirroring deployment or fully qualified identifier for the mirroring deployment. To set the deployment-id attribute: ▸ provide the argument MIRRORING_DEPLOYMENT on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MirroringDeployment { get; private init; }
+
 }

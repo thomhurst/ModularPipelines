@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bigtable", "backups", "delete")]
 public record GcloudBigtableBackupsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete an existing backup
+    /// </summary>
+    /// <param name="Backup">Backup resource - Cloud Bigtable backup to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument backup on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBigtableBackupsDeleteOptions(
+        string Backup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Backup);
+        this.Backup = Backup;
+    }
+
+    public void Deconstruct(out string Backup)
+    {
+        Backup = this.Backup;
+    }
+
+    /// <summary>
+    /// Backup resource - Cloud Bigtable backup to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable cluster. To set the cluster attribute: ▸ provide the argument backup on the command line with a fully specified name; ▸ provide the argument --cluster on the command line.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Backup resource - Cloud Bigtable backup to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable instance. To set the instance attribute: ▸ provide the argument backup on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Backup resource - Cloud Bigtable backup to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument backup on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Backup { get; private init; }
+
 }

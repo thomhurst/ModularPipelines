@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,21 +21,36 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "diagnose")]
-public record GcloudStorageDiagnoseOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Url
-) : GcloudOptions
+public record GcloudStorageDiagnoseOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// diagnose Google Cloud Storage
+    /// </summary>
+    /// <param name="Url">Bucket URL to use for the diagnostic tests.</param>
+    public GcloudStorageDiagnoseOptions(
+        string Url
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Url);
+        this.Url = Url;
+    }
+
+    public void Deconstruct(out string Url)
+    {
+        Url = this.Url;
+    }
+
     /// <summary>
     /// Tests to run as part of this diagnosis. Following tests are supported: DIRECT_CONNECTIVITY: Run a test upload over the Direct Connectivity network path and run other diagnostics if the upload fails. DOWNLOAD_THROUGHPUT: Upload objects to the specified bucket and record the number of bytes transferred per second. UPLOAD_THROUGHPUT: Download objects from the specified bucket and record the number of bytes transferred per second. LATENCY: Write the objects, retrieve their metadata, read the objects, and record latency of each operation. TEST_TYPES must be one of: DIRECT_CONNECTIVITY, DOWNLOAD_THROUGHPUT, LATENCY, UPLOAD_THROUGHPUT.
     /// </summary>
-    [CliOption("--test-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudTestType? TestType { get; set; }
+    [CliOption("--test-type", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudStorageDiagnoseTestType>? TestType { get; set; }
 
     /// <summary>
     /// Download strategy to use for the DOWNLOAD_THROUGHPUT diagnostic test. STREAMING: Downloads the file in memory, does not use parallelism. --process-count and --thread-count flag values will be ignored if provided. SLICED: Performs a sliced download (https://cloud.google.com/storage/docs/sliced-object-downloads) of objects to a directory. Parallelism can be controlled via --process-count and --thread-count flags. FILE: Download objects as files. Parallelism can be controlled via --process-count and --thread-count flags. DOWNLOAD_TYPE must be one of: FILE, SLICED, STREAMING.
     /// </summary>
     [CliOption("--download-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudDownloadType? DownloadType { get; set; }
+    public GcloudStorageDiagnoseDownloadType? DownloadType { get; set; }
 
     /// <summary>
     /// If the diagnostic supports writing logs, write the logs to this file location.
@@ -46,7 +62,7 @@ public record GcloudStorageDiagnoseOptions(
     /// Upload strategy to use for the UPLOAD_THROUGHPUT diagnostic test. FILE: Uploads files to a bucket. Parallelism can be controlled via --process-count and --thread-count flags. PARALLEL_COMPOSITE: Uploads files using a parallel composite strategy (https://cloud.google.com/storage/docs/parallel-composite-uploads). Parallelism can be controlled via --process-count and --thread-count flags. STREAMING: Streams the data to the bucket, does not use parallelism. --process-count and --thread-count flag values will be ignored if provided. UPLOAD_TYPE must be one of: FILE, PARALLEL_COMPOSITE, STREAMING.
     /// </summary>
     [CliOption("--upload-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudUploadType? UploadType { get; set; }
+    public GcloudStorageDiagnoseUploadType? UploadType { get; set; }
 
     /// <summary>
     /// Number of processes at max to use for each diagnostic test.
@@ -67,16 +83,38 @@ public record GcloudStorageDiagnoseOptions(
     public int? ObjectCount { get; set; }
 
     /// <summary>
-    /// Object properties: Object size properties: Exactly one of these must be specified: Object size to use for the diagnostic tests.
+    /// Object size properties: Exactly one of these must be specified: Object size to use for the diagnostic tests.
     /// </summary>
     [CliOption("--object-size", Format = OptionFormat.EqualsSeparated)]
     public int? ObjectSize { get; set; }
 
     /// <summary>
-    /// Object properties: Object size properties: Exactly one of these must be specified: List of object sizes to use for the tests. Sizes should be provided for each object specified using --object-count flag.
+    /// Object size properties: Exactly one of these must be specified: List of object sizes to use for the tests. Sizes should be provided for each object specified using --object-count flag.
     /// </summary>
-    [CliOption("--object-sizes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<int>? ObjectSizes { get; set; }
+    [CliOption("--object-sizes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<int>? ObjectSizes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ObjectSizesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<int>).Equals((object)values) ? global::System.Array.Empty<int>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<int>(values))))) : default;
+    }
+
+    private sealed class __ObjectSizesSnapshotKeyValue(
+        IEnumerable<int> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<int>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<int>
+            global::System.Collections.Generic.IEnumerable<int>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Export diagnostic bundle. Generate and export a diagnostic bundle. The following information will be bundled and exported into a gzipped tarball (.tar.gz): ◆ Latest gcloud CLI logs. ◆ Output of running the gcloud storage diagnose command. ◆ Output of running the gcloud info --anonymize command. Note: This command generates a bundle containing system information like disk counter detlas, CPU information and system configurations. Please exercise caution while sharing. This flag argument must be specified if any of the other arguments in this group are specified.
@@ -89,5 +127,25 @@ public record GcloudStorageDiagnoseOptions(
     /// </summary>
     [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
     public string? Destination { get; set; }
+
+    /// <summary>
+    /// Bucket URL to use for the diagnostic tests.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Url { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((object?)ObjectSize is not null ? 1 : 0) + (((object?)ObjectSizes is global::System.Collections.Generic.IEnumerable<char> ? (object?)ObjectSizes is not string || !string.IsNullOrWhiteSpace(ObjectSizes?.ToString()) : ((object?)ObjectSizes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ObjectSizes, static item => item is not null) : (ObjectSizes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ObjectSizes), static item => item is not null)))) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ObjectSize or ObjectSizes must be specified.", [nameof(ObjectSize), nameof(ObjectSizes)]);
+        }
+        if ((Export == true || !string.IsNullOrWhiteSpace(Destination)) && (!(Export == true)))
+        {
+            yield return new ValidationResult("Export must be specified when other arguments in this group are specified.", [nameof(Export)]);
+        }
+        yield break;
+    }
 
 }

@@ -19,8 +19,57 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "record-sets", "delete")]
-public record GcloudDnsRecordSetsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DnsName
-) : GcloudOptions
+public record GcloudDnsRecordSetsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// zone
+    /// </summary>
+    /// <param name="Type">DNS record type of the record-set (e.g. A, AAAA, MX etc.).</param>
+    /// <param name="Zone">Name of the managed zone whose record sets you want to manage.</param>
+    /// <param name="DnsName">DNS or domain name of the record-set.</param>
+    public GcloudDnsRecordSetsDeleteOptions(
+        string Type,
+        string Zone,
+        string DnsName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+        global::System.ArgumentNullException.ThrowIfNull(DnsName);
+        this.DnsName = DnsName;
+    }
+
+    public void Deconstruct(out string Type, out string Zone, out string DnsName)
+    {
+        Type = this.Type;
+        Zone = this.Zone;
+        DnsName = this.DnsName;
+    }
+
+    /// <summary>
+    /// DNS record type of the record-set (e.g. A, AAAA, MX etc.).
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string Type { get; private init; }
+
+    /// <summary>
+    /// Name of the managed zone whose record sets you want to manage.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
+    /// <summary>
+    /// Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// DNS or domain name of the record-set.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DnsName { get; private init; }
+
 }

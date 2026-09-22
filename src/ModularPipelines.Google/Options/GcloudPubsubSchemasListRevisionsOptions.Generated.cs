@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPubsubSchemasListRevisionsOptions : GcloudOptions
 {
     /// <summary>
+    /// list revisions of a Pub/Sub schema
+    /// </summary>
+    /// <param name="Schema">Schema resource - Parent Pub/Sub schema to list all contained revisions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the schema or fully qualified identifier for the schema. To set the schema attribute: ▸ provide the argument schema on the command line.</param>
+    public GcloudPubsubSchemasListRevisionsOptions(
+        string Schema
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Schema);
+        this.Schema = Schema;
+    }
+
+    public void Deconstruct(out string Schema)
+    {
+        Schema = this.Schema;
+    }
+
+    /// <summary>
     /// There are two possible views, 'basic' and 'full', default is 'basic'. VIEW must be one of: basic Include the name and type of the schema, but not the definition. full Include all Schema object fields.
     /// </summary>
     [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
     public string? View { get; set; }
+
+    /// <summary>
+    /// Schema resource - Parent Pub/Sub schema to list all contained revisions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the schema or fully qualified identifier for the schema. To set the schema attribute: ▸ provide the argument schema on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Schema { get; private init; }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitoring", "dashboards", "update")]
-public record GcloudMonitoringDashboardsUpdateOptions : GcloudOptions
+public record GcloudMonitoringDashboardsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Cloud Monitoring dashboard
+    /// </summary>
+    /// <param name="Dashboard">Dashboard resource - The dashboard to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dashboard on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dashboard or fully qualified identifier for the dashboard. To set the dashboard attribute: ▸ provide the argument dashboard on the command line.</param>
+    public GcloudMonitoringDashboardsUpdateOptions(
+        string Dashboard
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Dashboard);
+        this.Dashboard = Dashboard;
+    }
+
+    public void Deconstruct(out string Dashboard)
+    {
+        Dashboard = this.Dashboard;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Dashboard configuration, in either JSON or YAML format, as a string.
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a JSON or YAML file containing the dashboard configuration. Use a full or relative path to a local file containing the value of config.
+    /// </summary>
+    [CliOption("--config-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigFromFile { get; set; }
+
+    /// <summary>
+    /// Dashboard resource - The dashboard to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dashboard on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dashboard or fully qualified identifier for the dashboard. To set the dashboard attribute: ▸ provide the argument dashboard on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Dashboard { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Config) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ConfigFromFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Config or ConfigFromFile must be specified.", [nameof(Config), nameof(ConfigFromFile)]);
+        }
+        yield break;
+    }
+
 }

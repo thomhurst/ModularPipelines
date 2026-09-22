@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functions", "upgrade")]
-public record GcloudFunctionsUpgradeOptions : GcloudOptions
+public record GcloudFunctionsUpgradeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// upgrade a 1st gen Cloud Function to the Cloud     Run function
+    /// </summary>
+    /// <param name="Name">Function resource - The Cloud Function name to upgrade. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the function or fully qualified identifier for the function. To set the function attribute: ▸ provide the argument NAME on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudFunctionsUpgradeOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Function resource - The Cloud Function name to upgrade. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the function. Overrides the default functions/region property value for this command invocation. To set the region attribute: ▸ provide the argument NAME on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property functions/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Undoes all steps of the upgrade process done so far. All traffic will point to the original 1st gen function copy and the 2nd gen function copy will be deleted.
     /// </summary>
@@ -74,5 +98,21 @@ public record GcloudFunctionsUpgradeOptions : GcloudOptions
     /// </summary>
     [CliOption("--trigger-service-account", Format = OptionFormat.EqualsSeparated)]
     public string? TriggerServiceAccount { get; set; }
+
+    /// <summary>
+    /// Function resource - The Cloud Function name to upgrade. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the function or fully qualified identifier for the function. To set the function attribute: ▸ provide the argument NAME on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Abort == true ? 1 : 0) + (RedirectTraffic == true ? 1 : 0) + (RollbackTraffic == true ? 1 : 0) + ((Commit == true || SkipDetach == true) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(MaxInstances) || !string.IsNullOrWhiteSpace(Runtime) || SetupConfig == true || !string.IsNullOrWhiteSpace(TriggerServiceAccount)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Abort, RedirectTraffic, RollbackTraffic, (Commit or SkipDetach), or (MaxInstances, Runtime, SetupConfig, or TriggerServiceAccount) may be specified.", [nameof(Abort), nameof(RedirectTraffic), nameof(RollbackTraffic), nameof(Commit), nameof(SkipDetach), nameof(MaxInstances), nameof(Runtime), nameof(SetupConfig), nameof(TriggerServiceAccount)]);
+        }
+        yield break;
+    }
 
 }

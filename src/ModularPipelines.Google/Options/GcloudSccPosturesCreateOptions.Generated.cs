@@ -21,4 +21,56 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("scc", "postures", "create")]
 public record GcloudSccPosturesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Cloud Security Command Center posture
+    /// </summary>
+    /// <param name="PostureFromFile">YAML file containing the body of the posture to be created. Use a full or relative path to a local file containing the value of posture.</param>
+    /// <param name="Posture">Posture resource - The name of the posture to be created. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postures/&lt;postureID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the posture or fully qualified identifier for the posture. To set the posture attribute: ▸ provide the argument posture on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSccPosturesCreateOptions(
+        string PostureFromFile,
+        string Posture
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PostureFromFile);
+        this.PostureFromFile = PostureFromFile;
+        global::System.ArgumentNullException.ThrowIfNull(Posture);
+        this.Posture = Posture;
+    }
+
+    public void Deconstruct(out string PostureFromFile, out string Posture)
+    {
+        PostureFromFile = this.PostureFromFile;
+        Posture = this.Posture;
+    }
+
+    /// <summary>
+    /// YAML file containing the body of the posture to be created. Use a full or relative path to a local file containing the value of posture.
+    /// </summary>
+    [CliOption("--posture-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string PostureFromFile { get; private init; }
+
+    /// <summary>
+    /// Posture resource - The name of the posture to be created. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postures/&lt;postureID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the location where the resource exists (for example, global). To set the location attribute: ▸ provide the argument posture on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Posture resource - The name of the posture to be created. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postures/&lt;postureID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the organization which is the parent of the resource. To set the organization attribute: ▸ provide the argument posture on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Posture resource - The name of the posture to be created. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postures/&lt;postureID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the posture or fully qualified identifier for the posture. To set the posture attribute: ▸ provide the argument posture on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Posture { get; private init; }
+
 }

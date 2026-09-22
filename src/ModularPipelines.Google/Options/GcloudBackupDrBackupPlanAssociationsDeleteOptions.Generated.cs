@@ -22,6 +22,35 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBackupDrBackupPlanAssociationsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete the specified     backup plan association
+    /// </summary>
+    /// <param name="BackupPlanAssociation">Backup Plan Association resource - Name of the backup plan association to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the Backup Plan Association or fully qualified identifier for the Backup Plan Association. To set the name attribute: ▸ provide the argument backup_plan_association on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBackupDrBackupPlanAssociationsDeleteOptions(
+        string BackupPlanAssociation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupPlanAssociation);
+        this.BackupPlanAssociation = BackupPlanAssociation;
+    }
+
+    public void Deconstruct(out string BackupPlanAssociation)
+    {
+        BackupPlanAssociation = this.BackupPlanAssociation;
+    }
+
+    /// <summary>
+    /// Backup Plan Association resource - Name of the backup plan association to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location of the Backup Plan Association. To set the location attribute: ▸ provide the argument backup_plan_association on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Backup Plan Association resource - Name of the backup plan association to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Cloud project id for the Backup Plan Association. To set the workload-project attribute: ▸ provide the argument backup_plan_association on the command line with a fully specified name; ▸ provide the argument --workload-project on the command line; ▸ provide the argument --project on the command line; ▸ set the property core/project.
+    /// </summary>
+    [CliOption("--workload-project", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkloadProject { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
@@ -32,5 +61,11 @@ public record GcloudBackupDrBackupPlanAssociationsDeleteOptions : GcloudOptions
     /// </summary>
     [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Backup Plan Association resource - Name of the backup plan association to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the Backup Plan Association or fully qualified identifier for the Backup Plan Association. To set the name attribute: ▸ provide the argument backup_plan_association on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackupPlanAssociation { get; private init; }
 
 }

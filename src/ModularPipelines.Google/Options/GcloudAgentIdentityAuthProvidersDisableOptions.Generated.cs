@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAgentIdentityAuthProvidersDisableOptions : GcloudOptions
 {
     /// <summary>
+    /// disable an auth provider
+    /// </summary>
+    /// <param name="AuthProvider">AuthProvider resource - Name of the resource Format: projects/{project}/locations/{location}/authProviders/{auth_provider} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument auth_provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the authProvider or fully qualified identifier for the authProvider. To set the auth_provider attribute: ▸ provide the argument auth_provider on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAgentIdentityAuthProvidersDisableOptions(
+        string AuthProvider
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthProvider);
+        this.AuthProvider = AuthProvider;
+    }
+
+    public void Deconstruct(out string AuthProvider)
+    {
+        AuthProvider = this.AuthProvider;
+    }
+
+    /// <summary>
+    /// AuthProvider resource - Name of the resource Format: projects/{project}/locations/{location}/authProviders/{auth_provider} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument auth_provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the authProvider resource. To set the location attribute: ▸ provide the argument auth_provider on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
+
+    /// <summary>
+    /// AuthProvider resource - Name of the resource Format: projects/{project}/locations/{location}/authProviders/{auth_provider} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument auth_provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the authProvider or fully qualified identifier for the authProvider. To set the auth_provider attribute: ▸ provide the argument auth_provider on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AuthProvider { get; private init; }
 
 }

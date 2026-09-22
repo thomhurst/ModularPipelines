@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "pools", "get-ca-certs")]
-public record GcloudPrivatecaPoolsGetCaCertsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Ca
-) : GcloudOptions
+public record GcloudPrivatecaPoolsGetCaCertsOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the root CA certs for all active     CAs in the CA pool
+    /// </summary>
+    /// <param name="OutputFile">The path where the concatenated PEM certificates will be written. This will include the root CA certificate for each active CA in the CA pool.</param>
+    /// <param name="CaPool">CA POOL resource - The ca pool whose CA certificates should be fetched. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CA_POOL on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CA_POOL or fully qualified identifier for the CA_POOL. To set the pool attribute: ▸ provide the argument CA_POOL on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPrivatecaPoolsGetCaCertsOptions(
+        string OutputFile,
+        string CaPool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutputFile);
+        this.OutputFile = OutputFile;
+        global::System.ArgumentNullException.ThrowIfNull(CaPool);
+        this.CaPool = CaPool;
+    }
+
+    public void Deconstruct(out string OutputFile, out string CaPool)
+    {
+        OutputFile = this.OutputFile;
+        CaPool = this.CaPool;
+    }
+
+    /// <summary>
+    /// The path where the concatenated PEM certificates will be written. This will include the root CA certificate for each active CA in the CA pool.
+    /// </summary>
+    [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
+    public string OutputFile { get; private init; }
+
+    /// <summary>
+    /// CA POOL resource - The ca pool whose CA certificates should be fetched. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CA_POOL on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the CA_POOL. To set the location attribute: ▸ provide the argument CA_POOL on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property privateca/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// CA POOL resource - The ca pool whose CA certificates should be fetched. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CA_POOL on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CA_POOL or fully qualified identifier for the CA_POOL. To set the pool attribute: ▸ provide the argument CA_POOL on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CaPool { get; private init; }
+
 }

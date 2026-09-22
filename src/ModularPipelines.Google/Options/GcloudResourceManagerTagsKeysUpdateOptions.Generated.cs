@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "tags", "keys", "update")]
-public record GcloudResourceManagerTagsKeysUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ResourceName
-) : GcloudOptions
+public record GcloudResourceManagerTagsKeysUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// updates the specified TagKey     resource's description
+    /// </summary>
+    /// <param name="ResourceName">Resource name or namespaced name. The resource name should be in the form {resource_type}/{numeric_id}. The namespaced name should be in the form {org_id}/{short_name} where short_name must be 1-63 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores ( _ ), dots (.), and alphanumerics between.</param>
+    public GcloudResourceManagerTagsKeysUpdateOptions(
+        string ResourceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceName);
+        this.ResourceName = ResourceName;
+    }
+
+    public void Deconstruct(out string ResourceName)
+    {
+        ResourceName = this.ResourceName;
+    }
+
     /// <summary>
     /// User-assigned regex of allowed short names of TagValues under a TagKey.
     /// </summary>
@@ -40,5 +55,11 @@ public record GcloudResourceManagerTagsKeysUpdateOptions(
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
+
+    /// <summary>
+    /// Resource name or namespaced name. The resource name should be in the form {resource_type}/{numeric_id}. The namespaced name should be in the form {org_id}/{short_name} where short_name must be 1-63 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores ( _ ), dots (.), and alphanumerics between.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ResourceName { get; private init; }
 
 }

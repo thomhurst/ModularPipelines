@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("pubsub", "message-transforms", "validate")]
 public record GcloudPubsubMessageTransformsValidateOptions : GcloudOptions
 {
+    /// <summary>
+    /// validates a message transform
+    /// </summary>
+    /// <param name="MessageTransformFile">Path to YAML or JSON file containing a message transform.</param>
+    public GcloudPubsubMessageTransformsValidateOptions(
+        string MessageTransformFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MessageTransformFile);
+        this.MessageTransformFile = MessageTransformFile;
+    }
+
+    public void Deconstruct(out string MessageTransformFile)
+    {
+        MessageTransformFile = this.MessageTransformFile;
+    }
+
+    /// <summary>
+    /// Path to YAML or JSON file containing a message transform.
+    /// </summary>
+    [CliOption("--message-transform-file", Format = OptionFormat.EqualsSeparated)]
+    public string MessageTransformFile { get; private init; }
+
 }

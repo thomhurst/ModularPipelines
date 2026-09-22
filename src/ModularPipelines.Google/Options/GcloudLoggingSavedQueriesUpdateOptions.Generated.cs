@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "saved-queries", "update")]
-public record GcloudLoggingSavedQueriesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SavedQueryId
-) : GcloudOptions
+public record GcloudLoggingSavedQueriesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update Logging saved queries
+    /// </summary>
+    /// <param name="SavedQueryId">ID of the saved query to update.</param>
+    public GcloudLoggingSavedQueriesUpdateOptions(
+        string SavedQueryId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SavedQueryId);
+        this.SavedQueryId = SavedQueryId;
+    }
+
+    public void Deconstruct(out string SavedQueryId)
+    {
+        SavedQueryId = this.SavedQueryId;
+    }
+
     /// <summary>
     /// The description of the saved query.
     /// </summary>
@@ -72,7 +88,7 @@ public record GcloudLoggingSavedQueriesUpdateOptions(
     public string? Organization { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Project of the saved query to update. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// At most one of these can be specified: Project of the saved query to update. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation: they specify both the project of the resource to operate on, and the project for API enablement checks, quota, and billing. To specify a different project for quota and billing, use the --billing-project flag or the billing/quota_project property.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
@@ -118,5 +134,29 @@ public record GcloudLoggingSavedQueriesUpdateOptions(
     /// </summary>
     [CliOption("--summary-field-start", Format = OptionFormat.EqualsSeparated)]
     public string? SummaryFieldStart { get; set; }
+
+    /// <summary>
+    /// ID of the saved query to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SavedQueryId { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BillingAccount) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BillingAccount, Folder, Organization, or Project may be specified.", [nameof(BillingAccount), nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SqlQueryText) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AddSummaryField) || ClearSummaryFields == true || !string.IsNullOrWhiteSpace(LogFilter) || !string.IsNullOrWhiteSpace(RemoveSummaryField) || !string.IsNullOrWhiteSpace(SummaryFieldEnd) || !string.IsNullOrWhiteSpace(SummaryFieldStart)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SqlQueryText or (AddSummaryField, ClearSummaryFields, LogFilter, RemoveSummaryField, SummaryFieldEnd, or SummaryFieldStart) may be specified.", [nameof(SqlQueryText), nameof(AddSummaryField), nameof(ClearSummaryFields), nameof(LogFilter), nameof(RemoveSummaryField), nameof(SummaryFieldEnd), nameof(SummaryFieldStart)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SqlQueryText) || !string.IsNullOrWhiteSpace(AddSummaryField) || ClearSummaryFields == true || !string.IsNullOrWhiteSpace(LogFilter) || !string.IsNullOrWhiteSpace(RemoveSummaryField) || !string.IsNullOrWhiteSpace(SummaryFieldEnd) || !string.IsNullOrWhiteSpace(SummaryFieldStart)) && (!string.IsNullOrWhiteSpace(AddSummaryField) || ClearSummaryFields == true || !string.IsNullOrWhiteSpace(LogFilter) || !string.IsNullOrWhiteSpace(RemoveSummaryField) || !string.IsNullOrWhiteSpace(SummaryFieldEnd) || !string.IsNullOrWhiteSpace(SummaryFieldStart)) && ((!string.IsNullOrWhiteSpace(SummaryFieldEnd) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SummaryFieldStart) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of SummaryFieldEnd or SummaryFieldStart may be specified.", [nameof(SummaryFieldEnd), nameof(SummaryFieldStart)]);
+        }
+        yield break;
+    }
 
 }

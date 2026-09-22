@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,134 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "tuning-jobs", "create")]
-public record GcloudAiTuningJobsCreateOptions : GcloudOptions
+public record GcloudAiTuningJobsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// tuning job
+    /// </summary>
+    /// <param name="SourceModel">The base model to tune, e.g. ``gemini-1.0-pro-002`` or ``meta/llama3_1@llama-3.1-8b``. To start tuning from a custom checkpoint or a previously tuned open model, also pass ``--custom-base-model``.</param>
+    /// <param name="TrainingDataSetUri">Cloud Storage URI of the training dataset. The dataset must be formatted as a JSONL file.</param>
+    public GcloudAiTuningJobsCreateOptions(
+        string SourceModel,
+        string TrainingDataSetUri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceModel);
+        this.SourceModel = SourceModel;
+        global::System.ArgumentNullException.ThrowIfNull(TrainingDataSetUri);
+        this.TrainingDataSetUri = TrainingDataSetUri;
+    }
+
+    public void Deconstruct(out string SourceModel, out string TrainingDataSetUri)
+    {
+        SourceModel = this.SourceModel;
+        TrainingDataSetUri = this.TrainingDataSetUri;
+    }
+
+    /// <summary>
+    /// The base model to tune, e.g. ``gemini-1.0-pro-002`` or ``meta/llama3_1@llama-3.1-8b``. To start tuning from a custom checkpoint or a previously tuned open model, also pass ``--custom-base-model``.
+    /// </summary>
+    [CliOption("--source-model", Format = OptionFormat.EqualsSeparated)]
+    public string SourceModel { get; private init; }
+
+    /// <summary>
+    /// Cloud Storage URI of the training dataset. The dataset must be formatted as a JSONL file.
+    /// </summary>
+    [CliOption("--training-dataset-uri", Format = OptionFormat.EqualsSeparated)]
+    public string TrainingDataSetUri { get; private init; }
+
+    /// <summary>
+    /// Adapter size for parameter-efficient fine-tuning. This is only applicable when using a PEFT-compatible model. ADAPTER_SIZE must be one of: 1, 2, 4, 8, 16, 32.
+    /// </summary>
+    [CliOption("--adapter-size", Format = OptionFormat.EqualsSeparated)]
+    public int? AdapterSize { get; set; }
+
+    /// <summary>
+    /// Description of the tuning job.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Number of training epochs. If not set, a default value will be calculated based on the training dataset size.
+    /// </summary>
+    [CliOption("--epoch-count", Format = OptionFormat.EqualsSeparated)]
+    public int? EpochCount { get; set; }
+
+    /// <summary>
+    /// If set, disable intermediate checkpoints for the tuning job and only export the last checkpoint. Default is to enable intermediate checkpoints.
+    /// </summary>
+    [CliFlag("--export-last-checkpoint-only")]
+    public bool? ExportLastCheckpointOnly { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Multiplier for adjusting the default learning rate. Only applicable to Gemini models. Mutually exclusive with --learning-rate. If neither flag is set, a default value will be calculated based on the training dataset size.
+    /// </summary>
+    [CliOption("--learning-rate-multiplier", Format = OptionFormat.EqualsSeparated)]
+    public string? LearningRateMultiplier { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create a tuning job. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the region or fully qualified identifier for the region. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property ai/region; ◆ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create a tuning job. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The service account that the tuning job runs as. If not specified, the Vertex AI Custom Code Service Agent is used.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create a tuning job. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Display name of the tuned model.
+    /// </summary>
+    [CliOption("--tuned-model-display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? TunedModelDisplayName { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create a tuning job. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Cloud Storage URI of the optional validation dataset. The dataset must be formatted as a JSONL file.
+    /// </summary>
+    [CliOption("--validation-dataset-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? ValidationDataSetUri { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the tuning job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the tuning job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the tuning job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the tuning job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line; ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        yield break;
+    }
+
 }

@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "versions", "migrate")]
-public record GcloudAppVersionsMigrateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Version
-) : GcloudOptions
+public record GcloudAppVersionsMigrateOptions : GcloudOptions
 {
+    /// <summary>
+    /// migrate traffic from one version to another     for a set of services
+    /// </summary>
+    /// <param name="Version">The version to migrate to.</param>
+    public GcloudAppVersionsMigrateOptions(
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string Version)
+    {
+        Version = this.Version;
+    }
+
     /// <summary>
     /// If specified, only migrate versions from the given service.
     /// </summary>
     [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
+
+    /// <summary>
+    /// The version to migrate to.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Version { get; private init; }
 
 }

@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudTasksListOptions : GcloudOptions
 {
     /// <summary>
+    /// list tasks
+    /// </summary>
+    /// <param name="Queue">The queue the tasks belong to.</param>
+    public GcloudTasksListOptions(
+        string Queue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Queue);
+        this.Queue = Queue;
+    }
+
+    public void Deconstruct(out string Queue)
+    {
+        Queue = this.Queue;
+    }
+
+    /// <summary>
+    /// The queue the tasks belong to.
+    /// </summary>
+    [CliOption("--queue", Format = OptionFormat.EqualsSeparated)]
+    public string Queue { get; private init; }
+
+    /// <summary>
     /// The location where we want to manage the queue or task. If not specified, uses the location of the current project's App Engine app if there is an associated app.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]

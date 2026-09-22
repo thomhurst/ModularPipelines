@@ -21,4 +21,61 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("data-catalog", "tag-templates", "create")]
 public record GcloudDataCatalogTagTemplatesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Data Catalog tag     template
+    /// </summary>
+    /// <param name="Field">Specification for a tag template field. This flag can be repeated to specify multiple fields. The following keys are allowed: *id*::: (Required) ID of the tag template field. *type*::: (Required) Type of the tag template field. Choices are double, string, bool, timestamp, and enum. To specify a string field: `type=string` To specify an enum field with values 'A' and 'B': `type=enum(A|B)` *display-name*::: Display name of the tag template field. *required*::: Indicates if the tag template field is required. Defaults to FALSE.</param>
+    /// <param name="TagTemplate">Tag template resource - Tag template to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tag_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tag template or fully qualified identifier for the tag template. To set the tag_template attribute: ▸ provide the argument tag_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataCatalogTagTemplatesCreateOptions(
+        IEnumerable<string> Field,
+        string TagTemplate
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Field);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Field));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Field));
+            }
+
+            Field = materialized;
+        }
+        this.Field = Field;
+        global::System.ArgumentNullException.ThrowIfNull(TagTemplate);
+        this.TagTemplate = TagTemplate;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Field, out string TagTemplate)
+    {
+        Field = this.Field;
+        TagTemplate = this.TagTemplate;
+    }
+
+    /// <summary>
+    /// Specification for a tag template field. This flag can be repeated to specify multiple fields. The following keys are allowed: *id*::: (Required) ID of the tag template field. *type*::: (Required) Type of the tag template field. Choices are double, string, bool, timestamp, and enum. To specify a string field: `type=string` To specify an enum field with values 'A' and 'B': `type=enum(A|B)` *display-name*::: Display name of the tag template field. *required*::: Indicates if the tag template field is required. Defaults to FALSE.
+    /// </summary>
+    [CliOption("--field", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string> Field { get; private init; }
+
+    /// <summary>
+    /// Tag template resource - Tag template to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tag_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the tag template. To set the location attribute: ▸ provide the argument tag_template on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Human-readable name for the tag template.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Tag template resource - Tag template to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tag_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tag template or fully qualified identifier for the tag template. To set the tag_template attribute: ▸ provide the argument tag_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string TagTemplate { get; private init; }
+
 }

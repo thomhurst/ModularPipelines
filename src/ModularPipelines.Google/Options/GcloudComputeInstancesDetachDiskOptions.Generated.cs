@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,63 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "detach-disk")]
-public record GcloudComputeInstancesDetachDiskOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
-) : GcloudOptions
+public record GcloudComputeInstancesDetachDiskOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// detach disks from Compute Engine     virtual machine instances
+    /// </summary>
+    /// <param name="InstanceName">Name of the instance to operate on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances</param>
+    public GcloudComputeInstancesDetachDiskOptions(
+        string InstanceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+    }
+
+    public void Deconstruct(out string InstanceName)
+    {
+        InstanceName = this.InstanceName;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies a disk to detach by its device name, which is the name that the guest operating system sees. The device name is set at the time that the disk is attached to the instance, and needs not be the same as the persistent disk name. If the disk's device name is specified, then its persistent disk name must not be specified using the --disk flag.
+    /// </summary>
+    [CliOption("--device-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DeviceName { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies a disk to detach by its resource name. If you specify a disk to remove by persistent disk name, then you must not specify its device name using the --device-name flag.
+    /// </summary>
+    [CliOption("--disk", Format = OptionFormat.EqualsSeparated)]
+    public string? Disk { get; set; }
+
+    /// <summary>
+    /// The scope of the disk. DISK_SCOPE must be one of: regional The disk specified in --disk is interpreted as a regional disk in the same region as the instance. Ignored if a full URI is provided to the --disk flag. zonal The disk specified in --disk is interpreted as a zonal disk in the same zone as the instance. Ignored if a full URI is provided to the --disk flag.
+    /// </summary>
+    [CliOption("--disk-scope", Format = OptionFormat.EqualsSeparated)]
+    public string? DiskScope { get; set; }
+
+    /// <summary>
+    /// Zone of the instance to operate on. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the instance to operate on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DeviceName) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Disk) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of DeviceName or Disk must be specified.", [nameof(DeviceName), nameof(Disk)]);
+        }
+        yield break;
+    }
+
 }

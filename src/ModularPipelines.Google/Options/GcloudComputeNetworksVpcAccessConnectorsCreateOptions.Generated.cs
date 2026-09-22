@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "networks", "vpc-access", "connectors", "create")]
-public record GcloudComputeNetworksVpcAccessConnectorsCreateOptions : GcloudOptions
+public record GcloudComputeNetworksVpcAccessConnectorsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a VPC Access     connector
+    /// </summary>
+    /// <param name="Connector">Connector resource - Arguments and flags that specify the VPC Access connector you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connector on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connector or fully qualified identifier for the connector. To set the connector attribute: ▸ provide the argument connector on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeNetworksVpcAccessConnectorsCreateOptions(
+        string Connector
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Connector);
+        this.Connector = Connector;
+    }
+
+    public void Deconstruct(out string Connector)
+    {
+        Connector = this.Connector;
+    }
+
+    /// <summary>
+    /// Connector resource - Arguments and flags that specify the VPC Access connector you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connector on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Compute region (e.g. us-central1) for the connector. To set the region attribute: ▸ provide the argument connector on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -46,13 +70,13 @@ public record GcloudComputeNetworksVpcAccessConnectorsCreateOptions : GcloudOpti
     public string? MinInstances { get; set; }
 
     /// <summary>
-    /// Scaling settings of a VPC Access Connector can be specified in terms of throughput. Maximum throughput of the connector in Mbps. Refers to the expected throughput when using an e2-micro machine type. Value must be a multiple of 100 from 300 through 1000. Must be higher than the value specified by --min-throughput. If both max-throughput and max-instances are provided, max-instances takes precedence over max-throughput. The use of max-throughput is discouraged in favor of max-instances.
+    /// At most one of these can be specified: Scaling settings of a VPC Access Connector can be specified in terms of throughput. Maximum throughput of the connector in Mbps. Refers to the expected throughput when using an e2-micro machine type. Value must be a multiple of 100 from 300 through 1000. Must be higher than the value specified by --min-throughput. If both max-throughput and max-instances are provided, max-instances takes precedence over max-throughput. The use of max-throughput is discouraged in favor of max-instances.
     /// </summary>
     [CliOption("--max-throughput", Format = OptionFormat.EqualsSeparated)]
     public string? MaxThroughput { get; set; }
 
     /// <summary>
-    /// Scaling settings of a VPC Access Connector can be specified in terms of throughput. Minimum throughput of the connector in Mbps. Refers to the expected throughput when using an e2-micro machine type. Value must be a multiple of 100 from 200 through 900. Must be lower than the value specified by --max-throughput. If both min-throughput and min-instances are provided, min-instances takes precedence over min-throughput. The use of min-throughput is discouraged in favor of min-instances.
+    /// At most one of these can be specified: Scaling settings of a VPC Access Connector can be specified in terms of throughput. Minimum throughput of the connector in Mbps. Refers to the expected throughput when using an e2-micro machine type. Value must be a multiple of 100 from 200 through 900. Must be lower than the value specified by --max-throughput. If both min-throughput and min-instances are provided, min-instances takes precedence over min-throughput. The use of min-throughput is discouraged in favor of min-instances.
     /// </summary>
     [CliOption("--min-throughput", Format = OptionFormat.EqualsSeparated)]
     public string? MinThroughput { get; set; }
@@ -70,15 +94,35 @@ public record GcloudComputeNetworksVpcAccessConnectorsCreateOptions : GcloudOpti
     public string? Range { get; set; }
 
     /// <summary>
-    /// You can specify a subnet in which to place the connector rather than using an internally managed subnet. If you wish to use this connector to attach your Serverless application to a Shared VPC, first share a subnet to the project to which you are deploying your connector. Then, supply the name of the subnet (--subnet) and the project ID (--subnet-project) from which the subnet is hosted to connect to this VPC. User-provided subnet to house the connector. This field can be used in favor of specifying the network and range fields. e.g. "my-subnet"
+    /// At most one of these can be specified: You can specify a subnet in which to place the connector rather than using an internally managed subnet. If you wish to use this connector to attach your Serverless application to a Shared VPC, first share a subnet to the project to which you are deploying your connector. Then, supply the name of the subnet (--subnet) and the project ID (--subnet-project) from which the subnet is hosted to connect to this VPC. User-provided subnet to house the connector. This field can be used in favor of specifying the network and range fields. e.g. "my-subnet"
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// You can specify a subnet in which to place the connector rather than using an internally managed subnet. If you wish to use this connector to attach your Serverless application to a Shared VPC, first share a subnet to the project to which you are deploying your connector. Then, supply the name of the subnet (--subnet) and the project ID (--subnet-project) from which the subnet is hosted to connect to this VPC. Project ID of the provided subnet. The default is the project of the connector.
+    /// At most one of these can be specified: You can specify a subnet in which to place the connector rather than using an internally managed subnet. If you wish to use this connector to attach your Serverless application to a Shared VPC, first share a subnet to the project to which you are deploying your connector. Then, supply the name of the subnet (--subnet) and the project ID (--subnet-project) from which the subnet is hosted to connect to this VPC. Project ID of the provided subnet. The default is the project of the connector.
     /// </summary>
     [CliOption("--subnet-project", Format = OptionFormat.EqualsSeparated)]
     public string? SubnetProject { get; set; }
+
+    /// <summary>
+    /// Connector resource - Arguments and flags that specify the VPC Access connector you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connector on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connector or fully qualified identifier for the connector. To set the connector attribute: ▸ provide the argument connector on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Connector { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(MaxInstances) || !string.IsNullOrWhiteSpace(MinInstances)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(MaxThroughput) || !string.IsNullOrWhiteSpace(MinThroughput)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (MaxInstances or MinInstances) or (MaxThroughput or MinThroughput) may be specified.", [nameof(MaxInstances), nameof(MinInstances), nameof(MaxThroughput), nameof(MinThroughput)]);
+        }
+        if (((!string.IsNullOrWhiteSpace(Network) || !string.IsNullOrWhiteSpace(Range)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Subnet) || !string.IsNullOrWhiteSpace(SubnetProject)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (Network or Range) or (Subnet or SubnetProject) may be specified.", [nameof(Network), nameof(Range), nameof(Subnet), nameof(SubnetProject)]);
+        }
+        yield break;
+    }
 
 }

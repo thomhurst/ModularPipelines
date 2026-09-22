@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,68 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dataplex", "glossaries", "categories", "create")]
 public record GcloudDataplexGlossariesCategoriesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// creates a glossary category
+    /// </summary>
+    /// <param name="Parent">Immediate parent of the created glossary category.</param>
+    /// <param name="GlossaryCategory">Glossary category resource - Arguments and flags that define the Dataplex Glossary Category you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument glossary_category on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the glossary category or fully qualified identifier for the glossary category. To set the glossary_category attribute: ▸ provide the argument glossary_category on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexGlossariesCategoriesCreateOptions(
+        string Parent,
+        string GlossaryCategory
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Parent);
+        this.Parent = Parent;
+        global::System.ArgumentNullException.ThrowIfNull(GlossaryCategory);
+        this.GlossaryCategory = GlossaryCategory;
+    }
+
+    public void Deconstruct(out string Parent, out string GlossaryCategory)
+    {
+        Parent = this.Parent;
+        GlossaryCategory = this.GlossaryCategory;
+    }
+
+    /// <summary>
+    /// Immediate parent of the created glossary category.
+    /// </summary>
+    [CliOption("--parent", Format = OptionFormat.EqualsSeparated)]
+    public string Parent { get; private init; }
+
+    /// <summary>
+    /// Glossary category resource - Arguments and flags that define the Dataplex Glossary Category you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument glossary_category on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of glossary category to use. To set the glossary attribute: ▸ provide the argument glossary_category on the command line with a fully specified name; ▸ provide the argument --glossary on the command line.
+    /// </summary>
+    [CliOption("--glossary", Format = OptionFormat.EqualsSeparated)]
+    public string? Glossary { get; set; }
+
+    /// <summary>
+    /// Glossary category resource - Arguments and flags that define the Dataplex Glossary Category you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument glossary_category on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataplex resource. To set the location attribute: ▸ provide the argument glossary_category on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Description of the glossary category.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Display name of the glossary category.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Glossary category resource - Arguments and flags that define the Dataplex Glossary Category you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument glossary_category on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the glossary category or fully qualified identifier for the glossary category. To set the glossary_category attribute: ▸ provide the argument glossary_category on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GlossaryCategory { get; private init; }
+
 }

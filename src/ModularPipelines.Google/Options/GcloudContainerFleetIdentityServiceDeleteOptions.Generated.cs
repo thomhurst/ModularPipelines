@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "identity-service", "delete")]
-public record GcloudContainerFleetIdentityServiceDeleteOptions : GcloudOptions
+public record GcloudContainerFleetIdentityServiceDeleteOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// If specified, deletes the default membership configuration present in your fleet. To delete the default membership configuration present in your fleet, run: $ gcloud container fleet identity-service delete \ --fleet-default-member-config
@@ -38,5 +39,15 @@ public record GcloudContainerFleetIdentityServiceDeleteOptions : GcloudOptions
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Membership) || !string.IsNullOrWhiteSpace(Location)) && (!(!string.IsNullOrWhiteSpace(Membership))))
+        {
+            yield return new ValidationResult("Membership must be specified when other arguments in this group are specified.", [nameof(Membership)]);
+        }
+        yield break;
+    }
 
 }

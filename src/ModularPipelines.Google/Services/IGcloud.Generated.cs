@@ -91,6 +91,11 @@ public partial interface IGcloud
     IGcloudApphub Apphub => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Gets the apptopology sub-domain service.
+    /// </summary>
+    IGcloudAppTopology AppTopology => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Gets the artifacts sub-domain service.
     /// </summary>
     IGcloudArtifacts Artifacts => throw new System.NotSupportedException();

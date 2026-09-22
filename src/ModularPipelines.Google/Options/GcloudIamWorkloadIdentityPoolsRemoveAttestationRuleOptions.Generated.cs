@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("iam", "workload-identity-pools", "remove-attestation-rule")]
 public record GcloudIamWorkloadIdentityPoolsRemoveAttestationRuleOptions : GcloudOptions
 {
+    /// <summary>
+    /// remove an     attestation rule on a workload identity pool
+    /// </summary>
+    /// <param name="GoogleCloudResource">A single workload operating on Google Cloud. This will be set in the attestation rule to be added.</param>
+    /// <param name="WorkloadIdentityPool">Workload identity pool resource - The workload identity pool to remove the attestation rule on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workload_identity_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workload identity pool or fully qualified identifier for the workload identity pool. To set the workload_identity_pool attribute: ▸ provide the argument workload_identity_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamWorkloadIdentityPoolsRemoveAttestationRuleOptions(
+        string GoogleCloudResource,
+        string WorkloadIdentityPool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GoogleCloudResource);
+        this.GoogleCloudResource = GoogleCloudResource;
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadIdentityPool);
+        this.WorkloadIdentityPool = WorkloadIdentityPool;
+    }
+
+    public void Deconstruct(out string GoogleCloudResource, out string WorkloadIdentityPool)
+    {
+        GoogleCloudResource = this.GoogleCloudResource;
+        WorkloadIdentityPool = this.WorkloadIdentityPool;
+    }
+
+    /// <summary>
+    /// A single workload operating on Google Cloud. This will be set in the attestation rule to be added.
+    /// </summary>
+    [CliOption("--google-cloud-resource", Format = OptionFormat.EqualsSeparated)]
+    public string GoogleCloudResource { get; private init; }
+
+    /// <summary>
+    /// Workload identity pool resource - The workload identity pool to remove the attestation rule on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workload_identity_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location name. To set the location attribute: ▸ provide the argument workload_identity_pool on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Workload identity pool resource - The workload identity pool to remove the attestation rule on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workload_identity_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workload identity pool or fully qualified identifier for the workload identity pool. To set the workload_identity_pool attribute: ▸ provide the argument workload_identity_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WorkloadIdentityPool { get; private init; }
+
 }

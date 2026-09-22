@@ -22,9 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDatastreamObjectsDescribeOptions : GcloudOptions
 {
     /// <summary>
+    /// show details about a Stream object
+    /// </summary>
+    /// <param name="Object">Stream object resource - The Stream object you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument object on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the stream_object or fully qualified identifier for the stream_object. To set the object attribute: ▸ provide the argument object on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatastreamObjectsDescribeOptions(
+        string Object
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Object);
+        this.Object = Object;
+    }
+
+    public void Deconstruct(out string Object)
+    {
+        Object = this.Object;
+    }
+
+    /// <summary>
+    /// Stream object resource - The Stream object you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument object on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the resources. To set the location attribute: ▸ provide the argument object on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Stream object resource - The Stream object you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument object on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The stream name. To set the stream attribute: ▸ provide the argument object on the command line with a fully specified name; ▸ provide the argument --stream on the command line.
+    /// </summary>
+    [CliOption("--stream", Format = OptionFormat.EqualsSeparated)]
+    public string? Stream { get; set; }
+
+    /// <summary>
     /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
     /// </summary>
     [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
     public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// Stream object resource - The Stream object you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument object on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the stream_object or fully qualified identifier for the stream_object. To set the object attribute: ▸ provide the argument object on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Object { get; private init; }
 
 }

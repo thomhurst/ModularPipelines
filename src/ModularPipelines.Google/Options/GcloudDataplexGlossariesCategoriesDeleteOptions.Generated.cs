@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dataplex", "glossaries", "categories", "delete")]
 public record GcloudDataplexGlossariesCategoriesDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// deletes a glossary category
+    /// </summary>
+    /// <param name="GlossaryCategory">Glossary category resource - Arguments and flags that define the glossary category you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument glossary_category on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the glossary category or fully qualified identifier for the glossary category. To set the glossary_category attribute: ▸ provide the argument glossary_category on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexGlossariesCategoriesDeleteOptions(
+        string GlossaryCategory
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GlossaryCategory);
+        this.GlossaryCategory = GlossaryCategory;
+    }
+
+    public void Deconstruct(out string GlossaryCategory)
+    {
+        GlossaryCategory = this.GlossaryCategory;
+    }
+
+    /// <summary>
+    /// Glossary category resource - Arguments and flags that define the glossary category you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument glossary_category on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Identifier of the Dataplex Glossary resource. To set the glossary attribute: ▸ provide the argument glossary_category on the command line with a fully specified name; ▸ provide the argument --glossary on the command line.
+    /// </summary>
+    [CliOption("--glossary", Format = OptionFormat.EqualsSeparated)]
+    public string? Glossary { get; set; }
+
+    /// <summary>
+    /// Glossary category resource - Arguments and flags that define the glossary category you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument glossary_category on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the Dataplex resource. To set the location attribute: ▸ provide the argument glossary_category on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Glossary category resource - Arguments and flags that define the glossary category you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument glossary_category on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the glossary category or fully qualified identifier for the glossary category. To set the glossary_category attribute: ▸ provide the argument glossary_category on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GlossaryCategory { get; private init; }
+
 }

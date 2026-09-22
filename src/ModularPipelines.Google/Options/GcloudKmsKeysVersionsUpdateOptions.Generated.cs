@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "keys", "versions", "update")]
-public record GcloudKmsKeysVersionsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Version
-) : GcloudOptions
+public record GcloudKmsKeysVersionsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a key version
+    /// </summary>
+    /// <param name="Version">Name of the version to describe.</param>
+    public GcloudKmsKeysVersionsUpdateOptions(
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string Version)
+    {
+        Version = this.Version;
+    }
+
     /// <summary>
     /// The path to the external key material on the EKM for keys with protection level external-vpc. Required with the --crypto-key-backend flag when a key version is updated to the external-vpc protection level.
     /// </summary>
@@ -58,5 +73,11 @@ public record GcloudKmsKeysVersionsUpdateOptions(
     /// </summary>
     [CliOption("--state", Format = OptionFormat.EqualsSeparated)]
     public string? State { get; set; }
+
+    /// <summary>
+    /// Name of the version to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Version { get; private init; }
 
 }

@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDatalineageProcessesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a Data Lineage process
+    /// </summary>
+    /// <param name="Process">Process resource - The process to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument process on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the process or fully qualified identifier for the process. To set the process attribute: ▸ provide the argument process on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatalineageProcessesDeleteOptions(
+        string Process
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Process);
+        this.Process = Process;
+    }
+
+    public void Deconstruct(out string Process)
+    {
+        Process = this.Process;
+    }
+
+    /// <summary>
+    /// Process resource - The process to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument process on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the process. To set the location attribute: ▸ provide the argument process on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Process resource - The process to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument process on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the process or fully qualified identifier for the process. To set the process attribute: ▸ provide the argument process on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Process { get; private init; }
 
 }

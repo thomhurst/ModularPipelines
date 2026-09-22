@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,85 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cache", "services", "invalidate-cache")]
-public record GcloudEdgeCacheServicesInvalidateCacheOptions : GcloudOptions
+public record GcloudEdgeCacheServicesInvalidateCacheOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// invalidate the cache for an     EdgeCacheService resource
+    /// </summary>
+    /// <param name="Service">Service resource - The EdgeCacheService resource you want to invalidate the cache for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEdgeCacheServicesInvalidateCacheOptions(
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string Service)
+    {
+        Service = this.Service;
+    }
+
+    /// <summary>
+    /// Service resource - The EdgeCacheService resource you want to invalidate the cache for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument service on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ use global location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: The hostname to invalidate against. You can specify an exact or wildcard host - e.g. "video.example.com" or ".example.com" - based on host component.
+    /// </summary>
+    [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
+    public string? Host { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: The path to invalidate against. You can specify an exact or wildcard host - e.g. "/videos/hls/139123.mp4" or "/manifests/" - based on path component.
+    /// </summary>
+    [CliOption("--path", Format = OptionFormat.EqualsSeparated)]
+    public string? Path { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A list of cache tags used to identify cached objects. ▸ Cache tags are specified when the response is first cached, by setting the "Cache-Tag" response header at the origin. ▸ By default, all objects have a cache tag representing the HTTP status code of the response, the MIME content-type, and the origin. ▸ Multiple cache tags in the same revalidation request are treated as boolean OR - e.g. tag1 OR tag2 OR tag3. ▸ If a host and/or path are also specified, these are treated as boolean AND with any tags. Up to 10 tags may be specified in a single invalidation request. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Tags
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __TagsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __TagsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Service resource - The EdgeCacheService resource you want to invalidate the cache for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Service { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(Host) || !string.IsNullOrWhiteSpace(Path) || ((object?)Tags is global::System.Collections.Generic.IEnumerable<char> ? (object?)Tags is not string || !string.IsNullOrWhiteSpace(Tags?.ToString()) : ((object?)Tags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Tags, static item => item is not null) : (Tags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Tags), static item => item is not null))))))
+        {
+            yield return new ValidationResult("At least one of Host, Path, or Tags must be specified.", [nameof(Host), nameof(Path), nameof(Tags)]);
+        }
+        yield break;
+    }
+
 }

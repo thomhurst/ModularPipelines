@@ -21,4 +21,44 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("metastore", "services", "query-metadata")]
 public record GcloudMetastoreServicesQueryMetadataOptions : GcloudOptions
 {
+    /// <summary>
+    /// execute a SQL query against a     Dataproc Metastore Service's metadata
+    /// </summary>
+    /// <param name="Query">Use Google Standard SQL query for Cloud Spanner and MySQL query syntax for Cloud SQL. Cloud Spanner SQL is described at https://cloud.google.com/spanner/docs/query-syntax)"</param>
+    /// <param name="Service">Service resource - The service to query metadata. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMetastoreServicesQueryMetadataOptions(
+        string Query,
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Query);
+        this.Query = Query;
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string Query, out string Service)
+    {
+        Query = this.Query;
+        Service = this.Service;
+    }
+
+    /// <summary>
+    /// Use Google Standard SQL query for Cloud Spanner and MySQL query syntax for Cloud SQL. Cloud Spanner SQL is described at https://cloud.google.com/spanner/docs/query-syntax)"
+    /// </summary>
+    [CliOption("--query", Format = OptionFormat.EqualsSeparated)]
+    public string Query { get; private init; }
+
+    /// <summary>
+    /// Service resource - The service to query metadata. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location to which the service belongs. To set the location attribute: ▸ provide the argument service on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property metastore/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Service resource - The service to query metadata. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Service { get; private init; }
+
 }

@@ -19,8 +19,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "subordinates", "undelete")]
-public record GcloudPrivatecaSubordinatesUndeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Certificate
-) : GcloudOptions
+public record GcloudPrivatecaSubordinatesUndeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// undelete a subordinate certificate     authority
+    /// </summary>
+    /// <param name="CertificateAuthority">CERTIFICATE AUTHORITY resource - The certificate authority to undelete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_AUTHORITY on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CERTIFICATE_AUTHORITY or fully qualified identifier for the CERTIFICATE_AUTHORITY. To set the certificate_authority attribute: ▸ provide the argument CERTIFICATE_AUTHORITY on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPrivatecaSubordinatesUndeleteOptions(
+        string CertificateAuthority
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateAuthority);
+        this.CertificateAuthority = CertificateAuthority;
+    }
+
+    public void Deconstruct(out string CertificateAuthority)
+    {
+        CertificateAuthority = this.CertificateAuthority;
+    }
+
+    /// <summary>
+    /// CERTIFICATE AUTHORITY resource - The certificate authority to undelete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_AUTHORITY on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the CERTIFICATE_AUTHORITY. To set the location attribute: ▸ provide the argument CERTIFICATE_AUTHORITY on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property privateca/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// CERTIFICATE AUTHORITY resource - The certificate authority to undelete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_AUTHORITY on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The parent CA Pool of the CERTIFICATE_AUTHORITY. To set the pool attribute: ▸ provide the argument CERTIFICATE_AUTHORITY on the command line with a fully specified name; ▸ provide the argument --pool on the command line.
+    /// </summary>
+    [CliOption("--pool", Format = OptionFormat.EqualsSeparated)]
+    public string? Pool { get; set; }
+
+    /// <summary>
+    /// CERTIFICATE AUTHORITY resource - The certificate authority to undelete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_AUTHORITY on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CERTIFICATE_AUTHORITY or fully qualified identifier for the CERTIFICATE_AUTHORITY. To set the certificate_authority attribute: ▸ provide the argument CERTIFICATE_AUTHORITY on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CertificateAuthority { get; private init; }
+
 }

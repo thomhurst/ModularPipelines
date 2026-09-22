@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "shared-templates", "describe")]
-public record GcloudDesignCenterSpacesSharedTemplatesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SharedTemplate
-) : GcloudOptions
+public record GcloudDesignCenterSpacesSharedTemplatesDescribeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// describe a shared     template
+    /// </summary>
+    /// <param name="SharedTemplate">ID of the sharedTemplate or fully qualified identifier for the sharedTemplate. Format: projects/$project/locations/$location/spaces/$space/sharedTemplates/$sharedTemplate To set the shared_template attribute: ◆ provide the fully qualified identifier shared_template on the command line; ◆ provide the argument shared_template which represents the shared template id and the other arguments --location, --project, --space or --google-catalog on the command line.</param>
+    public GcloudDesignCenterSpacesSharedTemplatesDescribeOptions(
+        string SharedTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SharedTemplate);
+        this.SharedTemplate = SharedTemplate;
+    }
+
+    public void Deconstruct(out string SharedTemplate)
+    {
+        SharedTemplate = this.SharedTemplate;
+    }
+
     /// <summary>
     /// The location id of the sharedTemplate resource. To set the location attribute: ◆ provide the argument shared_template on the command line with a fully specified name; ◆ provide the argument --location on the command line.
     /// </summary>
@@ -46,5 +62,21 @@ public record GcloudDesignCenterSpacesSharedTemplatesDescribeOptions(
     /// </summary>
     [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
     public string? Space { get; set; }
+
+    /// <summary>
+    /// ID of the sharedTemplate or fully qualified identifier for the sharedTemplate. Format: projects/$project/locations/$location/spaces/$space/sharedTemplates/$sharedTemplate To set the shared_template attribute: ◆ provide the fully qualified identifier shared_template on the command line; ◆ provide the argument shared_template which represents the shared template id and the other arguments --location, --project, --space or --google-catalog on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SharedTemplate { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((GoogleCatalog == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Project) || !string.IsNullOrWhiteSpace(Space)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GoogleCatalog or (Project or Space) may be specified.", [nameof(GoogleCatalog), nameof(Project), nameof(Space)]);
+        }
+        yield break;
+    }
 
 }

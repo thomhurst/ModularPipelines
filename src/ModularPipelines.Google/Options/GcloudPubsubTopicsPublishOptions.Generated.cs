@@ -22,9 +22,26 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPubsubTopicsPublishOptions : GcloudOptions
 {
     /// <summary>
-    /// Comma-separated list of attributes. Each ATTRIBUTE has the form name="value". You can specify up to 100 attributes.
+    /// publishes a message to the specified topic
     /// </summary>
-    [CliOption("--attribute", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Topic">Topic resource - Name of the topic to publish messages to. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument topic on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the topic or fully qualified identifier for the topic. To set the topic attribute: ▸ provide the argument topic on the command line.</param>
+    public GcloudPubsubTopicsPublishOptions(
+        string Topic
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Topic);
+        this.Topic = Topic;
+    }
+
+    public void Deconstruct(out string Topic)
+    {
+        Topic = this.Topic;
+    }
+
+    /// <summary>
+    /// Comma-separated list of attributes. Each ATTRIBUTE has the form name="value". You can specify up to 100 attributes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--attribute", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Attribute { get; set; }
 
     /// <summary>
@@ -38,5 +55,11 @@ public record GcloudPubsubTopicsPublishOptions : GcloudOptions
     /// </summary>
     [CliOption("--ordering-key", Format = OptionFormat.EqualsSeparated)]
     public string? OrderingKey { get; set; }
+
+    /// <summary>
+    /// Topic resource - Name of the topic to publish messages to. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument topic on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the topic or fully qualified identifier for the topic. To set the topic attribute: ▸ provide the argument topic on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Topic { get; private init; }
 
 }

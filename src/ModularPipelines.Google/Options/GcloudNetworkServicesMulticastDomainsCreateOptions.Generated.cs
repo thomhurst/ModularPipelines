@@ -10,6 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +22,98 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-services", "multicast-domains", "create")]
-public record GcloudNetworkServicesMulticastDomainsCreateOptions : GcloudOptions
+public record GcloudNetworkServicesMulticastDomainsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a multicast     domain
+    /// </summary>
+    /// <param name="AdminNetwork">The URI of the admin network to be used.</param>
+    /// <param name="MulticastDomain">Multicast domain resource - Name of the multicast domain to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_domain on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the multicast domain or fully qualified identifier for the multicast domain. To set the multicast_domain attribute: ▸ provide the argument multicast_domain on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkServicesMulticastDomainsCreateOptions(
+        string AdminNetwork,
+        string MulticastDomain
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AdminNetwork);
+        this.AdminNetwork = AdminNetwork;
+        global::System.ArgumentNullException.ThrowIfNull(MulticastDomain);
+        this.MulticastDomain = MulticastDomain;
+    }
+
+    public void Deconstruct(out string AdminNetwork, out string MulticastDomain)
+    {
+        AdminNetwork = this.AdminNetwork;
+        MulticastDomain = this.MulticastDomain;
+    }
+
+    /// <summary>
+    /// The URI of the admin network to be used.
+    /// </summary>
+    [CliOption("--admin-network", Format = OptionFormat.EqualsSeparated)]
+    public string AdminNetwork { get; private init; }
+
+    /// <summary>
+    /// Multicast domain resource - Name of the multicast domain to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_domain on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument multicast_domain on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: The connection type for authorizing multicast traffic. CONNECTION_TYPE must be one of: connection-type-unspecified, ncc, same-vpc.
+    /// </summary>
+    [CliOption("--connection-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudNetworkServicesMulticastDomainsCreateConnectionType? ConnectionType { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: The URI of the NCC hub to be used.
+    /// </summary>
+    [CliOption("--ncc-hub", Format = OptionFormat.EqualsSeparated)]
+    public string? NccHub { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The description for the multicast domain.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The URI of the multicast domain group to be used.
+    /// </summary>
+    [CliOption("--multicast-domain-group", Format = OptionFormat.EqualsSeparated)]
+    public string? MulticastDomainGroup { get; set; }
+
+    /// <summary>
+    /// The name of the ULL multicast feed to be used. This is for ULL multicast service only.
+    /// </summary>
+    [CliOption("--ull-multicast-domain", Format = OptionFormat.EqualsSeparated)]
+    public string? UllMulticastDomain { get; set; }
+
+    /// <summary>
+    /// Multicast domain resource - Name of the multicast domain to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_domain on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the multicast domain or fully qualified identifier for the multicast domain. To set the multicast_domain attribute: ▸ provide the argument multicast_domain on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MulticastDomain { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!((object?)ConnectionType is not null || !string.IsNullOrWhiteSpace(NccHub)))
+        {
+            yield return new ValidationResult("At least one of ConnectionType or NccHub must be specified.", [nameof(ConnectionType), nameof(NccHub)]);
+        }
+        yield break;
+    }
+
 }

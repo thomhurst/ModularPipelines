@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "application-awareness", "configure-strict-priority-policy")]
-public record GcloudPreviewComputeInterconnectsApplicationAwarenessConfigureStrictPriorityPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInterconnectsApplicationAwarenessConfigureStrictPriorityPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// awareness     configure-strict-priority-policy - configure strict priority policy for     application awareness configuration of a Compute Engine interconnect
+    /// </summary>
+    /// <param name="Name">Name of the interconnect to patch.</param>
+    public GcloudPreviewComputeInterconnectsApplicationAwarenessConfigureStrictPriorityPolicyOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Enable or disable application awareness on the interconnect. Application awareness enablement will fail if the application awareness configuration is not specified. Use --no-enabled to disable it.
     /// </summary>
@@ -40,5 +55,11 @@ public record GcloudPreviewComputeInterconnectsApplicationAwarenessConfigureStri
     /// </summary>
     [CliOption("--profile-description", Format = OptionFormat.EqualsSeparated)]
     public string? ProfileDescription { get; set; }
+
+    /// <summary>
+    /// Name of the interconnect to patch.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

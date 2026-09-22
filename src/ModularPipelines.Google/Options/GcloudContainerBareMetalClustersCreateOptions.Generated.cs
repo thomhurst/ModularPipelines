@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,533 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "bare-metal", "clusters", "create")]
-public record GcloudContainerBareMetalClustersCreateOptions : GcloudOptions
+public record GcloudContainerBareMetalClustersCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create an Anthos cluster on     bare metal
+    /// </summary>
+    /// <param name="Version">Anthos cluster on bare metal version for the user cluster resource.</param>
+    /// <param name="AdminClusterMembership">Admin cluster membership resource - membership of the admin cluster. Membership name is the same as the admin cluster name. Examples: $ gcloud container bare-metal clusters create</param>
+    /// <param name="ControlPlaneVip">VIPs used by the load balancer. This must be specified. VIP for the Kubernetes API of this cluster. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="IngressVip">VIPs used by the load balancer. This must be specified. VIP for ingress traffic into this cluster. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="LvpNodeMountsConfigPath">Anthos on bare metal cluster storage configuration. This must be specified. LVP node mounts class and path used by the storage. This must be specified. Path for the LVP node mounts class. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="LvpNodeMountsConfigStorageClass">Anthos on bare metal cluster storage configuration. This must be specified. LVP node mounts class and path used by the storage. This must be specified. Storage class for LVP node mounts. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="Cluster">Cluster resource - cluster to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerBareMetalClustersCreateOptions(
+        string Version,
+        string AdminClusterMembership,
+        string ControlPlaneVip,
+        string IngressVip,
+        string LvpNodeMountsConfigPath,
+        string LvpNodeMountsConfigStorageClass,
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+        global::System.ArgumentNullException.ThrowIfNull(AdminClusterMembership);
+        this.AdminClusterMembership = AdminClusterMembership;
+        global::System.ArgumentNullException.ThrowIfNull(ControlPlaneVip);
+        this.ControlPlaneVip = ControlPlaneVip;
+        global::System.ArgumentNullException.ThrowIfNull(IngressVip);
+        this.IngressVip = IngressVip;
+        global::System.ArgumentNullException.ThrowIfNull(LvpNodeMountsConfigPath);
+        this.LvpNodeMountsConfigPath = LvpNodeMountsConfigPath;
+        global::System.ArgumentNullException.ThrowIfNull(LvpNodeMountsConfigStorageClass);
+        this.LvpNodeMountsConfigStorageClass = LvpNodeMountsConfigStorageClass;
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Version, out string AdminClusterMembership, out string ControlPlaneVip, out string IngressVip, out string LvpNodeMountsConfigPath, out string LvpNodeMountsConfigStorageClass, out string Cluster)
+    {
+        Version = this.Version;
+        AdminClusterMembership = this.AdminClusterMembership;
+        ControlPlaneVip = this.ControlPlaneVip;
+        IngressVip = this.IngressVip;
+        LvpNodeMountsConfigPath = this.LvpNodeMountsConfigPath;
+        LvpNodeMountsConfigStorageClass = this.LvpNodeMountsConfigStorageClass;
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Anthos cluster on bare metal version for the user cluster resource.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string Version { get; private init; }
+
+    /// <summary>
+    /// Admin cluster membership resource - membership of the admin cluster. Membership name is the same as the admin cluster name. Examples: $ gcloud container bare-metal clusters create
+    /// </summary>
+    [CliOption("--admin-cluster-membership", Format = OptionFormat.EqualsSeparated)]
+    public string AdminClusterMembership { get; private init; }
+
+    /// <summary>
+    /// VIPs used by the load balancer. This must be specified. VIP for the Kubernetes API of this cluster. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--control-plane-vip", Format = OptionFormat.EqualsSeparated)]
+    public string ControlPlaneVip { get; private init; }
+
+    /// <summary>
+    /// VIPs used by the load balancer. This must be specified. VIP for ingress traffic into this cluster. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--ingress-vip", Format = OptionFormat.EqualsSeparated)]
+    public string IngressVip { get; private init; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster storage configuration. This must be specified. LVP node mounts class and path used by the storage. This must be specified. Path for the LVP node mounts class. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lvp-node-mounts-config-path", Format = OptionFormat.EqualsSeparated)]
+    public string LvpNodeMountsConfigPath { get; private init; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster storage configuration. This must be specified. LVP node mounts class and path used by the storage. This must be specified. Storage class for LVP node mounts. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lvp-node-mounts-config-storage-class", Format = OptionFormat.EqualsSeparated)]
+    public string LvpNodeMountsConfigStorageClass { get; private init; }
+
+    /// <summary>
+    /// Cluster resource - cluster to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the cluster. To set the location attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_bare_metal/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// or $ gcloud container bare-metal clusters create
+    /// </summary>
+    [CliOption("--admin-cluster-membership-project", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminClusterMembershipProject { get; set; }
+
+    /// <summary>
+    /// or $ gcloud container bare-metal clusters create
+    /// </summary>
+    [CliOption("--admin-cluster-membership-location", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminClusterMembershipLocation { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster load balancer configuration. This must be specified. Control plane load balancer port configuration. This must be specified. Control plane load balancer port configuration.
+    /// </summary>
+    [CliOption("--control-plane-load-balancer-port", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneLoadBalancerPort { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: Manual load balancer configuration. ManualLB typed load balancers configuration.
+    /// </summary>
+    [CliFlag("--enable-manual-lb")]
+    public bool? EnableManualLb { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: BGP load balancer configuration. BGP load balancer address pools configurations. Examples: To specify configurations for two address pools pool1 and pool2, $ gcloud container bare-metal clusters create example_cluster --bgp-address-pools 'pool=pool1,avoid-buggy-ips=True,manual-assign=True,addresses=192.168.1.1/32;192.168.1.2-192.168.1.3' --bgp-address-pools 'pool=pool2,avoid-buggy-ips=False,manual-assign=False,addresses=192.168.2.1/32;192.168.2.2-192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--bgp-address-pools", Format = OptionFormat.EqualsSeparated)]
+    public string? BgpAddressPools { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: BGP load balancer configuration. BGP autonomous system number (ASN) of the cluster. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--bgp-asn", Format = OptionFormat.EqualsSeparated)]
+    public string? BgpAsn { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. Labels assigned to nodes of a BGP node pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--bgp-load-balancer-node-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? BgpLoadBalancerNodeLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. Node taint applied to every Kubernetes node in a node pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--bgp-load-balancer-node-taints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? BgpLoadBalancerNodeTaints
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. Maximum size of bursty pulls, temporarily allow pulls to burst to this number, while still not exceeding registry_pull_qps.
+    /// </summary>
+    [CliOption("--bgp-load-balancer-registry-burst", Format = OptionFormat.EqualsSeparated)]
+    public string? BgpLoadBalancerRegistryBurst { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. Limit of registry pulls per second.
+    /// </summary>
+    [CliOption("--bgp-load-balancer-registry-pull-qps", Format = OptionFormat.EqualsSeparated)]
+    public string? BgpLoadBalancerRegistryPullQps { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. If set, prevent the Kubelet from pulling multiple images at a time.
+    /// </summary>
+    [CliFlag("--disable-bgp-load-balancer-serialize-image-pulls")]
+    public bool? DisableBgpLoadBalancerSerializeImagePulls { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. MetalLB load balancer configuration. MetalLB address pools configuration. Exactly one of these must be specified: MetalLB load balancer configurations. Examples: To specify MetalLB load balancer configurations for two address pools pool1 and pool2, $ gcloud container bare-metal clusters create example_cluster --metal-lb-address-pools 'pool=pool1,avoid-buggy-ips=True,manual-assign=True,addresses=192.168.1.1/32;192.168.1.2-192.168.1.3' --metal-lb-address-pools 'pool=pool2,avoid-buggy-ips=False,manual-assign=False,addresses=192.168.2.1/32;192.168.2.2-192.168.2.3' Use quote around the flag value to escape semicolon in the terminal.
+    /// </summary>
+    [CliOption("--metal-lb-address-pools", Format = OptionFormat.EqualsSeparated)]
+    public string? MetalLbAddressPools { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. Anthos on bare metal node pool configuration for MetalLB load balancer nodes. MetalLB Node Pool configuration. Populate MetalLB load balancer node config. At most one of these can be specified: MetalLB load balancer node configuration.
+    /// </summary>
+    [CliOption("--metal-lb-load-balancer-node-configs", Format = OptionFormat.EqualsSeparated)]
+    public string? MetalLbLoadBalancerNodeConfigs { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. Labels assigned to nodes of a MetalLB node pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--metal-lb-load-balancer-node-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? MetalLbLoadBalancerNodeLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. Node taint applied to every node in a MetalLB node pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--metal-lb-load-balancer-node-taints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? MetalLbLoadBalancerNodeTaints
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. If set, prevent the Kubelet from pulling multiple images at a time.
+    /// </summary>
+    [CliFlag("--disable-metal-lb-load-balancer-serialize-image-pulls")]
+    public bool? DisableMetalLbLoadBalancerSerializeImagePulls { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. Maximum size of bursty pulls, temporarily allow pulls to burst to this number, while still not exceeding registry_pull_qps.
+    /// </summary>
+    [CliOption("--metal-lb-load-balancer-registry-burst", Format = OptionFormat.EqualsSeparated)]
+    public string? MetalLbLoadBalancerRegistryBurst { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: --bgp-peer-configs=[asn=ASN,ip=IP,control-plane-nodes=NODE_IP_1;NODE_IP_2,...] List of BGP peers that the cluster will connect to. At least one peer must be configured for each control plane node. Examples: To specify configurations for two peers of BGP autonomous system number (ASN) 10000 and 20000, $ gcloud container bare-metal clusters create example_cluster --bgp-peer-configs 'asn=10000,ip=192.168.1.1,control-plane-nodes=192.168.1.2;192.168.1.3' --bgp-peer-configs 'asn=20000,ip=192.168.2.1,control-plane-nodes=192.168.2.2;192.168.2.3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. --bgp-load-balancer-node-configs=[node-ip=IP,labels=KEY1=VALUE1;KEY2=VALUE2,...] BGP load balancer data plane node configurations. Examples: To specify configurations for two nodes of IP 192.168.0.1 and 192.168.1.1, $ gcloud container bare-metal clusters create example_cluster --bgp-load-balancer-node-configs 'node-ip=192.168.0.1,labels=KEY1=VALUE1;KEY2=VALUE2' --bgp-load-balancer-node-configs 'node-ip=192.168.1.1,labels=KEY3=VALUE3' Use quote around the flag value to escape semicolon in the terminal. This flag argument must be specified if any of the other arguments in this group are specified. Modifiable kubelet configurations for bare metal machines. Modifiable kubelet configurations for bare metal machines. Limit of registry pulls per second.
+    /// </summary>
+    [CliOption("--metal-lb-load-balancer-registry-pull-qps", Format = OptionFormat.EqualsSeparated)]
+    public string? MetalLbLoadBalancerRegistryPullQps { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: API Server argument configuration. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--api-server-args", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ApiServerArgs
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: Anthos on bare metal cluster control plane node pool configuration. This must be specified. Anthos on bare metal node pool configuration for control plane nodes. This must be specified. Anthos on bare metal node configuration for control plane nodes. This must be specified. Populate control plane node config. Exactly one of these must be specified: Control plane node configuration.
+    /// </summary>
+    [CliOption("--control-plane-node-configs", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneNodeConfigs { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: Labels assigned to nodes of a node pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--control-plane-node-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ControlPlaneNodeLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: Node taint applied to every Kubernetes node in a node pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--control-plane-node-taints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ControlPlaneNodeTaints
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: Modifiable kubelet configurations for bare metal machines. Maximum size of bursty pulls, temporarily allow pulls to burst to this number, while still not exceeding registry_pull_qps.
+    /// </summary>
+    [CliOption("--control-plane-registry-burst", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneRegistryBurst { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: Modifiable kubelet configurations for bare metal machines. Limit of registry pulls per second.
+    /// </summary>
+    [CliOption("--control-plane-registry-pull-qps", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneRegistryPullQps { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster control plane configuration. At least one of these must be specified: Modifiable kubelet configurations for bare metal machines. If set, prevent the Kubelet from pulling multiple images at a time.
+    /// </summary>
+    [CliFlag("--disable-control-plane-serialize-image-pulls")]
+    public bool? DisableControlPlaneSerializeImagePulls { get; set; }
+
+    /// <summary>
+    /// LVP share configuration. At least one of these must be specified: Number of subdirectories to create under path.
+    /// </summary>
+    [CliOption("--shared-path-pv-count", Format = OptionFormat.EqualsSeparated)]
+    public string? SharedPathPvCount { get; set; }
+
+    /// <summary>
+    /// LVP share configuration. At least one of these must be specified: LVP share class and path used by the storage. This must be specified. Path for the LVP share class. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lvp-share-path", Format = OptionFormat.EqualsSeparated)]
+    public string? LvpSharePath { get; set; }
+
+    /// <summary>
+    /// LVP share configuration. At least one of these must be specified: LVP share class and path used by the storage. This must be specified. Storage class for LVP share. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--lvp-share-storage-class", Format = OptionFormat.EqualsSeparated)]
+    public string? LvpShareStorageClass { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Users that will be granted the cluster-admin role on the cluster, providing full access to the cluster.
+    /// </summary>
+    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminUsers { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Annotations on the Anthos on bare metal resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Set Binary Authorization evaluation mode for this cluster. BINAUTHZ_EVALUATION_MODE must be one of: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE.
+    /// </summary>
+    [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? BinauthzEvaluationMode { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster security configuration. User cluster authorization configurations to bootstrap onto the admin cluster Description for the resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster operations configuration. Whether collection of application logs/metrics should be enabled (in addition to system logs/metrics).
+    /// </summary>
+    [CliFlag("--enable-application-logs")]
+    public bool? EnableApplicationLogs { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal node access related settings for the user cluster. User name used to access node machines.
+    /// </summary>
+    [CliOption("--login-user", Format = OptionFormat.EqualsSeparated)]
+    public string? LoginUser { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster maintenance configuration. IPv4 addresses to be placed into maintenance mode. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--maintenance-address-cidr-blocks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? MaintenanceAddressCidrBlocks { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster maintenance configuration. If set, only validate the request, but do not actually perform the operation.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster workload node configuration. Container runtime which will be used in the bare metal user cluster.
+    /// </summary>
+    [CliOption("--container-runtime", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerRuntime { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster workload node configuration. Maximum number of pods a node can run.
+    /// </summary>
+    [CliOption("--max-pods-per-node", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxPodsPerNode { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster network configurations. Enables the use of advanced Anthos networking features, such as Bundled Load Balancing with BGP or the egress NAT gateway.
+    /// </summary>
+    [CliFlag("--enable-advanced-networking")]
+    public bool? EnableAdvancedNetworking { get; set; }
+
+    /// <summary>
+    /// Multiple networking interfaces cluster configurations. If set, enable multiple network interfaces for your pods.
+    /// </summary>
+    [CliFlag("--enable-multi-nic-config")]
+    public bool? EnableMultiNicConfig { get; set; }
+
+    /// <summary>
+    /// SR-IOV networking operator configurations. If set, install the SR-IOV operator.
+    /// </summary>
+    [CliFlag("--enable-sr-iov-config")]
+    public bool? EnableSrIovConfig { get; set; }
+
+    /// <summary>
+    /// SR-IOV networking operator configurations. Populate one of the network configs. This must be specified. Island mode CIDR network configuration. IPv4 address range for all pods in the cluster. This flag argument must be specified if any of the other arguments in this group are specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--island-mode-pod-address-cidr-blocks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? IslandModePodAddressCidrBlocks
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __IslandModePodAddressCidrBlocksSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __IslandModePodAddressCidrBlocksSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// SR-IOV networking operator configurations. Populate one of the network configs. This must be specified. Island mode CIDR network configuration. IPv4 address range for all services in the cluster. This flag argument must be specified if any of the other arguments in this group are specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--island-mode-service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? IslandModeServiceAddressCidrBlocks
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __IslandModeServiceAddressCidrBlocksSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __IslandModeServiceAddressCidrBlocksSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Anthos on bare metal cluster proxy configuration. Address of the proxy server. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--uri", Format = OptionFormat.EqualsSeparated)]
+    public string? Uri { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal cluster proxy configuration. List of IPs, hostnames, and domains that should skip the proxy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--no-proxy", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NoProxy
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NoProxySnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NoProxySnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Cluster resource - cluster to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(ControlPlaneLoadBalancerPort)))
+        {
+            yield return new ValidationResult("At least one of ControlPlaneLoadBalancerPort must be specified.", [nameof(ControlPlaneLoadBalancerPort)]);
+        }
+        if (((EnableManualLb == true) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(BgpAddressPools) || !string.IsNullOrWhiteSpace(BgpAsn)) ? 1 : 0) + ((((object?)BgpLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)BgpLoadBalancerNodeLabels is not string || !string.IsNullOrWhiteSpace(BgpLoadBalancerNodeLabels?.ToString()) : ((object?)BgpLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)BgpLoadBalancerNodeLabels, static item => item is not null) : (BgpLoadBalancerNodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)BgpLoadBalancerNodeLabels), static item => item is not null)))) || ((object?)BgpLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)BgpLoadBalancerNodeTaints is not string || !string.IsNullOrWhiteSpace(BgpLoadBalancerNodeTaints?.ToString()) : ((object?)BgpLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)BgpLoadBalancerNodeTaints, static item => item is not null) : (BgpLoadBalancerNodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)BgpLoadBalancerNodeTaints), static item => item is not null)))) || !string.IsNullOrWhiteSpace(BgpLoadBalancerRegistryBurst) || !string.IsNullOrWhiteSpace(BgpLoadBalancerRegistryPullQps) || DisableBgpLoadBalancerSerializeImagePulls == true || ((object?)MetalLbLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetalLbLoadBalancerNodeLabels is not string || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeLabels?.ToString()) : ((object?)MetalLbLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MetalLbLoadBalancerNodeLabels, static item => item is not null) : (MetalLbLoadBalancerNodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetalLbLoadBalancerNodeLabels), static item => item is not null)))) || ((object?)MetalLbLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetalLbLoadBalancerNodeTaints is not string || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeTaints?.ToString()) : ((object?)MetalLbLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MetalLbLoadBalancerNodeTaints, static item => item is not null) : (MetalLbLoadBalancerNodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetalLbLoadBalancerNodeTaints), static item => item is not null)))) || DisableMetalLbLoadBalancerSerializeImagePulls == true || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerRegistryBurst) || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerRegistryPullQps) || !string.IsNullOrWhiteSpace(MetalLbAddressPools) || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeConfigs)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (EnableManualLb), (BgpAddressPools or BgpAsn), or (BgpLoadBalancerNodeLabels, BgpLoadBalancerNodeTaints, BgpLoadBalancerRegistryBurst, BgpLoadBalancerRegistryPullQps, DisableBgpLoadBalancerSerializeImagePulls, MetalLbLoadBalancerNodeLabels, MetalLbLoadBalancerNodeTaints, DisableMetalLbLoadBalancerSerializeImagePulls, MetalLbLoadBalancerRegistryBurst, MetalLbLoadBalancerRegistryPullQps, MetalLbAddressPools, or MetalLbLoadBalancerNodeConfigs) must be specified.", [nameof(EnableManualLb), nameof(BgpAddressPools), nameof(BgpAsn), nameof(BgpLoadBalancerNodeLabels), nameof(BgpLoadBalancerNodeTaints), nameof(BgpLoadBalancerRegistryBurst), nameof(BgpLoadBalancerRegistryPullQps), nameof(DisableBgpLoadBalancerSerializeImagePulls), nameof(MetalLbLoadBalancerNodeLabels), nameof(MetalLbLoadBalancerNodeTaints), nameof(DisableMetalLbLoadBalancerSerializeImagePulls), nameof(MetalLbLoadBalancerRegistryBurst), nameof(MetalLbLoadBalancerRegistryPullQps), nameof(MetalLbAddressPools), nameof(MetalLbLoadBalancerNodeConfigs)]);
+        }
+        if ((EnableManualLb == true || !string.IsNullOrWhiteSpace(BgpAddressPools) || !string.IsNullOrWhiteSpace(BgpAsn) || ((object?)BgpLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)BgpLoadBalancerNodeLabels is not string || !string.IsNullOrWhiteSpace(BgpLoadBalancerNodeLabels?.ToString()) : ((object?)BgpLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)BgpLoadBalancerNodeLabels, static item => item is not null) : (BgpLoadBalancerNodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)BgpLoadBalancerNodeLabels), static item => item is not null)))) || ((object?)BgpLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)BgpLoadBalancerNodeTaints is not string || !string.IsNullOrWhiteSpace(BgpLoadBalancerNodeTaints?.ToString()) : ((object?)BgpLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)BgpLoadBalancerNodeTaints, static item => item is not null) : (BgpLoadBalancerNodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)BgpLoadBalancerNodeTaints), static item => item is not null)))) || !string.IsNullOrWhiteSpace(BgpLoadBalancerRegistryBurst) || !string.IsNullOrWhiteSpace(BgpLoadBalancerRegistryPullQps) || DisableBgpLoadBalancerSerializeImagePulls == true || ((object?)MetalLbLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetalLbLoadBalancerNodeLabels is not string || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeLabels?.ToString()) : ((object?)MetalLbLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MetalLbLoadBalancerNodeLabels, static item => item is not null) : (MetalLbLoadBalancerNodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetalLbLoadBalancerNodeLabels), static item => item is not null)))) || ((object?)MetalLbLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetalLbLoadBalancerNodeTaints is not string || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeTaints?.ToString()) : ((object?)MetalLbLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MetalLbLoadBalancerNodeTaints, static item => item is not null) : (MetalLbLoadBalancerNodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetalLbLoadBalancerNodeTaints), static item => item is not null)))) || DisableMetalLbLoadBalancerSerializeImagePulls == true || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerRegistryBurst) || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerRegistryPullQps) || !string.IsNullOrWhiteSpace(MetalLbAddressPools) || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeConfigs)) && (!string.IsNullOrWhiteSpace(BgpAddressPools) || !string.IsNullOrWhiteSpace(BgpAsn)) && (!(!string.IsNullOrWhiteSpace(BgpAddressPools))))
+        {
+            yield return new ValidationResult("BgpAddressPools must be specified when other arguments in this group are specified.", [nameof(BgpAddressPools)]);
+        }
+        if ((EnableManualLb == true || !string.IsNullOrWhiteSpace(BgpAddressPools) || !string.IsNullOrWhiteSpace(BgpAsn) || ((object?)BgpLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)BgpLoadBalancerNodeLabels is not string || !string.IsNullOrWhiteSpace(BgpLoadBalancerNodeLabels?.ToString()) : ((object?)BgpLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)BgpLoadBalancerNodeLabels, static item => item is not null) : (BgpLoadBalancerNodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)BgpLoadBalancerNodeLabels), static item => item is not null)))) || ((object?)BgpLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)BgpLoadBalancerNodeTaints is not string || !string.IsNullOrWhiteSpace(BgpLoadBalancerNodeTaints?.ToString()) : ((object?)BgpLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)BgpLoadBalancerNodeTaints, static item => item is not null) : (BgpLoadBalancerNodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)BgpLoadBalancerNodeTaints), static item => item is not null)))) || !string.IsNullOrWhiteSpace(BgpLoadBalancerRegistryBurst) || !string.IsNullOrWhiteSpace(BgpLoadBalancerRegistryPullQps) || DisableBgpLoadBalancerSerializeImagePulls == true || ((object?)MetalLbLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetalLbLoadBalancerNodeLabels is not string || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeLabels?.ToString()) : ((object?)MetalLbLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MetalLbLoadBalancerNodeLabels, static item => item is not null) : (MetalLbLoadBalancerNodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetalLbLoadBalancerNodeLabels), static item => item is not null)))) || ((object?)MetalLbLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetalLbLoadBalancerNodeTaints is not string || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeTaints?.ToString()) : ((object?)MetalLbLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MetalLbLoadBalancerNodeTaints, static item => item is not null) : (MetalLbLoadBalancerNodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetalLbLoadBalancerNodeTaints), static item => item is not null)))) || DisableMetalLbLoadBalancerSerializeImagePulls == true || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerRegistryBurst) || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerRegistryPullQps) || !string.IsNullOrWhiteSpace(MetalLbAddressPools) || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeConfigs)) && (!string.IsNullOrWhiteSpace(BgpAddressPools) || !string.IsNullOrWhiteSpace(BgpAsn)) && (!(!string.IsNullOrWhiteSpace(BgpAsn))))
+        {
+            yield return new ValidationResult("BgpAsn must be specified when other arguments in this group are specified.", [nameof(BgpAsn)]);
+        }
+        if ((EnableManualLb == true || !string.IsNullOrWhiteSpace(BgpAddressPools) || !string.IsNullOrWhiteSpace(BgpAsn) || ((object?)BgpLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)BgpLoadBalancerNodeLabels is not string || !string.IsNullOrWhiteSpace(BgpLoadBalancerNodeLabels?.ToString()) : ((object?)BgpLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)BgpLoadBalancerNodeLabels, static item => item is not null) : (BgpLoadBalancerNodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)BgpLoadBalancerNodeLabels), static item => item is not null)))) || ((object?)BgpLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)BgpLoadBalancerNodeTaints is not string || !string.IsNullOrWhiteSpace(BgpLoadBalancerNodeTaints?.ToString()) : ((object?)BgpLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)BgpLoadBalancerNodeTaints, static item => item is not null) : (BgpLoadBalancerNodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)BgpLoadBalancerNodeTaints), static item => item is not null)))) || !string.IsNullOrWhiteSpace(BgpLoadBalancerRegistryBurst) || !string.IsNullOrWhiteSpace(BgpLoadBalancerRegistryPullQps) || DisableBgpLoadBalancerSerializeImagePulls == true || ((object?)MetalLbLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetalLbLoadBalancerNodeLabels is not string || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeLabels?.ToString()) : ((object?)MetalLbLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MetalLbLoadBalancerNodeLabels, static item => item is not null) : (MetalLbLoadBalancerNodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetalLbLoadBalancerNodeLabels), static item => item is not null)))) || ((object?)MetalLbLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetalLbLoadBalancerNodeTaints is not string || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeTaints?.ToString()) : ((object?)MetalLbLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MetalLbLoadBalancerNodeTaints, static item => item is not null) : (MetalLbLoadBalancerNodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetalLbLoadBalancerNodeTaints), static item => item is not null)))) || DisableMetalLbLoadBalancerSerializeImagePulls == true || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerRegistryBurst) || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerRegistryPullQps) || !string.IsNullOrWhiteSpace(MetalLbAddressPools) || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeConfigs)) && (((object?)BgpLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)BgpLoadBalancerNodeLabels is not string || !string.IsNullOrWhiteSpace(BgpLoadBalancerNodeLabels?.ToString()) : ((object?)BgpLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)BgpLoadBalancerNodeLabels, static item => item is not null) : (BgpLoadBalancerNodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)BgpLoadBalancerNodeLabels), static item => item is not null)))) || ((object?)BgpLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)BgpLoadBalancerNodeTaints is not string || !string.IsNullOrWhiteSpace(BgpLoadBalancerNodeTaints?.ToString()) : ((object?)BgpLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)BgpLoadBalancerNodeTaints, static item => item is not null) : (BgpLoadBalancerNodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)BgpLoadBalancerNodeTaints), static item => item is not null)))) || !string.IsNullOrWhiteSpace(BgpLoadBalancerRegistryBurst) || !string.IsNullOrWhiteSpace(BgpLoadBalancerRegistryPullQps) || DisableBgpLoadBalancerSerializeImagePulls == true || ((object?)MetalLbLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetalLbLoadBalancerNodeLabels is not string || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeLabels?.ToString()) : ((object?)MetalLbLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MetalLbLoadBalancerNodeLabels, static item => item is not null) : (MetalLbLoadBalancerNodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetalLbLoadBalancerNodeLabels), static item => item is not null)))) || ((object?)MetalLbLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetalLbLoadBalancerNodeTaints is not string || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeTaints?.ToString()) : ((object?)MetalLbLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MetalLbLoadBalancerNodeTaints, static item => item is not null) : (MetalLbLoadBalancerNodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetalLbLoadBalancerNodeTaints), static item => item is not null)))) || DisableMetalLbLoadBalancerSerializeImagePulls == true || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerRegistryBurst) || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerRegistryPullQps) || !string.IsNullOrWhiteSpace(MetalLbAddressPools) || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeConfigs)) && ((!string.IsNullOrWhiteSpace(MetalLbAddressPools) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of MetalLbAddressPools may be specified.", [nameof(MetalLbAddressPools)]);
+        }
+        if ((EnableManualLb == true || !string.IsNullOrWhiteSpace(BgpAddressPools) || !string.IsNullOrWhiteSpace(BgpAsn) || ((object?)BgpLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)BgpLoadBalancerNodeLabels is not string || !string.IsNullOrWhiteSpace(BgpLoadBalancerNodeLabels?.ToString()) : ((object?)BgpLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)BgpLoadBalancerNodeLabels, static item => item is not null) : (BgpLoadBalancerNodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)BgpLoadBalancerNodeLabels), static item => item is not null)))) || ((object?)BgpLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)BgpLoadBalancerNodeTaints is not string || !string.IsNullOrWhiteSpace(BgpLoadBalancerNodeTaints?.ToString()) : ((object?)BgpLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)BgpLoadBalancerNodeTaints, static item => item is not null) : (BgpLoadBalancerNodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)BgpLoadBalancerNodeTaints), static item => item is not null)))) || !string.IsNullOrWhiteSpace(BgpLoadBalancerRegistryBurst) || !string.IsNullOrWhiteSpace(BgpLoadBalancerRegistryPullQps) || DisableBgpLoadBalancerSerializeImagePulls == true || ((object?)MetalLbLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetalLbLoadBalancerNodeLabels is not string || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeLabels?.ToString()) : ((object?)MetalLbLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MetalLbLoadBalancerNodeLabels, static item => item is not null) : (MetalLbLoadBalancerNodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetalLbLoadBalancerNodeLabels), static item => item is not null)))) || ((object?)MetalLbLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetalLbLoadBalancerNodeTaints is not string || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeTaints?.ToString()) : ((object?)MetalLbLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MetalLbLoadBalancerNodeTaints, static item => item is not null) : (MetalLbLoadBalancerNodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetalLbLoadBalancerNodeTaints), static item => item is not null)))) || DisableMetalLbLoadBalancerSerializeImagePulls == true || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerRegistryBurst) || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerRegistryPullQps) || !string.IsNullOrWhiteSpace(MetalLbAddressPools) || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeConfigs)) && (((object?)BgpLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)BgpLoadBalancerNodeLabels is not string || !string.IsNullOrWhiteSpace(BgpLoadBalancerNodeLabels?.ToString()) : ((object?)BgpLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)BgpLoadBalancerNodeLabels, static item => item is not null) : (BgpLoadBalancerNodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)BgpLoadBalancerNodeLabels), static item => item is not null)))) || ((object?)BgpLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)BgpLoadBalancerNodeTaints is not string || !string.IsNullOrWhiteSpace(BgpLoadBalancerNodeTaints?.ToString()) : ((object?)BgpLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)BgpLoadBalancerNodeTaints, static item => item is not null) : (BgpLoadBalancerNodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)BgpLoadBalancerNodeTaints), static item => item is not null)))) || !string.IsNullOrWhiteSpace(BgpLoadBalancerRegistryBurst) || !string.IsNullOrWhiteSpace(BgpLoadBalancerRegistryPullQps) || DisableBgpLoadBalancerSerializeImagePulls == true || ((object?)MetalLbLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetalLbLoadBalancerNodeLabels is not string || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeLabels?.ToString()) : ((object?)MetalLbLoadBalancerNodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MetalLbLoadBalancerNodeLabels, static item => item is not null) : (MetalLbLoadBalancerNodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetalLbLoadBalancerNodeLabels), static item => item is not null)))) || ((object?)MetalLbLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetalLbLoadBalancerNodeTaints is not string || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeTaints?.ToString()) : ((object?)MetalLbLoadBalancerNodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MetalLbLoadBalancerNodeTaints, static item => item is not null) : (MetalLbLoadBalancerNodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetalLbLoadBalancerNodeTaints), static item => item is not null)))) || DisableMetalLbLoadBalancerSerializeImagePulls == true || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerRegistryBurst) || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerRegistryPullQps) || !string.IsNullOrWhiteSpace(MetalLbAddressPools) || !string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeConfigs)) && ((!string.IsNullOrWhiteSpace(MetalLbLoadBalancerNodeConfigs) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of MetalLbLoadBalancerNodeConfigs may be specified.", [nameof(MetalLbLoadBalancerNodeConfigs)]);
+        }
+        if (!(((object?)ApiServerArgs is global::System.Collections.Generic.IEnumerable<char> ? (object?)ApiServerArgs is not string || !string.IsNullOrWhiteSpace(ApiServerArgs?.ToString()) : ((object?)ApiServerArgs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ApiServerArgs, static item => item is not null) : (ApiServerArgs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ApiServerArgs), static item => item is not null)))) || !string.IsNullOrWhiteSpace(ControlPlaneNodeConfigs) || ((object?)ControlPlaneNodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)ControlPlaneNodeLabels is not string || !string.IsNullOrWhiteSpace(ControlPlaneNodeLabels?.ToString()) : ((object?)ControlPlaneNodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ControlPlaneNodeLabels, static item => item is not null) : (ControlPlaneNodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ControlPlaneNodeLabels), static item => item is not null)))) || ((object?)ControlPlaneNodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)ControlPlaneNodeTaints is not string || !string.IsNullOrWhiteSpace(ControlPlaneNodeTaints?.ToString()) : ((object?)ControlPlaneNodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ControlPlaneNodeTaints, static item => item is not null) : (ControlPlaneNodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ControlPlaneNodeTaints), static item => item is not null)))) || !string.IsNullOrWhiteSpace(ControlPlaneRegistryBurst) || !string.IsNullOrWhiteSpace(ControlPlaneRegistryPullQps) || DisableControlPlaneSerializeImagePulls == true))
+        {
+            yield return new ValidationResult("At least one of ApiServerArgs, ControlPlaneNodeConfigs, ControlPlaneNodeLabels, ControlPlaneNodeTaints, ControlPlaneRegistryBurst, ControlPlaneRegistryPullQps, or DisableControlPlaneSerializeImagePulls must be specified.", [nameof(ApiServerArgs), nameof(ControlPlaneNodeConfigs), nameof(ControlPlaneNodeLabels), nameof(ControlPlaneNodeTaints), nameof(ControlPlaneRegistryBurst), nameof(ControlPlaneRegistryPullQps), nameof(DisableControlPlaneSerializeImagePulls)]);
+        }
+        if ((((object?)ApiServerArgs is global::System.Collections.Generic.IEnumerable<char> ? (object?)ApiServerArgs is not string || !string.IsNullOrWhiteSpace(ApiServerArgs?.ToString()) : ((object?)ApiServerArgs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ApiServerArgs, static item => item is not null) : (ApiServerArgs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ApiServerArgs), static item => item is not null)))) || !string.IsNullOrWhiteSpace(ControlPlaneNodeConfigs) || ((object?)ControlPlaneNodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)ControlPlaneNodeLabels is not string || !string.IsNullOrWhiteSpace(ControlPlaneNodeLabels?.ToString()) : ((object?)ControlPlaneNodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ControlPlaneNodeLabels, static item => item is not null) : (ControlPlaneNodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ControlPlaneNodeLabels), static item => item is not null)))) || ((object?)ControlPlaneNodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)ControlPlaneNodeTaints is not string || !string.IsNullOrWhiteSpace(ControlPlaneNodeTaints?.ToString()) : ((object?)ControlPlaneNodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ControlPlaneNodeTaints, static item => item is not null) : (ControlPlaneNodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ControlPlaneNodeTaints), static item => item is not null)))) || !string.IsNullOrWhiteSpace(ControlPlaneRegistryBurst) || !string.IsNullOrWhiteSpace(ControlPlaneRegistryPullQps) || DisableControlPlaneSerializeImagePulls == true) && ((!string.IsNullOrWhiteSpace(ControlPlaneNodeConfigs) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ControlPlaneNodeConfigs may be specified.", [nameof(ControlPlaneNodeConfigs)]);
+        }
+        if (!(!string.IsNullOrWhiteSpace(SharedPathPvCount) || !string.IsNullOrWhiteSpace(LvpSharePath) || !string.IsNullOrWhiteSpace(LvpShareStorageClass)))
+        {
+            yield return new ValidationResult("At least one of SharedPathPvCount, LvpSharePath, or LvpShareStorageClass must be specified.", [nameof(SharedPathPvCount), nameof(LvpSharePath), nameof(LvpShareStorageClass)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SharedPathPvCount) || !string.IsNullOrWhiteSpace(LvpSharePath) || !string.IsNullOrWhiteSpace(LvpShareStorageClass)) && (!string.IsNullOrWhiteSpace(LvpSharePath) || !string.IsNullOrWhiteSpace(LvpShareStorageClass)) && (!(!string.IsNullOrWhiteSpace(LvpSharePath))))
+        {
+            yield return new ValidationResult("LvpSharePath must be specified when other arguments in this group are specified.", [nameof(LvpSharePath)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SharedPathPvCount) || !string.IsNullOrWhiteSpace(LvpSharePath) || !string.IsNullOrWhiteSpace(LvpShareStorageClass)) && (!string.IsNullOrWhiteSpace(LvpSharePath) || !string.IsNullOrWhiteSpace(LvpShareStorageClass)) && (!(!string.IsNullOrWhiteSpace(LvpShareStorageClass))))
+        {
+            yield return new ValidationResult("LvpShareStorageClass must be specified when other arguments in this group are specified.", [nameof(LvpShareStorageClass)]);
+        }
+        if ((((object?)IslandModePodAddressCidrBlocks is global::System.Collections.Generic.IEnumerable<char> ? (object?)IslandModePodAddressCidrBlocks is not string || !string.IsNullOrWhiteSpace(IslandModePodAddressCidrBlocks?.ToString()) : ((object?)IslandModePodAddressCidrBlocks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IslandModePodAddressCidrBlocks, static item => item is not null) : (IslandModePodAddressCidrBlocks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IslandModePodAddressCidrBlocks), static item => item is not null)))) || ((object?)IslandModeServiceAddressCidrBlocks is global::System.Collections.Generic.IEnumerable<char> ? (object?)IslandModeServiceAddressCidrBlocks is not string || !string.IsNullOrWhiteSpace(IslandModeServiceAddressCidrBlocks?.ToString()) : ((object?)IslandModeServiceAddressCidrBlocks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IslandModeServiceAddressCidrBlocks, static item => item is not null) : (IslandModeServiceAddressCidrBlocks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IslandModeServiceAddressCidrBlocks), static item => item is not null))))) && (!(((object?)IslandModePodAddressCidrBlocks is global::System.Collections.Generic.IEnumerable<char> ? (object?)IslandModePodAddressCidrBlocks is not string || !string.IsNullOrWhiteSpace(IslandModePodAddressCidrBlocks?.ToString()) : ((object?)IslandModePodAddressCidrBlocks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IslandModePodAddressCidrBlocks, static item => item is not null) : (IslandModePodAddressCidrBlocks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IslandModePodAddressCidrBlocks), static item => item is not null)))))))
+        {
+            yield return new ValidationResult("IslandModePodAddressCidrBlocks must be specified when other arguments in this group are specified.", [nameof(IslandModePodAddressCidrBlocks)]);
+        }
+        if ((((object?)IslandModePodAddressCidrBlocks is global::System.Collections.Generic.IEnumerable<char> ? (object?)IslandModePodAddressCidrBlocks is not string || !string.IsNullOrWhiteSpace(IslandModePodAddressCidrBlocks?.ToString()) : ((object?)IslandModePodAddressCidrBlocks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IslandModePodAddressCidrBlocks, static item => item is not null) : (IslandModePodAddressCidrBlocks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IslandModePodAddressCidrBlocks), static item => item is not null)))) || ((object?)IslandModeServiceAddressCidrBlocks is global::System.Collections.Generic.IEnumerable<char> ? (object?)IslandModeServiceAddressCidrBlocks is not string || !string.IsNullOrWhiteSpace(IslandModeServiceAddressCidrBlocks?.ToString()) : ((object?)IslandModeServiceAddressCidrBlocks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IslandModeServiceAddressCidrBlocks, static item => item is not null) : (IslandModeServiceAddressCidrBlocks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IslandModeServiceAddressCidrBlocks), static item => item is not null))))) && (!(((object?)IslandModeServiceAddressCidrBlocks is global::System.Collections.Generic.IEnumerable<char> ? (object?)IslandModeServiceAddressCidrBlocks is not string || !string.IsNullOrWhiteSpace(IslandModeServiceAddressCidrBlocks?.ToString()) : ((object?)IslandModeServiceAddressCidrBlocks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IslandModeServiceAddressCidrBlocks, static item => item is not null) : (IslandModeServiceAddressCidrBlocks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IslandModeServiceAddressCidrBlocks), static item => item is not null)))))))
+        {
+            yield return new ValidationResult("IslandModeServiceAddressCidrBlocks must be specified when other arguments in this group are specified.", [nameof(IslandModeServiceAddressCidrBlocks)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Uri) || ((object?)NoProxy is global::System.Collections.Generic.IEnumerable<char> ? (object?)NoProxy is not string || !string.IsNullOrWhiteSpace(NoProxy?.ToString()) : ((object?)NoProxy is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NoProxy, static item => item is not null) : (NoProxy is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NoProxy), static item => item is not null))))) && (!(!string.IsNullOrWhiteSpace(Uri))))
+        {
+            yield return new ValidationResult("Uri must be specified when other arguments in this group are specified.", [nameof(Uri)]);
+        }
+        yield break;
+    }
+
 }

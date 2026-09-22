@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,68 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("metastore", "federations", "create")]
 public record GcloudMetastoreFederationsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Dataproc Metastore     federation
+    /// </summary>
+    /// <param name="Backends">Backends from which the federation service serves metadata at query time. The backends are specified as a comma-separated list of RANK=BACKEND pairs. For example: 1=dpms:dpms1,2=dpms:projects/my-project/locations/us-central1/services/dpms2. RANK represents the rank of the backend metastore and is used to resolve database name collisions. BACKEND is specified as METASTORE_TYPE:METASTORE_NAME where METASTORE_TYPE is the type of backend metastore and METASTORE_NAME is the relative resource name of the metastore. If only the name of the metastore is specified (e.g. dpms1), project and location will be inferred from the project and location used to create the federation.</param>
+    /// <param name="Federation">Federation resource - Arguments and flags that specify the Dataproc Metastore federation you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument federation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the federation or fully qualified identifier for the federation. To set the federation attribute: ▸ provide the argument federation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMetastoreFederationsCreateOptions(
+        string Backends,
+        string Federation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Backends);
+        this.Backends = Backends;
+        global::System.ArgumentNullException.ThrowIfNull(Federation);
+        this.Federation = Federation;
+    }
+
+    public void Deconstruct(out string Backends, out string Federation)
+    {
+        Backends = this.Backends;
+        Federation = this.Federation;
+    }
+
+    /// <summary>
+    /// Backends from which the federation service serves metadata at query time. The backends are specified as a comma-separated list of RANK=BACKEND pairs. For example: 1=dpms:dpms1,2=dpms:projects/my-project/locations/us-central1/services/dpms2. RANK represents the rank of the backend metastore and is used to resolve database name collisions. BACKEND is specified as METASTORE_TYPE:METASTORE_NAME where METASTORE_TYPE is the type of backend metastore and METASTORE_NAME is the relative resource name of the metastore. If only the name of the metastore is specified (e.g. dpms1), project and location will be inferred from the project and location used to create the federation.
+    /// </summary>
+    [CliOption("--backends", Format = OptionFormat.EqualsSeparated)]
+    public string Backends { get; private init; }
+
+    /// <summary>
+    /// Federation resource - Arguments and flags that specify the Dataproc Metastore federation you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument federation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataproc Metastore service. If not specified, will use default metastore/location. To set the location attribute: ▸ provide the argument federation on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property metastore/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Hive metastore schema version of the Metastore federation. HIVE_METASTORE_VERSION must be one of: 2.3.6, 3.1.2.
+    /// </summary>
+    [CliOption("--hive-metastore-version", Format = OptionFormat.EqualsSeparated)]
+    public string? HiveMetastoreVersion { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// List of tag KEY=VALUE pairs to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
+
+    /// <summary>
+    /// Federation resource - Arguments and flags that specify the Dataproc Metastore federation you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument federation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the federation or fully qualified identifier for the federation. To set the federation attribute: ▸ provide the argument federation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Federation { get; private init; }
+
 }

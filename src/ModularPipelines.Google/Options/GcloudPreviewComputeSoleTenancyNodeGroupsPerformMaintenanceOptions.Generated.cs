@@ -19,8 +19,63 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "sole-tenancy", "node-groups", "perform-maintenance")]
-public record GcloudPreviewComputeSoleTenancyNodeGroupsPerformMaintenanceOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeSoleTenancyNodeGroupsPerformMaintenanceOptions : GcloudOptions
 {
+    /// <summary>
+    /// perform maintenance on nodes in a Compute Engine node group
+    /// </summary>
+    /// <param name="Nodes">The names of the nodes to perform maintenance on. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Name">Name of the node group to operate on.</param>
+    public GcloudPreviewComputeSoleTenancyNodeGroupsPerformMaintenanceOptions(
+        IEnumerable<string> Nodes,
+        string Name
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Nodes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Nodes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Nodes));
+            }
+
+            Nodes = materialized;
+        }
+        this.Nodes = Nodes;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Nodes, out string Name)
+    {
+        Nodes = this.Nodes;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The names of the nodes to perform maintenance on. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Nodes { get; private init; }
+
+    /// <summary>
+    /// The requested time for the maintenance window to start. The timestamp must be an RFC3339 valid string.
+    /// </summary>
+    [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? StartTime { get; set; }
+
+    /// <summary>
+    /// Zone of the node group to operate on. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the node group to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

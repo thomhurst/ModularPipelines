@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,240 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workbench", "schedules", "create")]
-public record GcloudWorkbenchSchedulesCreateOptions : GcloudOptions
+public record GcloudWorkbenchSchedulesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a schedule
+    /// </summary>
+    /// <param name="Region">Region resource - Cloud region to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the region or fully qualified identifier for the region. To set the region attribute: ▸ provide the argument --region on the command line.</param>
+    /// <param name="CronSchedule">Configuration of the schedule. This must be specified. Cron schedule (https://en.wikipedia.org/wiki/Cron) to launch scheduled runs. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, "CRON_TZ=America/New_York 1 * * * ", or "TZ=America/New_York 1 * * * ". This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="DisplayName">Configuration of the schedule. This must be specified. The display name of the schedule. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="ExecutionDisplayName">Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. The display name of the execution. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="GcsOutputUri">Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. The Cloud Storage location to upload notebook execution results to. Format: gs://bucket-name. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="ServiceAccount">Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. The service account to run the execution as This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudWorkbenchSchedulesCreateOptions(
+        string Region,
+        string CronSchedule,
+        string DisplayName,
+        string ExecutionDisplayName,
+        string GcsOutputUri,
+        string ServiceAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(CronSchedule);
+        this.CronSchedule = CronSchedule;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(ExecutionDisplayName);
+        this.ExecutionDisplayName = ExecutionDisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(GcsOutputUri);
+        this.GcsOutputUri = GcsOutputUri;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceAccount);
+        this.ServiceAccount = ServiceAccount;
+    }
+
+    public void Deconstruct(out string Region, out string CronSchedule, out string DisplayName, out string ExecutionDisplayName, out string GcsOutputUri, out string ServiceAccount)
+    {
+        Region = this.Region;
+        CronSchedule = this.CronSchedule;
+        DisplayName = this.DisplayName;
+        ExecutionDisplayName = this.ExecutionDisplayName;
+        GcsOutputUri = this.GcsOutputUri;
+        ServiceAccount = this.ServiceAccount;
+    }
+
+    /// <summary>
+    /// Region resource - Cloud region to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the region or fully qualified identifier for the region. To set the region attribute: ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Cron schedule (https://en.wikipedia.org/wiki/Cron) to launch scheduled runs. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, "CRON_TZ=America/New_York 1 * * * ", or "TZ=America/New_York 1 * * * ". This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--cron-schedule", Format = OptionFormat.EqualsSeparated)]
+    public string CronSchedule { get; private init; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. The display name of the schedule. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. The display name of the execution. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--execution-display-name", Format = OptionFormat.EqualsSeparated)]
+    public string ExecutionDisplayName { get; private init; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. The Cloud Storage location to upload notebook execution results to. Format: gs://bucket-name. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--gcs-output-uri", Format = OptionFormat.EqualsSeparated)]
+    public string GcsOutputUri { get; private init; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. The service account to run the execution as This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string ServiceAccount { get; private init; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Enables new scheduled runs to be queued when max_concurrent_runs limit is reached. If set to true, new runs will be queued instead of skipped.
+    /// </summary>
+    [CliFlag("--enable-queueing")]
+    public bool? EnableQueueing { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Timestamp after which no new runs can be scheduled. If specified, the schedule will be completed when either end_time is reached or when scheduled_run_count &gt;= max_run_count. If neither end time nor max_run_count is specified, new runs will keep getting scheduled until this Schedule is paused or deleted. Must be in the RFC 3339 (https://www.rfc-editor.org/rfc/rfc3339.txt) format. E.g. "2026-01-01T00:00:00Z" or "2026-01-01T00:00:00-05:00"
+    /// </summary>
+    [CliOption("--end-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EndTime { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Maximum number of runs that can be started concurrently for this Schedule. This is the limit for starting the scheduled requests and not the execution of the notebook execution jobs created by the requests.
+    /// </summary>
+    [CliOption("--max-concurrent-runs", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxConcurrentRuns { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. The max runs for the schedule.
+    /// </summary>
+    [CliOption("--max-runs", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxRuns { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. The timestamp after which the first run can be scheduled. Defaults to the schedule creation time. Must be in the RFC 3339 (https://www.rfc-editor.org/rfc/rfc3339.txt) format. E.g. "2026-01-01T00:00:00Z" or "2026-01-01T00:00:00-05:00"
+    /// </summary>
+    [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? StartTime { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. The max running time of the execution job, as a duration. See '$ gcloud topic datetimes' for details on formatting the input duration.
+    /// </summary>
+    [CliOption("--execution-timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? ExecutionTimeout { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. The kernel name to use for the execution.
+    /// </summary>
+    [CliOption("--kernel-name", Format = OptionFormat.EqualsSeparated)]
+    public string? KernelName { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. Source of the notebook to execute. This must be specified. The Cloud Storage notebook source. The Cloud Storage uri pointing to the notebook. Format: gs://bucket/notebook_file.ipynb This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--gcs-notebook-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? GcsNotebookUri { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Configuration of the execution job. This must be specified. Source of the notebook to execute. This must be specified. The Cloud Storage notebook source. The version of the Cloud Storage object to read. If unset, the current version of the object will be used.
+    /// </summary>
+    [CliOption("--generation", Format = OptionFormat.EqualsSeparated)]
+    public string? Generation { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Compute configuration of the execution job. The machine configuration of the runtime. The number of accelerators used by the runtime.
+    /// </summary>
+    [CliOption("--accelerator-count", Format = OptionFormat.EqualsSeparated)]
+    public int? AcceleratorCount { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Compute configuration of the execution job. The machine configuration of the runtime. The type of hardware accelerator used by the runtime. If specified, --accelerator-count must also be specified. ACCELERATOR_TYPE must be one of: NVIDIA_TESLA_V100, NVIDIA_TESLA_T4, NVIDIA_TESLA_A100, NVIDIA_A100_80GB, NVIDIA_L4.
+    /// </summary>
+    [CliOption("--accelerator-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudWorkbenchSchedulesCreateAcceleratorType? AcceleratorType { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Compute configuration of the execution job. The machine configuration of the runtime. The Compute Engine machine type selected for the runtime.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. The configuration for the data disk of the runtime. The disk size of the runtime in GB. If specified, the --disk-type must also be specified. The minimum size is 10GB and the maximum is 65536GB.
+    /// </summary>
+    [CliOption("--disk-size-gb", Format = OptionFormat.EqualsSeparated)]
+    public int? DiskSizeGb { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. The configuration for the data disk of the runtime. The type of the disk. DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME, HYPERDISK_BALANCED.
+    /// </summary>
+    [CliOption("--disk-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudWorkbenchSchedulesCreateDiskType? DiskType { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. The network configuration for the runtime. Enable public internet access for the runtime. Enabled by default, use --no-enable-internet-access to disable.
+    /// </summary>
+    [CliFlag("--enable-internet-access")]
+    public bool? EnableInternetAccess { get; set; }
+
+    /// <summary>
+    /// Negates --enable-internet-access. Configuration of the schedule. This must be specified. The network configuration for the runtime. Enable public internet access for the runtime. Enabled by default, use --no-enable-internet-access to disable.
+    /// </summary>
+    [CliFlag("--no-enable-internet-access")]
+    public bool? NoEnableInternetAccess { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Network resource - The name of the VPC that this runtime is in. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --network on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. ID of the network or fully qualified identifier for the network. To set the network attribute: ▫ provide the argument --network on the command line.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Subnetwork resource - The name of the subnetwork that this runtime is in. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --subnetwork on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. ID of the subnetwork or fully qualified identifier for the subnetwork. To set the subnetwork attribute: ▫ provide the argument --subnetwork on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--subnetwork", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnetwork { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Subnetwork resource - The name of the subnetwork that this runtime is in. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --subnetwork on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. Google Cloud region of this subnetwork https://cloud.google.com/compute/docs/regions-zones/#locations. To set the subnetwork-region attribute: ▫ provide the argument --subnetwork on the command line with a fully specified name; ▫ provide the argument --subnetwork-region on the command line.
+    /// </summary>
+    [CliOption("--subnetwork-region", Format = OptionFormat.EqualsSeparated)]
+    public string? SubnetworkRegion { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Key resource - The Cloud KMS encryption key (customer-managed encryption key) used to protect the execution. The key must be in the same region as the execution. If not specified, Google-managed encryption will be used. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ▫ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Key resource - The Cloud KMS encryption key (customer-managed encryption key) used to protect the execution. The key must be in the same region as the execution. If not specified, Google-managed encryption will be used. The arguments in this group can be used to specify the attributes of this resource. KMS keyring id of the key. To set the kms-keyring attribute: ▫ provide the argument --kms-key on the command line with a fully specified name; ▫ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Key resource - The Cloud KMS encryption key (customer-managed encryption key) used to protect the execution. The key must be in the same region as the execution. If not specified, Google-managed encryption will be used. The arguments in this group can be used to specify the attributes of this resource. Cloud location for the key. To set the kms-location attribute: ▫ provide the argument --kms-key on the command line with a fully specified name; ▫ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Configuration of the schedule. This must be specified. Key resource - The Cloud KMS encryption key (customer-managed encryption key) used to protect the execution. The key must be in the same region as the execution. If not specified, Google-managed encryption will be used. The arguments in this group can be used to specify the attributes of this resource. Cloud project id for the key. To set the kms-project attribute: ▫ provide the argument --kms-key on the command line with a fully specified name; ▫ provide the argument --kms-project on the command line.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(GcsNotebookUri) || !string.IsNullOrWhiteSpace(Generation)) && (!(!string.IsNullOrWhiteSpace(GcsNotebookUri))))
+        {
+            yield return new ValidationResult("GcsNotebookUri must be specified when other arguments in this group are specified.", [nameof(GcsNotebookUri)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Subnetwork) || !string.IsNullOrWhiteSpace(SubnetworkRegion)) && (!(!string.IsNullOrWhiteSpace(Subnetwork))))
+        {
+            yield return new ValidationResult("Subnetwork must be specified when other arguments in this group are specified.", [nameof(Subnetwork)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        yield break;
+    }
+
 }

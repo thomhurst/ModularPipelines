@@ -19,14 +19,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigee", "apis", "describe")]
-public record GcloudApigeeApisDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Api
-) : GcloudOptions
+public record GcloudApigeeApisDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an Apigee API proxy
+    /// </summary>
+    /// <param name="Api">API proxy resource - API proxy to be described. To get a list of available API proxies, run gcloud apigee apis list. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the API proxy or fully qualified identifier for the API proxy. To set the api attribute: ▸ provide the argument API on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApigeeApisDescribeOptions(
+        string Api
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Api);
+        this.Api = Api;
+    }
+
+    public void Deconstruct(out string Api)
+    {
+        Api = this.Api;
+    }
+
+    /// <summary>
+    /// API proxy resource - API proxy to be described. To get a list of available API proxies, run gcloud apigee apis list. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Apigee organization containing the API proxy. If unspecified, the Cloud Platform project's associated organization will be used. To set the organization attribute: ▸ provide the argument API on the command line with a fully specified name; ▸ provide the argument --organization on the command line; ▸ set the property [project] or provide the argument [--project] on the command line, using a Cloud Platform project with an associated Apigee organization.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
     /// <summary>
     /// Include proxy revision info in the description.
     /// </summary>
     [CliFlag("--verbose")]
     public bool? Verbose { get; set; }
+
+    /// <summary>
+    /// API proxy resource - API proxy to be described. To get a list of available API proxies, run gcloud apigee apis list. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the API proxy or fully qualified identifier for the API proxy. To set the api attribute: ▸ provide the argument API on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Api { get; private init; }
 
 }

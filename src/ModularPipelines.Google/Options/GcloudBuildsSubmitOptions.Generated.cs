@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,8 +22,14 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "submit")]
-public record GcloudBuildsSubmitOptions : GcloudOptions
+public record GcloudBuildsSubmitOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// At most one of these can be specified: Specify that no source should be uploaded with this build.
+    /// </summary>
+    [CliFlag("--no-source")]
+    public bool? NoSource { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -87,7 +94,7 @@ public record GcloudBuildsSubmitOptions : GcloudOptions
     /// Machine type used to run the build. MACHINE_TYPE must be one of: e2-highcpu-32, e2-highcpu-8, e2-medium, e2-standard-2, n1-highcpu-32, n1-highcpu-8.
     /// </summary>
     [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudMachineType? MachineType { get; set; }
+    public GcloudBuildsSubmitMachineType? MachineType { get; set; }
 
     /// <summary>
     /// Amount of time in seconds to wait between polling build status.
@@ -114,9 +121,9 @@ public record GcloudBuildsSubmitOptions : GcloudOptions
     public string? ServiceAccount { get; set; }
 
     /// <summary>
-    /// Parameters to be substituted in the build specification. For example (using some nonsensical substitution keys; all keys must begin with an underscore): $ gcloud builds submit . --config config.yaml \ --substitutions _FAVORITE_COLOR=blue,_NUM_CANDIES=10 This will result in a build where every occurrence of ${_FAVORITE_COLOR} in certain fields is replaced by "blue", and similarly for ${_NUM_CANDIES} and "10". Only the following built-in variables can be specified with the --substitutions flag: REPO_NAME, BRANCH_NAME, TAG_NAME, REVISION_ID, COMMIT_SHA, SHORT_SHA. For more details, see: https://cloud.google.com/cloud-build/docs/api/build-requests#substitutions
+    /// Parameters to be substituted in the build specification. For example (using some nonsensical substitution keys; all keys must begin with an underscore): $ gcloud builds submit . --config config.yaml \ --substitutions _FAVORITE_COLOR=blue,_NUM_CANDIES=10 This will result in a build where every occurrence of ${_FAVORITE_COLOR} in certain fields is replaced by "blue", and similarly for ${_NUM_CANDIES} and "10". Only the following built-in variables can be specified with the --substitutions flag: REPO_NAME, BRANCH_NAME, TAG_NAME, REVISION_ID, COMMIT_SHA, SHORT_SHA. For more details, see: https://cloud.google.com/cloud-build/docs/api/build-requests#substitutions Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--substitutions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--substitutions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Substitutions { get; set; }
 
     /// <summary>
@@ -129,7 +136,7 @@ public record GcloudBuildsSubmitOptions : GcloudOptions
     /// Maximum time a build is run before it is failed as TIMEOUT. It is specified as a duration; for example, "2h15m5s" is two hours, fifteen minutes, and five seconds. If you don't specify a unit, seconds is assumed. For example, "10" is 10 seconds. Overrides the default builds/timeout property value for this command invocation.
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? Timeout { get; set; }
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// Worker pool only flags. Specify a worker pool for the build to run in. Format: projects/{project}/locations/{region}/workerPools/{workerPool}.
@@ -138,21 +145,45 @@ public record GcloudBuildsSubmitOptions : GcloudOptions
     public string? WorkerPool { get; set; }
 
     /// <summary>
-    /// Worker pool only flags. At most one of these can be specified: The YAML or JSON file to use as the build configuration file.
+    /// At most one of these can be specified: The YAML or JSON file to use as the build configuration file.
     /// </summary>
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
     public string? Config { get; set; }
 
     /// <summary>
-    /// Worker pool only flags. At most one of these can be specified: Uses CNCF buildpack (https://buildpacks.io/) to create the app image. The app "image" key/value must be provided. The app image name must be in the gcr.io or pkg.dev namespace. To specify your own builder image use the optional "builder" key/value argument. By default gcr.io/buildpacks/builder is used. To pass environment variables to the builder use the optional "env" key/value argument where value is a list of key values using escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping) if necessary.
+    /// At most one of these can be specified: Uses CNCF buildpack (https://buildpacks.io/) to create the app image. The app "image" key/value must be provided. The app image name must be in the gcr.io or pkg.dev namespace. To specify your own builder image use the optional "builder" key/value argument. By default gcr.io/buildpacks/builder is used. To pass environment variables to the builder use the optional "env" key/value argument where value is a list of key values using escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping) if necessary.
     /// </summary>
     [CliOption("--pack", Format = OptionFormat.EqualsSeparated)]
     public string? Pack { get; set; }
 
     /// <summary>
-    /// Worker pool only flags. At most one of these can be specified: The tag to use with a "docker build" image creation. Cloud Build will run a remote "docker build -t $TAG .", where $TAG is the tag provided by this flag. The tag must be in the gcr.io or pkg.dev namespace. Specify a tag if you want Cloud Build to build using a Dockerfile instead of a build config file. If you specify a tag in this command, your source must include a Dockerfile. For instructions on building using a Dockerfile see https://cloud.google.com/cloud-build/docs/quickstart-build.
+    /// At most one of these can be specified: The tag to use with a "docker build" image creation. Cloud Build will run a remote "docker build -t $TAG .", where $TAG is the tag provided by this flag. The tag must be in the gcr.io or pkg.dev namespace. Specify a tag if you want Cloud Build to build using a Dockerfile instead of a build config file. If you specify a tag in this command, your source must include a Dockerfile. For instructions on building using a Dockerfile see https://cloud.google.com/cloud-build/docs/quickstart-build.
     /// </summary>
     [CliOption("--tag", Format = OptionFormat.EqualsSeparated)]
     public string? Tag { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The location of the source to build. The location can be a directory on a local disk, an archive file (e.g., .zip, .tar.gz) or a manifest file (.json) in Google Cloud Storage, a Git repo url starting with http:// or https://, a 2nd-gen Cloud Build repository resource, or a Developer Connect GitRepositoryLink resource. If the source is a local directory, this command skips the files specified in the --ignore-file. If --ignore-file is not specified, use.gcloudignore file. If a .gcloudignore file is absent and a .gitignore file is present in the local source directory, gcloud will use a generated Git-compatible .gcloudignore file that respects your .gitignored files. The global .gitignore is not respected. For more information on .gcloudignore, see gcloud topic gcloudignore.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Source { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Source) ? 1 : 0) + (NoSource == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Source or NoSource may be specified.", [nameof(Source), nameof(NoSource)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Config) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Pack) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Tag) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Config, Pack, or Tag may be specified.", [nameof(Config), nameof(Pack), nameof(Tag)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Source) || NoSource == true) && (!(NoSource == true)))
+        {
+            yield return new ValidationResult("NoSource must be specified when other arguments in this group are specified.", [nameof(NoSource)]);
+        }
+        yield break;
+    }
 
 }

@@ -29,15 +29,15 @@ public record GcloudComputeSnapshotSettingsUpdateOptions : GcloudOptions
     public bool? Async { get; set; }
 
     /// <summary>
-    /// The custom storage location that you specify for the project's snapshots. You can specify only a single location. Use this flag only when you use the specific-locations value for the --storage-location-policy flag. For more information, refer to the snapshot settings documentation at https://cloud.google.com/compute/docs/disks/snapshot-settings.
+    /// The custom storage location that you specify for the project's snapshots. You can specify only a single location. Use this flag only when you use the specific-locations value for the --storage-location-policy flag. For more information, refer to the snapshot settings documentation at https://cloud.google.com/compute/docs/disks/snapshot-settings. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--storage-location-names", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--storage-location-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? StorageLocationNames { get; set; }
 
     /// <summary>
     /// The storage location policy. For more information, refer to the snapshot settings documentation at https://cloud.google.com/compute/docs/disks/snapshot-settings. STORAGE_LOCATION_POLICY must be one of: local-region, nearest-multi-region, specific-locations.
     /// </summary>
     [CliOption("--storage-location-policy", Format = OptionFormat.EqualsSeparated)]
-    public GcloudStorageLocationPolicy? StorageLocationPolicy { get; set; }
+    public GcloudComputeSnapshotSettingsUpdateStorageLocationPolicy? StorageLocationPolicy { get; set; }
 
 }

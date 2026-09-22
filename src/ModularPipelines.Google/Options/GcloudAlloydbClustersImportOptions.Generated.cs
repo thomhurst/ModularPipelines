@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,150 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "clusters", "import")]
-public record GcloudAlloydbClustersImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Cluster
-) : GcloudOptions
+public record GcloudAlloydbClustersImportOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// import data into an AlloyDB cluster from     Google Cloud Storage
+    /// </summary>
+    /// <param name="Region">Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.</param>
+    /// <param name="Cluster">AlloyDB cluster ID</param>
+    public GcloudAlloydbClustersImportOptions(
+        string Region,
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Region, out string Cluster)
+    {
+        Region = this.Region;
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// URI of the source file for import. This must be specified. Path to the Google Cloud Storage file from which import has to be done.
+    /// </summary>
+    [CliOption("--gcs-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? GcsUri { get; set; }
+
+    /// <summary>
+    /// Import options for the cluster. Exactly one of these must be specified: SQL import options for the cluster. Specify source file type.
+    /// </summary>
+    [CliFlag("--sql")]
+    public bool? Sql { get; set; }
+
+    /// <summary>
+    /// Import options for the cluster. Exactly one of these must be specified: CSV import options for the cluster. Specify source file type. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--csv")]
+    public bool? Csv { get; set; }
+
+    /// <summary>
+    /// Import options for the cluster. Exactly one of these must be specified: CSV import options for the cluster. Table name to which the data has to be imported. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--table", Format = OptionFormat.EqualsSeparated)]
+    public string? Table { get; set; }
+
+    /// <summary>
+    /// Import options for the cluster. Exactly one of these must be specified: CSV import options for the cluster. Comma-separated list of column names to be used for import. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--columns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Columns
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ColumnsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ColumnsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Import options for the cluster. Exactly one of these must be specified: CSV import options for the cluster. Escape character in the source file.
+    /// </summary>
+    [CliOption("--escape-character", Format = OptionFormat.EqualsSeparated)]
+    public string? EscapeCharacter { get; set; }
+
+    /// <summary>
+    /// Import options for the cluster. Exactly one of these must be specified: CSV import options for the cluster. Field delimiter in the source file.
+    /// </summary>
+    [CliOption("--field-delimiter", Format = OptionFormat.EqualsSeparated)]
+    public string? FieldDelimiter { get; set; }
+
+    /// <summary>
+    /// Import options for the cluster. Exactly one of these must be specified: CSV import options for the cluster. Quote character in the source file.
+    /// </summary>
+    [CliOption("--quote-character", Format = OptionFormat.EqualsSeparated)]
+    public string? QuoteCharacter { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Database name.
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string? Database { get; set; }
+
+    /// <summary>
+    /// Database user for the import.
+    /// </summary>
+    [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
+    public string? User { get; set; }
+
+    /// <summary>
+    /// AlloyDB cluster ID
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(GcsUri)))
+        {
+            yield return new ValidationResult("At least one of GcsUri must be specified.", [nameof(GcsUri)]);
+        }
+        if ((Sql == true ? 1 : 0) + ((Csv == true || !string.IsNullOrWhiteSpace(Table) || ((object?)Columns is global::System.Collections.Generic.IEnumerable<char> ? (object?)Columns is not string || !string.IsNullOrWhiteSpace(Columns?.ToString()) : ((object?)Columns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Columns, static item => item is not null) : (Columns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Columns), static item => item is not null)))) || !string.IsNullOrWhiteSpace(EscapeCharacter) || !string.IsNullOrWhiteSpace(FieldDelimiter) || !string.IsNullOrWhiteSpace(QuoteCharacter)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Sql or (Csv, Table, Columns, EscapeCharacter, FieldDelimiter, or QuoteCharacter) must be specified.", [nameof(Sql), nameof(Csv), nameof(Table), nameof(Columns), nameof(EscapeCharacter), nameof(FieldDelimiter), nameof(QuoteCharacter)]);
+        }
+        if ((Sql == true || Csv == true || !string.IsNullOrWhiteSpace(Table) || ((object?)Columns is global::System.Collections.Generic.IEnumerable<char> ? (object?)Columns is not string || !string.IsNullOrWhiteSpace(Columns?.ToString()) : ((object?)Columns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Columns, static item => item is not null) : (Columns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Columns), static item => item is not null)))) || !string.IsNullOrWhiteSpace(EscapeCharacter) || !string.IsNullOrWhiteSpace(FieldDelimiter) || !string.IsNullOrWhiteSpace(QuoteCharacter)) && (Csv == true || !string.IsNullOrWhiteSpace(Table) || ((object?)Columns is global::System.Collections.Generic.IEnumerable<char> ? (object?)Columns is not string || !string.IsNullOrWhiteSpace(Columns?.ToString()) : ((object?)Columns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Columns, static item => item is not null) : (Columns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Columns), static item => item is not null)))) || !string.IsNullOrWhiteSpace(EscapeCharacter) || !string.IsNullOrWhiteSpace(FieldDelimiter) || !string.IsNullOrWhiteSpace(QuoteCharacter)) && (!(Csv == true)))
+        {
+            yield return new ValidationResult("Csv must be specified when other arguments in this group are specified.", [nameof(Csv)]);
+        }
+        if ((Sql == true || Csv == true || !string.IsNullOrWhiteSpace(Table) || ((object?)Columns is global::System.Collections.Generic.IEnumerable<char> ? (object?)Columns is not string || !string.IsNullOrWhiteSpace(Columns?.ToString()) : ((object?)Columns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Columns, static item => item is not null) : (Columns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Columns), static item => item is not null)))) || !string.IsNullOrWhiteSpace(EscapeCharacter) || !string.IsNullOrWhiteSpace(FieldDelimiter) || !string.IsNullOrWhiteSpace(QuoteCharacter)) && (Csv == true || !string.IsNullOrWhiteSpace(Table) || ((object?)Columns is global::System.Collections.Generic.IEnumerable<char> ? (object?)Columns is not string || !string.IsNullOrWhiteSpace(Columns?.ToString()) : ((object?)Columns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Columns, static item => item is not null) : (Columns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Columns), static item => item is not null)))) || !string.IsNullOrWhiteSpace(EscapeCharacter) || !string.IsNullOrWhiteSpace(FieldDelimiter) || !string.IsNullOrWhiteSpace(QuoteCharacter)) && (!(!string.IsNullOrWhiteSpace(Table))))
+        {
+            yield return new ValidationResult("Table must be specified when other arguments in this group are specified.", [nameof(Table)]);
+        }
+        yield break;
+    }
+
 }

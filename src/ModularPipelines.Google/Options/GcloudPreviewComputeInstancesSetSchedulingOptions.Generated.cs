@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instances", "set-scheduling")]
-public record GcloudPreviewComputeInstancesSetSchedulingOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
-) : GcloudOptions
+public record GcloudPreviewComputeInstancesSetSchedulingOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// set scheduling options     for Compute Engine virtual machines
+    /// </summary>
+    /// <param name="InstanceName">Name of the instance to operate on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances</param>
+    public GcloudPreviewComputeInstancesSetSchedulingOptions(
+        string InstanceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+    }
+
+    public void Deconstruct(out string InstanceName)
+    {
+        InstanceName = this.InstanceName;
+    }
+
     /// <summary>
     /// Removes the min-node-cpu field from the instance. If specified, the instance min-node-cpu will be cleared. The instance will not be overcommitted and utilize the full CPU count assigned.
     /// </summary>
@@ -190,5 +206,37 @@ public record GcloudPreviewComputeInstancesSetSchedulingOptions(
     /// </summary>
     [CliOption("--termination-time", Format = OptionFormat.EqualsSeparated)]
     public string? TerminationTime { get; set; }
+
+    /// <summary>
+    /// Name of the instance to operate on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearDiscardLocalSsdsAtTerminationTimestamp == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(DiscardLocalSsdsAtTerminationTimestamp) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearDiscardLocalSsdsAtTerminationTimestamp or DiscardLocalSsdsAtTerminationTimestamp may be specified.", [nameof(ClearDiscardLocalSsdsAtTerminationTimestamp), nameof(DiscardLocalSsdsAtTerminationTimestamp)]);
+        }
+        if ((ClearInstanceTerminationAction == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(InstanceTerminationAction) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearInstanceTerminationAction or InstanceTerminationAction may be specified.", [nameof(ClearInstanceTerminationAction), nameof(InstanceTerminationAction)]);
+        }
+        if ((ClearMaxRunDuration == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxRunDuration) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearMaxRunDuration or MaxRunDuration may be specified.", [nameof(ClearMaxRunDuration), nameof(MaxRunDuration)]);
+        }
+        if ((ClearNodeAffinities == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Node) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NodeAffinityFile) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NodeGroup) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearNodeAffinities, Node, NodeAffinityFile, or NodeGroup may be specified.", [nameof(ClearNodeAffinities), nameof(Node), nameof(NodeAffinityFile), nameof(NodeGroup)]);
+        }
+        if ((ClearTerminationTime == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(TerminationTime) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearTerminationTime or TerminationTime may be specified.", [nameof(ClearTerminationTime), nameof(TerminationTime)]);
+        }
+        yield break;
+    }
 
 }

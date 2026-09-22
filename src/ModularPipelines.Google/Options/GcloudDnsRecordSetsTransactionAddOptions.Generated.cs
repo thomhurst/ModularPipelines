@@ -19,8 +19,90 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "record-sets", "transaction", "add")]
-public record GcloudDnsRecordSetsTransactionAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Rrdatas
-) : GcloudOptions
+public record GcloudDnsRecordSetsTransactionAddOptions : GcloudOptions
 {
+    /// <summary>
+    /// set addition to     the transaction
+    /// </summary>
+    /// <param name="Name">DNS or domain name of the record-set to add.</param>
+    /// <param name="Ttl">TTL (time to live) for the record-set to add.</param>
+    /// <param name="Type">DNS record type of the record-set to add.</param>
+    /// <param name="Zone">Name of the managed zone whose record sets you want to manage.</param>
+    /// <param name="Rrdatas">DNS data (Address/CNAME/MX info, etc.) of the record-set to add. This is RDATA; the format of this information varies depending on the type and class of the resource record.</param>
+    public GcloudDnsRecordSetsTransactionAddOptions(
+        string Name,
+        string Ttl,
+        string Type,
+        string Zone,
+        IEnumerable<string> Rrdatas
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Ttl);
+        this.Ttl = Ttl;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Rrdatas);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Rrdatas));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Rrdatas));
+            }
+
+            Rrdatas = materialized;
+        }
+        this.Rrdatas = Rrdatas;
+    }
+
+    public void Deconstruct(out string Name, out string Ttl, out string Type, out string Zone, out IEnumerable<string> Rrdatas)
+    {
+        Name = this.Name;
+        Ttl = this.Ttl;
+        Type = this.Type;
+        Zone = this.Zone;
+        Rrdatas = this.Rrdatas;
+    }
+
+    /// <summary>
+    /// DNS or domain name of the record-set to add.
+    /// </summary>
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// TTL (time to live) for the record-set to add.
+    /// </summary>
+    [CliOption("--ttl", Format = OptionFormat.EqualsSeparated)]
+    public string Ttl { get; private init; }
+
+    /// <summary>
+    /// DNS record type of the record-set to add.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string Type { get; private init; }
+
+    /// <summary>
+    /// Name of the managed zone whose record sets you want to manage.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
+    /// <summary>
+    /// Path of the file which contains the transaction.
+    /// </summary>
+    [CliOption("--transaction-file", Format = OptionFormat.EqualsSeparated)]
+    public string? TransactionFile { get; set; }
+
+    /// <summary>
+    /// DNS data (Address/CNAME/MX info, etc.) of the record-set to add. This is RDATA; the format of this information varies depending on the type and class of the resource record.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Rrdatas { get; private init; }
+
 }

@@ -21,4 +21,45 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("audit-manager", "operations", "describe")]
 public record GcloudAuditManagerOperationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe Audit operation
+    /// </summary>
+    /// <param name="Operation">Operation resource - The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [auditmanager.folders.locations.operationDetails, auditmanager.organizations.locations.operationDetails, auditmanager.projects.locations.operationDetails]. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument operation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAuditManagerOperationsDescribeOptions(
+        string Operation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+    }
+
+    public void Deconstruct(out string Operation)
+    {
+        Operation = this.Operation;
+    }
+
+    /// <summary>
+    /// Operation resource - The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [auditmanager.folders.locations.operationDetails, auditmanager.organizations.locations.operationDetails, auditmanager.projects.locations.operationDetails]. This must be specified. The folder for the operation. To set the folder attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --folder on the command line. Must be specified for resource of type [auditmanager.folders.locations.operationDetails].
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Operation resource - The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [auditmanager.folders.locations.operationDetails, auditmanager.organizations.locations.operationDetails, auditmanager.projects.locations.operationDetails]. This must be specified. The location for the operation. To set the location attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Operation resource - The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [auditmanager.folders.locations.operationDetails, auditmanager.organizations.locations.operationDetails, auditmanager.projects.locations.operationDetails]. This must be specified. The organization for the operation. To set the organization attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [auditmanager.organizations.locations.operationDetails].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Operation resource - The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [auditmanager.folders.locations.operationDetails, auditmanager.organizations.locations.operationDetails, auditmanager.projects.locations.operationDetails]. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument operation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Operation { get; private init; }
+
 }

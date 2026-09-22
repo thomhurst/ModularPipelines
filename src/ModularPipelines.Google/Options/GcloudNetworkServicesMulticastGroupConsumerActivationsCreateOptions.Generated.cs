@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,80 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-services", "multicast-group-consumer-activations", "create")]
 public record GcloudNetworkServicesMulticastGroupConsumerActivationsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a multicast group consumer activation
+    /// </summary>
+    /// <param name="MulticastConsumerAssociation">The multicast consumer association to be used.</param>
+    /// <param name="MulticastGroupConsumerActivation">Multicast group consumer activation resource - Name of the multicast group consumer activation to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_group_consumer_activation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the multicast group consumer activation or fully qualified identifier for the multicast group consumer activation. To set the multicast_group_consumer_activation attribute: ▸ provide the argument multicast_group_consumer_activation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkServicesMulticastGroupConsumerActivationsCreateOptions(
+        string MulticastConsumerAssociation,
+        string MulticastGroupConsumerActivation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MulticastConsumerAssociation);
+        this.MulticastConsumerAssociation = MulticastConsumerAssociation;
+        global::System.ArgumentNullException.ThrowIfNull(MulticastGroupConsumerActivation);
+        this.MulticastGroupConsumerActivation = MulticastGroupConsumerActivation;
+    }
+
+    public void Deconstruct(out string MulticastConsumerAssociation, out string MulticastGroupConsumerActivation)
+    {
+        MulticastConsumerAssociation = this.MulticastConsumerAssociation;
+        MulticastGroupConsumerActivation = this.MulticastGroupConsumerActivation;
+    }
+
+    /// <summary>
+    /// The multicast consumer association to be used.
+    /// </summary>
+    [CliOption("--multicast-consumer-association", Format = OptionFormat.EqualsSeparated)]
+    public string MulticastConsumerAssociation { get; private init; }
+
+    /// <summary>
+    /// Multicast group consumer activation resource - Name of the multicast group consumer activation to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_group_consumer_activation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument multicast_group_consumer_activation on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The description for the multicast group consumer activation.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Whether to enable logging for this multicast group consumer activation. Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--enable-logging")]
+    public bool? EnableLogging { get; set; }
+
+    /// <summary>
+    /// Negates --enable-logging. Whether to enable logging for this multicast group consumer activation. Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--no-enable-logging")]
+    public bool? NoEnableLogging { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The multicast group range activation to be used.
+    /// </summary>
+    [CliOption("--multicast-group-range-activation", Format = OptionFormat.EqualsSeparated)]
+    public string? MulticastGroupRangeActivation { get; set; }
+
+    /// <summary>
+    /// Multicast group consumer activation resource - Name of the multicast group consumer activation to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_group_consumer_activation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the multicast group consumer activation or fully qualified identifier for the multicast group consumer activation. To set the multicast_group_consumer_activation attribute: ▸ provide the argument multicast_group_consumer_activation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MulticastGroupConsumerActivation { get; private init; }
+
 }

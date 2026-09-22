@@ -21,4 +21,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("storage", "buckets", "notifications", "list")]
 public record GcloudStorageBucketsNotificationsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// Google Cloud Storage bucket paths. The path must begin with gs:// and may contain wildcard characters.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Urls { get; set; }
+
 }

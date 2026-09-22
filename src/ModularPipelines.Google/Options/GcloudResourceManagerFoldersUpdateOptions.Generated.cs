@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "folders", "update")]
-public record GcloudResourceManagerFoldersUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FolderId
-) : GcloudOptions
+public record GcloudResourceManagerFoldersUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update the display name of a     folder
+    /// </summary>
+    /// <param name="DisplayName">New display name for the folder (unique under the same parent).</param>
+    /// <param name="FolderId">ID for the folder you want to update.</param>
+    public GcloudResourceManagerFoldersUpdateOptions(
+        string DisplayName,
+        string FolderId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(FolderId);
+        this.FolderId = FolderId;
+    }
+
+    public void Deconstruct(out string DisplayName, out string FolderId)
+    {
+        DisplayName = this.DisplayName;
+        FolderId = this.FolderId;
+    }
+
+    /// <summary>
+    /// New display name for the folder (unique under the same parent).
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// ID for the folder you want to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FolderId { get; private init; }
+
 }

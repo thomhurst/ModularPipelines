@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,91 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "composite-health-checks", "update")]
-public record GcloudComputeCompositeHealthChecksUpdateOptions : GcloudOptions
+public record GcloudComputeCompositeHealthChecksUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a composite health     check
+    /// </summary>
+    /// <param name="CompositeHealthCheck">Composite health check resource - The name of the composite health check you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument composite_health_check on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the composite health check or fully qualified identifier for the composite health check. To set the composite_health_check attribute: ▸ provide the argument composite_health_check on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeCompositeHealthChecksUpdateOptions(
+        string CompositeHealthCheck
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CompositeHealthCheck);
+        this.CompositeHealthCheck = CompositeHealthCheck;
+    }
+
+    public void Deconstruct(out string CompositeHealthCheck)
+    {
+        CompositeHealthCheck = this.CompositeHealthCheck;
+    }
+
+    /// <summary>
+    /// Composite health check resource - The name of the composite health check you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument composite_health_check on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Google Compute Engine region. To set the region attribute: ▸ provide the argument composite_health_check on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property compute/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A textual description of this resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: URL to the destination resource. Must be set. Must be a ForwardingRule. The ForwardingRule must have load balancing scheme INTERNAL or INTERNAL_MANAGED and must be regional and in the same region as the CompositeHealthCheck (cross-region deployment for INTERNAL_MANAGED is not supported). Can be mutated.
+    /// </summary>
+    [CliOption("--health-destination", Format = OptionFormat.EqualsSeparated)]
+    public string? HealthDestination { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: URLs to the HealthSource resources whose results are AND'ed. I.e. the aggregated result is HEALTHY only if all sources are HEALTHY. Must have at least 1. Must not have more than 10. Must be regional and in the same region as the CompositeHealthCheck. Can be mutated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--health-sources", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? HealthSources
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __HealthSourcesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __HealthSourcesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Composite health check resource - The name of the composite health check you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument composite_health_check on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the composite health check or fully qualified identifier for the composite health check. To set the composite_health_check attribute: ▸ provide the argument composite_health_check on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CompositeHealthCheck { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(Description) || !string.IsNullOrWhiteSpace(HealthDestination) || ((object?)HealthSources is global::System.Collections.Generic.IEnumerable<char> ? (object?)HealthSources is not string || !string.IsNullOrWhiteSpace(HealthSources?.ToString()) : ((object?)HealthSources is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)HealthSources, static item => item is not null) : (HealthSources is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)HealthSources), static item => item is not null))))))
+        {
+            yield return new ValidationResult("At least one of Description, HealthDestination, or HealthSources must be specified.", [nameof(Description), nameof(HealthDestination), nameof(HealthSources)]);
+        }
+        yield break;
+    }
+
 }

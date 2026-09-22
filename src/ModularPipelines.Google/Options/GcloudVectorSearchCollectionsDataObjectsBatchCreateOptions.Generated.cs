@@ -21,4 +21,55 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("vector-search", "collections", "data-objects", "batch-create")]
 public record GcloudVectorSearchCollectionsDataObjectsBatchCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a batch     of data objects
+    /// </summary>
+    /// <param name="Requests">Required, The request message specifying the resources to create. A maximum of 1000 DataObjects can be created in a batch. dataObject The DataObject to create. data The data of the dataObject. etag The etag of the dataObject. name Identifier. The fully qualified resource name of the dataObject. Format: projects/{project}/locations/{location}/collections/{collection}/dataObjects/{data_object_id} The data_object_id must be 1-63 characters long, and comply with RFC1035 (https://www.ietf.org/rfc/rfc1035.txt). vectors The vectors of the dataObject. KEY Sets KEY value. VALUE Sets VALUE value. dense A dense vector. values The values of the vector. sparse A sparse vector. indices The corresponding indices for the values. values The values of the vector. dataObjectId The id of the dataObject to create. The id must be 1-63 characters long, and comply with RFC1035 (https://www.ietf.org/rfc/rfc1035.txt). Specifically, it must be 1-63 characters long and match the regular expression [a-z](?:[-a-z0-9]{0,61}[a-z0-9])?. parent The resource name of the Collection to create the DataObject in. Format: projects/{project}/locations/{location}/collections/{collection}. Shorthand Example: --requests=dataObject={data={...},etag=string,name=string,vectors={string={dense={values=[float]},sparse={indices=[int],values=[float]}}}},dataObjectId=string,parent=string --requests=dataObject={data={...},etag=string,name=string,vectors={string={dense={values=[float]},sparse={indices=[int],values=[float]}}}},dataObjectId=string,parent=string JSON Example: --requests='[{"dataObject": {"data": {...}, "etag": "string", "name": "string", "vectors": {"string": {"dense": {"values": [float]}, "sparse": {"indices": [int], "values": [float]}}}}, "dataObjectId": "string", "parent": "string"}]' File Example: --requests=path_to_file.(yaml|json)</param>
+    /// <param name="Collection">Collection resource - The resource name of the Collection to create the DataObjects in. Format: projects/{project}/locations/{location}/collections/{collection}. The parent field in the CreateDataObjectRequest messages must match this field. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the collection or fully qualified identifier for the collection. To set the collection attribute: ▸ provide the argument --collection on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVectorSearchCollectionsDataObjectsBatchCreateOptions(
+        IEnumerable<string> Requests,
+        string Collection
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Requests);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Requests));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Requests));
+            }
+
+            Requests = materialized;
+        }
+        this.Requests = Requests;
+        global::System.ArgumentNullException.ThrowIfNull(Collection);
+        this.Collection = Collection;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Requests, out string Collection)
+    {
+        Requests = this.Requests;
+        Collection = this.Collection;
+    }
+
+    /// <summary>
+    /// Required, The request message specifying the resources to create. A maximum of 1000 DataObjects can be created in a batch. dataObject The DataObject to create. data The data of the dataObject. etag The etag of the dataObject. name Identifier. The fully qualified resource name of the dataObject. Format: projects/{project}/locations/{location}/collections/{collection}/dataObjects/{data_object_id} The data_object_id must be 1-63 characters long, and comply with RFC1035 (https://www.ietf.org/rfc/rfc1035.txt). vectors The vectors of the dataObject. KEY Sets KEY value. VALUE Sets VALUE value. dense A dense vector. values The values of the vector. sparse A sparse vector. indices The corresponding indices for the values. values The values of the vector. dataObjectId The id of the dataObject to create. The id must be 1-63 characters long, and comply with RFC1035 (https://www.ietf.org/rfc/rfc1035.txt). Specifically, it must be 1-63 characters long and match the regular expression [a-z](?:[-a-z0-9]{0,61}[a-z0-9])?. parent The resource name of the Collection to create the DataObject in. Format: projects/{project}/locations/{location}/collections/{collection}. Shorthand Example: --requests=dataObject={data={...},etag=string,name=string,vectors={string={dense={values=[float]},sparse={indices=[int],values=[float]}}}},dataObjectId=string,parent=string --requests=dataObject={data={...},etag=string,name=string,vectors={string={dense={values=[float]},sparse={indices=[int],values=[float]}}}},dataObjectId=string,parent=string JSON Example: --requests='[{"dataObject": {"data": {...}, "etag": "string", "name": "string", "vectors": {"string": {"dense": {"values": [float]}, "sparse": {"indices": [int], "values": [float]}}}}, "dataObjectId": "string", "parent": "string"}]' File Example: --requests=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--requests", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string> Requests { get; private init; }
+
+    /// <summary>
+    /// Collection resource - The resource name of the Collection to create the DataObjects in. Format: projects/{project}/locations/{location}/collections/{collection}. The parent field in the CreateDataObjectRequest messages must match this field. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the collection or fully qualified identifier for the collection. To set the collection attribute: ▸ provide the argument --collection on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--collection", Format = OptionFormat.EqualsSeparated)]
+    public string Collection { get; private init; }
+
+    /// <summary>
+    /// Collection resource - The resource name of the Collection to create the DataObjects in. Format: projects/{project}/locations/{location}/collections/{collection}. The parent field in the CreateDataObjectRequest messages must match this field. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the collection resource. To set the location attribute: ▸ provide the argument --collection on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source", "repos", "set-iam-policy")]
-public record GcloudSourceReposSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RepositoryName
-) : GcloudOptions
+public record GcloudSourceReposSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the IAM policy for the named     repository
+    /// </summary>
+    /// <param name="RepositoryName">Name of the repository.</param>
+    /// <param name="PolicyFile">JSON or YAML file with IAM policy. See https://cloud.google.com/resource-manager/reference/rest/Shared.Types/Policy</param>
+    public GcloudSourceReposSetIamPolicyOptions(
+        string RepositoryName,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string RepositoryName, out string PolicyFile)
+    {
+        RepositoryName = this.RepositoryName;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// Name of the repository.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RepositoryName { get; private init; }
+
+    /// <summary>
+    /// JSON or YAML file with IAM policy. See https://cloud.google.com/resource-manager/reference/rest/Shared.Types/Policy
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

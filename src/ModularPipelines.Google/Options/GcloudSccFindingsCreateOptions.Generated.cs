@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +23,96 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("scc", "findings", "create")]
 public record GcloudSccFindingsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Security Command Center finding
+    /// </summary>
+    /// <param name="Category">Taxonomy group within findings from a given source. Example: XSS_SCRIPTING</param>
+    /// <param name="EventTime">Time at which the event took place. For example, if the finding represents an open firewall it would capture the time the open firewall was detected. If event-time is not provided, it will default to UTC version of NOW. See $ gcloud topic datetimes for information on supported time formats.</param>
+    /// <param name="ResourceName">Full resource name of the Google Cloud Platform resource this finding is for.</param>
+    /// <param name="Finding">Finding resource - The finding to be used for the SCC (Security Command Center) command. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the finding or fully qualified identifier for the finding. To set the finding attribute: ▸ provide the argument finding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSccFindingsCreateOptions(
+        string Category,
+        string EventTime,
+        string ResourceName,
+        string Finding
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Category);
+        this.Category = Category;
+        global::System.ArgumentNullException.ThrowIfNull(EventTime);
+        this.EventTime = EventTime;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceName);
+        this.ResourceName = ResourceName;
+        global::System.ArgumentNullException.ThrowIfNull(Finding);
+        this.Finding = Finding;
+    }
+
+    public void Deconstruct(out string Category, out string EventTime, out string ResourceName, out string Finding)
+    {
+        Category = this.Category;
+        EventTime = this.EventTime;
+        ResourceName = this.ResourceName;
+        Finding = this.Finding;
+    }
+
+    /// <summary>
+    /// Taxonomy group within findings from a given source. Example: XSS_SCRIPTING
+    /// </summary>
+    [CliOption("--category", Format = OptionFormat.EqualsSeparated)]
+    public string Category { get; private init; }
+
+    /// <summary>
+    /// Time at which the event took place. For example, if the finding represents an open firewall it would capture the time the open firewall was detected. If event-time is not provided, it will default to UTC version of NOW. See $ gcloud topic datetimes for information on supported time formats.
+    /// </summary>
+    [CliOption("--event-time", Format = OptionFormat.EqualsSeparated)]
+    public string EventTime { get; private init; }
+
+    /// <summary>
+    /// Full resource name of the Google Cloud Platform resource this finding is for.
+    /// </summary>
+    [CliOption("--resource-name", Format = OptionFormat.EqualsSeparated)]
+    public string ResourceName { get; private init; }
+
+    /// <summary>
+    /// Finding resource - The finding to be used for the SCC (Security Command Center) command. The arguments in this group can be used to specify the attributes of this resource. This must be specified. (Optional) If the full resource name isn't provided e.g. organizations/123, then provide the organization id which is the suffix of the organization. Example: organizations/123, the id is 123. To set the organization attribute: ▸ provide the argument finding on the command line with a fully specified name; ▸ provide the argument --organization on the command line; ▸ Set the organization property in configuration using gcloud config set scc/organization if it is not specified in command line..
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Finding resource - The finding to be used for the SCC (Security Command Center) command. The arguments in this group can be used to specify the attributes of this resource. This must be specified. (Optional) If the full resource name isn't provided e.g. organizations/123/sources/456, then provide the source id which is the suffix of the source. Example: organizations/123/sources/456, the id is 456. To set the source attribute: ▸ provide the argument finding on the command line with a fully specified name; ▸ provide the argument --source on the command line.
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// URI that, if available, points to a web page outside of Cloud SCC (Security Command Center) where additional information about the finding can be found. This field is guaranteed to be either empty or a well formed URL.
+    /// </summary>
+    [CliOption("--external-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? ExternalUri { get; set; }
+
+    /// <summary>
+    /// When data residency controls are enabled, this attribute specifies the location in which the resource is located and applicable. The location attribute can be provided as part of the fully specified resource name or with the --location argument on the command line. The default location is global. NOTE: If you override the endpoint to a regional endpoint (https://cloud.google.com/security-command-center/docs/reference/rest/index.html?rep_location=global#regional-service-endpoint) you must specify the correct data location (https://cloud.google.com/security-command-center/docs/data-residency-support#locations) using this flag. The default location on this command is unrelated to the default location that is specified when data residency controls are enabled for Security Command Center. NOTE: If no location is specified, the default location is global AND the request will be routed to the SCC V1 API. To use the SCC V2 API - please explicitly specify the flag.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Source specific properties. These properties are managed by the source that writes the finding. The key names in the source_properties map must be between 1 and 255 characters, and must start with a letter and contain alphanumeric characters or underscores only. For example "key1=val1,key2=val2" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--source-properties", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? SourceProperties { get; set; }
+
+    /// <summary>
+    /// State is one of: [ACTIVE, INACTIVE]. STATE must be one of: active, inactive, state-unspecified.
+    /// </summary>
+    [CliOption("--state", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSccFindingsCreateState? State { get; set; }
+
+    /// <summary>
+    /// Finding resource - The finding to be used for the SCC (Security Command Center) command. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the finding or fully qualified identifier for the finding. To set the finding attribute: ▸ provide the argument finding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Finding { get; private init; }
+
 }

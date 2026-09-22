@@ -19,10 +19,30 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "import", "sql")]
-public record GcloudSqlImportSqlOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudSqlImportSqlOptions : GcloudOptions
 {
+    /// <summary>
+    /// imports data into a Cloud SQL instance from a SQL     dump file
+    /// </summary>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    /// <param name="Uri">Path to the MySQL dump file in Google Cloud Storage from which the import is made. The URI is in the form gs://bucketName/fileName. Compressed gzip files (.gz) are also supported.</param>
+    public GcloudSqlImportSqlOptions(
+        string Instance,
+        string Uri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+        global::System.ArgumentNullException.ThrowIfNull(Uri);
+        this.Uri = Uri;
+    }
+
+    public void Deconstruct(out string Instance, out string Uri)
+    {
+        Instance = this.Instance;
+        Uri = this.Uri;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -64,5 +84,17 @@ public record GcloudSqlImportSqlOptions(
     /// </summary>
     [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
     public string? User { get; set; }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <summary>
+    /// Path to the MySQL dump file in Google Cloud Storage from which the import is made. The URI is in the form gs://bucketName/fileName. Compressed gzip files (.gz) are also supported.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Uri { get; private init; }
 
 }

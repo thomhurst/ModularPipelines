@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudGeminiGeminiGcpEnablementSettingsCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// create     geminiGcpEnablementSettings
+    /// </summary>
+    /// <param name="GeminiGcpEnablementSetting">GeminiGcpEnablementSetting resource - Identifier. Name of the resource. Format:projects/{project}/locations/{location}/geminiGcpEnablementSettings/{geminiGcpEnablementSetting} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gemini_gcp_enablement_setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the geminiGcpEnablementSetting or fully qualified identifier for the geminiGcpEnablementSetting. To set the gemini_gcp_enablement_setting attribute: ▸ provide the argument gemini_gcp_enablement_setting on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudGeminiGeminiGcpEnablementSettingsCreateOptions(
+        string GeminiGcpEnablementSetting
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GeminiGcpEnablementSetting);
+        this.GeminiGcpEnablementSetting = GeminiGcpEnablementSetting;
+    }
+
+    public void Deconstruct(out string GeminiGcpEnablementSetting)
+    {
+        GeminiGcpEnablementSetting = this.GeminiGcpEnablementSetting;
+    }
+
+    /// <summary>
+    /// GeminiGcpEnablementSetting resource - Identifier. Name of the resource. Format:projects/{project}/locations/{location}/geminiGcpEnablementSettings/{geminiGcpEnablementSetting} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gemini_gcp_enablement_setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the geminiGcpEnablementSetting resource. To set the location attribute: ▸ provide the argument gemini_gcp_enablement_setting on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Contains custom instructions to be applied to the GCA agent.
     /// </summary>
     [CliOption("--custom-instructions", Format = OptionFormat.EqualsSeparated)]
@@ -80,5 +103,11 @@ public record GcloudGeminiGeminiGcpEnablementSettingsCreateOptions : GcloudOptio
     /// </summary>
     [CliOption("--web-grounding-type", Format = OptionFormat.EqualsSeparated)]
     public string? WebGroundingType { get; set; }
+
+    /// <summary>
+    /// GeminiGcpEnablementSetting resource - Identifier. Name of the resource. Format:projects/{project}/locations/{location}/geminiGcpEnablementSettings/{geminiGcpEnablementSetting} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gemini_gcp_enablement_setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the geminiGcpEnablementSetting or fully qualified identifier for the geminiGcpEnablementSetting. To set the gemini_gcp_enablement_setting attribute: ▸ provide the argument gemini_gcp_enablement_setting on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GeminiGcpEnablementSetting { get; private init; }
 
 }

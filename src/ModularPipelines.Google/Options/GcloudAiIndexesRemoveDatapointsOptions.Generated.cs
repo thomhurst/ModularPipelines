@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,79 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "indexes", "remove-datapoints")]
-public record GcloudAiIndexesRemoveDatapointsOptions : GcloudOptions
+public record GcloudAiIndexesRemoveDatapointsOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// remove data points from the specified     index
+    /// </summary>
+    /// <param name="Index">Index resource - Index to remove data points from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the index or fully qualified identifier for the index. To set the name attribute: ▸ provide the argument index on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAiIndexesRemoveDatapointsOptions(
+        string Index
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Index);
+        this.Index = Index;
+    }
+
+    public void Deconstruct(out string Index)
+    {
+        Index = this.Index;
+    }
+
+    /// <summary>
+    /// Index resource - Index to remove data points from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud region for the index. To set the region attribute: ▸ provide the argument index on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property ai/region; ▸ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: List of index datapoint ids to be removed from the index. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--datapoint-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? DatapointIds
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __DatapointIdsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __DatapointIdsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a local JSON file that contains the data points that need to be added to the index.
+    /// </summary>
+    [CliOption("--datapoints-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? DatapointsFromFile { get; set; }
+
+    /// <summary>
+    /// Index resource - Index to remove data points from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the index or fully qualified identifier for the index. To set the name attribute: ▸ provide the argument index on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Index { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)DatapointIds is global::System.Collections.Generic.IEnumerable<char> ? (object?)DatapointIds is not string || !string.IsNullOrWhiteSpace(DatapointIds?.ToString()) : ((object?)DatapointIds is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DatapointIds, static item => item is not null) : (DatapointIds is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DatapointIds), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DatapointsFromFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of DatapointIds or DatapointsFromFile must be specified.", [nameof(DatapointIds), nameof(DatapointsFromFile)]);
+        }
+        yield break;
+    }
+
 }

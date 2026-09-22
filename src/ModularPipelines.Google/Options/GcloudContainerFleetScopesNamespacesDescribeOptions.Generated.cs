@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "fleet", "scopes", "namespaces", "describe")]
 public record GcloudContainerFleetScopesNamespacesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show fleet namespace     info
+    /// </summary>
+    /// <param name="Namespace">Namespace resource - The group of arguments defining the Fleet Namespace. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAMESPACE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument NAMESPACE on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the namespace or fully qualified identifier for the namespace. To set the namespace attribute: ▸ provide the argument NAMESPACE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerFleetScopesNamespacesDescribeOptions(
+        string Namespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+    }
+
+    public void Deconstruct(out string Namespace)
+    {
+        Namespace = this.Namespace;
+    }
+
+    /// <summary>
+    /// Namespace resource - The group of arguments defining the Fleet Namespace. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAMESPACE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument NAMESPACE on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. the To set the scope attribute: ▸ provide the argument NAMESPACE on the command line with a fully specified name; ▸ provide the argument --scope on the command line.
+    /// </summary>
+    [CliOption("--scope", Format = OptionFormat.EqualsSeparated)]
+    public string? Scope { get; set; }
+
+    /// <summary>
+    /// Namespace resource - The group of arguments defining the Fleet Namespace. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAMESPACE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument NAMESPACE on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the namespace or fully qualified identifier for the namespace. To set the namespace attribute: ▸ provide the argument NAMESPACE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Namespace { get; private init; }
+
 }

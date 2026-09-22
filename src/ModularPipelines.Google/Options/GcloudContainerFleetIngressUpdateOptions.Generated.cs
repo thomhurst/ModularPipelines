@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "ingress", "update")]
-public record GcloudContainerFleetIngressUpdateOptions : GcloudOptions
+public record GcloudContainerFleetIngressUpdateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// Membership resource - The group of arguments defining a membership. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --config-membership on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the membership or fully qualified identifier for the membership. To set the membership attribute: ◆ provide the argument --config-membership on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
@@ -32,5 +33,15 @@ public record GcloudContainerFleetIngressUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ConfigMembership) || !string.IsNullOrWhiteSpace(Location)) && (!(!string.IsNullOrWhiteSpace(ConfigMembership))))
+        {
+            yield return new ValidationResult("ConfigMembership must be specified when other arguments in this group are specified.", [nameof(ConfigMembership)]);
+        }
+        yield break;
+    }
 
 }

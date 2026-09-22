@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerAzureClientsGetPublicCertOptions : GcloudOptions
 {
     /// <summary>
+    /// get the public certificate     of an Azure client
+    /// </summary>
+    /// <param name="Client">Client resource - Azure client to get the public certificate. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument client on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the client or fully qualified identifier for the client. To set the client attribute: ▸ provide the argument client on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerAzureClientsGetPublicCertOptions(
+        string Client
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Client);
+        this.Client = Client;
+    }
+
+    public void Deconstruct(out string Client)
+    {
+        Client = this.Client;
+    }
+
+    /// <summary>
+    /// Client resource - Azure client to get the public certificate. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument client on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the client. To set the location attribute: ▸ provide the argument client on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Path to the output file to store PEM.
     /// </summary>
     [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
     public string? OutputFile { get; set; }
+
+    /// <summary>
+    /// Client resource - Azure client to get the public certificate. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument client on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the client or fully qualified identifier for the client. To set the client attribute: ▸ provide the argument client on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Client { get; private init; }
 
 }

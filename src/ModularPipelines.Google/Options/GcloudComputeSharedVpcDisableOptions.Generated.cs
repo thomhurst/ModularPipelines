@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "shared-vpc", "disable")]
-public record GcloudComputeSharedVpcDisableOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ProjectId
-) : GcloudOptions
+public record GcloudComputeSharedVpcDisableOptions : GcloudOptions
 {
+    /// <summary>
+    /// disable the given project as a shared     VPC host
+    /// </summary>
+    /// <param name="ProjectId">ID for the project to disable as a shared VPC host</param>
+    public GcloudComputeSharedVpcDisableOptions(
+        string ProjectId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectId);
+        this.ProjectId = ProjectId;
+    }
+
+    public void Deconstruct(out string ProjectId)
+    {
+        ProjectId = this.ProjectId;
+    }
+
+    /// <summary>
+    /// ID for the project to disable as a shared VPC host
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ProjectId { get; private init; }
+
 }

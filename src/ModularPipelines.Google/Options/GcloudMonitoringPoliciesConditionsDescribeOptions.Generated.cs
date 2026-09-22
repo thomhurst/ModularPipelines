@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("monitoring", "policies", "conditions", "describe")]
 public record GcloudMonitoringPoliciesConditionsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a condition in a     Cloud Monitoring alerting policy
+    /// </summary>
+    /// <param name="Condition">Condition resource - The name of the Condition to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument condition on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the condition or fully qualified identifier for the condition. To set the condition attribute: ▸ provide the argument condition on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMonitoringPoliciesConditionsDescribeOptions(
+        string Condition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Condition);
+        this.Condition = Condition;
+    }
+
+    public void Deconstruct(out string Condition)
+    {
+        Condition = this.Condition;
+    }
+
+    /// <summary>
+    /// Condition resource - The name of the Condition to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument condition on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the alerting policy. To set the policy attribute: ▸ provide the argument condition on the command line with a fully specified name; ▸ provide the argument --policy on the command line.
+    /// </summary>
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
+    public string? Policy { get; set; }
+
+    /// <summary>
+    /// Condition resource - The name of the Condition to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument condition on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the condition or fully qualified identifier for the condition. To set the condition attribute: ▸ provide the argument condition on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Condition { get; private init; }
+
 }

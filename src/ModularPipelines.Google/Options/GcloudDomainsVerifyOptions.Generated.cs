@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("domains", "verify")]
-public record GcloudDomainsVerifyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Domain
-) : GcloudOptions
+public record GcloudDomainsVerifyOptions : GcloudOptions
 {
+    /// <summary>
+    /// browser workflow
+    /// </summary>
+    /// <param name="Domain">The domain to be verified.</param>
+    public GcloudDomainsVerifyOptions(
+        string Domain
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+    }
+
+    public void Deconstruct(out string Domain)
+    {
+        Domain = this.Domain;
+    }
+
+    /// <summary>
+    /// The domain to be verified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Domain { get; private init; }
+
 }

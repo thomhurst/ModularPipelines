@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,13 +20,58 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("access-context-manager", "authorized-orgs", "update")]
-public record GcloudAccessContextManagerAuthorizedOrgsUpdateOptions : GcloudOptions
+public record GcloudAccessContextManagerAuthorizedOrgsUpdateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Append the given values to the current orgs.
+    /// update the     organizations for an existing authorized organizations description
     /// </summary>
-    [CliOption("--add-orgs", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddOrgs { get; set; }
+    /// <param name="AuthorizedOrgsDesc">Authorized orgs desc resource - The authorized orgs desc to update. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the authorized_orgs_desc or fully qualified identifier for the authorized_orgs_desc. To set the authorized_orgs_desc attribute: ▸ provide the argument authorized_orgs_desc on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAccessContextManagerAuthorizedOrgsUpdateOptions(
+        string AuthorizedOrgsDesc
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizedOrgsDesc);
+        this.AuthorizedOrgsDesc = AuthorizedOrgsDesc;
+    }
+
+    public void Deconstruct(out string AuthorizedOrgsDesc)
+    {
+        AuthorizedOrgsDesc = this.AuthorizedOrgsDesc;
+    }
+
+    /// <summary>
+    /// Authorized orgs desc resource - The authorized orgs desc to update. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The ID of the access policy. To set the policy attribute: ▸ provide the argument authorized_orgs_desc on the command line with a fully specified name; ▸ provide the argument --policy on the command line; ▸ set the property access_context_manager/policy.
+    /// </summary>
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
+    public string? Policy { get; set; }
+
+    /// <summary>
+    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Append the given values to the current orgs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--add-orgs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddOrgs
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddOrgsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddOrgsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Empty the current orgs.
@@ -34,15 +80,75 @@ public record GcloudAccessContextManagerAuthorizedOrgsUpdateOptions : GcloudOpti
     public bool? ClearOrgs { get; set; }
 
     /// <summary>
-    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Remove the given values from the current orgs.
+    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Remove the given values from the current orgs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-orgs", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveOrgs { get; set; }
+    [CliOption("--remove-orgs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveOrgs
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveOrgsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveOrgsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Completely replace the current orgs with the given values.
+    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Completely replace the current orgs with the given values. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-orgs", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SetOrgs { get; set; }
+    [CliOption("--set-orgs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SetOrgs
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SetOrgsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SetOrgsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Authorized orgs desc resource - The authorized orgs desc to update. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the authorized_orgs_desc or fully qualified identifier for the authorized_orgs_desc. To set the authorized_orgs_desc attribute: ▸ provide the argument authorized_orgs_desc on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AuthorizedOrgsDesc { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)AddOrgs is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddOrgs is not string || !string.IsNullOrWhiteSpace(AddOrgs?.ToString()) : ((object?)AddOrgs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddOrgs, static item => item is not null) : (AddOrgs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddOrgs), static item => item is not null)))) ? 1 : 0) + (ClearOrgs == true ? 1 : 0) + (((object?)RemoveOrgs is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveOrgs is not string || !string.IsNullOrWhiteSpace(RemoveOrgs?.ToString()) : ((object?)RemoveOrgs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveOrgs, static item => item is not null) : (RemoveOrgs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveOrgs), static item => item is not null)))) ? 1 : 0) + (((object?)SetOrgs is global::System.Collections.Generic.IEnumerable<char> ? (object?)SetOrgs is not string || !string.IsNullOrWhiteSpace(SetOrgs?.ToString()) : ((object?)SetOrgs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SetOrgs, static item => item is not null) : (SetOrgs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SetOrgs), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AddOrgs, ClearOrgs, RemoveOrgs, or SetOrgs may be specified.", [nameof(AddOrgs), nameof(ClearOrgs), nameof(RemoveOrgs), nameof(SetOrgs)]);
+        }
+        yield break;
+    }
 
 }

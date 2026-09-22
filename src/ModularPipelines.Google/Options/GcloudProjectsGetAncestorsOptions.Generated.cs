@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("projects", "get-ancestors")]
 public record GcloudProjectsGetAncestorsOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the ancestors for a project
+    /// </summary>
+    /// <param name="ProjectId">Project resource - The project for which to display ancestors. This represents a Cloud resource. This must be specified. ID of the project or fully qualified identifier for the project. To set the project_id attribute: ▸ provide the argument project_id on the command line.</param>
+    public GcloudProjectsGetAncestorsOptions(
+        string ProjectId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectId);
+        this.ProjectId = ProjectId;
+    }
+
+    public void Deconstruct(out string ProjectId)
+    {
+        ProjectId = this.ProjectId;
+    }
+
+    /// <summary>
+    /// Project resource - The project for which to display ancestors. This represents a Cloud resource. This must be specified. ID of the project or fully qualified identifier for the project. To set the project_id attribute: ▸ provide the argument project_id on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ProjectId { get; private init; }
+
 }

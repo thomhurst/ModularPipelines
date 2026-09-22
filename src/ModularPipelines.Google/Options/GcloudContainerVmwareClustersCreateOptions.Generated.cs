@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,429 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "vmware", "clusters", "create")]
-public record GcloudContainerVmwareClustersCreateOptions : GcloudOptions
+public record GcloudContainerVmwareClustersCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create an Anthos cluster on     VMware
+    /// </summary>
+    /// <param name="Version">Anthos Cluster on VMware version for the cluster resource</param>
+    /// <param name="AdminClusterMembership">Admin cluster membership resource - membership of the admin cluster. Membership name is the same as the admin cluster name. Examples: $ gcloud container vmware clusters create</param>
+    /// <param name="ControlPlaneVip">Anthos on VMware cluster load balancer configurations This must be specified. VIPs used by the load balancer This must be specified. VIP for the Kubernetes API of this cluster. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="IngressVip">Anthos on VMware cluster load balancer configurations This must be specified. VIPs used by the load balancer This must be specified. VIP for ingress traffic into this cluster. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="PodAddressCidrBlocks">VMware User Cluster network configurations This must be specified. IPv4 address range for all pods in the cluster. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="ServiceAddressCidrBlocks">VMware User Cluster network configurations This must be specified. IPv4 address range for all services in the cluster. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="DnsSearchDomains">Common parameters for all hosts irrespective of their IP address DNS search domains. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="DnsServers">Common parameters for all hosts irrespective of their IP address DNS server IP address. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="NtpServers">Common parameters for all hosts irrespective of their IP address NTP server IP address. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Cluster">Cluster resource - cluster to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerVmwareClustersCreateOptions(
+        string Version,
+        string AdminClusterMembership,
+        string ControlPlaneVip,
+        string IngressVip,
+        string PodAddressCidrBlocks,
+        string ServiceAddressCidrBlocks,
+        IEnumerable<string> DnsSearchDomains,
+        IEnumerable<string> DnsServers,
+        IEnumerable<string> NtpServers,
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+        global::System.ArgumentNullException.ThrowIfNull(AdminClusterMembership);
+        this.AdminClusterMembership = AdminClusterMembership;
+        global::System.ArgumentNullException.ThrowIfNull(ControlPlaneVip);
+        this.ControlPlaneVip = ControlPlaneVip;
+        global::System.ArgumentNullException.ThrowIfNull(IngressVip);
+        this.IngressVip = IngressVip;
+        global::System.ArgumentNullException.ThrowIfNull(PodAddressCidrBlocks);
+        this.PodAddressCidrBlocks = PodAddressCidrBlocks;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceAddressCidrBlocks);
+        this.ServiceAddressCidrBlocks = ServiceAddressCidrBlocks;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DnsSearchDomains);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DnsSearchDomains));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DnsSearchDomains));
+            }
+
+            DnsSearchDomains = materialized;
+        }
+        this.DnsSearchDomains = DnsSearchDomains;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DnsServers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DnsServers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DnsServers));
+            }
+
+            DnsServers = materialized;
+        }
+        this.DnsServers = DnsServers;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(NtpServers);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(NtpServers));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(NtpServers));
+            }
+
+            NtpServers = materialized;
+        }
+        this.NtpServers = NtpServers;
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Version, out string AdminClusterMembership, out string ControlPlaneVip, out string IngressVip, out string PodAddressCidrBlocks, out string ServiceAddressCidrBlocks, out IEnumerable<string> DnsSearchDomains, out IEnumerable<string> DnsServers, out IEnumerable<string> NtpServers, out string Cluster)
+    {
+        Version = this.Version;
+        AdminClusterMembership = this.AdminClusterMembership;
+        ControlPlaneVip = this.ControlPlaneVip;
+        IngressVip = this.IngressVip;
+        PodAddressCidrBlocks = this.PodAddressCidrBlocks;
+        ServiceAddressCidrBlocks = this.ServiceAddressCidrBlocks;
+        DnsSearchDomains = this.DnsSearchDomains;
+        DnsServers = this.DnsServers;
+        NtpServers = this.NtpServers;
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Anthos Cluster on VMware version for the cluster resource
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string Version { get; private init; }
+
+    /// <summary>
+    /// Admin cluster membership resource - membership of the admin cluster. Membership name is the same as the admin cluster name. Examples: $ gcloud container vmware clusters create
+    /// </summary>
+    [CliOption("--admin-cluster-membership", Format = OptionFormat.EqualsSeparated)]
+    public string AdminClusterMembership { get; private init; }
+
+    /// <summary>
+    /// Anthos on VMware cluster load balancer configurations This must be specified. VIPs used by the load balancer This must be specified. VIP for the Kubernetes API of this cluster. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--control-plane-vip", Format = OptionFormat.EqualsSeparated)]
+    public string ControlPlaneVip { get; private init; }
+
+    /// <summary>
+    /// Anthos on VMware cluster load balancer configurations This must be specified. VIPs used by the load balancer This must be specified. VIP for ingress traffic into this cluster. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--ingress-vip", Format = OptionFormat.EqualsSeparated)]
+    public string IngressVip { get; private init; }
+
+    /// <summary>
+    /// VMware User Cluster network configurations This must be specified. IPv4 address range for all pods in the cluster. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--pod-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
+    public string PodAddressCidrBlocks { get; private init; }
+
+    /// <summary>
+    /// VMware User Cluster network configurations This must be specified. IPv4 address range for all services in the cluster. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
+    public string ServiceAddressCidrBlocks { get; private init; }
+
+    /// <summary>
+    /// Common parameters for all hosts irrespective of their IP address DNS search domains. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--dns-search-domains", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> DnsSearchDomains { get; private init; }
+
+    /// <summary>
+    /// Common parameters for all hosts irrespective of their IP address DNS server IP address. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--dns-servers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> DnsServers { get; private init; }
+
+    /// <summary>
+    /// Common parameters for all hosts irrespective of their IP address NTP server IP address. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--ntp-servers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> NtpServers { get; private init; }
+
+    /// <summary>
+    /// Cluster resource - cluster to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the cluster. To set the location attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_vmware/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// or $ gcloud container vmware clusters create
+    /// </summary>
+    [CliOption("--admin-cluster-membership-project", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminClusterMembershipProject { get; set; }
+
+    /// <summary>
+    /// or $ gcloud container vmware clusters create
+    /// </summary>
+    [CliOption("--admin-cluster-membership-location", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminClusterMembershipLocation { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: MetalLB Configuration At most one of these can be specified: MetalLB load balancer configurations. Examples: To specify MetalLB load balancer configurations for two address pools pool1 and pool2, $ gcloud gcloud container vmware clusters create --metal-lb-config-address-pools 'pool=pool1,avoid-buggy-ips=True,manual-assign=True,addresses=192.168.1.1/32;192.168.1.2-192.168.1.3' --metal-lb-config-address-pools 'pool=pool2,avoid-buggy-ips=False,manual-assign=False,addresses=192.168.2.1/32;192.168.2.2-192.168.2.3' Use quote around the flag value to escape semicolon in the terminal.
+    /// </summary>
+    [CliOption("--metal-lb-config-address-pools", Format = OptionFormat.EqualsSeparated)]
+    public string? MetalLbConfigAddressPools { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: Manual load balancer configuration. With manual load balancing mode, DHCP is not supported. Specify static IP addresses for cluster nodes instead. For more details, see https://cloud.google.com/anthos/clusters/docs/on-prem/latest/how-to/manual-load-balance#setting_aside_node_ip_addresses. NodePort for control plane service.
+    /// </summary>
+    [CliOption("--control-plane-node-port", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneNodePort { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: Manual load balancer configuration. With manual load balancing mode, DHCP is not supported. Specify static IP addresses for cluster nodes instead. For more details, see https://cloud.google.com/anthos/clusters/docs/on-prem/latest/how-to/manual-load-balance#setting_aside_node_ip_addresses. NodePort for ingress service's http.
+    /// </summary>
+    [CliOption("--ingress-http-node-port", Format = OptionFormat.EqualsSeparated)]
+    public string? IngressHttpNodePort { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: Manual load balancer configuration. With manual load balancing mode, DHCP is not supported. Specify static IP addresses for cluster nodes instead. For more details, see https://cloud.google.com/anthos/clusters/docs/on-prem/latest/how-to/manual-load-balance#setting_aside_node_ip_addresses. NodePort for ingress service's https.
+    /// </summary>
+    [CliOption("--ingress-https-node-port", Format = OptionFormat.EqualsSeparated)]
+    public string? IngressHttpsNodePort { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: Manual load balancer configuration. With manual load balancing mode, DHCP is not supported. Specify static IP addresses for cluster nodes instead. For more details, see https://cloud.google.com/anthos/clusters/docs/on-prem/latest/how-to/manual-load-balance#setting_aside_node_ip_addresses. NodePort for konnectivity service running as a sidecar in each kube-apiserver pod.
+    /// </summary>
+    [CliOption("--konnectivity-server-node-port", Format = OptionFormat.EqualsSeparated)]
+    public string? KonnectivityServerNodePort { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: F5 Big IP Configuration F5 Big IP load balancer address. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--f5-config-address", Format = OptionFormat.EqualsSeparated)]
+    public string? F5ConfigAddress { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: F5 Big IP Configuration F5 Big IP load balancer partition. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--f5-config-partition", Format = OptionFormat.EqualsSeparated)]
+    public string? F5ConfigPartition { get; set; }
+
+    /// <summary>
+    /// Populate one of the load balancers. Exactly one of these must be specified: F5 Big IP Configuration F5 Big IP load balancer pool name if using SNAT.
+    /// </summary>
+    [CliOption("--f5-config-snat-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? F5ConfigSnatPool { get; set; }
+
+    /// <summary>
+    /// Control plane v2 mode configurations. Static IP addresses for the control plane nodes. The number of IP addresses should match the number of replicas for the control plane nodes, specified by --replicas. To specify the control plane IP block, $ gcloud gcloud container vmware clusters create --control-plane-ip-block 'gateway=192.168.0.1,netmask=255.255.255.0,ips=192.168.1.1;0.0.0.0 localhost;'
+    /// </summary>
+    [CliOption("--control-plane-ip-block", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneIpBlock { get; set; }
+
+    /// <summary>
+    /// Common parameters for all hosts irrespective of their IP address IP configuration used by the VMware User Cluster At most one of these can be specified: DHCP configuration group. Enable DHCP IP allocation for VMware user clusters. While using DHCP, manual load balancing mode is not supported. For more details, see https://cloud.google.com/anthos/clusters/docs/on-prem/latest/how-to/manual-load-balance#setting_aside_node_ip_addresses.
+    /// </summary>
+    [CliFlag("--enable-dhcp")]
+    public bool? EnableDhcp { get; set; }
+
+    /// <summary>
+    /// Common parameters for all hosts irrespective of their IP address IP configuration used by the VMware User Cluster At most one of these can be specified: DHCP configuration group. Static IP configuration group At most one of these can be specified: Static IP configurations. Expect an individual IP address, an individual IP address with an optional hostname, or a CIDR block. Example: To specify two Static IP blocks, $ gcloud gcloud container vmware clusters create --static-ip-config-ip-blocks 'gateway=192.168.0.1,netmask=255.255.255.0,ips=192.168.1.1;0.0.0.0 localhost;192.168.1.2/16' --static-ip-config-ip-blocks 'gateway=192.168.1.1,netmask=255.255.0.0,ips=8.8.8.8;4.4.4.4' Use quote around the flag value to escape semicolon in the terminal.
+    /// </summary>
+    [CliOption("--static-ip-config-ip-blocks", Format = OptionFormat.EqualsSeparated)]
+    public string? StaticIpConfigIpBlocks { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Users that will be granted the cluster-admin role on the cluster, providing full access to the cluster. To add multiple users, specify one in each flag. When updating, the update command overwrites the whole grant list. Specify all existing and new users that you want to be cluster administrators. Examples: $ gcloud container vmware clusters create --admin-users alice@example.com --admin-users bob@example.com
+    /// </summary>
+    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminUsers { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Annotations on the VMware user cluster. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Description for the resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Anti-affinity group configurations If set, spread nodes across at least three physical hosts (requires at least three hosts). Enabled by default.
+    /// </summary>
+    [CliFlag("--disable-aag-config")]
+    public bool? DisableAagConfig { get; set; }
+
+    /// <summary>
+    /// Storage configurations If set, vSphere CSI components are not deployed in the VMware User Cluster. Enabled by default.
+    /// </summary>
+    [CliFlag("--disable-vsphere-csi")]
+    public bool? DisableVsphereCsi { get; set; }
+
+    /// <summary>
+    /// Auto-repair configurations If set, deploy the cluster-health-controller.
+    /// </summary>
+    [CliFlag("--enable-auto-repair")]
+    public bool? EnableAutoRepair { get; set; }
+
+    /// <summary>
+    /// Auto-repair configurations If set, enable VM tracking.
+    /// </summary>
+    [CliFlag("--enable-vm-tracking")]
+    public bool? EnableVmTracking { get; set; }
+
+    /// <summary>
+    /// Upgrade policy for the cluster. If not specified, control-plane-only is set to False. In the next upgrade operation, all worker node pools will be upgraded together with the control plane. Example: To upgrade the control plane only and keep worker node pools version unchanged, first specify the policy: $ gcloud container vmware clusters create CLUSTER \ --upgrade-policy control-plane-only=True Then to start the upgrade operation using the specified policy, run: $ gcloud container vmware clusters upgrade CLUSTER --version=VERSION After upgrading only the cluster control plane, to upgrade an individual node pool, run: $ gcloud container vmware node-pools update NODE_POOL \ --version=VERSION Example: Alternatively, to upgrade both the control plane and all worker node pools, first specify the policy: $ gcloud container vmware clusters create CLUSTER \ --upgrade-policy control-plane-only=False Then to start the upgrade operation using the specified policy, run: $ gcloud container vmware clusters upgrade CLUSTER --version=VERSION
+    /// </summary>
+    [CliOption("--upgrade-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? UpgradePolicy { get; set; }
+
+    /// <summary>
+    /// Upgrade policy for the cluster. If set, only validate the request, but do not actually perform the operation.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Control plane node configurations Number of CPUs for each admin cluster node that serve as control planes for this VMware user cluster. (default: 4 CPUs)
+    /// </summary>
+    [CliOption("--cpus", Format = OptionFormat.EqualsSeparated)]
+    public string? Cpus { get; set; }
+
+    /// <summary>
+    /// Auto resize configurations Enable controle plane node auto resize.
+    /// </summary>
+    [CliFlag("--enable-auto-resize")]
+    public bool? EnableAutoResize { get; set; }
+
+    /// <summary>
+    /// Auto resize configurations Megabytes of memory for each admin cluster node that serves as a control plane for this VMware User Cluster (default: 8192 MB memory).
+    /// </summary>
+    [CliOption("--memory", Format = OptionFormat.EqualsSeparated)]
+    public string? Memory { get; set; }
+
+    /// <summary>
+    /// Auto resize configurations Number of control plane nodes for this VMware user cluster. (default: 1 replica).
+    /// </summary>
+    [CliOption("--replicas", Format = OptionFormat.EqualsSeparated)]
+    public string? Replicas { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, disable control plane v2.
+    /// </summary>
+    [CliFlag("--disable-control-plane-v2")]
+    public bool? DisableControlPlaneV2 { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, enable control plane v2.
+    /// </summary>
+    [CliFlag("--enable-control-plane-v2")]
+    public bool? EnableControlPlaneV2 { get; set; }
+
+    /// <summary>
+    /// Dataplane V2 configurations If set, enable advanced networking. Requires dataplane_v2_enabled to be set true.
+    /// </summary>
+    [CliFlag("--enable-advanced-networking")]
+    public bool? EnableAdvancedNetworking { get; set; }
+
+    /// <summary>
+    /// Dataplane V2 configurations If set, enables Dataplane V2.
+    /// </summary>
+    [CliFlag("--enable-dataplane-v2")]
+    public bool? EnableDataplaneV2 { get; set; }
+
+    /// <summary>
+    /// vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Name of the vCenter CA certificate public key for SSL verification.
+    /// </summary>
+    [CliOption("--vcenter-ca-cert-data", Format = OptionFormat.EqualsSeparated)]
+    public string? VcenterCaCertData { get; set; }
+
+    /// <summary>
+    /// vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Name of the vCenter cluster for the user cluster.
+    /// </summary>
+    [CliOption("--vcenter-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? VcenterCluster { get; set; }
+
+    /// <summary>
+    /// vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Name of the vCenter datacenter for the user cluster.
+    /// </summary>
+    [CliOption("--vcenter-datacenter", Format = OptionFormat.EqualsSeparated)]
+    public string? VcenterDatacenter { get; set; }
+
+    /// <summary>
+    /// vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Name of the vCenter datastore for the user cluster.
+    /// </summary>
+    [CliOption("--vcenter-datastore", Format = OptionFormat.EqualsSeparated)]
+    public string? VcenterDatastore { get; set; }
+
+    /// <summary>
+    /// vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Name of the vCenter folder for the user cluster.
+    /// </summary>
+    [CliOption("--vcenter-folder", Format = OptionFormat.EqualsSeparated)]
+    public string? VcenterFolder { get; set; }
+
+    /// <summary>
+    /// vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Name of the vCenter resource pool for the user cluster.
+    /// </summary>
+    [CliOption("--vcenter-resource-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? VcenterResourcePool { get; set; }
+
+    /// <summary>
+    /// vCenter configurations for the cluster. If not specified, it is inherited from the admin cluster. Name of the vCenter storage policy for the user cluster.
+    /// </summary>
+    [CliOption("--vcenter-storage-policy-name", Format = OptionFormat.EqualsSeparated)]
+    public string? VcenterStoragePolicyName { get; set; }
+
+    /// <summary>
+    /// Cluster resource - cluster to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(MetalLbConfigAddressPools)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(ControlPlaneNodePort) || !string.IsNullOrWhiteSpace(IngressHttpNodePort) || !string.IsNullOrWhiteSpace(IngressHttpsNodePort) || !string.IsNullOrWhiteSpace(KonnectivityServerNodePort)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(F5ConfigAddress) || !string.IsNullOrWhiteSpace(F5ConfigPartition) || !string.IsNullOrWhiteSpace(F5ConfigSnatPool)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (MetalLbConfigAddressPools), (ControlPlaneNodePort, IngressHttpNodePort, IngressHttpsNodePort, or KonnectivityServerNodePort), or (F5ConfigAddress, F5ConfigPartition, or F5ConfigSnatPool) must be specified.", [nameof(MetalLbConfigAddressPools), nameof(ControlPlaneNodePort), nameof(IngressHttpNodePort), nameof(IngressHttpsNodePort), nameof(KonnectivityServerNodePort), nameof(F5ConfigAddress), nameof(F5ConfigPartition), nameof(F5ConfigSnatPool)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MetalLbConfigAddressPools) || !string.IsNullOrWhiteSpace(ControlPlaneNodePort) || !string.IsNullOrWhiteSpace(IngressHttpNodePort) || !string.IsNullOrWhiteSpace(IngressHttpsNodePort) || !string.IsNullOrWhiteSpace(KonnectivityServerNodePort) || !string.IsNullOrWhiteSpace(F5ConfigAddress) || !string.IsNullOrWhiteSpace(F5ConfigPartition) || !string.IsNullOrWhiteSpace(F5ConfigSnatPool)) && ((!string.IsNullOrWhiteSpace(MetalLbConfigAddressPools) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of MetalLbConfigAddressPools may be specified.", [nameof(MetalLbConfigAddressPools)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MetalLbConfigAddressPools) || !string.IsNullOrWhiteSpace(ControlPlaneNodePort) || !string.IsNullOrWhiteSpace(IngressHttpNodePort) || !string.IsNullOrWhiteSpace(IngressHttpsNodePort) || !string.IsNullOrWhiteSpace(KonnectivityServerNodePort) || !string.IsNullOrWhiteSpace(F5ConfigAddress) || !string.IsNullOrWhiteSpace(F5ConfigPartition) || !string.IsNullOrWhiteSpace(F5ConfigSnatPool)) && (!string.IsNullOrWhiteSpace(F5ConfigAddress) || !string.IsNullOrWhiteSpace(F5ConfigPartition) || !string.IsNullOrWhiteSpace(F5ConfigSnatPool)) && (!(!string.IsNullOrWhiteSpace(F5ConfigAddress))))
+        {
+            yield return new ValidationResult("F5ConfigAddress must be specified when other arguments in this group are specified.", [nameof(F5ConfigAddress)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MetalLbConfigAddressPools) || !string.IsNullOrWhiteSpace(ControlPlaneNodePort) || !string.IsNullOrWhiteSpace(IngressHttpNodePort) || !string.IsNullOrWhiteSpace(IngressHttpsNodePort) || !string.IsNullOrWhiteSpace(KonnectivityServerNodePort) || !string.IsNullOrWhiteSpace(F5ConfigAddress) || !string.IsNullOrWhiteSpace(F5ConfigPartition) || !string.IsNullOrWhiteSpace(F5ConfigSnatPool)) && (!string.IsNullOrWhiteSpace(F5ConfigAddress) || !string.IsNullOrWhiteSpace(F5ConfigPartition) || !string.IsNullOrWhiteSpace(F5ConfigSnatPool)) && (!(!string.IsNullOrWhiteSpace(F5ConfigPartition))))
+        {
+            yield return new ValidationResult("F5ConfigPartition must be specified when other arguments in this group are specified.", [nameof(F5ConfigPartition)]);
+        }
+        if (((EnableDhcp == true || !string.IsNullOrWhiteSpace(StaticIpConfigIpBlocks)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (EnableDhcp or StaticIpConfigIpBlocks) may be specified.", [nameof(EnableDhcp), nameof(StaticIpConfigIpBlocks)]);
+        }
+        if ((EnableDhcp == true || !string.IsNullOrWhiteSpace(StaticIpConfigIpBlocks)) && (EnableDhcp == true || !string.IsNullOrWhiteSpace(StaticIpConfigIpBlocks)) && ((!string.IsNullOrWhiteSpace(StaticIpConfigIpBlocks) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of StaticIpConfigIpBlocks may be specified.", [nameof(StaticIpConfigIpBlocks)]);
+        }
+        if ((DisableControlPlaneV2 == true ? 1 : 0) + (EnableControlPlaneV2 == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisableControlPlaneV2 or EnableControlPlaneV2 may be specified.", [nameof(DisableControlPlaneV2), nameof(EnableControlPlaneV2)]);
+        }
+        yield break;
+    }
+
 }

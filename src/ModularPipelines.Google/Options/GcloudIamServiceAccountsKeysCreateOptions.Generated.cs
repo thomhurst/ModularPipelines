@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "keys", "create")]
-public record GcloudIamServiceAccountsKeysCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Output
-) : GcloudOptions
+public record GcloudIamServiceAccountsKeysCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a service account key
+    /// </summary>
+    /// <param name="IamAccount">The service account for which to create a key. To list all service accounts in the project, run: $ gcloud iam service-accounts list</param>
+    /// <param name="OutputFile">The path where the resulting private key should be written. File system write permission will be checked on the specified path prior to the key creation.</param>
+    public GcloudIamServiceAccountsKeysCreateOptions(
+        string IamAccount,
+        string OutputFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IamAccount);
+        this.IamAccount = IamAccount;
+        global::System.ArgumentNullException.ThrowIfNull(OutputFile);
+        this.OutputFile = OutputFile;
+    }
+
+    public void Deconstruct(out string IamAccount, out string OutputFile)
+    {
+        IamAccount = this.IamAccount;
+        OutputFile = this.OutputFile;
+    }
+
+    /// <summary>
+    /// The service account for which to create a key. To list all service accounts in the project, run: $ gcloud iam service-accounts list
+    /// </summary>
+    [CliOption("--iam-account", Format = OptionFormat.EqualsSeparated)]
+    public string IamAccount { get; private init; }
+
+    /// <summary>
+    /// The type of key to create. KEY_FILE_TYPE must be one of: json, p12.
+    /// </summary>
+    [CliOption("--key-file-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudIamServiceAccountsKeysCreateKeyFileType? KeyFileType { get; set; }
+
+    /// <summary>
+    /// The path where the resulting private key should be written. File system write permission will be checked on the specified path prior to the key creation.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OutputFile { get; private init; }
+
 }

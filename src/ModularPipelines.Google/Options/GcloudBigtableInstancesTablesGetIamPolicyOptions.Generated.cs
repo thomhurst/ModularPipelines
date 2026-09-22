@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bigtable", "instances", "tables", "get-iam-policy")]
 public record GcloudBigtableInstancesTablesGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get an IAM policy on a     Cloud Bigtable table
+    /// </summary>
+    /// <param name="Table">Table resource - Cloud Bigtable table to get the IAM policy for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument table on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the table or fully qualified identifier for the table. To set the table attribute: ▸ provide the argument table on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBigtableInstancesTablesGetIamPolicyOptions(
+        string Table
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Table);
+        this.Table = Table;
+    }
+
+    public void Deconstruct(out string Table)
+    {
+        Table = this.Table;
+    }
+
+    /// <summary>
+    /// Table resource - Cloud Bigtable table to get the IAM policy for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument table on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable instance. To set the instance attribute: ▸ provide the argument table on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Table resource - Cloud Bigtable table to get the IAM policy for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument table on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the table or fully qualified identifier for the table. To set the table attribute: ▸ provide the argument table on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Table { get; private init; }
+
 }

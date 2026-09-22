@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bms", "ssh-keys", "add")]
-public record GcloudBmsSshKeysAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Ssh
-) : GcloudOptions
+public record GcloudBmsSshKeysAddOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// add a public SSH key to the project in Bare Metal     Solution
+    /// </summary>
+    /// <param name="SshKey">SSH key resource - ssh_key. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ssh_key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument ssh_key on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the SSH key or fully qualified identifier for the SSH key. To set the ssh_key attribute: ▸ provide the argument ssh_key on the command line.</param>
+    public GcloudBmsSshKeysAddOptions(
+        string SshKey
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SshKey);
+        this.SshKey = SshKey;
+    }
+
+    public void Deconstruct(out string SshKey)
+    {
+        SshKey = this.SshKey;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The SSH public key to add
+    /// </summary>
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
+    public string? Key { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The path to a file containing an SSH public key to add
+    /// </summary>
+    [CliOption("--key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? KeyFile { get; set; }
+
+    /// <summary>
+    /// SSH key resource - ssh_key. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ssh_key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument ssh_key on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the SSH key or fully qualified identifier for the SSH key. To set the ssh_key attribute: ▸ provide the argument ssh_key on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SshKey { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Key) ? 1 : 0) + (!string.IsNullOrWhiteSpace(KeyFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Key or KeyFile must be specified.", [nameof(Key), nameof(KeyFile)]);
+        }
+        yield break;
+    }
+
 }

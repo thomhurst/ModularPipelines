@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,15 +20,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "hash")]
-public record GcloudStorageHashOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Urls
-) : GcloudOptions
+public record GcloudStorageHashOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
+    /// calculates hashes on local or cloud files
     /// </summary>
-    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
-    public string? AdditionalHeaders { get; set; }
+    /// <param name="Urls">Local or cloud URLs of objects to hash.</param>
+    public GcloudStorageHashOptions(
+        IEnumerable<string> Urls
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Urls);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Urls));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Urls));
+            }
+
+            Urls = materialized;
+        }
+        this.Urls = Urls;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Urls)
+    {
+        Urls = this.Urls;
+    }
+
+    /// <summary>
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdditionalHeaders { get; set; }
 
     /// <summary>
     /// Output hash digests in hex format. By default, digests are displayed in base64.
@@ -46,5 +73,21 @@ public record GcloudStorageHashOptions(
     /// </summary>
     [CliFlag("--skip-md5")]
     public bool? SkipMd5 { get; set; }
+
+    /// <summary>
+    /// Local or cloud URLs of objects to hash.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Urls { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((SkipCrc32c == true ? 1 : 0) + (SkipMd5 == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SkipCrc32c or SkipMd5 may be specified.", [nameof(SkipCrc32c), nameof(SkipMd5)]);
+        }
+        yield break;
+    }
 
 }

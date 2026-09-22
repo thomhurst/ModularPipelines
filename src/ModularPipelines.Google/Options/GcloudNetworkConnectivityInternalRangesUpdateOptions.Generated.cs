@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "internal-ranges", "update")]
-public record GcloudNetworkConnectivityInternalRangesUpdateOptions : GcloudOptions
+public record GcloudNetworkConnectivityInternalRangesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update an internal     range
+    /// </summary>
+    /// <param name="InternalRange">Internal range resource - Name of the internal range to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument internal_range on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the internal range or fully qualified identifier for the internal range. To set the internal_range attribute: ▸ provide the argument internal_range on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkConnectivityInternalRangesUpdateOptions(
+        string InternalRange
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InternalRange);
+        this.InternalRange = InternalRange;
+    }
+
+    public void Deconstruct(out string InternalRange)
+    {
+        InternalRange = this.InternalRange;
+    }
+
+    /// <summary>
+    /// Internal range resource - Name of the internal range to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument internal_range on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location ID. To set the region attribute: ▸ provide the argument internal_range on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ use default global location .
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -41,10 +65,14 @@ public record GcloudNetworkConnectivityInternalRangesUpdateOptions : GcloudOptio
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label KEY=VALUE pairs for the range being updated.
+    /// At most one of these can be specified: List of label KEY=VALUE pairs for the range being updated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
     /// At most one of these can be specified: Clear existing overlap fields for the range.
@@ -53,10 +81,32 @@ public record GcloudNetworkConnectivityInternalRangesUpdateOptions : GcloudOptio
     public bool? ClearOverlaps { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Overlap specifications for the range being updated. OVERLAPS must be one of: overlap-existing-subnet-range Allows for creation of internal ranges that overlap with existing subnets. overlap-route-range Allows for creation or existence of routes that have a more specific destination than the created range.
+    /// At most one of these can be specified: Overlap specifications for the range being updated. OVERLAPS must be one of: overlap-existing-subnet-range Allows for creation of internal ranges that overlap with existing subnets. overlap-route-range Allows for creation or existence of routes that have a more specific destination than the created range. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--overlaps", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Overlaps { get; set; }
+    [CliOption("--overlaps", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Overlaps
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __OverlapsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __OverlapsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: IP range that this internal range defines.
@@ -69,5 +119,29 @@ public record GcloudNetworkConnectivityInternalRangesUpdateOptions : GcloudOptio
     /// </summary>
     [CliOption("--prefix-length", Format = OptionFormat.EqualsSeparated)]
     public string? PrefixLength { get; set; }
+
+    /// <summary>
+    /// Internal range resource - Name of the internal range to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument internal_range on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the internal range or fully qualified identifier for the internal range. To set the internal_range attribute: ▸ provide the argument internal_range on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InternalRange { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearLabels == true ? 1 : 0) + (((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or Labels may be specified.", [nameof(ClearLabels), nameof(Labels)]);
+        }
+        if ((ClearOverlaps == true ? 1 : 0) + (((object?)Overlaps is global::System.Collections.Generic.IEnumerable<char> ? (object?)Overlaps is not string || !string.IsNullOrWhiteSpace(Overlaps?.ToString()) : ((object?)Overlaps is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Overlaps, static item => item is not null) : (Overlaps is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Overlaps), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearOverlaps or Overlaps may be specified.", [nameof(ClearOverlaps), nameof(Overlaps)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(IpCidrRange) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PrefixLength) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of IpCidrRange or PrefixLength may be specified.", [nameof(IpCidrRange), nameof(PrefixLength)]);
+        }
+        yield break;
+    }
 
 }

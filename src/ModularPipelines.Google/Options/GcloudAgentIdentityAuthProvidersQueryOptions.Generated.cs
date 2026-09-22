@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("agent-identity", "auth-providers", "query")]
 public record GcloudAgentIdentityAuthProvidersQueryOptions : GcloudOptions
 {
+    /// <summary>
+    /// query auth providers used by a     workload
+    /// </summary>
+    /// <param name="Location">Location resource - The parent resource where the search is performed. Format: projects/{project}/locations/{location} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.</param>
+    /// <param name="WorkloadId">The workload identifier to filter by.</param>
+    public GcloudAgentIdentityAuthProvidersQueryOptions(
+        string Location,
+        string WorkloadId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadId);
+        this.WorkloadId = WorkloadId;
+    }
+
+    public void Deconstruct(out string Location, out string WorkloadId)
+    {
+        Location = this.Location;
+        WorkloadId = this.WorkloadId;
+    }
+
+    /// <summary>
+    /// Location resource - The parent resource where the search is performed. Format: projects/{project}/locations/{location} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The workload identifier to filter by.
+    /// </summary>
+    [CliOption("--workload-id", Format = OptionFormat.EqualsSeparated)]
+    public string WorkloadId { get; private init; }
+
 }

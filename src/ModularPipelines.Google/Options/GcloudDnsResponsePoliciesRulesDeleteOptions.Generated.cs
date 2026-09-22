@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDnsResponsePoliciesRulesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// deletes a Cloud DNS response     policy rule
+    /// </summary>
+    /// <param name="ResponsePolicyRule">Response policy rule resource - The response policy rule to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument response_policy_rule on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the response_policy_rule or fully qualified identifier for the response_policy_rule. To set the response-policy-rule attribute: ▸ provide the argument response_policy_rule on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDnsResponsePoliciesRulesDeleteOptions(
+        string ResponsePolicyRule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResponsePolicyRule);
+        this.ResponsePolicyRule = ResponsePolicyRule;
+    }
+
+    public void Deconstruct(out string ResponsePolicyRule)
+    {
+        ResponsePolicyRule = this.ResponsePolicyRule;
+    }
+
+    /// <summary>
+    /// Response policy rule resource - The response policy rule to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument response_policy_rule on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The Cloud DNS response policy name response_policy_rule. To set the response-policy attribute: ▸ provide the argument response_policy_rule on the command line with a fully specified name; ▸ provide the argument --response-policy on the command line.
+    /// </summary>
+    [CliOption("--response-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? ResponsePolicy { get; set; }
+
+    /// <summary>
     /// Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// Response policy rule resource - The response policy rule to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument response_policy_rule on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the response_policy_rule or fully qualified identifier for the response_policy_rule. To set the response-policy-rule attribute: ▸ provide the argument response_policy_rule on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ResponsePolicyRule { get; private init; }
 
 }

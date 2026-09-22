@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,85 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-security", "mirroring-endpoint-group-associations", "create")]
 public record GcloudNetworkSecurityMirroringEndpointGroupAssociationsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Mirroring Endpoint Group Association
+    /// </summary>
+    /// <param name="Network">Network resource - Mirroring Endpoint Group Association. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the network or fully qualified identifier for the network. To set the network-name attribute: ▸ provide the argument --network on the command line.</param>
+    /// <param name="MirroringEndpointGroup">Mirroring endpoint group resource - Mirroring Endpoint Group. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --mirroring-endpoint-group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the mirroring endpoint group or fully qualified identifier for the mirroring endpoint group. To set the id attribute: ▸ provide the argument --mirroring-endpoint-group on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="MirroringEndpointGroupAssociation">Mirroring endpoint group association resource - Mirroring Endpoint Group Association. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument MIRRORING_ENDPOINT_GROUP_ASSOCIATION on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the mirroring endpoint group association or fully qualified identifier for the mirroring endpoint group association. To set the endpoint-group-association-id attribute: ▸ provide the argument MIRRORING_ENDPOINT_GROUP_ASSOCIATION on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecurityMirroringEndpointGroupAssociationsCreateOptions(
+        string Network,
+        string MirroringEndpointGroup,
+        string MirroringEndpointGroupAssociation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(MirroringEndpointGroup);
+        this.MirroringEndpointGroup = MirroringEndpointGroup;
+        global::System.ArgumentNullException.ThrowIfNull(MirroringEndpointGroupAssociation);
+        this.MirroringEndpointGroupAssociation = MirroringEndpointGroupAssociation;
+    }
+
+    public void Deconstruct(out string Network, out string MirroringEndpointGroup, out string MirroringEndpointGroupAssociation)
+    {
+        Network = this.Network;
+        MirroringEndpointGroup = this.MirroringEndpointGroup;
+        MirroringEndpointGroupAssociation = this.MirroringEndpointGroupAssociation;
+    }
+
+    /// <summary>
+    /// Network resource - Mirroring Endpoint Group Association. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the network or fully qualified identifier for the network. To set the network-name attribute: ▸ provide the argument --network on the command line.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// Mirroring endpoint group resource - Mirroring Endpoint Group. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --mirroring-endpoint-group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the mirroring endpoint group or fully qualified identifier for the mirroring endpoint group. To set the id attribute: ▸ provide the argument --mirroring-endpoint-group on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--mirroring-endpoint-group", Format = OptionFormat.EqualsSeparated)]
+    public string MirroringEndpointGroup { get; private init; }
+
+    /// <summary>
+    /// Mirroring endpoint group association resource - Mirroring Endpoint Group Association. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument MIRRORING_ENDPOINT_GROUP_ASSOCIATION on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the mirroring endpoint group association. To set the location attribute: ▸ provide the argument MIRRORING_ENDPOINT_GROUP_ASSOCIATION on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Mirroring endpoint group resource - Mirroring Endpoint Group. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --mirroring-endpoint-group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the mirroring endpoint group. To set the location attribute: ▸ provide the argument --mirroring-endpoint-group on the command line with a fully specified name; ▸ provide the argument --mirroring-endpoint-group-location on the command line; ▸ provide the argument --location on the command line; ▸ provide the argument networksecurity.projects.locations.mirroringEndpointGroupAssociations on the command line with a fully specified name.
+    /// </summary>
+    [CliOption("--mirroring-endpoint-group-location", Format = OptionFormat.EqualsSeparated)]
+    public string? MirroringEndpointGroupLocation { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Time to synchronously wait for the operation to complete, after which the operation continues asynchronously. Ignored if --no-async isn't specified. See $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--max-wait", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxWait { get; set; }
+
+    /// <summary>
+    /// Mirroring endpoint group association resource - Mirroring Endpoint Group Association. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument MIRRORING_ENDPOINT_GROUP_ASSOCIATION on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the mirroring endpoint group association or fully qualified identifier for the mirroring endpoint group association. To set the endpoint-group-association-id attribute: ▸ provide the argument MIRRORING_ENDPOINT_GROUP_ASSOCIATION on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MirroringEndpointGroupAssociation { get; private init; }
+
 }

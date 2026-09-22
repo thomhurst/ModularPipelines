@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "hmac", "create")]
-public record GcloudStorageHmacCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ServiceAccount
-) : GcloudOptions
+public record GcloudStorageHmacCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// add a service account HMAC
+    /// </summary>
+    /// <param name="ServiceAccount">The service account email.</param>
+    public GcloudStorageHmacCreateOptions(
+        string ServiceAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceAccount);
+        this.ServiceAccount = ServiceAccount;
+    }
+
+    public void Deconstruct(out string ServiceAccount)
+    {
+        ServiceAccount = this.ServiceAccount;
+    }
+
+    /// <summary>
+    /// The service account email.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ServiceAccount { get; private init; }
+
 }

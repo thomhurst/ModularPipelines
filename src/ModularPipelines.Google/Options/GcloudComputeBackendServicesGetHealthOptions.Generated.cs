@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-services", "get-health")]
-public record GcloudComputeBackendServicesGetHealthOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendServiceName
-) : GcloudOptions
+public record GcloudComputeBackendServicesGetHealthOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// get backend health statuses     from a backend service
+    /// </summary>
+    /// <param name="BackendServiceName">Name of the backend service to operate on.</param>
+    public GcloudComputeBackendServicesGetHealthOptions(
+        string BackendServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackendServiceName);
+        this.BackendServiceName = BackendServiceName;
+    }
+
+    public void Deconstruct(out string BackendServiceName)
+    {
+        BackendServiceName = this.BackendServiceName;
+    }
+
     /// <summary>
     /// At most one of these can be specified: If set, the backend service is global.
     /// </summary>
@@ -34,5 +50,21 @@ public record GcloudComputeBackendServicesGetHealthOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the backend service to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackendServiceName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
 
 }

@@ -21,4 +21,56 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bigtable", "schema-bundles", "create")]
 public record GcloudBigtableSchemaBundlesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new Bigtable schema bundle
+    /// </summary>
+    /// <param name="ProtoDescriptorsFile">Path of a file that contains a protobuf-serialized google.protobuf.FileDescriptorSet message. If specified, the schema bundle contains the protobuf schema. To generate the file, install and run protoc with the following command: protoc --proto_path=IMPORT_PATH --include_imports --descriptor_set_out=DESCRIPTOR_OUTPUT_LOCATION path/to/file.proto where the --proto_path option specificies where to look for .proto files when resolving import directives (the current directory is used if you do not provide a value), and the --descriptor_set_out option specifies where you want the generated FileDescriptorSet to be written.</param>
+    /// <param name="SchemaBundle">Schema bundle resource - Bigtable schema bundle to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema_bundle on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the schema-bundle or fully qualified identifier for the schema-bundle. To set the schema_bundle attribute: ▸ provide the argument schema_bundle on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBigtableSchemaBundlesCreateOptions(
+        string ProtoDescriptorsFile,
+        string SchemaBundle
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProtoDescriptorsFile);
+        this.ProtoDescriptorsFile = ProtoDescriptorsFile;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaBundle);
+        this.SchemaBundle = SchemaBundle;
+    }
+
+    public void Deconstruct(out string ProtoDescriptorsFile, out string SchemaBundle)
+    {
+        ProtoDescriptorsFile = this.ProtoDescriptorsFile;
+        SchemaBundle = this.SchemaBundle;
+    }
+
+    /// <summary>
+    /// Path of a file that contains a protobuf-serialized google.protobuf.FileDescriptorSet message. If specified, the schema bundle contains the protobuf schema. To generate the file, install and run protoc with the following command: protoc --proto_path=IMPORT_PATH --include_imports --descriptor_set_out=DESCRIPTOR_OUTPUT_LOCATION path/to/file.proto where the --proto_path option specificies where to look for .proto files when resolving import directives (the current directory is used if you do not provide a value), and the --descriptor_set_out option specifies where you want the generated FileDescriptorSet to be written.
+    /// </summary>
+    [CliOption("--proto-descriptors-file", Format = OptionFormat.EqualsSeparated)]
+    public string ProtoDescriptorsFile { get; private init; }
+
+    /// <summary>
+    /// Schema bundle resource - Bigtable schema bundle to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema_bundle on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable instance. To set the instance attribute: ▸ provide the argument schema_bundle on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Schema bundle resource - Bigtable schema bundle to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema_bundle on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable table. To set the table attribute: ▸ provide the argument schema_bundle on the command line with a fully specified name; ▸ provide the argument --table on the command line.
+    /// </summary>
+    [CliOption("--table", Format = OptionFormat.EqualsSeparated)]
+    public string? Table { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Schema bundle resource - Bigtable schema bundle to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema_bundle on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the schema-bundle or fully qualified identifier for the schema-bundle. To set the schema_bundle attribute: ▸ provide the argument schema_bundle on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SchemaBundle { get; private init; }
+
 }

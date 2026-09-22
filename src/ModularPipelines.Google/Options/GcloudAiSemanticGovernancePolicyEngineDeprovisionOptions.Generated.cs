@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("ai", "semantic-governance-policy-engine", "deprovision")]
 public record GcloudAiSemanticGovernancePolicyEngineDeprovisionOptions : GcloudOptions
 {
+    /// <summary>
+    /// deprovision the     semantic governance policy engine
+    /// </summary>
+    /// <param name="Location">Location resource - The semantic governance policy engine to deprovision. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.</param>
+    public GcloudAiSemanticGovernancePolicyEngineDeprovisionOptions(
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Location)
+    {
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// Location resource - The semantic governance policy engine to deprovision. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "firewall-endpoint-associations", "list")]
-public record GcloudNetworkSecurityFirewallEndpointAssociationsListOptions : GcloudOptions
+public record GcloudNetworkSecurityFirewallEndpointAssociationsListOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// At most one of these can be specified: Location of the firewall endpoint association
@@ -32,5 +33,15 @@ public record GcloudNetworkSecurityFirewallEndpointAssociationsListOptions : Gcl
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Location) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Location or Zone may be specified.", [nameof(Location), nameof(Zone)]);
+        }
+        yield break;
+    }
 
 }

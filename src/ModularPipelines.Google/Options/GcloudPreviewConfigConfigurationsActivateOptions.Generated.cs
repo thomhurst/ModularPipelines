@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "config", "configurations", "activate")]
-public record GcloudPreviewConfigConfigurationsActivateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ConfigurationName
-) : GcloudOptions
+public record GcloudPreviewConfigConfigurationsActivateOptions : GcloudOptions
 {
+    /// <summary>
+    /// activates an existing named     configuration
+    /// </summary>
+    /// <param name="ConfigurationName">Name of the configuration to activate</param>
+    public GcloudPreviewConfigConfigurationsActivateOptions(
+        string ConfigurationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationName);
+        this.ConfigurationName = ConfigurationName;
+    }
+
+    public void Deconstruct(out string ConfigurationName)
+    {
+        ConfigurationName = this.ConfigurationName;
+    }
+
+    /// <summary>
+    /// Name of the configuration to activate
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConfigurationName { get; private init; }
+
 }

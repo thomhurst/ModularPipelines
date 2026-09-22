@@ -19,8 +19,70 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "record-sets", "import")]
-public record GcloudDnsRecordSetsImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RecordsFile
-) : GcloudOptions
+public record GcloudDnsRecordSetsImportOptions : GcloudOptions
 {
+    /// <summary>
+    /// zone
+    /// </summary>
+    /// <param name="Zone">Name of the managed zone whose record sets you want to manage.</param>
+    /// <param name="RecordsFile">File from which record-sets should be imported. For examples of YAML-formatted and BIND zone-formatted records files, refer to https://cloud.google.com/dns/records#importing_and_exporting_record_sets</param>
+    public GcloudDnsRecordSetsImportOptions(
+        string Zone,
+        string RecordsFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+        global::System.ArgumentNullException.ThrowIfNull(RecordsFile);
+        this.RecordsFile = RecordsFile;
+    }
+
+    public void Deconstruct(out string Zone, out string RecordsFile)
+    {
+        Zone = this.Zone;
+        RecordsFile = this.RecordsFile;
+    }
+
+    /// <summary>
+    /// Name of the managed zone whose record sets you want to manage.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
+    /// <summary>
+    /// Indicates that all existing record-sets should be deleted before importing the record-sets in the records-file.
+    /// </summary>
+    [CliFlag("--delete-all-existing")]
+    public bool? DeleteAllExisting { get; set; }
+
+    /// <summary>
+    /// Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Indicates that NS records for the origin of a zone should be imported if defined
+    /// </summary>
+    [CliFlag("--replace-origin-ns")]
+    public bool? ReplaceOriginNs { get; set; }
+
+    /// <summary>
+    /// Skip incrementing the serial number of the SOA record when making changes to the record-sets.
+    /// </summary>
+    [CliFlag("--skip-soa-update")]
+    public bool? SkipSoaUpdate { get; set; }
+
+    /// <summary>
+    /// Indicates that the input records-file is in BIND zone format. If omitted, indicates that the records-file is in YAML format.
+    /// </summary>
+    [CliFlag("--zone-file-format")]
+    public bool? ZoneFileFormat { get; set; }
+
+    /// <summary>
+    /// File from which record-sets should be imported. For examples of YAML-formatted and BIND zone-formatted records files, refer to https://cloud.google.com/dns/records#importing_and_exporting_record_sets
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RecordsFile { get; private init; }
+
 }

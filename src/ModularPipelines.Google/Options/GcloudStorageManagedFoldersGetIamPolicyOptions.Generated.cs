@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "managed-folders", "get-iam-policy")]
-public record GcloudStorageManagedFoldersGetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Url
-) : GcloudOptions
+public record GcloudStorageManagedFoldersGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the IAM policy for a     managed folder
+    /// </summary>
+    /// <param name="Url">URL of the managed folder to get the IAM policy of.</param>
+    public GcloudStorageManagedFoldersGetIamPolicyOptions(
+        string Url
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Url);
+        this.Url = Url;
+    }
+
+    public void Deconstruct(out string Url)
+    {
+        Url = this.Url;
+    }
+
+    /// <summary>
+    /// URL of the managed folder to get the IAM policy of.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Url { get; private init; }
+
 }

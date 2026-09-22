@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "ssl-certificates", "describe")]
-public record GcloudAppSslCertificatesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
-) : GcloudOptions
+public record GcloudAppSslCertificatesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describes a specified SSL     certificate
+    /// </summary>
+    /// <param name="Id">The id of the certificate. This identifier is printed upon creation of a new certificate. Run gcloud app ssl-certificates list to view existing certificates.</param>
+    public GcloudAppSslCertificatesDescribeOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
+    /// <summary>
+    /// The id of the certificate. This identifier is printed upon creation of a new certificate. Run gcloud app ssl-certificates list to view existing certificates.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Id { get; private init; }
+
 }
