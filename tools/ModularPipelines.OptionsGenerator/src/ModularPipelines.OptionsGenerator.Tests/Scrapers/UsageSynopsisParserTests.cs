@@ -383,12 +383,36 @@ public class UsageSynopsisParserTests
     [Arguments("(--global | TARGET --mode=MODE)")]
     [Arguments("{TARGET --mode=MODE | --global}")]
     [Arguments("(WORKLOAD_ID --external-identifier=EXTERNAL_IDENTIFIER | --workload-id=FLAG_WORKLOAD_ID)")]
-    public async Task Rejects_Required_Bundled_Operand_Alternatives(string group)
+    public async Task Preserves_Required_Bundled_Operand_Alternatives(string group)
     {
-        await Assert.That(() => UsageSynopsisParser.Parse(
-                $"Usage: tool show {group}", ["tool", "show"]))
-            .Throws<InvalidOperationException>()
-            .And.WithMessageContaining("unsupported required bundled operand alternatives");
+        var usage = UsageSynopsisParser.Parse($"Usage: tool show {group}", ["tool", "show"]);
+        var choice = usage.RequiredAlternativeGroups.Single();
+        await Assert.That(choice.IsRequired).IsTrue();
+        await Assert.That(choice.IsChoice).IsTrue();
+        await Assert.That(choice.Members.Count).IsEqualTo(1);
+        var bundle = choice.Groups.Single();
+        await Assert.That(bundle.IsChoice).IsFalse();
+        await Assert.That(bundle.Members.Count).IsEqualTo(2);
+        await Assert.That(bundle.Members.All(member => member.IsRequired)).IsTrue();
+        await Assert.That(usage.PositionalArguments.Single().IsRequired).IsFalse();
+        await Assert.That(usage.RequiredOptionSwitches).IsEmpty();
+    }
+
+    [Test]
+    [Arguments("(TARGET ... | --all)")]
+    [Arguments("(--all | TARGET ...)")]
+    public async Task Required_Alternatives_Preserve_Standalone_Repeat_Markers(string group)
+    {
+        var usage = UsageSynopsisParser.Parse($"Usage: tool show {group}", ["tool", "show"]);
+        var argument = usage.PositionalArguments.Single();
+        await Assert.That(argument.PropertyName).IsEqualTo("Target");
+        await Assert.That(argument.IsVariadic).IsTrue();
+        await Assert.That(argument.IsRequired).IsFalse();
+        var choice = usage.RequiredAlternativeGroups.Single();
+        await Assert.That(choice.IsRequired).IsTrue();
+        await Assert.That(choice.Groups).IsEmpty();
+        await Assert.That(choice.Members.Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!))
+            .IsEquivalentTo(["Target", "--all"]);
     }
 
     [Test]

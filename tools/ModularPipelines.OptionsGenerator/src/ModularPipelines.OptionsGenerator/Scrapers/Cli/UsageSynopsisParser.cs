@@ -249,7 +249,15 @@ public static class UsageSynopsisParser
                         alternative);
                 })
                 .ToArray();
-            if (alternativeMembers.Any(static members => members.Count != 1))
+            if (alternativeMembers.Any(static members => members.Count == 0))
+            {
+                continue;
+            }
+
+            // Conjunction inference follows the same operand-bearing branch extraction.
+            // Other forms retain their existing option-specific reconciliation.
+            if (alternativeMembers.Any(static members => members.Count > 1)
+                && GetBundledOperandBranch(alternatives) is null)
             {
                 continue;
             }
@@ -258,7 +266,13 @@ public static class UsageSynopsisParser
             if (members.Count > 1
                 && members.Any(static member => member.OptionSwitch is not null))
             {
-                groups.Add(new UsageRequiredAlternativeGroup { Members = members });
+                groups.Add(new UsageRequiredAlternativeGroup
+                {
+                    Members = DistinctAlternativeMembers(alternativeMembers
+                        .Where(static branch => branch.Count == 1).SelectMany(static branch => branch)),
+                    Groups = [.. alternativeMembers.Where(static branch => branch.Count > 1)
+                        .Select(static branch => new UsageRequiredAlternativeGroup { IsChoice = false, Members = branch })],
+                });
             }
         }
 
@@ -323,7 +337,7 @@ public static class UsageSynopsisParser
         [
             .. selected.RequiredAlternativeGroups.Where(group =>
                 group.IsRequired
-                    ? candidateMemberKeys.All(keys => group.Members.Any(member => keys.Contains(GetAlternativeMemberKey(member))))
+                    ? candidateMemberKeys.All(keys => group.EnumerateMembers().Any(member => keys.Contains(GetAlternativeMemberKey(member))))
                     : candidates.All(candidate => candidate.RequiredAlternativeGroups.Any(alternative =>
                         HaveSameConstraint(group, alternative)))),
             .. GetCrossSynopsisRequiredAlternativeGroups(candidates, selected.PositionalArguments),
@@ -1338,14 +1352,8 @@ public static class UsageSynopsisParser
                 return false;
             }
 
-            if (IsRequiredUsageToken(normalizedToken))
-            {
-                throw new InvalidOperationException(
-                    $"Usage synopsis has unsupported required bundled operand alternatives '{token}'.");
-            }
-
             // A single operand-bearing branch can bundle an operand with flags.
-            // Extract only optional groups until required branch conjunctions can be preserved.
+            // Its operands stay optional; the enclosing choice validates complete branches.
             return TryParseNestedOperands(branch, false, positionIndex, phase, out arguments, out requiredOptionSwitches);
         }
 
