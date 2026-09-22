@@ -247,6 +247,99 @@ function Select-MergeCleanupWorktree {
     return $null
 }
 
+function Get-WorktreeAgentLockNames {
+    param([Parameter(Mandatory)][string]$Worktree, [string]$Branch)
+
+    $names = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+    $extension = git -C $Worktree config --local --bool --get extensions.worktreeConfig 2>$null
+    if ($LASTEXITCODE -notin @(0, 1)) { throw 'Cannot inspect worktree configuration.' }
+    if ($extension -eq 'true') {
+        $marker = git -C $Worktree config --worktree --get agent.lockName 2>$null
+        if ($LASTEXITCODE -notin @(0, 1)) { throw 'Cannot inspect worktree ownership marker.' }
+        if (-not [string]::IsNullOrWhiteSpace($marker)) { [void]$names.Add($marker.Trim()) }
+    }
+
+    # The canonical path identifies a detached setup checkout before renew writes its marker.
+    $leaf = Split-Path -Path $Worktree -Leaf
+    if ($leaf -match '^(?<Lock>(?:pr|issue)-\d+)(?:-|$)') {
+        [void]$names.Add($Matches.Lock.ToLowerInvariant())
+    }
+    foreach ($match in [regex]::Matches($Branch, '(?:^|[-/])((?:pr|issue)-\d+)(?=$|[-/])', 'IgnoreCase')) {
+        [void]$names.Add($match.Groups[1].Value.ToLowerInvariant())
+    }
+    return $names | Sort-Object -CaseSensitive
+}
+
+function Invoke-WorktreeAgentLock {
+    param(
+        [Parameter(Mandatory)][string]$ScriptPath,
+        [Parameter(Mandatory)][ValidateSet('status', 'acquire', 'release')][string]$Verb,
+        [Parameter(Mandatory)][string]$LockName,
+        [Parameter(Mandatory)][string]$OwnerId
+    )
+
+    # Acquire prints a token. Never forward it, including on a failed cleanup attempt.
+    $output = @(& pwsh -NoProfile -File $ScriptPath $Verb -LockName $LockName -OwnerId $OwnerId 2>&1)
+    return [pscustomobject]@{
+        ExitCode = $LASTEXITCODE
+        Status = if ($Verb -eq 'status') { ($output -join "`n").Trim() } else { '' }
+    }
+}
+
+function Invoke-WithWorktreeCleanupLocks {
+    param(
+        [Parameter(Mandatory)][string]$RepoPath,
+        [Parameter(Mandatory)][string]$Worktree,
+        [string]$Branch = '',
+        [Parameter(Mandatory)][scriptblock]$Action,
+        [switch]$WhatIf
+    )
+
+    try { $names = @(Get-WorktreeAgentLockNames -Worktree $Worktree -Branch $Branch) }
+    catch {
+        Write-Host "Preserving worktree: ownership could not be inspected: $Worktree"
+        return
+    }
+    $agentLocks = Join-Path $RepoPath 'scripts/AgentLocks.ps1'
+    if ($names.Count -gt 0 -and -not (Test-Path -LiteralPath $agentLocks -PathType Leaf)) {
+        Write-Host "Preserving worktree: canonical lock script is unavailable: $Worktree"
+        return
+    }
+
+    $owner = "worktree-cleanup-$([Guid]::NewGuid().ToString('N'))"
+    $acquired = [Collections.Generic.List[string]]::new()
+    try {
+        foreach ($name in $names) {
+            $verb = if ($WhatIf) { 'status' } else { 'acquire' }
+            try {
+                $result = Invoke-WorktreeAgentLock -ScriptPath $agentLocks -Verb $verb -LockName $name -OwnerId $owner
+            }
+            catch {
+                Write-Host "Preserving worktree: lock $name could not be checked: $Worktree"
+                return
+            }
+            if ($result.ExitCode -ne 0 -or ($WhatIf -and $result.Status -ne 'FREE')) {
+                Write-Host "Preserving worktree: lock $name is held or unavailable: $Worktree"
+                return
+            }
+            if (-not $WhatIf) { $acquired.Add($name) }
+        }
+
+        # Keep reservations through deletion, rather than checking FREE then racing a new owner.
+        & $Action
+    }
+    finally {
+        for ($index = $acquired.Count - 1; $index -ge 0; $index--) {
+            $name = $acquired[$index]
+            try {
+                $released = Invoke-WorktreeAgentLock -ScriptPath $agentLocks -Verb release -LockName $name -OwnerId $owner
+                if ($released.ExitCode -ne 0) { Write-Host "WARNING: could not release cleanup reservation $name." }
+            }
+            catch { Write-Host "WARNING: could not release cleanup reservation $name." }
+        }
+    }
+}
+
 function Remove-MergedWorktree {
     [CmdletBinding()]
     param(

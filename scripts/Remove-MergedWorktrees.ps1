@@ -40,6 +40,7 @@
 # Guards (never delete work):
 #   - skip the main checkout and anything inside it (.claude/worktrees is harness-managed)
 #   - skip locked worktrees (an agent session may still own them)
+#   - reserve canonical Redis item locks before removing a candidate; preserve active or unverifiable ownership
 #   - skip a branch/tip that has an OPEN PR (branch reused for active work)
 #   - PRESERVE any worktree with uncommitted tracked changes (shared helper)
 #   - worktrees with NO merge evidence are kept and listed; opt in to reaping old
@@ -247,15 +248,17 @@ try {
 
         if (-not $why) { $unmatched += $w; continue }
 
-        Remove-MergedWorktree -Repo $mainRepo -Worktree $w.Path -Label "($why)" -WhatIf:$WhatIf
+        Invoke-WithWorktreeCleanupLocks -RepoPath $mainRepo -Worktree $w.Path -Branch $w.Branch -WhatIf:$WhatIf -Action {
+            Remove-MergedWorktree -Repo $mainRepo -Worktree $w.Path -Label "($why)" -WhatIf:$WhatIf
+            # Keep the item reservation through branch cleanup so a new owner cannot
+            # reuse the branch between removal and deletion.
+            if (-not $WhatIf -and -not (Test-Path -LiteralPath $w.Path) -and $w.Branch -and $why -like 'merged PR*') {
+                git -C $mainRepo branch -D $w.Branch 2>$null
+            }
+        }
         if ($WhatIf) { continue }
         if (-not (Test-Path -LiteralPath $w.Path)) {
             $removed++
-            # Once the PR is merged the local branch has served its purpose; drop it so
-            # `git branch` does not pile up alongside the worktrees. -D because a squash
-            # merge leaves the tip unreachable from main by design. Never done for the
-            # stale tier (no merge evidence).
-            if ($w.Branch -and $why -like 'merged PR*') { git -C $mainRepo branch -D $w.Branch 2>$null }
         }
     }
 
