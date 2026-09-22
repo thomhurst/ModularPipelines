@@ -11,7 +11,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Snyk.Enums;
 
 /// <summary>
-/// Allowed values for --reachability-filter
+/// Allowed values for --reachability-filter.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum SnykReachabilityFilter
