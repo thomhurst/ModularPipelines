@@ -72,9 +72,7 @@ internal static partial class CliArgumentGroupParser
             // group's flags. Compare headings before treating that depth as nesting.
             // Within a classified branch, same-depth constraints still belong to that branch.
             // A synopsis can also establish a shared optional bundle when prose is unclassified.
-            var sharesOptionalGroup = stack.Peek().Arguments.Count > 0
-                && optionalOptionGroups?.Any(group => group.Contains(declaration.Argument.SwitchName)
-                    && stack.Peek().Arguments.All(argument => group.Contains(argument.SwitchName))) == true;
+            var sharesOptionalGroup = SharesOptionalGroup(optionalOptionGroups, declaration.Argument, stack.Peek().Arguments);
             var isNestedConstraint =
                 ((Classify(prelude) & (CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne)) != 0
                     || DescribesRequiredBundle(prelude))
@@ -184,7 +182,9 @@ internal static partial class CliArgumentGroupParser
         }
 
         var current = stack.Peek();
-        if (stack.Any(group => group.IsNamedBundle || Classify(group.Description) != CliArgumentGroupKind.None)
+        if (stack.Any(group => group.IsNamedBundle
+                || Classify(group.Description) != CliArgumentGroupKind.None
+                || DescribesRequiredBundle(group.Description))
             || string.IsNullOrWhiteSpace(current.Description)
             || current.Arguments.Count == 0
             || argument.Indentation != current.Indentation
@@ -193,15 +193,21 @@ internal static partial class CliArgumentGroupParser
             return;
         }
 
-        // Co-indented prose introduces the following option. A synopsis bundle
-        // explicitly keeps any additional peer options within the same context.
-        var sharesOptionalGroup = optionalOptionGroups?.Any(group => group.Contains(argument.SwitchName)
-            && current.Arguments.All(member => group.Contains(member.SwitchName))) == true;
-        if (!sharesOptionalGroup)
+        // Unclassified, co-indented prose introduces the following option unless
+        // the synopsis establishes shared context for additional peer options.
+        if (!SharesOptionalGroup(optionalOptionGroups, argument, current.Arguments))
         {
             stack.Pop();
         }
     }
+
+    private static bool SharesOptionalGroup(
+        IReadOnlyList<IReadOnlySet<string>>? optionalOptionGroups,
+        CliArgumentDefinition candidate,
+        IReadOnlyList<CliArgumentDefinition> groupMembers) =>
+        groupMembers.Count > 0
+        && optionalOptionGroups?.Any(group => group.Contains(candidate.SwitchName)
+            && groupMembers.All(member => group.Contains(member.SwitchName))) == true;
 
     private static void BeginNamedBundle(Stack<ArgumentGroupBuilder> stack, ref string[] preludeLines)
     {

@@ -335,12 +335,12 @@ public partial class GcloudCliScraper : CliScraperBase
         var argumentGroups = new List<CliArgumentGroup>();
         var sections = new List<(string Name, CliArgumentGroup Group)>();
         var requiredAlternativeGroups = new List<CliRequiredAlternativeGroup>();
-        var optionalResourceGroups = UsageSynopsisParser.GetOptionalResourceOptionGroups(usage.Synopsis).ToArray();
+        var optionalGroups = UsageSynopsisParser.GetOptionalOptionGroups(usage.Synopsis).ToArray();
         var synopsisChoices = UsageSynopsisParser.GetOptionChoiceBranches(usage.Synopsis).ToArray();
         var synopsisBundles = UsageSynopsisParser.GetOptionBundles(usage.Synopsis).ToArray();
         foreach (var (name, content) in ExtractSections(helpText, "FLAGS", "REQUIRED FLAGS", "OPTIONAL FLAGS", "POSITIONAL ARGUMENTS"))
         {
-            var parsedGroup = ParseSectionArgumentGroup(name, content, optionalResourceGroups);
+            var parsedGroup = ParseSectionArgumentGroup(name, content, optionalGroups);
             parsedGroup = GcloudSynopsisGroupReconciler.Reconcile(parsedGroup, synopsisChoices, synopsisBundles);
             var documentedOptionalGroups = UsageSynopsisParser.GetOptionalResourceOptionGroups(usage.Synopsis, [parsedGroup]).ToArray();
             var argumentGroup = MarkOptionalResourceGroups(parsedGroup, documentedOptionalGroups);
