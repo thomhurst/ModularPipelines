@@ -965,7 +965,7 @@ public static class UsageSynopsisParser
         return optionIndex >= 0 && options[optionIndex].IsFlag;
     }
 
-    private static List<string> ExtractSynopses(
+    internal static List<string> ExtractSynopses(
         string helpText,
         IReadOnlyList<string> acceptedHeadings)
     {
@@ -1442,12 +1442,12 @@ public static class UsageSynopsisParser
         }
 
         var tokens = TokenizeOptionGroup(text);
-        if (!ContainsOnlyInlineOptions(tokens) || (tokens.Contains(":") && tokens.Contains("|")))
+        var alternatives = SplitTopLevelAlternatives(text);
+        if (!ContainsOnlyInlineOptions(tokens) || (tokens.Contains(":") && alternatives.Count > 1))
         {
             return null;
         }
 
-        var alternatives = SplitTopLevelAlternatives(text);
         if (alternatives.Count > 1)
         {
             var branches = alternatives.Select(branch => ParseOptionConstraint(branch, true)).ToArray();
