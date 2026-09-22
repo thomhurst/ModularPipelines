@@ -22,9 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataCatalogTagTemplatesFieldsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a Data Catalog tag     template field
+    /// </summary>
+    /// <param name="Field">Tag template field resource - Tag template field to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tag template field or fully qualified identifier for the tag template field. To set the field attribute: ▸ provide the argument field on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataCatalogTagTemplatesFieldsDeleteOptions(
+        string Field
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Field);
+        this.Field = Field;
+    }
+
+    public void Deconstruct(out string Field)
+    {
+        Field = this.Field;
+    }
+
+    /// <summary>
+    /// Tag template field resource - Tag template field to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the tag template field. To set the location attribute: ▸ provide the argument field on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Tag template field resource - Tag template field to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Tag template of the tag template field. To set the tag-template attribute: ▸ provide the argument field on the command line with a fully specified name; ▸ provide the argument --tag-template on the command line.
+    /// </summary>
+    [CliOption("--tag-template", Format = OptionFormat.EqualsSeparated)]
+    public string? TagTemplate { get; set; }
+
+    /// <summary>
     /// If True, this tag template field will be deleted from any existing tags.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// Tag template field resource - Tag template field to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tag template field or fully qualified identifier for the tag template field. To set the field attribute: ▸ provide the argument field on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Field { get; private init; }
 
 }

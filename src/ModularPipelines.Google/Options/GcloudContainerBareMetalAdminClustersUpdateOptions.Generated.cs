@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "bare-metal", "admin-clusters", "update")]
-public record GcloudContainerBareMetalAdminClustersUpdateOptions : GcloudOptions
+public record GcloudContainerBareMetalAdminClustersUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update an Anthos on     bare metal admin cluster
+    /// </summary>
+    /// <param name="AdminCluster">Admin cluster resource - admin cluster to update The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument admin_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the admin_cluster or fully qualified identifier for the admin_cluster. To set the admin_cluster attribute: ▸ provide the argument admin_cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerBareMetalAdminClustersUpdateOptions(
+        string AdminCluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AdminCluster);
+        this.AdminCluster = AdminCluster;
+    }
+
+    public void Deconstruct(out string AdminCluster)
+    {
+        AdminCluster = this.AdminCluster;
+    }
+
+    /// <summary>
+    /// Admin cluster resource - admin cluster to update The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument admin_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the admin_cluster. To set the location attribute: ▸ provide the argument admin_cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_bare_metal/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -47,9 +71,9 @@ public record GcloudContainerBareMetalAdminClustersUpdateOptions : GcloudOptions
     public bool? EnableApplicationLogs { get; set; }
 
     /// <summary>
-    /// Populate one of the network configs. Island mode CIDR network configuration. IPv4 address range for all services in the cluster.
+    /// Populate one of the network configs. Island mode CIDR network configuration. IPv4 address range for all services in the cluster. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--island-mode-service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--island-mode-service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? IslandModeServiceAddressCidrBlocks { get; set; }
 
     /// <summary>
@@ -59,9 +83,9 @@ public record GcloudContainerBareMetalAdminClustersUpdateOptions : GcloudOptions
     public string? LoginUser { get; set; }
 
     /// <summary>
-    /// Anthos on bare metal cluster maintenance configuration. IPv4 addresses to be placed into maintenance mode.
+    /// Anthos on bare metal cluster maintenance configuration. IPv4 addresses to be placed into maintenance mode. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--maintenance-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--maintenance-address-cidr-blocks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MaintenanceAddressCidrBlocks { get; set; }
 
     /// <summary>
@@ -83,33 +107,33 @@ public record GcloudContainerBareMetalAdminClustersUpdateOptions : GcloudOptions
     public string? Version { get; set; }
 
     /// <summary>
-    /// Anthos on bare metal cluster control plane configuration. API Server argument configuration.
+    /// Anthos on bare metal cluster control plane configuration. API Server argument configuration. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--api-server-args", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--api-server-args", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ApiServerArgs { get; set; }
 
     /// <summary>
-    /// Anthos on bare metal cluster control plane configuration. Anthos on bare metal cluster control plane node pool configuration. Anthos on bare metal node pool configuration for control plane nodes. Anthos on bare metal node configuration for control plane nodes. Populate control plane node config. At most one of these can be specified: Control plane node configuration.
+    /// Anthos on bare metal cluster control plane node pool configuration. Anthos on bare metal node pool configuration for control plane nodes. Anthos on bare metal node configuration for control plane nodes. Populate control plane node config. At most one of these can be specified: Control plane node configuration.
     /// </summary>
     [CliOption("--control-plane-node-configs", Format = OptionFormat.EqualsSeparated)]
     public string? ControlPlaneNodeConfigs { get; set; }
 
     /// <summary>
-    /// Anthos on bare metal cluster control plane configuration. Labels assigned to nodes of a node pool.
+    /// Labels assigned to nodes of a node pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--control-plane-node-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--control-plane-node-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ControlPlaneNodeLabels { get; set; }
 
     /// <summary>
-    /// Anthos on bare metal cluster control plane configuration. Node taint applied to every Kubernetes node in a node pool.
+    /// Node taint applied to every Kubernetes node in a node pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--control-plane-node-taints", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--control-plane-node-taints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ControlPlaneNodeTaints { get; set; }
 
     /// <summary>
-    /// Anthos on bare metal cluster proxy configuration. List of IPs, hostnames, and domains that should skip the proxy.
+    /// Anthos on bare metal cluster proxy configuration. List of IPs, hostnames, and domains that should skip the proxy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--no-proxy", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--no-proxy", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NoProxy { get; set; }
 
     /// <summary>
@@ -117,5 +141,21 @@ public record GcloudContainerBareMetalAdminClustersUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--uri", Format = OptionFormat.EqualsSeparated)]
     public string? Uri { get; set; }
+
+    /// <summary>
+    /// Admin cluster resource - admin cluster to update The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument admin_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the admin_cluster or fully qualified identifier for the admin_cluster. To set the admin_cluster attribute: ▸ provide the argument admin_cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AdminCluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ControlPlaneNodeConfigs) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ControlPlaneNodeConfigs may be specified.", [nameof(ControlPlaneNodeConfigs)]);
+        }
+        yield break;
+    }
 
 }

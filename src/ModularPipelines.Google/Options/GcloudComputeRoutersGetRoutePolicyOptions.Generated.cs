@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "routers", "get-route-policy")]
-public record GcloudComputeRoutersGetRoutePolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeRoutersGetRoutePolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get a route policy from a Compute     Engine router
+    /// </summary>
+    /// <param name="PolicyName">Name of the route policy to get.</param>
+    /// <param name="Name">Name of the router to get.</param>
+    public GcloudComputeRoutersGetRoutePolicyOptions(
+        string PolicyName,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string PolicyName, out string Name)
+    {
+        PolicyName = this.PolicyName;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the route policy to get.
+    /// </summary>
+    [CliOption("--policy-name", Format = OptionFormat.EqualsSeparated)]
+    public string PolicyName { get; private init; }
+
+    /// <summary>
+    /// Region of the router to get. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the router to get.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

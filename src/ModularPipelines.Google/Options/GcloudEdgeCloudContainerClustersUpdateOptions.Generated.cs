@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,8 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cloud", "container", "clusters", "update")]
-public record GcloudEdgeCloudContainerClustersUpdateOptions : GcloudOptions
+public record GcloudEdgeCloudContainerClustersUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update an Edge Container     cluster
+    /// </summary>
+    /// <param name="Cluster">Cluster resource - Edge Container cluster to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEdgeCloudContainerClustersUpdateOptions(
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Cluster)
+    {
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Cluster resource - Edge Container cluster to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The global location name. To set the location attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property edge_container/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -44,7 +68,7 @@ public record GcloudEdgeCloudContainerClustersUpdateOptions : GcloudOptions
     /// Release channel a cluster is subscribed to. It supports two values, NONE and REGULAR. NONE is used to opt out of any release channel. Clusters subscribed to the REGULAR channel will be automatically upgraded to versions that are considered GA quality, and cannot be manually upgraded. RELEASE_CHANNEL must be one of: none, regular, release-channel-unspecified.
     /// </summary>
     [CliOption("--release-channel", Format = OptionFormat.EqualsSeparated)]
-    public GcloudReleaseChannel? ReleaseChannel { get; set; }
+    public GcloudEdgeCloudContainerClustersUpdateReleaseChannel? ReleaseChannel { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: If set, removes the maintenance window setting from the cluster. If any exclusion windows exist, they must be removed beforehand as a maintenance policy cannot exist without a maintenance window.
@@ -117,5 +141,29 @@ public record GcloudEdgeCloudContainerClustersUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--zone-storage-kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? ZoneStorageKmsKey { get; set; }
+
+    /// <summary>
+    /// Cluster resource - Edge Container cluster to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearMaintenanceWindow == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveMaintenanceExclusionWindow) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AddMaintenanceExclusionEnd) || !string.IsNullOrWhiteSpace(AddMaintenanceExclusionName) || !string.IsNullOrWhiteSpace(AddMaintenanceExclusionStart)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(MaintenanceWindowEnd) || !string.IsNullOrWhiteSpace(MaintenanceWindowRecurrence) || !string.IsNullOrWhiteSpace(MaintenanceWindowStart)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearMaintenanceWindow, RemoveMaintenanceExclusionWindow, (AddMaintenanceExclusionEnd, AddMaintenanceExclusionName, or AddMaintenanceExclusionStart), or (MaintenanceWindowEnd, MaintenanceWindowRecurrence, or MaintenanceWindowStart) may be specified.", [nameof(ClearMaintenanceWindow), nameof(RemoveMaintenanceExclusionWindow), nameof(AddMaintenanceExclusionEnd), nameof(AddMaintenanceExclusionName), nameof(AddMaintenanceExclusionStart), nameof(MaintenanceWindowEnd), nameof(MaintenanceWindowRecurrence), nameof(MaintenanceWindowStart)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ControlPlaneKmsKey) ? 1 : 0) + (UseGoogleManagedKey == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ControlPlaneKmsKey or UseGoogleManagedKey may be specified.", [nameof(ControlPlaneKmsKey), nameof(UseGoogleManagedKey)]);
+        }
+        if ((UseGoogleManagedZoneKey == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(ZoneStorageKmsKey) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of UseGoogleManagedZoneKey or ZoneStorageKmsKey may be specified.", [nameof(UseGoogleManagedZoneKey), nameof(ZoneStorageKmsKey)]);
+        }
+        yield break;
+    }
 
 }

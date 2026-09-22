@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,100 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "images", "deprecate")]
-public record GcloudPreviewComputeImagesDeprecateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImageName
-) : GcloudOptions
+public record GcloudPreviewComputeImagesDeprecateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// manage deprecation status of     Compute Engine images
+    /// </summary>
+    /// <param name="State">The deprecation state to set on the image. STATE must be one of: ACTIVE The image is currently supported. DELETED New uses result in an error. Setting this state will not automatically delete the image. You must still make a request to delete the image to remove it from the image list. DEPRECATED Operations which create a new DEPRECATED resource return successfully, but with a warning indicating that the image is deprecated and recommending its replacement. OBSOLETE New uses result in an error.</param>
+    /// <param name="ImageName">Name of the disk image to operate on.</param>
+    public GcloudPreviewComputeImagesDeprecateOptions(
+        string State,
+        string ImageName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(State);
+        this.State = State;
+        global::System.ArgumentNullException.ThrowIfNull(ImageName);
+        this.ImageName = ImageName;
+    }
+
+    public void Deconstruct(out string State, out string ImageName)
+    {
+        State = this.State;
+        ImageName = this.ImageName;
+    }
+
+    /// <summary>
+    /// The deprecation state to set on the image. STATE must be one of: ACTIVE The image is currently supported. DELETED New uses result in an error. Setting this state will not automatically delete the image. You must still make a request to delete the image to remove it from the image list. DEPRECATED Operations which create a new DEPRECATED resource return successfully, but with a warning indicating that the image is deprecated and recommending its replacement. OBSOLETE New uses result in an error.
+    /// </summary>
+    [CliOption("--state", Format = OptionFormat.EqualsSeparated)]
+    public string State { get; private init; }
+
+    /// <summary>
+    /// Specifies a Compute Engine image as a replacement for the image being phased out. Users of the deprecated image will be advised to switch to this replacement. For example, --replacement example-image or --replacement projects/google/global/images/example-image. This flag value is purely informational and is not validated in any way.
+    /// </summary>
+    [CliOption("--replacement", Format = OptionFormat.EqualsSeparated)]
+    public string? Replacement { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Specifies a time duration in which the image should be marked as DELETED. Note: This is only informational and the image will not be deleted unless you manually delete it. For example, specifying 30d sets the planned DELETED time to 30 days from the current system time, but does not delete the image. You must manually delete the image in 30 days. See $ gcloud topic datetimes for information on duration formats. This flag is mutually exclusive with --delete-on.
+    /// </summary>
+    [CliOption("--delete-in", Format = OptionFormat.EqualsSeparated)]
+    public string? DeleteIn { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Specifies a date when the image should be marked as DELETED. Note: This is only informational and the image will not be deleted unless you manually delete it. This flag is mutually exclusive with --delete-in. The date and time specified must be valid RFC 3339 full-date or date-time. For times in UTC, this looks like YYYY-MM-DDTHH:MM:SSZ. For example: 2020-01-02T00:00:00Z for midnight on January 2, 2020 in UTC.
+    /// </summary>
+    [CliOption("--delete-on", Format = OptionFormat.EqualsSeparated)]
+    public string? DeleteOn { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Specifies a time duration in which the image should be marked as DEPRECATED. Note: This is only informational and the image will not be deprecated unless you manually deprecate it. This flag is mutually exclusive with --deprecate-on. For example, specifying 30d sets the planned DEPRECATED date to 30 days from the current system time, but does not deprecate the image. You must manually deprecate the image in 30 days. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--deprecate-in", Format = OptionFormat.EqualsSeparated)]
+    public string? DeprecateIn { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Specifies a date when the image should be marked as DEPRECATED. Note: This is only informational and the image will not be deprecated unless you manually deprecate it. This flag is mutually exclusive with --deprecate-in. The date and time specified must be valid RFC 3339 full-date or date-time. For times in UTC, this looks like YYYY-MM-DDTHH:MM:SSZ. For example: 2020-01-02T00:00:00Z for midnight on January 2, 2020 in UTC.
+    /// </summary>
+    [CliOption("--deprecate-on", Format = OptionFormat.EqualsSeparated)]
+    public string? DeprecateOn { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Specifies a time duration in which the image should be marked as OBSOLETE. Note: This is only informational and the image will not be obsoleted unless you manually obsolete it. This flag is mutually exclusive with --obsolete-on. For example, specifying 30d sets the planned OBSOLETE time to 30 days from the current system time, but does not obsolete the image. You must manually obsolete the image in 30 days. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--obsolete-in", Format = OptionFormat.EqualsSeparated)]
+    public string? ObsoleteIn { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Specifies a date when the image should be marked as OBSOLETE. Note: This is only informational and the image will not be obsoleted unless you manually obsolete it. This flag is mutually exclusive with --obsolete-in. The date and time specified must be valid RFC 3339 full-date or date-time. For times in UTC, this looks like YYYY-MM-DDTHH:MM:SSZ. For example: 2020-01-02T00:00:00Z for midnight on January 2, 2020 in UTC.
+    /// </summary>
+    [CliOption("--obsolete-on", Format = OptionFormat.EqualsSeparated)]
+    public string? ObsoleteOn { get; set; }
+
+    /// <summary>
+    /// Name of the disk image to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ImageName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DeleteIn) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DeleteOn) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DeleteIn or DeleteOn may be specified.", [nameof(DeleteIn), nameof(DeleteOn)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DeprecateIn) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DeprecateOn) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DeprecateIn or DeprecateOn may be specified.", [nameof(DeprecateIn), nameof(DeprecateOn)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ObsoleteIn) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ObsoleteOn) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ObsoleteIn or ObsoleteOn may be specified.", [nameof(ObsoleteIn), nameof(ObsoleteOn)]);
+        }
+        yield break;
+    }
+
 }

@@ -22,6 +22,35 @@ namespace ModularPipelines.Google.Options;
 public record GcloudVmwarePrivateCloudsExternalAddressesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete external IP     address from a VMware Engine private cloud
+    /// </summary>
+    /// <param name="ExternalAddress">External address resource - external_address. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument external_address on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the external address or fully qualified identifier for the external address. To set the external-address attribute: ▸ provide the argument external_address on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVmwarePrivateCloudsExternalAddressesDeleteOptions(
+        string ExternalAddress
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExternalAddress);
+        this.ExternalAddress = ExternalAddress;
+    }
+
+    public void Deconstruct(out string ExternalAddress)
+    {
+        ExternalAddress = this.ExternalAddress;
+    }
+
+    /// <summary>
+    /// External address resource - external_address. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument external_address on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the private cloud or cluster. To set the location attribute: ▸ provide the argument external_address on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/zone.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// External address resource - external_address. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument external_address on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. VMware Engine private cloud. To set the private-cloud attribute: ▸ provide the argument external_address on the command line with a fully specified name; ▸ provide the argument --private-cloud on the command line.
+    /// </summary>
+    [CliOption("--private-cloud", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateCloud { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
@@ -32,5 +61,11 @@ public record GcloudVmwarePrivateCloudsExternalAddressesDeleteOptions : GcloudOp
     /// </summary>
     [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// External address resource - external_address. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument external_address on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the external address or fully qualified identifier for the external address. To set the external-address attribute: ▸ provide the argument external_address on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ExternalAddress { get; private init; }
 
 }

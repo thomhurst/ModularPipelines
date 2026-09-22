@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "app-profiles", "update")]
-public record GcloudBigtableAppProfilesUpdateOptions : GcloudOptions
+public record GcloudBigtableAppProfilesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Bigtable app profile
+    /// </summary>
+    /// <param name="AppProfile">App profile resource - The app profile to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument app_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the app profile or fully qualified identifier for the app profile. To set the name attribute: ▸ provide the argument app_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBigtableAppProfilesUpdateOptions(
+        string AppProfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppProfile);
+        this.AppProfile = AppProfile;
+    }
+
+    public void Deconstruct(out string AppProfile)
+    {
+        AppProfile = this.AppProfile;
+    }
+
+    /// <summary>
+    /// App profile resource - The app profile to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument app_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Bigtable instance for the app profile. To set the instance attribute: ▸ provide the argument app_profile on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -52,13 +76,13 @@ public record GcloudBigtableAppProfilesUpdateOptions : GcloudOptions
     public string? DataBoostComputeBillingOwner { get; set; }
 
     /// <summary>
-    /// Standard Isolation Specify the request priority under standard provisioned node compute capabilities. Passing this option implies standard provisioned node compute, e.g. the --standard option. If not specified, the app profile uses standard provisioned node compute with PRIORITY_HIGH by default. Specifying request priority on an app profile that has Data Boost serverless compute enabled changes the compute option to standard and uses the specified priority, which might cause unexpected behavior for running applications. PRIORITY must be one of: PRIORITY_HIGH Requests are treated with high priority. PRIORITY_LOW Requests are treated with low priority. PRIORITY_MEDIUM Requests are treated with medium priority.
+    /// At most one of these can be specified: Standard Isolation Specify the request priority under standard provisioned node compute capabilities. Passing this option implies standard provisioned node compute, e.g. the --standard option. If not specified, the app profile uses standard provisioned node compute with PRIORITY_HIGH by default. Specifying request priority on an app profile that has Data Boost serverless compute enabled changes the compute option to standard and uses the specified priority, which might cause unexpected behavior for running applications. PRIORITY must be one of: PRIORITY_HIGH Requests are treated with high priority. PRIORITY_LOW Requests are treated with low priority. PRIORITY_MEDIUM Requests are treated with medium priority.
     /// </summary>
     [CliOption("--priority", Format = OptionFormat.EqualsSeparated)]
     public string? Priority { get; set; }
 
     /// <summary>
-    /// Standard Isolation Use standard provisioned node compute option, rather than Data Boost compute option. If specified, --priority is required.
+    /// At most one of these can be specified: Standard Isolation Use standard provisioned node compute option, rather than Data Boost compute option. If specified, --priority is required.
     /// </summary>
     [CliFlag("--standard")]
     public bool? Standard { get; set; }
@@ -70,10 +94,32 @@ public record GcloudBigtableAppProfilesUpdateOptions : GcloudOptions
     public bool? RouteAny { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Multi Cluster Routing Policy Cluster IDs to route to using the Multi Cluster Routing Policy. If unset, all clusters in the instance are eligible.
+    /// At most one of these can be specified: Multi Cluster Routing Policy Cluster IDs to route to using the Multi Cluster Routing Policy. If unset, all clusters in the instance are eligible. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--restrict-to", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RestrictTo { get; set; }
+    [CliOption("--restrict-to", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RestrictTo
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RestrictToSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RestrictToSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Multi Cluster Routing Policy Use row-affinity routing for this app profile.
@@ -82,15 +128,51 @@ public record GcloudBigtableAppProfilesUpdateOptions : GcloudOptions
     public bool? RowAffinity { get; set; }
 
     /// <summary>
-    /// Single Cluster Routing Policy Cluster ID to route to using Single Cluster Routing policy. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: Single Cluster Routing Policy Cluster ID to route to using Single Cluster Routing policy. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--route-to", Format = OptionFormat.EqualsSeparated)]
     public string? RouteTo { get; set; }
 
     /// <summary>
-    /// Single Cluster Routing Policy Allow transactional writes with a Single Cluster Routing policy.
+    /// At most one of these can be specified: Single Cluster Routing Policy Allow transactional writes with a Single Cluster Routing policy.
     /// </summary>
     [CliFlag("--transactional-writes")]
     public bool? TransactionalWrites { get; set; }
+
+    /// <summary>
+    /// App profile resource - The app profile to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument app_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the app profile or fully qualified identifier for the app profile. To set the name attribute: ▸ provide the argument app_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AppProfile { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((DataBoost == true || !string.IsNullOrWhiteSpace(DataBoostComputeBillingOwner)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Priority) || Standard == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (DataBoost or DataBoostComputeBillingOwner) or (Priority or Standard) may be specified.", [nameof(DataBoost), nameof(DataBoostComputeBillingOwner), nameof(Priority), nameof(Standard)]);
+        }
+        if ((DataBoost == true || !string.IsNullOrWhiteSpace(DataBoostComputeBillingOwner) || !string.IsNullOrWhiteSpace(Priority) || Standard == true) && (DataBoost == true || !string.IsNullOrWhiteSpace(DataBoostComputeBillingOwner)) && (!(DataBoost == true)))
+        {
+            yield return new ValidationResult("DataBoost must be specified when other arguments in this group are specified.", [nameof(DataBoost)]);
+        }
+        if ((DataBoost == true || !string.IsNullOrWhiteSpace(DataBoostComputeBillingOwner) || !string.IsNullOrWhiteSpace(Priority) || Standard == true) && (DataBoost == true || !string.IsNullOrWhiteSpace(DataBoostComputeBillingOwner)) && (!(!string.IsNullOrWhiteSpace(DataBoostComputeBillingOwner))))
+        {
+            yield return new ValidationResult("DataBoostComputeBillingOwner must be specified when other arguments in this group are specified.", [nameof(DataBoostComputeBillingOwner)]);
+        }
+        if (((RouteAny == true || ((object?)RestrictTo is global::System.Collections.Generic.IEnumerable<char> ? (object?)RestrictTo is not string || !string.IsNullOrWhiteSpace(RestrictTo?.ToString()) : ((object?)RestrictTo is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RestrictTo, static item => item is not null) : (RestrictTo is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RestrictTo), static item => item is not null)))) || RowAffinity == true) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(RouteTo) || TransactionalWrites == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (RouteAny, RestrictTo, or RowAffinity) or (RouteTo or TransactionalWrites) may be specified.", [nameof(RouteAny), nameof(RestrictTo), nameof(RowAffinity), nameof(RouteTo), nameof(TransactionalWrites)]);
+        }
+        if ((RouteAny == true || ((object?)RestrictTo is global::System.Collections.Generic.IEnumerable<char> ? (object?)RestrictTo is not string || !string.IsNullOrWhiteSpace(RestrictTo?.ToString()) : ((object?)RestrictTo is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RestrictTo, static item => item is not null) : (RestrictTo is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RestrictTo), static item => item is not null)))) || RowAffinity == true || !string.IsNullOrWhiteSpace(RouteTo) || TransactionalWrites == true) && (RouteAny == true || ((object?)RestrictTo is global::System.Collections.Generic.IEnumerable<char> ? (object?)RestrictTo is not string || !string.IsNullOrWhiteSpace(RestrictTo?.ToString()) : ((object?)RestrictTo is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RestrictTo, static item => item is not null) : (RestrictTo is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RestrictTo), static item => item is not null)))) || RowAffinity == true) && (!(RouteAny == true)))
+        {
+            yield return new ValidationResult("RouteAny must be specified when other arguments in this group are specified.", [nameof(RouteAny)]);
+        }
+        if ((RouteAny == true || ((object?)RestrictTo is global::System.Collections.Generic.IEnumerable<char> ? (object?)RestrictTo is not string || !string.IsNullOrWhiteSpace(RestrictTo?.ToString()) : ((object?)RestrictTo is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RestrictTo, static item => item is not null) : (RestrictTo is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RestrictTo), static item => item is not null)))) || RowAffinity == true || !string.IsNullOrWhiteSpace(RouteTo) || TransactionalWrites == true) && (!string.IsNullOrWhiteSpace(RouteTo) || TransactionalWrites == true) && (!(!string.IsNullOrWhiteSpace(RouteTo))))
+        {
+            yield return new ValidationResult("RouteTo must be specified when other arguments in this group are specified.", [nameof(RouteTo)]);
+        }
+        yield break;
+    }
 
 }

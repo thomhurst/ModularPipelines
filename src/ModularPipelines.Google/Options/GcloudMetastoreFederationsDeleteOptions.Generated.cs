@@ -22,9 +22,49 @@ namespace ModularPipelines.Google.Options;
 public record GcloudMetastoreFederationsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete one or more Dataproc Metastore     federations
+    /// </summary>
+    /// <param name="Federations">Federation resource - The federations to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument federations on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. IDs of the federations or fully qualified identifiers for the federations. To set the federation attribute: ▸ provide the argument federations on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMetastoreFederationsDeleteOptions(
+        IEnumerable<string> Federations
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Federations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Federations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Federations));
+            }
+
+            Federations = materialized;
+        }
+        this.Federations = Federations;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Federations)
+    {
+        Federations = this.Federations;
+    }
+
+    /// <summary>
+    /// Federation resource - The federations to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument federations on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location to which the federations belongs. To set the location attribute: ▸ provide the argument federations on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property metastore/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Federation resource - The federations to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument federations on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. IDs of the federations or fully qualified identifiers for the federations. To set the federation attribute: ▸ provide the argument federations on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Federations { get; private init; }
 
 }

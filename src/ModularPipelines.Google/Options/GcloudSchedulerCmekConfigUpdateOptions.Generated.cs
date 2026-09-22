@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scheduler", "cmek-config", "update")]
-public record GcloudSchedulerCmekConfigUpdateOptions : GcloudOptions
+public record GcloudSchedulerCmekConfigUpdateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// Google Cloud location for the KMS key.
@@ -34,21 +35,35 @@ public record GcloudSchedulerCmekConfigUpdateOptions : GcloudOptions
     public bool? ClearKmsKey { get; set; }
 
     /// <summary>
-    /// Flags for Updating CMEK Resource key Fully qualified identifier for the key or just the key ID. The latter requires that the --kms-keyring and --kms-project flags be provided too. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Flags for Clearing or Updating CMEK Resource At most one of these can be specified: Flags for Updating CMEK Resource key Fully qualified identifier for the key or just the key ID. The latter requires that the --kms-keyring and --kms-project flags be provided too. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kms-key-name", Format = OptionFormat.EqualsSeparated)]
     public string? KmsKeyName { get; set; }
 
     /// <summary>
-    /// Flags for Updating CMEK Resource key KMS keyring of the KMS key.
+    /// Flags for Clearing or Updating CMEK Resource At most one of these can be specified: Flags for Updating CMEK Resource key KMS keyring of the KMS key.
     /// </summary>
     [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
     public string? KmsKeyring { get; set; }
 
     /// <summary>
-    /// Flags for Updating CMEK Resource key Google Cloud project for the KMS key.
+    /// Flags for Clearing or Updating CMEK Resource At most one of these can be specified: Flags for Updating CMEK Resource key Google Cloud project for the KMS key.
     /// </summary>
     [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
     public string? KmsProject { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((ClearKmsKey == true) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(KmsKeyName) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsProject)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (ClearKmsKey) or (KmsKeyName, KmsKeyring, or KmsProject) may be specified.", [nameof(ClearKmsKey), nameof(KmsKeyName), nameof(KmsKeyring), nameof(KmsProject)]);
+        }
+        if ((ClearKmsKey == true || !string.IsNullOrWhiteSpace(KmsKeyName) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsProject)) && (!string.IsNullOrWhiteSpace(KmsKeyName) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsProject)) && (!(!string.IsNullOrWhiteSpace(KmsKeyName))))
+        {
+            yield return new ValidationResult("KmsKeyName must be specified when other arguments in this group are specified.", [nameof(KmsKeyName)]);
+        }
+        yield break;
+    }
 
 }

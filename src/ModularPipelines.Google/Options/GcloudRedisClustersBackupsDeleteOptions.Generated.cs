@@ -22,9 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRedisClustersBackupsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a Memorystore for Redis     Cluster backup
+    /// </summary>
+    /// <param name="Backup">Backup resource - Arguments and flags that specify the Redis backup you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument backup on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudRedisClustersBackupsDeleteOptions(
+        string Backup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Backup);
+        this.Backup = Backup;
+    }
+
+    public void Deconstruct(out string Backup)
+    {
+        Backup = this.Backup;
+    }
+
+    /// <summary>
+    /// Backup resource - Arguments and flags that specify the Redis backup you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Redis cluster backup collection. To set the backup-collection attribute: ▸ provide the argument backup on the command line with a fully specified name; ▸ provide the argument --backup-collection on the command line.
+    /// </summary>
+    [CliOption("--backup-collection", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupCollection { get; set; }
+
+    /// <summary>
+    /// Backup resource - Arguments and flags that specify the Redis backup you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Redis region of the backup. Overrides the default redis/region property value for this command invocation. To set the region attribute: ▸ provide the argument backup on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property redis/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Backup resource - Arguments and flags that specify the Redis backup you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument backup on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Backup { get; private init; }
 
 }

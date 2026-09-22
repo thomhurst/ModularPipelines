@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,71 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "metrics", "create")]
-public record GcloudLoggingMetricsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string MetricName
-) : GcloudOptions
+public record GcloudLoggingMetricsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// based metric
+    /// </summary>
+    /// <param name="MetricName">The name of the new metric.</param>
+    public GcloudLoggingMetricsCreateOptions(
+        string MetricName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MetricName);
+        this.MetricName = MetricName;
+    }
+
+    public void Deconstruct(out string MetricName)
+    {
+        MetricName = this.MetricName;
+    }
+
+    /// <summary>
+    /// Data about the new metric. Exactly one of these must be specified: A path to a YAML or JSON file specifying the logs-based metric to create. For an example of the file structure, see https://cloud.google.com/logging/docs/logs-based-metrics/distribution-metrics#example. Use a full or relative path to a local file containing the value of config.
+    /// </summary>
+    [CliOption("--config-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigFromFile { get; set; }
+
+    /// <summary>
+    /// Data about the new metric. Exactly one of these must be specified: Or at least one of these can be specified: A group of arguments to specify simple counter logs-based metrics. The metric's description. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Data about the new metric. Exactly one of these must be specified: Or at least one of these can be specified: A group of arguments to specify simple counter logs-based metrics. The metric's filter expression. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--log-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? LogFilter { get; set; }
+
+    /// <summary>
+    /// Data about the new metric. Exactly one of these must be specified: Or at least one of these can be specified: A group of arguments to specify simple counter logs-based metrics. The Log Bucket name which owns the log-based metric.
+    /// </summary>
+    [CliOption("--bucket-name", Format = OptionFormat.EqualsSeparated)]
+    public string? BucketName { get; set; }
+
+    /// <summary>
+    /// The name of the new metric.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MetricName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ConfigFromFile) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Description) || !string.IsNullOrWhiteSpace(LogFilter) || !string.IsNullOrWhiteSpace(BucketName)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ConfigFromFile or (Description, LogFilter, or BucketName) must be specified.", [nameof(ConfigFromFile), nameof(Description), nameof(LogFilter), nameof(BucketName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ConfigFromFile) || !string.IsNullOrWhiteSpace(Description) || !string.IsNullOrWhiteSpace(LogFilter) || !string.IsNullOrWhiteSpace(BucketName)) && (!string.IsNullOrWhiteSpace(Description) || !string.IsNullOrWhiteSpace(LogFilter) || !string.IsNullOrWhiteSpace(BucketName)) && (!string.IsNullOrWhiteSpace(Description) || !string.IsNullOrWhiteSpace(LogFilter) || !string.IsNullOrWhiteSpace(BucketName)) && (!(!string.IsNullOrWhiteSpace(Description))))
+        {
+            yield return new ValidationResult("Description must be specified when other arguments in this group are specified.", [nameof(Description)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ConfigFromFile) || !string.IsNullOrWhiteSpace(Description) || !string.IsNullOrWhiteSpace(LogFilter) || !string.IsNullOrWhiteSpace(BucketName)) && (!string.IsNullOrWhiteSpace(Description) || !string.IsNullOrWhiteSpace(LogFilter) || !string.IsNullOrWhiteSpace(BucketName)) && (!string.IsNullOrWhiteSpace(Description) || !string.IsNullOrWhiteSpace(LogFilter) || !string.IsNullOrWhiteSpace(BucketName)) && (!(!string.IsNullOrWhiteSpace(LogFilter))))
+        {
+            yield return new ValidationResult("LogFilter must be specified when other arguments in this group are specified.", [nameof(LogFilter)]);
+        }
+        yield break;
+    }
+
 }

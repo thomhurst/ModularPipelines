@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "keys", "versions", "get-public-key")]
-public record GcloudKmsKeysVersionsGetPublicKeyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Version
-) : GcloudOptions
+public record GcloudKmsKeysVersionsGetPublicKeyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the public key for a given     version
+    /// </summary>
+    /// <param name="Version">Name of the version to get public key.</param>
+    public GcloudKmsKeysVersionsGetPublicKeyOptions(
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string Version)
+    {
+        Version = this.Version;
+    }
+
     /// <summary>
     /// The containing key.
     /// </summary>
@@ -52,5 +67,11 @@ public record GcloudKmsKeysVersionsGetPublicKeyOptions(
     /// </summary>
     [CliOption("--public-key-format", Format = OptionFormat.EqualsSeparated)]
     public string? PublicKeyFormat { get; set; }
+
+    /// <summary>
+    /// Name of the version to get public key.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Version { get; private init; }
 
 }

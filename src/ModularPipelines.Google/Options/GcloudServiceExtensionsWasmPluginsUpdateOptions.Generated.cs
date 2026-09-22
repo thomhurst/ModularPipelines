@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service-extensions", "wasm-plugins", "update")]
-public record GcloudServiceExtensionsWasmPluginsUpdateOptions : GcloudOptions
+public record GcloudServiceExtensionsWasmPluginsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a WasmPlugin     resource
+    /// </summary>
+    /// <param name="WasmPlugin">WasmPlugin resource - The ID of the WasmPlugin to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument wasm_plugin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the WasmPlugin or fully qualified identifier for the WasmPlugin. To set the wasm_plugin attribute: ▸ provide the argument wasm_plugin on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudServiceExtensionsWasmPluginsUpdateOptions(
+        string WasmPlugin
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WasmPlugin);
+        this.WasmPlugin = WasmPlugin;
+    }
+
+    public void Deconstruct(out string WasmPlugin)
+    {
+        WasmPlugin = this.WasmPlugin;
+    }
+
+    /// <summary>
+    /// WasmPlugin resource - The ID of the WasmPlugin to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument wasm_plugin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location ID. To set the location attribute: ▸ provide the argument wasm_plugin on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ use global location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -35,15 +59,15 @@ public record GcloudServiceExtensionsWasmPluginsUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Logging options for the activity performed by this plugin. The following options can be set: ◆ enable: whether to enable logging. If log-config flag is set, enable option is required. ◆ sample-rate: configures the sampling rate of activity logs, where 1.0 means all logged activity is reported and 0.0 means no activity is reported. The default value is 1.0, and the value of the field must be in range 0 to 1 (inclusive). ◆ min-log-level: specifies the lowest level of the logs that should be exported to Cloud Logging. The default value is INFO. Example usage: --log-config=enable=True,sample-rate=0.5,min-log-level=INFO --log_config=enable=False
+    /// Logging options for the activity performed by this plugin. The following options can be set: ◆ enable: whether to enable logging. If log-config flag is set, enable option is required. ◆ sample-rate: configures the sampling rate of activity logs, where 1.0 means all logged activity is reported and 0.0 means no activity is reported. The default value is 1.0, and the value of the field must be in range 0 to 1 (inclusive). ◆ min-log-level: specifies the lowest level of the logs that should be exported to Cloud Logging. The default value is INFO. Example usage: --log-config=enable=True,sample-rate=0.5,min-log-level=INFO --log_config=enable=False Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--log-config", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--log-config", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? LogConfig { get; set; }
 
     /// <summary>
@@ -75,5 +99,21 @@ public record GcloudServiceExtensionsWasmPluginsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--plugin-config-uri", Format = OptionFormat.EqualsSeparated)]
     public string? PluginConfigUri { get; set; }
+
+    /// <summary>
+    /// WasmPlugin resource - The ID of the WasmPlugin to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument wasm_plugin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the WasmPlugin or fully qualified identifier for the WasmPlugin. To set the wasm_plugin attribute: ▸ provide the argument wasm_plugin on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WasmPlugin { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(PluginConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PluginConfigFile) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PluginConfigUri) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of PluginConfig, PluginConfigFile, or PluginConfigUri may be specified.", [nameof(PluginConfig), nameof(PluginConfigFile), nameof(PluginConfigUri)]);
+        }
+        yield break;
+    }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "datascans", "update", "data-quality")]
-public record GcloudDataplexDatascansUpdateDataQualityOptions : GcloudOptions
+public record GcloudDataplexDatascansUpdateDataQualityOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Dataplex data     quality scan job
+    /// </summary>
+    /// <param name="Datascan">Datascan resource - Arguments and flags that define the Dataplex datascan you want to update a data quality scan for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument datascan on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the datascan or fully qualified identifier for the datascan. To set the dataScans attribute: ▸ provide the argument datascan on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexDatascansUpdateDataQualityOptions(
+        string Datascan
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Datascan);
+        this.Datascan = Datascan;
+    }
+
+    public void Deconstruct(out string Datascan)
+    {
+        Datascan = this.Datascan;
+    }
+
+    /// <summary>
+    /// Datascan resource - Arguments and flags that define the Dataplex datascan you want to update a data quality scan for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument datascan on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataplex resource. To set the location attribute: ▸ provide the argument datascan on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Path to the JSON/YAML file containing the spec for the data quality scan. The JSON representation reference: https://cloud.google.com/dataplex/docs/reference/rest/v1/DataQualitySpec The YAML representation reference: https://cloud.google.com/dataplex/docs/use-auto-data-quality#create-scan-using-gcloud
     /// </summary>
@@ -41,9 +65,9 @@ public record GcloudDataplexDatascansUpdateDataQualityOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -69,5 +93,25 @@ public record GcloudDataplexDatascansUpdateDataQualityOptions : GcloudOptions
     /// </summary>
     [CliOption("--schedule", Format = OptionFormat.EqualsSeparated)]
     public string? Schedule { get; set; }
+
+    /// <summary>
+    /// Datascan resource - Arguments and flags that define the Dataplex datascan you want to update a data quality scan for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument datascan on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the datascan or fully qualified identifier for the datascan. To set the dataScans attribute: ▸ provide the argument datascan on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Datascan { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Async == true ? 1 : 0) + (ValidateOnly == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Async or ValidateOnly may be specified.", [nameof(Async), nameof(ValidateOnly)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(OnDemand) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Schedule) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of OnDemand or Schedule may be specified.", [nameof(OnDemand), nameof(Schedule)]);
+        }
+        yield break;
+    }
 
 }

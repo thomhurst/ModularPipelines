@@ -21,4 +21,61 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("vector-search", "collections", "export-data-objects")]
 public record GcloudVectorSearchCollectionsExportDataObjectsOptions : GcloudOptions
 {
+    /// <summary>
+    /// export data objects     from a collection
+    /// </summary>
+    /// <param name="GcsDestinationExportUri">URI prefix of the Cloud Storage where to export Data Objects. The bucket is required to be in the same region as the collection.</param>
+    /// <param name="GcsDestinationFormat">The format of the exported Data Objects. GCS_DESTINATION_FORMAT must be (only one value is supported): jsonl Exports Data Objects in JSONL format.</param>
+    /// <param name="Collection">Collection resource - The resource name of the Collection from which we want to export Data Objects. Format: projects/{project}/locations/{location}/collections/{collection}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the collection or fully qualified identifier for the collection. To set the collection attribute: ▸ provide the argument collection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVectorSearchCollectionsExportDataObjectsOptions(
+        string GcsDestinationExportUri,
+        string GcsDestinationFormat,
+        string Collection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GcsDestinationExportUri);
+        this.GcsDestinationExportUri = GcsDestinationExportUri;
+        global::System.ArgumentNullException.ThrowIfNull(GcsDestinationFormat);
+        this.GcsDestinationFormat = GcsDestinationFormat;
+        global::System.ArgumentNullException.ThrowIfNull(Collection);
+        this.Collection = Collection;
+    }
+
+    public void Deconstruct(out string GcsDestinationExportUri, out string GcsDestinationFormat, out string Collection)
+    {
+        GcsDestinationExportUri = this.GcsDestinationExportUri;
+        GcsDestinationFormat = this.GcsDestinationFormat;
+        Collection = this.Collection;
+    }
+
+    /// <summary>
+    /// URI prefix of the Cloud Storage where to export Data Objects. The bucket is required to be in the same region as the collection.
+    /// </summary>
+    [CliOption("--gcs-destination-export-uri", Format = OptionFormat.EqualsSeparated)]
+    public string GcsDestinationExportUri { get; private init; }
+
+    /// <summary>
+    /// The format of the exported Data Objects. GCS_DESTINATION_FORMAT must be (only one value is supported): jsonl Exports Data Objects in JSONL format.
+    /// </summary>
+    [CliOption("--gcs-destination-format", Format = OptionFormat.EqualsSeparated)]
+    public string GcsDestinationFormat { get; private init; }
+
+    /// <summary>
+    /// Collection resource - The resource name of the Collection from which we want to export Data Objects. Format: projects/{project}/locations/{location}/collections/{collection}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the collection resource. To set the location attribute: ▸ provide the argument collection on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Collection resource - The resource name of the Collection from which we want to export Data Objects. Format: projects/{project}/locations/{location}/collections/{collection}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the collection or fully qualified identifier for the collection. To set the collection attribute: ▸ provide the argument collection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Collection { get; private init; }
+
 }

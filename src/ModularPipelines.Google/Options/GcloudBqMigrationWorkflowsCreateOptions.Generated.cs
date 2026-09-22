@@ -21,4 +21,44 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bq", "migration-workflows", "create")]
 public record GcloudBqMigrationWorkflowsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create migration workflows
+    /// </summary>
+    /// <param name="ConfigFile">Path to the migration workflows config file.</param>
+    /// <param name="Location">Location of the migration workflow.</param>
+    public GcloudBqMigrationWorkflowsCreateOptions(
+        string ConfigFile,
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigFile);
+        this.ConfigFile = ConfigFile;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string ConfigFile, out string Location)
+    {
+        ConfigFile = this.ConfigFile;
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// Path to the migration workflows config file.
+    /// </summary>
+    [CliOption("--config-file", Format = OptionFormat.EqualsSeparated)]
+    public string ConfigFile { get; private init; }
+
+    /// <summary>
+    /// Location of the migration workflow.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

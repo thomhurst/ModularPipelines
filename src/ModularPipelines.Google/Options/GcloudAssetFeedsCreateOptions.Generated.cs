@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,180 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "feeds", "create")]
-public record GcloudAssetFeedsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FeedId
-) : GcloudOptions
+public record GcloudAssetFeedsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Cloud Asset Inventory Feed
+    /// </summary>
+    /// <param name="PubsubTopic">Name of the Cloud Pub/Sub topic to publish to, of the form projects/PROJECT_ID/topics/TOPIC_ID. You can list existing topics with gcloud pubsub topics list --format="text(name)"</param>
+    /// <param name="FeedId">Asset feed identifier being created, it must be unique under the specified parent resource project/folder/organization.</param>
+    public GcloudAssetFeedsCreateOptions(
+        string PubsubTopic,
+        string FeedId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PubsubTopic);
+        this.PubsubTopic = PubsubTopic;
+        global::System.ArgumentNullException.ThrowIfNull(FeedId);
+        this.FeedId = FeedId;
+    }
+
+    public void Deconstruct(out string PubsubTopic, out string FeedId)
+    {
+        PubsubTopic = this.PubsubTopic;
+        FeedId = this.FeedId;
+    }
+
+    /// <summary>
+    /// Name of the Cloud Pub/Sub topic to publish to, of the form projects/PROJECT_ID/topics/TOPIC_ID. You can list existing topics with gcloud pubsub topics list --format="text(name)"
+    /// </summary>
+    [CliOption("--pubsub-topic", Format = OptionFormat.EqualsSeparated)]
+    public string PubsubTopic { get; private init; }
+
+    /// <summary>
+    /// At least one of these must be specified: A comma-separated list of the full names of the assets to receive updates. For example: //compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1. For more information, see: https://cloud.google.com/apis/design/resource_names#full_resource_name Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--asset-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AssetNames
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AssetNamesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AssetNamesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At least one of these must be specified: A comma-separated list of types of the assets types to receive updates. For example: compute.googleapis.com/Disk,compute.googleapis.com/Network. Regular expressions (https://github.com/google/re2/wiki/Syntax) are also supported. For more information, see: https://cloud.google.com/resource-manager/docs/cloud-asset-inventory/overview Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--asset-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AssetTypes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AssetTypesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AssetTypesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At least one of these must be specified: A comma-separated list of the relationship types (i.e., "INSTANCE_TO_INSTANCEGROUP") to receive updates. This argument will only be honoured if content_type=RELATIONSHIP.See http://cloud.google.com/asset-inventory/docs/supported-asset-types for supported relationship types. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--relationship-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RelationshipTypes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RelationshipTypesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RelationshipTypesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Folder of the feed.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization of the feed.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: project of the feed. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation: they specify both the project of the resource to operate on, and the project for API enablement checks, quota, and billing. To specify a different project for quota and billing, use the --billing-project flag or the billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// Description of the feed condition. For reference only.
+    /// </summary>
+    [CliOption("--condition-description", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionDescription { get; set; }
+
+    /// <summary>
+    /// Feed condition expression. If not specified, no condition will be applied to feed. For more information, see: https://cloud.google.com/asset-inventory/docs/monitoring-asset-changes#feed_with_condition
+    /// </summary>
+    [CliOption("--condition-expression", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionExpression { get; set; }
+
+    /// <summary>
+    /// Title of the feed condition. For reference only.
+    /// </summary>
+    [CliOption("--condition-title", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionTitle { get; set; }
+
+    /// <summary>
+    /// Asset content type. If not specified, no content but the asset name and type will be returned in the feed. For more information, see https://cloud.google.com/resource-manager/docs/cloud-asset-inventory/overview#asset_content_type. CONTENT_TYPE must be one of: resource, iam-policy, org-policy, access-policy, os-inventory, relationship.
+    /// </summary>
+    [CliOption("--content-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAssetFeedsCreateContentType? ContentType { get; set; }
+
+    /// <summary>
+    /// Asset feed identifier being created, it must be unique under the specified parent resource project/folder/organization.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FeedId { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(((object?)AssetNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)AssetNames is not string || !string.IsNullOrWhiteSpace(AssetNames?.ToString()) : ((object?)AssetNames is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AssetNames, static item => item is not null) : (AssetNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AssetNames), static item => item is not null)))) || ((object?)AssetTypes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AssetTypes is not string || !string.IsNullOrWhiteSpace(AssetTypes?.ToString()) : ((object?)AssetTypes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AssetTypes, static item => item is not null) : (AssetTypes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AssetTypes), static item => item is not null)))) || ((object?)RelationshipTypes is global::System.Collections.Generic.IEnumerable<char> ? (object?)RelationshipTypes is not string || !string.IsNullOrWhiteSpace(RelationshipTypes?.ToString()) : ((object?)RelationshipTypes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RelationshipTypes, static item => item is not null) : (RelationshipTypes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RelationshipTypes), static item => item is not null))))))
+        {
+            yield return new ValidationResult("At least one of AssetNames, AssetTypes, or RelationshipTypes must be specified.", [nameof(AssetNames), nameof(AssetTypes), nameof(RelationshipTypes)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder, Organization, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

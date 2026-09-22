@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("service-health", "events", "describe")]
 public record GcloudServiceHealthEventsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get details of an event affecting a     project
+    /// </summary>
+    /// <param name="Event">Event resource - Unique name of the event in this scope including project and location using the form projects/{project_id}/locations/{location}/events/{event_id}. project_id - Project ID of the project that contains the event. location - The location to get the service health events from. Set this field to global. event_id - Event ID to retrieve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument event on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the event or fully qualified identifier for the event. To set the event attribute: ▸ provide the argument event on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudServiceHealthEventsDescribeOptions(
+        string Event
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Event);
+        this.Event = Event;
+    }
+
+    public void Deconstruct(out string Event)
+    {
+        Event = this.Event;
+    }
+
+    /// <summary>
+    /// Event resource - Unique name of the event in this scope including project and location using the form projects/{project_id}/locations/{location}/events/{event_id}. project_id - Project ID of the project that contains the event. location - The location to get the service health events from. Set this field to global. event_id - Event ID to retrieve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument event on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location to use when working with Service Health resources. If not specified, will use default servicehealth/location. To set the location attribute: ▸ provide the argument event on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property servicehealth/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Event resource - Unique name of the event in this scope including project and location using the form projects/{project_id}/locations/{location}/events/{event_id}. project_id - Project ID of the project that contains the event. location - The location to get the service health events from. Set this field to global. event_id - Event ID to retrieve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument event on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the event or fully qualified identifier for the event. To set the event attribute: ▸ provide the argument event on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Event { get; private init; }
+
 }

@@ -19,15 +19,30 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "objects", "describe")]
-public record GcloudStorageObjectsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Url
-) : GcloudOptions
+public record GcloudStorageObjectsDescribeOptions : GcloudOptions
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
+    /// describe a Cloud Storage object
     /// </summary>
-    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
-    public string? AdditionalHeaders { get; set; }
+    /// <param name="Url">Specifies URL of object to describe.</param>
+    public GcloudStorageObjectsDescribeOptions(
+        string Url
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Url);
+        this.Url = Url;
+    }
+
+    public void Deconstruct(out string Url)
+    {
+        Url = this.Url;
+    }
+
+    /// <summary>
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdditionalHeaders { get; set; }
 
     /// <summary>
     /// If the initial GET request returns an object encrypted with a customer-supplied encryption key, the hash fields will be null. If the matching decryption key is present on the system, this flag retries the GET request with the key.
@@ -46,5 +61,11 @@ public record GcloudStorageObjectsDescribeOptions(
     /// </summary>
     [CliFlag("--soft-deleted")]
     public bool? SoftDeleted { get; set; }
+
+    /// <summary>
+    /// Specifies URL of object to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Url { get; private init; }
 
 }

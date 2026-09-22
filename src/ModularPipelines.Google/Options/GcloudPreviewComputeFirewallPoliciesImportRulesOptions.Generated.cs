@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "firewall-policies", "import-rules")]
-public record GcloudPreviewComputeFirewallPoliciesImportRulesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FirewallPolicy
-) : GcloudOptions
+public record GcloudPreviewComputeFirewallPoliciesImportRulesOptions : GcloudOptions
 {
+    /// <summary>
+    /// import Compute     Engine organization firewall policy rules
+    /// </summary>
+    /// <param name="FirewallPolicy">Short name or ID of the firewall policy to imports rules to.</param>
+    public GcloudPreviewComputeFirewallPoliciesImportRulesOptions(
+        string FirewallPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallPolicy);
+        this.FirewallPolicy = FirewallPolicy;
+    }
+
+    public void Deconstruct(out string FirewallPolicy)
+    {
+        FirewallPolicy = this.FirewallPolicy;
+    }
+
     /// <summary>
     /// Organization in which the organization firewall policy rules import to. Must be set if FIREWALL_POLICY is short name.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudPreviewComputeFirewallPoliciesImportRulesOptions(
     /// </summary>
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }
+
+    /// <summary>
+    /// Short name or ID of the firewall policy to imports rules to.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FirewallPolicy { get; private init; }
 
 }

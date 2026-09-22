@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,153 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "network-endpoint-groups", "update")]
-public record GcloudComputeNetworkEndpointGroupsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeNetworkEndpointGroupsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Compute Engine     network endpoint group
+    /// </summary>
+    /// <param name="Name">Name of the network endpoint group to operate on.</param>
+    public GcloudComputeNetworkEndpointGroupsUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// These flags can be specified multiple times to add/remove multiple endpoints. Exactly one of these must be specified: The network endpoint to add to the network endpoint group. Keys used depend on the endpoint type of the NEG. gce-vm-ip-port *instance* - Name of instance in same zone as the network endpoint group. The VM instance must belong to the network / subnetwork associated with the network endpoint group. If the VM instance is deleted, then any network endpoint group that has a reference to it is updated. *ip* - Optional IP address of the network endpoint. The IP address must belong to a VM in compute engine (either the primary IP or as part of an aliased IP range). If the IP address is not specified, then the primary IP address for the VM instance in the network that the network endpoint group belongs to is used. *ipv6* - Optional IPv6 address of the network endpoint. The IPv6 address must belong to a VM in compute engine (either the internal or external IPv6 address). *port* - Required endpoint port unless NEG default port is set. *client-destination-port* - Required endpoint client destination port only for the port mapping NEG. internet-ip-port *ip* - Required IPv4 address of the endpoint to attach. Must be publicly routable. *port* - Optional port of the endpoint to attach. If unspecified, the NEG default port is set. If no default port is set, the well-known port for the backend protocol is used instead (80 for HTTP, 443 for HTTPS). internet-fqdn-port *fqdn* - Required fully qualified domain name to use to look up an external endpoint. Must be resolvable to a public IP address via public DNS. *port* - Optional port of the endpoint to attach. If unspecified, the NEG default port is set. If no default port is set, the well-known port for the backend protocol is used instead (80 for HTTP, 443 for HTTPS or HTTP2). Example: `--add-endpoint="fqdn=backend.example.com,port=443"` non-gcp-private-ip-port *ip* - Required IPv4 address of the network endpoint to attach. The IP address must belong to a VM not in Compute Engine and must be routable using a Cloud Router over VPN or an Interconnect connection. *port* - Required port of the network endpoint to attach unless the NEG default port is set. gce-vm-ip *instance* - Required instance name in same zone as the network endpoint group. The VM instance must belong to the network / subnetwork associated with the network endpoint group. If the VM instance is deleted, then any network endpoint group that has a reference to it is updated. *ip* - Optional IP address of the network endpoint to attach. The IP address must be the VM's network interface address. If not specified, the primary NIC address is used.
+    /// </summary>
+    [CliOption("--add-endpoint", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddEndpoint
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddEndpointSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddEndpointSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddEndpointSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddEndpointSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// These flags can be specified multiple times to add/remove multiple endpoints. Exactly one of these must be specified: The network endpoint to detach from the network endpoint group. Keys used depend on the endpoint type of the NEG. gce-vm-ip-port *instance* - Required name of instance whose endpoint(s) to detach. If the IP address is unset, all endpoints for the instance in the NEG are detached. *ip* - Optional IPv4 address of the network endpoint to detach. If specified port must be provided as well. *ipv6* - Optional IPv6 address of the network endpoint to detach. If specified port must be provided as well. *port* - Optional port of the network endpoint to detach. *client-destination-port* - Optional client destination port, only for port mapping NEGs. internet-ip-port *ip* - Required IPv4 address of the network endpoint to detach. *port* - Optional port of the network endpoint to detach if the endpoint has a port specified. internet-fqdn-port *fqdn* - Required fully qualified domain name of the endpoint to detach. *port* - Optional port of the network endpoint to detach if the endpoint has a port specified. non-gcp-private-ip-port *ip* - Required IPv4 address of the network endpoint to detach. *port* - Required port of the network endpoint to detach unless NEG default port is set. gce-vm-ip *instance* - Required name of instance with endpoints to detach. If the IP address is unset, all endpoints for the instance in the NEG are detached. *ip* - Optional IP address of the network endpoint to attach. The IP address must be the VM's network interface's primary IP address. If not specified, the primary NIC address is used.
+    /// </summary>
+    [CliOption("--remove-endpoint", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveEndpoint
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveEndpointSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveEndpointSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveEndpointSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveEndpointSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the network endpoint group is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the network endpoint group to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone of the network endpoint group to operate on. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the network endpoint group to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)AddEndpoint is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddEndpoint, static item => item is not null) : ((object?)AddEndpoint is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddEndpoint is not string || !string.IsNullOrWhiteSpace(AddEndpoint?.ToString()) : ((object?)AddEndpoint is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddEndpoint, static item => item is not null) : (AddEndpoint is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddEndpoint), static item => item is not null))))) ? 1 : 0) + (((object?)RemoveEndpoint is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveEndpoint, static item => item is not null) : ((object?)RemoveEndpoint is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveEndpoint is not string || !string.IsNullOrWhiteSpace(RemoveEndpoint?.ToString()) : ((object?)RemoveEndpoint is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveEndpoint, static item => item is not null) : (RemoveEndpoint is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveEndpoint), static item => item is not null))))) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of AddEndpoint or RemoveEndpoint must be specified.", [nameof(AddEndpoint), nameof(RemoveEndpoint)]);
+        }
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global, Region, or Zone may be specified.", [nameof(Global), nameof(Region), nameof(Zone)]);
+        }
+        yield break;
+    }
+
 }

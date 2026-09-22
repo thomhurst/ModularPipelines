@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,15 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "buckets", "anywhere-caches", "create")]
-public record GcloudStorageBucketsAnywhereCachesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Url
-) : GcloudOptions
+public record GcloudStorageBucketsAnywhereCachesCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// The cache admission policy decides for each cache miss, whether to insert the missed block or not. ADMISSION_POLICY must be one of: ADMIT_ON_FIRST_MISS, ADMIT_ON_SECOND_MISS.
+    /// create Anywhere Cache     instances for a bucket
     /// </summary>
-    [CliOption("--admission-policy", Format = OptionFormat.EqualsSeparated)]
-    public GcloudAdmissionPolicy? AdmissionPolicy { get; set; }
+    /// <param name="Url">Specifies the URL of the bucket where the Anywhere Cache should be created.</param>
+    /// <param name="Zone">Specifies the name of the zonal locations where the Anywhere Cache should be created.</param>
+    public GcloudStorageBucketsAnywhereCachesCreateOptions(
+        string Url,
+        IEnumerable<string> Zone
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Url);
+        this.Url = Url;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Zone);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Zone));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Zone));
+            }
+
+            Zone = materialized;
+        }
+        this.Zone = Zone;
+    }
+
+    public void Deconstruct(out string Url, out IEnumerable<string> Zone)
+    {
+        Url = this.Url;
+        Zone = this.Zone;
+    }
 
     /// <summary>
     /// Enables the Ingest-on-Write feature on the bucket. Use --enable-ingest-on-write to enable and --no-enable-ingest-on-write to disable.
@@ -47,5 +71,17 @@ public record GcloudStorageBucketsAnywhereCachesCreateOptions(
     /// </summary>
     [CliOption("--ttl", Format = OptionFormat.EqualsSeparated)]
     public string? Ttl { get; set; }
+
+    /// <summary>
+    /// Specifies the URL of the bucket where the Anywhere Cache should be created.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Url { get; private init; }
+
+    /// <summary>
+    /// Specifies the name of the zonal locations where the Anywhere Cache should be created.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Zone { get; private init; }
 
 }

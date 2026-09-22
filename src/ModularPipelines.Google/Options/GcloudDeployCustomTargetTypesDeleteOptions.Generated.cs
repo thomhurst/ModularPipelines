@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDeployCustomTargetTypesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a custom target type
+    /// </summary>
+    /// <param name="CustomTargetType">Custom target type resource - The name of the custom target type to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument custom_target_type on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the custom target type or fully qualified identifier for the custom target type. To set the custom_target_type attribute: ▸ provide the argument custom_target_type on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDeployCustomTargetTypesDeleteOptions(
+        string CustomTargetType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CustomTargetType);
+        this.CustomTargetType = CustomTargetType;
+    }
+
+    public void Deconstruct(out string CustomTargetType)
+    {
+        CustomTargetType = this.CustomTargetType;
+    }
+
+    /// <summary>
+    /// Custom target type resource - The name of the custom target type to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument custom_target_type on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the custom target type. To set the region attribute: ▸ provide the argument custom_target_type on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property deploy/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Custom target type resource - The name of the custom target type to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument custom_target_type on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the custom target type or fully qualified identifier for the custom target type. To set the custom_target_type attribute: ▸ provide the argument custom_target_type on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CustomTargetType { get; private init; }
 
 }

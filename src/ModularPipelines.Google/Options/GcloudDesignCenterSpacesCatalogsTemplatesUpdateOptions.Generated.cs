@@ -22,6 +22,41 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDesignCenterSpacesCatalogsTemplatesUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// update a catalog     template
+    /// </summary>
+    /// <param name="Template">Template resource - Identifier. The catalog template name in following format: projects/$project/locations/$location/spaces/$space/catalogs/$catalog/templates/$template The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDesignCenterSpacesCatalogsTemplatesUpdateOptions(
+        string Template
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+    }
+
+    public void Deconstruct(out string Template)
+    {
+        Template = this.Template;
+    }
+
+    /// <summary>
+    /// Template resource - Identifier. The catalog template name in following format: projects/$project/locations/$location/spaces/$space/catalogs/$catalog/templates/$template The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The catalog id of the template resource. To set the catalog attribute: ▸ provide the argument template on the command line with a fully specified name; ▸ provide the argument --catalog on the command line.
+    /// </summary>
+    [CliOption("--catalog", Format = OptionFormat.EqualsSeparated)]
+    public string? Catalog { get; set; }
+
+    /// <summary>
+    /// Template resource - Identifier. The catalog template name in following format: projects/$project/locations/$location/spaces/$space/catalogs/$catalog/templates/$template The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the template resource. To set the location attribute: ▸ provide the argument template on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Template resource - Identifier. The catalog template name in following format: projects/$project/locations/$location/spaces/$space/catalogs/$catalog/templates/$template The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The space id of the template resource. To set the space attribute: ▸ provide the argument template on the command line with a fully specified name; ▸ provide the argument --space on the command line.
+    /// </summary>
+    [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
+    public string? Space { get; set; }
+
+    /// <summary>
     /// The catalog template description.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
@@ -44,5 +79,11 @@ public record GcloudDesignCenterSpacesCatalogsTemplatesUpdateOptions : GcloudOpt
     /// </summary>
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
     public string? Type { get; set; }
+
+    /// <summary>
+    /// Template resource - Identifier. The catalog template name in following format: projects/$project/locations/$location/spaces/$space/catalogs/$catalog/templates/$template The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Template { get; private init; }
 
 }

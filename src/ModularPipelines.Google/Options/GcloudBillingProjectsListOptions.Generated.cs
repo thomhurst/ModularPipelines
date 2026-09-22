@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("billing", "projects", "list")]
 public record GcloudBillingProjectsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list all active projects associated with the     specified billing account
+    /// </summary>
+    /// <param name="BillingAccount">Specify a billing account ID. Billing account IDs are of the form 0X0X0X-0X0X0X-0X0X0X. To see available IDs, run $ gcloud billing accounts list.</param>
+    public GcloudBillingProjectsListOptions(
+        string BillingAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BillingAccount);
+        this.BillingAccount = BillingAccount;
+    }
+
+    public void Deconstruct(out string BillingAccount)
+    {
+        BillingAccount = this.BillingAccount;
+    }
+
+    /// <summary>
+    /// Specify a billing account ID. Billing account IDs are of the form 0X0X0X-0X0X0X-0X0X0X. To see available IDs, run $ gcloud billing accounts list.
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string BillingAccount { get; private init; }
+
 }

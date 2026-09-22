@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,37 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "os-config", "policy-orchestrators", "update")]
-public record GcloudComputeOsConfigPolicyOrchestratorsUpdateOptions : GcloudOptions
+public record GcloudComputeOsConfigPolicyOrchestratorsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a policy     orchestrator
+    /// </summary>
+    /// <param name="PolicyOrchestrator">Policy orchestrator resource - Policy orchestrator to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_orchestrator on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [policy_orchestrator_project, policy_orchestrator_folder, policy_orchestrator_organization]. This must be specified. ID of the policy_orchestrator or fully qualified identifier for the policy_orchestrator. To set the policy_orchestrator attribute: ▸ provide the argument policy_orchestrator on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeOsConfigPolicyOrchestratorsUpdateOptions(
+        string PolicyOrchestrator
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyOrchestrator);
+        this.PolicyOrchestrator = PolicyOrchestrator;
+    }
+
+    public void Deconstruct(out string PolicyOrchestrator)
+    {
+        PolicyOrchestrator = this.PolicyOrchestrator;
+    }
+
+    /// <summary>
+    /// Policy orchestrator resource - Policy orchestrator to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_orchestrator on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [policy_orchestrator_project, policy_orchestrator_folder, policy_orchestrator_organization]. This must be specified. Folder of the policy_orchestrator. To set the folder attribute: ▸ provide the argument policy_orchestrator on the command line with a fully specified name; ▸ provide the argument --folder on the command line. Must be specified for resource of type [policy_orchestrator_folder].
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Policy orchestrator resource - Policy orchestrator to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_orchestrator on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [policy_orchestrator_project, policy_orchestrator_folder, policy_orchestrator_organization]. This must be specified. Organization of the policy_orchestrator. To set the organization attribute: ▸ provide the argument policy_orchestrator on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [policy_orchestrator_organization].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
     /// <summary>
     /// Action to be taken on policy. ACTION must be one of: delete Delete a policy with a given name. policy-id must be specified. upsert Create or update a policy. policy-file must be specified.
     /// </summary>
@@ -86,5 +116,29 @@ public record GcloudComputeOsConfigPolicyOrchestratorsUpdateOptions : GcloudOpti
     /// </summary>
     [CliOption("--include-projects", Format = OptionFormat.EqualsSeparated)]
     public string? IncludeProjects { get; set; }
+
+    /// <summary>
+    /// Policy orchestrator resource - Policy orchestrator to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_orchestrator on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [policy_orchestrator_project, policy_orchestrator_folder, policy_orchestrator_organization]. This must be specified. ID of the policy_orchestrator or fully qualified identifier for the policy_orchestrator. To set the policy_orchestrator attribute: ▸ provide the argument policy_orchestrator on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyOrchestrator { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearFolders == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(IncludeFolders) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearFolders or IncludeFolders may be specified.", [nameof(ClearFolders), nameof(IncludeFolders)]);
+        }
+        if ((ClearLocations == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(IncludeLocations) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLocations or IncludeLocations may be specified.", [nameof(ClearLocations), nameof(IncludeLocations)]);
+        }
+        if ((ClearProjects == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(IncludeProjects) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearProjects or IncludeProjects may be specified.", [nameof(ClearProjects), nameof(IncludeProjects)]);
+        }
+        yield break;
+    }
 
 }

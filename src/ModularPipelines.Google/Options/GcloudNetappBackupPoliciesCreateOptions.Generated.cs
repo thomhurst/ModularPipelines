@@ -23,6 +23,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetappBackupPoliciesCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// create a Cloud NetApp Backup Policy
+    /// </summary>
+    /// <param name="BackupPolicy">Backup policy resource - The Backup Policy to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup_policy or fully qualified identifier for the backup_policy. To set the backup_policy attribute: ▸ provide the argument backup_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetappBackupPoliciesCreateOptions(
+        string BackupPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupPolicy);
+        this.BackupPolicy = BackupPolicy;
+    }
+
+    public void Deconstruct(out string BackupPolicy)
+    {
+        BackupPolicy = this.BackupPolicy;
+    }
+
+    /// <summary>
+    /// Backup policy resource - The Backup Policy to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the backup_policy. To set the location attribute: ▸ provide the argument backup_policy on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -41,9 +64,9 @@ public record GcloudNetappBackupPoliciesCreateOptions : GcloudOptions
     public string? Enabled { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -63,5 +86,11 @@ public record GcloudNetappBackupPoliciesCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--weekly-backup-limit", Format = OptionFormat.EqualsSeparated)]
     public string? WeeklyBackupLimit { get; set; }
+
+    /// <summary>
+    /// Backup policy resource - The Backup Policy to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup_policy or fully qualified identifier for the backup_policy. To set the backup_policy attribute: ▸ provide the argument backup_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackupPolicy { get; private init; }
 
 }

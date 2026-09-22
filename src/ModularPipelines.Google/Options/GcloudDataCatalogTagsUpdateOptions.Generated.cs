@@ -21,4 +21,79 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("data-catalog", "tags", "update")]
 public record GcloudDataCatalogTagsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a Data Catalog entry tag
+    /// </summary>
+    /// <param name="TagFile">Path to a JSON or YAML file containing the tag. The file should contain a JSON/YAML object with a key and value for each field that should be set. See $ gcloud topic datetimes for information on how to specify timestamp fields For example: { "dbl_field": 123, "str_field": "String", "bool_field": true, "ts_field": "1970-01-01T00:00:00.000Z", "enum_field": "ENUM_A", }</param>
+    /// <param name="TagTemplate">Tag template resource - Tag template. --tag-template-location defaults to the tag's location. --tag-template-project defaults to the tag's project. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the tag template or fully qualified identifier for the tag template. To set the tag_template attribute: ▸ provide the argument --tag-template on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="Tag">Tag resource - Entry tag to update. The arguments in this group can be used to specify the attributes of this resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tag on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tag or fully qualified identifier for the tag. To set the tag attribute: ▸ provide the argument tag on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataCatalogTagsUpdateOptions(
+        string TagFile,
+        string TagTemplate,
+        string Tag
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TagFile);
+        this.TagFile = TagFile;
+        global::System.ArgumentNullException.ThrowIfNull(TagTemplate);
+        this.TagTemplate = TagTemplate;
+        global::System.ArgumentNullException.ThrowIfNull(Tag);
+        this.Tag = Tag;
+    }
+
+    public void Deconstruct(out string TagFile, out string TagTemplate, out string Tag)
+    {
+        TagFile = this.TagFile;
+        TagTemplate = this.TagTemplate;
+        Tag = this.Tag;
+    }
+
+    /// <summary>
+    /// Path to a JSON or YAML file containing the tag. The file should contain a JSON/YAML object with a key and value for each field that should be set. See $ gcloud topic datetimes for information on how to specify timestamp fields For example: { "dbl_field": 123, "str_field": "String", "bool_field": true, "ts_field": "1970-01-01T00:00:00.000Z", "enum_field": "ENUM_A", }
+    /// </summary>
+    [CliOption("--tag-file", Format = OptionFormat.EqualsSeparated)]
+    public string TagFile { get; private init; }
+
+    /// <summary>
+    /// Tag template resource - Tag template. --tag-template-location defaults to the tag's location. --tag-template-project defaults to the tag's project. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the tag template or fully qualified identifier for the tag template. To set the tag_template attribute: ▸ provide the argument --tag-template on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--tag-template", Format = OptionFormat.EqualsSeparated)]
+    public string TagTemplate { get; private init; }
+
+    /// <summary>
+    /// Tag resource - Entry tag to update. The arguments in this group can be used to specify the attributes of this resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tag on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Entry of the tag. To set the entry attribute: ▸ provide the argument tag on the command line with a fully specified name; ▸ provide the argument --entry on the command line.
+    /// </summary>
+    [CliOption("--entry", Format = OptionFormat.EqualsSeparated)]
+    public string? Entry { get; set; }
+
+    /// <summary>
+    /// Tag resource - Entry tag to update. The arguments in this group can be used to specify the attributes of this resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tag on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Entry group of the tag. To set the entry-group attribute: ▸ provide the argument tag on the command line with a fully specified name; ▸ provide the argument --entry-group on the command line.
+    /// </summary>
+    [CliOption("--entry-group", Format = OptionFormat.EqualsSeparated)]
+    public string? EntryGroup { get; set; }
+
+    /// <summary>
+    /// Tag resource - Entry tag to update. The arguments in this group can be used to specify the attributes of this resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tag on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the tag. To set the location attribute: ▸ provide the argument tag on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Tag template resource - Tag template. --tag-template-location defaults to the tag's location. --tag-template-project defaults to the tag's project. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Location of the tag template. To set the location attribute: ▸ provide the argument --tag-template on the command line with a fully specified name; ▸ provide the argument --tag-template-location on the command line; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--tag-template-location", Format = OptionFormat.EqualsSeparated)]
+    public string? TagTemplateLocation { get; set; }
+
+    /// <summary>
+    /// Tag template resource - Tag template. --tag-template-location defaults to the tag's location. --tag-template-project defaults to the tag's project. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Project of the tag template. To set the project attribute: ▸ provide the argument --tag-template on the command line with a fully specified name; ▸ provide the argument --tag-template-project on the command line; ▸ provide the argument --project on the command line; ▸ set the property core/project.
+    /// </summary>
+    [CliOption("--tag-template-project", Format = OptionFormat.EqualsSeparated)]
+    public string? TagTemplateProject { get; set; }
+
+    /// <summary>
+    /// Tag resource - Entry tag to update. The arguments in this group can be used to specify the attributes of this resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tag on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tag or fully qualified identifier for the tag. To set the tag attribute: ▸ provide the argument tag on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Tag { get; private init; }
+
 }

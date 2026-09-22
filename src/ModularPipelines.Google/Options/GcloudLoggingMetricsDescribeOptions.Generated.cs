@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "metrics", "describe")]
-public record GcloudLoggingMetricsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string MetricName
-) : GcloudOptions
+public record GcloudLoggingMetricsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// based     metric
+    /// </summary>
+    /// <param name="MetricName">The name of the metric.</param>
+    public GcloudLoggingMetricsDescribeOptions(
+        string MetricName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MetricName);
+        this.MetricName = MetricName;
+    }
+
+    public void Deconstruct(out string MetricName)
+    {
+        MetricName = this.MetricName;
+    }
+
+    /// <summary>
+    /// The name of the metric.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MetricName { get; private init; }
+
 }

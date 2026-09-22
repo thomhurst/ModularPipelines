@@ -19,8 +19,62 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "networks", "peerings", "list-routes")]
-public record GcloudComputeNetworksPeeringsListRoutesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeNetworksPeeringsListRoutesOptions : GcloudOptions
 {
+    /// <summary>
+    /// list received or advertised     routes for a VPC network peering
+    /// </summary>
+    /// <param name="Direction">Direction of the routes to list. To list received routes, use INCOMING. To list advertised routes, use OUTGOING. DIRECTION must be one of: INCOMING To list received routes. OUTGOING To list advertised routes.</param>
+    /// <param name="Network">Network of the peering.</param>
+    /// <param name="Region">Region to list the routes for.</param>
+    /// <param name="Name">Name of the peering to list routes for.</param>
+    public GcloudComputeNetworksPeeringsListRoutesOptions(
+        string Direction,
+        string Network,
+        string Region,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Direction);
+        this.Direction = Direction;
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Direction, out string Network, out string Region, out string Name)
+    {
+        Direction = this.Direction;
+        Network = this.Network;
+        Region = this.Region;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Direction of the routes to list. To list received routes, use INCOMING. To list advertised routes, use OUTGOING. DIRECTION must be one of: INCOMING To list received routes. OUTGOING To list advertised routes.
+    /// </summary>
+    [CliOption("--direction", Format = OptionFormat.EqualsSeparated)]
+    public string Direction { get; private init; }
+
+    /// <summary>
+    /// Network of the peering.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// Region to list the routes for.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// Name of the peering to list routes for.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

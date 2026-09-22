@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudWorkspaceAddOnsDeploymentsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a Google Workspace     Add-ons deployment
+    /// </summary>
+    /// <param name="Deployment">Deployment resource - Google Workspace Add-ons deployment to delete This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the deployment or fully qualified identifier for the deployment. To set the deployment attribute: ▸ provide the argument deployment on the command line.</param>
+    public GcloudWorkspaceAddOnsDeploymentsDeleteOptions(
+        string Deployment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Deployment);
+        this.Deployment = Deployment;
+    }
+
+    public void Deconstruct(out string Deployment)
+    {
+        Deployment = this.Deployment;
+    }
+
+    /// <summary>
     /// etag of the deployment file
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
+
+    /// <summary>
+    /// Deployment resource - Google Workspace Add-ons deployment to delete This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the deployment or fully qualified identifier for the deployment. To set the deployment attribute: ▸ provide the argument deployment on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Deployment { get; private init; }
 
 }

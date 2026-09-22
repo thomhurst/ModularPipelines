@@ -33,4 +33,10 @@ public record GcloudRunWorkerPoolsReplaceOptions : GcloudOptions
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
+    /// <summary>
+    /// The absolute path to the YAML file with a Cloud Run worker-pool definition for the worker-pool to update or create. Defaults to worker-pool.yaml if not specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? File { get; set; }
+
 }

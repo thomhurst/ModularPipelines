@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("service-health", "organization-impacts", "describe")]
 public record GcloudServiceHealthOrganizationImpactsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get details of an     asset impact by an event under an organization
+    /// </summary>
+    /// <param name="OrganizationImpact">OrganizationImpact resource - Name of the resource using the form organizations/{organization_id}/locations/global/organizationImpacts/{organization_impact_id}. organization_id - ID (number) of the organization that contains the event. To get your organization_id, see Getting your organization resource ID (https://cloud.google.com/resource-manager/docs/creating-managing-organization#retrieving_your_organization_id).&lt;br&gt; organization_impact_id - ID of the OrganizationImpact resource. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the organizationImpact or fully qualified identifier for the organizationImpact. To set the organization_impact attribute: ▸ provide the argument organization_impact on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudServiceHealthOrganizationImpactsDescribeOptions(
+        string OrganizationImpact
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationImpact);
+        this.OrganizationImpact = OrganizationImpact;
+    }
+
+    public void Deconstruct(out string OrganizationImpact)
+    {
+        OrganizationImpact = this.OrganizationImpact;
+    }
+
+    /// <summary>
+    /// OrganizationImpact resource - Name of the resource using the form organizations/{organization_id}/locations/global/organizationImpacts/{organization_impact_id}. organization_id - ID (number) of the organization that contains the event. To get your organization_id, see Getting your organization resource ID (https://cloud.google.com/resource-manager/docs/creating-managing-organization#retrieving_your_organization_id).&lt;br&gt; organization_impact_id - ID of the OrganizationImpact resource. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location to use when working with Service Health resources. If not specified, will use default servicehealth/location. To set the location attribute: ▸ provide the argument organization_impact on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property servicehealth/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// OrganizationImpact resource - Name of the resource using the form organizations/{organization_id}/locations/global/organizationImpacts/{organization_impact_id}. organization_id - ID (number) of the organization that contains the event. To get your organization_id, see Getting your organization resource ID (https://cloud.google.com/resource-manager/docs/creating-managing-organization#retrieving_your_organization_id).&lt;br&gt; organization_impact_id - ID of the OrganizationImpact resource. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The organization id of the organizationImpact resource. To set the organization attribute: ▸ provide the argument organization_impact on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// OrganizationImpact resource - Name of the resource using the form organizations/{organization_id}/locations/global/organizationImpacts/{organization_impact_id}. organization_id - ID (number) of the organization that contains the event. To get your organization_id, see Getting your organization resource ID (https://cloud.google.com/resource-manager/docs/creating-managing-organization#retrieving_your_organization_id).&lt;br&gt; organization_impact_id - ID of the OrganizationImpact resource. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the organizationImpact or fully qualified identifier for the organizationImpact. To set the organization_impact attribute: ▸ provide the argument organization_impact on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OrganizationImpact { get; private init; }
+
 }

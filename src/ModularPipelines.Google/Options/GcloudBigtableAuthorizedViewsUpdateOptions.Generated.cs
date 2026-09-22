@@ -22,6 +22,35 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBigtableAuthorizedViewsUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// update an existing Cloud Bigtable     authorized view
+    /// </summary>
+    /// <param name="AuthorizedView">Authorized view resource - Cloud Bigtable authorized view to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument authorized_view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the authorized-view or fully qualified identifier for the authorized-view. To set the authorized_view attribute: ▸ provide the argument authorized_view on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBigtableAuthorizedViewsUpdateOptions(
+        string AuthorizedView
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthorizedView);
+        this.AuthorizedView = AuthorizedView;
+    }
+
+    public void Deconstruct(out string AuthorizedView)
+    {
+        AuthorizedView = this.AuthorizedView;
+    }
+
+    /// <summary>
+    /// Authorized view resource - Cloud Bigtable authorized view to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument authorized_view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable instance. To set the instance attribute: ▸ provide the argument authorized_view on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Authorized view resource - Cloud Bigtable authorized view to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument authorized_view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable table. To set the table attribute: ▸ provide the argument authorized_view on the command line with a fully specified name; ▸ provide the argument --table on the command line.
+    /// </summary>
+    [CliOption("--table", Format = OptionFormat.EqualsSeparated)]
+    public string? Table { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -56,5 +85,11 @@ public record GcloudBigtableAuthorizedViewsUpdateOptions : GcloudOptions
     /// </summary>
     [CliFlag("--pre-encoded")]
     public bool? PreEncoded { get; set; }
+
+    /// <summary>
+    /// Authorized view resource - Cloud Bigtable authorized view to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument authorized_view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the authorized-view or fully qualified identifier for the authorized-view. To set the authorized_view attribute: ▸ provide the argument authorized_view on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AuthorizedView { get; private init; }
 
 }

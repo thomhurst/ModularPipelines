@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,201 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "instances", "create")]
-public record GcloudSpannerInstancesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudSpannerInstancesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Cloud Spanner instance
+    /// </summary>
+    /// <param name="Config">Instance configuration defines the geographic placement and replication of the databases in that instance. Available configurations can be found by running "gcloud spanner instance-configs list"</param>
+    /// <param name="Description">Description of the instance.</param>
+    /// <param name="Instance">Cloud Spanner instance ID.</param>
+    public GcloudSpannerInstancesCreateOptions(
+        string Config,
+        string Description,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Config);
+        this.Config = Config;
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Config, out string Description, out string Instance)
+    {
+        Config = this.Config;
+        Description = this.Description;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Instance configuration defines the geographic placement and replication of the databases in that instance. Available configurations can be found by running "gcloud spanner instance-configs list"
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string Config { get; private init; }
+
+    /// <summary>
+    /// Description of the instance.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string Description { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The default backup schedule type that is used in the instance. DEFAULT_BACKUP_SCHEDULE_TYPE must be one of: AUTOMATIC A default backup schedule is created automatically when a new database is created in an instance. You can edit or delete the default backup schedule once it's created. The default backup schedule creates a full backup every 24 hours. These full backups are retained for 7 days. DEFAULT_BACKUP_SCHEDULE_TYPE_UNSPECIFIED Not specified. NONE No default backup schedule is created automatically when a new database is created in an instance.
+    /// </summary>
+    [CliOption("--default-backup-schedule-type", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultBackupScheduleType { get; set; }
+
+    /// <summary>
+    /// Spanner edition. EDITION must be one of: EDITION_UNSPECIFIED Spanner's legacy pricing model. For more information, see the Spanner editions overview (https://cloud.google.com/spanner/docs/editions-overview) ENTERPRISE Enterprise edition ENTERPRISE_PLUS Enterprise Plus edition STANDARD Standard edition
+    /// </summary>
+    [CliOption("--edition", Format = OptionFormat.EqualsSeparated)]
+    public string? Edition { get; set; }
+
+    /// <summary>
+    /// The expire behavior of a free trial instance. EXPIRE_BEHAVIOR must be one of: free-to-provisioned When the free trial instance expires, upgrade the instance to a provisioned instance. remove-after-grace-period When the free trial instance expires, disable the instance, and delete it after the grace period passes if it has not been upgraded to a provisioned instance.
+    /// </summary>
+    [CliOption("--expire-behavior", Format = OptionFormat.EqualsSeparated)]
+    public string? ExpireBehavior { get; set; }
+
+    /// <summary>
+    /// Specifies the type for this instance. INSTANCE_TYPE must be one of: free-instance Free trial instances provide no guarantees for dedicated resources, both node_count and processing_units should be 0. They come with stricter usage limits and limited support. provisioned Provisioned instances have dedicated resources, standard usage limits, and support.
+    /// </summary>
+    [CliOption("--instance-type", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceType { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Number of nodes for the instance.
+    /// </summary>
+    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? Nodes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Number of processing units for the instance.
+    /// </summary>
+    [CliOption("--processing-units", Format = OptionFormat.EqualsSeparated)]
+    public string? ProcessingUnits { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specifies the target percentage of storage the autoscaled instance can utilize. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-storage-target", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingStorageTarget { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specifies the asymmetric autoscaling option for the instance.
+    /// </summary>
+    [CliOption("--asymmetric-autoscaling-option", Format = OptionFormat.EqualsSeparated)]
+    public string? AsymmetricAutoscalingOption { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Set the flag to disable downscaling for the autoscaled instance. Use --disable-downscaling to enable and --no-disable-downscaling to disable.
+    /// </summary>
+    [CliFlag("--disable-downscaling")]
+    public bool? DisableDownscaling { get; set; }
+
+    /// <summary>
+    /// Negates --disable-downscaling. At most one of these can be specified: Or at least one of these can be specified: Autoscaling Set the flag to disable downscaling for the autoscaled instance. Use --disable-downscaling to enable and --no-disable-downscaling to disable.
+    /// </summary>
+    [CliFlag("--no-disable-downscaling")]
+    public bool? NoDisableDownscaling { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specify one or both CPU targets: At least one of these must be specified: Specifies the target percentage of high-priority CPU the autoscaled instance can utilize.
+    /// </summary>
+    [CliOption("--autoscaling-high-priority-cpu-target", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingHighPriorityCpuTarget { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specify one or both CPU targets: At least one of these must be specified: Specifies the target percentage of total CPU the autoscaled instance can utilize.
+    /// </summary>
+    [CliOption("--autoscaling-total-cpu-target", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingTotalCpuTarget { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling limits can be defined in either nodes or processing units. Exactly one of these must be specified: Autoscaling limits in nodes: Maximum number of nodes for the autoscaled instance. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-max-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMaxNodes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling limits can be defined in either nodes or processing units. Exactly one of these must be specified: Autoscaling limits in nodes: Minimum number of nodes for the autoscaled instance. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-min-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMinNodes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling limits can be defined in either nodes or processing units. Exactly one of these must be specified: Autoscaling limits in processing units: Maximum number of processing units for the autoscaled instance. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-max-processing-units", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMaxProcessingUnits { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling limits can be defined in either nodes or processing units. Exactly one of these must be specified: Autoscaling limits in processing units: Minimum number of processing units for the autoscaled instance. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-min-processing-units", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMinProcessingUnits { get; set; }
+
+    /// <summary>
+    /// Cloud Spanner instance ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Nodes) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ProcessingUnits) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Nodes, ProcessingUnits, or (AutoscalingStorageTarget, AsymmetricAutoscalingOption, AutoscalingHighPriorityCpuTarget, AutoscalingTotalCpuTarget, AutoscalingMaxNodes, AutoscalingMinNodes, AutoscalingMaxProcessingUnits, AutoscalingMinProcessingUnits, DisableDownscaling, or NoDisableDownscaling) may be specified.", [nameof(Nodes), nameof(ProcessingUnits), nameof(AutoscalingStorageTarget), nameof(AsymmetricAutoscalingOption), nameof(AutoscalingHighPriorityCpuTarget), nameof(AutoscalingTotalCpuTarget), nameof(AutoscalingMaxNodes), nameof(AutoscalingMinNodes), nameof(AutoscalingMaxProcessingUnits), nameof(AutoscalingMinProcessingUnits), nameof(DisableDownscaling), nameof(NoDisableDownscaling)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Nodes) || !string.IsNullOrWhiteSpace(ProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!(!string.IsNullOrWhiteSpace(AutoscalingStorageTarget))))
+        {
+            yield return new ValidationResult("AutoscalingStorageTarget must be specified when other arguments in this group are specified.", [nameof(AutoscalingStorageTarget)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Nodes) || !string.IsNullOrWhiteSpace(ProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!(!string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget))))
+        {
+            yield return new ValidationResult("At least one of AutoscalingHighPriorityCpuTarget or AutoscalingTotalCpuTarget must be specified.", [nameof(AutoscalingHighPriorityCpuTarget), nameof(AutoscalingTotalCpuTarget)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Nodes) || !string.IsNullOrWhiteSpace(ProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (((!string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) ? 1 : 0) != 1))
+        {
+            yield return new ValidationResult("Exactly one of (AutoscalingMaxNodes or AutoscalingMinNodes) or (AutoscalingMaxProcessingUnits or AutoscalingMinProcessingUnits) must be specified.", [nameof(AutoscalingMaxNodes), nameof(AutoscalingMinNodes), nameof(AutoscalingMaxProcessingUnits), nameof(AutoscalingMinProcessingUnits)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Nodes) || !string.IsNullOrWhiteSpace(ProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) && (!string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes)) && (!(!string.IsNullOrWhiteSpace(AutoscalingMaxNodes))))
+        {
+            yield return new ValidationResult("AutoscalingMaxNodes must be specified when other arguments in this group are specified.", [nameof(AutoscalingMaxNodes)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Nodes) || !string.IsNullOrWhiteSpace(ProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) && (!string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes)) && (!(!string.IsNullOrWhiteSpace(AutoscalingMinNodes))))
+        {
+            yield return new ValidationResult("AutoscalingMinNodes must be specified when other arguments in this group are specified.", [nameof(AutoscalingMinNodes)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Nodes) || !string.IsNullOrWhiteSpace(ProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) && (!string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) && (!(!string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits))))
+        {
+            yield return new ValidationResult("AutoscalingMaxProcessingUnits must be specified when other arguments in this group are specified.", [nameof(AutoscalingMaxProcessingUnits)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Nodes) || !string.IsNullOrWhiteSpace(ProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) && (!string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) && (!(!string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits))))
+        {
+            yield return new ValidationResult("AutoscalingMinProcessingUnits must be specified when other arguments in this group are specified.", [nameof(AutoscalingMinProcessingUnits)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Nodes) || !string.IsNullOrWhiteSpace(ProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits) || DisableDownscaling == true || NoDisableDownscaling == true) && ((DisableDownscaling == true ? 1 : 0) + (NoDisableDownscaling == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of DisableDownscaling or NoDisableDownscaling may be specified.", [nameof(DisableDownscaling), nameof(NoDisableDownscaling)]);
+        }
+        yield break;
+    }
+
 }

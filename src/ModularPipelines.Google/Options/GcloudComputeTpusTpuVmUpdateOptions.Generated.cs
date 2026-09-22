@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,12 +21,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "tpus", "tpu-vm", "update")]
-public record GcloudComputeTpusTpuVmUpdateOptions : GcloudOptions
+public record GcloudComputeTpusTpuVmUpdateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// Tags to add to the TPU Node. Tags are used to identify valid sources or targets for network firewalls. See https://cloud.google.com/vpc/docs/add-remove-network-tags for more details.
+    /// update a Cloud TPU VM node
     /// </summary>
-    [CliOption("--add-tags", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Tpu">Tpu resource - Name of the Cloud TPU VM node to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tpu on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tpu or fully qualified identifier for the tpu. To set the tpu attribute: ▸ provide the argument tpu on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeTpusTpuVmUpdateOptions(
+        string Tpu
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Tpu);
+        this.Tpu = Tpu;
+    }
+
+    public void Deconstruct(out string Tpu)
+    {
+        Tpu = this.Tpu;
+    }
+
+    /// <summary>
+    /// Tpu resource - Name of the Cloud TPU VM node to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tpu on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Zone of the Cloud TPU. If not specified, will use default compute/zone. To set the zone attribute: ▸ provide the argument tpu on the command line with a fully specified name; ▸ provide the argument --zone on the command line; ▸ set the property compute/zone.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Tags to add to the TPU Node. Tags are used to identify valid sources or targets for network firewalls. See https://cloud.google.com/vpc/docs/add-remove-network-tags for more details. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--add-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddTags { get; set; }
 
     /// <summary>
@@ -47,22 +71,84 @@ public record GcloudComputeTpusTpuVmUpdateOptions : GcloudOptions
     public bool? InternalIps { get; set; }
 
     /// <summary>
-    /// Resource labels to update that represent user-provided metadata. If a label exists, its value is modified. Otherwise, a new label is created. See https://cloud.google.com/compute/docs/labeling-resources for details.
+    /// Resource labels to update that represent user-provided metadata. If a label exists, its value is modified. Otherwise, a new label is created. See https://cloud.google.com/compute/docs/labeling-resources for details. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Attach a data disk to the TPU VM. For example, $ gcloud compute tpus tpu-vm update example-tpu \ --attach-disk \ source=projects/my-project/zones/us-central1-c/disks/my-disk,\ mode=read-only --zone=us-central1-c attaches the disk named 'projects/my-project/zones/us-central1-c/disks/my-disk' to a TPU VM named 'example-tpu' in read-only mode in zone us-central1-c. The following keys are allowed: source Specify the full path to an existing disk. Required. The disk must be in the same zone. mode Specify the mode in which to attach this disk. Valid options are 'read-write', 'read-only'. If not specified, the default is 'read-write'.
+    /// At most one of these can be specified: Attach a data disk to the TPU VM. For example, $ gcloud compute tpus tpu-vm update example-tpu \ --attach-disk \ source=projects/my-project/zones/us-central1-c/disks/my-disk,\ mode=read-only --zone=us-central1-c attaches the disk named 'projects/my-project/zones/us-central1-c/disks/my-disk' to a TPU VM named 'example-tpu' in read-only mode in zone us-central1-c. The following keys are allowed: source Specify the full path to an existing disk. Required. The disk must be in the same zone. mode Specify the mode in which to attach this disk. Valid options are 'read-write', 'read-only'. If not specified, the default is 'read-write'. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--attach-disk", Format = OptionFormat.EqualsSeparated)]
-    public string? AttachDisk { get; set; }
+    [CliOption("--attach-disk", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AttachDisk
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AttachDiskSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AttachDiskSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Detach a data disk from the TPU VM. For example, This flag must be repeated to provide multiple data disks. For example: $ gcloud compute tpus tpu-vm update example-tpu \ --detach-disk=projects/my-project/zones/us-central1-c/disks/\ my-disk --zone=us-central1-c detaches the disk named 'projects/my-project/zones/us-central1-c/disks/my-disk' from a TPU VM named 'example-tpu' in zone us-central1-c.
     /// </summary>
     [CliOption("--detach-disk", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? DetachDisk { get; set; }
+    public IEnumerable<string>? DetachDisk
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __DetachDiskSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __DetachDiskSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __DetachDiskSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __DetachDiskSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud compute tpus tpu-vm update --clear-labels To remove all existing labels and create two new labels, 'foo' and 'baz': $ gcloud compute tpus tpu-vm update --clear-labels \ --update-labels foo=bar,baz=qux
@@ -71,10 +157,32 @@ public record GcloudComputeTpusTpuVmUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Remove all tags. If --add-tags is also specified then --clear-tags is applied first. For example, to remove all tags: $ gcloud compute tpus tpu-vm update --clear-tags To remove all existing tags and create two new tags, 'foo' and 'bar': $ gcloud compute tpus tpu-vm update --clear-tags --add-tags foo,bar
@@ -83,22 +191,52 @@ public record GcloudComputeTpusTpuVmUpdateOptions : GcloudOptions
     public bool? ClearTags { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of tags to remove. If a tag does not exist it is silently ignored. If --add-tags is also specified then --add-tags is applied first.
+    /// At most one of these can be specified: List of tags to remove. If a tag does not exist it is silently ignored. If --add-tags is also specified then --add-tags is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-tags", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveTags { get; set; }
+    [CliOption("--remove-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveTags
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveTagsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveTagsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// At most one of these can be specified: Same as --metadata except the value for the entry will be read from a local file. Example: --metadata-from-file='key1=value1.txt'
+    /// At most one of these can be specified: Same as --metadata except the value for the entry will be read from a local file. Example: --metadata-from-file='key1=value1.txt' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? MetadataFromFile { get; set; }
+    [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? MetadataFromFile
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: List of comma-separated metadata key-value pairs for the Cloud TPU VM node. If a key exists, its value is modified. Otherwise, a new key-value pair is created.
+    /// At most one of these can be specified: Or at least one of these can be specified: List of comma-separated metadata key-value pairs for the Cloud TPU VM node. If a key exists, its value is modified. Otherwise, a new key-value pair is created. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-metadata", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? UpdateMetadata { get; set; }
+    [CliOption("--update-metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? UpdateMetadata
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
     /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove all metadata. If --update-metadata is also specified then --clear-metadata is applied first. For example, to remove all metadata: $ gcloud compute tpus tpu-vm update --clear-metadata To remove all existing metadata and create two new metadata key-value pairs, 'foo=bar' and 'baz=qux': $ gcloud compute tpus tpu-vm update --clear-metadata \ --update-metadata foo=bar,baz=qux
@@ -107,9 +245,63 @@ public record GcloudComputeTpusTpuVmUpdateOptions : GcloudOptions
     public bool? ClearMetadata { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: List of comma-separated metadata keys to remove. If a key does not exist it is silently ignored. If --update-metadata is also specified then --update-metadata is applied first.
+    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: List of comma-separated metadata keys to remove. If a key does not exist it is silently ignored. If --update-metadata is also specified then --update-metadata is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-metadata", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveMetadata { get; set; }
+    [CliOption("--remove-metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveMetadata
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveMetadataSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveMetadataSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Tpu resource - Name of the Cloud TPU VM node to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tpu on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tpu or fully qualified identifier for the tpu. To set the tpu attribute: ▸ provide the argument tpu on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Tpu { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)AttachDisk is global::System.Collections.Generic.IEnumerable<char> ? (object?)AttachDisk is not string || !string.IsNullOrWhiteSpace(AttachDisk?.ToString()) : ((object?)AttachDisk is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AttachDisk, static item => item is not null) : (AttachDisk is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AttachDisk), static item => item is not null)))) ? 1 : 0) + (((object?)DetachDisk is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)DetachDisk, static item => item is not null) : ((object?)DetachDisk is global::System.Collections.Generic.IEnumerable<char> ? (object?)DetachDisk is not string || !string.IsNullOrWhiteSpace(DetachDisk?.ToString()) : ((object?)DetachDisk is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DetachDisk, static item => item is not null) : (DetachDisk is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DetachDisk), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AttachDisk or DetachDisk may be specified.", [nameof(AttachDisk), nameof(DetachDisk)]);
+        }
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((ClearTags == true ? 1 : 0) + (((object?)RemoveTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveTags is not string || !string.IsNullOrWhiteSpace(RemoveTags?.ToString()) : ((object?)RemoveTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveTags, static item => item is not null) : (RemoveTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveTags), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearTags or RemoveTags may be specified.", [nameof(ClearTags), nameof(RemoveTags)]);
+        }
+        if ((((object?)MetadataFromFile is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetadataFromFile is not string || !string.IsNullOrWhiteSpace(MetadataFromFile?.ToString()) : ((object?)MetadataFromFile is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MetadataFromFile, static item => item is not null) : (MetadataFromFile is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetadataFromFile), static item => item is not null)))) ? 1 : 0) + ((((object?)UpdateMetadata is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateMetadata is not string || !string.IsNullOrWhiteSpace(UpdateMetadata?.ToString()) : ((object?)UpdateMetadata is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateMetadata, static item => item is not null) : (UpdateMetadata is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateMetadata), static item => item is not null)))) || ClearMetadata == true || ((object?)RemoveMetadata is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveMetadata is not string || !string.IsNullOrWhiteSpace(RemoveMetadata?.ToString()) : ((object?)RemoveMetadata is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveMetadata, static item => item is not null) : (RemoveMetadata is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveMetadata), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of MetadataFromFile or (UpdateMetadata, ClearMetadata, or RemoveMetadata) may be specified.", [nameof(MetadataFromFile), nameof(UpdateMetadata), nameof(ClearMetadata), nameof(RemoveMetadata)]);
+        }
+        if ((((object?)MetadataFromFile is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetadataFromFile is not string || !string.IsNullOrWhiteSpace(MetadataFromFile?.ToString()) : ((object?)MetadataFromFile is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MetadataFromFile, static item => item is not null) : (MetadataFromFile is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetadataFromFile), static item => item is not null)))) || ((object?)UpdateMetadata is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateMetadata is not string || !string.IsNullOrWhiteSpace(UpdateMetadata?.ToString()) : ((object?)UpdateMetadata is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateMetadata, static item => item is not null) : (UpdateMetadata is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateMetadata), static item => item is not null)))) || ClearMetadata == true || ((object?)RemoveMetadata is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveMetadata is not string || !string.IsNullOrWhiteSpace(RemoveMetadata?.ToString()) : ((object?)RemoveMetadata is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveMetadata, static item => item is not null) : (RemoveMetadata is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveMetadata), static item => item is not null))))) && (((object?)UpdateMetadata is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateMetadata is not string || !string.IsNullOrWhiteSpace(UpdateMetadata?.ToString()) : ((object?)UpdateMetadata is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateMetadata, static item => item is not null) : (UpdateMetadata is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateMetadata), static item => item is not null)))) || ClearMetadata == true || ((object?)RemoveMetadata is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveMetadata is not string || !string.IsNullOrWhiteSpace(RemoveMetadata?.ToString()) : ((object?)RemoveMetadata is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveMetadata, static item => item is not null) : (RemoveMetadata is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveMetadata), static item => item is not null))))) && ((ClearMetadata == true ? 1 : 0) + (((object?)RemoveMetadata is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveMetadata is not string || !string.IsNullOrWhiteSpace(RemoveMetadata?.ToString()) : ((object?)RemoveMetadata is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveMetadata, static item => item is not null) : (RemoveMetadata is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveMetadata), static item => item is not null)))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearMetadata or RemoveMetadata may be specified.", [nameof(ClearMetadata), nameof(RemoveMetadata)]);
+        }
+        yield break;
+    }
 
 }

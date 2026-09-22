@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "backups", "describe")]
-public record GcloudSqlBackupsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
-) : GcloudOptions
+public record GcloudSqlBackupsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// retrieves information about a backup
+    /// </summary>
+    /// <param name="Id">The ID of the backup run. To find the ID, run the following command: $ gcloud sql backups list -i {instance}.Or, the NAME of the backup. To find the NAME, run the following command: $ gcloud sql backups list --filter=instance:{instance}</param>
+    public GcloudSqlBackupsDescribeOptions(
+        string Id
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Id);
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out string Id)
+    {
+        Id = this.Id;
+    }
+
     /// <summary>
     /// Cloud SQL instance ID.
     /// </summary>
     [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
     public string? Instance { get; set; }
+
+    /// <summary>
+    /// The ID of the backup run. To find the ID, run the following command: $ gcloud sql backups list -i {instance}.Or, the NAME of the backup. To find the NAME, run the following command: $ gcloud sql backups list --filter=instance:{instance}
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Id { get; private init; }
 
 }

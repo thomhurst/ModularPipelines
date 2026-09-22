@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-services", "multicast-producer-associations", "describe")]
 public record GcloudNetworkServicesMulticastProducerAssociationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe     a multicast producer associations
+    /// </summary>
+    /// <param name="MulticastProducerAssociation">Multicast producer association resource - The multicast producer association to display. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_producer_association on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the multicast producer association or fully qualified identifier for the multicast producer association. To set the multicast_producer_association attribute: ▸ provide the argument multicast_producer_association on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkServicesMulticastProducerAssociationsDescribeOptions(
+        string MulticastProducerAssociation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MulticastProducerAssociation);
+        this.MulticastProducerAssociation = MulticastProducerAssociation;
+    }
+
+    public void Deconstruct(out string MulticastProducerAssociation)
+    {
+        MulticastProducerAssociation = this.MulticastProducerAssociation;
+    }
+
+    /// <summary>
+    /// Multicast producer association resource - The multicast producer association to display. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_producer_association on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument multicast_producer_association on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Multicast producer association resource - The multicast producer association to display. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_producer_association on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the multicast producer association or fully qualified identifier for the multicast producer association. To set the multicast_producer_association attribute: ▸ provide the argument multicast_producer_association on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MulticastProducerAssociation { get; private init; }
+
 }

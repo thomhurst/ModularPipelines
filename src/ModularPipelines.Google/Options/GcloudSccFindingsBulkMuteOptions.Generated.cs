@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,69 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "findings", "bulk-mute")]
-public record GcloudSccFindingsBulkMuteOptions : GcloudOptions
+public record GcloudSccFindingsBulkMuteOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// bulk mute Security Command Center findings     based on a filter
+    /// </summary>
+    /// <param name="Filter">Expression that identifies findings that should be muted.</param>
+    public GcloudSccFindingsBulkMuteOptions(
+        string Filter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Filter);
+        this.Filter = Filter;
+    }
+
+    public void Deconstruct(out string Filter)
+    {
+        Filter = this.Filter;
+    }
+
+    /// <summary>
+    /// Expression that identifies findings that should be muted.
+    /// </summary>
+    [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
+    public string Filter { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Folder where the findings reside. Formatted as folders/456 or just 456.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization where the findings reside. Formatted as organizations/123 or just 123.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Project (id or number) where the findings reside. Formatted as projects/789 or just 789.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// When data residency controls are enabled, this attribute specifies the location in which the resource is located and applicable. The location attribute can be provided as part of the fully specified resource name or with the --location argument on the command line. The default location is global. NOTE: If you override the endpoint to a regional endpoint (https://cloud.google.com/security-command-center/docs/reference/rest/index.html?rep_location=global#regional-service-endpoint) you must specify the correct data location (https://cloud.google.com/security-command-center/docs/data-residency-support#locations) using this flag. The default location on this command is unrelated to the default location that is specified when data residency controls are enabled for Security Command Center. NOTE: If no location is specified, the default location is global AND the request will be routed to the SCC V1 API. To use the SCC V2 API - please explicitly specify the flag.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Desired mute state of the finding. MUTE_STATE must be one of: muted, undefined.
+    /// </summary>
+    [CliOption("--mute-state", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSccFindingsBulkMuteMuteState? MuteState { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder, Organization, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

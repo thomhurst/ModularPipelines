@@ -22,6 +22,35 @@ namespace ModularPipelines.Google.Options;
 public record GcloudHealthcareHl7v2StoresCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// create a Cloud Healthcare API HL7v2     store
+    /// </summary>
+    /// <param name="Hl7V2Store">Hl7v2Store resource - Cloud Healthcare API HL7v2 store to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hl7v2_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hl7v2Store or fully qualified identifier for the hl7v2Store. To set the hl7v2_store attribute: ▸ provide the argument hl7v2_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudHealthcareHl7v2StoresCreateOptions(
+        string Hl7V2Store
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Hl7V2Store);
+        this.Hl7V2Store = Hl7V2Store;
+    }
+
+    public void Deconstruct(out string Hl7V2Store)
+    {
+        Hl7V2Store = this.Hl7V2Store;
+    }
+
+    /// <summary>
+    /// Hl7v2Store resource - Cloud Healthcare API HL7v2 store to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hl7v2_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud Healthcare dataset. To set the dataset attribute: ▸ provide the argument hl7v2_store on the command line with a fully specified name; ▸ provide the argument --dataset on the command line.
+    /// </summary>
+    [CliOption("--dataset", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSet { get; set; }
+
+    /// <summary>
+    /// Hl7v2Store resource - Cloud Healthcare API HL7v2 store to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hl7v2_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location. To set the location attribute: ▸ provide the argument hl7v2_store on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property healthcare/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// A list of notification configs. Each configuration uses a filter to determine whether to publish a message (both Ingest &amp; Create) on the corresponding notification destination. Only the message name is sent as part of the notification. Supplied by the client. See https://cloud.google.com/appengine/docs/standard/python/search/query_strings for the syntax of the filter. Note: A topic must be created before publishing or subscribing to it. For instructions on creating topics, refer to: https://cloud.google.com/pubsub/docs/admin#create_a_topic
     /// </summary>
     [CliOption("--notification-config", Format = OptionFormat.EqualsSeparated)]
@@ -32,5 +61,11 @@ public record GcloudHealthcareHl7v2StoresCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--parser-version", Format = OptionFormat.EqualsSeparated)]
     public string? ParserVersion { get; set; }
+
+    /// <summary>
+    /// Hl7v2Store resource - Cloud Healthcare API HL7v2 store to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hl7v2_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hl7v2Store or fully qualified identifier for the hl7v2Store. To set the hl7v2_store attribute: ▸ provide the argument hl7v2_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Hl7V2Store { get; private init; }
 
 }

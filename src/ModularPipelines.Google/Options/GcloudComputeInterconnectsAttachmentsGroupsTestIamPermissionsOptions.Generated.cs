@@ -21,4 +21,49 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "interconnects", "attachments", "groups", "test-iam-permissions")]
 public record GcloudComputeInterconnectsAttachmentsGroupsTestIamPermissionsOptions : GcloudOptions
 {
+    /// <summary>
+    /// test     IAM permissions for a Compute Engine interconnect attachment group
+    /// </summary>
+    /// <param name="Permissions">Permissions to be tested. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="InterconnectAttachmentGroup">Interconnect attachment group resource - The interconnect attachment group for which to test permissions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument interconnect_attachment_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the interconnect_attachment_group or fully qualified identifier for the interconnect_attachment_group. To set the interconnect_attachment_group attribute: ▸ provide the argument interconnect_attachment_group on the command line.</param>
+    public GcloudComputeInterconnectsAttachmentsGroupsTestIamPermissionsOptions(
+        IEnumerable<string> Permissions,
+        string InterconnectAttachmentGroup
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Permissions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Permissions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Permissions));
+            }
+
+            Permissions = materialized;
+        }
+        this.Permissions = Permissions;
+        global::System.ArgumentNullException.ThrowIfNull(InterconnectAttachmentGroup);
+        this.InterconnectAttachmentGroup = InterconnectAttachmentGroup;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Permissions, out string InterconnectAttachmentGroup)
+    {
+        Permissions = this.Permissions;
+        InterconnectAttachmentGroup = this.InterconnectAttachmentGroup;
+    }
+
+    /// <summary>
+    /// Permissions to be tested. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--permissions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Permissions { get; private init; }
+
+    /// <summary>
+    /// Interconnect attachment group resource - The interconnect attachment group for which to test permissions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument interconnect_attachment_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the interconnect_attachment_group or fully qualified identifier for the interconnect_attachment_group. To set the interconnect_attachment_group attribute: ▸ provide the argument interconnect_attachment_group on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InterconnectAttachmentGroup { get; private init; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,111 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "binauthz", "attestors", "public-keys", "add")]
-public record GcloudContainerBinauthzAttestorsPublicKeysAddOptions : GcloudOptions
+public record GcloudContainerBinauthzAttestorsPublicKeysAddOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// add a public key to     an Attestor
+    /// </summary>
+    /// <param name="Attestor">Attestor resource - The attestor to which the public key should be added. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --attestor on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the attestor or fully qualified identifier for the attestor. To set the name attribute: ▸ provide the argument --attestor on the command line.</param>
+    public GcloudContainerBinauthzAttestorsPublicKeysAddOptions(
+        string Attestor
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Attestor);
+        this.Attestor = Attestor;
+    }
+
+    public void Deconstruct(out string Attestor)
+    {
+        Attestor = this.Attestor;
+    }
+
+    /// <summary>
+    /// Attestor resource - The attestor to which the public key should be added. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --attestor on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the attestor or fully qualified identifier for the attestor. To set the name attribute: ▸ provide the argument --attestor on the command line.
+    /// </summary>
+    [CliOption("--attestor", Format = OptionFormat.EqualsSeparated)]
+    public string Attestor { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: PGP key definition The path to the file containing the ASCII-armored PGP public key to add. Use a full or relative path to a local file containing the value of pgp_public_key_file.
+    /// </summary>
+    [CliOption("--pgp-public-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PgpPublicKeyFile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: PGP key definition Cloud KMS key definition CryptoKeyVersion resource - The Cloud KMS (Key Management Service) CryptoKeyVersion whose public key will be added to the attestor. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the CryptoKeyVersion or fully qualified identifier for the CryptoKeyVersion. To set the version attribute: ▫ provide the argument --keyversion on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--keyversion", Format = OptionFormat.EqualsSeparated)]
+    public string? Keyversion { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: PGP key definition Cloud KMS key definition CryptoKeyVersion resource - The Cloud KMS (Key Management Service) CryptoKeyVersion whose public key will be added to the attestor. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The key of the CryptoKeyVersion. To set the key attribute: ▫ provide the argument --keyversion on the command line with a fully specified name; ▫ provide the argument --keyversion-key on the command line.
+    /// </summary>
+    [CliOption("--keyversion-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KeyversionKey { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: PGP key definition Cloud KMS key definition CryptoKeyVersion resource - The Cloud KMS (Key Management Service) CryptoKeyVersion whose public key will be added to the attestor. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The keyring of the CryptoKeyVersion. To set the keyring attribute: ▫ provide the argument --keyversion on the command line with a fully specified name; ▫ provide the argument --keyversion-keyring on the command line.
+    /// </summary>
+    [CliOption("--keyversion-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KeyversionKeyring { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: PGP key definition Cloud KMS key definition CryptoKeyVersion resource - The Cloud KMS (Key Management Service) CryptoKeyVersion whose public key will be added to the attestor. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location of the CryptoKeyVersion. To set the location attribute: ▫ provide the argument --keyversion on the command line with a fully specified name; ▫ provide the argument --keyversion-location on the command line.
+    /// </summary>
+    [CliOption("--keyversion-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KeyversionLocation { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: PGP key definition Cloud KMS key definition CryptoKeyVersion resource - The Cloud KMS (Key Management Service) CryptoKeyVersion whose public key will be added to the attestor. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Project ID of the Google Cloud project for the CryptoKeyVersion. To set the project attribute: ▫ provide the argument --keyversion on the command line with a fully specified name; ▫ provide the argument --keyversion-project on the command line; ▫ provide the argument --project on the command line; ▫ set the property core/project.
+    /// </summary>
+    [CliOption("--keyversion-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KeyversionProject { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: PKIX key definition The signing algorithm of the associated key. This will be used to verify the signatures associated with this key. PKIX_PUBLIC_KEY_ALGORITHM must be one of: ec-sign-p256-sha256, ec-sign-p384-sha384, ec-sign-p521-sha512, ecdsa-p256-sha256, ecdsa-p384-sha384, ecdsa-p521-sha512, ml-dsa-65, rsa-pss-2048-sha256, rsa-pss-3072-sha256, rsa-pss-4096-sha256, rsa-pss-4096-sha512, rsa-sign-pkcs1-2048-sha256, rsa-sign-pkcs1-3072-sha256, rsa-sign-pkcs1-4096-sha256, rsa-sign-pkcs1-4096-sha512, rsa-sign-pss-2048-sha256, rsa-sign-pss-3072-sha256, rsa-sign-pss-4096-sha256, rsa-sign-pss-4096-sha512. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--pkix-public-key-algorithm", Format = OptionFormat.EqualsSeparated)]
+    public string? PkixPublicKeyAlgorithm { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: PKIX key definition The path to the file containing the PKIX public key to add. Use a full or relative path to a local file containing the value of pkix_public_key_file. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--pkix-public-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PkixPublicKeyFile { get; set; }
+
+    /// <summary>
+    /// The comment describing the public key.
+    /// </summary>
+    [CliOption("--comment", Format = OptionFormat.EqualsSeparated)]
+    public string? Comment { get; set; }
+
+    /// <summary>
+    /// If provided, the ID to replace the default API-generated one. All IDs must be valid URIs as defined by RFC 3986 (https://tools.ietf.org/html/rfc3986). When creating Attestations to be verified by this key, one must always provide this custom ID as the public key ID.
+    /// </summary>
+    [CliOption("--public-key-id-override", Format = OptionFormat.EqualsSeparated)]
+    public string? PublicKeyIdOverride { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(PgpPublicKeyFile) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Keyversion) || !string.IsNullOrWhiteSpace(KeyversionKey) || !string.IsNullOrWhiteSpace(KeyversionKeyring) || !string.IsNullOrWhiteSpace(KeyversionLocation) || !string.IsNullOrWhiteSpace(KeyversionProject)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(PkixPublicKeyAlgorithm) || !string.IsNullOrWhiteSpace(PkixPublicKeyFile)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of PgpPublicKeyFile, (Keyversion, KeyversionKey, KeyversionKeyring, KeyversionLocation, or KeyversionProject), or (PkixPublicKeyAlgorithm or PkixPublicKeyFile) must be specified.", [nameof(PgpPublicKeyFile), nameof(Keyversion), nameof(KeyversionKey), nameof(KeyversionKeyring), nameof(KeyversionLocation), nameof(KeyversionProject), nameof(PkixPublicKeyAlgorithm), nameof(PkixPublicKeyFile)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(PgpPublicKeyFile) || !string.IsNullOrWhiteSpace(Keyversion) || !string.IsNullOrWhiteSpace(KeyversionKey) || !string.IsNullOrWhiteSpace(KeyversionKeyring) || !string.IsNullOrWhiteSpace(KeyversionLocation) || !string.IsNullOrWhiteSpace(KeyversionProject) || !string.IsNullOrWhiteSpace(PkixPublicKeyAlgorithm) || !string.IsNullOrWhiteSpace(PkixPublicKeyFile)) && (!string.IsNullOrWhiteSpace(Keyversion) || !string.IsNullOrWhiteSpace(KeyversionKey) || !string.IsNullOrWhiteSpace(KeyversionKeyring) || !string.IsNullOrWhiteSpace(KeyversionLocation) || !string.IsNullOrWhiteSpace(KeyversionProject)) && (!(!string.IsNullOrWhiteSpace(Keyversion))))
+        {
+            yield return new ValidationResult("Keyversion must be specified when other arguments in this group are specified.", [nameof(Keyversion)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(PgpPublicKeyFile) || !string.IsNullOrWhiteSpace(Keyversion) || !string.IsNullOrWhiteSpace(KeyversionKey) || !string.IsNullOrWhiteSpace(KeyversionKeyring) || !string.IsNullOrWhiteSpace(KeyversionLocation) || !string.IsNullOrWhiteSpace(KeyversionProject) || !string.IsNullOrWhiteSpace(PkixPublicKeyAlgorithm) || !string.IsNullOrWhiteSpace(PkixPublicKeyFile)) && (!string.IsNullOrWhiteSpace(PkixPublicKeyAlgorithm) || !string.IsNullOrWhiteSpace(PkixPublicKeyFile)) && (!(!string.IsNullOrWhiteSpace(PkixPublicKeyAlgorithm))))
+        {
+            yield return new ValidationResult("PkixPublicKeyAlgorithm must be specified when other arguments in this group are specified.", [nameof(PkixPublicKeyAlgorithm)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(PgpPublicKeyFile) || !string.IsNullOrWhiteSpace(Keyversion) || !string.IsNullOrWhiteSpace(KeyversionKey) || !string.IsNullOrWhiteSpace(KeyversionKeyring) || !string.IsNullOrWhiteSpace(KeyversionLocation) || !string.IsNullOrWhiteSpace(KeyversionProject) || !string.IsNullOrWhiteSpace(PkixPublicKeyAlgorithm) || !string.IsNullOrWhiteSpace(PkixPublicKeyFile)) && (!string.IsNullOrWhiteSpace(PkixPublicKeyAlgorithm) || !string.IsNullOrWhiteSpace(PkixPublicKeyFile)) && (!(!string.IsNullOrWhiteSpace(PkixPublicKeyFile))))
+        {
+            yield return new ValidationResult("PkixPublicKeyFile must be specified when other arguments in this group are specified.", [nameof(PkixPublicKeyFile)]);
+        }
+        yield break;
+    }
+
 }

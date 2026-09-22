@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "disk-types", "describe")]
-public record GcloudPreviewComputeDiskTypesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DiskType
-) : GcloudOptions
+public record GcloudPreviewComputeDiskTypesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Compute Engine disk     type
+    /// </summary>
+    /// <param name="DiskType">Name of the disk type to describe.</param>
+    public GcloudPreviewComputeDiskTypesDescribeOptions(
+        string DiskType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DiskType);
+        this.DiskType = DiskType;
+    }
+
+    public void Deconstruct(out string DiskType)
+    {
+        DiskType = this.DiskType;
+    }
+
     /// <summary>
     /// Zone of the disk type to describe. Overrides the default compute/zone property value for this command invocation.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the disk type to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DiskType { get; private init; }
 
 }

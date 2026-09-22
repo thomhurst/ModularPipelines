@@ -21,4 +21,44 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("metastore", "operations", "delete")]
 public record GcloudMetastoreOperationsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete one or more completed Dataproc     Metastore operations
+    /// </summary>
+    /// <param name="Operations">Operation resource - The operations to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operations on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. IDs of the operations or fully qualified identifiers for the operations. To set the operation attribute: ▸ provide the argument operations on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMetastoreOperationsDeleteOptions(
+        IEnumerable<string> Operations
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Operations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Operations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Operations));
+            }
+
+            Operations = materialized;
+        }
+        this.Operations = Operations;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Operations)
+    {
+        Operations = this.Operations;
+    }
+
+    /// <summary>
+    /// Operation resource - The operations to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operations on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location to which the operations belongs. To set the location attribute: ▸ provide the argument operations on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property metastore/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Operation resource - The operations to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operations on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. IDs of the operations or fully qualified identifiers for the operations. To set the operation attribute: ▸ provide the argument operations on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Operations { get; private init; }
+
 }

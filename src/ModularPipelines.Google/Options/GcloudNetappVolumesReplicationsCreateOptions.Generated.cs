@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,85 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("netapp", "volumes", "replications", "create")]
 public record GcloudNetappVolumesReplicationsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Cloud NetApp Volume     Replication
+    /// </summary>
+    /// <param name="DestinationVolumeParameters">Required, sets destination_volume_parameters value. description Sets description value. share_name Sets share_name value. storage_pool Required, sets storage_pool value. tiering_policy Sets tiering_policy value. cooling-threshold-days Sets cooling-threshold-days value. tier-action Sets tier-action value. volume_id Sets volume_id value. Shorthand Example: --destination-volume-parameters='description=string,share_name=string,storage_pool=string,tiering_policy={"cooling-threshold-days": int, "tier-action": "string"},volume_id=string' JSON Example: --destination-volume-parameters='{"description": "string", "share_name": "string", "storage_pool": "string", "tiering_policy": {"cooling-threshold-days": int, "tier-action": "string"}, "volume_id": "string"}' File Example: --destination-volume-parameters=path_to_file.(yaml|json)</param>
+    /// <param name="ReplicationSchedule">The schedule for the Replication.</param>
+    /// <param name="Replication">Replication resource - The Replication to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument replication on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the volume attribute: ◆ provide the argument replication on the command line with a fully specified name; ◆ provide the argument --volume on the command line. This must be specified. ID of the replication or fully qualified identifier for the replication. To set the replication attribute: ▸ provide the argument replication on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetappVolumesReplicationsCreateOptions(
+        string DestinationVolumeParameters,
+        string ReplicationSchedule,
+        string Replication
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestinationVolumeParameters);
+        this.DestinationVolumeParameters = DestinationVolumeParameters;
+        global::System.ArgumentNullException.ThrowIfNull(ReplicationSchedule);
+        this.ReplicationSchedule = ReplicationSchedule;
+        global::System.ArgumentNullException.ThrowIfNull(Replication);
+        this.Replication = Replication;
+    }
+
+    public void Deconstruct(out string DestinationVolumeParameters, out string ReplicationSchedule, out string Replication)
+    {
+        DestinationVolumeParameters = this.DestinationVolumeParameters;
+        ReplicationSchedule = this.ReplicationSchedule;
+        Replication = this.Replication;
+    }
+
+    /// <summary>
+    /// Required, sets destination_volume_parameters value. description Sets description value. share_name Sets share_name value. storage_pool Required, sets storage_pool value. tiering_policy Sets tiering_policy value. cooling-threshold-days Sets cooling-threshold-days value. tier-action Sets tier-action value. volume_id Sets volume_id value. Shorthand Example: --destination-volume-parameters='description=string,share_name=string,storage_pool=string,tiering_policy={"cooling-threshold-days": int, "tier-action": "string"},volume_id=string' JSON Example: --destination-volume-parameters='{"description": "string", "share_name": "string", "storage_pool": "string", "tiering_policy": {"cooling-threshold-days": int, "tier-action": "string"}, "volume_id": "string"}' File Example: --destination-volume-parameters=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--destination-volume-parameters", Format = OptionFormat.EqualsSeparated)]
+    public string DestinationVolumeParameters { get; private init; }
+
+    /// <summary>
+    /// The schedule for the Replication.
+    /// </summary>
+    [CliOption("--replication-schedule", Format = OptionFormat.EqualsSeparated)]
+    public string ReplicationSchedule { get; private init; }
+
+    /// <summary>
+    /// Replication resource - The Replication to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument replication on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the volume attribute: ◆ provide the argument replication on the command line with a fully specified name; ◆ provide the argument --volume on the command line. This must be specified. The location of the replication. To set the location attribute: ▸ provide the argument replication on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Location of the user cluster.
+    /// </summary>
+    [CliOption("--cluster-location", Format = OptionFormat.EqualsSeparated)]
+    public string? ClusterLocation { get; set; }
+
+    /// <summary>
+    /// A description of the Cloud NetApp Replication
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Volume resource - The Volume that the Replication is based on This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --volume on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. ID of the volume or fully qualified identifier for the volume. To set the volume attribute: ◆ provide the argument --volume on the command line.
+    /// </summary>
+    [CliOption("--volume", Format = OptionFormat.EqualsSeparated)]
+    public string? Volume { get; set; }
+
+    /// <summary>
+    /// Replication resource - The Replication to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument replication on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the volume attribute: ◆ provide the argument replication on the command line with a fully specified name; ◆ provide the argument --volume on the command line. This must be specified. ID of the replication or fully qualified identifier for the replication. To set the replication attribute: ▸ provide the argument replication on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Replication { get; private init; }
+
 }

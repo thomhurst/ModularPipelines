@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,86 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("edge-cloud", "networking", "interconnects", "attachments", "dedicated", "create")]
 public record GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicatedCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Distributed Cloud Edge Network interconnect attachment
+    /// </summary>
+    /// <param name="Interconnect">The underlying interconnect object that this attachment's traffic will traverse through.</param>
+    /// <param name="InterconnectAttachment">Interconnect attachment resource - Distributed Cloud Edge Network interconnectAttachment to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument interconnect_attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the interconnect attachment or fully qualified identifier for the interconnect attachment. To set the interconnect_attachment attribute: ▸ provide the argument interconnect_attachment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicatedCreateOptions(
+        string Interconnect,
+        string InterconnectAttachment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Interconnect);
+        this.Interconnect = Interconnect;
+        global::System.ArgumentNullException.ThrowIfNull(InterconnectAttachment);
+        this.InterconnectAttachment = InterconnectAttachment;
+    }
+
+    public void Deconstruct(out string Interconnect, out string InterconnectAttachment)
+    {
+        Interconnect = this.Interconnect;
+        InterconnectAttachment = this.InterconnectAttachment;
+    }
+
+    /// <summary>
+    /// The underlying interconnect object that this attachment's traffic will traverse through.
+    /// </summary>
+    [CliOption("--interconnect", Format = OptionFormat.EqualsSeparated)]
+    public string Interconnect { get; private init; }
+
+    /// <summary>
+    /// Interconnect attachment resource - Distributed Cloud Edge Network interconnectAttachment to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument interconnect_attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The global location name. To set the location attribute: ▸ provide the argument interconnect_attachment on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Interconnect attachment resource - Distributed Cloud Edge Network interconnectAttachment to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument interconnect_attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Google Distributed Cloud Edge zone. To set the zone attribute: ▸ provide the argument interconnect_attachment on the command line with a fully specified name; ▸ provide the argument --zone on the command line.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the interconnect attachment.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Maximum transmission unit (MTU) is the size of the largest IP packet that can be transmitted on this attachment. Default value is 1500 bytes, and the valid values are 1500 and 9000.
+    /// </summary>
+    [CliOption("--mtu", Format = OptionFormat.EqualsSeparated)]
+    public string? Mtu { get; set; }
+
+    /// <summary>
+    /// The network to use for dynamic routing.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// The ID of the vlan to tag the subnetwork. Default value is 0.
+    /// </summary>
+    [CliOption("--vlan-id", Format = OptionFormat.EqualsSeparated)]
+    public string? VlanId { get; set; }
+
+    /// <summary>
+    /// Interconnect attachment resource - Distributed Cloud Edge Network interconnectAttachment to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument interconnect_attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the interconnect attachment or fully qualified identifier for the interconnect attachment. To set the interconnect_attachment attribute: ▸ provide the argument interconnect_attachment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InterconnectAttachment { get; private init; }
+
 }

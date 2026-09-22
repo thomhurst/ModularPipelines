@@ -21,10 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "pools", "create")]
-public record GcloudPrivatecaPoolsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Ca
-) : GcloudOptions
+public record GcloudPrivatecaPoolsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new CA Pool
+    /// </summary>
+    /// <param name="CaPool">CA POOL resource - The ca pool to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CA_POOL on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CA_POOL or fully qualified identifier for the CA_POOL. To set the pool attribute: ▸ provide the argument CA_POOL on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPrivatecaPoolsCreateOptions(
+        string CaPool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CaPool);
+        this.CaPool = CaPool;
+    }
+
+    public void Deconstruct(out string CaPool)
+    {
+        CaPool = this.CaPool;
+    }
+
+    /// <summary>
+    /// CA POOL resource - The ca pool to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CA_POOL on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the CA_POOL. To set the location attribute: ▸ provide the argument CA_POOL on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property privateca/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// The full resource name of the Cloud KMS key to use for encrypting certificate data at rest. The key must be in the same region as the CA pool.
     /// </summary>
@@ -38,9 +59,9 @@ public record GcloudPrivatecaPoolsCreateOptions(
     public string? IssuancePolicy { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -71,12 +92,18 @@ public record GcloudPrivatecaPoolsCreateOptions(
     /// The encoding format of the content published to storage buckets. PUBLISHING_ENCODING_FORMAT must be one of: der, pem.
     /// </summary>
     [CliOption("--publishing-encoding-format", Format = OptionFormat.EqualsSeparated)]
-    public GcloudPublishingEncodingFormat? PublishingEncodingFormat { get; set; }
+    public GcloudPrivatecaPoolsCreatePublishingEncodingFormat? PublishingEncodingFormat { get; set; }
 
     /// <summary>
     /// The tier for the Certificate Authority. TIER must be one of: devops, enterprise.
     /// </summary>
     [CliOption("--tier", Format = OptionFormat.EqualsSeparated)]
-    public GcloudTier? Tier { get; set; }
+    public GcloudPrivatecaPoolsCreateTier? Tier { get; set; }
+
+    /// <summary>
+    /// CA POOL resource - The ca pool to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CA_POOL on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CA_POOL or fully qualified identifier for the CA_POOL. To set the pool attribute: ▸ provide the argument CA_POOL on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CaPool { get; private init; }
 
 }

@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("kms", "ekm-connections", "describe")]
 public record GcloudKmsEkmConnectionsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get metadata for an ekmconnection
+    /// </summary>
+    /// <param name="EkmConnection">Ekmconnection resource - The KMS ekm connection resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ekm_connection on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the ekmconnection or fully qualified identifier for the ekmconnection. To set the ekmconnection attribute: ▸ provide the argument ekm_connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudKmsEkmConnectionsDescribeOptions(
+        string EkmConnection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EkmConnection);
+        this.EkmConnection = EkmConnection;
+    }
+
+    public void Deconstruct(out string EkmConnection)
+    {
+        EkmConnection = this.EkmConnection;
+    }
+
+    /// <summary>
+    /// Ekmconnection resource - The KMS ekm connection resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ekm_connection on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The Google Cloud location for the ekmconnection. To set the location attribute: ▸ provide the argument ekm_connection on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Ekmconnection resource - The KMS ekm connection resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ekm_connection on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the ekmconnection or fully qualified identifier for the ekmconnection. To set the ekmconnection attribute: ▸ provide the argument ekm_connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EkmConnection { get; private init; }
+
 }

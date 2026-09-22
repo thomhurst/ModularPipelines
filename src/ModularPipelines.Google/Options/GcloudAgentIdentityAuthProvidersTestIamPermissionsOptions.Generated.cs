@@ -21,4 +21,55 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("agent-identity", "auth-providers", "test-iam-permissions")]
 public record GcloudAgentIdentityAuthProvidersTestIamPermissionsOptions : GcloudOptions
 {
+    /// <summary>
+    /// test IAM     permissions for an Agent Identity authProvider
+    /// </summary>
+    /// <param name="Permissions">The permissions to test. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="AuthProvider">AuthProvider resource - The authProvider for which to test permissions. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument auth_provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the authProvider or fully qualified identifier for the authProvider. To set the auth_provider attribute: ▸ provide the argument auth_provider on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAgentIdentityAuthProvidersTestIamPermissionsOptions(
+        IEnumerable<string> Permissions,
+        string AuthProvider
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Permissions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Permissions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Permissions));
+            }
+
+            Permissions = materialized;
+        }
+        this.Permissions = Permissions;
+        global::System.ArgumentNullException.ThrowIfNull(AuthProvider);
+        this.AuthProvider = AuthProvider;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Permissions, out string AuthProvider)
+    {
+        Permissions = this.Permissions;
+        AuthProvider = this.AuthProvider;
+    }
+
+    /// <summary>
+    /// The permissions to test. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--permissions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Permissions { get; private init; }
+
+    /// <summary>
+    /// AuthProvider resource - The authProvider for which to test permissions. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument auth_provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the authProvider resource. To set the location attribute: ▸ provide the argument auth_provider on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// AuthProvider resource - The authProvider for which to test permissions. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument auth_provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the authProvider or fully qualified identifier for the authProvider. To set the auth_provider attribute: ▸ provide the argument auth_provider on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AuthProvider { get; private init; }
+
 }

@@ -19,8 +19,64 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "networks", "create")]
-public record GcloudVmwareNetworksCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Vm
-) : GcloudOptions
+public record GcloudVmwareNetworksCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Google Cloud VMware Engine network
+    /// </summary>
+    /// <param name="Type">Type of the VMware Engine network. TYPE must be one of: LEGACY Network type used by private clouds created in projects without a network of type STANDARD. This network type is only used for new PCs in existing projects that continue to use LEGACY network. A VMware Engine network of type LEGACY is a regional resource. STANDARD Standard network type used for private cloud connectivity. A VMware Engine network of type STANDARD is a global resource.</param>
+    /// <param name="VmwareEngineNetwork">VMware Engine network resource - vmware_engine_network. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument vmware_engine_network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the VMware Engine network or fully qualified identifier for the VMware Engine network. To set the vmware-engine-network attribute: ▸ provide the argument vmware_engine_network on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVmwareNetworksCreateOptions(
+        string Type,
+        string VmwareEngineNetwork
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(VmwareEngineNetwork);
+        this.VmwareEngineNetwork = VmwareEngineNetwork;
+    }
+
+    public void Deconstruct(out string Type, out string VmwareEngineNetwork)
+    {
+        Type = this.Type;
+        VmwareEngineNetwork = this.VmwareEngineNetwork;
+    }
+
+    /// <summary>
+    /// Type of the VMware Engine network. TYPE must be one of: LEGACY Network type used by private clouds created in projects without a network of type STANDARD. This network type is only used for new PCs in existing projects that continue to use LEGACY network. A VMware Engine network of type LEGACY is a regional resource. STANDARD Standard network type used for private cloud connectivity. A VMware Engine network of type STANDARD is a global resource.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string Type { get; private init; }
+
+    /// <summary>
+    /// VMware Engine network resource - vmware_engine_network. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument vmware_engine_network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The resource name of the location. To set the location attribute: ▸ provide the argument vmware_engine_network on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set location as 'global' (default) or a region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Text describing the VMware Engine network.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// VMware Engine network resource - vmware_engine_network. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument vmware_engine_network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the VMware Engine network or fully qualified identifier for the VMware Engine network. To set the vmware-engine-network attribute: ▸ provide the argument vmware_engine_network on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string VmwareEngineNetwork { get; private init; }
+
 }

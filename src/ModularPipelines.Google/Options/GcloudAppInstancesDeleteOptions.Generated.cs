@@ -19,8 +19,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "instances", "delete")]
-public record GcloudAppInstancesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudAppInstancesDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a specified instance
+    /// </summary>
+    /// <param name="Service">The service ID.</param>
+    /// <param name="Version">The version ID.</param>
+    /// <param name="Instance">The instance ID.</param>
+    public GcloudAppInstancesDeleteOptions(
+        string Service,
+        string Version,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Service, out string Version, out string Instance)
+    {
+        Service = this.Service;
+        Version = this.Version;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// The service ID.
+    /// </summary>
+    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    public string Service { get; private init; }
+
+    /// <summary>
+    /// The version ID.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string Version { get; private init; }
+
+    /// <summary>
+    /// The instance ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
 }

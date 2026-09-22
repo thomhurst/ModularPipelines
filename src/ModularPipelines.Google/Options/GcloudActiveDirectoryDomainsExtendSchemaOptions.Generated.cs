@@ -21,4 +21,55 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("active-directory", "domains", "extend-schema")]
 public record GcloudActiveDirectoryDomainsExtendSchemaOptions : GcloudOptions
 {
+    /// <summary>
+    /// initiate schema extension     for a Managed Microsoft AD domain
+    /// </summary>
+    /// <param name="Description">Description of schema change.</param>
+    /// <param name="LdifFile">Local LDIF file path that contains commands for schema extension. The file size can't be larger than 1 MB. Use a full or relative path to a local file containing the value of ldif_file.</param>
+    /// <param name="Domain">Domain resource - Name of the Managed Microsoft AD domain for which you want to extend schema. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument domain on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the domain or fully qualified identifier for the domain. To set the domain attribute: ▸ provide the argument domain on the command line.</param>
+    public GcloudActiveDirectoryDomainsExtendSchemaOptions(
+        string Description,
+        string LdifFile,
+        string Domain
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        global::System.ArgumentNullException.ThrowIfNull(LdifFile);
+        this.LdifFile = LdifFile;
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+    }
+
+    public void Deconstruct(out string Description, out string LdifFile, out string Domain)
+    {
+        Description = this.Description;
+        LdifFile = this.LdifFile;
+        Domain = this.Domain;
+    }
+
+    /// <summary>
+    /// Description of schema change.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string Description { get; private init; }
+
+    /// <summary>
+    /// Local LDIF file path that contains commands for schema extension. The file size can't be larger than 1 MB. Use a full or relative path to a local file containing the value of ldif_file.
+    /// </summary>
+    [CliOption("--ldif-file", Format = OptionFormat.EqualsSeparated)]
+    public string LdifFile { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Domain resource - Name of the Managed Microsoft AD domain for which you want to extend schema. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument domain on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the domain or fully qualified identifier for the domain. To set the domain attribute: ▸ provide the argument domain on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Domain { get; private init; }
+
 }

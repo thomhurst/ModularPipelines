@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-connectivity", "hubs", "get-iam-policy")]
 public record GcloudNetworkConnectivityHubsGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the IAM policy for a     hub resource
+    /// </summary>
+    /// <param name="Hub">Hub resource - The hub for which you want the IAM policy. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hub on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hub or fully qualified identifier for the hub. To set the hub attribute: ▸ provide the argument hub on the command line.</param>
+    public GcloudNetworkConnectivityHubsGetIamPolicyOptions(
+        string Hub
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Hub);
+        this.Hub = Hub;
+    }
+
+    public void Deconstruct(out string Hub)
+    {
+        Hub = this.Hub;
+    }
+
+    /// <summary>
+    /// Hub resource - The hub for which you want the IAM policy. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hub on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hub or fully qualified identifier for the hub. To set the hub attribute: ▸ provide the argument hub on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Hub { get; private init; }
+
 }

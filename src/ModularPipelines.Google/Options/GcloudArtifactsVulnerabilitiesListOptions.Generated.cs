@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "vulnerabilities", "list")]
-public record GcloudArtifactsVulnerabilitiesListOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Uri
-) : GcloudOptions
+public record GcloudArtifactsVulnerabilitiesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// command for listing     vulnerabilities. To see all fields, use --format=json
+    /// </summary>
+    /// <param name="Uri">An URI identifying a container image or package in Artifact Registry or Google Cloud Registry.</param>
+    public GcloudArtifactsVulnerabilitiesListOptions(
+        string Uri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Uri);
+        this.Uri = Uri;
+    }
+
+    public void Deconstruct(out string Uri)
+    {
+        Uri = this.Uri;
+    }
+
     /// <summary>
     /// If specified, all requests to Artifact Analysis for occurrences will go to location specified
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudArtifactsVulnerabilitiesListOptions(
     /// </summary>
     [CliOption("--occurrence-filter", Format = OptionFormat.EqualsSeparated)]
     public string? OccurrenceFilter { get; set; }
+
+    /// <summary>
+    /// An URI identifying a container image or package in Artifact Registry or Google Cloud Registry.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Uri { get; private init; }
 
 }

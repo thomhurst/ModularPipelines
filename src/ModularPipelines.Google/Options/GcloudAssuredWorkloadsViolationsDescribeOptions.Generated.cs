@@ -21,4 +21,45 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("assured", "workloads", "violations", "describe")]
 public record GcloudAssuredWorkloadsViolationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an Assured     Workloads compliance violation
+    /// </summary>
+    /// <param name="Violation">Violation resource - The Assured Workloads violation resource to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the violation or fully qualified identifier for the violation. To set the violation attribute: ▸ provide the argument violation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAssuredWorkloadsViolationsDescribeOptions(
+        string Violation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Violation);
+        this.Violation = Violation;
+    }
+
+    public void Deconstruct(out string Violation)
+    {
+        Violation = this.Violation;
+    }
+
+    /// <summary>
+    /// Violation resource - The Assured Workloads violation resource to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location for the violation. To set the location attribute: ▸ provide the argument violation on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Violation resource - The Assured Workloads violation resource to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The parent organization for the violation. To set the organization attribute: ▸ provide the argument violation on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Violation resource - The Assured Workloads violation resource to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The workload for the violation. To set the workload attribute: ▸ provide the argument violation on the command line with a fully specified name; ▸ provide the argument --workload on the command line.
+    /// </summary>
+    [CliOption("--workload", Format = OptionFormat.EqualsSeparated)]
+    public string? Workload { get; set; }
+
+    /// <summary>
+    /// Violation resource - The Assured Workloads violation resource to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the violation or fully qualified identifier for the violation. To set the violation attribute: ▸ provide the argument violation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Violation { get; private init; }
+
 }

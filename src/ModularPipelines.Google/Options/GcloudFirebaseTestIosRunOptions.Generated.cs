@@ -35,9 +35,9 @@ public record GcloudFirebaseTestIosRunOptions : GcloudOptions
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Comma-separated, KEY=VALUE map of additional details to attach to the test matrix. Arbitrary KEY=VALUE pairs may be attached to a test matrix to provide additional context about the tests being run. When consuming the test results, such as in Cloud Functions or a CI system, these details can add additional context such as a link to the corresponding pull request. Example: --client-details=buildNumber=1234,pullRequest=https://example.com/link/to/pull-request To help you identify and locate your test matrix in the Firebase console, use the matrixLabel key. Example: --client-details=matrixLabel="Example matrix label"
+    /// Comma-separated, KEY=VALUE map of additional details to attach to the test matrix. Arbitrary KEY=VALUE pairs may be attached to a test matrix to provide additional context about the tests being run. When consuming the test results, such as in Cloud Functions or a CI system, these details can add additional context such as a link to the corresponding pull request. Example: --client-details=buildNumber=1234,pullRequest=https://example.com/link/to/pull-request To help you identify and locate your test matrix in the Firebase console, use the matrixLabel key. Example: --client-details=matrixLabel="Example matrix label" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--client-details", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--client-details", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ClientDetails { get; set; }
 
     /// <summary>
@@ -81,5 +81,11 @@ public record GcloudFirebaseTestIosRunOptions : GcloudOptions
     /// </summary>
     [CliFlag("--test-special-entitlements")]
     public bool? TestSpecialEntitlements { get; set; }
+
+    /// <summary>
+    /// An ARG_FILE:ARG_GROUP_NAME pair, where ARG_FILE is the path to a file containing groups of test arguments in yaml format, and ARG_GROUP_NAME is the particular yaml object holding a group of arg:value pairs to use. Run $ gcloud topic arg-files for more information and examples.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Argspec { get; set; }
 
 }

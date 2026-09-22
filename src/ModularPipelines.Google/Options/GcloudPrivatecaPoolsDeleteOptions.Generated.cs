@@ -19,14 +19,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "pools", "delete")]
-public record GcloudPrivatecaPoolsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Ca
-) : GcloudOptions
+public record GcloudPrivatecaPoolsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a CA pool
+    /// </summary>
+    /// <param name="CaPool">CA POOL resource - The ca pool to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CA_POOL on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CA_POOL or fully qualified identifier for the CA_POOL. To set the pool attribute: ▸ provide the argument CA_POOL on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPrivatecaPoolsDeleteOptions(
+        string CaPool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CaPool);
+        this.CaPool = CaPool;
+    }
+
+    public void Deconstruct(out string CaPool)
+    {
+        CaPool = this.CaPool;
+    }
+
+    /// <summary>
+    /// CA POOL resource - The ca pool to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CA_POOL on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the CA_POOL. To set the location attribute: ▸ provide the argument CA_POOL on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property privateca/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// This field skips the integrity check that would normally prevent breaking a CA Pool if it is used by another cloud resource and allows the CA Pool to be in a state where it is not able to issue certificates. Doing so may result in unintended and unrecoverable effects on any dependent resource(s) since the CA Pool would not be able to issue certificates.
     /// </summary>
     [CliFlag("--ignore-dependent-resources")]
     public bool? IgnoreDependentResources { get; set; }
+
+    /// <summary>
+    /// CA POOL resource - The ca pool to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CA_POOL on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CA_POOL or fully qualified identifier for the CA_POOL. To set the pool attribute: ▸ provide the argument CA_POOL on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CaPool { get; private init; }
 
 }

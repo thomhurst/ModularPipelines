@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "url-maps", "list-cdn-cache-invalidations")]
-public record GcloudComputeUrlMapsListCdnCacheInvalidationsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string UrlMap
-) : GcloudOptions
+public record GcloudComputeUrlMapsListCdnCacheInvalidationsOptions : GcloudOptions
 {
+    /// <summary>
+    /// list Cloud CDN cache     invalidations for a URL map
+    /// </summary>
+    /// <param name="UrlMap">Name of the URL map to describe.</param>
+    public GcloudComputeUrlMapsListCdnCacheInvalidationsOptions(
+        string UrlMap
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UrlMap);
+        this.UrlMap = UrlMap;
+    }
+
+    public void Deconstruct(out string UrlMap)
+    {
+        UrlMap = this.UrlMap;
+    }
+
     /// <summary>
     /// (Default) The URL map is global. Regional URL maps are not supported.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudComputeUrlMapsListCdnCacheInvalidationsOptions(
     /// </summary>
     [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
     public string? Limit { get; set; }
+
+    /// <summary>
+    /// Name of the URL map to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string UrlMap { get; private init; }
 
 }

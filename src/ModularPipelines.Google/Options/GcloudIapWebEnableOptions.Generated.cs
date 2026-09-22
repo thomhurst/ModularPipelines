@@ -40,7 +40,7 @@ public record GcloudIapWebEnableOptions : GcloudOptions
     /// Resource type of the IAP resource. RESOURCE_TYPE must be one of: app-engine, backend-services.
     /// </summary>
     [CliOption("--resource-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudResourceType? ResourceType { get; set; }
+    public GcloudIapWebEnableResourceType? ResourceType { get; set; }
 
     /// <summary>
     /// Region name. Not applicable for app-engine. Optional when resource-type is compute.

@@ -22,9 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudWorkstationsConfigsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a workstation configuration
+    /// </summary>
+    /// <param name="Config">Config resource - The name of the configuration to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the config or fully qualified identifier for the config. To set the config attribute: ▸ provide the argument config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudWorkstationsConfigsDeleteOptions(
+        string Config
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Config);
+        this.Config = Config;
+    }
+
+    public void Deconstruct(out string Config)
+    {
+        Config = this.Config;
+    }
+
+    /// <summary>
+    /// Config resource - The name of the configuration to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the cluster containing the config. To set the cluster attribute: ▸ provide the argument config on the command line with a fully specified name; ▸ provide the argument --cluster on the command line; ▸ set the property workstations/cluster.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Config resource - The name of the configuration to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the region of the config. To set the region attribute: ▸ provide the argument config on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property workstations/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Config resource - The name of the configuration to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the config or fully qualified identifier for the config. To set the config attribute: ▸ provide the argument config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Config { get; private init; }
 
 }

@@ -22,6 +22,23 @@ namespace ModularPipelines.Google.Options;
 public record GcloudOracleDatabaseAutonomousDatabasesFailoverOptions : GcloudOptions
 {
     /// <summary>
+    /// failovers a standby     AutonomousDatabase to a new primary
+    /// </summary>
+    /// <param name="AutonomousDatabase">AutonomousDatabase resource - The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument autonomous_database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument autonomous_database on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the autonomousDatabase or fully qualified identifier for the autonomousDatabase. To set the autonomous_database attribute: ▸ provide the argument autonomous_database on the command line.</param>
+    public GcloudOracleDatabaseAutonomousDatabasesFailoverOptions(
+        string AutonomousDatabase
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutonomousDatabase);
+        this.AutonomousDatabase = AutonomousDatabase;
+    }
+
+    public void Deconstruct(out string AutonomousDatabase)
+    {
+        AutonomousDatabase = this.AutonomousDatabase;
+    }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -38,5 +55,11 @@ public record GcloudOracleDatabaseAutonomousDatabasesFailoverOptions : GcloudOpt
     /// </summary>
     [CliOption("--peer-autonomous-database", Format = OptionFormat.EqualsSeparated)]
     public string? PeerAutonomousDatabase { get; set; }
+
+    /// <summary>
+    /// AutonomousDatabase resource - The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument autonomous_database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument autonomous_database on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the autonomousDatabase or fully qualified identifier for the autonomousDatabase. To set the autonomous_database attribute: ▸ provide the argument autonomous_database on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AutonomousDatabase { get; private init; }
 
 }

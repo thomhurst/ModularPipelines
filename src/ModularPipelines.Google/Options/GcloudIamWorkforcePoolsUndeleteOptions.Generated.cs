@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamWorkforcePoolsUndeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// undelete a workforce pool
+    /// </summary>
+    /// <param name="WorkforcePool">Workforce pool resource - The workforce pool to undelete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workforce pool or fully qualified identifier for the workforce pool. To set the workforce_pool attribute: ▸ provide the argument workforce_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamWorkforcePoolsUndeleteOptions(
+        string WorkforcePool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkforcePool);
+        this.WorkforcePool = WorkforcePool;
+    }
+
+    public void Deconstruct(out string WorkforcePool)
+    {
+        WorkforcePool = this.WorkforcePool;
+    }
+
+    /// <summary>
+    /// Workforce pool resource - The workforce pool to undelete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location for the workforce pool. To set the location attribute: ▸ provide the argument workforce_pool on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Workforce pool resource - The workforce pool to undelete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workforce pool or fully qualified identifier for the workforce pool. To set the workforce_pool attribute: ▸ provide the argument workforce_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WorkforcePool { get; private init; }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,81 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "org-security-policies", "associations", "create")]
-public record GcloudPreviewComputeOrgSecurityPoliciesAssociationsCreateOptions : GcloudOptions
+public record GcloudPreviewComputeOrgSecurityPoliciesAssociationsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a     new association between a security policy and an organization or folder     resource
+    /// </summary>
+    /// <param name="SecurityPolicy">Security policy ID of the association.</param>
+    public GcloudPreviewComputeOrgSecurityPoliciesAssociationsCreateOptions(
+        string SecurityPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityPolicy);
+        this.SecurityPolicy = SecurityPolicy;
+    }
+
+    public void Deconstruct(out string SecurityPolicy)
+    {
+        SecurityPolicy = this.SecurityPolicy;
+    }
+
+    /// <summary>
+    /// Security policy ID of the association.
+    /// </summary>
+    [CliOption("--security-policy", Format = OptionFormat.EqualsSeparated)]
+    public string SecurityPolicy { get; private init; }
+
+    /// <summary>
+    /// List of folders to exclude from the application of this security policy. Folders should be specified in the form "folders/123". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--excluded-folders", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ExcludedFolders { get; set; }
+
+    /// <summary>
+    /// List of projects to exclude from the application of this security policy. Projects should be specified in the form "projects/123". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--excluded-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ExcludedProjects { get; set; }
+
+    /// <summary>
+    /// Name to identify this association. If unspecified, the name will be set to "organization-{ORGANIZATION_ID}" or "folder-{FOLDER_ID}".
+    /// </summary>
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// ID of the organization to associate the security policy with. Must be set if SECURITY_POLICY is short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// By default, if you attempt to insert an association to an organization or folder resource that is already associated with a security policy the method will fail. If this is set, the existing association will be deleted at the same time that the new association is created.
+    /// </summary>
+    [CliFlag("--replace-association-on-target")]
+    public bool? ReplaceAssociationOnTarget { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: ID of the folder to associate the security policy with.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Project number to associate the security policy with.
+    /// </summary>
+    [CliOption("--project-number", Format = OptionFormat.EqualsSeparated)]
+    public int? ProjectNumber { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + ((object?)ProjectNumber is not null ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Folder or ProjectNumber may be specified.", [nameof(Folder), nameof(ProjectNumber)]);
+        }
+        yield break;
+    }
+
 }

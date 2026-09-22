@@ -19,8 +19,68 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "instances", "inject-fault")]
-public record GcloudAlloydbInstancesInjectFaultOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudAlloydbInstancesInjectFaultOptions : GcloudOptions
 {
+    /// <summary>
+    /// inject fault on an AlloyDB instance     within a given cluster
+    /// </summary>
+    /// <param name="Cluster">AlloyDB cluster ID</param>
+    /// <param name="FaultType">Specifies fault type. FAULT_TYPE must be (only one value is supported): stop-vm stop-vm fault type supports stopping the VM.</param>
+    /// <param name="Region">Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.</param>
+    /// <param name="Instance">AlloyDB instance ID</param>
+    public GcloudAlloydbInstancesInjectFaultOptions(
+        string Cluster,
+        string FaultType,
+        string Region,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+        global::System.ArgumentNullException.ThrowIfNull(FaultType);
+        this.FaultType = FaultType;
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Cluster, out string FaultType, out string Region, out string Instance)
+    {
+        Cluster = this.Cluster;
+        FaultType = this.FaultType;
+        Region = this.Region;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// AlloyDB cluster ID
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string Cluster { get; private init; }
+
+    /// <summary>
+    /// Specifies fault type. FAULT_TYPE must be (only one value is supported): stop-vm stop-vm fault type supports stopping the VM.
+    /// </summary>
+    [CliOption("--fault-type", Format = OptionFormat.EqualsSeparated)]
+    public string FaultType { get; private init; }
+
+    /// <summary>
+    /// Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// AlloyDB instance ID
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
 }

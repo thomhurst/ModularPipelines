@@ -19,8 +19,68 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "reservations", "slots", "get-health")]
-public record GcloudComputeReservationsSlotsGetHealthOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Reservation
-) : GcloudOptions
+public record GcloudComputeReservationsSlotsGetHealthOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the health of a     reservation slot
+    /// </summary>
+    /// <param name="BlockName">Name of the reservation block.</param>
+    /// <param name="SlotName">Name of the reservation slot.</param>
+    /// <param name="SubBlockName">Name of the reservation sub block.</param>
+    /// <param name="Reservation">Name of the reservation to get-health.</param>
+    public GcloudComputeReservationsSlotsGetHealthOptions(
+        string BlockName,
+        string SlotName,
+        string SubBlockName,
+        string Reservation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BlockName);
+        this.BlockName = BlockName;
+        global::System.ArgumentNullException.ThrowIfNull(SlotName);
+        this.SlotName = SlotName;
+        global::System.ArgumentNullException.ThrowIfNull(SubBlockName);
+        this.SubBlockName = SubBlockName;
+        global::System.ArgumentNullException.ThrowIfNull(Reservation);
+        this.Reservation = Reservation;
+    }
+
+    public void Deconstruct(out string BlockName, out string SlotName, out string SubBlockName, out string Reservation)
+    {
+        BlockName = this.BlockName;
+        SlotName = this.SlotName;
+        SubBlockName = this.SubBlockName;
+        Reservation = this.Reservation;
+    }
+
+    /// <summary>
+    /// Name of the reservation block.
+    /// </summary>
+    [CliOption("--block-name", Format = OptionFormat.EqualsSeparated)]
+    public string BlockName { get; private init; }
+
+    /// <summary>
+    /// Name of the reservation slot.
+    /// </summary>
+    [CliOption("--slot-name", Format = OptionFormat.EqualsSeparated)]
+    public string SlotName { get; private init; }
+
+    /// <summary>
+    /// Name of the reservation sub block.
+    /// </summary>
+    [CliOption("--sub-block-name", Format = OptionFormat.EqualsSeparated)]
+    public string SubBlockName { get; private init; }
+
+    /// <summary>
+    /// Zone of the reservation to get-health. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the reservation to get-health.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Reservation { get; private init; }
+
 }

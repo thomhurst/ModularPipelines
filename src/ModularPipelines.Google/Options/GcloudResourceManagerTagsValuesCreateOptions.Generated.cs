@@ -22,6 +22,34 @@ namespace ModularPipelines.Google.Options;
 public record GcloudResourceManagerTagsValuesCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// creates a TagValue resource
+    /// </summary>
+    /// <param name="Parent">TagValue. This must be specified. Parent of the TagValue in either in the form of tagKeys/{id} or {org_id}/{tagkey_short_name} This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="ShortName">TagValue. This must be specified. User specified, friendly name of the TagKey or TagValue. The field must be 1-63 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores ( _ ), dots (.), and alphanumerics between. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudResourceManagerTagsValuesCreateOptions(
+        string Parent,
+        string ShortName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Parent);
+        this.Parent = Parent;
+        global::System.ArgumentNullException.ThrowIfNull(ShortName);
+        this.ShortName = ShortName;
+    }
+
+    public void Deconstruct(out string Parent, out string ShortName)
+    {
+        Parent = this.Parent;
+        ShortName = this.ShortName;
+    }
+
+    /// <summary>
+    /// TagValue. This must be specified. Parent of the TagValue in either in the form of tagKeys/{id} or {org_id}/{tagkey_short_name} This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--parent", Format = OptionFormat.EqualsSeparated)]
+    public string Parent { get; private init; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -32,5 +60,11 @@ public record GcloudResourceManagerTagsValuesCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
+
+    /// <summary>
+    /// TagValue. This must be specified. User specified, friendly name of the TagKey or TagValue. The field must be 1-63 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores ( _ ), dots (.), and alphanumerics between. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ShortName { get; private init; }
 
 }

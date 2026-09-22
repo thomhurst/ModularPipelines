@@ -33,4 +33,10 @@ public record GcloudRunJobsReplaceOptions : GcloudOptions
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
+    /// <summary>
+    /// The absolute path to the YAML file with a Cloud Run job definition for the job to update or create. Defaults to job.yaml if not specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? File { get; set; }
+
 }

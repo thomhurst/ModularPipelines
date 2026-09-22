@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "aspect-types", "set-iam-policy")]
-public record GcloudDataplexAspectTypesSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudDataplexAspectTypesSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set an IAM policy binding for     a Dataplex Aspect Type as defined in a JSON or YAML file
+    /// </summary>
+    /// <param name="AspectType">Aspect type resource - Arguments and flags that define the Dataplex aspect type you want to set IAM policy to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument aspect_type on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the aspect type or fully qualified identifier for the aspect type. To set the aspect_type attribute: ▸ provide the argument aspect_type on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudDataplexAspectTypesSetIamPolicyOptions(
+        string AspectType,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AspectType);
+        this.AspectType = AspectType;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string AspectType, out string PolicyFile)
+    {
+        AspectType = this.AspectType;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// Aspect type resource - Arguments and flags that define the Dataplex aspect type you want to set IAM policy to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument aspect_type on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataplex resource. To set the location attribute: ▸ provide the argument aspect_type on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Aspect type resource - Arguments and flags that define the Dataplex aspect type you want to set IAM policy to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument aspect_type on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the aspect type or fully qualified identifier for the aspect type. To set the aspect_type attribute: ▸ provide the argument aspect_type on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AspectType { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

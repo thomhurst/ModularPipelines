@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "undelete")]
-public record GcloudIamServiceAccountsUndeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AccountId
-) : GcloudOptions
+public record GcloudIamServiceAccountsUndeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// undelete a service account for a     project
+    /// </summary>
+    /// <param name="AccountId">The deleted service account's unique ID must be provided when using the undelete command. Unique IDs are a 21 digit number, such as 103271949540120710052.</param>
+    public GcloudIamServiceAccountsUndeleteOptions(
+        string AccountId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccountId);
+        this.AccountId = AccountId;
+    }
+
+    public void Deconstruct(out string AccountId)
+    {
+        AccountId = this.AccountId;
+    }
+
+    /// <summary>
+    /// The deleted service account's unique ID must be provided when using the undelete command. Unique IDs are a 21 digit number, such as 103271949540120710052.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AccountId { get; private init; }
+
 }

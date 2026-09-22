@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "instances", "ops-agents", "policies", "list")]
 public record GcloudComputeInstancesOpsAgentsPoliciesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list a Google Cloud     Observability agents policy for the Ops Agent
+    /// </summary>
+    /// <param name="Zone">Zone for which you want to list agent policies.</param>
+    public GcloudComputeInstancesOpsAgentsPoliciesListOptions(
+        string Zone
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+    }
+
+    public void Deconstruct(out string Zone)
+    {
+        Zone = this.Zone;
+    }
+
+    /// <summary>
+    /// Zone for which you want to list agent policies.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,93 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("vmware", "private-clouds", "logging-servers", "create")]
 public record GcloudVmwarePrivateCloudsLoggingServersCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Google Cloud     VMware Engine logging-server
+    /// </summary>
+    /// <param name="Hostname">Fully-qualified domain name (FQDN) or IP Address of the logging server.</param>
+    /// <param name="Port">Port number at which the logging server receives logs.</param>
+    /// <param name="Protocol">Defines possible protocols used to send logs to a logging server. PROTOCOL must be one of: UDP, TCP, TLS, SSL, RELP.</param>
+    /// <param name="SourceType">The type of component that produces logs that will be forwarded to this logging server. SOURCE_TYPE must be one of: VCSA, ESXI.</param>
+    /// <param name="LoggingServer">Logging Server resource - logging_server. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument logging_server on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Logging Server or fully qualified identifier for the Logging Server. To set the logging-server attribute: ▸ provide the argument logging_server on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVmwarePrivateCloudsLoggingServersCreateOptions(
+        string Hostname,
+        string Port,
+        GcloudVmwarePrivateCloudsLoggingServersCreateProtocol Protocol,
+        GcloudVmwarePrivateCloudsLoggingServersCreateSourceType SourceType,
+        string LoggingServer
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Hostname);
+        this.Hostname = Hostname;
+        global::System.ArgumentNullException.ThrowIfNull(Port);
+        this.Port = Port;
+        this.Protocol = Protocol;
+        this.SourceType = SourceType;
+        global::System.ArgumentNullException.ThrowIfNull(LoggingServer);
+        this.LoggingServer = LoggingServer;
+    }
+
+    public void Deconstruct(out string Hostname, out string Port, out GcloudVmwarePrivateCloudsLoggingServersCreateProtocol Protocol, out GcloudVmwarePrivateCloudsLoggingServersCreateSourceType SourceType, out string LoggingServer)
+    {
+        Hostname = this.Hostname;
+        Port = this.Port;
+        Protocol = this.Protocol;
+        SourceType = this.SourceType;
+        LoggingServer = this.LoggingServer;
+    }
+
+    /// <summary>
+    /// Fully-qualified domain name (FQDN) or IP Address of the logging server.
+    /// </summary>
+    [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]
+    public string Hostname { get; private init; }
+
+    /// <summary>
+    /// Port number at which the logging server receives logs.
+    /// </summary>
+    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
+    public string Port { get; private init; }
+
+    /// <summary>
+    /// Defines possible protocols used to send logs to a logging server. PROTOCOL must be one of: UDP, TCP, TLS, SSL, RELP.
+    /// </summary>
+    [CliOption("--protocol", Format = OptionFormat.EqualsSeparated)]
+    public GcloudVmwarePrivateCloudsLoggingServersCreateProtocol Protocol { get; private init; }
+
+    /// <summary>
+    /// The type of component that produces logs that will be forwarded to this logging server. SOURCE_TYPE must be one of: VCSA, ESXI.
+    /// </summary>
+    [CliOption("--source-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudVmwarePrivateCloudsLoggingServersCreateSourceType SourceType { get; private init; }
+
+    /// <summary>
+    /// Logging Server resource - logging_server. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument logging_server on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the private cloud or cluster. To set the location attribute: ▸ provide the argument logging_server on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/zone.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Logging Server resource - logging_server. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument logging_server on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. VMware Engine private cloud. To set the private-cloud attribute: ▸ provide the argument logging_server on the command line with a fully specified name; ▸ provide the argument --private-cloud on the command line.
+    /// </summary>
+    [CliOption("--private-cloud", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateCloud { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Logging Server resource - logging_server. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument logging_server on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Logging Server or fully qualified identifier for the Logging Server. To set the logging-server attribute: ▸ provide the argument logging_server on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string LoggingServer { get; private init; }
+
 }

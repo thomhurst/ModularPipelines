@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "operations", "describe")]
-public record GcloudAssetOperationsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OperationName
-) : GcloudOptions
+public record GcloudAssetOperationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Cloud Asset Inventory     operation
+    /// </summary>
+    /// <param name="OperationName">Name of the operation to describe.</param>
+    public GcloudAssetOperationsDescribeOptions(
+        string OperationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OperationName);
+        this.OperationName = OperationName;
+    }
+
+    public void Deconstruct(out string OperationName)
+    {
+        OperationName = this.OperationName;
+    }
+
+    /// <summary>
+    /// Name of the operation to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OperationName { get; private init; }
+
 }

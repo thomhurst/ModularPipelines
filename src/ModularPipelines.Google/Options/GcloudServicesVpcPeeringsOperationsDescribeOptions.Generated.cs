@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("services", "vpc-peerings", "operations", "describe")]
 public record GcloudServicesVpcPeeringsOperationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describes an operation     resource for a given operation name
+    /// </summary>
+    /// <param name="Name">The name of operation to describe</param>
+    public GcloudServicesVpcPeeringsOperationsDescribeOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of operation to describe
+    /// </summary>
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string Name { get; private init; }
+
 }

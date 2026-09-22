@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "scopes", "update")]
-public record GcloudLoggingScopesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string LogScopeId
-) : GcloudOptions
+public record GcloudLoggingScopesUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a log scope
+    /// </summary>
+    /// <param name="LogScopeId">The ID of the log scope to update.</param>
+    public GcloudLoggingScopesUpdateOptions(
+        string LogScopeId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LogScopeId);
+        this.LogScopeId = LogScopeId;
+    }
+
+    public void Deconstruct(out string LogScopeId)
+    {
+        LogScopeId = this.LogScopeId;
+    }
+
     /// <summary>
     /// A new description for the log scope.
     /// </summary>
@@ -30,9 +45,15 @@ public record GcloudLoggingScopesUpdateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// A new set of resource names for the log scope.
+    /// A new set of resource names for the log scope. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--resource-names", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--resource-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ResourceNames { get; set; }
+
+    /// <summary>
+    /// The ID of the log scope to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string LogScopeId { get; private init; }
 
 }

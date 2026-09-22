@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,56 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "hub", "rolloutsequences", "create")]
 public record GcloudContainerHubRolloutsequencesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a rollout sequence     resource
+    /// </summary>
+    /// <param name="StageConfig">Path to the YAML file containing the stage configurations. The YAML file should contain a list of stages. Fleet projects and soak_duration are required. If label_selector is not specified, there is no filtering. A fleet project is the project where the fleet is hosted. Example: - stage: fleet-projects: # Expected format: projects/{project} - projects/my-dev-project soak-duration: 7d # Or 168h or 604800s - stage: fleet-projects: - projects/my-prod-project soak-duration: 3600s label-selector: resource.labels.canary=='true' - stage: fleet-projects: # Expected format: projects/{project} - projects/my-prod-project soak-duration: 30m Use a full or relative path to a local file containing the value of stage_config.</param>
+    /// <param name="Rolloutsequence">RolloutSequence resource - The group of arguments defining a Rollout Sequence. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rolloutSequence on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument rolloutSequence on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the rolloutSequence or fully qualified identifier for the rolloutSequence. To set the rollout_sequence attribute: ▸ provide the argument rolloutSequence on the command line.</param>
+    public GcloudContainerHubRolloutsequencesCreateOptions(
+        string StageConfig,
+        string Rolloutsequence
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StageConfig);
+        this.StageConfig = StageConfig;
+        global::System.ArgumentNullException.ThrowIfNull(Rolloutsequence);
+        this.Rolloutsequence = Rolloutsequence;
+    }
+
+    public void Deconstruct(out string StageConfig, out string Rolloutsequence)
+    {
+        StageConfig = this.StageConfig;
+        Rolloutsequence = this.Rolloutsequence;
+    }
+
+    /// <summary>
+    /// Path to the YAML file containing the stage configurations. The YAML file should contain a list of stages. Fleet projects and soak_duration are required. If label_selector is not specified, there is no filtering. A fleet project is the project where the fleet is hosted. Example: - stage: fleet-projects: # Expected format: projects/{project} - projects/my-dev-project soak-duration: 7d # Or 168h or 604800s - stage: fleet-projects: - projects/my-prod-project soak-duration: 3600s label-selector: resource.labels.canary=='true' - stage: fleet-projects: # Expected format: projects/{project} - projects/my-prod-project soak-duration: 30m Use a full or relative path to a local file containing the value of stage_config.
+    /// </summary>
+    [CliOption("--stage-config", Format = OptionFormat.EqualsSeparated)]
+    public string StageConfig { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Display name of the rollout sequence.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Labels for the rollout sequence. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// RolloutSequence resource - The group of arguments defining a Rollout Sequence. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rolloutSequence on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument rolloutSequence on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the rolloutSequence or fully qualified identifier for the rolloutSequence. To set the rollout_sequence attribute: ▸ provide the argument rolloutSequence on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Rolloutsequence { get; private init; }
+
 }

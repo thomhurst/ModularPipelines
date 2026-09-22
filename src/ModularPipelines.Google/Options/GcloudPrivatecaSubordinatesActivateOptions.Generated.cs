@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,85 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "subordinates", "activate")]
-public record GcloudPrivatecaSubordinatesActivateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Certificate
-) : GcloudOptions
+public record GcloudPrivatecaSubordinatesActivateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// activate a subordinate certificate     authority awaiting user activation
+    /// </summary>
+    /// <param name="CertificateAuthority">CERTIFICATE AUTHORITY resource - The certificate authority to activate. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_AUTHORITY on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CERTIFICATE_AUTHORITY or fully qualified identifier for the CERTIFICATE_AUTHORITY. To set the certificate_authority attribute: ▸ provide the argument CERTIFICATE_AUTHORITY on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPrivatecaSubordinatesActivateOptions(
+        string CertificateAuthority
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateAuthority);
+        this.CertificateAuthority = CertificateAuthority;
+    }
+
+    public void Deconstruct(out string CertificateAuthority)
+    {
+        CertificateAuthority = this.CertificateAuthority;
+    }
+
+    /// <summary>
+    /// CERTIFICATE AUTHORITY resource - The certificate authority to activate. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_AUTHORITY on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the CERTIFICATE_AUTHORITY. To set the location attribute: ▸ provide the argument CERTIFICATE_AUTHORITY on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property privateca/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// CERTIFICATE AUTHORITY resource - The certificate authority to activate. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_AUTHORITY on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The parent CA Pool of the CERTIFICATE_AUTHORITY. To set the pool attribute: ▸ provide the argument CERTIFICATE_AUTHORITY on the command line with a fully specified name; ▸ provide the argument --pool on the command line.
+    /// </summary>
+    [CliOption("--pool", Format = OptionFormat.EqualsSeparated)]
+    public string? Pool { get; set; }
+
+    /// <summary>
+    /// The activation method for the subordinate CA. Exactly one of these must be specified: A file containing a list of PEM-encoded certificates, starting with the current CA certificate and ending with the root CA certificate.
+    /// </summary>
+    [CliOption("--pem-chain", Format = OptionFormat.EqualsSeparated)]
+    public string? PemChain { get; set; }
+
+    /// <summary>
+    /// The activation method for the subordinate CA. Exactly one of these must be specified: Or at least one of these can be specified: The issuing resource used for this CA certificate. The Certificate Authority ID of the CA to issue the subordinate CA certificate from. This ID is optional. If omitted, any available ENABLED CA in the issuing CA pool will be chosen.
+    /// </summary>
+    [CliOption("--issuer-ca", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerCa { get; set; }
+
+    /// <summary>
+    /// The activation method for the subordinate CA. Exactly one of these must be specified: Or at least one of these can be specified: Issuer resource - The issuing CA Pool to use, if it is on Certificate Authority Service. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --issuer-pool on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. ID of the Issuer or fully qualified identifier for the Issuer. To set the pool attribute: ▫ provide the argument --issuer-pool on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--issuer-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerPool { get; set; }
+
+    /// <summary>
+    /// The activation method for the subordinate CA. Exactly one of these must be specified: Or at least one of these can be specified: Issuer resource - The issuing CA Pool to use, if it is on Certificate Authority Service. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --issuer-pool on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. The location of the Issuer. To set the location attribute: ▫ provide the argument --issuer-pool on the command line with a fully specified name; ▫ provide the argument --issuer-location on the command line; ▫ set the property privateca/location.
+    /// </summary>
+    [CliOption("--issuer-location", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerLocation { get; set; }
+
+    /// <summary>
+    /// If this flag is set, the Certificate Authority will be automatically enabled upon creation.
+    /// </summary>
+    [CliFlag("--auto-enable")]
+    public bool? AutoEnable { get; set; }
+
+    /// <summary>
+    /// CERTIFICATE AUTHORITY resource - The certificate authority to activate. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_AUTHORITY on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CERTIFICATE_AUTHORITY or fully qualified identifier for the CERTIFICATE_AUTHORITY. To set the certificate_authority attribute: ▸ provide the argument CERTIFICATE_AUTHORITY on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CertificateAuthority { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(PemChain) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(IssuerCa) || !string.IsNullOrWhiteSpace(IssuerPool) || !string.IsNullOrWhiteSpace(IssuerLocation)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of PemChain or (IssuerCa, IssuerPool, or IssuerLocation) must be specified.", [nameof(PemChain), nameof(IssuerCa), nameof(IssuerPool), nameof(IssuerLocation)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(PemChain) || !string.IsNullOrWhiteSpace(IssuerCa) || !string.IsNullOrWhiteSpace(IssuerPool) || !string.IsNullOrWhiteSpace(IssuerLocation)) && (!string.IsNullOrWhiteSpace(IssuerCa) || !string.IsNullOrWhiteSpace(IssuerPool) || !string.IsNullOrWhiteSpace(IssuerLocation)) && (!string.IsNullOrWhiteSpace(IssuerPool) || !string.IsNullOrWhiteSpace(IssuerLocation)) && (!(!string.IsNullOrWhiteSpace(IssuerPool))))
+        {
+            yield return new ValidationResult("IssuerPool must be specified when other arguments in this group are specified.", [nameof(IssuerPool)]);
+        }
+        yield break;
+    }
+
 }

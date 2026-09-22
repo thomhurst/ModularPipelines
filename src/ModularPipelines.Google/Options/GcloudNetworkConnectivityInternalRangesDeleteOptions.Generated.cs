@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivityInternalRangesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete an internal     range
+    /// </summary>
+    /// <param name="InternalRange">Internal range resource - Name of the internal range to be deleted. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument internal_range on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the internal range or fully qualified identifier for the internal range. To set the internal_range attribute: ▸ provide the argument internal_range on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkConnectivityInternalRangesDeleteOptions(
+        string InternalRange
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InternalRange);
+        this.InternalRange = InternalRange;
+    }
+
+    public void Deconstruct(out string InternalRange)
+    {
+        InternalRange = this.InternalRange;
+    }
+
+    /// <summary>
+    /// Internal range resource - Name of the internal range to be deleted. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument internal_range on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location ID. To set the region attribute: ▸ provide the argument internal_range on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ use default global location .
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Internal range resource - Name of the internal range to be deleted. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument internal_range on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the internal range or fully qualified identifier for the internal range. To set the internal_range attribute: ▸ provide the argument internal_range on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InternalRange { get; private init; }
 
 }

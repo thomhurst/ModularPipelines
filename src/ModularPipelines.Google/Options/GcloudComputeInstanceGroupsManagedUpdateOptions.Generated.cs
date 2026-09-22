@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instance-groups", "managed", "update")]
-public record GcloudComputeInstanceGroupsManagedUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeInstanceGroupsManagedUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Compute Engine     managed instance group
+    /// </summary>
+    /// <param name="Name">Name of the managed instance group to update.</param>
+    public GcloudComputeInstanceGroupsManagedUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Specifies the action that a MIG performs on an unhealthy VM. A VM is marked as unhealthy when the application running on that VM fails a health check. By default, the value of the flag is set to default-action. ACTION_ON_FAILED_HEALTH_CHECK must be one of: default-action (Default) MIG uses the same action configured for the defaultActionOnFailure field. do-nothing MIG does not repair an unhealthy VM. repair MIG automatically repairs an unhealthy VM by recreating it.
     /// </summary>
@@ -60,9 +76,9 @@ public record GcloudComputeInstanceGroupsManagedUpdateOptions(
     public string? InstanceSelection { get; set; }
 
     /// <summary>
-    /// A single selection of machine types. If not provided, the machine type specified in the instance template is used.
+    /// A single selection of machine types. If not provided, the machine type specified in the instance template is used. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--instance-selection-machine-types", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--instance-selection-machine-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? InstanceSelectionMachineTypes { get; set; }
 
     /// <summary>
@@ -78,9 +94,9 @@ public record GcloudComputeInstanceGroupsManagedUpdateOptions(
     public string? OnRepairAllowChangingZone { get; set; }
 
     /// <summary>
-    /// Remove specific instance selections from the instance flexibility policy.
+    /// Remove specific instance selections from the instance flexibility policy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-instance-selections", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-instance-selections", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveInstanceSelections { get; set; }
 
     /// <summary>
@@ -156,61 +172,61 @@ public record GcloudComputeInstanceGroupsManagedUpdateOptions(
     public string? TargetDistributionShape { get; set; }
 
     /// <summary>
-    /// Parameters for setting distribution policy. At most one of these can be specified: Region of the managed instance group to update. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
+    /// At most one of these can be specified: Region of the managed instance group to update. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// Parameters for setting distribution policy. At most one of these can be specified: Zone of the managed instance group to update. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// At most one of these can be specified: Zone of the managed instance group to update. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
 
     /// <summary>
-    /// Stateful policy settings for the managed instance group. Remove stateful configuration for the specified disks.
+    /// Stateful policy settings for the managed instance group. Remove stateful configuration for the specified disks. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-stateful-disks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-stateful-disks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveStatefulDisks { get; set; }
 
     /// <summary>
-    /// Stateful policy settings for the managed instance group. Remove stateful configuration for the specified interfaces for external IPs.
+    /// Stateful policy settings for the managed instance group. Remove stateful configuration for the specified interfaces for external IPs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-stateful-external-ips", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-stateful-external-ips", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveStatefulExternalIps { get; set; }
 
     /// <summary>
-    /// Stateful policy settings for the managed instance group. Remove stateful configuration for the specified interfaces for internal IPs.
+    /// Stateful policy settings for the managed instance group. Remove stateful configuration for the specified interfaces for internal IPs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-stateful-internal-ips", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-stateful-internal-ips", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveStatefulInternalIps { get; set; }
 
     /// <summary>
     /// Stateful policy settings for the managed instance group. Disks considered stateful by the instance group. Managed instance groups preserve and reattach stateful disks on VM autohealing, update, and recreate events. Use this argument multiple times to update more disks. If a stateful disk with the given device name already exists in the current instance configuration, its properties will be replaced by the newly provided ones. Otherwise, a new stateful disk definition will be added to the instance configuration. device-name (Required) Device name of the disk to mark stateful. auto-delete (Optional) Specifies the auto deletion policy of the stateful disk. The following options are available: ▸ never: (Default) Never delete this disk. Instead, detach the disk when its instance is deleted. ▸ on-permanent-instance-deletion: Delete the stateful disk when the instance that it's attached to is permanently deleted from the group; for example, when the instance is deleted manually or when the group size is decreased.
     /// </summary>
     [CliOption("--stateful-disk", Format = OptionFormat.EqualsSeparated)]
-    public string? StatefulDisk { get; set; }
+    public IEnumerable<string>? StatefulDisk { get; set; }
 
     /// <summary>
     /// Stateful policy settings for the managed instance group. Managed instance groups preserve stateful IPs on VM autohealing, update, and recreate events. Use this argument multiple times to update more IPs. If a stateful external IP with the given interface name already exists in the current instance configuration, its properties are replaced by the newly provided ones. Otherwise, a new stateful external IP definition is added to the instance configuration. At least one of the following is required: enabled Marks the IP address as stateful. The network interface named nic0 is assumed by default when interface-name is not specified. This flag can be omitted when interface-name is provided explicitly. interface-name Marks the IP address from this network interface as stateful. This flag can be omitted when enabled is provided. Additional arguments: auto-delete (Optional) Prescribes what should happen to an associated static Address resource when a VM instance is permanently deleted. Regardless of the value of the delete rule, stateful IP addresses are always preserved on instance autohealing, update, and recreation operations. The following options are available: ▸ never: (Default) Never delete the static IP address. Instead, unassign the address when its instance is permanently deleted and keep the address reserved. ▸ on-permanent-instance-deletion: Delete the static IP address reservation when the instance that it's assigned to is permanently deleted from the instance group; for example, when the instance is deleted manually or when the group size is decreased.
     /// </summary>
     [CliOption("--stateful-external-ip", Format = OptionFormat.EqualsSeparated)]
-    public string? StatefulExternalIp { get; set; }
+    public IEnumerable<string>? StatefulExternalIp { get; set; }
 
     /// <summary>
     /// Stateful policy settings for the managed instance group. Managed instance groups preserve stateful IPs on VM autohealing, update, and recreate events. Use this argument multiple times to update more IPs. If a stateful internal IP with the given interface name already exists in the current instance configuration, its properties are replaced by the newly provided ones. Otherwise, a new stateful internal IP definition is added to the instance configuration. At least one of the following is required: enabled Marks the IP address as stateful. The network interface named nic0 is assumed by default when interface-name is not specified. This flag can be omitted when interface-name is provided explicitly. interface-name Marks the IP address from this network interface as stateful. This flag can be omitted when enabled is provided. Additional arguments: auto-delete (Optional) Prescribes what should happen to an associated static Address resource when a VM instance is permanently deleted. Regardless of the value of the delete rule, stateful IP addresses are always preserved on instance autohealing, update, and recreation operations. The following options are available: ▸ never: (Default) Never delete the static IP address. Instead, unassign the address when its instance is permanently deleted and keep the address reserved. ▸ on-permanent-instance-deletion: Delete the static IP address reservation when the instance that it's assigned to is permanently deleted from the instance group; for example, when the instance is deleted manually or when the group size is decreased.
     /// </summary>
     [CliOption("--stateful-internal-ip", Format = OptionFormat.EqualsSeparated)]
-    public string? StatefulInternalIp { get; set; }
+    public IEnumerable<string>? StatefulInternalIp { get; set; }
 
     /// <summary>
-    /// Stateful policy settings for the managed instance group. At most one of these can be specified: Detaches the workload policy from the managed instance group.
+    /// At most one of these can be specified: Detaches the workload policy from the managed instance group.
     /// </summary>
     [CliFlag("--remove-workload-policy")]
     public bool? RemoveWorkloadPolicy { get; set; }
 
     /// <summary>
-    /// Stateful policy settings for the managed instance group. At most one of these can be specified: Specifies the workload policy for the managed instance group. It can be a full or partial URL to a resource policy containing the workload policy.
+    /// At most one of these can be specified: Specifies the workload policy for the managed instance group. It can be a full or partial URL to a resource policy containing the workload policy.
     /// </summary>
     [CliOption("--workload-policy", Format = OptionFormat.EqualsSeparated)]
     public string? WorkloadPolicy { get; set; }
@@ -262,5 +278,33 @@ public record GcloudComputeInstanceGroupsManagedUpdateOptions(
     /// </summary>
     [CliOption("--update-policy-type", Format = OptionFormat.EqualsSeparated)]
     public string? UpdatePolicyType { get; set; }
+
+    /// <summary>
+    /// Name of the managed instance group to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearAutohealing == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(InitialDelay) || !string.IsNullOrWhiteSpace(HealthCheck) || !string.IsNullOrWhiteSpace(HttpHealthCheck) || !string.IsNullOrWhiteSpace(HttpsHealthCheck)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearAutohealing or (InitialDelay, HealthCheck, HttpHealthCheck, or HttpsHealthCheck) may be specified.", [nameof(ClearAutohealing), nameof(InitialDelay), nameof(HealthCheck), nameof(HttpHealthCheck), nameof(HttpsHealthCheck)]);
+        }
+        if ((ClearAutohealing == true || !string.IsNullOrWhiteSpace(InitialDelay) || !string.IsNullOrWhiteSpace(HealthCheck) || !string.IsNullOrWhiteSpace(HttpHealthCheck) || !string.IsNullOrWhiteSpace(HttpsHealthCheck)) && (!string.IsNullOrWhiteSpace(InitialDelay) || !string.IsNullOrWhiteSpace(HealthCheck) || !string.IsNullOrWhiteSpace(HttpHealthCheck) || !string.IsNullOrWhiteSpace(HttpsHealthCheck)) && ((!string.IsNullOrWhiteSpace(HealthCheck) ? 1 : 0) + (!string.IsNullOrWhiteSpace(HttpHealthCheck) ? 1 : 0) + (!string.IsNullOrWhiteSpace(HttpsHealthCheck) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of HealthCheck, HttpHealthCheck, or HttpsHealthCheck may be specified.", [nameof(HealthCheck), nameof(HttpHealthCheck), nameof(HttpsHealthCheck)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Region or Zone may be specified.", [nameof(Region), nameof(Zone)]);
+        }
+        if ((RemoveWorkloadPolicy == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(WorkloadPolicy) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of RemoveWorkloadPolicy or WorkloadPolicy may be specified.", [nameof(RemoveWorkloadPolicy), nameof(WorkloadPolicy)]);
+        }
+        yield break;
+    }
 
 }

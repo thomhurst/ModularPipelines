@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("developer-connect", "connections", "git-repository-links", "fetch-read-write-token")]
 public record GcloudDeveloperConnectConnectionsGitRepositoryLinksFetchReadWriteTokenOptions : GcloudOptions
 {
+    /// <summary>
+    /// links     fetch-read-write-token - fetch the read/write token of a given     gitRepositoryLink
+    /// </summary>
+    /// <param name="GitRepositoryLink">GitRepositoryLink resource - Developer Connect GitRepositoryLink from which to fetch the read/write token. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument git_repository_link on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gitRepositoryLink or fully qualified identifier for the gitRepositoryLink. To set the git_repository_link attribute: ▸ provide the argument git_repository_link on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDeveloperConnectConnectionsGitRepositoryLinksFetchReadWriteTokenOptions(
+        string GitRepositoryLink
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GitRepositoryLink);
+        this.GitRepositoryLink = GitRepositoryLink;
+    }
+
+    public void Deconstruct(out string GitRepositoryLink)
+    {
+        GitRepositoryLink = this.GitRepositoryLink;
+    }
+
+    /// <summary>
+    /// GitRepositoryLink resource - Developer Connect GitRepositoryLink from which to fetch the read/write token. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument git_repository_link on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The connection id of the gitRepositoryLink resource. To set the connection attribute: ▸ provide the argument git_repository_link on the command line with a fully specified name; ▸ provide the argument --connection on the command line.
+    /// </summary>
+    [CliOption("--connection", Format = OptionFormat.EqualsSeparated)]
+    public string? Connection { get; set; }
+
+    /// <summary>
+    /// GitRepositoryLink resource - Developer Connect GitRepositoryLink from which to fetch the read/write token. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument git_repository_link on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the gitRepositoryLink resource. To set the location attribute: ▸ provide the argument git_repository_link on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// GitRepositoryLink resource - Developer Connect GitRepositoryLink from which to fetch the read/write token. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument git_repository_link on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gitRepositoryLink or fully qualified identifier for the gitRepositoryLink. To set the git_repository_link attribute: ▸ provide the argument git_repository_link on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GitRepositoryLink { get; private init; }
+
 }

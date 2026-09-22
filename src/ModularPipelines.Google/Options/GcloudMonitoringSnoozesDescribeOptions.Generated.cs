@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("monitoring", "snoozes", "describe")]
 public record GcloudMonitoringSnoozesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a snooze
+    /// </summary>
+    /// <param name="Snooze">Snooze resource - Name of the Snooze to be described. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument snooze on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Snooze or fully qualified identifier for the Snooze. To set the snooze attribute: ▸ provide the argument snooze on the command line.</param>
+    public GcloudMonitoringSnoozesDescribeOptions(
+        string Snooze
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Snooze);
+        this.Snooze = Snooze;
+    }
+
+    public void Deconstruct(out string Snooze)
+    {
+        Snooze = this.Snooze;
+    }
+
+    /// <summary>
+    /// Snooze resource - Name of the Snooze to be described. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument snooze on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Snooze or fully qualified identifier for the Snooze. To set the snooze attribute: ▸ provide the argument snooze on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Snooze { get; private init; }
+
 }

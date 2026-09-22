@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "http-health-checks", "update")]
-public record GcloudComputeHttpHealthChecksUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeHttpHealthChecksUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a legacy HTTP health     check
+    /// </summary>
+    /// <param name="Name">Name of the HTTP health check to update.</param>
+    public GcloudComputeHttpHealthChecksUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
@@ -70,5 +85,11 @@ public record GcloudComputeHttpHealthChecksUpdateOptions(
     /// </summary>
     [CliOption("--unhealthy-threshold", Format = OptionFormat.EqualsSeparated)]
     public string? UnhealthyThreshold { get; set; }
+
+    /// <summary>
+    /// Name of the HTTP health check to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

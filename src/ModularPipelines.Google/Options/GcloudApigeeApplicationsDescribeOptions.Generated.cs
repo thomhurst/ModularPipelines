@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apigee", "applications", "describe")]
 public record GcloudApigeeApplicationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an Apigee application
+    /// </summary>
+    /// <param name="Application">Application resource - Application to be described. To get a list of available applications, run gcloud apigee applications list. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the application or fully qualified identifier for the application. To set the app attribute: ▸ provide the argument APPLICATION on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApigeeApplicationsDescribeOptions(
+        string Application
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Application);
+        this.Application = Application;
+    }
+
+    public void Deconstruct(out string Application)
+    {
+        Application = this.Application;
+    }
+
+    /// <summary>
+    /// Application resource - Application to be described. To get a list of available applications, run gcloud apigee applications list. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Apigee organization containing the application. If unspecified, the Cloud Platform project's associated organization will be used. To set the organization attribute: ▸ provide the argument APPLICATION on the command line with a fully specified name; ▸ provide the argument --organization on the command line; ▸ set the property [project] or provide the argument [--project] on the command line, using a Cloud Platform project with an associated Apigee organization.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Application resource - Application to be described. To get a list of available applications, run gcloud apigee applications list. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the application or fully qualified identifier for the application. To set the app attribute: ▸ provide the argument APPLICATION on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Application { get; private init; }
+
 }

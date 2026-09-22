@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "switchover")]
-public record GcloudSqlInstancesSwitchoverOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Replica
-) : GcloudOptions
+public record GcloudSqlInstancesSwitchoverOptions : GcloudOptions
 {
+    /// <summary>
+    /// switches over a Cloud SQL instance to one     of its replicas
+    /// </summary>
+    /// <param name="Replica">Cloud SQL replica ID.</param>
+    public GcloudSqlInstancesSwitchoverOptions(
+        string Replica
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Replica);
+        this.Replica = Replica;
+    }
+
+    public void Deconstruct(out string Replica)
+    {
+        Replica = this.Replica;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudSqlInstancesSwitchoverOptions(
     /// </summary>
     [CliOption("--db-timeout", Format = OptionFormat.EqualsSeparated)]
     public int? DbTimeout { get; set; }
+
+    /// <summary>
+    /// Cloud SQL replica ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Replica { get; private init; }
 
 }

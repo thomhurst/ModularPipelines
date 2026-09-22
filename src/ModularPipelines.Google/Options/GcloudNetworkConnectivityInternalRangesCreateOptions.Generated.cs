@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,202 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "internal-ranges", "create")]
-public record GcloudNetworkConnectivityInternalRangesCreateOptions : GcloudOptions
+public record GcloudNetworkConnectivityInternalRangesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new internal     range
+    /// </summary>
+    /// <param name="Network">The URL or resource ID of the network in which to reserve the internal range. Legacy network is not supported. This can only be specified for a global internal address. For example: ◆ https://www.googleapis.com/compute/v1/projects/my-project/locations/global/networks/my-network ◆ /projects/my-project/locations/global/networks/my-network ◆ my-network</param>
+    /// <param name="InternalRange">Internal range resource - Name of the internal range to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument internal_range on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the internal range or fully qualified identifier for the internal range. To set the internal_range attribute: ▸ provide the argument internal_range on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkConnectivityInternalRangesCreateOptions(
+        string Network,
+        string InternalRange
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(InternalRange);
+        this.InternalRange = InternalRange;
+    }
+
+    public void Deconstruct(out string Network, out string InternalRange)
+    {
+        Network = this.Network;
+        InternalRange = this.InternalRange;
+    }
+
+    /// <summary>
+    /// The URL or resource ID of the network in which to reserve the internal range. Legacy network is not supported. This can only be specified for a global internal address. For example: ◆ https://www.googleapis.com/compute/v1/projects/my-project/locations/global/networks/my-network ◆ /projects/my-project/locations/global/networks/my-network ◆ my-network
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// Internal range resource - Name of the internal range to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument internal_range on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location ID. To set the region attribute: ▸ provide the argument internal_range on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ use default global location .
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: IP range that this internal range defines.
+    /// </summary>
+    [CliOption("--ip-cidr-range", Format = OptionFormat.EqualsSeparated)]
+    public string? IpCidrRange { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Additional options for the internal range's address auto-allocation (allowed only when prefix-length is set): An alternative to ip-cidr-range. Can be set when trying to create a reservation that automatically finds a free range of the given size. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--prefix-length", Format = OptionFormat.EqualsSeparated)]
+    public string? PrefixLength { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Additional options for the internal range's address auto-allocation (allowed only when prefix-length is set): Allocation strategy to be used when searching for a free range. ALLOCATION_STRATEGY must be one of: first-available Pick the first available address range. This strategy is deterministic and the result is easy to predict. first-smallest-fitting Pick the smallest but fitting available range. This deterministic strategy minimizes fragmentation of the address space. random Random strategy, the legacy algorithm, used for backwards compatibility. This allocation strategy remains efficient in the case of concurrent allocation requests in the same peered network space and doesn't require providing the level of concurrency in an explicit parameter, but it is prone to fragmenting available address space. random-first-n-available Pick an arbitrary range out of the first N available ones. The N will be set in the first_available_ranges_lookup_size flag. This strategy should be used when concurrent allocation requests are made in the same space of peered networks while the fragmentation of the addrress space is reduced.
+    /// </summary>
+    [CliOption("--allocation-strategy", Format = OptionFormat.EqualsSeparated)]
+    public string? AllocationStrategy { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Additional options for the internal range's address auto-allocation (allowed only when prefix-length is set): A list of CIDR ranges to exclude from the search for a free range. This can be used to exclude specific ranges that are already intended to have some other use. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--exclude-cidr-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ExcludeCidrRanges
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ExcludeCidrRangesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ExcludeCidrRangesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Additional options for the internal range's address auto-allocation (allowed only when prefix-length is set): The number of ranges to be considered when using the RANDOM_FIRST_N_AVAILABLE allocation strategy. This is only allowed when allocation-strategy is set to RANDOM_FIRST_N_AVAILABLE.
+    /// </summary>
+    [CliOption("--first-available-ranges-lookup-size", Format = OptionFormat.EqualsSeparated)]
+    public int? FirstAvailableRangesLookupSize { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Additional options for the internal range's address auto-allocation (allowed only when prefix-length is set): Can be set to narrow down or pick a different address space while searching for a free range. If not set, defaults to the "10.0.0.0/8" address space. This can be used to search in other rfc-1918 address spaces like "172.16.0.0/12" and "192.168.0.0/16" or non-rfc-1918 address spaces used in the VPC. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--target-cidr-range", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? TargetCidrRange
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __TargetCidrRangeSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __TargetCidrRangeSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the internal range to be created.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Mark the internal range as immutable. Then only non-semantic fields like description and labels could be modified after creation.
+    /// </summary>
+    [CliFlag("--immutable")]
+    public bool? Immutable { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Overlap specifications for the range being created. OVERLAPS must be one of: overlap-existing-subnet-range Allows for creation of internal ranges that overlap with existing subnets. overlap-route-range Allows for creation or existence of routes that have a more specific destination than the created range. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--overlaps", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Overlaps { get; set; }
+
+    /// <summary>
+    /// The type of peering set for the internal range. PEERING must be one of: for-peer This behavior can be set when the internal range is being reserved for usage by the peers. This means that no resource within the VPC in which it is being created can use this to associate with a cloud resource, but one of the peers can. This represents "donating" a range for peers to use. for-self This beharior represents the case that the internal range is intended to be used in the VPC on which it is created and is accessible from its peers. This implies that peers or peer-of-peers cannot use this range. not-shared This behavior can be set when the internal range is being reserved for usage by the VPC on which it is created but not shared with the peers. In a sense it is local to the VPC. This can be used to create internal ranges for various purposes like HTTP_INTERNAL_LOAD_BALANCER or for interconnect routes that are not shared with peers. This also implies that peers cannot use this range in a way that is visible to this VPC, but can re-use this range as long as it is NOT_SHARED from the peer VPC too.
+    /// </summary>
+    [CliOption("--peering", Format = OptionFormat.EqualsSeparated)]
+    public string? Peering { get; set; }
+
+    /// <summary>
+    /// The type of usage set for the internal range. USAGE must be one of: external-to-vpc Ranges created with EXTERNAL_TO_VPC cannot be associated with cloud resources and are meant to block out address ranges for various use cases, like for example, usage on-prem, with dynamic route announcements via interconnect. for-migration Ranges created with FOR_MIGRATION are used as locks for migrating subnetworks between peered VPC networks. for-vpc A cloud resource can use the reserved CIDR block by associating it with the internal range resource if usage is set to FOR_VPC.
+    /// </summary>
+    [CliOption("--usage", Format = OptionFormat.EqualsSeparated)]
+    public string? Usage { get; set; }
+
+    /// <summary>
+    /// Endpoints of a for-migration internal range. This is only applicable when --usage is set to for-migration. Both MIGRATION_SOURCE and MIGRATION_TARGET must either belong to the same VPC or their VPCs must be peered (they may then even belong to different projects). MIGRATION_SOURCE must belong to the VPC network specifed by the --network flag. MIGRATION_TARGET may name a subnetwork which does not exist yet; it must be a valid resource path, and parent resources (network and project) and their locations must exist. The migration source subnetwork (of a for-migration internal range) resource URI or resource ID. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--migration-source", Format = OptionFormat.EqualsSeparated)]
+    public string? MigrationSource { get; set; }
+
+    /// <summary>
+    /// Endpoints of a for-migration internal range. This is only applicable when --usage is set to for-migration. Both MIGRATION_SOURCE and MIGRATION_TARGET must either belong to the same VPC or their VPCs must be peered (they may then even belong to different projects). MIGRATION_SOURCE must belong to the VPC network specifed by the --network flag. MIGRATION_TARGET may name a subnetwork which does not exist yet; it must be a valid resource path, and parent resources (network and project) and their locations must exist. The migration target subnetwork (of a for-migration internal range) resource URI or resource ID. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--migration-target", Format = OptionFormat.EqualsSeparated)]
+    public string? MigrationTarget { get; set; }
+
+    /// <summary>
+    /// Internal range resource - Name of the internal range to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument internal_range on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the internal range or fully qualified identifier for the internal range. To set the internal_range attribute: ▸ provide the argument internal_range on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InternalRange { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(IpCidrRange) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(PrefixLength) || !string.IsNullOrWhiteSpace(AllocationStrategy) || ((object?)ExcludeCidrRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludeCidrRanges is not string || !string.IsNullOrWhiteSpace(ExcludeCidrRanges?.ToString()) : ((object?)ExcludeCidrRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludeCidrRanges, static item => item is not null) : (ExcludeCidrRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludeCidrRanges), static item => item is not null)))) || (object?)FirstAvailableRangesLookupSize is not null || ((object?)TargetCidrRange is global::System.Collections.Generic.IEnumerable<char> ? (object?)TargetCidrRange is not string || !string.IsNullOrWhiteSpace(TargetCidrRange?.ToString()) : ((object?)TargetCidrRange is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TargetCidrRange, static item => item is not null) : (TargetCidrRange is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TargetCidrRange), static item => item is not null))))) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of IpCidrRange or (PrefixLength, AllocationStrategy, ExcludeCidrRanges, FirstAvailableRangesLookupSize, or TargetCidrRange) must be specified.", [nameof(IpCidrRange), nameof(PrefixLength), nameof(AllocationStrategy), nameof(ExcludeCidrRanges), nameof(FirstAvailableRangesLookupSize), nameof(TargetCidrRange)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(IpCidrRange) || !string.IsNullOrWhiteSpace(PrefixLength) || !string.IsNullOrWhiteSpace(AllocationStrategy) || ((object?)ExcludeCidrRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludeCidrRanges is not string || !string.IsNullOrWhiteSpace(ExcludeCidrRanges?.ToString()) : ((object?)ExcludeCidrRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludeCidrRanges, static item => item is not null) : (ExcludeCidrRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludeCidrRanges), static item => item is not null)))) || (object?)FirstAvailableRangesLookupSize is not null || ((object?)TargetCidrRange is global::System.Collections.Generic.IEnumerable<char> ? (object?)TargetCidrRange is not string || !string.IsNullOrWhiteSpace(TargetCidrRange?.ToString()) : ((object?)TargetCidrRange is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TargetCidrRange, static item => item is not null) : (TargetCidrRange is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TargetCidrRange), static item => item is not null))))) && (!string.IsNullOrWhiteSpace(PrefixLength) || !string.IsNullOrWhiteSpace(AllocationStrategy) || ((object?)ExcludeCidrRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludeCidrRanges is not string || !string.IsNullOrWhiteSpace(ExcludeCidrRanges?.ToString()) : ((object?)ExcludeCidrRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludeCidrRanges, static item => item is not null) : (ExcludeCidrRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludeCidrRanges), static item => item is not null)))) || (object?)FirstAvailableRangesLookupSize is not null || ((object?)TargetCidrRange is global::System.Collections.Generic.IEnumerable<char> ? (object?)TargetCidrRange is not string || !string.IsNullOrWhiteSpace(TargetCidrRange?.ToString()) : ((object?)TargetCidrRange is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TargetCidrRange, static item => item is not null) : (TargetCidrRange is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TargetCidrRange), static item => item is not null))))) && (!(!string.IsNullOrWhiteSpace(PrefixLength))))
+        {
+            yield return new ValidationResult("PrefixLength must be specified when other arguments in this group are specified.", [nameof(PrefixLength)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MigrationSource) || !string.IsNullOrWhiteSpace(MigrationTarget)) && (!(!string.IsNullOrWhiteSpace(MigrationSource))))
+        {
+            yield return new ValidationResult("MigrationSource must be specified when other arguments in this group are specified.", [nameof(MigrationSource)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MigrationSource) || !string.IsNullOrWhiteSpace(MigrationTarget)) && (!(!string.IsNullOrWhiteSpace(MigrationTarget))))
+        {
+            yield return new ValidationResult("MigrationTarget must be specified when other arguments in this group are specified.", [nameof(MigrationTarget)]);
+        }
+        yield break;
+    }
+
 }

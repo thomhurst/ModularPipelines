@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,63 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org-policies", "delete")]
-public record GcloudOrgPoliciesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Constraint
-) : GcloudOptions
+public record GcloudOrgPoliciesDeleteOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// delete an organization policy
+    /// </summary>
+    /// <param name="Constraint">Name of the org policy constraint. The list of available constraints can be found here: https://cloud.google.com/resource-manager/docs/organization-policy/org-policy-constraints</param>
+    public GcloudOrgPoliciesDeleteOptions(
+        string Constraint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Constraint);
+        this.Constraint = Constraint;
+    }
+
+    public void Deconstruct(out string Constraint)
+    {
+        Constraint = this.Constraint;
+    }
+
+    /// <summary>
+    /// Resource that is associated with the organization policy. Exactly one of these must be specified: Folder ID.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with the organization policy. Exactly one of these must be specified: Organization ID.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with the organization policy. Exactly one of these must be specified: Project ID. Overrides the default core/project property value for this command invocation.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// The current top-level etag of the Policy. If an etag is provided and does not match the current etag of the Policy, deletion will fail with a concurrent error.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string? Etag { get; set; }
+
+    /// <summary>
+    /// Name of the org policy constraint. The list of available constraints can be found here: https://cloud.google.com/resource-manager/docs/organization-policy/org-policy-constraints
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Constraint { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder, Organization, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

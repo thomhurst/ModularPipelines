@@ -19,8 +19,69 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "reservations", "sub-blocks", "get-version")]
-public record GcloudComputeReservationsSubBlocksGetVersionOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Reservation
-) : GcloudOptions
+public record GcloudComputeReservationsSubBlocksGetVersionOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the version of a     reservation sub-block
+    /// </summary>
+    /// <param name="BlockName">The name of the reservation block.</param>
+    /// <param name="SubBlockName">The name of the reservation sub block.</param>
+    /// <param name="Reservation">Name of the reservation to get-version.</param>
+    public GcloudComputeReservationsSubBlocksGetVersionOptions(
+        string BlockName,
+        string SubBlockName,
+        string Reservation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BlockName);
+        this.BlockName = BlockName;
+        global::System.ArgumentNullException.ThrowIfNull(SubBlockName);
+        this.SubBlockName = SubBlockName;
+        global::System.ArgumentNullException.ThrowIfNull(Reservation);
+        this.Reservation = Reservation;
+    }
+
+    public void Deconstruct(out string BlockName, out string SubBlockName, out string Reservation)
+    {
+        BlockName = this.BlockName;
+        SubBlockName = this.SubBlockName;
+        Reservation = this.Reservation;
+    }
+
+    /// <summary>
+    /// The name of the reservation block.
+    /// </summary>
+    [CliOption("--block-name", Format = OptionFormat.EqualsSeparated)]
+    public string BlockName { get; private init; }
+
+    /// <summary>
+    /// The name of the reservation sub block.
+    /// </summary>
+    [CliOption("--sub-block-name", Format = OptionFormat.EqualsSeparated)]
+    public string SubBlockName { get; private init; }
+
+    /// <summary>
+    /// Whether to get the current version.
+    /// </summary>
+    [CliFlag("--current")]
+    public bool? Current { get; set; }
+
+    /// <summary>
+    /// Whether to get the target version.
+    /// </summary>
+    [CliFlag("--target")]
+    public bool? Target { get; set; }
+
+    /// <summary>
+    /// Zone of the reservation to get-version. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the reservation to get-version.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Reservation { get; private init; }
+
 }

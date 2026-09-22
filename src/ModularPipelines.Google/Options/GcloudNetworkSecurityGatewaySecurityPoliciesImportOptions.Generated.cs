@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkSecurityGatewaySecurityPoliciesImportOptions : GcloudOptions
 {
     /// <summary>
+    /// import Gateway     Security Policy
+    /// </summary>
+    /// <param name="GatewaySecurityPolicy">Gateway security policy resource - Name of the Gateway Security Policy to import. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gateway_security_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gateway security policy or fully qualified identifier for the gateway security policy. To set the gateway_security_policy attribute: ▸ provide the argument gateway_security_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecurityGatewaySecurityPoliciesImportOptions(
+        string GatewaySecurityPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewaySecurityPolicy);
+        this.GatewaySecurityPolicy = GatewaySecurityPolicy;
+    }
+
+    public void Deconstruct(out string GatewaySecurityPolicy)
+    {
+        GatewaySecurityPolicy = this.GatewaySecurityPolicy;
+    }
+
+    /// <summary>
+    /// Gateway security policy resource - Name of the Gateway Security Policy to import. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gateway_security_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument gateway_security_policy on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -32,5 +55,11 @@ public record GcloudNetworkSecurityGatewaySecurityPoliciesImportOptions : Gcloud
     /// </summary>
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }
+
+    /// <summary>
+    /// Gateway security policy resource - Name of the Gateway Security Policy to import. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gateway_security_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gateway security policy or fully qualified identifier for the gateway security policy. To set the gateway_security_policy attribute: ▸ provide the argument gateway_security_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GatewaySecurityPolicy { get; private init; }
 
 }

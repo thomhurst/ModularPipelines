@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPreviewComputeNetworkFirewallPoliciesGetEffectiveFirewallsOptions : GcloudOptions
 {
     /// <summary>
+    /// get the effective firewalls for a network
+    /// </summary>
+    /// <param name="Network">The network to get the effective firewalls for.</param>
+    public GcloudPreviewComputeNetworkFirewallPoliciesGetEffectiveFirewallsOptions(
+        string Network
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+    }
+
+    public void Deconstruct(out string Network)
+    {
+        Network = this.Network;
+    }
+
+    /// <summary>
+    /// The network to get the effective firewalls for.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
     /// The region to get the effective regional firewalls.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]

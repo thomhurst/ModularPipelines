@@ -27,4 +27,10 @@ public record GcloudAuthPrintAccessTokenOptions : GcloudOptions
     [CliOption("--lifetime", Format = OptionFormat.EqualsSeparated)]
     public string? Lifetime { get; set; }
 
+    /// <summary>
+    /// Account to get the access token for. If not specified, the current active account will be used.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Account { get; set; }
+
 }

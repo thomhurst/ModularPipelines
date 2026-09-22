@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDatabaseMigrationConnectionProfilesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a Database     Migration Service connection profile
+    /// </summary>
+    /// <param name="ConnectionProfile">Connection profile resource - Connection profile resource - Connection profile to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ▸ provide the argument connection_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatabaseMigrationConnectionProfilesDeleteOptions(
+        string ConnectionProfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionProfile);
+        this.ConnectionProfile = ConnectionProfile;
+    }
+
+    public void Deconstruct(out string ConnectionProfile)
+    {
+        ConnectionProfile = this.ConnectionProfile;
+    }
+
+    /// <summary>
+    /// Connection profile resource - Connection profile resource - Connection profile to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the region. To set the region attribute: ▸ provide the argument connection_profile on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
     /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
     /// </summary>
     [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
@@ -32,5 +55,11 @@ public record GcloudDatabaseMigrationConnectionProfilesDeleteOptions : GcloudOpt
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// Connection profile resource - Connection profile resource - Connection profile to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ▸ provide the argument connection_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConnectionProfile { get; private init; }
 
 }

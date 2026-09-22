@@ -22,6 +22,35 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerAzureNodePoolsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a node pool in an Anthos     cluster on Azure
+    /// </summary>
+    /// <param name="NodePool">Nodepool resource - node pool to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the nodepool or fully qualified identifier for the nodepool. To set the nodepool attribute: ▸ provide the argument node_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerAzureNodePoolsDeleteOptions(
+        string NodePool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NodePool);
+        this.NodePool = NodePool;
+    }
+
+    public void Deconstruct(out string NodePool)
+    {
+        NodePool = this.NodePool;
+    }
+
+    /// <summary>
+    /// Nodepool resource - node pool to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. cluster of the nodepool. To set the cluster attribute: ▸ provide the argument node_pool on the command line with a fully specified name; ▸ provide the argument --cluster on the command line.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Nodepool resource - node pool to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the nodepool. To set the location attribute: ▸ provide the argument node_pool on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Allow idempotent deletion of node pool. The request will still succeed in case the node pool does not exist.
     /// </summary>
     [CliFlag("--allow-missing")]
@@ -38,5 +67,11 @@ public record GcloudContainerAzureNodePoolsDeleteOptions : GcloudOptions
     /// </summary>
     [CliFlag("--ignore-errors")]
     public bool? IgnoreErrors { get; set; }
+
+    /// <summary>
+    /// Nodepool resource - node pool to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the nodepool or fully qualified identifier for the nodepool. To set the nodepool attribute: ▸ provide the argument node_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NodePool { get; private init; }
 
 }

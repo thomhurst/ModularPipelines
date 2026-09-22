@@ -22,9 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkSecurityGatewaySecurityPoliciesRulesExportOptions : GcloudOptions
 {
     /// <summary>
+    /// export     Gateway Security Policy Rule
+    /// </summary>
+    /// <param name="GatewaySecurityPolicyRule">Gateway security policy rule resource - Name of the Gateway Security Policy Rule to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gateway_security_policy_rule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gateway security policy rule or fully qualified identifier for the gateway security policy rule. To set the gateway_security_policy_rule attribute: ▸ provide the argument gateway_security_policy_rule on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecurityGatewaySecurityPoliciesRulesExportOptions(
+        string GatewaySecurityPolicyRule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewaySecurityPolicyRule);
+        this.GatewaySecurityPolicyRule = GatewaySecurityPolicyRule;
+    }
+
+    public void Deconstruct(out string GatewaySecurityPolicyRule)
+    {
+        GatewaySecurityPolicyRule = this.GatewaySecurityPolicyRule;
+    }
+
+    /// <summary>
+    /// Gateway security policy rule resource - Name of the Gateway Security Policy Rule to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gateway_security_policy_rule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Id of the gateway security policy. To set the gateway-security-policy attribute: ▸ provide the argument gateway_security_policy_rule on the command line with a fully specified name; ▸ provide the argument --gateway-security-policy on the command line.
+    /// </summary>
+    [CliOption("--gateway-security-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? GatewaySecurityPolicy { get; set; }
+
+    /// <summary>
+    /// Gateway security policy rule resource - Name of the Gateway Security Policy Rule to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gateway_security_policy_rule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument gateway_security_policy_rule on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Path to a YAML file where the configuration will be exported. The exported data will not contain any output-only fields. Alternatively, you may omit this flag to write to standard output. For a schema describing the export/import format, see $CLOUDSDKROOT/lib/googlecloudsdk/schemas/...
     /// </summary>
     [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
     public string? Destination { get; set; }
+
+    /// <summary>
+    /// Gateway security policy rule resource - Name of the Gateway Security Policy Rule to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gateway_security_policy_rule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gateway security policy rule or fully qualified identifier for the gateway security policy rule. To set the gateway_security_policy_rule attribute: ▸ provide the argument gateway_security_policy_rule on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GatewaySecurityPolicyRule { get; private init; }
 
 }

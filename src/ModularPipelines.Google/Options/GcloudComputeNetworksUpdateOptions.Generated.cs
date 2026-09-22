@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "networks", "update")]
-public record GcloudComputeNetworksUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeNetworksUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Compute Engine network
+    /// </summary>
+    /// <param name="Name">Name of the network to operate on.</param>
+    public GcloudComputeNetworksUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -84,15 +100,31 @@ public record GcloudComputeNetworksUpdateOptions(
     public string? BgpBpsInterRegionCost { get; set; }
 
     /// <summary>
-    /// BGP Best Path Selection flags At most one of these can be specified: The target BGP routing mode for this network. MODE must be one of: global Cloud Routers in this network advertise subnetworks from all regions to their BGP peers, and program instances in all regions with the router's best learned BGP routes. regional Cloud Routers in this network advertise subnetworks from their local region only to their BGP peers, and program instances in their local region only with the router's best learned BGP routes.
+    /// At most one of these can be specified: The target BGP routing mode for this network. MODE must be one of: global Cloud Routers in this network advertise subnetworks from all regions to their BGP peers, and program instances in all regions with the router's best learned BGP routes. regional Cloud Routers in this network advertise subnetworks from their local region only to their BGP peers, and program instances in their local region only with the router's best learned BGP routes.
     /// </summary>
     [CliOption("--bgp-routing-mode", Format = OptionFormat.EqualsSeparated)]
     public string? BgpRoutingMode { get; set; }
 
     /// <summary>
-    /// BGP Best Path Selection flags At most one of these can be specified: Switch to custom subnet mode. This action cannot be undone.
+    /// At most one of these can be specified: Switch to custom subnet mode. This action cannot be undone.
     /// </summary>
     [CliFlag("--switch-to-custom-subnet-mode")]
     public bool? SwitchToCustomSubnetMode { get; set; }
+
+    /// <summary>
+    /// Name of the network to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BgpRoutingMode) ? 1 : 0) + (SwitchToCustomSubnetMode == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BgpRoutingMode or SwitchToCustomSubnetMode may be specified.", [nameof(BgpRoutingMode), nameof(SwitchToCustomSubnetMode)]);
+        }
+        yield break;
+    }
 
 }

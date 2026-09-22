@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "instances", "get-locations")]
-public record GcloudSpannerInstancesGetLocationsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudSpannerInstancesGetLocationsOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the location of every replica     in a Cloud Spanner instance
+    /// </summary>
+    /// <param name="Instance">Cloud Spanner instance ID.</param>
+    public GcloudSpannerInstancesGetLocationsOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
     /// <summary>
     /// Indicates that both regions and types of replicas be returned.
     /// </summary>
     [CliFlag("--verbose")]
     public bool? Verbose { get; set; }
+
+    /// <summary>
+    /// Cloud Spanner instance ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
 
 }

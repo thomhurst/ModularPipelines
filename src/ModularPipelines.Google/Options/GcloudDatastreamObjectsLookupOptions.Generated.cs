@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,153 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datastream", "objects", "lookup")]
-public record GcloudDatastreamObjectsLookupOptions : GcloudOptions
+public record GcloudDatastreamObjectsLookupOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// lookup a Datastream stream object
+    /// </summary>
+    /// <param name="Stream">Stream resource - The stream to list objects for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --stream on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the stream or fully qualified identifier for the stream. To set the stream attribute: ▸ provide the argument --stream on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatastreamObjectsLookupOptions(
+        string Stream
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Stream);
+        this.Stream = Stream;
+    }
+
+    public void Deconstruct(out string Stream)
+    {
+        Stream = this.Stream;
+    }
+
+    /// <summary>
+    /// Stream resource - The stream to list objects for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --stream on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the stream or fully qualified identifier for the stream. To set the stream attribute: ▸ provide the argument --stream on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--stream", Format = OptionFormat.EqualsSeparated)]
+    public string Stream { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Salesforce object name.
+    /// </summary>
+    [CliOption("--salesforce-object-name", Format = OptionFormat.EqualsSeparated)]
+    public string? SalesforceObjectName { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Mysql database for the object. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--mysql-database", Format = OptionFormat.EqualsSeparated)]
+    public string? MysqlDatabase { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Mysql table for the object. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--mysql-table", Format = OptionFormat.EqualsSeparated)]
+    public string? MysqlTable { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Oracle schema for the object. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--oracle-schema", Format = OptionFormat.EqualsSeparated)]
+    public string? OracleSchema { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Oracle table for the object. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--oracle-table", Format = OptionFormat.EqualsSeparated)]
+    public string? OracleTable { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: PostgreSQL schema for the object. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--postgresql-schema", Format = OptionFormat.EqualsSeparated)]
+    public string? PostgresqlSchema { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: PostgreSQL table for the object. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--postgresql-table", Format = OptionFormat.EqualsSeparated)]
+    public string? PostgresqlTable { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Spanner table name. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--spanner-table", Format = OptionFormat.EqualsSeparated)]
+    public string? SpannerTable { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Spanner schema name.
+    /// </summary>
+    [CliOption("--spanner-schema", Format = OptionFormat.EqualsSeparated)]
+    public string? SpannerSchema { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: SQL Server schema for the object. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--sqlserver-schema", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlServerSchema { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: SQL Server table for the object. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--sqlserver-table", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlServerTable { get; set; }
+
+    /// <summary>
+    /// Stream resource - The stream to list objects for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --stream on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the stream. To set the location attribute: ▸ provide the argument --stream on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(SalesforceObjectName) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(MysqlDatabase) || !string.IsNullOrWhiteSpace(MysqlTable)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(OracleSchema) || !string.IsNullOrWhiteSpace(OracleTable)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(PostgresqlSchema) || !string.IsNullOrWhiteSpace(PostgresqlTable)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(SpannerTable) || !string.IsNullOrWhiteSpace(SpannerSchema)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(SqlServerSchema) || !string.IsNullOrWhiteSpace(SqlServerTable)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of SalesforceObjectName, (MysqlDatabase or MysqlTable), (OracleSchema or OracleTable), (PostgresqlSchema or PostgresqlTable), (SpannerTable or SpannerSchema), or (SqlServerSchema or SqlServerTable) must be specified.", [nameof(SalesforceObjectName), nameof(MysqlDatabase), nameof(MysqlTable), nameof(OracleSchema), nameof(OracleTable), nameof(PostgresqlSchema), nameof(PostgresqlTable), nameof(SpannerTable), nameof(SpannerSchema), nameof(SqlServerSchema), nameof(SqlServerTable)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SalesforceObjectName) || !string.IsNullOrWhiteSpace(MysqlDatabase) || !string.IsNullOrWhiteSpace(MysqlTable) || !string.IsNullOrWhiteSpace(OracleSchema) || !string.IsNullOrWhiteSpace(OracleTable) || !string.IsNullOrWhiteSpace(PostgresqlSchema) || !string.IsNullOrWhiteSpace(PostgresqlTable) || !string.IsNullOrWhiteSpace(SpannerTable) || !string.IsNullOrWhiteSpace(SpannerSchema) || !string.IsNullOrWhiteSpace(SqlServerSchema) || !string.IsNullOrWhiteSpace(SqlServerTable)) && (!string.IsNullOrWhiteSpace(MysqlDatabase) || !string.IsNullOrWhiteSpace(MysqlTable)) && (!(!string.IsNullOrWhiteSpace(MysqlDatabase))))
+        {
+            yield return new ValidationResult("MysqlDatabase must be specified when other arguments in this group are specified.", [nameof(MysqlDatabase)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SalesforceObjectName) || !string.IsNullOrWhiteSpace(MysqlDatabase) || !string.IsNullOrWhiteSpace(MysqlTable) || !string.IsNullOrWhiteSpace(OracleSchema) || !string.IsNullOrWhiteSpace(OracleTable) || !string.IsNullOrWhiteSpace(PostgresqlSchema) || !string.IsNullOrWhiteSpace(PostgresqlTable) || !string.IsNullOrWhiteSpace(SpannerTable) || !string.IsNullOrWhiteSpace(SpannerSchema) || !string.IsNullOrWhiteSpace(SqlServerSchema) || !string.IsNullOrWhiteSpace(SqlServerTable)) && (!string.IsNullOrWhiteSpace(MysqlDatabase) || !string.IsNullOrWhiteSpace(MysqlTable)) && (!(!string.IsNullOrWhiteSpace(MysqlTable))))
+        {
+            yield return new ValidationResult("MysqlTable must be specified when other arguments in this group are specified.", [nameof(MysqlTable)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SalesforceObjectName) || !string.IsNullOrWhiteSpace(MysqlDatabase) || !string.IsNullOrWhiteSpace(MysqlTable) || !string.IsNullOrWhiteSpace(OracleSchema) || !string.IsNullOrWhiteSpace(OracleTable) || !string.IsNullOrWhiteSpace(PostgresqlSchema) || !string.IsNullOrWhiteSpace(PostgresqlTable) || !string.IsNullOrWhiteSpace(SpannerTable) || !string.IsNullOrWhiteSpace(SpannerSchema) || !string.IsNullOrWhiteSpace(SqlServerSchema) || !string.IsNullOrWhiteSpace(SqlServerTable)) && (!string.IsNullOrWhiteSpace(OracleSchema) || !string.IsNullOrWhiteSpace(OracleTable)) && (!(!string.IsNullOrWhiteSpace(OracleSchema))))
+        {
+            yield return new ValidationResult("OracleSchema must be specified when other arguments in this group are specified.", [nameof(OracleSchema)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SalesforceObjectName) || !string.IsNullOrWhiteSpace(MysqlDatabase) || !string.IsNullOrWhiteSpace(MysqlTable) || !string.IsNullOrWhiteSpace(OracleSchema) || !string.IsNullOrWhiteSpace(OracleTable) || !string.IsNullOrWhiteSpace(PostgresqlSchema) || !string.IsNullOrWhiteSpace(PostgresqlTable) || !string.IsNullOrWhiteSpace(SpannerTable) || !string.IsNullOrWhiteSpace(SpannerSchema) || !string.IsNullOrWhiteSpace(SqlServerSchema) || !string.IsNullOrWhiteSpace(SqlServerTable)) && (!string.IsNullOrWhiteSpace(OracleSchema) || !string.IsNullOrWhiteSpace(OracleTable)) && (!(!string.IsNullOrWhiteSpace(OracleTable))))
+        {
+            yield return new ValidationResult("OracleTable must be specified when other arguments in this group are specified.", [nameof(OracleTable)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SalesforceObjectName) || !string.IsNullOrWhiteSpace(MysqlDatabase) || !string.IsNullOrWhiteSpace(MysqlTable) || !string.IsNullOrWhiteSpace(OracleSchema) || !string.IsNullOrWhiteSpace(OracleTable) || !string.IsNullOrWhiteSpace(PostgresqlSchema) || !string.IsNullOrWhiteSpace(PostgresqlTable) || !string.IsNullOrWhiteSpace(SpannerTable) || !string.IsNullOrWhiteSpace(SpannerSchema) || !string.IsNullOrWhiteSpace(SqlServerSchema) || !string.IsNullOrWhiteSpace(SqlServerTable)) && (!string.IsNullOrWhiteSpace(PostgresqlSchema) || !string.IsNullOrWhiteSpace(PostgresqlTable)) && (!(!string.IsNullOrWhiteSpace(PostgresqlSchema))))
+        {
+            yield return new ValidationResult("PostgresqlSchema must be specified when other arguments in this group are specified.", [nameof(PostgresqlSchema)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SalesforceObjectName) || !string.IsNullOrWhiteSpace(MysqlDatabase) || !string.IsNullOrWhiteSpace(MysqlTable) || !string.IsNullOrWhiteSpace(OracleSchema) || !string.IsNullOrWhiteSpace(OracleTable) || !string.IsNullOrWhiteSpace(PostgresqlSchema) || !string.IsNullOrWhiteSpace(PostgresqlTable) || !string.IsNullOrWhiteSpace(SpannerTable) || !string.IsNullOrWhiteSpace(SpannerSchema) || !string.IsNullOrWhiteSpace(SqlServerSchema) || !string.IsNullOrWhiteSpace(SqlServerTable)) && (!string.IsNullOrWhiteSpace(PostgresqlSchema) || !string.IsNullOrWhiteSpace(PostgresqlTable)) && (!(!string.IsNullOrWhiteSpace(PostgresqlTable))))
+        {
+            yield return new ValidationResult("PostgresqlTable must be specified when other arguments in this group are specified.", [nameof(PostgresqlTable)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SalesforceObjectName) || !string.IsNullOrWhiteSpace(MysqlDatabase) || !string.IsNullOrWhiteSpace(MysqlTable) || !string.IsNullOrWhiteSpace(OracleSchema) || !string.IsNullOrWhiteSpace(OracleTable) || !string.IsNullOrWhiteSpace(PostgresqlSchema) || !string.IsNullOrWhiteSpace(PostgresqlTable) || !string.IsNullOrWhiteSpace(SpannerTable) || !string.IsNullOrWhiteSpace(SpannerSchema) || !string.IsNullOrWhiteSpace(SqlServerSchema) || !string.IsNullOrWhiteSpace(SqlServerTable)) && (!string.IsNullOrWhiteSpace(SpannerTable) || !string.IsNullOrWhiteSpace(SpannerSchema)) && (!(!string.IsNullOrWhiteSpace(SpannerTable))))
+        {
+            yield return new ValidationResult("SpannerTable must be specified when other arguments in this group are specified.", [nameof(SpannerTable)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SalesforceObjectName) || !string.IsNullOrWhiteSpace(MysqlDatabase) || !string.IsNullOrWhiteSpace(MysqlTable) || !string.IsNullOrWhiteSpace(OracleSchema) || !string.IsNullOrWhiteSpace(OracleTable) || !string.IsNullOrWhiteSpace(PostgresqlSchema) || !string.IsNullOrWhiteSpace(PostgresqlTable) || !string.IsNullOrWhiteSpace(SpannerTable) || !string.IsNullOrWhiteSpace(SpannerSchema) || !string.IsNullOrWhiteSpace(SqlServerSchema) || !string.IsNullOrWhiteSpace(SqlServerTable)) && (!string.IsNullOrWhiteSpace(SqlServerSchema) || !string.IsNullOrWhiteSpace(SqlServerTable)) && (!(!string.IsNullOrWhiteSpace(SqlServerSchema))))
+        {
+            yield return new ValidationResult("SqlServerSchema must be specified when other arguments in this group are specified.", [nameof(SqlServerSchema)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SalesforceObjectName) || !string.IsNullOrWhiteSpace(MysqlDatabase) || !string.IsNullOrWhiteSpace(MysqlTable) || !string.IsNullOrWhiteSpace(OracleSchema) || !string.IsNullOrWhiteSpace(OracleTable) || !string.IsNullOrWhiteSpace(PostgresqlSchema) || !string.IsNullOrWhiteSpace(PostgresqlTable) || !string.IsNullOrWhiteSpace(SpannerTable) || !string.IsNullOrWhiteSpace(SpannerSchema) || !string.IsNullOrWhiteSpace(SqlServerSchema) || !string.IsNullOrWhiteSpace(SqlServerTable)) && (!string.IsNullOrWhiteSpace(SqlServerSchema) || !string.IsNullOrWhiteSpace(SqlServerTable)) && (!(!string.IsNullOrWhiteSpace(SqlServerTable))))
+        {
+            yield return new ValidationResult("SqlServerTable must be specified when other arguments in this group are specified.", [nameof(SqlServerTable)]);
+        }
+        yield break;
+    }
+
 }

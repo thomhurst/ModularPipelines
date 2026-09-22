@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,10 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "instances", "update")]
-public record GcloudSpannerInstancesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudSpannerInstancesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Cloud Spanner instance
+    /// </summary>
+    /// <param name="Instance">Cloud Spanner instance ID.</param>
+    public GcloudSpannerInstancesUpdateOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -61,9 +77,9 @@ public record GcloudSpannerInstancesUpdateOptions(
     public string? InstanceType { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
@@ -73,10 +89,32 @@ public record GcloudSpannerInstancesUpdateOptions(
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Number of nodes for the instance.
@@ -115,45 +153,99 @@ public record GcloudSpannerInstancesUpdateOptions(
     public string? AsymmetricAutoscalingOption { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling At most one of these can be specified: Specify a comma separated list of locations from which to remove asymmetric autoscaling options
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling At most one of these can be specified: Specify a comma separated list of locations from which to remove asymmetric autoscaling options Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--clear-asymmetric-autoscaling-option", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ClearAsymmetricAutoscalingOption { get; set; }
+    [CliOption("--clear-asymmetric-autoscaling-option", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ClearAsymmetricAutoscalingOption
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ClearAsymmetricAutoscalingOptionSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ClearAsymmetricAutoscalingOptionSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// At most one of these can be specified: Specify one or both CPU targets: Specifies the target percentage of high-priority CPU the autoscaled instance can utilize.
+    /// At most one of these can be specified: Or at least one of these can be specified: Specify one or both CPU targets: Specifies the target percentage of high-priority CPU the autoscaled instance can utilize.
     /// </summary>
     [CliOption("--autoscaling-high-priority-cpu-target", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingHighPriorityCpuTarget { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Specify one or both CPU targets: Specifies the target percentage of total CPU the autoscaled instance can utilize.
+    /// At most one of these can be specified: Or at least one of these can be specified: Specify one or both CPU targets: Specifies the target percentage of total CPU the autoscaled instance can utilize.
     /// </summary>
     [CliOption("--autoscaling-total-cpu-target", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingTotalCpuTarget { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Specify one or both CPU targets: Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in nodes: Maximum number of nodes for the autoscaled instance.
+    /// At most one of these can be specified: Or at least one of these can be specified: Specify one or both CPU targets: Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in nodes: Maximum number of nodes for the autoscaled instance.
     /// </summary>
     [CliOption("--autoscaling-max-nodes", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingMaxNodes { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Specify one or both CPU targets: Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in nodes: Minimum number of nodes for the autoscaled instance.
+    /// At most one of these can be specified: Or at least one of these can be specified: Specify one or both CPU targets: Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in nodes: Minimum number of nodes for the autoscaled instance.
     /// </summary>
     [CliOption("--autoscaling-min-nodes", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingMinNodes { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Specify one or both CPU targets: Autoscaling limits in processing units: Maximum number of processing units for the autoscaled instance.
+    /// At most one of these can be specified: Or at least one of these can be specified: Specify one or both CPU targets: Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in processing units: Maximum number of processing units for the autoscaled instance.
     /// </summary>
     [CliOption("--autoscaling-max-processing-units", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingMaxProcessingUnits { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Specify one or both CPU targets: Autoscaling limits in processing units: Minimum number of processing units for the autoscaled instance.
+    /// At most one of these can be specified: Or at least one of these can be specified: Specify one or both CPU targets: Autoscaling limits can be defined in either nodes or processing units. At most one of these can be specified: Autoscaling limits in processing units: Minimum number of processing units for the autoscaled instance.
     /// </summary>
     [CliOption("--autoscaling-min-processing-units", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingMinProcessingUnits { get; set; }
+
+    /// <summary>
+    /// Cloud Spanner instance ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Nodes) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ProcessingUnits) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || ((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<char> ? (object?)ClearAsymmetricAutoscalingOption is not string || !string.IsNullOrWhiteSpace(ClearAsymmetricAutoscalingOption?.ToString()) : ((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ClearAsymmetricAutoscalingOption, static item => item is not null) : (ClearAsymmetricAutoscalingOption is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ClearAsymmetricAutoscalingOption), static item => item is not null)))) || DisableDownscaling == true || NoDisableDownscaling == true || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Nodes, ProcessingUnits, or (AutoscalingStorageTarget, AsymmetricAutoscalingOption, ClearAsymmetricAutoscalingOption, DisableDownscaling, NoDisableDownscaling, AutoscalingHighPriorityCpuTarget, AutoscalingTotalCpuTarget, AutoscalingMaxNodes, AutoscalingMinNodes, AutoscalingMaxProcessingUnits, or AutoscalingMinProcessingUnits) may be specified.", [nameof(Nodes), nameof(ProcessingUnits), nameof(AutoscalingStorageTarget), nameof(AsymmetricAutoscalingOption), nameof(ClearAsymmetricAutoscalingOption), nameof(DisableDownscaling), nameof(NoDisableDownscaling), nameof(AutoscalingHighPriorityCpuTarget), nameof(AutoscalingTotalCpuTarget), nameof(AutoscalingMaxNodes), nameof(AutoscalingMinNodes), nameof(AutoscalingMaxProcessingUnits), nameof(AutoscalingMinProcessingUnits)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Nodes) || !string.IsNullOrWhiteSpace(ProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || ((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<char> ? (object?)ClearAsymmetricAutoscalingOption is not string || !string.IsNullOrWhiteSpace(ClearAsymmetricAutoscalingOption?.ToString()) : ((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ClearAsymmetricAutoscalingOption, static item => item is not null) : (ClearAsymmetricAutoscalingOption is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ClearAsymmetricAutoscalingOption), static item => item is not null)))) || DisableDownscaling == true || NoDisableDownscaling == true || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || ((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<char> ? (object?)ClearAsymmetricAutoscalingOption is not string || !string.IsNullOrWhiteSpace(ClearAsymmetricAutoscalingOption?.ToString()) : ((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ClearAsymmetricAutoscalingOption, static item => item is not null) : (ClearAsymmetricAutoscalingOption is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ClearAsymmetricAutoscalingOption), static item => item is not null)))) || DisableDownscaling == true || NoDisableDownscaling == true || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || ((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<char> ? (object?)ClearAsymmetricAutoscalingOption is not string || !string.IsNullOrWhiteSpace(ClearAsymmetricAutoscalingOption?.ToString()) : ((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ClearAsymmetricAutoscalingOption, static item => item is not null) : (ClearAsymmetricAutoscalingOption is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ClearAsymmetricAutoscalingOption), static item => item is not null)))) || DisableDownscaling == true || NoDisableDownscaling == true) && ((!string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) ? 1 : 0) + (((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<char> ? (object?)ClearAsymmetricAutoscalingOption is not string || !string.IsNullOrWhiteSpace(ClearAsymmetricAutoscalingOption?.ToString()) : ((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ClearAsymmetricAutoscalingOption, static item => item is not null) : (ClearAsymmetricAutoscalingOption is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ClearAsymmetricAutoscalingOption), static item => item is not null)))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of AsymmetricAutoscalingOption or ClearAsymmetricAutoscalingOption may be specified.", [nameof(AsymmetricAutoscalingOption), nameof(ClearAsymmetricAutoscalingOption)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Nodes) || !string.IsNullOrWhiteSpace(ProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || ((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<char> ? (object?)ClearAsymmetricAutoscalingOption is not string || !string.IsNullOrWhiteSpace(ClearAsymmetricAutoscalingOption?.ToString()) : ((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ClearAsymmetricAutoscalingOption, static item => item is not null) : (ClearAsymmetricAutoscalingOption is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ClearAsymmetricAutoscalingOption), static item => item is not null)))) || DisableDownscaling == true || NoDisableDownscaling == true || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || ((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<char> ? (object?)ClearAsymmetricAutoscalingOption is not string || !string.IsNullOrWhiteSpace(ClearAsymmetricAutoscalingOption?.ToString()) : ((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ClearAsymmetricAutoscalingOption, static item => item is not null) : (ClearAsymmetricAutoscalingOption is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ClearAsymmetricAutoscalingOption), static item => item is not null)))) || DisableDownscaling == true || NoDisableDownscaling == true || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || ((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<char> ? (object?)ClearAsymmetricAutoscalingOption is not string || !string.IsNullOrWhiteSpace(ClearAsymmetricAutoscalingOption?.ToString()) : ((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ClearAsymmetricAutoscalingOption, static item => item is not null) : (ClearAsymmetricAutoscalingOption is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ClearAsymmetricAutoscalingOption), static item => item is not null)))) || DisableDownscaling == true || NoDisableDownscaling == true) && ((DisableDownscaling == true ? 1 : 0) + (NoDisableDownscaling == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of DisableDownscaling or NoDisableDownscaling may be specified.", [nameof(DisableDownscaling), nameof(NoDisableDownscaling)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Nodes) || !string.IsNullOrWhiteSpace(ProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || ((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<char> ? (object?)ClearAsymmetricAutoscalingOption is not string || !string.IsNullOrWhiteSpace(ClearAsymmetricAutoscalingOption?.ToString()) : ((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ClearAsymmetricAutoscalingOption, static item => item is not null) : (ClearAsymmetricAutoscalingOption is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ClearAsymmetricAutoscalingOption), static item => item is not null)))) || DisableDownscaling == true || NoDisableDownscaling == true || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) && (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) || !string.IsNullOrWhiteSpace(AsymmetricAutoscalingOption) || ((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<char> ? (object?)ClearAsymmetricAutoscalingOption is not string || !string.IsNullOrWhiteSpace(ClearAsymmetricAutoscalingOption?.ToString()) : ((object?)ClearAsymmetricAutoscalingOption is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ClearAsymmetricAutoscalingOption, static item => item is not null) : (ClearAsymmetricAutoscalingOption is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ClearAsymmetricAutoscalingOption), static item => item is not null)))) || DisableDownscaling == true || NoDisableDownscaling == true || !string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) && (!string.IsNullOrWhiteSpace(AutoscalingHighPriorityCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingTotalCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) && (((!string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AutoscalingMaxProcessingUnits) || !string.IsNullOrWhiteSpace(AutoscalingMinProcessingUnits)) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of (AutoscalingMaxNodes or AutoscalingMinNodes) or (AutoscalingMaxProcessingUnits or AutoscalingMinProcessingUnits) may be specified.", [nameof(AutoscalingMaxNodes), nameof(AutoscalingMinNodes), nameof(AutoscalingMaxProcessingUnits), nameof(AutoscalingMinProcessingUnits)]);
+        }
+        yield break;
+    }
 
 }

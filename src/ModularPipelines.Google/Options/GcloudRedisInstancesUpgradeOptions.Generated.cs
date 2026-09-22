@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("redis", "instances", "upgrade")]
 public record GcloudRedisInstancesUpgradeOptions : GcloudOptions
 {
+    /// <summary>
+    /// upgrade a Memorystore for Redis instance     to a specified Redis version
+    /// </summary>
+    /// <param name="RedisVersion">Target version of Redis software. VERSION must be one of: redis_4_0 Redis 4.0 compatibility redis_5_0 Redis 5.0 compatibility redis_6_x Redis 6.x compatibility redis_7_0 Redis 7.0 compatibility redis_7_2 Redis 7.2 compatibility</param>
+    /// <param name="Instance">Instance resource - Arguments and flags that specify the Memorystore for Redis instance you want to upgrade. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudRedisInstancesUpgradeOptions(
+        string RedisVersion,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RedisVersion);
+        this.RedisVersion = RedisVersion;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string RedisVersion, out string Instance)
+    {
+        RedisVersion = this.RedisVersion;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Target version of Redis software. VERSION must be one of: redis_4_0 Redis 4.0 compatibility redis_5_0 Redis 5.0 compatibility redis_6_x Redis 6.x compatibility redis_7_0 Redis 7.0 compatibility redis_7_2 Redis 7.2 compatibility
+    /// </summary>
+    [CliOption("--redis-version", Format = OptionFormat.EqualsSeparated)]
+    public string RedisVersion { get; private init; }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Memorystore for Redis instance you want to upgrade. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Redis region of the instance. Overrides the default redis/region property value for this command invocation. To set the region attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property redis/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Memorystore for Redis instance you want to upgrade. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
 }

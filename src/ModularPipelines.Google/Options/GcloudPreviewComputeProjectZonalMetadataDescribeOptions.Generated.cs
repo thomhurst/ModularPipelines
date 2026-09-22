@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("preview", "compute", "project-zonal-metadata", "describe")]
 public record GcloudPreviewComputeProjectZonalMetadataDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe project     zonal metadata
+    /// </summary>
+    /// <param name="Zone">Zone for project zonal metadata</param>
+    public GcloudPreviewComputeProjectZonalMetadataDescribeOptions(
+        string Zone
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+    }
+
+    public void Deconstruct(out string Zone)
+    {
+        Zone = this.Zone;
+    }
+
+    /// <summary>
+    /// Zone for project zonal metadata
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
 }

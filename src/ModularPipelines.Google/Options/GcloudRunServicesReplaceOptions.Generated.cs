@@ -39,4 +39,10 @@ public record GcloudRunServicesReplaceOptions : GcloudOptions
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
+    /// <summary>
+    /// The absolute path to the YAML file with a Knative service definition for the service to update or deploy. Defaults to service.yaml if not specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? File { get; set; }
+
 }

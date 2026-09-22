@@ -21,4 +21,139 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("ai", "endpoints", "deploy-model")]
 public record GcloudAiEndpointsDeployModelOptions : GcloudOptions
 {
+    /// <summary>
+    /// deploy a model to an existing Vertex AI     endpoint
+    /// </summary>
+    /// <param name="DisplayName">Display name of the deployed model.</param>
+    /// <param name="Model">ID of the uploaded model.</param>
+    /// <param name="Endpoint">Endpoint resource - The endpoint to deploy a model to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the endpoint or fully qualified identifier for the endpoint. To set the name attribute: ▸ provide the argument endpoint on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAiEndpointsDeployModelOptions(
+        string DisplayName,
+        string Model,
+        string Endpoint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(Model);
+        this.Model = Model;
+        global::System.ArgumentNullException.ThrowIfNull(Endpoint);
+        this.Endpoint = Endpoint;
+    }
+
+    public void Deconstruct(out string DisplayName, out string Model, out string Endpoint)
+    {
+        DisplayName = this.DisplayName;
+        Model = this.Model;
+        Endpoint = this.Endpoint;
+    }
+
+    /// <summary>
+    /// Display name of the deployed model.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// ID of the uploaded model.
+    /// </summary>
+    [CliOption("--model", Format = OptionFormat.EqualsSeparated)]
+    public string Model { get; private init; }
+
+    /// <summary>
+    /// Endpoint resource - The endpoint to deploy a model to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud region for the endpoint. To set the region attribute: ▸ provide the argument endpoint on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property ai/region; ▸ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Manage the accelerator config for GPU serving. When deploying a model with Compute Engine Machine Types, a GPU accelerator may also be selected. type The type of the accelerator. Choices are 'nvidia-a100-80gb', 'nvidia-b200', 'nvidia-gb200', 'nvidia-h100-80gb', 'nvidia-h100-mega-80gb', 'nvidia-h200-141gb', 'nvidia-l4', 'nvidia-rtx-pro-6000', 'nvidia-tesla-a100', 'nvidia-tesla-k80', 'nvidia-tesla-p100', 'nvidia-tesla-p4', 'nvidia-tesla-t4', 'nvidia-tesla-v100'. count The number of accelerators to attach to each machine running the job. This is usually 1. If not specified, the default value is 1. For example: --accelerator=type=nvidia-tesla-k80,count=1
+    /// </summary>
+    [CliOption("--accelerator", Format = OptionFormat.EqualsSeparated)]
+    public string? Accelerator { get; set; }
+
+    /// <summary>
+    /// Metric specifications that control autoscaling behavior. At most one entry is allowed per metric. METRIC-NAME Resource metric name. Choices are 'cpu-usage', 'dcgm-fi-dev-gpu-util', 'gpu-duty-cycle', 'request-counts-per-minute', 'vllm-gpu-cache-usage-perc', 'vllm-num-requests-waiting'. TARGET Target value for the given metric. For cpu-usage, gpu-duty-cycle, dcgm-fi-dev-gpu-util, and vllm-gpu-cache-usage-perc, the target is the target resource utilization in percentage (1% - 100%). For request-counts-per-minute, the target is the number of requests per minute per replica. For vllm-num-requests-waiting, the target is the number of pending requests allowed on the replica. For example, to set target CPU usage to 70% and target requests to 600 per minute per replica: --autoscaling-metric-specs=cpu-usage=70,request-counts-per-minute=600 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--autoscaling-metric-specs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AutoscalingMetricSpecs { get; set; }
+
+    /// <summary>
+    /// User-specified ID of the deployed-model.
+    /// </summary>
+    [CliOption("--deployed-model-id", Format = OptionFormat.EqualsSeparated)]
+    public string? DeployedModelId { get; set; }
+
+    /// <summary>
+    /// For custom-trained Models and AutoML Tabular Models, the container of the deployed model instances will send stderr and stdout streams to Cloud Logging by default. Please note that the logs incur cost, which are subject to Cloud Logging pricing (https://cloud.google.com/stackdriver/pricing). User can disable container logging by setting this flag to true.
+    /// </summary>
+    [CliFlag("--disable-container-logging")]
+    public bool? DisableContainerLogging { get; set; }
+
+    /// <summary>
+    /// If true, online prediction access logs are sent to Cloud Logging. These logs are standard server access logs, containing information like timestamp and latency for each prediction request.
+    /// </summary>
+    [CliFlag("--enable-access-logging")]
+    public bool? EnableAccessLogging { get; set; }
+
+    /// <summary>
+    /// The partition size of the GPU accelerator. This can be used to partition a single GPU into multiple smaller GPU instances. See https://cloud.google.com/kubernetes-engine/docs/how-to/gpus-multi#multi-instance_gpu_partitions for more details.
+    /// </summary>
+    [CliOption("--gpu-partition-size", Format = OptionFormat.EqualsSeparated)]
+    public int? GpuPartitionSize { get; set; }
+
+    /// <summary>
+    /// The machine resources to be used for each node of this deployment. For available machine types, see https://cloud.google.com/ai-platform-unified/docs/predictions/machine-types.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Maximum number of machine replicas for the deployment resources the model will be deployed on.
+    /// </summary>
+    [CliOption("--max-replica-count", Format = OptionFormat.EqualsSeparated)]
+    public int? MaxReplicaCount { get; set; }
+
+    /// <summary>
+    /// Minimum number of machine replicas for the deployment resources the model will be deployed on. For normal deployments, the value must be equal to or larger than 1. If the value is 0, the deployment will be enrolled in the scale-to-zero feature. If not specified and the uploaded models use dedicated resources, the default value is 1. NOTE: DeploymentResourcePools (model-cohosting) is currently not supported for scale-to-zero deployments.
+    /// </summary>
+    [CliOption("--min-replica-count", Format = OptionFormat.EqualsSeparated)]
+    public int? MinReplicaCount { get; set; }
+
+    /// <summary>
+    /// Required number of machine replicas for the deployment resources the model will be considered successfully deployed. This value must be greater than or equal to 1 and less than or equal to min-replica-count.
+    /// </summary>
+    [CliOption("--required-replica-count", Format = OptionFormat.EqualsSeparated)]
+    public int? RequiredReplicaCount { get; set; }
+
+    /// <summary>
+    /// A ReservationAffinity can be used to configure a Vertex AI resource (e.g., a DeployedModel) to draw its Compute Engine resources from a Shared Reservation, or exclusively from on-demand capacity.
+    /// </summary>
+    [CliOption("--reservation-affinity", Format = OptionFormat.EqualsSeparated)]
+    public string? ReservationAffinity { get; set; }
+
+    /// <summary>
+    /// Service account that the deployed model's container runs as. Specify the email address of the service account. If this service account is not specified, the container runs as a service account that doesn't have access to the resource project.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// If true, schedule the deployment workload on Spot VMs.
+    /// </summary>
+    [CliFlag("--spot")]
+    public bool? Spot { get; set; }
+
+    /// <summary>
+    /// List of pairs of deployed model id and value to set as traffic split. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--traffic-split", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? TrafficSplit { get; set; }
+
+    /// <summary>
+    /// Endpoint resource - The endpoint to deploy a model to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the endpoint or fully qualified identifier for the endpoint. To set the name attribute: ▸ provide the argument endpoint on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Endpoint { get; private init; }
+
 }

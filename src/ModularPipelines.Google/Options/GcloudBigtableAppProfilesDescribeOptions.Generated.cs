@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bigtable", "app-profiles", "describe")]
 public record GcloudBigtableAppProfilesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an existing Bigtable app     profile
+    /// </summary>
+    /// <param name="AppProfile">App profile resource - The app profile to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument app_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the app profile or fully qualified identifier for the app profile. To set the name attribute: ▸ provide the argument app_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBigtableAppProfilesDescribeOptions(
+        string AppProfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AppProfile);
+        this.AppProfile = AppProfile;
+    }
+
+    public void Deconstruct(out string AppProfile)
+    {
+        AppProfile = this.AppProfile;
+    }
+
+    /// <summary>
+    /// App profile resource - The app profile to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument app_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Bigtable instance for the app profile. To set the instance attribute: ▸ provide the argument app_profile on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// App profile resource - The app profile to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument app_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the app profile or fully qualified identifier for the app profile. To set the name attribute: ▸ provide the argument app_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AppProfile { get; private init; }
+
 }

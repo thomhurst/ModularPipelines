@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,55 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("redis", "instances", "reschedule-maintenance")]
 public record GcloudRedisInstancesRescheduleMaintenanceOptions : GcloudOptions
 {
+    /// <summary>
+    /// reschedule maintenance     window for a Redis instance
+    /// </summary>
+    /// <param name="RescheduleType">Reschedule type to use for the reschedule maintenance window. Reschedule Type must be one of:IMMEDIATE, NEXT-AVAILABLE-WINDOW, or SPECIFIC-TIME. RESCHEDULE_TYPE must be one of: immediate Reschedule the maintenance window to perform now. next-available-window Reschedule the maintenance window to the next available window. specific-time Reschedule the maintenance window to a specific time.</param>
+    /// <param name="Instance">Instance resource - Arguments and flags that specify the Cloud Memorystore for Redis instance you want to reschedule maintenance window. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudRedisInstancesRescheduleMaintenanceOptions(
+        GcloudRedisInstancesRescheduleMaintenanceRescheduleType RescheduleType,
+        string Instance
+    )
+    {
+        this.RescheduleType = RescheduleType;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out GcloudRedisInstancesRescheduleMaintenanceRescheduleType RescheduleType, out string Instance)
+    {
+        RescheduleType = this.RescheduleType;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Reschedule type to use for the reschedule maintenance window. Reschedule Type must be one of:IMMEDIATE, NEXT-AVAILABLE-WINDOW, or SPECIFIC-TIME. RESCHEDULE_TYPE must be one of: immediate Reschedule the maintenance window to perform now. next-available-window Reschedule the maintenance window to the next available window. specific-time Reschedule the maintenance window to a specific time.
+    /// </summary>
+    [CliOption("--reschedule-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudRedisInstancesRescheduleMaintenanceRescheduleType RescheduleType { get; private init; }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Cloud Memorystore for Redis instance you want to reschedule maintenance window. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Redis region of the instance. Overrides the default redis/region property value for this command invocation. To set the region attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property redis/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Time in RFC3339 format, for example: 2012-11-15T16:19:00.094Z
+    /// </summary>
+    [CliOption("--schedule-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduleTime { get; set; }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Cloud Memorystore for Redis instance you want to reschedule maintenance window. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
 }

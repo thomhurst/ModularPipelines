@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "target-pools", "update")]
-public record GcloudComputeTargetPoolsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeTargetPoolsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a Compute Engine target pool
+    /// </summary>
+    /// <param name="Name">The name of the target pool.</param>
+    public GcloudComputeTargetPoolsUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Region of the target pool to update. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
     /// </summary>
@@ -40,5 +55,11 @@ public record GcloudComputeTargetPoolsUpdateOptions(
     /// </summary>
     [CliOption("--security-policy-region", Format = OptionFormat.EqualsSeparated)]
     public string? SecurityPolicyRegion { get; set; }
+
+    /// <summary>
+    /// The name of the target pool.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

@@ -23,9 +23,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDatalineageProcessesCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Additional attributes for the process.
+    /// create a Data Lineage process
     /// </summary>
-    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Process">Process resource - The process to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument process on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the process or fully qualified identifier for the process. To set the process attribute: ▸ provide the argument process on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatalineageProcessesCreateOptions(
+        string Process
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Process);
+        this.Process = Process;
+    }
+
+    public void Deconstruct(out string Process)
+    {
+        Process = this.Process;
+    }
+
+    /// <summary>
+    /// Process resource - The process to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument process on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the process. To set the location attribute: ▸ provide the argument process on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Additional attributes for the process. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Attributes { get; set; }
 
     /// <summary>
@@ -44,6 +67,12 @@ public record GcloudDatalineageProcessesCreateOptions : GcloudOptions
     /// Type of the source. Use of a source type other than custom for process creation or updating is highly discouraged. It might be restricted in the future without notice. There will be increase in cost if you use any of the source types other than custom. ORIGIN_SOURCE_TYPE must be one of: bigquery, composer, custom, dataflow, dataproc, data-fusion, looker-core, looker-studio, source-type-unspecified, vertex-ai.
     /// </summary>
     [CliOption("--origin-source-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudOriginSourceType? OriginSourceType { get; set; }
+    public GcloudDatalineageProcessesCreateOriginSourceType? OriginSourceType { get; set; }
+
+    /// <summary>
+    /// Process resource - The process to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument process on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the process or fully qualified identifier for the process. To set the process attribute: ▸ provide the argument process on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Process { get; private init; }
 
 }

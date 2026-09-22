@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "shared-vpc", "organizations", "list-host-projects")]
-public record GcloudComputeSharedVpcOrganizationsListHostProjectsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OrganizationId
-) : GcloudOptions
+public record GcloudComputeSharedVpcOrganizationsListHostProjectsOptions : GcloudOptions
 {
+    /// <summary>
+    /// list shared     VPC host projects in a given organization
+    /// </summary>
+    /// <param name="OrganizationId">ID or domain for the organization whose XPN host projects to list.</param>
+    public GcloudComputeSharedVpcOrganizationsListHostProjectsOptions(
+        string OrganizationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+    }
+
+    public void Deconstruct(out string OrganizationId)
+    {
+        OrganizationId = this.OrganizationId;
+    }
+
+    /// <summary>
+    /// ID or domain for the organization whose XPN host projects to list.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OrganizationId { get; private init; }
+
 }

@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("pubsub", "subscriptions", "delete")]
 public record GcloudPubsubSubscriptionsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// deletes one or more Cloud Pub/Sub     subscriptions
+    /// </summary>
+    /// <param name="Subscription">Subscription resource - One or more subscriptions to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subscription on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. IDs of the subscriptions or fully qualified identifiers for the subscriptions. To set the subscription attribute: ▸ provide the argument subscription on the command line.</param>
+    public GcloudPubsubSubscriptionsDeleteOptions(
+        IEnumerable<string> Subscription
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Subscription);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Subscription));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Subscription));
+            }
+
+            Subscription = materialized;
+        }
+        this.Subscription = Subscription;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Subscription)
+    {
+        Subscription = this.Subscription;
+    }
+
+    /// <summary>
+    /// Subscription resource - One or more subscriptions to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subscription on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. IDs of the subscriptions or fully qualified identifiers for the subscriptions. To set the subscription attribute: ▸ provide the argument subscription on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Subscription { get; private init; }
+
 }

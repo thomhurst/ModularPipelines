@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,96 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("vmware", "private-connections", "create")]
 public record GcloudVmwarePrivateConnectionsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Google Cloud Private     Connection
+    /// </summary>
+    /// <param name="ServiceProject">Project ID or project number of the service network.</param>
+    /// <param name="Type">Type of private connection. TYPE must be one of: DELL_POWERSCALE Peering connection used for connecting to Dell PowerScale. NETAPP_CLOUD_VOLUMES Peering connection used for connecting to NetApp Cloud Volumes. PRIVATE_SERVICE_ACCESS Peering connection used for establishing private services access (https://cloud.google.com/vpc/docs/private-services-access). THIRD_PARTY_SERVICE Peering connection used for connecting to third-party services. Most third-party services require manual setup of reverse peering on the VPC network associated with the third-party service.</param>
+    /// <param name="VmwareEngineNetwork">Resource ID of the legacy VMware Engine network. Provide the {vmware_engine_network_id}, which will be in the form of {location}-default. The {location} is the same as the location specified in the private connection resource.</param>
+    /// <param name="PrivateConnection">Private Connection resource - private_connection. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument private_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Private Connection or fully qualified identifier for the Private Connection. To set the private-connection attribute: ▸ provide the argument private_connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVmwarePrivateConnectionsCreateOptions(
+        string ServiceProject,
+        string Type,
+        string VmwareEngineNetwork,
+        string PrivateConnection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceProject);
+        this.ServiceProject = ServiceProject;
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(VmwareEngineNetwork);
+        this.VmwareEngineNetwork = VmwareEngineNetwork;
+        global::System.ArgumentNullException.ThrowIfNull(PrivateConnection);
+        this.PrivateConnection = PrivateConnection;
+    }
+
+    public void Deconstruct(out string ServiceProject, out string Type, out string VmwareEngineNetwork, out string PrivateConnection)
+    {
+        ServiceProject = this.ServiceProject;
+        Type = this.Type;
+        VmwareEngineNetwork = this.VmwareEngineNetwork;
+        PrivateConnection = this.PrivateConnection;
+    }
+
+    /// <summary>
+    /// Project ID or project number of the service network.
+    /// </summary>
+    [CliOption("--service-project", Format = OptionFormat.EqualsSeparated)]
+    public string ServiceProject { get; private init; }
+
+    /// <summary>
+    /// Type of private connection. TYPE must be one of: DELL_POWERSCALE Peering connection used for connecting to Dell PowerScale. NETAPP_CLOUD_VOLUMES Peering connection used for connecting to NetApp Cloud Volumes. PRIVATE_SERVICE_ACCESS Peering connection used for establishing private services access (https://cloud.google.com/vpc/docs/private-services-access). THIRD_PARTY_SERVICE Peering connection used for connecting to third-party services. Most third-party services require manual setup of reverse peering on the VPC network associated with the third-party service.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string Type { get; private init; }
+
+    /// <summary>
+    /// Resource ID of the legacy VMware Engine network. Provide the {vmware_engine_network_id}, which will be in the form of {location}-default. The {location} is the same as the location specified in the private connection resource.
+    /// </summary>
+    [CliOption("--vmware-engine-network", Format = OptionFormat.EqualsSeparated)]
+    public string VmwareEngineNetwork { get; private init; }
+
+    /// <summary>
+    /// Private Connection resource - private_connection. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument private_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The resource name of the location. To set the location attribute: ▸ provide the argument private_connection on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Text describing the private connection.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Type of the routing mode. Default value is set to GLOBAL. For type=PRIVATE_SERVICE_ACCESS, this field can be set to GLOBAL or REGIONAL, for other types only GLOBAL is supported. ROUTING_MODE must be one of: GLOBAL, REGIONAL.
+    /// </summary>
+    [CliOption("--routing-mode", Format = OptionFormat.EqualsSeparated)]
+    public GcloudVmwarePrivateConnectionsCreateRoutingMode? RoutingMode { get; set; }
+
+    /// <summary>
+    /// Resource ID of the service network to connect with the VMware Engine network to create a private connection. ◆ For type=PRIVATE_SERVICE_ACCESS, this field represents service networking VPC. In this case the field value will be automatically set to servicenetworking and cannot be changed. ◆ For type=NETAPP_CLOUD_VOLUME, this field represents NetApp service VPC. In this case the field value will be automatically set to netapp-tenant-vpc and cannot be changed. ◆ For type=DELL_POWERSCALE, this field represents Dell service VPC. In this case the field value will be automatically set to dell-tenant-vpc and cannot be changed. ◆ For type=THIRD_PARTY_SERVICE, this field could represent a consumer VPC or any other producer VPC to which the VMware Engine Network needs to be connected. service-network field is required for this type.
+    /// </summary>
+    [CliOption("--service-network", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceNetwork { get; set; }
+
+    /// <summary>
+    /// Private Connection resource - private_connection. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument private_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Private Connection or fully qualified identifier for the Private Connection. To set the private-connection attribute: ▸ provide the argument private_connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PrivateConnection { get; private init; }
+
 }

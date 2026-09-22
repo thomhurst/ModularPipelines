@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("oracle-database", "goldengate-deployments", "describe")]
 public record GcloudOracleDatabaseGoldengateDeploymentsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get details of a     GoldengateDeployment
+    /// </summary>
+    /// <param name="GoldengateDeployment">GoldengateDeployment resource - The name of the GoldengateDeployment in the following format: projects/{project}/locations/{location}/goldengateDeployments/{goldengate_deployment}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument goldengate_deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the goldengateDeployment or fully qualified identifier for the goldengateDeployment. To set the goldengate_deployment attribute: ▸ provide the argument goldengate_deployment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudOracleDatabaseGoldengateDeploymentsDescribeOptions(
+        string GoldengateDeployment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GoldengateDeployment);
+        this.GoldengateDeployment = GoldengateDeployment;
+    }
+
+    public void Deconstruct(out string GoldengateDeployment)
+    {
+        GoldengateDeployment = this.GoldengateDeployment;
+    }
+
+    /// <summary>
+    /// GoldengateDeployment resource - The name of the GoldengateDeployment in the following format: projects/{project}/locations/{location}/goldengateDeployments/{goldengate_deployment}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument goldengate_deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the goldengateDeployment resource. To set the location attribute: ▸ provide the argument goldengate_deployment on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// GoldengateDeployment resource - The name of the GoldengateDeployment in the following format: projects/{project}/locations/{location}/goldengateDeployments/{goldengate_deployment}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument goldengate_deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the goldengateDeployment or fully qualified identifier for the goldengateDeployment. To set the goldengate_deployment attribute: ▸ provide the argument goldengate_deployment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GoldengateDeployment { get; private init; }
+
 }

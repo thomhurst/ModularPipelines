@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudParameterManagerParametersDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// deletes a single Parameter     Manager parameter resource
+    /// </summary>
+    /// <param name="Parameter">Parameter resource - Name of the resource in the format projects/*/locations/*/parameters/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument parameter on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the parameter or fully qualified identifier for the parameter. To set the parameter attribute: ▸ provide the argument parameter on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudParameterManagerParametersDeleteOptions(
+        string Parameter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Parameter);
+        this.Parameter = Parameter;
+    }
+
+    public void Deconstruct(out string Parameter)
+    {
+        Parameter = this.Parameter;
+    }
+
+    /// <summary>
+    /// Parameter resource - Name of the resource in the format projects/*/locations/*/parameters/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument parameter on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the parameter resource. To set the location attribute: ▸ provide the argument parameter on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Parameter resource - Name of the resource in the format projects/*/locations/*/parameters/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument parameter on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the parameter or fully qualified identifier for the parameter. To set the parameter attribute: ▸ provide the argument parameter on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Parameter { get; private init; }
 
 }

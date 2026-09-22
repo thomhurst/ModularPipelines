@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dns", "record-sets", "transaction", "start")]
 public record GcloudDnsRecordSetsTransactionStartOptions : GcloudOptions
 {
+    /// <summary>
+    /// start a transaction
+    /// </summary>
+    /// <param name="Zone">Name of the managed zone whose record sets you want to manage.</param>
+    public GcloudDnsRecordSetsTransactionStartOptions(
+        string Zone
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+    }
+
+    public void Deconstruct(out string Zone)
+    {
+        Zone = this.Zone;
+    }
+
+    /// <summary>
+    /// Name of the managed zone whose record sets you want to manage.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
+    /// <summary>
+    /// Skip incrementing the serial number of the SOA record when making changes to the record-sets.
+    /// </summary>
+    [CliFlag("--skip-soa-update")]
+    public bool? SkipSoaUpdate { get; set; }
+
+    /// <summary>
+    /// Path of the file which contains the transaction.
+    /// </summary>
+    [CliOption("--transaction-file", Format = OptionFormat.EqualsSeparated)]
+    public string? TransactionFile { get; set; }
+
 }

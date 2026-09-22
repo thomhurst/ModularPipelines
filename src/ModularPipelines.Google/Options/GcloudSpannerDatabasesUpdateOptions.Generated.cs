@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "databases", "update")]
-public record GcloudSpannerDatabasesUpdateOptions : GcloudOptions
+public record GcloudSpannerDatabasesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Cloud Spanner database
+    /// </summary>
+    /// <param name="Database">Database resource - The Cloud Spanner database to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the database or fully qualified identifier for the database. To set the database attribute: ▸ provide the argument database on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSpannerDatabasesUpdateOptions(
+        string Database
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+    }
+
+    public void Deconstruct(out string Database)
+    {
+        Database = this.Database;
+    }
+
+    /// <summary>
+    /// Database resource - The Cloud Spanner database to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud Spanner instance for the database. To set the instance attribute: ▸ provide the argument database on the command line with a fully specified name; ▸ provide the argument --instance on the command line; ▸ set the property spanner/instance.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -46,9 +70,51 @@ public record GcloudSpannerDatabasesUpdateOptions : GcloudOptions
     public bool? NoEnableDropProtection { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Update KMS key references for this database. Users should always provide the full set of required KMS key references.
+    /// At most one of these can be specified: Update KMS key references for this database. Users should always provide the full set of required KMS key references. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--kms-keys", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? KmsKeys { get; set; }
+    [CliOption("--kms-keys", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? KmsKeys
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __KmsKeysSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __KmsKeysSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Database resource - The Cloud Spanner database to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the database or fully qualified identifier for the database. To set the database attribute: ▸ provide the argument database on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Database { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearKmsKeys == true ? 1 : 0) + (((object?)KmsKeys is global::System.Collections.Generic.IEnumerable<char> ? (object?)KmsKeys is not string || !string.IsNullOrWhiteSpace(KmsKeys?.ToString()) : ((object?)KmsKeys is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)KmsKeys, static item => item is not null) : (KmsKeys is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)KmsKeys), static item => item is not null)))) ? 1 : 0) + ((EnableDropProtection == true || NoEnableDropProtection == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearKmsKeys, KmsKeys, or (EnableDropProtection or NoEnableDropProtection) may be specified.", [nameof(ClearKmsKeys), nameof(KmsKeys), nameof(EnableDropProtection), nameof(NoEnableDropProtection)]);
+        }
+        if ((ClearKmsKeys == true || ((object?)KmsKeys is global::System.Collections.Generic.IEnumerable<char> ? (object?)KmsKeys is not string || !string.IsNullOrWhiteSpace(KmsKeys?.ToString()) : ((object?)KmsKeys is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)KmsKeys, static item => item is not null) : (KmsKeys is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)KmsKeys), static item => item is not null)))) || EnableDropProtection == true || NoEnableDropProtection == true) && ((EnableDropProtection == true ? 1 : 0) + (NoEnableDropProtection == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of EnableDropProtection or NoEnableDropProtection may be specified.", [nameof(EnableDropProtection), nameof(NoEnableDropProtection)]);
+        }
+        yield break;
+    }
 
 }

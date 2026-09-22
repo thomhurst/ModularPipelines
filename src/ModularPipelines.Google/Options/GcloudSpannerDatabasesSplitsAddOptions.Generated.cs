@@ -21,4 +21,56 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("spanner", "databases", "splits", "add")]
 public record GcloudSpannerDatabasesSplitsAddOptions : GcloudOptions
 {
+    /// <summary>
+    /// add split points to a Spanner     database
+    /// </summary>
+    /// <param name="SplitsFile">The path of a file containing split points to add to the database. Separate split points in the file with a new line. The file format is &lt;ObjectType&gt;[space]&lt;ObjectName&gt;[space]&lt;Split Value&gt;, where the ObjectType is one of TABLE or INDEX and the Split Value is the split point key. For index, the split point key is the index key with or without a full table key prefix.</param>
+    /// <param name="Database">Database resource - The Cloud Spanner database on which to add split points. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the database or fully qualified identifier for the database. To set the database attribute: ▸ provide the argument database on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSpannerDatabasesSplitsAddOptions(
+        string SplitsFile,
+        string Database
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SplitsFile);
+        this.SplitsFile = SplitsFile;
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+    }
+
+    public void Deconstruct(out string SplitsFile, out string Database)
+    {
+        SplitsFile = this.SplitsFile;
+        Database = this.Database;
+    }
+
+    /// <summary>
+    /// The path of a file containing split points to add to the database. Separate split points in the file with a new line. The file format is &lt;ObjectType&gt;[space]&lt;ObjectName&gt;[space]&lt;Split Value&gt;, where the ObjectType is one of TABLE or INDEX and the Split Value is the split point key. For index, the split point key is the index key with or without a full table key prefix.
+    /// </summary>
+    [CliOption("--splits-file", Format = OptionFormat.EqualsSeparated)]
+    public string SplitsFile { get; private init; }
+
+    /// <summary>
+    /// Database resource - The Cloud Spanner database on which to add split points. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud Spanner instance for the database. To set the instance attribute: ▸ provide the argument database on the command line with a fully specified name; ▸ provide the argument --instance on the command line; ▸ set the property spanner/instance.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// The tag to identify the initiator of the split points.
+    /// </summary>
+    [CliOption("--initiator", Format = OptionFormat.EqualsSeparated)]
+    public string? Initiator { get; set; }
+
+    /// <summary>
+    /// The date when the split points become system managed and becomes eligible for merging. The default is 10 days from the date of creation. The maximum is 30 days from the date of creation.
+    /// </summary>
+    [CliOption("--split-expiration-date", Format = OptionFormat.EqualsSeparated)]
+    public string? SplitExpirationDate { get; set; }
+
+    /// <summary>
+    /// Database resource - The Cloud Spanner database on which to add split points. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the database or fully qualified identifier for the database. To set the database attribute: ▸ provide the argument database on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Database { get; private init; }
+
 }

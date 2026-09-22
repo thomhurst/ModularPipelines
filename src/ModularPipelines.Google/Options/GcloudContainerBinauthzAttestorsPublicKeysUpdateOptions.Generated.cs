@@ -19,8 +19,52 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "binauthz", "attestors", "public-keys", "update")]
-public record GcloudContainerBinauthzAttestorsPublicKeysUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PublicKeyId
-) : GcloudOptions
+public record GcloudContainerBinauthzAttestorsPublicKeysUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a public     key on an Attestor
+    /// </summary>
+    /// <param name="Attestor">Attestor resource - The attestor on which the public key should be updated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --attestor on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the attestor or fully qualified identifier for the attestor. To set the name attribute: ▸ provide the argument --attestor on the command line.</param>
+    /// <param name="PublicKeyId">The ID of the public key to update.</param>
+    public GcloudContainerBinauthzAttestorsPublicKeysUpdateOptions(
+        string Attestor,
+        string PublicKeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Attestor);
+        this.Attestor = Attestor;
+        global::System.ArgumentNullException.ThrowIfNull(PublicKeyId);
+        this.PublicKeyId = PublicKeyId;
+    }
+
+    public void Deconstruct(out string Attestor, out string PublicKeyId)
+    {
+        Attestor = this.Attestor;
+        PublicKeyId = this.PublicKeyId;
+    }
+
+    /// <summary>
+    /// Attestor resource - The attestor on which the public key should be updated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --attestor on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the attestor or fully qualified identifier for the attestor. To set the name attribute: ▸ provide the argument --attestor on the command line.
+    /// </summary>
+    [CliOption("--attestor", Format = OptionFormat.EqualsSeparated)]
+    public string Attestor { get; private init; }
+
+    /// <summary>
+    /// The comment describing the public key.
+    /// </summary>
+    [CliOption("--comment", Format = OptionFormat.EqualsSeparated)]
+    public string? Comment { get; set; }
+
+    /// <summary>
+    /// The path to a file containing the updated ASCII-armored PGP public key. Use a full or relative path to a local file containing the value of pgp_public_key_file.
+    /// </summary>
+    [CliOption("--pgp-public-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PgpPublicKeyFile { get; set; }
+
+    /// <summary>
+    /// The ID of the public key to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PublicKeyId { get; private init; }
+
 }

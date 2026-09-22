@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "list-grantable-roles")]
-public record GcloudIamListGrantableRolesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Resource
-) : GcloudOptions
+public record GcloudIamListGrantableRolesOptions : GcloudOptions
 {
+    /// <summary>
+    /// list IAM grantable roles for a resource
+    /// </summary>
+    /// <param name="Resource">The full resource name or URI to get the list of roles for. See "Resource Names" (https://cloud.google.com/apis/design/resource_names) for details. To get a URI from most list commands in gcloud, pass the --uri flag. For example: $ gcloud compute instances list --project prj --uri \ https://compute.googleapis.com/compute/v1/projects/prj/zones/us-east1-c/instances/i1 \ https://compute.googleapis.com/compute/v1/projects/prj/zones/us-east1-d/instances/i2</param>
+    public GcloudIamListGrantableRolesOptions(
+        string Resource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+    }
+
+    public void Deconstruct(out string Resource)
+    {
+        Resource = this.Resource;
+    }
+
+    /// <summary>
+    /// The full resource name or URI to get the list of roles for. See "Resource Names" (https://cloud.google.com/apis/design/resource_names) for details. To get a URI from most list commands in gcloud, pass the --uri flag. For example: $ gcloud compute instances list --project prj --uri \ https://compute.googleapis.com/compute/v1/projects/prj/zones/us-east1-c/instances/i1 \ https://compute.googleapis.com/compute/v1/projects/prj/zones/us-east1-d/instances/i2
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Resource { get; private init; }
+
 }

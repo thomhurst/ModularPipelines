@@ -22,6 +22,35 @@ namespace ModularPipelines.Google.Options;
 public record GcloudHealthcareDicomStoresCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// create a Cloud Healthcare API DICOM     store
+    /// </summary>
+    /// <param name="DicomStore">DicomStore resource - Cloud Healthcare API DICOM store to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dicom_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dicomStore or fully qualified identifier for the dicomStore. To set the dicom_store attribute: ▸ provide the argument dicom_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudHealthcareDicomStoresCreateOptions(
+        string DicomStore
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DicomStore);
+        this.DicomStore = DicomStore;
+    }
+
+    public void Deconstruct(out string DicomStore)
+    {
+        DicomStore = this.DicomStore;
+    }
+
+    /// <summary>
+    /// DicomStore resource - Cloud Healthcare API DICOM store to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dicom_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud Healthcare dataset. To set the dataset attribute: ▸ provide the argument dicom_store on the command line with a fully specified name; ▸ provide the argument --dataset on the command line.
+    /// </summary>
+    [CliOption("--dataset", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSet { get; set; }
+
+    /// <summary>
+    /// DicomStore resource - Cloud Healthcare API DICOM store to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dicom_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location. To set the location attribute: ▸ provide the argument dicom_store on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property healthcare/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Google Cloud Pub/Sub topic to send updates to. Note: A topic must be created before publishing or subscribing to it. For instructions on creating topics, refer to: https://cloud.google.com/pubsub/docs/admin#create_a_topic
     /// </summary>
     [CliOption("--pubsub-topic", Format = OptionFormat.EqualsSeparated)]
@@ -38,5 +67,11 @@ public record GcloudHealthcareDicomStoresCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--stream-configs", Format = OptionFormat.EqualsSeparated)]
     public string? StreamConfigs { get; set; }
+
+    /// <summary>
+    /// DicomStore resource - Cloud Healthcare API DICOM store to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dicom_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dicomStore or fully qualified identifier for the dicomStore. To set the dicom_store attribute: ▸ provide the argument dicom_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DicomStore { get; private init; }
 
 }

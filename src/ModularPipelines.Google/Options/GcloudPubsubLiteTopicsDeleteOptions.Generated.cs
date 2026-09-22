@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("pubsub", "lite-topics", "delete")]
 public record GcloudPubsubLiteTopicsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a Pub/Sub Lite topic
+    /// </summary>
+    /// <param name="Topic">Topic resource - Topic to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument topic on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the topic or fully qualified identifier for the topic. To set the topic attribute: ▸ provide the argument topic on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPubsubLiteTopicsDeleteOptions(
+        string Topic
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Topic);
+        this.Topic = Topic;
+    }
+
+    public void Deconstruct(out string Topic)
+    {
+        Topic = this.Topic;
+    }
+
+    /// <summary>
+    /// Topic resource - Topic to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument topic on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location of the Pub/Sub Lite resource. To set the location attribute: ▸ provide the argument topic on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ provide the argument --zone on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Topic resource - Topic to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument topic on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the topic or fully qualified identifier for the topic. To set the topic attribute: ▸ provide the argument topic on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Topic { get; private init; }
+
 }

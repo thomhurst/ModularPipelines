@@ -21,4 +21,72 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("memorystore", "instances", "start-migration")]
 public record GcloudMemorystoreInstancesStartMigrationOptions : GcloudOptions
 {
+    /// <summary>
+    /// start migration for a     Memorystore instance
+    /// </summary>
+    /// <param name="SelfManagedSourceIpAddress">The IP address of the source instance. This IP address should be a stable IP address that can be accessed by the Memorystore instance throughout the migration process.</param>
+    /// <param name="SelfManagedSourceNetworkAttachment">The resource name of the Private Service Connect Network Attachment used to establish connectivity to the source instance. This network attachment has the following requirements: 1. It must be in the same project as the Memorystore instance. 2. It must be in the same region as the Memorystore instance. 3. The subnet attached to the network attachment must be in the same VPC network as the source instance nodes. Format: projects/{project}/regions/{region}/networkAttachments/{network_attachment}</param>
+    /// <param name="SelfManagedSourcePort">The port of the source instance. This port should be a stable port that can be accessed by the Memorystore instance throughout the migration process.</param>
+    /// <param name="Instance">Instance resource - The resource name of the instance to start migration on. Format: projects/{project}/locations/{location}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMemorystoreInstancesStartMigrationOptions(
+        string SelfManagedSourceIpAddress,
+        string SelfManagedSourceNetworkAttachment,
+        string SelfManagedSourcePort,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SelfManagedSourceIpAddress);
+        this.SelfManagedSourceIpAddress = SelfManagedSourceIpAddress;
+        global::System.ArgumentNullException.ThrowIfNull(SelfManagedSourceNetworkAttachment);
+        this.SelfManagedSourceNetworkAttachment = SelfManagedSourceNetworkAttachment;
+        global::System.ArgumentNullException.ThrowIfNull(SelfManagedSourcePort);
+        this.SelfManagedSourcePort = SelfManagedSourcePort;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string SelfManagedSourceIpAddress, out string SelfManagedSourceNetworkAttachment, out string SelfManagedSourcePort, out string Instance)
+    {
+        SelfManagedSourceIpAddress = this.SelfManagedSourceIpAddress;
+        SelfManagedSourceNetworkAttachment = this.SelfManagedSourceNetworkAttachment;
+        SelfManagedSourcePort = this.SelfManagedSourcePort;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// The IP address of the source instance. This IP address should be a stable IP address that can be accessed by the Memorystore instance throughout the migration process.
+    /// </summary>
+    [CliOption("--self-managed-source-ip-address", Format = OptionFormat.EqualsSeparated)]
+    public string SelfManagedSourceIpAddress { get; private init; }
+
+    /// <summary>
+    /// The resource name of the Private Service Connect Network Attachment used to establish connectivity to the source instance. This network attachment has the following requirements: 1. It must be in the same project as the Memorystore instance. 2. It must be in the same region as the Memorystore instance. 3. The subnet attached to the network attachment must be in the same VPC network as the source instance nodes. Format: projects/{project}/regions/{region}/networkAttachments/{network_attachment}
+    /// </summary>
+    [CliOption("--self-managed-source-network-attachment", Format = OptionFormat.EqualsSeparated)]
+    public string SelfManagedSourceNetworkAttachment { get; private init; }
+
+    /// <summary>
+    /// The port of the source instance. This port should be a stable port that can be accessed by the Memorystore instance throughout the migration process.
+    /// </summary>
+    [CliOption("--self-managed-source-port", Format = OptionFormat.EqualsSeparated)]
+    public string SelfManagedSourcePort { get; private init; }
+
+    /// <summary>
+    /// Instance resource - The resource name of the instance to start migration on. Format: projects/{project}/locations/{location}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the instance resource. To set the location attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Instance resource - The resource name of the instance to start migration on. Format: projects/{project}/locations/{location}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
 }

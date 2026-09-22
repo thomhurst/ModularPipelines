@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("kms", "single-tenant-hsm", "proposal", "delete")]
 public record GcloudKmsSingleTenantHsmProposalDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a single tenant HSM     instance proposal
+    /// </summary>
+    /// <param name="SingleTenantHsmInstanceProposal">SingleTenantHsmInstanceProposal resource - The KMS single tenant HSM instance proposal resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument single_tenant_hsm_instance_proposal on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the singleTenantHsmInstanceProposal or fully qualified identifier for the singleTenantHsmInstanceProposal. To set the proposal attribute: ▸ provide the argument single_tenant_hsm_instance_proposal on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudKmsSingleTenantHsmProposalDeleteOptions(
+        string SingleTenantHsmInstanceProposal
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SingleTenantHsmInstanceProposal);
+        this.SingleTenantHsmInstanceProposal = SingleTenantHsmInstanceProposal;
+    }
+
+    public void Deconstruct(out string SingleTenantHsmInstanceProposal)
+    {
+        SingleTenantHsmInstanceProposal = this.SingleTenantHsmInstanceProposal;
+    }
+
+    /// <summary>
+    /// SingleTenantHsmInstanceProposal resource - The KMS single tenant HSM instance proposal resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument single_tenant_hsm_instance_proposal on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The Google Cloud location for the singleTenantHsmInstanceProposal. To set the location attribute: ▸ provide the argument single_tenant_hsm_instance_proposal on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// SingleTenantHsmInstanceProposal resource - The KMS single tenant HSM instance proposal resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument single_tenant_hsm_instance_proposal on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The KMS single tenant HSM instance of the singleTenantHsmInstanceProposal. To set the single_tenant_hsm_instance attribute: ▸ provide the argument single_tenant_hsm_instance_proposal on the command line with a fully specified name; ▸ provide the argument --single_tenant_hsm_instance on the command line.
+    /// </summary>
+    [CliOption("--single_tenant_hsm_instance", Format = OptionFormat.EqualsSeparated)]
+    public string? SingleTenantHsmInstance { get; set; }
+
+    /// <summary>
+    /// SingleTenantHsmInstanceProposal resource - The KMS single tenant HSM instance proposal resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument single_tenant_hsm_instance_proposal on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the singleTenantHsmInstanceProposal or fully qualified identifier for the singleTenantHsmInstanceProposal. To set the proposal attribute: ▸ provide the argument single_tenant_hsm_instance_proposal on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SingleTenantHsmInstanceProposal { get; private init; }
+
 }

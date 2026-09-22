@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,131 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("agent-registry", "bindings", "create")]
-public record GcloudAgentRegistryBindingsCreateOptions : GcloudOptions
+public record GcloudAgentRegistryBindingsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new binding
+    /// </summary>
+    /// <param name="SourceIdentifier">The source of the Binding. This must be specified. Arguments for the source type. The identifier of the source Agent. Format: ▸ urn:agent:{publisher}:{namespace}:{name}</param>
+    /// <param name="TargetIdentifier">The target of the Binding. This must be specified. Arguments for the target type. The identifier of the target Agent, MCP Server, or Endpoint. Format: ▸ urn:agent:{publisher}:{namespace}:{name} ▸ urn:mcp:{publisher}:{namespace}:{name} ▸ urn:endpoint:{publisher}:{namespace}:{name}</param>
+    /// <param name="Binding">Binding resource - Identifier. The resource name of the Binding. Format: projects/{project}/locations/{location}/bindings/{binding}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the binding or fully qualified identifier for the binding. To set the binding attribute: ▸ provide the argument binding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAgentRegistryBindingsCreateOptions(
+        string SourceIdentifier,
+        string TargetIdentifier,
+        string Binding
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceIdentifier);
+        this.SourceIdentifier = SourceIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(TargetIdentifier);
+        this.TargetIdentifier = TargetIdentifier;
+        global::System.ArgumentNullException.ThrowIfNull(Binding);
+        this.Binding = Binding;
+    }
+
+    public void Deconstruct(out string SourceIdentifier, out string TargetIdentifier, out string Binding)
+    {
+        SourceIdentifier = this.SourceIdentifier;
+        TargetIdentifier = this.TargetIdentifier;
+        Binding = this.Binding;
+    }
+
+    /// <summary>
+    /// The source of the Binding. This must be specified. Arguments for the source type. The identifier of the source Agent. Format: ▸ urn:agent:{publisher}:{namespace}:{name}
+    /// </summary>
+    [CliOption("--source-identifier", Format = OptionFormat.EqualsSeparated)]
+    public string SourceIdentifier { get; private init; }
+
+    /// <summary>
+    /// The target of the Binding. This must be specified. Arguments for the target type. The identifier of the target Agent, MCP Server, or Endpoint. Format: ▸ urn:agent:{publisher}:{namespace}:{name} ▸ urn:mcp:{publisher}:{namespace}:{name} ▸ urn:endpoint:{publisher}:{namespace}:{name}
+    /// </summary>
+    [CliOption("--target-identifier", Format = OptionFormat.EqualsSeparated)]
+    public string TargetIdentifier { get; private init; }
+
+    /// <summary>
+    /// Binding resource - Identifier. The resource name of the Binding. Format: projects/{project}/locations/{location}/bindings/{binding}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the binding resource. To set the location attribute: ▸ provide the argument binding on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// User-defined description of a Binding. Can have a maximum length of 2048 characters.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// User-defined display name for the Binding. Can have a maximum length of 63 characters.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Arguments for the binding. The AuthProvider of the Binding. The resource name of the target AuthProvider. Format: ◆ projects/{project}/locations/{location}/authProviders/{auth_provider} This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--auth-provider-binding", Format = OptionFormat.EqualsSeparated)]
+    public string? AuthProviderBinding { get; set; }
+
+    /// <summary>
+    /// Arguments for the binding. The AuthProvider of the Binding. The continue URI of the AuthProvider. The URI is used to reauthenticate the user and finalize the managed OAuth flow.
+    /// </summary>
+    [CliOption("--auth-provider-binding-continue-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? AuthProviderBindingContinueUri { get; set; }
+
+    /// <summary>
+    /// Arguments for the binding. The AuthProvider of the Binding. The list of OAuth2 scopes of the AuthProvider. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AuthProviderBindingScopes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AuthProviderBindingScopesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AuthProviderBindingScopesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Binding resource - Identifier. The resource name of the Binding. Format: projects/{project}/locations/{location}/bindings/{binding}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the binding or fully qualified identifier for the binding. To set the binding attribute: ▸ provide the argument binding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Binding { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(AuthProviderBinding) || !string.IsNullOrWhiteSpace(AuthProviderBindingContinueUri) || ((object?)AuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AuthProviderBindingScopes is not string || !string.IsNullOrWhiteSpace(AuthProviderBindingScopes?.ToString()) : ((object?)AuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AuthProviderBindingScopes, static item => item is not null) : (AuthProviderBindingScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AuthProviderBindingScopes), static item => item is not null))))) && (!(!string.IsNullOrWhiteSpace(AuthProviderBinding))))
+        {
+            yield return new ValidationResult("AuthProviderBinding must be specified when other arguments in this group are specified.", [nameof(AuthProviderBinding)]);
+        }
+        yield break;
+    }
+
 }

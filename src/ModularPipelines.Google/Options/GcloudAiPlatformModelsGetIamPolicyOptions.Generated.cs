@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAiPlatformModelsGetIamPolicyOptions : GcloudOptions
 {
     /// <summary>
+    /// get the IAM policy for a model
+    /// </summary>
+    /// <param name="Model">Model resource - The AI Platform model to set IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument model on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the model or fully qualified identifier for the model. To set the name attribute: ▸ provide the argument model on the command line.</param>
+    public GcloudAiPlatformModelsGetIamPolicyOptions(
+        string Model
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Model);
+        this.Model = Model;
+    }
+
+    public void Deconstruct(out string Model)
+    {
+        Model = this.Model;
+    }
+
+    /// <summary>
     /// Google Cloud region of the regional endpoint to use for this command. For the global endpoint, the region needs to be specified as global. Learn more about regional endpoints and see a list of available regions: https://cloud.google.com/ai-platform/prediction/docs/regional-endpoints REGION must be one of: global, asia-east1, asia-northeast1, asia-southeast1, australia-southeast1, europe-west1, europe-west2, europe-west3, europe-west4, northamerica-northeast1, us-central1, us-east1, us-east4, us-west1.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Model resource - The AI Platform model to set IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument model on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the model or fully qualified identifier for the model. To set the name attribute: ▸ provide the argument model on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Model { get; private init; }
 
 }
