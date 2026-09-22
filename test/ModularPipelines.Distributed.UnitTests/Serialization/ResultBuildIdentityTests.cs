@@ -21,6 +21,47 @@ public class ResultBuildIdentityTests
 
     public class GenericRecursiveResult<T> : RecursiveBase<GenericRecursiveResult<T>>;
 
+    public class RecursiveMemberResult
+    {
+        public RecursiveMemberResult? Next { get; set; }
+    }
+
+    public class ExpandingRecursiveResult<T>
+    {
+        public ExpandingRecursiveResult<ExpandingRecursiveResult<T>>? Next { get; set; }
+    }
+
+    [Test]
+    public async Task Expanding_Generic_Member_Graph_Fingerprint_Terminates()
+    {
+        var fingerprint = StableTypeName.GetBuildFingerprint(typeof(ExpandingRecursiveResult<int>));
+        await Assert.That(fingerprint).IsNotEmpty();
+    }
+
+    [Test]
+    [Arguments("Property", 0)]
+    [Arguments("Property", 1)]
+    [Arguments("Field", 0)]
+    public async Task Schema_And_Runtime_Reject_Changed_Member_With_Unchanged_Result_Binary(string memberKind, int intermediateLevels)
+    {
+        using var builds = new ResultBuilds(intermediateLevels, memberKind);
+        var first = new ModuleTypeRegistry();
+        var second = new ModuleTypeRegistry();
+        first.Register(typeof(ResultModule<>).MakeGenericType(builds.First));
+        second.Register(typeof(ResultModule<>).MakeGenericType(builds.Second));
+
+        await Assert.That(builds.First.Module.ModuleVersionId).IsEqualTo(builds.Second.Module.ModuleVersionId);
+        await Assert.That(first.GetPipelineSchemaVersion()).IsNotEqualTo(second.GetPipelineSchemaVersion());
+
+        var localType = StableTypeName.Resolve(StableTypeName.Get(builds.First))!;
+        var remoteType = localType == builds.First ? builds.Second : builds.First;
+        var localJson = SerializeValue(localType);
+        await Assert.That(JsonSerializer.Deserialize<ModuleResult<object>>(localJson)!.Value.GetType()).IsEqualTo(localType);
+
+        var exception = Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<ModuleResult<object>>(SerializeValue(remoteType)));
+        await Assert.That(exception!.Message).Contains("build identity");
+    }
+
     [Test]
     [Arguments(0)]
     [Arguments(1)]
@@ -57,6 +98,7 @@ public class ResultBuildIdentityTests
     [Test]
     [Arguments(typeof(RecursiveResult))]
     [Arguments(typeof(GenericRecursiveResult<int>))]
+    [Arguments(typeof(RecursiveMemberResult))]
     public async Task Recursive_Generic_Base_RoundTrips_Without_Fingerprint_Recursion(Type type)
     {
         var json = SerializeValue(type);
@@ -83,7 +125,7 @@ public class ResultBuildIdentityTests
 
         public Type Second { get; }
 
-        public ResultBuilds(int intermediateLevels)
+        public ResultBuilds(int intermediateLevels, string memberKind = "Base")
         {
             var baseName = $"ResultBase_{Guid.NewGuid():N}";
             var firstBase = Load(_firstContext, BuildBase(baseName, "Original")).GetType("ResultBase")!;
@@ -94,13 +136,36 @@ public class ResultBuildIdentityTests
             var parent = firstBase;
             for (var level = 0; level < intermediateLevels; level++)
             {
-                parent = module.DefineType($"Intermediate{level}", TypeAttributes.Public, parent).CreateType()!;
+                parent = DefineResultType(module, $"Intermediate{level}", parent, memberKind);
             }
 
-            module.DefineType("Result", TypeAttributes.Public, parent).CreateType();
+            DefineResultType(module, "Result", parent, memberKind);
             var image = Save(derived);
             First = Load(_firstContext, image).GetType("Result")!;
             Second = Load(_secondContext, image).GetType("Result")!;
+        }
+
+        private static Type DefineResultType(ModuleBuilder module, string name, Type dependency, string memberKind)
+        {
+            var type = module.DefineType(name, TypeAttributes.Public, memberKind == "Base" ? dependency : typeof(object));
+            if (memberKind == "Property")
+            {
+                var property = type.DefineProperty("Value", PropertyAttributes.None, dependency, null);
+                var getter = type.DefineMethod("get_Value",
+                    MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig, dependency, Type.EmptyTypes);
+                var il = getter.GetILGenerator();
+                il.Emit(OpCodes.Ldnull);
+                il.Emit(OpCodes.Ret);
+                property.SetGetMethod(getter);
+            }
+            else if (memberKind == "Field")
+            {
+                var field = type.DefineField("Value", dependency, FieldAttributes.Public);
+                field.SetCustomAttribute(new CustomAttributeBuilder(
+                    typeof(System.Text.Json.Serialization.JsonIncludeAttribute).GetConstructor(Type.EmptyTypes)!, []));
+            }
+
+            return type.CreateType()!;
         }
 
         private static byte[] BuildBase(string name, string propertyName)

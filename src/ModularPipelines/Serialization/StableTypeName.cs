@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace ModularPipelines.Serialization;
 
@@ -15,35 +16,80 @@ internal static class StableTypeName
 
     public static string GetBuildFingerprint(Type type) =>
         BuildFingerprints.GetValue(type, static value =>
-            Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(GetBuildIdentity(value, [])))));
+            Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(GetBuildIdentity(value, [], [])))));
 
-    private static string GetBuildIdentity(Type type, HashSet<Type> inheritancePath)
+    private static string GetBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions)
     {
         var identity = $"{Get(type)}\0{type.Module.ModuleVersionId}";
-        // Generic base types can refer back to the derived type, e.g. Node : Base<Node>.
-        if (!inheritancePath.Add(type))
+        // Types can recur through base classes, generic arguments, and serialized members.
+        if (!visitedTypes.Add(type))
         {
             return identity;
         }
 
         if (type.HasElementType)
         {
-            identity += $"\0Element={GetBuildIdentity(type.GetElementType()!, inheritancePath)}";
+            identity += $"\0Element={GetBuildIdentity(type.GetElementType()!, visitedTypes, expandedDefinitions)}";
         }
         else if (type.IsGenericType)
         {
             var arguments = string.Join("\u001F", type.GetGenericArguments()
-                .Select(argument => GetBuildIdentity(argument, inheritancePath)));
+                .Select(argument => GetBuildIdentity(argument, visitedTypes, expandedDefinitions)));
             identity += $"\0Arguments={arguments}";
+        }
+
+        // Node<T>.Next can be Node<Node<T>>. Expand each definition once, while still
+        // recording every encountered construction and its argument builds above.
+        if (!expandedDefinitions.Add(type.IsGenericType ? type.GetGenericTypeDefinition() : type))
+        {
+            return identity;
         }
 
         if (type.BaseType is { } baseType)
         {
-            identity += $"\0Base={GetBuildIdentity(baseType, inheritancePath)}";
+            identity += $"\0Base={GetBuildIdentity(baseType, visitedTypes, expandedDefinitions)}";
         }
 
-        inheritancePath.Remove(type);
+        foreach (var memberType in GetSerializedMemberTypes(type).Distinct().OrderBy(Get, StringComparer.Ordinal))
+        {
+            identity += $"\0Member={GetBuildIdentity(memberType, visitedTypes, expandedDefinitions)}";
+        }
+
         return identity;
+    }
+
+    [UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Runtime result serialization and its build fingerprints are explicitly unsupported in trimmed applications.")]
+    private static IEnumerable<Type> GetSerializedMemberTypes(Type type)
+    {
+        const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
+        foreach (var property in type.GetProperties(flags))
+        {
+            if (property.GetIndexParameters().Length == 0
+                && (property.GetMethod?.IsPublic == true || property.SetMethod?.IsPublic == true
+                    || property.IsDefined(typeof(JsonIncludeAttribute)))
+                && property.GetCustomAttribute<JsonIgnoreAttribute>()?.Condition != JsonIgnoreCondition.Always)
+            {
+                yield return property.PropertyType;
+            }
+        }
+
+        // Public fields can participate through IncludeFields; JsonInclude also opts in non-public fields.
+        foreach (var field in type.GetFields(flags))
+        {
+            if ((field.IsPublic || field.IsDefined(typeof(JsonIncludeAttribute)))
+                && field.GetCustomAttribute<JsonIgnoreAttribute>()?.Condition != JsonIgnoreCondition.Always)
+            {
+                yield return field.FieldType;
+            }
+        }
+
+        if (type.IsInterface)
+        {
+            foreach (var parent in type.GetInterfaces())
+            {
+                yield return parent;
+            }
+        }
     }
 
     [UnconditionalSuppressMessage("Trimming", "IL2057", Justification = "Runtime module result value types are explicitly unsupported in trimmed applications.")]
