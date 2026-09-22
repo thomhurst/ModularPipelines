@@ -126,11 +126,16 @@ public partial class RequiredConstructorValidationTests
     private static IEnumerable<CliRequiredAlternativeGroup> Descendants(IEnumerable<CliRequiredAlternativeGroup> groups) =>
         groups.SelectMany(group => new[] { group }.Concat(Descendants(group.Groups)));
 
-    private static async Task ValidateCapturedGroup(CliCommandDefinition command, CliRequiredAlternativeGroup group,
+    private static Task ValidateCapturedGroup(CliCommandDefinition command, CliRequiredAlternativeGroup group,
+        (string Properties, bool Valid)[] cases) => ValidateCapturedGroups(command, [group], cases);
+
+    private static async Task ValidateCapturedGroups(CliCommandDefinition command, IReadOnlyList<CliRequiredAlternativeGroup> groups,
         (string Properties, bool Valid)[] cases)
     {
-        var options = command.Options.Where(option => group.PropertyNames.Contains(option.PropertyName)).ToList();
-        var generated = await Generate(options, alternativeGroups: [group]);
+        var names = groups.SelectMany(group => group.PropertyNames)
+            .Concat(groups.SelectMany(EnumerateGroups).Select(group => group.RequiredWhen?.PropertyName).OfType<string>()).ToHashSet(StringComparer.Ordinal);
+        var options = command.Options.Where(option => names.Contains(option.PropertyName)).ToList();
+        var generated = await Generate(options, alternativeGroups: groups);
         var enums = await new EnumGenerator().GenerateAsync(new CliToolDefinition
         {
             ToolName = "tool",
@@ -171,5 +176,8 @@ public partial class RequiredConstructorValidationTests
             await Assert.That(Validator.TryValidateObject(instance, new(instance), errors, true))
                 .IsEqualTo(valid).Because($"Selected {properties}: {string.Join("; ", errors)}");
         }
+
+        static IEnumerable<CliRequiredAlternativeGroup> EnumerateGroups(CliRequiredAlternativeGroup group) =>
+            new[] { group }.Concat(group.Groups.SelectMany(EnumerateGroups));
     }
 }

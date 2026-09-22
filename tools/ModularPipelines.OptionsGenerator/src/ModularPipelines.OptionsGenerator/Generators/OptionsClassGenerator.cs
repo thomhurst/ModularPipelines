@@ -493,6 +493,13 @@ public class OptionsClassGenerator : ICodeGenerator
         }
 
         string Presence(string propertyName) => GetPresenceExpression(command, positionalArguments, propertyName);
+        if (group.RequiredWhen is { } trigger)
+        {
+            var triggerPresence = Presence(trigger.PropertyName);
+            activation = activation is null ? triggerPresence : $"({activation}) && ({triggerPresence})";
+            required = true;
+        }
+
         if (group.IsUsageFormChoice)
         {
             // Usage forms describe sufficient combinations. A complete form remains valid

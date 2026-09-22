@@ -26,11 +26,16 @@ public partial class RequiredConstructorValidationTests
     public async Task Gcloud_Container_Autoprovisioning_Preserves_Optional_Settings()
     {
         var command = await GcloudCapturedSemanticsTests.Scrape("container clusters update");
-        var group = command.RequiredAlternativeGroups.Single(group => group.PropertyNames.Contains("AutoprovisioningConfigFile"));
-        await ValidateCapturedGroup(command, group,
+        await ValidateCapturedGroups(command, command.RequiredAlternativeGroups,
         [
+            ("EnableAutoprovisioning", false),
             ("AutoprovisioningConfigFile", true),
             ("EnableAutoprovisioning,AutoprovisioningConfigFile", true),
+            ("MaxCpu", true),
+            ("MaxMemory", true),
+            ("EnableAutoprovisioning,MaxCpu", false),
+            ("EnableAutoprovisioning,MaxMemory", false),
+            ("EnableAutoprovisioning,MaxCpu,MaxMemory", true),
             ("AutoprovisioningConfigFile,AutoprovisioningMinCpuPlatform", false),
         ]);
     }

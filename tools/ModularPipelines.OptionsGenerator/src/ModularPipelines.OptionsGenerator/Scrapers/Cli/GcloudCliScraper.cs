@@ -375,6 +375,7 @@ public partial class GcloudCliScraper : CliScraperBase
         }
 
         ReconcileRequiredSynopsisChoices(usage.ArgumentGroupSynopsis ?? usage.Synopsis, options, requiredAlternativeGroups);
+        ApplyNamedConditionalRequirements(options, requiredAlternativeGroups);
 
         return (options, argumentGroups, requiredAlternativeGroups, positionalArguments, usage);
     }

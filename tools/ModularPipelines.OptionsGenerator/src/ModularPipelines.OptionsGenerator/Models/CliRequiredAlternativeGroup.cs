@@ -8,6 +8,11 @@ namespace ModularPipelines.OptionsGenerator.Models;
 public sealed record CliRequiredAlternativeGroup
 {
     /// <summary>
+    /// An option whose presence activates this constraint; otherwise the constraint is inactive.
+    /// </summary>
+    public CliRequiredAlternativeMember? RequiredWhen { get; init; }
+
+    /// <summary>
     /// Whether the group must be present when its containing bundle is selected.
     /// </summary>
     public bool IsRequired { get; init; } = true;

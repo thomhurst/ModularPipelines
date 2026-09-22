@@ -1076,7 +1076,7 @@ public abstract partial class CliScraperBase : ICliScraper
             // A richer required help constraint already enforces presence over these members.
             // Optional help constraints cannot replace a synopsis requirement.
             if (inferred.IsUsageFormChoice
-                || !groups.Any(group => group.IsRequired && identities.SetEquals(GetAlternativeGroupIdentities(group))))
+                || !groups.Any(group => group.IsRequired && group.RequiredWhen is null && identities.SetEquals(GetAlternativeGroupIdentities(group))))
             {
                 groups.Add(inferred);
             }
