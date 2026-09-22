@@ -3,6 +3,47 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public partial class NestedArgumentGroupParsingTests
 {
     [Test]
+    public async Task Captured_Proxy_Bundle_Does_Not_Constrain_Unrelated_Flags()
+    {
+        var command = await GcloudCapturedSemanticsTests.Scrape("container aws clusters create");
+        var group = command.RequiredAlternativeGroups.Single(group => group.PropertyNames.Contains("ProxySecretVersionId"));
+
+        await Assert.That(group.IsRequired).IsFalse();
+        await Assert.That(group.PropertyNames).IsEquivalentTo(["ProxySecretArn", "ProxySecretVersionId"]);
+        await Assert.That(command.Options.Single(option => option.PropertyName == "ProxySecretVersionId").Description)
+            .Contains("Proxy config");
+    }
+
+    [Test]
+    public async Task Gcloud_Synopsis_Bundle_Preserves_Shared_Unclassified_Description()
+    {
+        const string help = """
+            NAME
+                gcloud example create - create an example
+            SYNOPSIS
+                gcloud example create [--config=CONFIG --profile=PROFILE] [--other=OTHER]
+            OPTIONAL FLAGS
+                Shared settings.
+                --config=CONFIG
+                    Inline configuration.
+                --profile=PROFILE
+                    Saved configuration.
+                --other=OTHER
+                    An unrelated option.
+            """;
+        var command = (await CreateGcloudScraper().Parse(["gcloud", "example", "create"], help))!;
+
+        foreach (var property in new[] { "Config", "Profile" })
+        {
+            await Assert.That(command.Options.Single(option => option.PropertyName == property).Description)
+                .Contains("Shared settings.");
+        }
+
+        await Assert.That(command.Options.Single(option => option.PropertyName == "Other").Description)
+            .DoesNotContain("Shared settings.");
+    }
+
+    [Test]
     [Arguments("agent-identity auth-providers create", "ApiKey")]
     [Arguments("apihub apis versions specs create", "SpecTypeEnumValues")]
     public async Task Captured_Required_Choice_Introductions_Keep_Their_Requiredness(string path, string property)
@@ -23,6 +64,11 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("apihub apis versions specs create", "SpecTypeUriValues", "The attribute values of data type string or JSON.", "The attribute values of data type enum.")]
     [Arguments("storage batch-operations jobs create", "TargetProject", "Use a project as the source.", "Use bucket(s) as the source.")]
     [Arguments("storage batch-operations jobs create", "Bucket", "Use bucket(s) as the source.", "Use a project as the source.")]
+    [Arguments("oracle-database goldengate connections create", "GoogleBigQueryConnectionPropertiesServiceAccountKeyFile", "The properties of GoldengateGoogleBigQueryConnectionProperties.", "The properties of GoldengateGoogleCloudStorageConnectionProperties.")]
+    [Arguments("oracle-database goldengate connections create", "GoogleCloudStorageConnectionPropertiesServiceAccountKeyFile", "The properties of GoldengateGoogleCloudStorageConnectionProperties.", "The properties of GoldengateGoogleBigQueryConnectionProperties.")]
+    [Arguments("oracle-database goldengate connections create", "MysqlConnectionPropertiesPasswordSecretVersion", "Properties of GoldengateMysqlConnection.", "The properties of GoldengateGoogleBigQueryConnectionProperties.")]
+    [Arguments("developer-connect connections create", "Labels", "Labels as key value pairs.", "The git proxy configuration.")]
+    [Arguments("developer-connect connections create", "Secret", "For resources", "The git proxy configuration.")]
     public async Task Captured_Nested_Choice_Descriptions_Stay_With_Their_Own_Branch(
         string path, string property, string ownDescription, string siblingDescription)
     {

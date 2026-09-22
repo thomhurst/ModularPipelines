@@ -1503,8 +1503,15 @@ public static class UsageSynopsisParser
         };
     }
 
+    internal static IEnumerable<IReadOnlySet<string>> GetOptionalOptionGroups(string? synopsis) =>
+        GetOptionalOptionGroups(synopsis, null, includePlainBundles: true);
+
     internal static IEnumerable<IReadOnlySet<string>> GetOptionalResourceOptionGroups(string? synopsis,
-        IReadOnlyList<CliArgumentGroup>? documentedGroups = null)
+        IReadOnlyList<CliArgumentGroup>? documentedGroups = null) =>
+        GetOptionalOptionGroups(synopsis, documentedGroups, includePlainBundles: false);
+
+    private static IEnumerable<IReadOnlySet<string>> GetOptionalOptionGroups(string? synopsis,
+        IReadOnlyList<CliArgumentGroup>? documentedGroups, bool includePlainBundles)
     {
         return synopsis is null ? [] : Tokenize(synopsis).SelectMany(token => Visit(token, false));
 
@@ -1518,6 +1525,12 @@ public static class UsageSynopsisParser
             optional |= token.StartsWith('[');
             var tokens = TokenizeOptionGroup(TrimWrapper(token));
             var colon = tokens.IndexOf(":");
+            if (includePlainBundles && optional && colon < 0 && tokens.Count > 1
+                && !tokens.Contains("|") && ContainsOnlyInlineOptions(tokens))
+            {
+                yield return EnumerateInlineOptionSwitches(tokens).ToHashSet(StringComparer.Ordinal);
+            }
+
             if (colon >= 0 && !tokens.Take(colon).Contains("|") && ContainsOnlyInlineOptions(tokens))
             {
                 if (optional)
