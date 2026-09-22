@@ -524,6 +524,26 @@ public class OptionTypeEnhancerTests
         await Assert.That(enhanced.Commands.Single().Options.Single().IsSecret).IsEqualTo(explicitSecret);
     }
 
+    [Test]
+    [Arguments("ServiceAccountKeyFile", "The base64 encoded content of the service account key file.", true)]
+    [Arguments("ServiceAccountKeyFile", "Path to the service account key file.", false)]
+    [Arguments("ConfigFile", "The base64 encoded content of the configuration file.", false)]
+    public async Task Secret_Inference_Uses_Option_Local_Prose(string propertyName, string localDescription, bool secret)
+    {
+        var pipeline = new OptionTypeDetectorPipeline([], NullLogger<OptionTypeDetectorPipeline>.Instance);
+        var enhancer = new OptionTypeEnhancer(pipeline, NullLogger<OptionTypeEnhancer>.Instance);
+        var tool = CreateTool(new CliOptionDefinition
+        {
+            SwitchName = "--file",
+            PropertyName = propertyName,
+            CSharpType = "string?",
+            Description = "Parent group: path to a credential file. The token content. " + localDescription,
+            ValueShapeDescription = localDescription,
+        });
+        var enhanced = await enhancer.EnhanceAsync(tool);
+        await Assert.That(enhanced.Commands.Single().Options.Single().IsSecret).IsEqualTo(secret);
+    }
+
     private static CliToolDefinition CreateTool(
         CliOptionDefinition option,
         string toolName = "docker",

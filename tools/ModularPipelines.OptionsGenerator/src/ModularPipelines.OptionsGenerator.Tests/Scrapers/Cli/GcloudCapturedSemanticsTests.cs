@@ -6,6 +6,17 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class GcloudCapturedSemanticsTests
 {
     [Test]
+    [Arguments("GoogleBigQueryConnectionPropertiesServiceAccountKeyFile")]
+    [Arguments("GoogleCloudStorageConnectionPropertiesServiceAccountKeyFile")]
+    [Arguments("GooglePubsubConnectionPropertiesServiceAccountKeyFile")]
+    [Arguments("IcebergConnectionPropertiesGoogleCloudStorageServiceAccountKeyFile")]
+    public async Task Captured_Service_Account_Key_File_Contents_Are_Secret(string propertyName)
+    {
+        var command = await Scrape("oracle-database goldengate-connections create");
+        await Assert.That(command.Options.Single(option => option.PropertyName == propertyName).IsSecret).IsTrue();
+    }
+
+    [Test]
     public async Task Captured_Api_Key_Http_Location_Is_Not_Secret_Material()
     {
         var command = await Scrape("apihub plugins instances create");

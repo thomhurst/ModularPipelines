@@ -828,7 +828,7 @@ public partial class GcloudCliScraper : CliScraperBase
             IsNumeric = isNumeric,
             ValueSeparator = isFlag ? " " : "=",
             EnumDefinition = enumDefinition,
-            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag, description)
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag, argument.Description)
         };
     }
 
