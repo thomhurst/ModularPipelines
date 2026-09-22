@@ -1,0 +1,337 @@
+NAME
+    gcloud oracle-database goldengate-deployments create - create a new
+        GoldengateDeployment
+
+SYNOPSIS
+    gcloud oracle-database goldengate-deployments create GOLDENGATE_DEPLOYMENT
+        --display-name=DISPLAY_NAME --odb-subnet=ODB_SUBNET
+        (--properties-deployment-type=PROPERTIES_DEPLOYMENT_TYPE
+          (--ogg-data-admin-username=OGG_DATA_ADMIN_USERNAME
+          --ogg-data-deployment=OGG_DATA_DEPLOYMENT
+          : --ogg-data-version=OGG_DATA_VERSION
+          --ogg-data-admin-password=OGG_DATA_ADMIN_PASSWORD
+          | [--ogg-data-admin-password-secret-version=OGG_DATA_ADMIN_PASSWORD_SECRET_VERSION : --secret=SECRET]) : --properties-cpu-core-count=PROPERTIES_CPU_CORE_COUNT --properties-description=PROPERTIES_DESCRIPTION --properties-environment-type=PROPERTIES_ENVIRONMENT_TYPE --properties-is-auto-scaling-enabled --properties-license-model=PROPERTIES_LICENSE_MODEL --maintenance-config-bundle-release-upgrade-period-days=MAINTENANCE_CONFIG_BUNDLE_RELEASE_UPGRADE_PERIOD_DAYS --maintenance-config-interim-release-upgrade-period-days=MAINTENANCE_CONFIG_INTERIM_RELEASE_UPGRADE_PERIOD_DAYS --maintenance-config-is-interim-release-auto-upgrade-enabled --maintenance-config-major-release-upgrade-period-days=MAINTENANCE_CONFIG_MAJOR_RELEASE_UPGRADE_PERIOD_DAYS --maintenance-config-security-patch-upgrade-period-days=MAINTENANCE_CONFIG_SECURITY_PATCH_UPGRADE_PERIOD_DAYS --maintenance-window-day=MAINTENANCE_WINDOW_DAY --maintenance-window-start-hour=MAINTENANCE_WINDOW_START_HOUR)
+        [--async] [--gcp-oracle-zone=GCP_ORACLE_ZONE] [--labels=[LABELS,...]]
+        [--location=LOCATION] [--odb-network=ODB_NETWORK]
+        [--request-id=REQUEST_ID] [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Create a new GoldengateDeployment.
+
+EXAMPLES
+    To create a GoldengateDeployment with id my-deployment in the location
+    us-east4 with display-name my deployment, gcp oracle zone us-east4-b-r1,
+    odb-network projects/my-project/locations/us-east4/odbNetworks/my-network,
+    odb-subnet
+    projects/my-project/locations/us-east4/odbNetworks/my-network/odbSubnets/my-subnet,
+    license model LICENSE_INCLUDED, environment type PRODUCTION, deployment
+    type DATABASE_ORACLE, cpu count 1, ogg-data deployment name
+    my-ogg-deployment, admin username admin, password password, maintenance
+    window on MONDAY at 23 hours, and maintenance configuration periods, run:
+
+        $ gcloud oracle-database goldengate-deployments create \
+            my-deployment --location=us-east4 \
+            --display-name="my deployment" \
+            --gcp-oracle-zone="us-east4-b-r1" \
+            --odb-network=projects/my-project/locations/us-east4/\
+        odbNetworks/my-network \
+            --odb-subnet=projects/my-project/locations/us-east4/\
+        odbNetworks/my-network/odbSubnets/my-subnet \
+            --properties-license-model="LICENSE_INCLUDED" \
+            --properties-environment-type="PRODUCTION" \
+            --properties-deployment-type="DATABASE_ORACLE" \
+            --properties-cpu-core-count=1 \
+            --ogg-data-deployment="my-ogg-deployment" \
+            --ogg-data-admin-username="admin" \
+            --ogg-data-admin-password="password" \
+            --maintenance-window-day="MONDAY" \
+            --maintenance-window-start-hour=23 \
+            --maintenance-config-interim-release-upgrade-period-days=0 \
+            --maintenance-config-bundle-release-upgrade-period-days=1 \
+            --maintenance-config-major-release-upgrade-period-days=2 \
+            --maintenance-config-security-patch-upgrade-period-days=1
+
+POSITIONAL ARGUMENTS
+     GoldengateDeployment resource - Identifier. The name of the
+     GoldengateDeployment resource in the following format:
+     projects/{project}/locations/{region}/goldengateDeployments/{goldengate_deployment}
+     This represents a Cloud resource. (NOTE) Some attributes are not given
+     arguments in this group but can be set in other ways.
+
+     To set the project attribute:
+      * provide the argument goldengate_deployment on the command line with a
+        fully specified name;
+      * provide the argument --project on the command line;
+      * set the property core/project.
+
+     To set the location attribute:
+      * provide the argument goldengate_deployment on the command line with a
+        fully specified name;
+      * provide the argument --location on the command line.
+
+     This must be specified.
+
+       GOLDENGATE_DEPLOYMENT
+          ID of the goldengateDeployment or fully qualified identifier for the
+          goldengateDeployment.
+
+          To set the goldengate_deployment attribute:
+          + provide the argument goldengate_deployment on the command line.
+
+REQUIRED FLAGS
+     --display-name=DISPLAY_NAME
+        The display name for the GoldengateDeployment.
+
+     OdbSubnet resource - The name of the OdbSubnet associated with the
+     GoldengateDeployment for IP allocation. This represents a Cloud resource.
+     (NOTE) Some attributes are not given arguments in this group but can be
+     set in other ways.
+
+     To set the project attribute:
+      * provide the argument --odb-subnet on the command line with a fully
+        specified name;
+      * provide the argument --project on the command line;
+      * set the property core/project.
+
+     To set the location attribute:
+      * provide the argument --odb-subnet on the command line with a fully
+        specified name;
+      * provide the argument --location on the command line.
+
+     To set the odb-network attribute:
+      * provide the argument --odb-subnet on the command line with a fully
+        specified name;
+      * provide the argument --odb-network on the command line.
+
+     This must be specified.
+
+       --odb-subnet=ODB_SUBNET
+          ID of the odbSubnet or fully qualified identifier for the odbSubnet.
+
+          To set the odb-subnet attribute:
+          + provide the argument --odb-subnet on the command line.
+
+     Properties of GoldengateDeployment.
+
+     This must be specified.
+
+       --properties-deployment-type=PROPERTIES_DEPLOYMENT_TYPE
+          A valid Goldengate Deployment type. For a list of supported types,
+          use the ListGoldengateDeploymentTypes operation.
+
+          This flag argument must be specified if any of the other arguments in
+          this group are specified.
+
+       --properties-cpu-core-count=PROPERTIES_CPU_CORE_COUNT
+          The Minimum number of OCPUs to be made available for this Deployment.
+
+       --properties-description=PROPERTIES_DESCRIPTION
+          The description of the GoldengateDeployment.
+
+       --properties-environment-type=PROPERTIES_ENVIRONMENT_TYPE
+          The environment type of the GoldengateDeployment.
+
+       --properties-is-auto-scaling-enabled
+          Indicates if auto scaling is enabled for the Deployment's CPU core
+          count.
+
+       --properties-license-model=PROPERTIES_LICENSE_MODEL
+          The Oracle license model that applies to a Deployment.
+          PROPERTIES_LICENSE_MODEL must be one of:
+
+           bring-your-own-license
+              The license model is bring your own license.
+           license-included
+              The license model is included.
+
+       The Ogg data of the GoldengateDeployment.
+
+       This must be specified.
+
+         --ogg-data-admin-username=OGG_DATA_ADMIN_USERNAME
+            The Goldengate deployment console username.
+
+            This flag argument must be specified if any of the other arguments
+            in this group are specified.
+
+         --ogg-data-deployment=OGG_DATA_DEPLOYMENT
+            The name given to the Goldengate service deployment. The name must
+            be 1 to 32 characters long, must contain only alphanumeric
+            characters and must start with a letter.
+
+            This flag argument must be specified if any of the other arguments
+            in this group are specified.
+
+         --ogg-data-version=OGG_DATA_VERSION
+            Version of OGG
+
+         Arguments for the deployment password options.
+
+         At most one of these can be specified:
+
+           --ogg-data-admin-password=OGG_DATA_ADMIN_PASSWORD
+              The Goldengate deployment console password in plain text.
+
+           Or at least one of these can be specified:
+
+             SecretVersion resource - The Goldengate deployment console
+             password secret version. The arguments in this group can be used
+             to specify the attributes of this resource. (NOTE) Some attributes
+             are not given arguments in this group but can be set in other
+             ways.
+
+             To set the project attribute:
+              * provide the argument --ogg-data-admin-password-secret-version
+                on the command line with a fully specified name;
+              * provide the argument --project on the command line;
+              * set the property core/project.
+
+             --ogg-data-admin-password-secret-version=OGG_DATA_ADMIN_PASSWORD_SECRET_VERSION
+                ID of the secretVersion or fully qualified identifier for the
+                secretVersion.
+
+                To set the secret-version attribute:
+                * provide the argument
+                  --ogg-data-admin-password-secret-version on the command line.
+
+                This flag argument must be specified if any of the other
+                arguments in this group are specified.
+
+             --secret=SECRET
+                The secret id of the secretVersion resource.
+
+                To set the secret attribute:
+                * provide the argument
+                  --ogg-data-admin-password-secret-version on the command line
+                  with a fully specified name;
+                * provide the argument --secret on the command line.
+
+       The maintenance configuration of the GoldengateDeployment.
+
+       --maintenance-config-bundle-release-upgrade-period-days=MAINTENANCE_CONFIG_BUNDLE_RELEASE_UPGRADE_PERIOD_DAYS
+          Defines auto upgrade period for bundle releases. Manually configured
+          period cannot be longer than service defined period for bundle
+          releases. This period must be shorter or equal to major release
+          upgrade period. Not passing this field during create will equate to
+          using the service default.
+
+       --maintenance-config-interim-release-upgrade-period-days=MAINTENANCE_CONFIG_INTERIM_RELEASE_UPGRADE_PERIOD_DAYS
+          Defines auto upgrade period for interim releases. This period must be
+          shorter or equal to bundle release upgrade period.
+
+       --maintenance-config-is-interim-release-auto-upgrade-enabled
+          By default auto upgrade for interim releases are not enabled. If
+          auto-upgrade is enabled for interim release, you have to specify
+          interim_release_upgrade_period_days too.
+
+       --maintenance-config-major-release-upgrade-period-days=MAINTENANCE_CONFIG_MAJOR_RELEASE_UPGRADE_PERIOD_DAYS
+          Defines auto upgrade period for major releases. Manually configured
+          period cannot be longer than service defined period for major
+          releases. Not passing this field during create will equate to using
+          the service default.
+
+       --maintenance-config-security-patch-upgrade-period-days=MAINTENANCE_CONFIG_SECURITY_PATCH_UPGRADE_PERIOD_DAYS
+          Defines auto upgrade period for releases with security fix. Manually
+          configured period cannot be longer than service defined period for
+          security releases. Not passing this field during create will equate
+          to using the service default.
+
+       The maintenance window of the GoldengateDeployment.
+
+       --maintenance-window-day=MAINTENANCE_WINDOW_DAY
+          Days of the week. MAINTENANCE_WINDOW_DAY must be one of:
+
+           friday
+              Friday
+           monday
+              Monday
+           saturday
+              Saturday
+           sunday
+              Sunday
+           thursday
+              Thursday
+           tuesday
+              Tuesday
+           wednesday
+              Wednesday
+
+          This flag argument must be specified if any of the other arguments in
+          this group are specified.
+
+       --maintenance-window-start-hour=MAINTENANCE_WINDOW_START_HOUR
+          Start hour for maintenance period. Hour is in UTC.
+
+          This flag argument must be specified if any of the other arguments in
+          this group are specified.
+
+OPTIONAL FLAGS
+     --async
+        Return immediately, without waiting for the operation in progress to
+        complete.
+
+     --gcp-oracle-zone=GCP_ORACLE_ZONE
+        The GCP Oracle zone where Oracle GoldengateDeployment is hosted.
+        Example: us-east4-b-r2. If not specified, the system will pick a zone
+        based on availability.
+
+     --labels=[LABELS,...]
+        The labels or tags associated with the GoldengateDeployment.
+
+         KEY
+            Keys must start with a lowercase character and contain only hyphens
+            (-), underscores (_), lowercase characters, and numbers.
+
+         VALUE
+            Values must contain only hyphens (-), underscores (_), lowercase
+            characters, and numbers.
+
+        Shorthand Example:
+
+            --labels=string=string
+
+        JSON Example:
+
+            --labels='{"string": "string"}'
+
+        File Example:
+
+            --labels=path_to_file.(yaml|json)
+
+     --location=LOCATION
+        For resources [goldengate_deployment, odb-network, odb-subnet],
+        provides fallback value for resource location attribute. When the
+        resource's full URI path is not provided, location will fallback to
+        this flag value.
+
+     --odb-network=ODB_NETWORK
+        For resources [odb-network, odb-subnet], provides fallback value for
+        resource odb-network attribute. When the resource's full URI path is
+        not provided, odb-network will fallback to this flag value.
+
+     --request-id=REQUEST_ID
+        An optional request ID to identify requests. Specify a unique request
+        ID so that if you must retry your request, the server will know to
+        ignore the request if it has already been completed. The server will
+        guarantee that for at least 60 minutes since the first request.
+
+        For example, consider a situation where you make an initial request and
+        the request times out. If you make the request again with the same
+        request ID, the server can check if original operation with the same
+        request ID was received, and if so, will ignore the second request.
+        This prevents clients from accidentally creating duplicate commitments.
+
+        The request ID must be a valid UUID with the exception that zero UUID
+        is not supported (00000000-0000-0000-0000-000000000000).
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.
+
+API REFERENCE
+    This command uses the oracledatabase/v1 API. The full documentation for
+    this API can be found at: https://cloud.google.com/oracle/database/docs

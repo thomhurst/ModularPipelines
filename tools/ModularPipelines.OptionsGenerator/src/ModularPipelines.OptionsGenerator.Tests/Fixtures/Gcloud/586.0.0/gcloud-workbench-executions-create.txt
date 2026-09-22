@@ -1,0 +1,239 @@
+NAME
+    gcloud workbench executions create - create a Workbench execution
+
+SYNOPSIS
+    gcloud workbench executions create --region=REGION
+        (--display-name=DISPLAY_NAME --gcs-output-uri=GCS_OUTPUT_URI
+          --service-account=SERVICE_ACCOUNT (--direct-content=DIRECT_CONTENT
+          | [--gcs-notebook-uri=GCS_NOTEBOOK_URI : --generation=GENERATION])
+          : --execution-timeout=EXECUTION_TIMEOUT; default="24h"
+          --kernel-name=KERNEL_NAME; default="python3"
+          --accelerator-count=ACCELERATOR_COUNT
+          --accelerator-type=ACCELERATOR_TYPE --machine-type=MACHINE_TYPE;
+          default="e2-standard-4" --disk-size-gb=DISK_SIZE_GB; default=100
+          --disk-type=DISK_TYPE --no-enable-internet-access
+          --network=NETWORK [--subnetwork=SUBNETWORK
+          : --subnetwork-region=SUBNETWORK_REGION] [--kms-key=KMS_KEY
+          : --kms-keyring=KMS_KEYRING
+          --kms-location=KMS_LOCATION --kms-project=KMS_PROJECT]) [--async]
+        [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Create a Workbench notebook execution.
+
+EXAMPLES
+    To create an execution of a notebook file with Cloud Storage URI
+    gs://my-bucket/my-notebook.ipynb, with an execution job display name
+    my-execution, running with service account
+    my-service-account@my-project.iam.gserviceaccount.com, with results
+    uploaded to Cloud Storage bucket gs://my-bucket/results, and in region
+    us-central1, with a compute configuration of n1-standard-4 machine type:
+
+        $ gcloud workbench executions create --display-name=my-execution \
+             --gcs-notebook-uri=gs://my-bucket/my-notebook.ipynb \
+             --service-account=my-service-account@my-project.iam.gserviceacco\
+         unt.com --gcs-output-uri=gs://my-bucket/results \
+             --region=us-central1 --machine-type=n1-standard-4
+
+REQUIRED FLAGS
+     Region resource - Cloud region to create. This represents a Cloud
+     resource. (NOTE) Some attributes are not given arguments in this group but
+     can be set in other ways.
+
+     To set the project attribute:
+      * provide the argument --region on the command line with a fully
+        specified name;
+      * provide the argument --project on the command line;
+      * set the property core/project.
+
+     This must be specified.
+
+       --region=REGION
+          ID of the region or fully qualified identifier for the region.
+
+          To set the region attribute:
+          + provide the argument --region on the command line.
+
+     Configuration of the execution job.
+
+     This must be specified.
+
+       --display-name=DISPLAY_NAME
+          The display name of the execution.
+
+          This flag argument must be specified if any of the other arguments in
+          this group are specified.
+
+       --gcs-output-uri=GCS_OUTPUT_URI
+          The Cloud Storage location to upload notebook execution results to.
+          Format: gs://bucket-name.
+
+          This flag argument must be specified if any of the other arguments in
+          this group are specified.
+
+       --service-account=SERVICE_ACCOUNT
+          The service account to run the execution as
+
+          This flag argument must be specified if any of the other arguments in
+          this group are specified.
+
+       --execution-timeout=EXECUTION_TIMEOUT; default="24h"
+          The max running time of the execution job, as a duration. See '$
+          gcloud topic datetimes' for details on formatting the input duration.
+
+       --kernel-name=KERNEL_NAME; default="python3"
+          The kernel name to use for the execution.
+
+       Source of the notebook to execute.
+
+       Exactly one of these must be specified:
+
+         --direct-content=DIRECT_CONTENT
+            The direct notebook content as IPYNB. This can be a local filepath
+            to an .ipynb file or can be set to - to read content from stdin.
+
+         Or at least one of these can be specified:
+
+           The Cloud Storage notebook source.
+
+           --gcs-notebook-uri=GCS_NOTEBOOK_URI
+              The Cloud Storage uri pointing to the notebook. Format:
+              gs://bucket/notebook_file.ipynb
+
+              This flag argument must be specified if any of the other
+              arguments in this group are specified.
+
+           --generation=GENERATION
+              The version of the Cloud Storage object to read. If unset, the
+              current version of the object will be used.
+
+       Compute configuration of the execution job.
+
+       The machine configuration of the runtime.
+
+       --accelerator-count=ACCELERATOR_COUNT
+          The number of accelerators used by the runtime.
+
+       --accelerator-type=ACCELERATOR_TYPE
+          The type of hardware accelerator used by the runtime. If specified,
+          --accelerator-count must also be specified. ACCELERATOR_TYPE must be
+          one of: NVIDIA_TESLA_V100, NVIDIA_TESLA_T4, NVIDIA_TESLA_A100,
+          NVIDIA_A100_80GB, NVIDIA_L4.
+
+       --machine-type=MACHINE_TYPE; default="e2-standard-4"
+          The Compute Engine machine type selected for the runtime.
+
+       The configuration for the data disk of the runtime.
+
+       --disk-size-gb=DISK_SIZE_GB; default=100
+          The disk size of the runtime in GB. If specified, the --disk-type
+          must also be specified. The minimum size is 10GB and the maximum is
+          65536GB.
+
+       --disk-type=DISK_TYPE
+          The type of the disk. DISK_TYPE must be one of: PD_STANDARD, PD_SSD,
+          PD_BALANCED, PD_EXTREME, HYPERDISK_BALANCED.
+
+       The network configuration for the runtime.
+
+       --enable-internet-access
+          Enable public internet access for the runtime. Enabled by default,
+          use --no-enable-internet-access to disable.
+
+       Network resource - The name of the VPC that this runtime is in. This
+       represents a Cloud resource. (NOTE) Some attributes are not given
+       arguments in this group but can be set in other ways.
+
+       To set the project attribute:
+        + provide the argument --network on the command line with a fully
+          specified name;
+        + provide the argument --project on the command line;
+        + set the property core/project.
+
+       --network=NETWORK
+          ID of the network or fully qualified identifier for the network.
+
+          To set the network attribute:
+          + provide the argument --network on the command line.
+
+       Subnetwork resource - The name of the subnetwork that this runtime is
+       in. The arguments in this group can be used to specify the attributes of
+       this resource. (NOTE) Some attributes are not given arguments in this
+       group but can be set in other ways.
+
+       To set the project attribute:
+        + provide the argument --subnetwork on the command line with a fully
+          specified name;
+        + provide the argument --project on the command line;
+        + set the property core/project.
+
+       --subnetwork=SUBNETWORK
+          ID of the subnetwork or fully qualified identifier for the
+          subnetwork.
+
+          To set the subnetwork attribute:
+          + provide the argument --subnetwork on the command line.
+
+          This flag argument must be specified if any of the other arguments in
+          this group are specified.
+
+       --subnetwork-region=SUBNETWORK_REGION
+          Google Cloud region of this subnetwork
+          https://cloud.google.com/compute/docs/regions-zones/#locations.
+
+          To set the subnetwork-region attribute:
+          + provide the argument --subnetwork on the command line with a
+            fully specified name;
+          + provide the argument --subnetwork-region on the command line.
+
+       Key resource - The Cloud KMS encryption key (customer-managed encryption
+       key) used to protect the execution. The key must be in the same region
+       as the execution. If not specified, Google-managed encryption will be
+       used. The arguments in this group can be used to specify the attributes
+       of this resource.
+
+       --kms-key=KMS_KEY
+          ID of the key or fully qualified identifier for the key.
+
+          To set the kms-key attribute:
+          + provide the argument --kms-key on the command line.
+
+          This flag argument must be specified if any of the other arguments in
+          this group are specified.
+
+       --kms-keyring=KMS_KEYRING
+          KMS keyring id of the key.
+
+          To set the kms-keyring attribute:
+          + provide the argument --kms-key on the command line with a fully
+            specified name;
+          + provide the argument --kms-keyring on the command line.
+
+       --kms-location=KMS_LOCATION
+          Cloud location for the key.
+
+          To set the kms-location attribute:
+          + provide the argument --kms-key on the command line with a fully
+            specified name;
+          + provide the argument --kms-location on the command line.
+
+       --kms-project=KMS_PROJECT
+          Cloud project id for the key.
+
+          To set the kms-project attribute:
+          + provide the argument --kms-key on the command line with a fully
+            specified name;
+          + provide the argument --kms-project on the command line.
+
+OPTIONAL FLAGS
+     --async
+        Return immediately, without waiting for the operation in progress to
+        complete.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.
