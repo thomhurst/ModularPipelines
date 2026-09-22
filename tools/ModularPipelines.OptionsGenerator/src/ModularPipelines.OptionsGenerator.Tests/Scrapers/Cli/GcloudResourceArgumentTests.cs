@@ -581,7 +581,7 @@ public class GcloudResourceArgumentTests
         return commands;
     }
 
-    private sealed class TestScraper() : GcloudCliScraper(
+    internal sealed class TestScraper() : GcloudCliScraper(
         new UnusedExecutor(),
         new HelpTextCache(NullLogger<HelpTextCache>.Instance),
         NullLogger<GcloudCliScraper>.Instance)

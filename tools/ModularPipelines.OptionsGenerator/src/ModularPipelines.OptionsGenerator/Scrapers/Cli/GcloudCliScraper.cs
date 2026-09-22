@@ -402,6 +402,7 @@ public partial class GcloudCliScraper : CliScraperBase
     private static CliRequiredAlternativeGroup PreserveDocumentedChoices(CliRequiredAlternativeGroup group,
         IReadOnlyList<CliRequiredAlternativeGroup> documented)
     {
+        group = RestoreFlattenedDocumentedChoices(group, documented);
         // Colon syntax can hide a documented, nonexclusive "at least one" rule.
         // Preserve that cardinality instead of requiring every member of the bundle.
         var choice = group.IsChoice ? null : documented.FirstOrDefault(candidate => candidate.IsChoice
@@ -456,6 +457,44 @@ public partial class GcloudCliScraper : CliScraperBase
             Members = members,
             Groups = groups,
         };
+    }
+
+    private static CliRequiredAlternativeGroup RestoreFlattenedDocumentedChoices(CliRequiredAlternativeGroup group,
+        IReadOnlyList<CliRequiredAlternativeGroup> documented)
+    {
+        if (!group.IsChoice)
+        {
+            return group;
+        }
+
+        // SYNOPSIS can omit the wrappers around a documented nonexclusive branch.
+        // Restore that branch only when it covers complete synopsis alternatives;
+        // a partial overlap cannot establish where the missing boundaries belong.
+        foreach (var candidate in documented.Where(candidate => candidate.IsChoice && !candidate.IsMutuallyExclusive
+                     && candidate.Members.All(member => !member.IsRequired)).OrderByDescending(candidate => candidate.PropertyNames.Count))
+        {
+            var names = candidate.PropertyNames.ToHashSet(StringComparer.Ordinal);
+            if (names.SetEquals(group.PropertyNames))
+            {
+                continue;
+            }
+
+            var members = group.Members.Where(member => names.Contains(member.PropertyName)).ToArray();
+            var children = group.Groups.Where(child => child.PropertyNames.Any(names.Contains)).ToArray();
+            if (members.Length + children.Length < 2
+                || !names.SetEquals(members.Select(member => member.PropertyName).Concat(children.SelectMany(child => child.PropertyNames))))
+            {
+                continue;
+            }
+
+            group = group with
+            {
+                Members = [.. group.Members.Except(members)],
+                Groups = [.. group.Groups.Except(children), candidate],
+            };
+        }
+
+        return group;
     }
 
     private static CliArgumentGroup MarkOptionalResourceGroups(CliArgumentGroup group, IReadOnlyList<IReadOnlySet<string>> optionalGroups)

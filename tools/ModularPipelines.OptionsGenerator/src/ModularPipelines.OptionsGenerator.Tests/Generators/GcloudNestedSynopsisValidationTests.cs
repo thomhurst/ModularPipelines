@@ -5,6 +5,29 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public partial class RequiredConstructorValidationTests
 {
     [Test]
+    public async Task Gcloud_Build_Trigger_Updates_Preserve_Documented_Nested_Choices()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Gcloud", "585.0.0",
+            "gcloud-builds-triggers-update-github.txt"));
+        var command = (await new GcloudResourceArgumentTests.TestScraper().Parse(["builds", "triggers", "update", "github"], help))!;
+        var group = command.RequiredAlternativeGroups.Single(group => group.PropertyNames.Contains("TriggerConfig"));
+        await ValidateCapturedGroup(command, group,
+        [
+            ("", false),
+            ("TriggerConfig", true),
+            ("BranchPattern", true),
+            ("TagPattern", true),
+            ("BuildConfig", true),
+            ("UpdateSubstitutions", true),
+            ("Description", true),
+            ("Description,BranchPattern,BuildConfig", true),
+            ("TriggerConfig,BranchPattern", false),
+            ("BranchPattern,TagPattern", false),
+            ("BuildConfig,InlineConfig", false),
+        ]);
+    }
+
+    [Test]
     public async Task Gcloud_Storage_Source_Branches_Keep_Bucket_And_Filter_Choices_Together()
     {
         var command = await GcloudCapturedSemanticsTests.Scrape("storage batch-operations jobs create");
@@ -30,7 +53,7 @@ public partial class RequiredConstructorValidationTests
     }
 
     [Test]
-    public async Task Gcloud_Storage_Custom_Context_Alternatives_Preserve_Required_Pairs()
+    public async Task Gcloud_Storage_Custom_Context_Alternatives_Preserve_Documented_Choices()
     {
         var command = await GcloudCapturedSemanticsTests.Scrape("storage batch-operations jobs create");
         var group = command.RequiredAlternativeGroups.Single(group => group.PropertyNames.Contains("ClearAllObjectCustomContexts"));
@@ -39,8 +62,10 @@ public partial class RequiredConstructorValidationTests
             ("", false),
             ("ClearAllObjectCustomContexts", true),
             ("ClearObjectCustomContexts,UpdateObjectCustomContexts", true),
-            ("ClearObjectCustomContexts", false),
-            ("UpdateObjectCustomContexts", false),
+            ("ClearObjectCustomContexts", true),
+            ("UpdateObjectCustomContexts", true),
+            ("ClearObjectCustomContexts,UpdateObjectCustomContextsFile", true),
+            ("UpdateObjectCustomContexts,UpdateObjectCustomContextsFile", false),
             ("UpdateObjectCustomContextsFile", true),
             ("ClearAllObjectCustomContexts,UpdateObjectCustomContextsFile", false),
             ("DeleteObject", true),
