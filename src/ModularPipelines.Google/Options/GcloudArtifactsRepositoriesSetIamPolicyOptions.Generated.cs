@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "repositories", "set-iam-policy")]
-public record GcloudArtifactsRepositoriesSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudArtifactsRepositoriesSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the IAM policy for an     Artifact Registry repository
+    /// </summary>
+    /// <param name="Repository">Repository resource - Name of the Artifact Registry repository. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the repository or fully qualified identifier for the repository. To set the repository attribute: ▸ provide the argument repository on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudArtifactsRepositoriesSetIamPolicyOptions(
+        string Repository,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Repository);
+        this.Repository = Repository;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string Repository, out string PolicyFile)
+    {
+        Repository = this.Repository;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// Repository resource - Name of the Artifact Registry repository. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the repository. Overrides the default artifacts/location property value for this command invocation. To configure the default location, use the command: gcloud config set artifacts/location. To set the location attribute: ▸ provide the argument repository on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Repository resource - Name of the Artifact Registry repository. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the repository or fully qualified identifier for the repository. To set the repository attribute: ▸ provide the argument repository on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Repository { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

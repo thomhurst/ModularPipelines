@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "projects", "link")]
-public record GcloudBillingProjectsLinkOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ProjectId
-) : GcloudOptions
+public record GcloudBillingProjectsLinkOptions : GcloudOptions
 {
+    /// <summary>
+    /// link a project with a billing account
+    /// </summary>
+    /// <param name="BillingAccount">Specify a billing account ID. Billing account IDs are of the form 0X0X0X-0X0X0X-0X0X0X. To see available IDs, run $ gcloud billing accounts list.</param>
+    /// <param name="ProjectId">Specify a project id.</param>
+    public GcloudBillingProjectsLinkOptions(
+        string BillingAccount,
+        string ProjectId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BillingAccount);
+        this.BillingAccount = BillingAccount;
+        global::System.ArgumentNullException.ThrowIfNull(ProjectId);
+        this.ProjectId = ProjectId;
+    }
+
+    public void Deconstruct(out string BillingAccount, out string ProjectId)
+    {
+        BillingAccount = this.BillingAccount;
+        ProjectId = this.ProjectId;
+    }
+
+    /// <summary>
+    /// Specify a billing account ID. Billing account IDs are of the form 0X0X0X-0X0X0X-0X0X0X. To see available IDs, run $ gcloud billing accounts list.
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string BillingAccount { get; private init; }
+
+    /// <summary>
+    /// Specify a project id.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ProjectId { get; private init; }
+
 }

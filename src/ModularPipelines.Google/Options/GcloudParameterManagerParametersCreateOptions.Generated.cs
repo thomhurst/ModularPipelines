@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("parametermanager", "parameters", "create")]
-public record GcloudParameterManagerParametersCreateOptions : GcloudOptions
+public record GcloudParameterManagerParametersCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// creates a Parameter Manager     parameter
+    /// </summary>
+    /// <param name="Parameter">Parameter resource - Identifier. [Output only] The resource name of the Parameter in the format projects/*/locations/*/parameters/*. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument parameter on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument parameter on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the parameter or fully qualified identifier for the parameter. To set the parameter attribute: ▸ provide the argument parameter on the command line.</param>
+    public GcloudParameterManagerParametersCreateOptions(
+        string Parameter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Parameter);
+        this.Parameter = Parameter;
+    }
+
+    public void Deconstruct(out string Parameter)
+    {
+        Parameter = this.Parameter;
+    }
+
     /// <summary>
     /// Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
     /// </summary>
@@ -56,5 +74,21 @@ public record GcloudParameterManagerParametersCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--key-ring", Format = OptionFormat.EqualsSeparated)]
     public string? KeyRing { get; set; }
+
+    /// <summary>
+    /// Parameter resource - Identifier. [Output only] The resource name of the Parameter in the format projects/*/locations/*/parameters/*. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument parameter on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument parameter on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the parameter or fully qualified identifier for the parameter. To set the parameter attribute: ▸ provide the argument parameter on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Parameter { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KeyRing)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        yield break;
+    }
 
 }

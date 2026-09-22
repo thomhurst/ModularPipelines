@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "binauthz", "policy", "set-iam-policy")]
-public record GcloudContainerBinauthzPolicySetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudContainerBinauthzPolicySetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the IAM policy for a     Binary Authorization policy
+    /// </summary>
+    /// <param name="PolicyFile">The JSON or YAML file containing the IAM policy.</param>
+    public GcloudContainerBinauthzPolicySetIamPolicyOptions(
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string PolicyFile)
+    {
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// The JSON or YAML file containing the IAM policy.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

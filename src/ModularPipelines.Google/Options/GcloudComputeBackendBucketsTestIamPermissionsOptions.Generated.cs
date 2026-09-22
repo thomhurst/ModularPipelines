@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,73 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-buckets", "test-iam-permissions")]
-public record GcloudComputeBackendBucketsTestIamPermissionsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendBucket
-) : GcloudOptions
+public record GcloudComputeBackendBucketsTestIamPermissionsOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// test IAM permissions     for a Compute Engine backend bucket
+    /// </summary>
+    /// <param name="Permissions">The set of permissions to check for the resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="BackendBucket">ID of the backend bucket or fully qualified identifier for the backend bucket. To set the backend_bucket attribute: + provide the argument backend_bucket on the command line.</param>
+    public GcloudComputeBackendBucketsTestIamPermissionsOptions(
+        IEnumerable<string> Permissions,
+        string BackendBucket
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Permissions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Permissions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Permissions));
+            }
+
+            Permissions = materialized;
+        }
+        this.Permissions = Permissions;
+        global::System.ArgumentNullException.ThrowIfNull(BackendBucket);
+        this.BackendBucket = BackendBucket;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Permissions, out string BackendBucket)
+    {
+        Permissions = this.Permissions;
+        BackendBucket = this.BackendBucket;
+    }
+
+    /// <summary>
+    /// The set of permissions to check for the resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--permissions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Permissions { get; private init; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the backend bucket is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the backend bucket to test IAM permissions for. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// ID of the backend bucket or fully qualified identifier for the backend bucket. To set the backend_bucket attribute: + provide the argument backend_bucket on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackendBucket { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
+
 }

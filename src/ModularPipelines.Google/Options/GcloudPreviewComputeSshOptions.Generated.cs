@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,8 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "ssh")]
-public record GcloudPreviewComputeSshOptions : GcloudOptions
+public record GcloudPreviewComputeSshOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// SSH into a virtual machine instance
+    /// </summary>
+    /// <param name="UserInstance">Specifies the instance to SSH into. USER specifies the username with which to SSH. If omitted, the user login name is used. If using OS Login, USER will be replaced by the OS Login user. INSTANCE specifies the name of the virtual machine instance to SSH into.</param>
+    public GcloudPreviewComputeSshOptions(
+        string UserInstance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserInstance);
+        this.UserInstance = UserInstance;
+    }
+
+    public void Deconstruct(out string UserInstance)
+    {
+        UserInstance = this.UserInstance;
+    }
+
     /// <summary>
     /// A command to run on the virtual machine. Runs the command on the target instance and then exits.
     /// </summary>
@@ -68,7 +86,7 @@ public record GcloudPreviewComputeSshOptions : GcloudOptions
     /// Override the default behavior of StrictHostKeyChecking for the connection. By default, StrictHostKeyChecking is set to 'no' the first time you connect to an instance, and will be set to 'yes' for all subsequent connections. STRICT_HOST_KEY_CHECKING must be one of: yes, no, ask.
     /// </summary>
     [CliOption("--strict-host-key-checking", Format = OptionFormat.EqualsSeparated)]
-    public GcloudStrictHostKeyChecking? StrictHostKeyChecking { get; set; }
+    public GcloudPreviewComputeSshStrictHostKeyChecking? StrictHostKeyChecking { get; set; }
 
     /// <summary>
     /// If you can't connect to a virtual machine (VM) instance using SSH, you can investigate the problem using the --troubleshoot flag: $ gcloud preview compute ssh VM_NAME --zone=ZONE \ --troubleshoot [--tunnel-through-iap] The troubleshoot flag runs tests and returns recommendations for the following types of issues: ◆ VM status ◆ Network connectivity ◆ User permissions ◆ Virtual Private Cloud (VPC) settings ◆ VM boot If you specify the --tunnel-through-iap flag, the tool also checks IAP port forwarding.
@@ -123,5 +141,31 @@ public record GcloudPreviewComputeSshOptions : GcloudOptions
     /// </summary>
     [CliOption("--ssh-key-expire-after", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyExpireAfter { get; set; }
+
+    /// <summary>
+    /// Specifies the instance to SSH into. USER specifies the username with which to SSH. If omitted, the user login name is used. If using OS Login, USER will be replaced by the OS Login user. INSTANCE specifies the name of the virtual machine instance to SSH into.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string UserInstance { get; private init; }
+
+    /// <summary>
+    /// Flags and positionals passed to the underlying ssh implementation. The '--' argument must be specified between gcloud specific args on the left and SSH_ARGS on the right. Example: $ gcloud preview compute ssh example-instance --zone=us-central1-a \ -- -vvv -L 80:%INSTANCE%:80
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
+    public IEnumerable<string>? SshArgs { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((InternalIp == true ? 1 : 0) + (TunnelThroughIap == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of InternalIp or TunnelThroughIap may be specified.", [nameof(InternalIp), nameof(TunnelThroughIap)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SshKeyExpiration) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SshKeyExpireAfter) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SshKeyExpiration or SshKeyExpireAfter may be specified.", [nameof(SshKeyExpiration), nameof(SshKeyExpireAfter)]);
+        }
+        yield break;
+    }
 
 }

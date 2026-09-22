@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,193 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "datascans", "create", "data-profile")]
-public record GcloudDataplexDatascansCreateDataProfileOptions : GcloudOptions
+public record GcloudDataplexDatascansCreateDataProfileOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Dataplex data     profile scan job
+    /// </summary>
+    /// <param name="Datascan">Datascan resource - Arguments and flags that define the Dataplex datascan you want to create a data profile scan for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument datascan on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the datascan or fully qualified identifier for the datascan. To set the dataScans attribute: ▸ provide the argument datascan on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexDatascansCreateDataProfileOptions(
+        string Datascan
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Datascan);
+        this.Datascan = Datascan;
+    }
+
+    public void Deconstruct(out string Datascan)
+    {
+        Datascan = this.Datascan;
+    }
+
+    /// <summary>
+    /// Datascan resource - Arguments and flags that define the Dataplex datascan you want to create a data profile scan for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument datascan on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataplex resource. To set the location attribute: ▸ provide the argument datascan on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Data source for the data profile scan. Exactly one of these must be specified: Dataplex entity that contains the data for the data profile scan, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}.
+    /// </summary>
+    [CliOption("--data-source-entity", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSourceEntity { get; set; }
+
+    /// <summary>
+    /// Data source for the data profile scan. Exactly one of these must be specified: Fully-qualified service resource name of the cloud resource that contains the data for the data profile scan, of the form: //bigquery.googleapis.com/projects/{project_number}/datasets/{dataset_id}/tables/{table_id}.
+    /// </summary>
+    [CliOption("--data-source-resource", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSourceResource { get; set; }
+
+    /// <summary>
+    /// Description of the data profile scan.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Display name of the data profile scan.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// At most one of --async | --validate-only can be specified. At most one of these can be specified: Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// At most one of --async | --validate-only can be specified. At most one of these can be specified: Validate the create action, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Data spec for the data profile scan. At most one of these can be specified: path to the JSON/YAML file containing the spec for the data profile scan. The JSON representation reference: https://cloud.google.com/dataplex/docs/reference/rest/v1/DataProfileSpec
+    /// </summary>
+    [CliOption("--data-profile-spec-file", Format = OptionFormat.EqualsSeparated)]
+    public string? DataProfileSpecFile { get; set; }
+
+    /// <summary>
+    /// Data spec for the data profile scan. At most one of these can be specified: Or at least one of these can be specified: Command line spec arguments for the data profile scan. Publish data profile results to Dataplex catalog.
+    /// </summary>
+    [CliFlag("--enable-catalog-publishing")]
+    public bool? EnableCatalogPublishing { get; set; }
+
+    /// <summary>
+    /// Data spec for the data profile scan. At most one of these can be specified: Or at least one of these can be specified: Command line spec arguments for the data profile scan. Names of the fields to exclude from data profile. If specified, the respective fields will be excluded from data profile, regardless of the fields specified in the --include-field-names flag.
+    /// </summary>
+    [CliOption("--exclude-field-names", Format = OptionFormat.EqualsSeparated)]
+    public string? ExcludeFieldNames { get; set; }
+
+    /// <summary>
+    /// Data spec for the data profile scan. At most one of these can be specified: Or at least one of these can be specified: Command line spec arguments for the data profile scan. path to the resource table to export data profile scan results, of the form: //bigquery.googleapis.com/projects/{project_number}/datasets/{dataset_id}/tables/{table_id}. The table will be created if not present.
+    /// </summary>
+    [CliOption("--export-results-table", Format = OptionFormat.EqualsSeparated)]
+    public string? ExportResultsTable { get; set; }
+
+    /// <summary>
+    /// Data spec for the data profile scan. At most one of these can be specified: Or at least one of these can be specified: Command line spec arguments for the data profile scan. Names of the fields to include in data profile. If not specified, all fields at the time of profile scan job execution are included. The fields listed in the --exclude-field-names flag are excluded.
+    /// </summary>
+    [CliOption("--include-field-names", Format = OptionFormat.EqualsSeparated)]
+    public string? IncludeFieldNames { get; set; }
+
+    /// <summary>
+    /// Data spec for the data profile scan. At most one of these can be specified: Or at least one of these can be specified: Command line spec arguments for the data profile scan. The execution mode for the profile scan. MODE must be one of: LIGHTWEIGHT Get quick insights with a low-latency, low-fidelity scan. STANDARD Profile your data with customizable scan settings.
+    /// </summary>
+    [CliOption("--mode", Format = OptionFormat.EqualsSeparated)]
+    public string? Mode { get; set; }
+
+    /// <summary>
+    /// Data spec for the data profile scan. At most one of these can be specified: Or at least one of these can be specified: Command line spec arguments for the data profile scan. A filter applied to all rows in a single data profile scan job.
+    /// </summary>
+    [CliOption("--row-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? RowFilter { get; set; }
+
+    /// <summary>
+    /// Data spec for the data profile scan. At most one of these can be specified: Or at least one of these can be specified: Command line spec arguments for the data profile scan. The percentage of the records to be selected from the dataset for data profile scan.
+    /// </summary>
+    [CliOption("--sampling-percent", Format = OptionFormat.EqualsSeparated)]
+    public string? SamplingPercent { get; set; }
+
+    /// <summary>
+    /// Data profile scan execution settings. Field that contains values that monotonically increase over time (e.g. timestamp).
+    /// </summary>
+    [CliOption("--incremental-field", Format = OptionFormat.EqualsSeparated)]
+    public string? IncrementalField { get; set; }
+
+    /// <summary>
+    /// Data profile scan scheduling and trigger settings. At most one of these can be specified: If set, the scan runs one-time shortly after data profile scan creation.
+    /// </summary>
+    [CliOption("--on-demand", Format = OptionFormat.EqualsSeparated)]
+    public string? OnDemand { get; set; }
+
+    /// <summary>
+    /// Data profile scan scheduling and trigger settings. At most one of these can be specified: Cron schedule (https://en.wikipedia.org/wiki/Cron) for running scans periodically. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, CRON_TZ=America/New_York 1 * * * * or TZ=America/New_York 1 * * * *. This field is required for RECURRING scans.
+    /// </summary>
+    [CliOption("--schedule", Format = OptionFormat.EqualsSeparated)]
+    public string? Schedule { get; set; }
+
+    /// <summary>
+    /// Data profile scan scheduling and trigger settings. At most one of these can be specified: Or at least one of these can be specified: Data profile scan one-time trigger settings. If set, the data profile scan runs once, and auto deleted once the ttl_after_scan_completion expires.
+    /// </summary>
+    [CliFlag("--one-time")]
+    public bool? OneTime { get; set; }
+
+    /// <summary>
+    /// Data profile scan scheduling and trigger settings. At most one of these can be specified: Or at least one of these can be specified: Data profile scan one-time trigger settings. The time to live for one-time scans. Default value is 24 hours, minimum value is 0 seconds, and maximum value is 365 days. The time is calculated from the data scan job completion time. If value is set as 0 seconds, the scan will be immediately deleted upon job completion, regardless of whether the job succeeded or failed. The value should be a number followed by a unit suffix "s". Example: "100s" for 100 seconds.The argument is only valid when --one-time is set.
+    /// </summary>
+    [CliOption("--ttl-after-scan-completion", Format = OptionFormat.EqualsSeparated)]
+    public string? TtlAfterScanCompletion { get; set; }
+
+    /// <summary>
+    /// Identity to run the datascan. At most one of these can be specified: Service account email to run the scan as.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Identity to run the datascan. At most one of these can be specified: If set, the scan runs with the caller's credential.
+    /// </summary>
+    [CliFlag("--use-user-credential")]
+    public bool? UseUserCredential { get; set; }
+
+    /// <summary>
+    /// Datascan resource - Arguments and flags that define the Dataplex datascan you want to create a data profile scan for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument datascan on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the datascan or fully qualified identifier for the datascan. To set the dataScans attribute: ▸ provide the argument datascan on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Datascan { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DataSourceEntity) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DataSourceResource) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of DataSourceEntity or DataSourceResource must be specified.", [nameof(DataSourceEntity), nameof(DataSourceResource)]);
+        }
+        if ((Async == true ? 1 : 0) + (ValidateOnly == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Async or ValidateOnly may be specified.", [nameof(Async), nameof(ValidateOnly)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DataProfileSpecFile) ? 1 : 0) + ((EnableCatalogPublishing == true || !string.IsNullOrWhiteSpace(ExcludeFieldNames) || !string.IsNullOrWhiteSpace(ExportResultsTable) || !string.IsNullOrWhiteSpace(IncludeFieldNames) || !string.IsNullOrWhiteSpace(Mode) || !string.IsNullOrWhiteSpace(RowFilter) || !string.IsNullOrWhiteSpace(SamplingPercent)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DataProfileSpecFile or (EnableCatalogPublishing, ExcludeFieldNames, ExportResultsTable, IncludeFieldNames, Mode, RowFilter, or SamplingPercent) may be specified.", [nameof(DataProfileSpecFile), nameof(EnableCatalogPublishing), nameof(ExcludeFieldNames), nameof(ExportResultsTable), nameof(IncludeFieldNames), nameof(Mode), nameof(RowFilter), nameof(SamplingPercent)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(OnDemand) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Schedule) ? 1 : 0) + ((OneTime == true || !string.IsNullOrWhiteSpace(TtlAfterScanCompletion)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of OnDemand, Schedule, or (OneTime or TtlAfterScanCompletion) may be specified.", [nameof(OnDemand), nameof(Schedule), nameof(OneTime), nameof(TtlAfterScanCompletion)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ServiceAccount) ? 1 : 0) + (UseUserCredential == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ServiceAccount or UseUserCredential may be specified.", [nameof(ServiceAccount), nameof(UseUserCredential)]);
+        }
+        yield break;
+    }
+
 }

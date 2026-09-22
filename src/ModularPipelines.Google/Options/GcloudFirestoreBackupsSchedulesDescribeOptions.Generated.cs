@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("firestore", "backups", "schedules", "describe")]
 public record GcloudFirestoreBackupsSchedulesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describes a Cloud Firestore     backup schedule
+    /// </summary>
+    /// <param name="BackupSchedule">The backup schedule to operate on. For example, to operate on backup schedule 091a49a0-223f-4c98-8c69-a284abbdb26b: $ gcloud firestore backups schedules describe \ --backup-schedule='091a49a0-223f-4c98-8c69-a284abbdb26b'</param>
+    /// <param name="Database">The database to operate on. For example, to operate on database foo: $ gcloud firestore backups schedules describe --database='foo'</param>
+    public GcloudFirestoreBackupsSchedulesDescribeOptions(
+        string BackupSchedule,
+        string Database
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupSchedule);
+        this.BackupSchedule = BackupSchedule;
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+    }
+
+    public void Deconstruct(out string BackupSchedule, out string Database)
+    {
+        BackupSchedule = this.BackupSchedule;
+        Database = this.Database;
+    }
+
+    /// <summary>
+    /// The backup schedule to operate on. For example, to operate on backup schedule 091a49a0-223f-4c98-8c69-a284abbdb26b: $ gcloud firestore backups schedules describe \ --backup-schedule='091a49a0-223f-4c98-8c69-a284abbdb26b'
+    /// </summary>
+    [CliOption("--backup-schedule", Format = OptionFormat.EqualsSeparated)]
+    public string BackupSchedule { get; private init; }
+
+    /// <summary>
+    /// The database to operate on. For example, to operate on database foo: $ gcloud firestore backups schedules describe --database='foo'
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string Database { get; private init; }
+
 }

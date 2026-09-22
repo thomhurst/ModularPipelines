@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("edge-cloud", "networking", "interconnects", "describe")]
 public record GcloudEdgeCloudNetworkingInterconnectsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details about     the Distributed Cloud Edge Network interconnect
+    /// </summary>
+    /// <param name="Interconnect">Interconnect resource - The interconnect you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument interconnect on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the interconnect or fully qualified identifier for the interconnect. To set the interconnect attribute: ▸ provide the argument interconnect on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEdgeCloudNetworkingInterconnectsDescribeOptions(
+        string Interconnect
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Interconnect);
+        this.Interconnect = Interconnect;
+    }
+
+    public void Deconstruct(out string Interconnect)
+    {
+        Interconnect = this.Interconnect;
+    }
+
+    /// <summary>
+    /// Interconnect resource - The interconnect you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument interconnect on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The global location name. To set the location attribute: ▸ provide the argument interconnect on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Interconnect resource - The interconnect you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument interconnect on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Google Distributed Cloud Edge zone. To set the zone attribute: ▸ provide the argument interconnect on the command line with a fully specified name; ▸ provide the argument --zone on the command line.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Interconnect resource - The interconnect you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument interconnect on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the interconnect or fully qualified identifier for the interconnect. To set the interconnect attribute: ▸ provide the argument interconnect on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Interconnect { get; private init; }
+
 }

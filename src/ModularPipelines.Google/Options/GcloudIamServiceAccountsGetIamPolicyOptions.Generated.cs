@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "get-iam-policy")]
-public record GcloudIamServiceAccountsGetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ServiceAccount
-) : GcloudOptions
+public record GcloudIamServiceAccountsGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the IAM policy for a     service account
+    /// </summary>
+    /// <param name="ServiceAccount">The service account whose policy to get. The account should be formatted either as a numeric service account ID or as an email, like this: 123456789876543212345 or my-iam-account@somedomain.com.</param>
+    public GcloudIamServiceAccountsGetIamPolicyOptions(
+        string ServiceAccount
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceAccount);
+        this.ServiceAccount = ServiceAccount;
+    }
+
+    public void Deconstruct(out string ServiceAccount)
+    {
+        ServiceAccount = this.ServiceAccount;
+    }
+
+    /// <summary>
+    /// The service account whose policy to get. The account should be formatted either as a numeric service account ID or as an email, like this: 123456789876543212345 or my-iam-account@somedomain.com.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ServiceAccount { get; private init; }
+
 }

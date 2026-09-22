@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "org-security-policies", "copy-rules")]
-public record GcloudComputeOrgSecurityPoliciesCopyRulesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SecurityPolicy
-) : GcloudOptions
+public record GcloudComputeOrgSecurityPoliciesCopyRulesOptions : GcloudOptions
 {
+    /// <summary>
+    /// replace the rules of a     Compute Engine organization security policy with rules from another     policy
+    /// </summary>
+    /// <param name="SourceSecurityPolicy">The URL of the source security policy to copy the rules from.</param>
+    /// <param name="SecurityPolicy">Short name or ID of the security policy to copy the rules to.</param>
+    public GcloudComputeOrgSecurityPoliciesCopyRulesOptions(
+        string SourceSecurityPolicy,
+        string SecurityPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceSecurityPolicy);
+        this.SourceSecurityPolicy = SourceSecurityPolicy;
+        global::System.ArgumentNullException.ThrowIfNull(SecurityPolicy);
+        this.SecurityPolicy = SecurityPolicy;
+    }
+
+    public void Deconstruct(out string SourceSecurityPolicy, out string SecurityPolicy)
+    {
+        SourceSecurityPolicy = this.SourceSecurityPolicy;
+        SecurityPolicy = this.SecurityPolicy;
+    }
+
+    /// <summary>
+    /// The URL of the source security policy to copy the rules from.
+    /// </summary>
+    [CliOption("--source-security-policy", Format = OptionFormat.EqualsSeparated)]
+    public string SourceSecurityPolicy { get; private init; }
+
+    /// <summary>
+    /// Organization in which the organization security policy to copy the rules to. Must be set if security-policy is the short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Short name or ID of the security policy to copy the rules to.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SecurityPolicy { get; private init; }
+
 }

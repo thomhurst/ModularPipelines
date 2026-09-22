@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,8 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("access-context-manager", "perimeters", "update")]
-public record GcloudAccessContextManagerPerimetersUpdateOptions : GcloudOptions
+public record GcloudAccessContextManagerPerimetersUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update the enforced     configuration for an existing Service Perimeter
+    /// </summary>
+    /// <param name="Perimeter">Perimeter resource - The service perimeter to update. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the perimeter or fully qualified identifier for the perimeter. To set the perimeter attribute: ▸ provide the argument perimeter on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAccessContextManagerPerimetersUpdateOptions(
+        string Perimeter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Perimeter);
+        this.Perimeter = Perimeter;
+    }
+
+    public void Deconstruct(out string Perimeter)
+    {
+        Perimeter = this.Perimeter;
+    }
+
+    /// <summary>
+    /// Perimeter resource - The service perimeter to update. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The ID of the access policy. To set the policy attribute: ▸ provide the argument perimeter on the command line with a fully specified name; ▸ provide the argument --policy on the command line; ▸ set the property access_context_manager/policy.
+    /// </summary>
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
+    public string? Policy { get; set; }
+
     /// <summary>
     /// Long-form description of service perimeter.
     /// </summary>
@@ -44,13 +68,35 @@ public record GcloudAccessContextManagerPerimetersUpdateOptions : GcloudOptions
     /// Type of the perimeter. A regular perimeter allows resources within this service perimeter to import and export data amongst themselves. A project may belong to at most one regular service perimeter. A bridge perimeter allows resources in different regular service perimeters to import and export data between each other. A project may belong to multiple bridge service perimeters (only if it also belongs to a regular service perimeter). Both restricted and unrestricted service lists, as well as access level lists, must be empty. TYPE must be one of: bridge, regular.
     /// </summary>
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudType? Type { get; set; }
+    public GcloudAccessContextManagerPerimetersUpdateType? Type { get; set; }
 
     /// <summary>
-    /// These flags modify the member access levels of this perimeter. An intra-perimeter request must satisfy these access levels (for example, MY_LEVEL; must be in the same access policy as this perimeter) to be allowed. At most one of these can be specified: Append the given values to the current access levels.
+    /// These flags modify the member access levels of this perimeter. An intra-perimeter request must satisfy these access levels (for example, MY_LEVEL; must be in the same access policy as this perimeter) to be allowed. At most one of these can be specified: Append the given values to the current access levels. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-access-levels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddAccessLevels { get; set; }
+    [CliOption("--add-access-levels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddAccessLevels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddAccessLevelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddAccessLevelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// These flags modify the member access levels of this perimeter. An intra-perimeter request must satisfy these access levels (for example, MY_LEVEL; must be in the same access policy as this perimeter) to be allowed. At most one of these can be specified: Empty the current access levels.
@@ -59,22 +105,88 @@ public record GcloudAccessContextManagerPerimetersUpdateOptions : GcloudOptions
     public bool? ClearAccessLevels { get; set; }
 
     /// <summary>
-    /// These flags modify the member access levels of this perimeter. An intra-perimeter request must satisfy these access levels (for example, MY_LEVEL; must be in the same access policy as this perimeter) to be allowed. At most one of these can be specified: Remove the given values from the current access levels.
+    /// These flags modify the member access levels of this perimeter. An intra-perimeter request must satisfy these access levels (for example, MY_LEVEL; must be in the same access policy as this perimeter) to be allowed. At most one of these can be specified: Remove the given values from the current access levels. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-access-levels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveAccessLevels { get; set; }
+    [CliOption("--remove-access-levels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveAccessLevels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveAccessLevelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveAccessLevelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// These flags modify the member access levels of this perimeter. An intra-perimeter request must satisfy these access levels (for example, MY_LEVEL; must be in the same access policy as this perimeter) to be allowed. At most one of these can be specified: Completely replace the current access levels with the given values.
+    /// These flags modify the member access levels of this perimeter. An intra-perimeter request must satisfy these access levels (for example, MY_LEVEL; must be in the same access policy as this perimeter) to be allowed. At most one of these can be specified: Completely replace the current access levels with the given values. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-access-levels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SetAccessLevels { get; set; }
+    [CliOption("--set-access-levels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SetAccessLevels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SetAccessLevelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SetAccessLevelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// These flags modify the member resources of this perimeter. Resources must be projects, in the form projects/&lt;projectnumber&gt;. At most one of these can be specified: Append the given values to the current resources.
+    /// These flags modify the member resources of this perimeter. Resources must be projects, in the form projects/&lt;projectnumber&gt;. At most one of these can be specified: Append the given values to the current resources. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-resources", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddResources { get; set; }
+    [CliOption("--add-resources", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddResources
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddResourcesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddResourcesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// These flags modify the member resources of this perimeter. Resources must be projects, in the form projects/&lt;projectnumber&gt;. At most one of these can be specified: Empty the current resources.
@@ -83,22 +195,88 @@ public record GcloudAccessContextManagerPerimetersUpdateOptions : GcloudOptions
     public bool? ClearResources { get; set; }
 
     /// <summary>
-    /// These flags modify the member resources of this perimeter. Resources must be projects, in the form projects/&lt;projectnumber&gt;. At most one of these can be specified: Remove the given values from the current resources.
+    /// These flags modify the member resources of this perimeter. Resources must be projects, in the form projects/&lt;projectnumber&gt;. At most one of these can be specified: Remove the given values from the current resources. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-resources", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveResources { get; set; }
+    [CliOption("--remove-resources", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveResources
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveResourcesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveResourcesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// These flags modify the member resources of this perimeter. Resources must be projects, in the form projects/&lt;projectnumber&gt;. At most one of these can be specified: Completely replace the current resources with the given values.
+    /// These flags modify the member resources of this perimeter. Resources must be projects, in the form projects/&lt;projectnumber&gt;. At most one of these can be specified: Completely replace the current resources with the given values. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-resources", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SetResources { get; set; }
+    [CliOption("--set-resources", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SetResources
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SetResourcesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SetResourcesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// These flags modify the member restricted services of this perimeter. The perimeter boundary DOES apply to these services (for example, storage.googleapis.com). At most one of these can be specified: Append the given values to the current restricted services.
+    /// These flags modify the member restricted services of this perimeter. The perimeter boundary DOES apply to these services (for example, storage.googleapis.com). At most one of these can be specified: Append the given values to the current restricted services. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-restricted-services", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddRestrictedServices { get; set; }
+    [CliOption("--add-restricted-services", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddRestrictedServices
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddRestrictedServicesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddRestrictedServicesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// These flags modify the member restricted services of this perimeter. The perimeter boundary DOES apply to these services (for example, storage.googleapis.com). At most one of these can be specified: Empty the current restricted services.
@@ -107,16 +285,60 @@ public record GcloudAccessContextManagerPerimetersUpdateOptions : GcloudOptions
     public bool? ClearRestrictedServices { get; set; }
 
     /// <summary>
-    /// These flags modify the member restricted services of this perimeter. The perimeter boundary DOES apply to these services (for example, storage.googleapis.com). At most one of these can be specified: Remove the given values from the current restricted services.
+    /// These flags modify the member restricted services of this perimeter. The perimeter boundary DOES apply to these services (for example, storage.googleapis.com). At most one of these can be specified: Remove the given values from the current restricted services. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-restricted-services", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveRestrictedServices { get; set; }
+    [CliOption("--remove-restricted-services", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveRestrictedServices
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveRestrictedServicesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveRestrictedServicesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// These flags modify the member restricted services of this perimeter. The perimeter boundary DOES apply to these services (for example, storage.googleapis.com). At most one of these can be specified: Completely replace the current restricted services with the given values.
+    /// These flags modify the member restricted services of this perimeter. The perimeter boundary DOES apply to these services (for example, storage.googleapis.com). At most one of these can be specified: Completely replace the current restricted services with the given values. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-restricted-services", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SetRestrictedServices { get; set; }
+    [CliOption("--set-restricted-services", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SetRestrictedServices
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SetRestrictedServicesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SetRestrictedServicesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// These flags modify the enforced EgressPolicies of this ServicePerimeter. At most one of these can be specified: Empties existing enforced Egress Policies.
@@ -167,10 +389,32 @@ public record GcloudAccessContextManagerPerimetersUpdateOptions : GcloudOptions
     public bool? NoEnableVpcAccessibleServices { get; set; }
 
     /// <summary>
-    /// These flags modify the VpcAccessibleServices of this ServicePerimeter config. At most one of these can be specified: Or at least one of these can be specified: These flags modify the member vpc allowed services of this perimeter. Services allowed to be called within the Perimeter when VPC Accessible Services is enabled At most one of these can be specified: Append the given values to the current vpc allowed services.
+    /// These flags modify the VpcAccessibleServices of this ServicePerimeter config. At most one of these can be specified: Or at least one of these can be specified: These flags modify the member vpc allowed services of this perimeter. Services allowed to be called within the Perimeter when VPC Accessible Services is enabled At most one of these can be specified: Append the given values to the current vpc allowed services. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-vpc-allowed-services", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddVpcAllowedServices { get; set; }
+    [CliOption("--add-vpc-allowed-services", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddVpcAllowedServices
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddVpcAllowedServicesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddVpcAllowedServicesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// These flags modify the VpcAccessibleServices of this ServicePerimeter config. At most one of these can be specified: Or at least one of these can be specified: These flags modify the member vpc allowed services of this perimeter. Services allowed to be called within the Perimeter when VPC Accessible Services is enabled At most one of these can be specified: Empty the current vpc allowed services.
@@ -179,9 +423,75 @@ public record GcloudAccessContextManagerPerimetersUpdateOptions : GcloudOptions
     public bool? ClearVpcAllowedServices { get; set; }
 
     /// <summary>
-    /// These flags modify the VpcAccessibleServices of this ServicePerimeter config. At most one of these can be specified: Or at least one of these can be specified: These flags modify the member vpc allowed services of this perimeter. Services allowed to be called within the Perimeter when VPC Accessible Services is enabled At most one of these can be specified: Remove the given values from the current vpc allowed services.
+    /// These flags modify the VpcAccessibleServices of this ServicePerimeter config. At most one of these can be specified: Or at least one of these can be specified: These flags modify the member vpc allowed services of this perimeter. Services allowed to be called within the Perimeter when VPC Accessible Services is enabled At most one of these can be specified: Remove the given values from the current vpc allowed services. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-vpc-allowed-services", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveVpcAllowedServices { get; set; }
+    [CliOption("--remove-vpc-allowed-services", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveVpcAllowedServices
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveVpcAllowedServicesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveVpcAllowedServicesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Perimeter resource - The service perimeter to update. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the perimeter or fully qualified identifier for the perimeter. To set the perimeter attribute: ▸ provide the argument perimeter on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Perimeter { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)AddAccessLevels is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAccessLevels is not string || !string.IsNullOrWhiteSpace(AddAccessLevels?.ToString()) : ((object?)AddAccessLevels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAccessLevels, static item => item is not null) : (AddAccessLevels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAccessLevels), static item => item is not null)))) ? 1 : 0) + (ClearAccessLevels == true ? 1 : 0) + (((object?)RemoveAccessLevels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAccessLevels is not string || !string.IsNullOrWhiteSpace(RemoveAccessLevels?.ToString()) : ((object?)RemoveAccessLevels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAccessLevels, static item => item is not null) : (RemoveAccessLevels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAccessLevels), static item => item is not null)))) ? 1 : 0) + (((object?)SetAccessLevels is global::System.Collections.Generic.IEnumerable<char> ? (object?)SetAccessLevels is not string || !string.IsNullOrWhiteSpace(SetAccessLevels?.ToString()) : ((object?)SetAccessLevels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SetAccessLevels, static item => item is not null) : (SetAccessLevels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SetAccessLevels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AddAccessLevels, ClearAccessLevels, RemoveAccessLevels, or SetAccessLevels may be specified.", [nameof(AddAccessLevels), nameof(ClearAccessLevels), nameof(RemoveAccessLevels), nameof(SetAccessLevels)]);
+        }
+        if ((((object?)AddResources is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddResources is not string || !string.IsNullOrWhiteSpace(AddResources?.ToString()) : ((object?)AddResources is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddResources, static item => item is not null) : (AddResources is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddResources), static item => item is not null)))) ? 1 : 0) + (ClearResources == true ? 1 : 0) + (((object?)RemoveResources is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveResources is not string || !string.IsNullOrWhiteSpace(RemoveResources?.ToString()) : ((object?)RemoveResources is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveResources, static item => item is not null) : (RemoveResources is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveResources), static item => item is not null)))) ? 1 : 0) + (((object?)SetResources is global::System.Collections.Generic.IEnumerable<char> ? (object?)SetResources is not string || !string.IsNullOrWhiteSpace(SetResources?.ToString()) : ((object?)SetResources is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SetResources, static item => item is not null) : (SetResources is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SetResources), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AddResources, ClearResources, RemoveResources, or SetResources may be specified.", [nameof(AddResources), nameof(ClearResources), nameof(RemoveResources), nameof(SetResources)]);
+        }
+        if ((((object?)AddRestrictedServices is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddRestrictedServices is not string || !string.IsNullOrWhiteSpace(AddRestrictedServices?.ToString()) : ((object?)AddRestrictedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddRestrictedServices, static item => item is not null) : (AddRestrictedServices is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddRestrictedServices), static item => item is not null)))) ? 1 : 0) + (ClearRestrictedServices == true ? 1 : 0) + (((object?)RemoveRestrictedServices is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveRestrictedServices is not string || !string.IsNullOrWhiteSpace(RemoveRestrictedServices?.ToString()) : ((object?)RemoveRestrictedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveRestrictedServices, static item => item is not null) : (RemoveRestrictedServices is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveRestrictedServices), static item => item is not null)))) ? 1 : 0) + (((object?)SetRestrictedServices is global::System.Collections.Generic.IEnumerable<char> ? (object?)SetRestrictedServices is not string || !string.IsNullOrWhiteSpace(SetRestrictedServices?.ToString()) : ((object?)SetRestrictedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SetRestrictedServices, static item => item is not null) : (SetRestrictedServices is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SetRestrictedServices), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AddRestrictedServices, ClearRestrictedServices, RemoveRestrictedServices, or SetRestrictedServices may be specified.", [nameof(AddRestrictedServices), nameof(ClearRestrictedServices), nameof(RemoveRestrictedServices), nameof(SetRestrictedServices)]);
+        }
+        if ((ClearEgressPolicies == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SetEgressPolicies) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearEgressPolicies or SetEgressPolicies may be specified.", [nameof(ClearEgressPolicies), nameof(SetEgressPolicies)]);
+        }
+        if ((ClearIngressPolicies == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SetIngressPolicies) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearIngressPolicies or SetIngressPolicies may be specified.", [nameof(ClearIngressPolicies), nameof(SetIngressPolicies)]);
+        }
+        if ((ClearVpcAccessibleServices == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SetVpcAccessibleServices) ? 1 : 0) + ((((object?)AddVpcAllowedServices is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddVpcAllowedServices is not string || !string.IsNullOrWhiteSpace(AddVpcAllowedServices?.ToString()) : ((object?)AddVpcAllowedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddVpcAllowedServices, static item => item is not null) : (AddVpcAllowedServices is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddVpcAllowedServices), static item => item is not null)))) || ClearVpcAllowedServices == true || ((object?)RemoveVpcAllowedServices is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveVpcAllowedServices is not string || !string.IsNullOrWhiteSpace(RemoveVpcAllowedServices?.ToString()) : ((object?)RemoveVpcAllowedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveVpcAllowedServices, static item => item is not null) : (RemoveVpcAllowedServices is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveVpcAllowedServices), static item => item is not null)))) || EnableVpcAccessibleServices == true || NoEnableVpcAccessibleServices == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearVpcAccessibleServices, SetVpcAccessibleServices, or (AddVpcAllowedServices, ClearVpcAllowedServices, RemoveVpcAllowedServices, EnableVpcAccessibleServices, or NoEnableVpcAccessibleServices) may be specified.", [nameof(ClearVpcAccessibleServices), nameof(SetVpcAccessibleServices), nameof(AddVpcAllowedServices), nameof(ClearVpcAllowedServices), nameof(RemoveVpcAllowedServices), nameof(EnableVpcAccessibleServices), nameof(NoEnableVpcAccessibleServices)]);
+        }
+        if ((ClearVpcAccessibleServices == true || !string.IsNullOrWhiteSpace(SetVpcAccessibleServices) || ((object?)AddVpcAllowedServices is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddVpcAllowedServices is not string || !string.IsNullOrWhiteSpace(AddVpcAllowedServices?.ToString()) : ((object?)AddVpcAllowedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddVpcAllowedServices, static item => item is not null) : (AddVpcAllowedServices is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddVpcAllowedServices), static item => item is not null)))) || ClearVpcAllowedServices == true || ((object?)RemoveVpcAllowedServices is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveVpcAllowedServices is not string || !string.IsNullOrWhiteSpace(RemoveVpcAllowedServices?.ToString()) : ((object?)RemoveVpcAllowedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveVpcAllowedServices, static item => item is not null) : (RemoveVpcAllowedServices is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveVpcAllowedServices), static item => item is not null)))) || EnableVpcAccessibleServices == true || NoEnableVpcAccessibleServices == true) && (((object?)AddVpcAllowedServices is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddVpcAllowedServices is not string || !string.IsNullOrWhiteSpace(AddVpcAllowedServices?.ToString()) : ((object?)AddVpcAllowedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddVpcAllowedServices, static item => item is not null) : (AddVpcAllowedServices is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddVpcAllowedServices), static item => item is not null)))) || ClearVpcAllowedServices == true || ((object?)RemoveVpcAllowedServices is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveVpcAllowedServices is not string || !string.IsNullOrWhiteSpace(RemoveVpcAllowedServices?.ToString()) : ((object?)RemoveVpcAllowedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveVpcAllowedServices, static item => item is not null) : (RemoveVpcAllowedServices is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveVpcAllowedServices), static item => item is not null)))) || EnableVpcAccessibleServices == true || NoEnableVpcAccessibleServices == true) && ((((object?)AddVpcAllowedServices is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddVpcAllowedServices is not string || !string.IsNullOrWhiteSpace(AddVpcAllowedServices?.ToString()) : ((object?)AddVpcAllowedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddVpcAllowedServices, static item => item is not null) : (AddVpcAllowedServices is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddVpcAllowedServices), static item => item is not null)))) ? 1 : 0) + (ClearVpcAllowedServices == true ? 1 : 0) + (((object?)RemoveVpcAllowedServices is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveVpcAllowedServices is not string || !string.IsNullOrWhiteSpace(RemoveVpcAllowedServices?.ToString()) : ((object?)RemoveVpcAllowedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveVpcAllowedServices, static item => item is not null) : (RemoveVpcAllowedServices is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveVpcAllowedServices), static item => item is not null)))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of AddVpcAllowedServices, ClearVpcAllowedServices, or RemoveVpcAllowedServices may be specified.", [nameof(AddVpcAllowedServices), nameof(ClearVpcAllowedServices), nameof(RemoveVpcAllowedServices)]);
+        }
+        if ((ClearVpcAccessibleServices == true || !string.IsNullOrWhiteSpace(SetVpcAccessibleServices) || ((object?)AddVpcAllowedServices is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddVpcAllowedServices is not string || !string.IsNullOrWhiteSpace(AddVpcAllowedServices?.ToString()) : ((object?)AddVpcAllowedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddVpcAllowedServices, static item => item is not null) : (AddVpcAllowedServices is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddVpcAllowedServices), static item => item is not null)))) || ClearVpcAllowedServices == true || ((object?)RemoveVpcAllowedServices is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveVpcAllowedServices is not string || !string.IsNullOrWhiteSpace(RemoveVpcAllowedServices?.ToString()) : ((object?)RemoveVpcAllowedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveVpcAllowedServices, static item => item is not null) : (RemoveVpcAllowedServices is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveVpcAllowedServices), static item => item is not null)))) || EnableVpcAccessibleServices == true || NoEnableVpcAccessibleServices == true) && (((object?)AddVpcAllowedServices is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddVpcAllowedServices is not string || !string.IsNullOrWhiteSpace(AddVpcAllowedServices?.ToString()) : ((object?)AddVpcAllowedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddVpcAllowedServices, static item => item is not null) : (AddVpcAllowedServices is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddVpcAllowedServices), static item => item is not null)))) || ClearVpcAllowedServices == true || ((object?)RemoveVpcAllowedServices is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveVpcAllowedServices is not string || !string.IsNullOrWhiteSpace(RemoveVpcAllowedServices?.ToString()) : ((object?)RemoveVpcAllowedServices is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveVpcAllowedServices, static item => item is not null) : (RemoveVpcAllowedServices is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveVpcAllowedServices), static item => item is not null)))) || EnableVpcAccessibleServices == true || NoEnableVpcAccessibleServices == true) && ((EnableVpcAccessibleServices == true ? 1 : 0) + (NoEnableVpcAccessibleServices == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of EnableVpcAccessibleServices or NoEnableVpcAccessibleServices may be specified.", [nameof(EnableVpcAccessibleServices), nameof(NoEnableVpcAccessibleServices)]);
+        }
+        yield break;
+    }
 
 }

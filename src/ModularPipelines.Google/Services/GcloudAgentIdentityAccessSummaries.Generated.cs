@@ -55,11 +55,11 @@ public class GcloudAgentIdentityAccessSummaries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAsync(
-        GcloudAgentIdentityAccessSummariesDescribeOptions? options = null,
+        GcloudAgentIdentityAccessSummariesDescribeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAgentIdentityAccessSummariesDescribeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class GcloudAgentIdentityAccessSummaries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
-        GcloudAgentIdentityAccessSummariesListOptions? options = null,
+        GcloudAgentIdentityAccessSummariesListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAgentIdentityAccessSummariesListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

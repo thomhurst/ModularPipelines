@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "firewall-policies", "rules", "describe")]
-public record GcloudComputeFirewallPoliciesRulesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
-) : GcloudOptions
+public record GcloudComputeFirewallPoliciesRulesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describes a Compute     Engine organization firewall policy rule
+    /// </summary>
+    /// <param name="FirewallPolicy">Short name of the firewall policy into which the rule should be described.</param>
+    /// <param name="Priority">Priority of the firewall policy rule to describe.</param>
+    public GcloudComputeFirewallPoliciesRulesDescribeOptions(
+        string FirewallPolicy,
+        string Priority
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallPolicy);
+        this.FirewallPolicy = FirewallPolicy;
+        global::System.ArgumentNullException.ThrowIfNull(Priority);
+        this.Priority = Priority;
+    }
+
+    public void Deconstruct(out string FirewallPolicy, out string Priority)
+    {
+        FirewallPolicy = this.FirewallPolicy;
+        Priority = this.Priority;
+    }
+
+    /// <summary>
+    /// Short name of the firewall policy into which the rule should be described.
+    /// </summary>
+    [CliOption("--firewall-policy", Format = OptionFormat.EqualsSeparated)]
+    public string FirewallPolicy { get; private init; }
+
+    /// <summary>
+    /// Organization which the organization firewall policy belongs to. Must be set if FIREWALL_POLICY is short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Priority of the firewall policy rule to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Priority { get; private init; }
+
 }

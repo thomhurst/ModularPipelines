@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datastore", "operations", "delete")]
-public record GcloudDatastoreOperationsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudDatastoreOperationsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a completed Cloud Datastore     admin operation
+    /// </summary>
+    /// <param name="Name">The unique name of the Operation to delete, formatted as either the full or relative resource path: projects/my-app-id/operations/foo or: foo</param>
+    public GcloudDatastoreOperationsDeleteOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The unique name of the Operation to delete, formatted as either the full or relative resource path: projects/my-app-id/operations/foo or: foo
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,95 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "image-streaming-cache", "create")]
-public record GcloudArtifactsImageStreamingCacheCreateOptions : GcloudOptions
+public record GcloudArtifactsImageStreamingCacheCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// initiates the prewarming of     a specified artifact version or tag
+    /// </summary>
+    /// <param name="StreamLocation">The target Cloud Region where the artifact should be prewarmed.</param>
+    public GcloudArtifactsImageStreamingCacheCreateOptions(
+        string StreamLocation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StreamLocation);
+        this.StreamLocation = StreamLocation;
+    }
+
+    public void Deconstruct(out string StreamLocation)
+    {
+        StreamLocation = this.StreamLocation;
+    }
+
+    /// <summary>
+    /// The target Cloud Region where the artifact should be prewarmed.
+    /// </summary>
+    [CliOption("--stream-location", Format = OptionFormat.EqualsSeparated)]
+    public string StreamLocation { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Exactly one of these must be specified: The tag name to prewarm (e.g., 'latest').
+    /// </summary>
+    [CliOption("--tag", Format = OptionFormat.EqualsSeparated)]
+    public string? Tag { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Exactly one of these must be specified: The version ID to prewarm (e.g., 'sha256:abc123').
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string? Version { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Package resource - The package to prewarm. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --package on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. ID of the package or fully qualified identifier for the package. To set the name attribute: ▫ provide the argument --package on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--package", Format = OptionFormat.EqualsSeparated)]
+    public string? Package { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Package resource - The package to prewarm. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --package on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. Location of the package. To set the location attribute: ▫ provide the argument --package on the command line with a fully specified name; ▫ provide the argument --location on the command line; ▫ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Package resource - The package to prewarm. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --package on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. Repository of the package. To set the repository attribute: ▫ provide the argument --package on the command line with a fully specified name; ▫ provide the argument --repository on the command line; ▫ set the property artifacts/repository.
+    /// </summary>
+    [CliOption("--repository", Format = OptionFormat.EqualsSeparated)]
+    public string? Repository { get; set; }
+
+    /// <summary>
+    /// If set, evicts older items from the cache if the quota is reached.
+    /// </summary>
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
+
+    /// <summary>
+    /// Number of days to retain the artifact in the cache (e.g., 1-7).
+    /// </summary>
+    [CliOption("--retention-days", Format = OptionFormat.EqualsSeparated)]
+    public string? RetentionDays { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The full resource name of the version or tag to prewarm.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Artifact { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Artifact) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Tag) || !string.IsNullOrWhiteSpace(Version) || !string.IsNullOrWhiteSpace(Package) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(Repository)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Artifact or (Tag, Version, Package, Location, or Repository) must be specified.", [nameof(Artifact), nameof(Tag), nameof(Version), nameof(Package), nameof(Location), nameof(Repository)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Artifact) || !string.IsNullOrWhiteSpace(Tag) || !string.IsNullOrWhiteSpace(Version) || !string.IsNullOrWhiteSpace(Package) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(Repository)) && (!string.IsNullOrWhiteSpace(Tag) || !string.IsNullOrWhiteSpace(Version) || !string.IsNullOrWhiteSpace(Package) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(Repository)) && ((!string.IsNullOrWhiteSpace(Tag) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Version) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of Tag or Version may be specified.", [nameof(Tag), nameof(Version)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Artifact) || !string.IsNullOrWhiteSpace(Tag) || !string.IsNullOrWhiteSpace(Version) || !string.IsNullOrWhiteSpace(Package) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(Repository)) && (!string.IsNullOrWhiteSpace(Tag) || !string.IsNullOrWhiteSpace(Version) || !string.IsNullOrWhiteSpace(Package) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(Repository)) && (!string.IsNullOrWhiteSpace(Package) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(Repository)) && (!(!string.IsNullOrWhiteSpace(Package))))
+        {
+            yield return new ValidationResult("Package must be specified when other arguments in this group are specified.", [nameof(Package)]);
+        }
+        yield break;
+    }
+
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,81 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-kafka", "topics", "update")]
-public record GcloudManagedKafkaTopicsUpdateOptions : GcloudOptions
+public record GcloudManagedKafkaTopicsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Managed Service for Apache     Kafka topic
+    /// </summary>
+    /// <param name="Topic">Topic resource - Identifies the topic to be updated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument topic on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the topic or fully qualified identifier for the topic. To set the topic attribute: ▸ provide the argument topic on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudManagedKafkaTopicsUpdateOptions(
+        string Topic
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Topic);
+        this.Topic = Topic;
+    }
+
+    public void Deconstruct(out string Topic)
+    {
+        Topic = this.Topic;
+    }
+
+    /// <summary>
+    /// Topic resource - Identifies the topic to be updated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument topic on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The cluster name. To set the cluster attribute: ▸ provide the argument topic on the command line with a fully specified name; ▸ provide the argument --cluster on the command line.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Topic resource - Identifies the topic to be updated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument topic on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location of the Managed Service for Apache Kafka resource. See https://cloud.google.com/managed-service-for-apache-kafka/docs/locations for a list of supported locations. To set the location attribute: ▸ provide the argument topic on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: The number of partitions in a topic. You can increase the partition count for a topic, but you cannot decrease it. Increasing partitions for a topic that uses a key might change how messages are distributed.
+    /// </summary>
+    [CliOption("--partitions", Format = OptionFormat.EqualsSeparated)]
+    public string? Partitions { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: Remove all the configurations for the topic.
+    /// </summary>
+    [CliFlag("--clear-configs")]
+    public bool? ClearConfigs { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: Configuration for the topic that are overridden from the cluster defaults. The key of the map is a Kafka topic property name, for example: cleanup.policy=compact,compression.type=producer. If you provide a map with a key that already exists, only that configuration is updated. If the map contains a key that does not exist, the entry is appended to the topic configuration. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--configs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Configs
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// Topic resource - Identifies the topic to be updated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument topic on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the topic or fully qualified identifier for the topic. To set the topic attribute: ▸ provide the argument topic on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Topic { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)Configs is global::System.Collections.Generic.IEnumerable<char> ? (object?)Configs is not string || !string.IsNullOrWhiteSpace(Configs?.ToString()) : ((object?)Configs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Configs, static item => item is not null) : (Configs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Configs), static item => item is not null)))) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Partitions) || ClearConfigs == true) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Configs or (Partitions or ClearConfigs) must be specified.", [nameof(Configs), nameof(Partitions), nameof(ClearConfigs)]);
+        }
+        if ((((object?)Configs is global::System.Collections.Generic.IEnumerable<char> ? (object?)Configs is not string || !string.IsNullOrWhiteSpace(Configs?.ToString()) : ((object?)Configs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Configs, static item => item is not null) : (Configs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Configs), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Partitions) || ClearConfigs == true) && (!string.IsNullOrWhiteSpace(Partitions) || ClearConfigs == true) && (!(!string.IsNullOrWhiteSpace(Partitions))))
+        {
+            yield return new ValidationResult("Partitions must be specified when other arguments in this group are specified.", [nameof(Partitions)]);
+        }
+        if ((((object?)Configs is global::System.Collections.Generic.IEnumerable<char> ? (object?)Configs is not string || !string.IsNullOrWhiteSpace(Configs?.ToString()) : ((object?)Configs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Configs, static item => item is not null) : (Configs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Configs), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Partitions) || ClearConfigs == true) && (!string.IsNullOrWhiteSpace(Partitions) || ClearConfigs == true) && (!(ClearConfigs == true)))
+        {
+            yield return new ValidationResult("ClearConfigs must be specified when other arguments in this group are specified.", [nameof(ClearConfigs)]);
+        }
+        yield break;
+    }
+
 }

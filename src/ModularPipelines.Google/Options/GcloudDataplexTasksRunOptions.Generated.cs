@@ -23,9 +23,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataplexTasksRunOptions : GcloudOptions
 {
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// time run of a Dataplex task
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Task">Tasks resource - Arguments and flags that define the Dataplex task you want to run. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument task on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tasks or fully qualified identifier for the tasks. To set the task attribute: ▸ provide the argument task on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexTasksRunOptions(
+        string Task
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Task);
+        this.Task = Task;
+    }
+
+    public void Deconstruct(out string Task)
+    {
+        Task = this.Task;
+    }
+
+    /// <summary>
+    /// Tasks resource - Arguments and flags that define the Dataplex task you want to run. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument task on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The identifier of the Dataplex lake resource. To set the lake attribute: ▸ provide the argument task on the command line with a fully specified name; ▸ provide the argument --lake on the command line.
+    /// </summary>
+    [CliOption("--lake", Format = OptionFormat.EqualsSeparated)]
+    public string? Lake { get; set; }
+
+    /// <summary>
+    /// Tasks resource - Arguments and flags that define the Dataplex task you want to run. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument task on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataplex resource. To set the location attribute: ▸ provide the argument task on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Tasks resource - Arguments and flags that define the Dataplex task you want to run. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument task on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tasks or fully qualified identifier for the tasks. To set the task attribute: ▸ provide the argument task on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Task { get; private init; }
 
 }

@@ -28,9 +28,9 @@ public record GcloudAuthApplicationDefaultPrintAccessTokenOptions : GcloudOption
     public string? Lifetime { get; set; }
 
     /// <summary>
-    /// The scopes to authorize for. This flag is supported for user accounts and service accounts only. The list of possible scopes can be found at: https://developers.google.com/identity/protocols/googlescopes. For end-user accounts, the provided scopes must be from [openid, https://www.googleapis.com/auth/userinfo.email, https://www.googleapis.com/auth/cloud-platform, https://www.googleapis.com/auth/sqlservice.login], or the scopes previously specified through gcloud auth application-default login --scopes.
+    /// The scopes to authorize for. This flag is supported for user accounts and service accounts only. The list of possible scopes can be found at: https://developers.google.com/identity/protocols/googlescopes. For end-user accounts, the provided scopes must be from [openid, https://www.googleapis.com/auth/userinfo.email, https://www.googleapis.com/auth/cloud-platform, https://www.googleapis.com/auth/sqlservice.login], or the scopes previously specified through gcloud auth application-default login --scopes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Scopes { get; set; }
 
 }

@@ -19,8 +19,64 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "target-instances", "create")]
-public record GcloudComputeTargetInstancesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeTargetInstancesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a target instance for     handling traffic from a forwarding rule
+    /// </summary>
+    /// <param name="Instance">The name of the virtual machine instance that will handle the traffic.</param>
+    /// <param name="Name">Name of the target instance to operate on.</param>
+    public GcloudComputeTargetInstancesCreateOptions(
+        string Instance,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Instance, out string Name)
+    {
+        Instance = this.Instance;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the virtual machine instance that will handle the traffic.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string Instance { get; private init; }
+
+    /// <summary>
+    /// An optional, textual description of the target instance.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Zone of the instance to operate on. If not specified, it will be set to the same as zone. Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--instance-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceZone { get; set; }
+
+    /// <summary>
+    /// Network that this target instance applies to. This is only necessary if the corresponding instance has multiple network interfaces. If not specified, the default network interface will be used.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Zone of the target instance to operate on. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the target instance to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

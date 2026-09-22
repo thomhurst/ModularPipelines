@@ -19,8 +19,57 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("colab", "runtime-templates", "remove-iam-policy-binding")]
-public record GcloudColabRuntimeTemplatesRemoveIamPolicyBindingOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Iam
-) : GcloudOptions
+public record GcloudColabRuntimeTemplatesRemoveIamPolicyBindingOptions : GcloudOptions
 {
+    /// <summary>
+    /// remove an IAM     policy binding from a Colab Enterprise runtime template
+    /// </summary>
+    /// <param name="Member">The principal to remove the binding for. Should be of the form user|group|serviceAccount:email or domain:domain. Examples: user:test-user@gmail.com, group:admins@example.com, serviceAccount:test123@example.domain.com, or domain:example.domain.com. Deleted principals have an additional deleted: prefix and a ?uid=UID suffix, where UID is a unique identifier for the principal. Example: deleted:user:test-user@gmail.com?uid=123456789012345678901. Some resources also accept the following special values: ◆ allUsers - Special identifier that represents anyone who is on the internet, with or without a Google account. ◆ allAuthenticatedUsers - Special identifier that represents anyone who is authenticated with a Google account or a service account.</param>
+    /// <param name="Role">The role to remove the principal from.</param>
+    /// <param name="RuntimeTemplate">Runtime template resource - Unique name of the runtime template to remove IAM policy from. This was optionally provided by setting --runtime-template-id in the create runtime-template command, or was system-generated if unspecified. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the runtime template or fully qualified identifier for the runtime template. To set the name attribute: ▸ provide the argument runtime_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudColabRuntimeTemplatesRemoveIamPolicyBindingOptions(
+        string Member,
+        string Role,
+        string RuntimeTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Member);
+        this.Member = Member;
+        global::System.ArgumentNullException.ThrowIfNull(Role);
+        this.Role = Role;
+        global::System.ArgumentNullException.ThrowIfNull(RuntimeTemplate);
+        this.RuntimeTemplate = RuntimeTemplate;
+    }
+
+    public void Deconstruct(out string Member, out string Role, out string RuntimeTemplate)
+    {
+        Member = this.Member;
+        Role = this.Role;
+        RuntimeTemplate = this.RuntimeTemplate;
+    }
+
+    /// <summary>
+    /// The principal to remove the binding for. Should be of the form user|group|serviceAccount:email or domain:domain. Examples: user:test-user@gmail.com, group:admins@example.com, serviceAccount:test123@example.domain.com, or domain:example.domain.com. Deleted principals have an additional deleted: prefix and a ?uid=UID suffix, where UID is a unique identifier for the principal. Example: deleted:user:test-user@gmail.com?uid=123456789012345678901. Some resources also accept the following special values: ◆ allUsers - Special identifier that represents anyone who is on the internet, with or without a Google account. ◆ allAuthenticatedUsers - Special identifier that represents anyone who is authenticated with a Google account or a service account.
+    /// </summary>
+    [CliOption("--member", Format = OptionFormat.EqualsSeparated)]
+    public string Member { get; private init; }
+
+    /// <summary>
+    /// The role to remove the principal from.
+    /// </summary>
+    [CliOption("--role", Format = OptionFormat.EqualsSeparated)]
+    public string Role { get; private init; }
+
+    /// <summary>
+    /// Runtime template resource - Unique name of the runtime template to remove IAM policy from. This was optionally provided by setting --runtime-template-id in the create runtime-template command, or was system-generated if unspecified. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud region for the runtime template. To set the region attribute: ▸ provide the argument runtime_template on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property colab/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Runtime template resource - Unique name of the runtime template to remove IAM policy from. This was optionally provided by setting --runtime-template-id in the create runtime-template command, or was system-generated if unspecified. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the runtime template or fully qualified identifier for the runtime template. To set the name attribute: ▸ provide the argument runtime_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RuntimeTemplate { get; private init; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,74 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("recommender", "recommendations", "list")]
-public record GcloudRecommenderRecommendationsListOptions : GcloudOptions
+public record GcloudRecommenderRecommendationsListOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// list operations for a     recommendation
+    /// </summary>
+    /// <param name="Location">Location to list recommendations for.</param>
+    /// <param name="Recommender">Recommender to list recommendations for. Supported recommenders can be found here: https://cloud.google.com/recommender/docs/recommenders.</param>
+    public GcloudRecommenderRecommendationsListOptions(
+        string Location,
+        string Recommender
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Recommender);
+        this.Recommender = Recommender;
+    }
+
+    public void Deconstruct(out string Location, out string Recommender)
+    {
+        Location = this.Location;
+        Recommender = this.Recommender;
+    }
+
+    /// <summary>
+    /// Location to list recommendations for.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Recommender to list recommendations for. Supported recommenders can be found here: https://cloud.google.com/recommender/docs/recommenders.
+    /// </summary>
+    [CliOption("--recommender", Format = OptionFormat.EqualsSeparated)]
+    public string Recommender { get; private init; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Currently four mutually exclusive flags are supported, --project, --billing-account, --folder, --organization. Exactly one of these must be specified: The Google Cloud Platform billing account ID to use for this invocation.
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string? BillingAccount { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Currently four mutually exclusive flags are supported, --project, --billing-account, --folder, --organization. Exactly one of these must be specified: The Google Cloud Platform folder ID to use for this invocation.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Currently four mutually exclusive flags are supported, --project, --billing-account, --folder, --organization. Exactly one of these must be specified: The Google Cloud Platform organization ID to use for this invocation.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Currently four mutually exclusive flags are supported, --project, --billing-account, --folder, --organization. Exactly one of these must be specified: The Google Cloud Platform project ID. Overrides the default core/project property value for this command invocation.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BillingAccount) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of BillingAccount, Folder, Organization, or Project must be specified.", [nameof(BillingAccount), nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

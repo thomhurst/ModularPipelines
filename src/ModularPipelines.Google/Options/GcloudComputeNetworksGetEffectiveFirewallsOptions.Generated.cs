@@ -19,14 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "networks", "get-effective-firewalls")]
-public record GcloudComputeNetworksGetEffectiveFirewallsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeNetworksGetEffectiveFirewallsOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the effective     firewalls of a Compute Engine network
+    /// </summary>
+    /// <param name="Name">Name of the network to get effective firewalls.</param>
+    public GcloudComputeNetworksGetEffectiveFirewallsOptions(
+        IEnumerable<string> Name
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Name);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Name));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Name));
+            }
+
+            Name = materialized;
+        }
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// (DEPRECATED) Regular expression to filter the names of the results on. Any names that do not match the entire regular expression will be filtered out. Flag --regexp is deprecated. Use --filter="name~'REGEXP'" instead.
     /// </summary>
     [CliOption("--regexp", Format = OptionFormat.EqualsSeparated)]
     public string? Regexp { get; set; }
+
+    /// <summary>
+    /// Name of the network to get effective firewalls.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Name { get; private init; }
 
 }

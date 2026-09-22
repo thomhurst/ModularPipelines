@@ -19,14 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai-platform", "models", "set-iam-policy")]
-public record GcloudAiPlatformModelsSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudAiPlatformModelsSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the IAM policy for a model
+    /// </summary>
+    /// <param name="Model">Model resource - The AI Platform model to set IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument model on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the model or fully qualified identifier for the model. To set the name attribute: ▸ provide the argument model on the command line.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudAiPlatformModelsSetIamPolicyOptions(
+        string Model,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Model);
+        this.Model = Model;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string Model, out string PolicyFile)
+    {
+        Model = this.Model;
+        PolicyFile = this.PolicyFile;
+    }
+
     /// <summary>
     /// Google Cloud region of the regional endpoint to use for this command. For the global endpoint, the region needs to be specified as global. Learn more about regional endpoints and see a list of available regions: https://cloud.google.com/ai-platform/prediction/docs/regional-endpoints REGION must be one of: global, asia-east1, asia-northeast1, asia-southeast1, australia-southeast1, europe-west1, europe-west2, europe-west3, europe-west4, northamerica-northeast1, us-central1, us-east1, us-east4, us-west1.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Model resource - The AI Platform model to set IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument model on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the model or fully qualified identifier for the model. To set the name attribute: ▸ provide the argument model on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Model { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
 
 }

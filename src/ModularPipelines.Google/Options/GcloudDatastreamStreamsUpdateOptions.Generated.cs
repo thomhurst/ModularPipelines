@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datastream", "streams", "update")]
-public record GcloudDatastreamStreamsUpdateOptions : GcloudOptions
+public record GcloudDatastreamStreamsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// updates a Datastream stream
+    /// </summary>
+    /// <param name="Stream">Stream resource - The stream to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument stream on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the stream or fully qualified identifier for the stream. To set the stream attribute: ▸ provide the argument stream on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatastreamStreamsUpdateOptions(
+        string Stream
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Stream);
+        this.Stream = Stream;
+    }
+
+    public void Deconstruct(out string Stream)
+    {
+        Stream = this.Stream;
+    }
+
+    /// <summary>
+    /// Stream resource - The stream to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument stream on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the stream. To set the location attribute: ▸ provide the argument stream on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Friendly name for the stream.
     /// </summary>
@@ -47,16 +71,16 @@ public record GcloudDatastreamStreamsUpdateOptions : GcloudOptions
     public string? State { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Used to specify the fields to be overwritten in the stream resource by the update. If the update mask is used, then a field will be overwritten only if it is in the mask. If the user does not provide a mask then all fields will be overwritten. This is a comma-separated list of fully qualified names of fields, written as snake_case or camelCase. Example: "display_name, source_config.oracle_source_config".
+    /// Used to specify the fields to be overwritten in the stream resource by the update. If the update mask is used, then a field will be overwritten only if it is in the mask. If the user does not provide a mask then all fields will be overwritten. This is a comma-separated list of fully qualified names of fields, written as snake_case or camelCase. Example: "display_name, source_config.oracle_source_config". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated)]
-    public string? UpdateMask { get; set; }
+    [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? UpdateMask { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Do not automatically backfill any objects. This flag is equivalent to selecting the Manual backfill type in the Google Cloud console.
@@ -125,10 +149,32 @@ public record GcloudDatastreamStreamsUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Connection profile resource - Resource ID of the destination connection profile. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --location on the command line. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ◆ provide the argument --destination on the command line.
@@ -137,25 +183,25 @@ public record GcloudDatastreamStreamsUpdateOptions : GcloudOptions
     public string? Destination { get; set; }
 
     /// <summary>
-    /// Connection profile resource - Resource ID of the destination connection profile. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --location on the command line. At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for Google BigQuery Destination Config. The YAML (or JSON) file should be formatted as follows: BigQuery configuration with source hierarchy datasets and merge mode (merge mode is by default): { "sourceHierarchyDatasets": { "datasetTemplate": { "location": "us-central1", "datasetIdPrefix": "my_prefix", "kmsKeyName": "projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{cryptoKey}" } }, "merge": {} "dataFreshness": "3600s" } BigQuery configuration with source hierarchy datasets and append only mode: { "sourceHierarchyDatasets": { "datasetTemplate": { "location": "us-central1", "datasetIdPrefix": "my_prefix", "kmsKeyName": "projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{cryptoKey}" } }, "appendOnly": {} } BigQuery configuration with single target dataset and merge mode: { "singleTargetDataset": { "datasetId": "projectId:my_dataset" }, "merge": {} "dataFreshness": "3600s" } BigQuery configuration with Big Lake table configuration: { "singleTargetDataset": { "datasetId": "projectId:datasetId" }, "appendOnly": {}, "blmtConfig": { "bucket": "bucketName", "tableFormat": "ICEBERG", "fileFormat": "PARQUET", "connectionName": "projectId.region.connectionName", "rootPath": "/root" } }
+    /// At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for Google BigQuery Destination Config. The YAML (or JSON) file should be formatted as follows: BigQuery configuration with source hierarchy datasets and merge mode (merge mode is by default): { "sourceHierarchyDatasets": { "datasetTemplate": { "location": "us-central1", "datasetIdPrefix": "my_prefix", "kmsKeyName": "projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{cryptoKey}" } }, "merge": {} "dataFreshness": "3600s" } BigQuery configuration with source hierarchy datasets and append only mode: { "sourceHierarchyDatasets": { "datasetTemplate": { "location": "us-central1", "datasetIdPrefix": "my_prefix", "kmsKeyName": "projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{cryptoKey}" } }, "appendOnly": {} } BigQuery configuration with single target dataset and merge mode: { "singleTargetDataset": { "datasetId": "projectId:my_dataset" }, "merge": {} "dataFreshness": "3600s" } BigQuery configuration with Big Lake table configuration: { "singleTargetDataset": { "datasetId": "projectId:datasetId" }, "appendOnly": {}, "blmtConfig": { "bucket": "bucketName", "tableFormat": "ICEBERG", "fileFormat": "PARQUET", "connectionName": "projectId.region.connectionName", "rootPath": "/root" } }
     /// </summary>
     [CliOption("--bigquery-destination-config", Format = OptionFormat.EqualsSeparated)]
     public string? BigqueryDestinationConfig { get; set; }
 
     /// <summary>
-    /// Connection profile resource - Resource ID of the destination connection profile. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --location on the command line. At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for Google Cloud Storage Destination Config. The JSON file is formatted as follows: { "path": "some/path", "fileRotationMb":5, "fileRotationInterval":"15s", "avroFileFormat": {} }
+    /// At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for Google Cloud Storage Destination Config. The JSON file is formatted as follows: { "path": "some/path", "fileRotationMb":5, "fileRotationInterval":"15s", "avroFileFormat": {} }
     /// </summary>
     [CliOption("--gcs-destination-config", Format = OptionFormat.EqualsSeparated)]
     public string? GcsDestinationConfig { get; set; }
 
     /// <summary>
-    /// Connection profile resource - Resource ID of the destination connection profile. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --location on the command line. At most one of these can be specified: Update the stream without validating it.
+    /// At most one of these can be specified: Update the stream without validating it.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
 
     /// <summary>
-    /// Connection profile resource - Resource ID of the destination connection profile. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --location on the command line. At most one of these can be specified: Only validate the stream, but do not update any resources. The default is false.
+    /// At most one of these can be specified: Only validate the stream, but do not update any resources. The default is false.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
@@ -167,63 +213,99 @@ public record GcloudDatastreamStreamsUpdateOptions : GcloudOptions
     public string? Source { get; set; }
 
     /// <summary>
-    /// Connection profile resource - Resource ID of the source connection profile. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --location on the command line. At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for Dataverse Source Config. The JSON file is formatted as follows, with camelCase field naming: { "pollingInterval": "300s", "includeObjects": {}, "excludeObjects": { "objects": [ { "objectName": "Account", "properties": [ { "propertyName": "name", } ] } ] } }
+    /// At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for Dataverse Source Config. The JSON file is formatted as follows, with camelCase field naming: { "pollingInterval": "300s", "includeObjects": {}, "excludeObjects": { "objects": [ { "objectName": "Account", "properties": [ { "propertyName": "name", } ] } ] } }
     /// </summary>
     [CliOption("--dataverse-source-config", Format = OptionFormat.EqualsSeparated)]
     public string? DataverseSourceConfig { get; set; }
 
     /// <summary>
-    /// Connection profile resource - Resource ID of the source connection profile. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --location on the command line. At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for MongoDB Source Config. The JSON file is formatted as follows, with snake_case field naming: { "includeObjects": {}, "excludeObjects": { "databases": [ { "database": "sampleDb", "collections": [ { "collection": "sampleCollection", "fields": [ { "field": "SAMPLE_FIELD", } ] } ] } ] } }
+    /// At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for MongoDB Source Config. The JSON file is formatted as follows, with snake_case field naming: { "includeObjects": {}, "excludeObjects": { "databases": [ { "database": "sampleDb", "collections": [ { "collection": "sampleCollection", "fields": [ { "field": "SAMPLE_FIELD", } ] } ] } ] } }
     /// </summary>
     [CliOption("--mongodb-source-config", Format = OptionFormat.EqualsSeparated)]
     public string? MongodbSourceConfig { get; set; }
 
     /// <summary>
-    /// Connection profile resource - Resource ID of the source connection profile. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --location on the command line. At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for MySQL Source Config. The JSON file is formatted as follows, with camelCase field naming: { "includeObjects": {}, "excludeObjects": { "mysqlDatabases": [ { "database":"sample_database", "mysqlTables": [ { "table": "sample_table", "mysqlColumns": [ { "column": "sample_column", } ] } ] } ] } }
+    /// At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for MySQL Source Config. The JSON file is formatted as follows, with camelCase field naming: { "includeObjects": {}, "excludeObjects": { "mysqlDatabases": [ { "database":"sample_database", "mysqlTables": [ { "table": "sample_table", "mysqlColumns": [ { "column": "sample_column", } ] } ] } ] } }
     /// </summary>
     [CliOption("--mysql-source-config", Format = OptionFormat.EqualsSeparated)]
     public string? MysqlSourceConfig { get; set; }
 
     /// <summary>
-    /// Connection profile resource - Resource ID of the source connection profile. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --location on the command line. At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for Oracle Source Config. The JSON file is formatted as follows, with camelCase field naming: { "includeObjects": {}, "excludeObjects": { "oracleSchemas": [ { "schema": "SAMPLE", "oracleTables": [ { "table": "SAMPLE_TABLE", "oracleColumns": [ { "column": "COL", } ] } ] } ] } }
+    /// At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for Oracle Source Config. The JSON file is formatted as follows, with camelCase field naming: { "includeObjects": {}, "excludeObjects": { "oracleSchemas": [ { "schema": "SAMPLE", "oracleTables": [ { "table": "SAMPLE_TABLE", "oracleColumns": [ { "column": "COL", } ] } ] } ] } }
     /// </summary>
     [CliOption("--oracle-source-config", Format = OptionFormat.EqualsSeparated)]
     public string? OracleSourceConfig { get; set; }
 
     /// <summary>
-    /// Connection profile resource - Resource ID of the source connection profile. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --location on the command line. At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for PostgreSQL Source Config. The JSON file is formatted as follows, with camelCase field naming: { "includeObjects": {}, "excludeObjects": { "postgresqlSchemas": [ { "schema": "SAMPLE", "postgresqlTables": [ { "table": "SAMPLE_TABLE", "postgresqlColumns": [ { "column": "COL", } ] } ] } ] }, "replicationSlot": "SAMPLE_REPLICATION_SLOT", "publication": "SAMPLE_PUBLICATION" }
+    /// At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for PostgreSQL Source Config. The JSON file is formatted as follows, with camelCase field naming: { "includeObjects": {}, "excludeObjects": { "postgresqlSchemas": [ { "schema": "SAMPLE", "postgresqlTables": [ { "table": "SAMPLE_TABLE", "postgresqlColumns": [ { "column": "COL", } ] } ] } ] }, "replicationSlot": "SAMPLE_REPLICATION_SLOT", "publication": "SAMPLE_PUBLICATION" }
     /// </summary>
     [CliOption("--postgresql-source-config", Format = OptionFormat.EqualsSeparated)]
     public string? PostgresqlSourceConfig { get; set; }
 
     /// <summary>
-    /// Connection profile resource - Resource ID of the source connection profile. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --location on the command line. At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for Salesforce Marketing Cloud Source Config. The JSON file is formatted as follows, with camelCase field naming: { "pollingInterval": "300s", "fullRefreshPollingInterval": "86400s", "includeObjects": {}, "excludeObjects": { "objects": [ { "objectName": "Subscriber", "properties": [ { "propertyName": "EmailAddress", } ] } ] } }
+    /// At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for Salesforce Marketing Cloud Source Config. The JSON file is formatted as follows, with camelCase field naming: { "pollingInterval": "300s", "fullRefreshPollingInterval": "86400s", "includeObjects": {}, "excludeObjects": { "objects": [ { "objectName": "Subscriber", "properties": [ { "propertyName": "EmailAddress", } ] } ] } }
     /// </summary>
     [CliOption("--salesforce-marketing-cloud-source-config", Format = OptionFormat.EqualsSeparated)]
     public string? SalesforceMarketingCloudSourceConfig { get; set; }
 
     /// <summary>
-    /// Connection profile resource - Resource ID of the source connection profile. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --location on the command line. At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for Salesforce Source Config. The JSON file is formatted as follows, with camelCase field naming: { "pollingInterval": "3000s", "includeObjects": {}, "excludeObjects": { "objects": [ { "objectName": "SAMPLE", "fields": [ { "fieldName": "SAMPLE_FIELD", } ] } ] } }
+    /// At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for Salesforce Source Config. The JSON file is formatted as follows, with camelCase field naming: { "pollingInterval": "3000s", "includeObjects": {}, "excludeObjects": { "objects": [ { "objectName": "SAMPLE", "fields": [ { "fieldName": "SAMPLE_FIELD", } ] } ] } }
     /// </summary>
     [CliOption("--salesforce-source-config", Format = OptionFormat.EqualsSeparated)]
     public string? SalesforceSourceConfig { get; set; }
 
     /// <summary>
-    /// Connection profile resource - Resource ID of the source connection profile. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --location on the command line. At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for ServiceNow Source Config. The JSON file is formatted as follows, with camelCase field naming: { "pollingInterval": "300s", "includeObjects": {}, "excludeObjects": { "objects": [ { "objectName": "incident", "properties": [ { "propertyName": "short_description", } ] } ] } }
+    /// At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for ServiceNow Source Config. The JSON file is formatted as follows, with camelCase field naming: { "pollingInterval": "300s", "includeObjects": {}, "excludeObjects": { "objects": [ { "objectName": "incident", "properties": [ { "propertyName": "short_description", } ] } ] } }
     /// </summary>
     [CliOption("--servicenow-source-config", Format = OptionFormat.EqualsSeparated)]
     public string? ServicenowSourceConfig { get; set; }
 
     /// <summary>
-    /// Connection profile resource - Resource ID of the source connection profile. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --location on the command line. At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for Spanner Source Config. The JSON file is formatted as follows, with camelCase field naming: { "includeObjects": {}, "excludeObjects": { "schemas": [ { "schema": "SAMPLE", "tables": [ { "table": "SAMPLE_TABLE", "columns": [ { "column": "COL", } ] } ] } ] }, "maxConcurrentCdcTasks": 1000, "maxConcurrentBackfillTasks": 10, "backfillDataBoostEnabled": false, "fgacRole": "SAMPLE_FGAC_ROLE", "spannerRpcPriority": "MEDIUM" }
+    /// At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for Spanner Source Config. The JSON file is formatted as follows, with camelCase field naming: { "includeObjects": {}, "excludeObjects": { "schemas": [ { "schema": "SAMPLE", "tables": [ { "table": "SAMPLE_TABLE", "columns": [ { "column": "COL", } ] } ] } ] }, "maxConcurrentCdcTasks": 1000, "maxConcurrentBackfillTasks": 10, "backfillDataBoostEnabled": false, "fgacRole": "SAMPLE_FGAC_ROLE", "spannerRpcPriority": "MEDIUM" }
     /// </summary>
     [CliOption("--spanner-source-config", Format = OptionFormat.EqualsSeparated)]
     public string? SpannerSourceConfig { get; set; }
 
     /// <summary>
-    /// Connection profile resource - Resource ID of the source connection profile. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --location on the command line. At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for SQL Server Source Config. The JSON file is formatted as follows, with camelCase field naming: { "includeObjects": {}, "excludeObjects": { "schemas": [ { "schema": "SAMPLE", "tables": [ { "table": "SAMPLE_TABLE", "columns": [ { "column": "COL", } ] } ] } ] }, "maxConcurrentCdcTasks": 2, "maxConcurrentBackfillTasks": 10, "transactionLogs": {} # Or changeTables }
+    /// At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for SQL Server Source Config. The JSON file is formatted as follows, with camelCase field naming: { "includeObjects": {}, "excludeObjects": { "schemas": [ { "schema": "SAMPLE", "tables": [ { "table": "SAMPLE_TABLE", "columns": [ { "column": "COL", } ] } ] } ] }, "maxConcurrentCdcTasks": 2, "maxConcurrentBackfillTasks": 10, "transactionLogs": {} # Or changeTables }
     /// </summary>
     [CliOption("--sqlserver-source-config", Format = OptionFormat.EqualsSeparated)]
     public string? SqlServerSourceConfig { get; set; }
+
+    /// <summary>
+    /// Stream resource - The stream to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument stream on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the stream or fully qualified identifier for the stream. To set the stream attribute: ▸ provide the argument stream on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Stream { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((BackfillNone == true ? 1 : 0) + ((BackfillAll == true || !string.IsNullOrWhiteSpace(MongodbExcludedObjects) || !string.IsNullOrWhiteSpace(MysqlExcludedObjects) || !string.IsNullOrWhiteSpace(OracleExcludedObjects) || !string.IsNullOrWhiteSpace(PostgresqlExcludedObjects) || !string.IsNullOrWhiteSpace(SaasExcludedObjects) || !string.IsNullOrWhiteSpace(SalesforceExcludedObjects) || !string.IsNullOrWhiteSpace(SpannerExcludedObjects) || !string.IsNullOrWhiteSpace(SqlServerExcludedObjects)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BackfillNone or (BackfillAll, MongodbExcludedObjects, MysqlExcludedObjects, OracleExcludedObjects, PostgresqlExcludedObjects, SaasExcludedObjects, SalesforceExcludedObjects, SpannerExcludedObjects, or SqlServerExcludedObjects) may be specified.", [nameof(BackfillNone), nameof(BackfillAll), nameof(MongodbExcludedObjects), nameof(MysqlExcludedObjects), nameof(OracleExcludedObjects), nameof(PostgresqlExcludedObjects), nameof(SaasExcludedObjects), nameof(SalesforceExcludedObjects), nameof(SpannerExcludedObjects), nameof(SqlServerExcludedObjects)]);
+        }
+        if ((BackfillNone == true || BackfillAll == true || !string.IsNullOrWhiteSpace(MongodbExcludedObjects) || !string.IsNullOrWhiteSpace(MysqlExcludedObjects) || !string.IsNullOrWhiteSpace(OracleExcludedObjects) || !string.IsNullOrWhiteSpace(PostgresqlExcludedObjects) || !string.IsNullOrWhiteSpace(SaasExcludedObjects) || !string.IsNullOrWhiteSpace(SalesforceExcludedObjects) || !string.IsNullOrWhiteSpace(SpannerExcludedObjects) || !string.IsNullOrWhiteSpace(SqlServerExcludedObjects)) && (BackfillAll == true || !string.IsNullOrWhiteSpace(MongodbExcludedObjects) || !string.IsNullOrWhiteSpace(MysqlExcludedObjects) || !string.IsNullOrWhiteSpace(OracleExcludedObjects) || !string.IsNullOrWhiteSpace(PostgresqlExcludedObjects) || !string.IsNullOrWhiteSpace(SaasExcludedObjects) || !string.IsNullOrWhiteSpace(SalesforceExcludedObjects) || !string.IsNullOrWhiteSpace(SpannerExcludedObjects) || !string.IsNullOrWhiteSpace(SqlServerExcludedObjects)) && ((!string.IsNullOrWhiteSpace(MongodbExcludedObjects) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MysqlExcludedObjects) ? 1 : 0) + (!string.IsNullOrWhiteSpace(OracleExcludedObjects) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PostgresqlExcludedObjects) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SaasExcludedObjects) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SalesforceExcludedObjects) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SpannerExcludedObjects) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SqlServerExcludedObjects) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of MongodbExcludedObjects, MysqlExcludedObjects, OracleExcludedObjects, PostgresqlExcludedObjects, SaasExcludedObjects, SalesforceExcludedObjects, SpannerExcludedObjects, or SqlServerExcludedObjects may be specified.", [nameof(MongodbExcludedObjects), nameof(MysqlExcludedObjects), nameof(OracleExcludedObjects), nameof(PostgresqlExcludedObjects), nameof(SaasExcludedObjects), nameof(SalesforceExcludedObjects), nameof(SpannerExcludedObjects), nameof(SqlServerExcludedObjects)]);
+        }
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(BigqueryDestinationConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(GcsDestinationConfig) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BigqueryDestinationConfig or GcsDestinationConfig may be specified.", [nameof(BigqueryDestinationConfig), nameof(GcsDestinationConfig)]);
+        }
+        if ((Force == true ? 1 : 0) + (ValidateOnly == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Force or ValidateOnly may be specified.", [nameof(Force), nameof(ValidateOnly)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DataverseSourceConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MongodbSourceConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MysqlSourceConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(OracleSourceConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PostgresqlSourceConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SalesforceMarketingCloudSourceConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SalesforceSourceConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ServicenowSourceConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SpannerSourceConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SqlServerSourceConfig) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DataverseSourceConfig, MongodbSourceConfig, MysqlSourceConfig, OracleSourceConfig, PostgresqlSourceConfig, SalesforceMarketingCloudSourceConfig, SalesforceSourceConfig, ServicenowSourceConfig, SpannerSourceConfig, or SqlServerSourceConfig may be specified.", [nameof(DataverseSourceConfig), nameof(MongodbSourceConfig), nameof(MysqlSourceConfig), nameof(OracleSourceConfig), nameof(PostgresqlSourceConfig), nameof(SalesforceMarketingCloudSourceConfig), nameof(SalesforceSourceConfig), nameof(ServicenowSourceConfig), nameof(SpannerSourceConfig), nameof(SqlServerSourceConfig)]);
+        }
+        yield break;
+    }
 
 }

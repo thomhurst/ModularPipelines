@@ -19,8 +19,52 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-dr", "backups", "fetch-for-resource-type")]
-public record GcloudBackupDrBackupsFetchForResourceTypeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ResourceType
-) : GcloudOptions
+public record GcloudBackupDrBackupsFetchForResourceTypeOptions : GcloudOptions
 {
+    /// <summary>
+    /// fetch Backups for a     given resource type and location
+    /// </summary>
+    /// <param name="DataSource">Data Source resource - Data source for which backups should be fetched. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --data-source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Data Source or fully qualified identifier for the Data Source. To set the data-source attribute: ▸ provide the argument --data-source on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="ResourceType">Resource type for which backup plan associations should be fetched.</param>
+    public GcloudBackupDrBackupsFetchForResourceTypeOptions(
+        string DataSource,
+        string ResourceType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSource);
+        this.DataSource = DataSource;
+        global::System.ArgumentNullException.ThrowIfNull(ResourceType);
+        this.ResourceType = ResourceType;
+    }
+
+    public void Deconstruct(out string DataSource, out string ResourceType)
+    {
+        DataSource = this.DataSource;
+        ResourceType = this.ResourceType;
+    }
+
+    /// <summary>
+    /// Data Source resource - Data source for which backups should be fetched. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --data-source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Data Source or fully qualified identifier for the Data Source. To set the data-source attribute: ▸ provide the argument --data-source on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--data-source", Format = OptionFormat.EqualsSeparated)]
+    public string DataSource { get; private init; }
+
+    /// <summary>
+    /// Data Source resource - Data source for which backups should be fetched. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --data-source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The ID of the Backup Vault. To set the backup-vault attribute: ▸ provide the argument --data-source on the command line with a fully specified name; ▸ provide the argument --backup-vault on the command line.
+    /// </summary>
+    [CliOption("--backup-vault", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupVault { get; set; }
+
+    /// <summary>
+    /// Data Source resource - Data source for which backups should be fetched. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --data-source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Data Source. To set the location attribute: ▸ provide the argument --data-source on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Resource type for which backup plan associations should be fetched.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ResourceType { get; private init; }
+
 }

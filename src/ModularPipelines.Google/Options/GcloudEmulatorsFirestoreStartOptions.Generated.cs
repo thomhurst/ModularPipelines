@@ -32,7 +32,7 @@ public record GcloudEmulatorsFirestoreStartOptions : GcloudOptions
     /// The database edition to start the Firestore Emulator in. EDITION must be one of: standard, enterprise.
     /// </summary>
     [CliOption("--edition", Format = OptionFormat.EqualsSeparated)]
-    public GcloudEdition? Edition { get; set; }
+    public GcloudEmulatorsFirestoreStartEdition? Edition { get; set; }
 
     /// <summary>
     /// Directory path in which emulator data will be saved upon shutdown. Example: /home/user/myexports/2024-03-26/

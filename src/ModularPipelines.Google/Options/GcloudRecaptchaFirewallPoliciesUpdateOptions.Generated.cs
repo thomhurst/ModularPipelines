@@ -22,6 +22,23 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRecaptchaFirewallPoliciesUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// update a Firewall Policy
+    /// </summary>
+    /// <param name="FirewallPolicy">Firewall policy resource - The reCAPTCHA firewall policy to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument firewall_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the firewall_policy or fully qualified identifier for the firewall_policy. To set the firewall_policy attribute: ▸ provide the argument firewall_policy on the command line.</param>
+    public GcloudRecaptchaFirewallPoliciesUpdateOptions(
+        string FirewallPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallPolicy);
+        this.FirewallPolicy = FirewallPolicy;
+    }
+
+    public void Deconstruct(out string FirewallPolicy)
+    {
+        FirewallPolicy = this.FirewallPolicy;
+    }
+
+    /// <summary>
     /// The actions that the caller should take regarding the user. There should be at most 1 terminal action. A terminal action is any action that forces a response, such as Allow, Block or Substitute. If it makes sense for it to happen multple times, such as SetHeader, the action is non-terminal. Examples: ◆ Block and set the header with key foo to value bar ▸ --actions=block,set_header=foo=bar ◆ Substitute with path google.com and set two headers, one with key key1 to value value1 and one with key key2 to value value2 ▸ --actions=substitute=google.com,set_header=key1=value1,set_header=key2=value2
     /// </summary>
     [CliOption("--actions", Format = OptionFormat.EqualsSeparated)]
@@ -44,5 +61,11 @@ public record GcloudRecaptchaFirewallPoliciesUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--path", Format = OptionFormat.EqualsSeparated)]
     public string? Path { get; set; }
+
+    /// <summary>
+    /// Firewall policy resource - The reCAPTCHA firewall policy to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument firewall_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the firewall_policy or fully qualified identifier for the firewall_policy. To set the firewall_policy attribute: ▸ provide the argument firewall_policy on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FirewallPolicy { get; private init; }
 
 }

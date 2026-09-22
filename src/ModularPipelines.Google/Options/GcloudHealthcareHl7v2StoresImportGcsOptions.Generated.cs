@@ -21,4 +21,56 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("healthcare", "hl7v2-stores", "import", "gcs")]
 public record GcloudHealthcareHl7v2StoresImportGcsOptions : GcloudOptions
 {
+    /// <summary>
+    /// import HL7v2 messages from     Google Cloud Storage into a Cloud Healthcare API HL7v2 store
+    /// </summary>
+    /// <param name="GcsUri">Cloud Storage source data locations. Each Cloud Storage object should be a text file that contains newline-delimited JSON objects. Each JSON object has a data field that contains a base64-encoded HL7v2 message.</param>
+    /// <param name="Hl7V2Store">Hl7v2Store resource - Cloud Healthcare API HL7v2 store into which the data is imported. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hl7v2_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hl7v2Store or fully qualified identifier for the hl7v2Store. To set the hl7v2_store attribute: ▸ provide the argument hl7v2_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudHealthcareHl7v2StoresImportGcsOptions(
+        string GcsUri,
+        string Hl7V2Store
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GcsUri);
+        this.GcsUri = GcsUri;
+        global::System.ArgumentNullException.ThrowIfNull(Hl7V2Store);
+        this.Hl7V2Store = Hl7V2Store;
+    }
+
+    public void Deconstruct(out string GcsUri, out string Hl7V2Store)
+    {
+        GcsUri = this.GcsUri;
+        Hl7V2Store = this.Hl7V2Store;
+    }
+
+    /// <summary>
+    /// Cloud Storage source data locations. Each Cloud Storage object should be a text file that contains newline-delimited JSON objects. Each JSON object has a data field that contains a base64-encoded HL7v2 message.
+    /// </summary>
+    [CliOption("--gcs-uri", Format = OptionFormat.EqualsSeparated)]
+    public string GcsUri { get; private init; }
+
+    /// <summary>
+    /// Hl7v2Store resource - Cloud Healthcare API HL7v2 store into which the data is imported. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hl7v2_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud Healthcare dataset. To set the dataset attribute: ▸ provide the argument hl7v2_store on the command line with a fully specified name; ▸ provide the argument --dataset on the command line.
+    /// </summary>
+    [CliOption("--dataset", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSet { get; set; }
+
+    /// <summary>
+    /// Hl7v2Store resource - Cloud Healthcare API HL7v2 store into which the data is imported. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hl7v2_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location. To set the location attribute: ▸ provide the argument hl7v2_store on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property healthcare/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Hl7v2Store resource - Cloud Healthcare API HL7v2 store into which the data is imported. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hl7v2_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hl7v2Store or fully qualified identifier for the hl7v2Store. To set the hl7v2_store attribute: ▸ provide the argument hl7v2_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Hl7V2Store { get; private init; }
+
 }

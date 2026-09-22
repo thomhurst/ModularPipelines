@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,37 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("beyondcorp", "security-gateways", "applications", "update")]
-public record GcloudBeyondcorpSecurityGatewaysApplicationsUpdateOptions : GcloudOptions
+public record GcloudBeyondcorpSecurityGatewaysApplicationsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update     applications
+    /// </summary>
+    /// <param name="Application">Application resource - Identifier. Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the application or fully qualified identifier for the application. To set the application attribute: ▸ provide the argument application on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBeyondcorpSecurityGatewaysApplicationsUpdateOptions(
+        string Application
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Application);
+        this.Application = Application;
+    }
+
+    public void Deconstruct(out string Application)
+    {
+        Application = this.Application;
+    }
+
+    /// <summary>
+    /// Application resource - Identifier. Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the application resource. We support only global location. To set the location attribute: ▸ provide the argument application on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Application resource - Identifier. Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The securityGateway id of the application resource. To set the security-gateway attribute: ▸ provide the argument application on the command line with a fully specified name; ▸ provide the argument --security-gateway on the command line.
+    /// </summary>
+    [CliOption("--security-gateway", Format = OptionFormat.EqualsSeparated)]
+    public string? SecurityGateway { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -49,13 +79,93 @@ public record GcloudBeyondcorpSecurityGatewaysApplicationsUpdateOptions : Gcloud
     /// Update endpoint_matchers. At most one of these can be specified: Set endpoint_matchers to new value. An array of conditions to match the application's network endpoint. Each element in the array is an EndpointMatcher object, which defines a specific combination of a hostname pattern and one or more ports. The application is considered matched if at least one of the EndpointMatcher conditions in this array is met (the conditions are combined using OR logic). Each EndpointMatcher must contain a hostname pattern, such as "example.com", and one or more port numbers specified as a string, such as "443". Hostname and port number examples: ".example.com", "443" "example.com" and "22" "example.com" and "22,33". hostname Hostname of the application. ports The ports of the application. Shorthand Example: --endpoint-matchers=hostname=string,ports=[int] --endpoint-matchers=hostname=string,ports=[int] JSON Example: --endpoint-matchers='[{"hostname": "string", "ports": [int]}]' File Example: --endpoint-matchers=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--endpoint-matchers", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? EndpointMatchers { get; set; }
+    public IEnumerable<string>? EndpointMatchers
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __EndpointMatchersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __EndpointMatchersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __EndpointMatchersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __EndpointMatchersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update endpoint_matchers. At most one of these can be specified: Or at least one of these can be specified: Add new value to endpoint_matchers list. An array of conditions to match the application's network endpoint. Each element in the array is an EndpointMatcher object, which defines a specific combination of a hostname pattern and one or more ports. The application is considered matched if at least one of the EndpointMatcher conditions in this array is met (the conditions are combined using OR logic). Each EndpointMatcher must contain a hostname pattern, such as "example.com", and one or more port numbers specified as a string, such as "443". Hostname and port number examples: ".example.com", "443" "example.com" and "22" "example.com" and "22,33". hostname Hostname of the application. ports The ports of the application. Shorthand Example: --add-endpoint-matchers=hostname=string,ports=[int] --add-endpoint-matchers=hostname=string,ports=[int] JSON Example: --add-endpoint-matchers='[{"hostname": "string", "ports": [int]}]' File Example: --add-endpoint-matchers=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-endpoint-matchers", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddEndpointMatchers { get; set; }
+    public IEnumerable<string>? AddEndpointMatchers
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddEndpointMatchersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddEndpointMatchersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddEndpointMatchersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddEndpointMatchersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update endpoint_matchers. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear endpoint_matchers value and set to empty list.
@@ -67,19 +177,139 @@ public record GcloudBeyondcorpSecurityGatewaysApplicationsUpdateOptions : Gcloud
     /// Update endpoint_matchers. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from endpoint_matchers list. An array of conditions to match the application's network endpoint. Each element in the array is an EndpointMatcher object, which defines a specific combination of a hostname pattern and one or more ports. The application is considered matched if at least one of the EndpointMatcher conditions in this array is met (the conditions are combined using OR logic). Each EndpointMatcher must contain a hostname pattern, such as "example.com", and one or more port numbers specified as a string, such as "443". Hostname and port number examples: ".example.com", "443" "example.com" and "22" "example.com" and "22,33". hostname Hostname of the application. ports The ports of the application. Shorthand Example: --remove-endpoint-matchers=hostname=string,ports=[int] --remove-endpoint-matchers=hostname=string,ports=[int] JSON Example: --remove-endpoint-matchers='[{"hostname": "string", "ports": [int]}]' File Example: --remove-endpoint-matchers=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-endpoint-matchers", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveEndpointMatchers { get; set; }
+    public IEnumerable<string>? RemoveEndpointMatchers
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveEndpointMatchersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveEndpointMatchersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveEndpointMatchersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveEndpointMatchersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update upstreams. At most one of these can be specified: Set upstreams to new value. Which upstream resources to forward traffic to. egressPolicy Routing policy information. regions List of the regions where the application sends traffic. external List of the external endpoints to forward traffic to. endpoints List of the endpoints to forward traffic to. hostname Hostname of the endpoint. port Port of the endpoint. network Network to forward traffic to. name Network name is of the format: projects/{project}/global/networks/{network}. proxyProtocol Enables proxy protocol configuration for the upstream. allowedClientHeaders List of the allowed client header names. clientIp Client IP configuration. The client IP address is included if true. contextualHeaders Configuration for the contextual headers. deviceInfo The device information configuration. outputType The output type details for the delegated device. groupInfo Group details. outputType The output type of the delegated group information. outputType Default output type for all enabled headers. userInfo User details. outputType The delegated user's information. gatewayIdentity The security gateway identity configuration. metadataHeaders Custom resource specific headers along with the values. The names should conform to RFC 9110: &gt;Field names can contain alphanumeric characters, hyphens, and periods, can contain only ASCII-printable characters and tabs, and must start with a letter. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --upstreams=egressPolicy={regions=[string]},external={endpoints=[{hostname=string,port=int}]},network={name=string},proxyProtocol={allowedClientHeaders=[string],clientIp=boolean,contextualHeaders={deviceInfo={outputType=string},groupInfo={outputType=string},outputType=string,userInfo={outputType=string}},gatewayIdentity=string,metadataHeaders={string=string}} --upstreams=egressPolicy={regions=[string]},external={endpoints=[{hostname=string,port=int}]},network={name=string},proxyProtocol={allowedClientHeaders=[string],clientIp=boolean,contextualHeaders={deviceInfo={outputType=string},groupInfo={outputType=string},outputType=string,userInfo={outputType=string}},gatewayIdentity=string,metadataHeaders={string=string}} JSON Example: --upstreams='[{"egressPolicy": {"regions": ["string"]}, "external": {"endpoints": [{"hostname": "string", "port": int}]}, "network": {"name": "string"}, "proxyProtocol": {"allowedClientHeaders": ["string"], "clientIp": boolean, "contextualHeaders": {"deviceInfo": {"outputType": "string"}, "groupInfo": {"outputType": "string"}, "outputType": "string", "userInfo": {"outputType": "string"}}, "gatewayIdentity": "string", "metadataHeaders": {"string": "string"}}}]' File Example: --upstreams=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--upstreams", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Upstreams { get; set; }
+    public IEnumerable<string>? Upstreams
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __UpstreamsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpstreamsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UpstreamsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __UpstreamsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update upstreams. At most one of these can be specified: Or at least one of these can be specified: Add new value to upstreams list. Which upstream resources to forward traffic to. egressPolicy Routing policy information. regions List of the regions where the application sends traffic. external List of the external endpoints to forward traffic to. endpoints List of the endpoints to forward traffic to. hostname Hostname of the endpoint. port Port of the endpoint. network Network to forward traffic to. name Network name is of the format: projects/{project}/global/networks/{network}. proxyProtocol Enables proxy protocol configuration for the upstream. allowedClientHeaders List of the allowed client header names. clientIp Client IP configuration. The client IP address is included if true. contextualHeaders Configuration for the contextual headers. deviceInfo The device information configuration. outputType The output type details for the delegated device. groupInfo Group details. outputType The output type of the delegated group information. outputType Default output type for all enabled headers. userInfo User details. outputType The delegated user's information. gatewayIdentity The security gateway identity configuration. metadataHeaders Custom resource specific headers along with the values. The names should conform to RFC 9110: &gt;Field names can contain alphanumeric characters, hyphens, and periods, can contain only ASCII-printable characters and tabs, and must start with a letter. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --add-upstreams=egressPolicy={regions=[string]},external={endpoints=[{hostname=string,port=int}]},network={name=string},proxyProtocol={allowedClientHeaders=[string],clientIp=boolean,contextualHeaders={deviceInfo={outputType=string},groupInfo={outputType=string},outputType=string,userInfo={outputType=string}},gatewayIdentity=string,metadataHeaders={string=string}} --add-upstreams=egressPolicy={regions=[string]},external={endpoints=[{hostname=string,port=int}]},network={name=string},proxyProtocol={allowedClientHeaders=[string],clientIp=boolean,contextualHeaders={deviceInfo={outputType=string},groupInfo={outputType=string},outputType=string,userInfo={outputType=string}},gatewayIdentity=string,metadataHeaders={string=string}} JSON Example: --add-upstreams='[{"egressPolicy": {"regions": ["string"]}, "external": {"endpoints": [{"hostname": "string", "port": int}]}, "network": {"name": "string"}, "proxyProtocol": {"allowedClientHeaders": ["string"], "clientIp": boolean, "contextualHeaders": {"deviceInfo": {"outputType": "string"}, "groupInfo": {"outputType": "string"}, "outputType": "string", "userInfo": {"outputType": "string"}}, "gatewayIdentity": "string", "metadataHeaders": {"string": "string"}}}]' File Example: --add-upstreams=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-upstreams", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddUpstreams { get; set; }
+    public IEnumerable<string>? AddUpstreams
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddUpstreamsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddUpstreamsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddUpstreamsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddUpstreamsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update upstreams. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear upstreams value and set to empty list.
@@ -91,6 +321,74 @@ public record GcloudBeyondcorpSecurityGatewaysApplicationsUpdateOptions : Gcloud
     /// Update upstreams. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from upstreams list. Which upstream resources to forward traffic to. egressPolicy Routing policy information. regions List of the regions where the application sends traffic. external List of the external endpoints to forward traffic to. endpoints List of the endpoints to forward traffic to. hostname Hostname of the endpoint. port Port of the endpoint. network Network to forward traffic to. name Network name is of the format: projects/{project}/global/networks/{network}. proxyProtocol Enables proxy protocol configuration for the upstream. allowedClientHeaders List of the allowed client header names. clientIp Client IP configuration. The client IP address is included if true. contextualHeaders Configuration for the contextual headers. deviceInfo The device information configuration. outputType The output type details for the delegated device. groupInfo Group details. outputType The output type of the delegated group information. outputType Default output type for all enabled headers. userInfo User details. outputType The delegated user's information. gatewayIdentity The security gateway identity configuration. metadataHeaders Custom resource specific headers along with the values. The names should conform to RFC 9110: &gt;Field names can contain alphanumeric characters, hyphens, and periods, can contain only ASCII-printable characters and tabs, and must start with a letter. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --remove-upstreams=egressPolicy={regions=[string]},external={endpoints=[{hostname=string,port=int}]},network={name=string},proxyProtocol={allowedClientHeaders=[string],clientIp=boolean,contextualHeaders={deviceInfo={outputType=string},groupInfo={outputType=string},outputType=string,userInfo={outputType=string}},gatewayIdentity=string,metadataHeaders={string=string}} --remove-upstreams=egressPolicy={regions=[string]},external={endpoints=[{hostname=string,port=int}]},network={name=string},proxyProtocol={allowedClientHeaders=[string],clientIp=boolean,contextualHeaders={deviceInfo={outputType=string},groupInfo={outputType=string},outputType=string,userInfo={outputType=string}},gatewayIdentity=string,metadataHeaders={string=string}} JSON Example: --remove-upstreams='[{"egressPolicy": {"regions": ["string"]}, "external": {"endpoints": [{"hostname": "string", "port": int}]}, "network": {"name": "string"}, "proxyProtocol": {"allowedClientHeaders": ["string"], "clientIp": boolean, "contextualHeaders": {"deviceInfo": {"outputType": "string"}, "groupInfo": {"outputType": "string"}, "outputType": "string", "userInfo": {"outputType": "string"}}, "gatewayIdentity": "string", "metadataHeaders": {"string": "string"}}}]' File Example: --remove-upstreams=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-upstreams", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveUpstreams { get; set; }
+    public IEnumerable<string>? RemoveUpstreams
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveUpstreamsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveUpstreamsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveUpstreamsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveUpstreamsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Application resource - Identifier. Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the application or fully qualified identifier for the application. To set the application attribute: ▸ provide the argument application on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Application { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)EndpointMatchers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)EndpointMatchers, static item => item is not null) : ((object?)EndpointMatchers is global::System.Collections.Generic.IEnumerable<char> ? (object?)EndpointMatchers is not string || !string.IsNullOrWhiteSpace(EndpointMatchers?.ToString()) : ((object?)EndpointMatchers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EndpointMatchers, static item => item is not null) : (EndpointMatchers is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EndpointMatchers), static item => item is not null))))) ? 1 : 0) + ((((object?)AddEndpointMatchers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddEndpointMatchers, static item => item is not null) : ((object?)AddEndpointMatchers is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddEndpointMatchers is not string || !string.IsNullOrWhiteSpace(AddEndpointMatchers?.ToString()) : ((object?)AddEndpointMatchers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddEndpointMatchers, static item => item is not null) : (AddEndpointMatchers is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddEndpointMatchers), static item => item is not null))))) || ClearEndpointMatchers == true || ((object?)RemoveEndpointMatchers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveEndpointMatchers, static item => item is not null) : ((object?)RemoveEndpointMatchers is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveEndpointMatchers is not string || !string.IsNullOrWhiteSpace(RemoveEndpointMatchers?.ToString()) : ((object?)RemoveEndpointMatchers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveEndpointMatchers, static item => item is not null) : (RemoveEndpointMatchers is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveEndpointMatchers), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of EndpointMatchers or (AddEndpointMatchers, ClearEndpointMatchers, or RemoveEndpointMatchers) may be specified.", [nameof(EndpointMatchers), nameof(AddEndpointMatchers), nameof(ClearEndpointMatchers), nameof(RemoveEndpointMatchers)]);
+        }
+        if ((((object?)EndpointMatchers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)EndpointMatchers, static item => item is not null) : ((object?)EndpointMatchers is global::System.Collections.Generic.IEnumerable<char> ? (object?)EndpointMatchers is not string || !string.IsNullOrWhiteSpace(EndpointMatchers?.ToString()) : ((object?)EndpointMatchers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EndpointMatchers, static item => item is not null) : (EndpointMatchers is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EndpointMatchers), static item => item is not null))))) || ((object?)AddEndpointMatchers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddEndpointMatchers, static item => item is not null) : ((object?)AddEndpointMatchers is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddEndpointMatchers is not string || !string.IsNullOrWhiteSpace(AddEndpointMatchers?.ToString()) : ((object?)AddEndpointMatchers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddEndpointMatchers, static item => item is not null) : (AddEndpointMatchers is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddEndpointMatchers), static item => item is not null))))) || ClearEndpointMatchers == true || ((object?)RemoveEndpointMatchers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveEndpointMatchers, static item => item is not null) : ((object?)RemoveEndpointMatchers is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveEndpointMatchers is not string || !string.IsNullOrWhiteSpace(RemoveEndpointMatchers?.ToString()) : ((object?)RemoveEndpointMatchers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveEndpointMatchers, static item => item is not null) : (RemoveEndpointMatchers is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveEndpointMatchers), static item => item is not null)))))) && (((object?)AddEndpointMatchers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddEndpointMatchers, static item => item is not null) : ((object?)AddEndpointMatchers is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddEndpointMatchers is not string || !string.IsNullOrWhiteSpace(AddEndpointMatchers?.ToString()) : ((object?)AddEndpointMatchers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddEndpointMatchers, static item => item is not null) : (AddEndpointMatchers is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddEndpointMatchers), static item => item is not null))))) || ClearEndpointMatchers == true || ((object?)RemoveEndpointMatchers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveEndpointMatchers, static item => item is not null) : ((object?)RemoveEndpointMatchers is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveEndpointMatchers is not string || !string.IsNullOrWhiteSpace(RemoveEndpointMatchers?.ToString()) : ((object?)RemoveEndpointMatchers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveEndpointMatchers, static item => item is not null) : (RemoveEndpointMatchers is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveEndpointMatchers), static item => item is not null)))))) && ((ClearEndpointMatchers == true ? 1 : 0) + (((object?)RemoveEndpointMatchers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveEndpointMatchers, static item => item is not null) : ((object?)RemoveEndpointMatchers is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveEndpointMatchers is not string || !string.IsNullOrWhiteSpace(RemoveEndpointMatchers?.ToString()) : ((object?)RemoveEndpointMatchers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveEndpointMatchers, static item => item is not null) : (RemoveEndpointMatchers is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveEndpointMatchers), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearEndpointMatchers or RemoveEndpointMatchers may be specified.", [nameof(ClearEndpointMatchers), nameof(RemoveEndpointMatchers)]);
+        }
+        if ((((object?)Upstreams is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Upstreams, static item => item is not null) : ((object?)Upstreams is global::System.Collections.Generic.IEnumerable<char> ? (object?)Upstreams is not string || !string.IsNullOrWhiteSpace(Upstreams?.ToString()) : ((object?)Upstreams is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Upstreams, static item => item is not null) : (Upstreams is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Upstreams), static item => item is not null))))) ? 1 : 0) + ((((object?)AddUpstreams is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddUpstreams, static item => item is not null) : ((object?)AddUpstreams is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddUpstreams is not string || !string.IsNullOrWhiteSpace(AddUpstreams?.ToString()) : ((object?)AddUpstreams is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddUpstreams, static item => item is not null) : (AddUpstreams is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddUpstreams), static item => item is not null))))) || ClearUpstreams == true || ((object?)RemoveUpstreams is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveUpstreams, static item => item is not null) : ((object?)RemoveUpstreams is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveUpstreams is not string || !string.IsNullOrWhiteSpace(RemoveUpstreams?.ToString()) : ((object?)RemoveUpstreams is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveUpstreams, static item => item is not null) : (RemoveUpstreams is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveUpstreams), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Upstreams or (AddUpstreams, ClearUpstreams, or RemoveUpstreams) may be specified.", [nameof(Upstreams), nameof(AddUpstreams), nameof(ClearUpstreams), nameof(RemoveUpstreams)]);
+        }
+        if ((((object?)Upstreams is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Upstreams, static item => item is not null) : ((object?)Upstreams is global::System.Collections.Generic.IEnumerable<char> ? (object?)Upstreams is not string || !string.IsNullOrWhiteSpace(Upstreams?.ToString()) : ((object?)Upstreams is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Upstreams, static item => item is not null) : (Upstreams is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Upstreams), static item => item is not null))))) || ((object?)AddUpstreams is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddUpstreams, static item => item is not null) : ((object?)AddUpstreams is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddUpstreams is not string || !string.IsNullOrWhiteSpace(AddUpstreams?.ToString()) : ((object?)AddUpstreams is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddUpstreams, static item => item is not null) : (AddUpstreams is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddUpstreams), static item => item is not null))))) || ClearUpstreams == true || ((object?)RemoveUpstreams is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveUpstreams, static item => item is not null) : ((object?)RemoveUpstreams is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveUpstreams is not string || !string.IsNullOrWhiteSpace(RemoveUpstreams?.ToString()) : ((object?)RemoveUpstreams is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveUpstreams, static item => item is not null) : (RemoveUpstreams is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveUpstreams), static item => item is not null)))))) && (((object?)AddUpstreams is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddUpstreams, static item => item is not null) : ((object?)AddUpstreams is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddUpstreams is not string || !string.IsNullOrWhiteSpace(AddUpstreams?.ToString()) : ((object?)AddUpstreams is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddUpstreams, static item => item is not null) : (AddUpstreams is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddUpstreams), static item => item is not null))))) || ClearUpstreams == true || ((object?)RemoveUpstreams is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveUpstreams, static item => item is not null) : ((object?)RemoveUpstreams is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveUpstreams is not string || !string.IsNullOrWhiteSpace(RemoveUpstreams?.ToString()) : ((object?)RemoveUpstreams is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveUpstreams, static item => item is not null) : (RemoveUpstreams is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveUpstreams), static item => item is not null)))))) && ((ClearUpstreams == true ? 1 : 0) + (((object?)RemoveUpstreams is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveUpstreams, static item => item is not null) : ((object?)RemoveUpstreams is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveUpstreams is not string || !string.IsNullOrWhiteSpace(RemoveUpstreams?.ToString()) : ((object?)RemoveUpstreams is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveUpstreams, static item => item is not null) : (RemoveUpstreams is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveUpstreams), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearUpstreams or RemoveUpstreams may be specified.", [nameof(ClearUpstreams), nameof(RemoveUpstreams)]);
+        }
+        yield break;
+    }
 
 }

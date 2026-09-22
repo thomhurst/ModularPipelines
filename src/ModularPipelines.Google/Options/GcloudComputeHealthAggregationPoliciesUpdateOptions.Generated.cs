@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,69 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "health-aggregation-policies", "update")]
-public record GcloudComputeHealthAggregationPoliciesUpdateOptions : GcloudOptions
+public record GcloudComputeHealthAggregationPoliciesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a health     aggregation policy
+    /// </summary>
+    /// <param name="HealthAggregationPolicy">Health aggregation policy resource - The health aggregation policy you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument health_aggregation_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the health aggregation policy or fully qualified identifier for the health aggregation policy. To set the health_aggregation_policy attribute: ▸ provide the argument health_aggregation_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeHealthAggregationPoliciesUpdateOptions(
+        string HealthAggregationPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HealthAggregationPolicy);
+        this.HealthAggregationPolicy = HealthAggregationPolicy;
+    }
+
+    public void Deconstruct(out string HealthAggregationPolicy)
+    {
+        HealthAggregationPolicy = this.HealthAggregationPolicy;
+    }
+
+    /// <summary>
+    /// Health aggregation policy resource - The health aggregation policy you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument health_aggregation_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Google Compute Engine region. To set the region attribute: ▸ provide the argument health_aggregation_policy on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property compute/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A textual description of the health aggregation policy.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Can only be set if the policyType field is BACKEND_SERVICE_POLICY. Specifies the threshold (as a percentage) of healthy endpoints required in order to consider the aggregated health result HEALTHY. Defaults to 60. Must be in range [0, 100]. Not applicable if the policyType field is DNS_PUBLIC_IP_POLICY. Can be mutated. This field is optional, and will be set to the default if unspecified. Note that both this threshold and minHealthyThreshold must be satisfied in order for HEALTHY to be the aggregated result. "Endpoints" refers to network endpoints within a Network Endpoint Group or instances within an Instance Group.
+    /// </summary>
+    [CliOption("--healthy-percent-threshold", Format = OptionFormat.EqualsSeparated)]
+    public string? HealthyPercentThreshold { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Can only be set if the policyType field is BACKEND_SERVICE_POLICY. Specifies the minimum number of healthy endpoints required in order to consider the aggregated health result HEALTHY. Defaults to 1. Must be positive. Not applicable if the policyType field is DNS_PUBLIC_IP_POLICY. Can be mutated. This field is optional, and will be set to the default if unspecified. Note that both this threshold and healthyPercentThreshold must be satisfied in order for HEALTHY to be the aggregated result. "Endpoints" refers to network endpoints within a Network Endpoint Group or instances within an Instance Group.
+    /// </summary>
+    [CliOption("--min-healthy-threshold", Format = OptionFormat.EqualsSeparated)]
+    public string? MinHealthyThreshold { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Health aggregation policy resource - The health aggregation policy you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument health_aggregation_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the health aggregation policy or fully qualified identifier for the health aggregation policy. To set the health_aggregation_policy attribute: ▸ provide the argument health_aggregation_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string HealthAggregationPolicy { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(Description) || !string.IsNullOrWhiteSpace(HealthyPercentThreshold) || !string.IsNullOrWhiteSpace(MinHealthyThreshold)))
+        {
+            yield return new ValidationResult("At least one of Description, HealthyPercentThreshold, or MinHealthyThreshold must be specified.", [nameof(Description), nameof(HealthyPercentThreshold), nameof(MinHealthyThreshold)]);
+        }
+        yield break;
+    }
+
 }

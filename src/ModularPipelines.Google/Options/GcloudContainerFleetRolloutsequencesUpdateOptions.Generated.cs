@@ -23,6 +23,23 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerFleetRolloutsequencesUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// update a rollout sequence     resource
+    /// </summary>
+    /// <param name="Rolloutsequence">RolloutSequence resource - The group of arguments defining a Rollout Sequence. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rolloutSequence on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument rolloutSequence on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the rolloutSequence or fully qualified identifier for the rolloutSequence. To set the rollout_sequence attribute: ▸ provide the argument rolloutSequence on the command line.</param>
+    public GcloudContainerFleetRolloutsequencesUpdateOptions(
+        string Rolloutsequence
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Rolloutsequence);
+        this.Rolloutsequence = Rolloutsequence;
+    }
+
+    public void Deconstruct(out string Rolloutsequence)
+    {
+        Rolloutsequence = this.Rolloutsequence;
+    }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -35,9 +52,9 @@ public record GcloudContainerFleetRolloutsequencesUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Labels for the rollout sequence.
+    /// Labels for the rollout sequence. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -45,5 +62,11 @@ public record GcloudContainerFleetRolloutsequencesUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--stage-config", Format = OptionFormat.EqualsSeparated)]
     public string? StageConfig { get; set; }
+
+    /// <summary>
+    /// RolloutSequence resource - The group of arguments defining a Rollout Sequence. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rolloutSequence on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument rolloutSequence on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the rolloutSequence or fully qualified identifier for the rolloutSequence. To set the rollout_sequence attribute: ▸ provide the argument rolloutSequence on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Rolloutsequence { get; private init; }
 
 }

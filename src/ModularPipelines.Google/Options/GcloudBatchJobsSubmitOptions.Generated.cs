@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,126 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "jobs", "submit")]
-public record GcloudBatchJobsSubmitOptions : GcloudOptions
+public record GcloudBatchJobsSubmitOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Job resource - The Batch job resource. If --location not specified,the current batch/location is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument JOB on the command line with a fully specified name; ◆ job ID is optional and will be generated if not specified with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Google Cloud location for the job. To set the location attribute: ◆ provide the argument JOB on the command line with a fully specified name; ◆ job ID is optional and will be generated if not specified with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property batch/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: The file path of the job config file in either JSON or YAML format. It also supports direct input from stdin with '-' or HereDoc (in shells with HereDoc support like Bash) with '- &lt;&lt;DELIMITER'. Use a full or relative path to a local file containing the value of config.
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Either specify the config file for the job or the first runnable in the task spec. Specify either a script file or container arguments for the first runnable in the task spec. At most one of these can be specified: Options to specify the container arguments for the first runnable in the task spec. Overrides the CMD specified in the container. If there is an ENTRYPOINT (either in the container image or with the entrypoint field below) then commands are appended as arguments to the ENTRYPOINT.
+    /// </summary>
+    [CliOption("--container-commands-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerCommandsFile { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Either specify the config file for the job or the first runnable in the task spec. Specify either a script file or container arguments for the first runnable in the task spec. At most one of these can be specified: Options to specify the container arguments for the first runnable in the task spec. Overrides the ENTRYPOINT specified in the container.
+    /// </summary>
+    [CliOption("--container-entrypoint", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerEntrypoint { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Either specify the config file for the job or the first runnable in the task spec. Specify either a script file or container arguments for the first runnable in the task spec. At most one of these can be specified: Options to specify the container arguments for the first runnable in the task spec. The URI to pull the container image from.
+    /// </summary>
+    [CliOption("--container-image-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerImageUri { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Either specify the config file for the job or the first runnable in the task spec. Specify either a script file or container arguments for the first runnable in the task spec. At most one of these can be specified: Options to specify the container arguments for the first runnable in the task spec. Either specify a path to a script file to run or provide inline text to execute directly. At most one of these can be specified: Path to script file to run as first runnable in task spec. File path should be a valid path on the instance volume.
+    /// </summary>
+    [CliOption("--script-file-path", Format = OptionFormat.EqualsSeparated)]
+    public string? ScriptFilePath { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Either specify the config file for the job or the first runnable in the task spec. Specify either a script file or container arguments for the first runnable in the task spec. At most one of these can be specified: Options to specify the container arguments for the first runnable in the task spec. Either specify a path to a script file to run or provide inline text to execute directly. At most one of these can be specified: Text to run as first runnable in task spec.
+    /// </summary>
+    [CliOption("--script-text", Format = OptionFormat.EqualsSeparated)]
+    public string? ScriptText { get; set; }
+
+    /// <summary>
+    /// Specify the job prefix. A job ID in the format of job prefix + %Y%m%d-%H%M%S will be generated. Note that job prefix cannot be specified while JOB ID positional argument is specified.
+    /// </summary>
+    [CliOption("--job-prefix", Format = OptionFormat.EqualsSeparated)]
+    public string? JobPrefix { get; set; }
+
+    /// <summary>
+    /// Specify the Compute Engine machine type, for example, e2-standard-4. Currently only one machine type is supported.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Job priority [0-99] 0 is the lowest priority.
+    /// </summary>
+    [CliOption("--priority", Format = OptionFormat.EqualsSeparated)]
+    public string? Priority { get; set; }
+
+    /// <summary>
+    /// Specify the allowed provisioning model for the compute instances. PROVISIONING_MODEL must be one of: SPOT The SPOT VM provisioning model. Ideal for fault-tolerant workloads that can withstand preemption. STANDARD The STANDARD VM provisioning model
+    /// </summary>
+    [CliOption("--provisioning-model", Format = OptionFormat.EqualsSeparated)]
+    public string? ProvisioningModel { get; set; }
+
+    /// <summary>
+    /// The URL for the network resource. Must specify subnetwork as well if network is specified
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// The URL for the subnetwork resource. Must specify network as well if subnetwork is specified
+    /// </summary>
+    [CliOption("--subnetwork", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnetwork { get; set; }
+
+    /// <summary>
+    /// Required if no external public IP address is attached to the VM. If no external public IP address, additional configuration is required to allow the VM to access Google Services.
+    /// </summary>
+    [CliFlag("--no-external-ip-address")]
+    public bool? NoExternalIpAddress { get; set; }
+
+    /// <summary>
+    /// Job resource - The Batch job resource. If --location not specified,the current batch/location is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument JOB on the command line with a fully specified name; ◆ job ID is optional and will be generated if not specified with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the job or fully qualified identifier for the job. To set the job attribute: ◆ provide the argument JOB on the command line; ◆ job ID is optional and will be generated if not specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Job { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ScriptFilePath) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ScriptText) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Config) || !string.IsNullOrWhiteSpace(ContainerCommandsFile) || !string.IsNullOrWhiteSpace(ContainerEntrypoint) || !string.IsNullOrWhiteSpace(ContainerImageUri)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ScriptFilePath, ScriptText, or (Config, ContainerCommandsFile, ContainerEntrypoint, or ContainerImageUri) must be specified.", [nameof(ScriptFilePath), nameof(ScriptText), nameof(Config), nameof(ContainerCommandsFile), nameof(ContainerEntrypoint), nameof(ContainerImageUri)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ScriptFilePath) || !string.IsNullOrWhiteSpace(ScriptText) || !string.IsNullOrWhiteSpace(Config) || !string.IsNullOrWhiteSpace(ContainerCommandsFile) || !string.IsNullOrWhiteSpace(ContainerEntrypoint) || !string.IsNullOrWhiteSpace(ContainerImageUri)) && (!string.IsNullOrWhiteSpace(Config) || !string.IsNullOrWhiteSpace(ContainerCommandsFile) || !string.IsNullOrWhiteSpace(ContainerEntrypoint) || !string.IsNullOrWhiteSpace(ContainerImageUri)) && (!(!string.IsNullOrWhiteSpace(Config))))
+        {
+            yield return new ValidationResult("Config must be specified when other arguments in this group are specified.", [nameof(Config)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ScriptFilePath) || !string.IsNullOrWhiteSpace(ScriptText) || !string.IsNullOrWhiteSpace(Config) || !string.IsNullOrWhiteSpace(ContainerCommandsFile) || !string.IsNullOrWhiteSpace(ContainerEntrypoint) || !string.IsNullOrWhiteSpace(ContainerImageUri)) && (!string.IsNullOrWhiteSpace(Config) || !string.IsNullOrWhiteSpace(ContainerCommandsFile) || !string.IsNullOrWhiteSpace(ContainerEntrypoint) || !string.IsNullOrWhiteSpace(ContainerImageUri)) && (!(!string.IsNullOrWhiteSpace(ContainerCommandsFile))))
+        {
+            yield return new ValidationResult("ContainerCommandsFile must be specified when other arguments in this group are specified.", [nameof(ContainerCommandsFile)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ScriptFilePath) || !string.IsNullOrWhiteSpace(ScriptText) || !string.IsNullOrWhiteSpace(Config) || !string.IsNullOrWhiteSpace(ContainerCommandsFile) || !string.IsNullOrWhiteSpace(ContainerEntrypoint) || !string.IsNullOrWhiteSpace(ContainerImageUri)) && (!string.IsNullOrWhiteSpace(Config) || !string.IsNullOrWhiteSpace(ContainerCommandsFile) || !string.IsNullOrWhiteSpace(ContainerEntrypoint) || !string.IsNullOrWhiteSpace(ContainerImageUri)) && (!(!string.IsNullOrWhiteSpace(ContainerEntrypoint))))
+        {
+            yield return new ValidationResult("ContainerEntrypoint must be specified when other arguments in this group are specified.", [nameof(ContainerEntrypoint)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ScriptFilePath) || !string.IsNullOrWhiteSpace(ScriptText) || !string.IsNullOrWhiteSpace(Config) || !string.IsNullOrWhiteSpace(ContainerCommandsFile) || !string.IsNullOrWhiteSpace(ContainerEntrypoint) || !string.IsNullOrWhiteSpace(ContainerImageUri)) && (!string.IsNullOrWhiteSpace(Config) || !string.IsNullOrWhiteSpace(ContainerCommandsFile) || !string.IsNullOrWhiteSpace(ContainerEntrypoint) || !string.IsNullOrWhiteSpace(ContainerImageUri)) && (!(!string.IsNullOrWhiteSpace(ContainerImageUri))))
+        {
+            yield return new ValidationResult("ContainerImageUri must be specified when other arguments in this group are specified.", [nameof(ContainerImageUri)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Job) || !string.IsNullOrWhiteSpace(Location)) && (!(!string.IsNullOrWhiteSpace(Location))))
+        {
+            yield return new ValidationResult("Location must be specified when other arguments in this group are specified.", [nameof(Location)]);
+        }
+        yield break;
+    }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,142 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iap", "tcp", "dest-groups", "update")]
-public record GcloudIapTcpDestGroupsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string GroupName
-) : GcloudOptions
+public record GcloudIapTcpDestGroupsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update the IAP TCP Destination Group     resource
+    /// </summary>
+    /// <param name="Region">Region of the Destination Group.</param>
+    /// <param name="GroupName">Name of the Destination Group.</param>
+    public GcloudIapTcpDestGroupsUpdateOptions(
+        string Region,
+        string GroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(GroupName);
+        this.GroupName = GroupName;
+    }
+
+    public void Deconstruct(out string Region, out string GroupName)
+    {
+        Region = this.Region;
+        GroupName = this.GroupName;
+    }
+
+    /// <summary>
+    /// Region of the Destination Group.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// At least one of these must be specified: List of FQDNs in the Destination Group.
+    /// </summary>
+    [CliOption("--fqdn-list", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? FqdnList
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __FqdnListSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __FqdnListSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __FqdnListSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __FqdnListSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At least one of these must be specified: List of ip-ranges in the Destination Group.
+    /// </summary>
+    [CliOption("--ip-range-list", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? IpRangeList
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __IpRangeListSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __IpRangeListSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __IpRangeListSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __IpRangeListSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Name of the Destination Group.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GroupName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(((object?)FqdnList is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)FqdnList, static item => item is not null) : ((object?)FqdnList is global::System.Collections.Generic.IEnumerable<char> ? (object?)FqdnList is not string || !string.IsNullOrWhiteSpace(FqdnList?.ToString()) : ((object?)FqdnList is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)FqdnList, static item => item is not null) : (FqdnList is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)FqdnList), static item => item is not null))))) || ((object?)IpRangeList is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)IpRangeList, static item => item is not null) : ((object?)IpRangeList is global::System.Collections.Generic.IEnumerable<char> ? (object?)IpRangeList is not string || !string.IsNullOrWhiteSpace(IpRangeList?.ToString()) : ((object?)IpRangeList is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)IpRangeList, static item => item is not null) : (IpRangeList is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)IpRangeList), static item => item is not null)))))))
+        {
+            yield return new ValidationResult("At least one of FqdnList or IpRangeList must be specified.", [nameof(FqdnList), nameof(IpRangeList)]);
+        }
+        yield break;
+    }
+
 }

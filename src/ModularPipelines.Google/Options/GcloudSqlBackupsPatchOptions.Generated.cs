@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,65 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "backups", "patch")]
-public record GcloudSqlBackupsPatchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudSqlBackupsPatchOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update the Final backup of a Cloud SQL project
+    /// </summary>
+    /// <param name="Name">The NAME of the backup. To find the NAME, run the following command: $ gcloud sql backups list --filter=type:FINAL instance:{instance}.</param>
+    public GcloudSqlBackupsPatchOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// At least one of these must be specified: Provides description for the backup going to be taken.
+    /// </summary>
+    [CliOption("--backup-description", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupDescription { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: Specifies when the final backup expires. The Maximum time allowed is 365 days from now. Format: YYYY-MM-DDTHH:MM:SS. Provide either ttl-days or expiry-time.
+    /// </summary>
+    [CliOption("--expiry-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ExpiryTime { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: Specifies the number of days to retain the final backup. The valid range is between 1 and 365. The Default value is 30 days. Provide either ttl-days or expiry-time.
+    /// </summary>
+    [CliOption("--ttl-days", Format = OptionFormat.EqualsSeparated)]
+    public string? TtlDays { get; set; }
+
+    /// <summary>
+    /// The NAME of the backup. To find the NAME, run the following command: $ gcloud sql backups list --filter=type:FINAL instance:{instance}.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(TtlDays) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(BackupDescription) || !string.IsNullOrWhiteSpace(ExpiryTime)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of TtlDays or (BackupDescription or ExpiryTime) must be specified.", [nameof(TtlDays), nameof(BackupDescription), nameof(ExpiryTime)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(TtlDays) || !string.IsNullOrWhiteSpace(BackupDescription) || !string.IsNullOrWhiteSpace(ExpiryTime)) && (!string.IsNullOrWhiteSpace(BackupDescription) || !string.IsNullOrWhiteSpace(ExpiryTime)) && (!(!string.IsNullOrWhiteSpace(BackupDescription))))
+        {
+            yield return new ValidationResult("BackupDescription must be specified when other arguments in this group are specified.", [nameof(BackupDescription)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(TtlDays) || !string.IsNullOrWhiteSpace(BackupDescription) || !string.IsNullOrWhiteSpace(ExpiryTime)) && (!string.IsNullOrWhiteSpace(BackupDescription) || !string.IsNullOrWhiteSpace(ExpiryTime)) && (!(!string.IsNullOrWhiteSpace(ExpiryTime))))
+        {
+            yield return new ValidationResult("ExpiryTime must be specified when other arguments in this group are specified.", [nameof(ExpiryTime)]);
+        }
+        yield break;
+    }
+
 }

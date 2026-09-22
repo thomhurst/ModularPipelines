@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firebase", "test", "android", "locales", "describe")]
-public record GcloudFirebaseTestAndroidLocalesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Locale
-) : GcloudOptions
+public record GcloudFirebaseTestAndroidLocalesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an Android locale
+    /// </summary>
+    /// <param name="Locale">The locale to describe, found using $ gcloud firebase test android locales list.</param>
+    public GcloudFirebaseTestAndroidLocalesDescribeOptions(
+        string Locale
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Locale);
+        this.Locale = Locale;
+    }
+
+    public void Deconstruct(out string Locale)
+    {
+        Locale = this.Locale;
+    }
+
+    /// <summary>
+    /// The locale to describe, found using $ gcloud firebase test android locales list.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Locale { get; private init; }
+
 }

@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dataplex", "glossaries", "terms", "list")]
 public record GcloudDataplexGlossariesTermsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list glossary terms
+    /// </summary>
+    /// <param name="Glossary">Glossary resource - Arguments and flags that define the glossary in which to list glossary terms. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --glossary on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the glossary or fully qualified identifier for the glossary. To set the glossary attribute: ▸ provide the argument --glossary on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexGlossariesTermsListOptions(
+        string Glossary
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Glossary);
+        this.Glossary = Glossary;
+    }
+
+    public void Deconstruct(out string Glossary)
+    {
+        Glossary = this.Glossary;
+    }
+
+    /// <summary>
+    /// Glossary resource - Arguments and flags that define the glossary in which to list glossary terms. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --glossary on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the glossary or fully qualified identifier for the glossary. To set the glossary attribute: ▸ provide the argument --glossary on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--glossary", Format = OptionFormat.EqualsSeparated)]
+    public string Glossary { get; private init; }
+
+    /// <summary>
+    /// Glossary resource - Arguments and flags that define the glossary in which to list glossary terms. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --glossary on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the Dataplex resource. To set the location attribute: ▸ provide the argument --glossary on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

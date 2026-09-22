@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apihub", "external-apis", "delete")]
 public record GcloudApihubExternalApisDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete an External Api
+    /// </summary>
+    /// <param name="ExternalApi">ExternalApi resource - The name of the External API resource to delete. Format: projects/{project}/locations/{location}/externalApis/{externalApi} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument external_api on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the externalApi or fully qualified identifier for the externalApi. To set the external_api attribute: ▸ provide the argument external_api on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubExternalApisDeleteOptions(
+        string ExternalApi
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExternalApi);
+        this.ExternalApi = ExternalApi;
+    }
+
+    public void Deconstruct(out string ExternalApi)
+    {
+        ExternalApi = this.ExternalApi;
+    }
+
+    /// <summary>
+    /// ExternalApi resource - The name of the External API resource to delete. Format: projects/{project}/locations/{location}/externalApis/{externalApi} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument external_api on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the externalApi resource. To set the location attribute: ▸ provide the argument external_api on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// ExternalApi resource - The name of the External API resource to delete. Format: projects/{project}/locations/{location}/externalApis/{externalApi} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument external_api on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the externalApi or fully qualified identifier for the externalApi. To set the external_api attribute: ▸ provide the argument external_api on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ExternalApi { get; private init; }
+
 }

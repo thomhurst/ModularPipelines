@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -19,8 +20,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "user-creds", "enable")]
-public record GcloudFirestoreUserCredsEnableOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string UserCreds
-) : GcloudOptions
+public record GcloudFirestoreUserCredsEnableOptions : GcloudOptions
 {
+    /// <summary>
+    /// enables a Cloud Firestore user creds
+    /// </summary>
+    /// <param name="Database">The database to operate on. For example, to operate on database foo: $ gcloud firestore user-creds enable --database='foo'</param>
+    /// <param name="UserCreds">The user creds to operate on. For example, to operate on user creds creds-name-1: $ gcloud firestore user-creds enable creds-name-1</param>
+    public GcloudFirestoreUserCredsEnableOptions(
+        string Database,
+        string UserCreds
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+        global::System.ArgumentNullException.ThrowIfNull(UserCreds);
+        this.UserCreds = UserCreds;
+    }
+
+    public void Deconstruct(out string Database, out string UserCreds)
+    {
+        Database = this.Database;
+        UserCreds = this.UserCreds;
+    }
+
+    /// <summary>
+    /// The database to operate on. For example, to operate on database foo: $ gcloud firestore user-creds enable --database='foo'
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string Database { get; private init; }
+
+    /// <summary>
+    /// The user creds to operate on. For example, to operate on user creds creds-name-1: $ gcloud firestore user-creds enable creds-name-1
+    /// </summary>
+    [SecretValue]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string UserCreds { get; private init; }
+
 }

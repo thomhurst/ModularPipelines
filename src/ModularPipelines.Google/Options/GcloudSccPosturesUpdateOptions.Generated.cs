@@ -21,4 +21,73 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("scc", "postures", "update")]
 public record GcloudSccPosturesUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update the given Cloud Security Command Center     posture
+    /// </summary>
+    /// <param name="PostureFromFile">Path of the file containing the details of the field to be updated. Contents include the name of the posture to be updated and value of the fields to be updated. Use a full or relative path to a local file containing the value of posture.</param>
+    /// <param name="RevisionId">Revision ID of the posture to be updated. The same revision ID will be updated in case the posture revision is not deployed on any workload. A new revision will be created for a deployed posture.</param>
+    /// <param name="Posture">Posture resource - Arguments and flags that specify the Posture instance to be updated. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the posture or fully qualified identifier for the posture. To set the posture attribute: ▸ provide the argument posture on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSccPosturesUpdateOptions(
+        string PostureFromFile,
+        string RevisionId,
+        string Posture
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PostureFromFile);
+        this.PostureFromFile = PostureFromFile;
+        global::System.ArgumentNullException.ThrowIfNull(RevisionId);
+        this.RevisionId = RevisionId;
+        global::System.ArgumentNullException.ThrowIfNull(Posture);
+        this.Posture = Posture;
+    }
+
+    public void Deconstruct(out string PostureFromFile, out string RevisionId, out string Posture)
+    {
+        PostureFromFile = this.PostureFromFile;
+        RevisionId = this.RevisionId;
+        Posture = this.Posture;
+    }
+
+    /// <summary>
+    /// Path of the file containing the details of the field to be updated. Contents include the name of the posture to be updated and value of the fields to be updated. Use a full or relative path to a local file containing the value of posture.
+    /// </summary>
+    [CliOption("--posture-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string PostureFromFile { get; private init; }
+
+    /// <summary>
+    /// Revision ID of the posture to be updated. The same revision ID will be updated in case the posture revision is not deployed on any workload. A new revision will be created for a deployed posture.
+    /// </summary>
+    [CliOption("--revision-id", Format = OptionFormat.EqualsSeparated)]
+    public string RevisionId { get; private init; }
+
+    /// <summary>
+    /// Posture resource - Arguments and flags that specify the Posture instance to be updated. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the location where the resource exists (for example, global). To set the location attribute: ▸ provide the argument posture on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Posture resource - Arguments and flags that specify the Posture instance to be updated. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the organization which is the parent of the resource. To set the organization attribute: ▸ provide the argument posture on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Comma separated string containing list of fields to be updated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? UpdateMask { get; set; }
+
+    /// <summary>
+    /// Posture resource - Arguments and flags that specify the Posture instance to be updated. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the posture or fully qualified identifier for the posture. To set the posture attribute: ▸ provide the argument posture on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Posture { get; private init; }
+
 }

@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instance-templates", "set-iam-policy")]
-public record GcloudPreviewComputeInstanceTemplatesSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudPreviewComputeInstanceTemplatesSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the IAM     policy for a Compute Engine instance template
+    /// </summary>
+    /// <param name="InstanceTemplate">Instance template resource - The instance template to set the IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance_template or fully qualified identifier for the instance_template. To set the instance_template attribute: ▸ provide the argument instance_template on the command line.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudPreviewComputeInstanceTemplatesSetIamPolicyOptions(
+        string InstanceTemplate,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceTemplate);
+        this.InstanceTemplate = InstanceTemplate;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string InstanceTemplate, out string PolicyFile)
+    {
+        InstanceTemplate = this.InstanceTemplate;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// Instance template resource - The instance template to set the IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance_template or fully qualified identifier for the instance_template. To set the instance_template attribute: ▸ provide the argument instance_template on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceTemplate { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("domains", "registrations", "get-register-parameters")]
-public record GcloudDomainsRegistrationsGetRegisterParametersOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Domain
-) : GcloudOptions
+public record GcloudDomainsRegistrationsGetRegisterParametersOptions : GcloudOptions
 {
+    /// <summary>
+    /// get register     parameters (including availability) of a specific domain
+    /// </summary>
+    /// <param name="Domain">Domain to get register parameters for.</param>
+    public GcloudDomainsRegistrationsGetRegisterParametersOptions(
+        string Domain
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+    }
+
+    public void Deconstruct(out string Domain)
+    {
+        Domain = this.Domain;
+    }
+
+    /// <summary>
+    /// Domain to get register parameters for.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Domain { get; private init; }
+
 }

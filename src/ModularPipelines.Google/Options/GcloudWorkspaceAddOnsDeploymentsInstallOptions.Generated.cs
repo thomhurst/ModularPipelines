@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("workspace-add-ons", "deployments", "install")]
 public record GcloudWorkspaceAddOnsDeploymentsInstallOptions : GcloudOptions
 {
+    /// <summary>
+    /// install a Google Workspace     Add-ons deployment
+    /// </summary>
+    /// <param name="Deployment">Deployment resource - Google Workspace Add-ons deployment to install This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the deployment or fully qualified identifier for the deployment. To set the deployment attribute: ▸ provide the argument deployment on the command line.</param>
+    public GcloudWorkspaceAddOnsDeploymentsInstallOptions(
+        string Deployment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Deployment);
+        this.Deployment = Deployment;
+    }
+
+    public void Deconstruct(out string Deployment)
+    {
+        Deployment = this.Deployment;
+    }
+
+    /// <summary>
+    /// Deployment resource - Google Workspace Add-ons deployment to install This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the deployment or fully qualified identifier for the deployment. To set the deployment attribute: ▸ provide the argument deployment on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Deployment { get; private init; }
+
 }

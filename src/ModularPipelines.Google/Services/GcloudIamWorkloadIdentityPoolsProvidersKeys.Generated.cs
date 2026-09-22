@@ -65,11 +65,11 @@ public class GcloudIamWorkloadIdentityPoolsProvidersKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        GcloudIamWorkloadIdentityPoolsProvidersKeysCreateOptions? options = null,
+        GcloudIamWorkloadIdentityPoolsProvidersKeysCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIamWorkloadIdentityPoolsProvidersKeysCreateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -80,11 +80,11 @@ public class GcloudIamWorkloadIdentityPoolsProvidersKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAsync(
-        GcloudIamWorkloadIdentityPoolsProvidersKeysDeleteOptions? options = null,
+        GcloudIamWorkloadIdentityPoolsProvidersKeysDeleteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIamWorkloadIdentityPoolsProvidersKeysDeleteOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -95,11 +95,11 @@ public class GcloudIamWorkloadIdentityPoolsProvidersKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAsync(
-        GcloudIamWorkloadIdentityPoolsProvidersKeysDescribeOptions? options = null,
+        GcloudIamWorkloadIdentityPoolsProvidersKeysDescribeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIamWorkloadIdentityPoolsProvidersKeysDescribeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -110,11 +110,11 @@ public class GcloudIamWorkloadIdentityPoolsProvidersKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
-        GcloudIamWorkloadIdentityPoolsProvidersKeysListOptions? options = null,
+        GcloudIamWorkloadIdentityPoolsProvidersKeysListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIamWorkloadIdentityPoolsProvidersKeysListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -125,11 +125,11 @@ public class GcloudIamWorkloadIdentityPoolsProvidersKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UndeleteAsync(
-        GcloudIamWorkloadIdentityPoolsProvidersKeysUndeleteOptions? options = null,
+        GcloudIamWorkloadIdentityPoolsProvidersKeysUndeleteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIamWorkloadIdentityPoolsProvidersKeysUndeleteOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

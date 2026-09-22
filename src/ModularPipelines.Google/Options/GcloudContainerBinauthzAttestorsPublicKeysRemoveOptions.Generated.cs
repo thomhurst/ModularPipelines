@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "binauthz", "attestors", "public-keys", "remove")]
-public record GcloudContainerBinauthzAttestorsPublicKeysRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PublicKeyId
-) : GcloudOptions
+public record GcloudContainerBinauthzAttestorsPublicKeysRemoveOptions : GcloudOptions
 {
+    /// <summary>
+    /// remove a public     key from an Attestor
+    /// </summary>
+    /// <param name="Attestor">Attestor resource - The attestor from which the public key should be removed. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --attestor on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the attestor or fully qualified identifier for the attestor. To set the name attribute: ▸ provide the argument --attestor on the command line.</param>
+    /// <param name="PublicKeyId">The ID of the public key to remove.</param>
+    public GcloudContainerBinauthzAttestorsPublicKeysRemoveOptions(
+        string Attestor,
+        string PublicKeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Attestor);
+        this.Attestor = Attestor;
+        global::System.ArgumentNullException.ThrowIfNull(PublicKeyId);
+        this.PublicKeyId = PublicKeyId;
+    }
+
+    public void Deconstruct(out string Attestor, out string PublicKeyId)
+    {
+        Attestor = this.Attestor;
+        PublicKeyId = this.PublicKeyId;
+    }
+
+    /// <summary>
+    /// Attestor resource - The attestor from which the public key should be removed. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --attestor on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the attestor or fully qualified identifier for the attestor. To set the name attribute: ▸ provide the argument --attestor on the command line.
+    /// </summary>
+    [CliOption("--attestor", Format = OptionFormat.EqualsSeparated)]
+    public string Attestor { get; private init; }
+
+    /// <summary>
+    /// The ID of the public key to remove.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PublicKeyId { get; private init; }
+
 }

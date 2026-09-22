@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("access-context-manager", "levels", "replace-all")]
 public record GcloudAccessContextManagerLevelsReplaceAllOptions : GcloudOptions
 {
+    /// <summary>
+    /// replace all existing     access levels
+    /// </summary>
+    /// <param name="SourceFile">Path to a file containing a list of access levels. An access level file is a YAML-formatted list of access levels, which are YAML objects representing a Basic or Custom level as described in the API reference. For example: - name: accessPolicies/my_policy/accessLevels/my_level title: My Basic Level description: Basic level for foo. basic: combiningFunction: AND conditions: - ipSubnetworks: - 192.168.100.14/24 - 2001:db8::/48 - members - user1:user1@example.com - name: accessPolicies/my_policy/accessLevels/my_other_level title: My Other Custom Level description: Custom level for bar. custom: expr: expression: "origin.region_code in ['US', 'CA']" For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.accessLevels For other versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.accessLevels</param>
+    public GcloudAccessContextManagerLevelsReplaceAllOptions(
+        string SourceFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SourceFile);
+        this.SourceFile = SourceFile;
+    }
+
+    public void Deconstruct(out string SourceFile)
+    {
+        SourceFile = this.SourceFile;
+    }
+
+    /// <summary>
+    /// Path to a file containing a list of access levels. An access level file is a YAML-formatted list of access levels, which are YAML objects representing a Basic or Custom level as described in the API reference. For example: - name: accessPolicies/my_policy/accessLevels/my_level title: My Basic Level description: Basic level for foo. basic: combiningFunction: AND conditions: - ipSubnetworks: - 192.168.100.14/24 - 2001:db8::/48 - members - user1:user1@example.com - name: accessPolicies/my_policy/accessLevels/my_other_level title: My Other Custom Level description: Custom level for bar. custom: expr: expression: "origin.region_code in ['US', 'CA']" For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.accessLevels For other versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.accessLevels
+    /// </summary>
+    [CliOption("--source-file", Format = OptionFormat.EqualsSeparated)]
+    public string SourceFile { get; private init; }
+
+    /// <summary>
+    /// An etag which specifies the version of the Access Policy. Only etags that represent the latest version of the Access Policy will be accepted.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string? Etag { get; set; }
+
+    /// <summary>
+    /// Policy resource - The access policy that contains the levels you want to replace. This represents a Cloud resource. ID of the policy or fully qualified identifier for the policy. To set the policy attribute: ◆ provide the argument policy on the command line; ◆ set the property access_context_manager/policy; ◆ automatically, if the current account belongs to an organization with exactly one access policy..
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Policy { get; set; }
+
 }

@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunJobsExecutionsTasksDescribeOptions : GcloudOptions
 {
     /// <summary>
+    /// obtain details about tasks
+    /// </summary>
+    /// <param name="Task">Task resource - Task to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument TASK on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Task or fully qualified identifier for the Task. To set the tasks attribute: ▸ provide the argument TASK on the command line.</param>
+    public GcloudRunJobsExecutionsTasksDescribeOptions(
+        string Task
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Task);
+        this.Task = Task;
+    }
+
+    public void Deconstruct(out string Task)
+    {
+        Task = this.Task;
+    }
+
+    /// <summary>
     /// Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Task resource - Task to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument TASK on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Task or fully qualified identifier for the Task. To set the tasks attribute: ▸ provide the argument TASK on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Task { get; private init; }
 
 }

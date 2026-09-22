@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudEventarcTriggersDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete an Eventarc trigger
+    /// </summary>
+    /// <param name="Trigger">Trigger resource - The trigger to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument trigger on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the trigger or fully qualified identifier for the trigger. To set the trigger attribute: ▸ provide the argument trigger on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEventarcTriggersDeleteOptions(
+        string Trigger
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Trigger);
+        this.Trigger = Trigger;
+    }
+
+    public void Deconstruct(out string Trigger)
+    {
+        Trigger = this.Trigger;
+    }
+
+    /// <summary>
+    /// Trigger resource - The trigger to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument trigger on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location for the Eventarc trigger, which should be either global or one of the supported regions. Alternatively, set the [eventarc/location] property. To set the location attribute: ▸ provide the argument trigger on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property eventarc/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Trigger resource - The trigger to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument trigger on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the trigger or fully qualified identifier for the trigger. To set the trigger attribute: ▸ provide the argument trigger on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Trigger { get; private init; }
 
 }

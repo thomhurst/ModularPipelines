@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("iam", "workforce-pools", "operations", "describe")]
 public record GcloudIamWorkforcePoolsOperationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a workforce pool     operation
+    /// </summary>
+    /// <param name="Operation">Workforce pool operation resource - The workforce pool long-running operation to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workforce pool operation or fully qualified identifier for the workforce pool operation. To set the operation attribute: ▸ provide the argument operation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamWorkforcePoolsOperationsDescribeOptions(
+        string Operation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+    }
+
+    public void Deconstruct(out string Operation)
+    {
+        Operation = this.Operation;
+    }
+
+    /// <summary>
+    /// Workforce pool operation resource - The workforce pool long-running operation to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location for the workforce pool. To set the location attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Workforce pool operation resource - The workforce pool long-running operation to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The ID to use for the workforce pool, which becomes the final component of the resource name. This value must be a globally unique string of 6 to 63 lowercase letters, digits, or hyphens. It must start with a letter, and cannot have a trailing hyphen. The prefix gcp- is reserved for use by Google, and may not be specified. To set the workforce-pool attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --workforce-pool on the command line.
+    /// </summary>
+    [CliOption("--workforce-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkforcePool { get; set; }
+
+    /// <summary>
+    /// Workforce pool operation resource - The workforce pool long-running operation to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workforce pool operation or fully qualified identifier for the workforce pool operation. To set the operation attribute: ▸ provide the argument operation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Operation { get; private init; }
+
 }

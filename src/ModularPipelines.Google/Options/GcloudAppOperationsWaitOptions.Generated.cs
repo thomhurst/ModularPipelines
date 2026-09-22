@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "operations", "wait")]
-public record GcloudAppOperationsWaitOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Operation
-) : GcloudOptions
+public record GcloudAppOperationsWaitOptions : GcloudOptions
 {
+    /// <summary>
+    /// polls an operation until completion
+    /// </summary>
+    /// <param name="Operation">ID of operation.</param>
+    public GcloudAppOperationsWaitOptions(
+        string Operation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+    }
+
+    public void Deconstruct(out string Operation)
+    {
+        Operation = this.Operation;
+    }
+
+    /// <summary>
+    /// ID of operation.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Operation { get; private init; }
+
 }

@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("spanner", "instance-partitions", "delete")]
 public record GcloudSpannerInstancePartitionsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a Spanner instance     partition. You can't delete the default instance partition using this     command
+    /// </summary>
+    /// <param name="InstancePartition">Instance partition resource - The Spanner instance partition to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance_partition on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance partition or fully qualified identifier for the instance partition. To set the instance partition attribute: ▸ provide the argument instance_partition on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSpannerInstancePartitionsDeleteOptions(
+        string InstancePartition
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstancePartition);
+        this.InstancePartition = InstancePartition;
+    }
+
+    public void Deconstruct(out string InstancePartition)
+    {
+        InstancePartition = this.InstancePartition;
+    }
+
+    /// <summary>
+    /// Instance partition resource - The Spanner instance partition to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance_partition on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud Spanner instance for the instance partition. To set the instance attribute: ▸ provide the argument instance_partition on the command line with a fully specified name; ▸ provide the argument --instance on the command line; ▸ set the property spanner/instance.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Instance partition resource - The Spanner instance partition to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance_partition on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance partition or fully qualified identifier for the instance partition. To set the instance partition attribute: ▸ provide the argument instance_partition on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstancePartition { get; private init; }
+
 }

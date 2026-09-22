@@ -10,6 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +22,555 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "node-pools", "update")]
-public record GcloudContainerNodePoolsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudContainerNodePoolsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// updates a node pool in a running     cluster
+    /// </summary>
+    /// <param name="Name">The name of the node pool.</param>
+    public GcloudContainerNodePoolsUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Attaches accelerators (e.g. GPUs) to all nodes. type (Required) The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4) of accelerator to attach to the instances. Use gcloud compute accelerator-types list to learn about all available accelerator types. count (Optional) The number of accelerators to attach to the instances. The default value is 1. gpu-driver-version (Optional) The NVIDIA driver version to install. GPU_DRIVER_VERSION must be one of: `default`: Install the default driver version for this GKE version. For GKE version 1.30.1-gke.1156000 and later, this is the default option. `latest`: Install the latest driver version available for this GKE version. Can only be used for nodes that use Container-Optimized OS. `disabled`: Skip automatic driver installation. You must manually install a driver after you create the cluster. For GKE version 1.30.1-gke.1156000 and earlier, this is the default option. To manually install the GPU driver, refer to https://cloud.google.com/kubernetes-engine/docs/how-to/gpus#installing_drivers. gpu-partition-size (Optional) The GPU partition size used when running multi-instance GPUs. For information about multi-instance GPUs, refer to: https://cloud.google.com/kubernetes-engine/docs/how-to/gpus-multi gpu-sharing-strategy (Optional) The GPU sharing strategy (e.g. time-sharing) to use. For information about GPU sharing, refer to: https://cloud.google.com/kubernetes-engine/docs/concepts/timesharing-gpus max-shared-clients-per-gpu (Optional) The max number of containers allowed to share each GPU on the node. This field is used together with gpu-sharing-strategy.
+    /// </summary>
+    [CliOption("--accelerator", Format = OptionFormat.EqualsSeparated)]
+    public string? Accelerator { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Recreate all the nodes in the node pool to be confidential VM https://docs.cloud.google.com/compute/docs/about-confidential-vm. CONFIDENTIAL_NODE_TYPE must be one of: sev, sev_snp, tdx, disabled.
+    /// </summary>
+    [CliOption("--confidential-node-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudContainerNodePoolsUpdateConfidentialNodeType? ConfidentialNodeType { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Set the duration after which the Cluster Autoscaler can scale down underutilized nodes. $ gcloud container node-pools update node-pool-1 \ --cluster=example-cluster --consolidation-delay=3600s
+    /// </summary>
+    [CliOption("--consolidation-delay", Format = OptionFormat.EqualsSeparated)]
+    public string? ConsolidationDelay { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path of the YAML file that contains containerd configuration entries like configuring access to private image registries. For detailed information on the configuration usage, please refer to https://cloud.google.com/kubernetes-engine/docs/how-to/customize-containerd-configuration. Note: Updating the containerd configuration of an existing cluster or node pool requires recreation of the existing nodes, which might cause disruptions in running workloads. Use a full or relative path to a local file containing the value of containerd_config.
+    /// </summary>
+    [CliOption("--containerd-config-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerdConfigFromFile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Recreate all the nodes in the node pool to be confidential VM https://docs.cloud.google.com/compute/docs/about-confidential-vm.
+    /// </summary>
+    [CliFlag("--enable-confidential-nodes")]
+    public bool? EnableConfidentialNodes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enable the use of GVNIC for this cluster. Requires re-creation of nodes using either a node-pool upgrade or node-pool creation.
+    /// </summary>
+    [CliFlag("--enable-gvnic")]
+    public bool? EnableGvnic { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enable Image Streaming for the node pool, allowing nodes to stream container image data from Artifact Registry on demand to reduce container start times. This setting overrides the cluster-level Image Streaming default for this specific node pool. See Image Streaming documentation (https://cloud.google.com/kubernetes-engine/docs/how-to/image-streaming) for full requirements (including version, API enablement and Artifact Registry usage). To disable Image Streaming for the node pool, use --no-enable-image-streaming.
+    /// </summary>
+    [CliFlag("--enable-image-streaming")]
+    public bool? EnableImageStreaming { get; set; }
+
+    /// <summary>
+    /// Negates --enable-image-streaming. Exactly one of these must be specified: Enable Image Streaming for the node pool, allowing nodes to stream container image data from Artifact Registry on demand to reduce container start times. This setting overrides the cluster-level Image Streaming default for this specific node pool. See Image Streaming documentation (https://cloud.google.com/kubernetes-engine/docs/how-to/image-streaming) for full requirements (including version, API enablement and Artifact Registry usage). To disable Image Streaming for the node pool, use --no-enable-image-streaming.
+    /// </summary>
+    [CliFlag("--no-enable-image-streaming")]
+    public bool? NoEnableImageStreaming { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enables the Kubelet's insecure read only port. To disable the readonly port on a cluster or node-pool set the flag to --no-enable-insecure-kubelet-readonly-port.
+    /// </summary>
+    [CliFlag("--enable-insecure-kubelet-readonly-port")]
+    public bool? EnableInsecureKubeletReadonlyPort { get; set; }
+
+    /// <summary>
+    /// Negates --enable-insecure-kubelet-readonly-port. Exactly one of these must be specified: Enables the Kubelet's insecure read only port. To disable the readonly port on a cluster or node-pool set the flag to --no-enable-insecure-kubelet-readonly-port.
+    /// </summary>
+    [CliFlag("--no-enable-insecure-kubelet-readonly-port")]
+    public bool? NoEnableInsecureKubeletReadonlyPort { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enforces that kernel modules are signed on all nodes in the node pool. This setting overrides the cluster-level setting. For example, if the cluster disables enforcement, you can enable enforcement only for a specific node pool. When the policy is modified on an existing node pool, nodes will be immediately recreated to use the new policy. Use --no-enable-kernel-module-signature-enforcement to disable. Examples: $ gcloud container node-pools update node-pool-1 \ --enable-kernel-module-signature-enforcement
+    /// </summary>
+    [CliFlag("--enable-kernel-module-signature-enforcement")]
+    public bool? EnableKernelModuleSignatureEnforcement { get; set; }
+
+    /// <summary>
+    /// Negates --enable-kernel-module-signature-enforcement. Exactly one of these must be specified: Enforces that kernel modules are signed on all nodes in the node pool. This setting overrides the cluster-level setting. For example, if the cluster disables enforcement, you can enable enforcement only for a specific node pool. When the policy is modified on an existing node pool, nodes will be immediately recreated to use the new policy. Use --no-enable-kernel-module-signature-enforcement to disable. Examples: $ gcloud container node-pools update node-pool-1 \ --enable-kernel-module-signature-enforcement
+    /// </summary>
+    [CliFlag("--no-enable-kernel-module-signature-enforcement")]
+    public bool? NoEnableKernelModuleSignatureEnforcement { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enables provisioning nodes with private IP addresses only. The control plane still communicates with all nodes through private IP addresses only, regardless of whether private nodes are enabled or disabled.
+    /// </summary>
+    [CliFlag("--enable-private-nodes")]
+    public bool? EnablePrivateNodes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Mark the nodepool as Queued only. This means that all new nodes can be obtained only through queuing via ProvisioningRequest API. $ gcloud container node-pools update node-pool-1 \ --cluster=example-cluster --enable-queued-provisioning ... and other required parameters, for more details see: https://cloud.google.com/kubernetes-engine/docs/how-to/provisioningrequest
+    /// </summary>
+    [CliFlag("--enable-queued-provisioning")]
+    public bool? EnableQueuedProvisioning { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Start the node pool with Flex Start provisioning model. $ gcloud container node-pools update node-pool-1 \ --cluster=example-cluster --flex-start and other required parameters, for more details see: https://cloud.google.com/kubernetes-engine/docs/how-to/provisioningrequest
+    /// </summary>
+    [CliFlag("--flex-start")]
+    public bool? FlexStart { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Labels to apply to the Google Cloud resources of node pools in the Kubernetes Engine cluster. These are unrelated to Kubernetes labels. Warning: Updating this label will causes the node(s) to be recreated. Examples: $ gcloud container node-pools update node-pool-1 \ --cluster=example-cluster --labels=label1=value1,label2=value2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies the logging variant that will be deployed on all the nodes in the node pool. If the node pool doesn't specify a logging variant, then the logging variant specified for the cluster will be deployed on all the nodes in the node pool. Valid logging variants are MAX_THROUGHPUT, DEFAULT. LOGGING_VARIANT must be one of: DEFAULT 'DEFAULT' variant requests minimal resources but may not guarantee high throughput. MAX_THROUGHPUT 'MAX_THROUGHPUT' variant requests more node resources and is able to achieve logging throughput up to 10MB per sec.
+    /// </summary>
+    [CliOption("--logging-variant", Format = OptionFormat.EqualsSeparated)]
+    public string? LoggingVariant { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Limit the runtime of each node in the node pool to the specified duration. $ gcloud container node-pools update node-pool-1 \ --cluster=example-cluster --max-run-duration=3600s
+    /// </summary>
+    [CliOption("--max-run-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxRunDuration { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Configures network performance settings for the node pool. If this flag is not specified, the pool will be created with its default network performance configuration. total-egress-bandwidth-tier Total egress bandwidth is the available outbound bandwidth from a VM, regardless of whether the traffic is going to internal IP or external IP destinations. The following tier values are allowed: [TIER_UNSPECIFIED,TIER_1] Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--network-performance-configs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NetworkPerformanceConfigs
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NetworkPerformanceConfigsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NetworkPerformanceConfigsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Control how architecture taint should be applied to nodes in an existing node pool. Supported values: * unspecified: Default behavior, currently the same as `arm`. * arm: kubernetes.io/arch=arm:NoSchedule taint will be added for ARM nodes. * none: No architecture taint will be applied. Examples: $ gcloud container node-pools update node-pool-1 \ --cluster=example-cluster \ --node-architecture-taint-behavior=none To read more about node-taints, see https://cloud.google.com/kubernetes-engine/docs/node-taints. NODE_ARCHITECTURE_TAINT_BEHAVIOR must be one of: unspecified, arm, none.
+    /// </summary>
+    [CliOption("--node-architecture-taint-behavior", Format = OptionFormat.EqualsSeparated)]
+    public GcloudContainerNodePoolsUpdateNodeArchitectureTaintBehavior? NodeArchitectureTaintBehavior { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Replaces all the user specified Kubernetes labels on all nodes in an existing node pool with the given labels. Examples: $ gcloud container node-pools update node-pool-1 \ --cluster=example-cluster \ --node-labels=label1=value1,label2=value2 Updating the node pool's --node-labels flag applies the labels to the Kubernetes Node objects for existing nodes in-place; it does not re-create or replace nodes. New nodes, including ones created by resizing or re-creating nodes, will have these labels on the Kubernetes API Node object. The labels can be used in the nodeSelector field. See https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/ for examples. Note that Kubernetes labels, intended to associate cluster components and resources with one another and manage resource lifecycles, are different from Google Kubernetes Engine labels that are used for the purpose of tracking billing and usage information. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NodeLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NodeLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NodeLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Set of zones in which the node pool's nodes should be located. Changing the locations for a node pool will result in nodes being either created or removed from the node pool, depending on whether locations are being added or removed. Multiple locations can be specified, separated by commas. For example: $ gcloud container node-pools update node-pool-1 \ --cluster=sample-cluster \ --node-locations=us-central1-a,us-central1-b Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--node-locations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NodeLocations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NodeLocationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NodeLocationsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Replaces all the user specified Kubernetes taints on all nodes in an existing node pool, which can be used with tolerations for pod scheduling. Examples: $ gcloud container node-pools update node-pool-1 \ --cluster=example-cluster \ --node-taints=key1=val1:NoSchedule,key2=val2:PreferNoSchedule To read more about node-taints, see https://cloud.google.com/kubernetes-engine/docs/node-taints. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NodeTaints
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NodeTaintsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NodeTaintsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Replaces all the user specified resource manager tags on all nodes in an existing node pool in a Standard cluster with the given comma-separated resource manager tags that has the GCE_FIREWALL purpose. Examples: $ gcloud container node-pools update example-node-pool \ --resource-manager-tags=tagKeys/1234=tagValues/2345 $ gcloud container node-pools update example-node-pool \ --resource-manager-tags=my-project/key1=value1 $ gcloud container node-pools update example-node-pool \ --resource-manager-tags=12345/key1=value1,23456/key2=value2 $ gcloud container node-pools update example-node-pool \ --resource-manager-tags= All nodes, including nodes that are resized or re-created, will have the specified tags on the corresponding Instance object in the Compute Engine API. You can reference these tags in network firewall policy rules. For instructions, see https://cloud.google.com/firewall/docs/use-tags-for-firewalls. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: A list of storage pools where the node pool's boot disks will be provisioned. Replaces all the current storage pools of an existing node pool, with the specified storage pools. STORAGE_POOL must be in the format projects/project/zones/zone/storagePools/storagePool Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--storage-pools", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? StoragePools
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __StoragePoolsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __StoragePoolsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path of the YAML/JSON file that contains the node configuration, including Linux kernel parameters (sysctls) and kubelet configs. For more information about the configuration options, such as supported machine series and limits, see Customize node system config (https://docs.cloud.google.com/kubernetes-engine/docs/how-to/node-system-config#kubelet-options). Examples: kubeletConfig: cpuManagerPolicy: static memoryManager: policy: Static topologyManager: policy: BestEffort scope: pod crashLoopBackOff: maxContainerRestartPeriod: '300s' linuxConfig: accurateTimeConfig: enablePtpKvmTimeSync: true sysctl: net.core.somaxconn: '2048' net.ipv4.tcp_rmem: '4096 87380 6291456' hugepageConfig: hugepage_size2m: '1024' hugepage_size1g: '2' swapConfig: enabled: true bootDiskProfile: swapSizeGib: 8 cgroupMode: 'CGROUP_MODE_V2' nodeKernelModuleLoading: policy: 'ENFORCE_SIGNED_MODULES' nodeVfioConfig: dmaEntryLimit: 65536 diskIoScheduler: nodeSystemIoScheduler: 'bfq' nodeAttachedDiskIoScheduler: 'mq-deadline' List of supported kubelet configs in 'kubeletConfig'. KEY VALUE cpuManagerPolicy either 'static' or 'none' cpuCFSQuota true or false (enabled by default) cpuCFSQuotaPeriod interval (e.g., '100ms'. The value must be between 1ms and 1 second, inclusive.) memoryManager specify memory manager policy topologyManager specify topology manager policy and scope podPidsLimit integer (The value must be greater than or equal to 1024 and less than 4194304.) containerLogMaxSize positive number plus unit suffix (e.g., '100Mi', '0.2Gi'. The value must be between 10Mi and 500Mi, inclusive.) containerLogMaxFiles integer (The value must be between [2, 10].) imageGcLowThresholdPercent integer (The value must be between [10, 85], and lower than imageGcHighThresholdPercent. ) imageGcHighThresholdPercent integer (The value must be between [10, 85], and greater than imageGcLowThresholdPercent.) imageMinimumGcAge interval (e.g., '100s', '1m'. The value must be less than '2m'.) imageMaximumGcAge interval (e.g., '100s', '1m'. The value must be greater than imageMinimumGcAge.) evictionSoft specify eviction soft thresholds evictionSoftGracePeriod specify eviction soft grace period evictionMinimumReclaim specify eviction minimum reclaim thresholds evictionMaxPodGracePeriodSeconds integer (Max grace period for pod termination during eviction, in seconds. The value must be between [0, 300].) shutdownGracePeriodSeconds integer (Grace period for pods terminating on node shutdown, in seconds. Allowed values: 0, 30, 120.) shutdownGracePeriodCriticalPodsSeconds integer (Grace period for critical pods terminating on node shutdown, in seconds. The value must be between [0, 120] and less than shutdownGracePeriodSeconds.) allowedUnsafeSysctls list of sysctls (Allowlisted groups: 'kernel.shm*', 'kernel.msg*', 'kernel.sem', 'fs.mqueue.*', and 'net.*', and sysctls under the groups.) singleProcessOomKill true or false maxParallelImagePulls integer (The value must be between [2, 5].) crashLoopBackOff specify crashloopbackoff thresholds List of supported keys in memoryManager in 'kubeletConfig'. KEY VALUE policy either 'Static' or 'None' List of supported keys in topologyManager in 'kubeletConfig'. KEY VALUE policy either 'none' or 'best-effort' or 'single-numa-node' or 'restricted' scope either 'pod' or 'container' List of supported keys in evictionSoft in 'kubeletConfig'. KEY VALUE memoryAvailable quantity (e.g., '100Mi', '1Gi'. Represents the amount of memory available before soft eviction. The value must be at least 100Mi and less than 50% of the node's memory.) nodefsAvailable percentage (e.g., '20%'. Represents the nodefs available before soft eviction. The value must be between 10% and 50%, inclusive.) nodefsInodesFree percentage (e.g., '20%'. Represents the nodefs inodes free before soft eviction. The value must be between 5% and 50%, inclusive.) imagefsAvailable percentage (e.g., '20%'. Represents the imagefs available before soft eviction. The value must be between 15% and 50%, inclusive.) imagefsInodesFree percentage (e.g., '20%'. Represents the imagefs inodes free before soft eviction. The value must be between 5% and 50%, inclusive.) pidAvailable percentage (e.g., '20%'. Represents the pid available before soft eviction. The value must be between 10% and 50%, inclusive.) List of supported keys in evictionSoftGracePeriod in 'kubeletConfig'. KEY VALUE memoryAvailable duration (e.g., '30s', '1m'. The grace period for soft eviction for this resource. The value must be positive and no more than '5m'.) nodefsAvailable duration (e.g., '30s', '1m'. The grace period for soft eviction for this resource. The value must be positive and no more than '5m'.) nodefsInodesFree duration (e.g., '30s', '1m'. The grace period for soft eviction for this resource. The value must be positive and no more than '5m'.) imagefsAvailable duration (e.g., '30s', '1m'. The grace period for soft eviction for this resource. The value must be positive and no more than '5m'.) imagefsInodesFree duration (e.g., '30s', '1m'. The grace period for soft eviction for this resource. The value must be positive and no more than '5m'.) pidAvailable duration (e.g., '30s', '1m'. The grace period for soft eviction for this resource. The value must be positive and no more than '5m'.) List of supported keys in evictionMinimumReclaim in 'kubeletConfig'. KEY VALUE memoryAvailable percentage (e.g., '5%'. Represents the minimum reclaim threshold for memory available. The value must be positive and no more than 10%.) nodefsAvailable percentage (e.g., '5%'. Represents the minimum reclaim threshold for nodefs available. The value must be positive and no more than 10%.) nodefsInodesFree percentage (e.g., '5%'. Represents the minimum reclaim threshold for nodefs inodes free. The value must be positive and no more than 10%.) imagefsAvailable percentage (e.g., '5%'. Represents the minimum reclaim threshold for imagefs available. The value must be positive and no more than 10%.) imagefsInodesFree percentage (e.g., '5%'. Represents the minimum reclaim threshold for imagefs inodes free. The value must be positive and no more than 10%.) pidAvailable percentage (e.g., '5%'. Represents the minimum reclaim threshold for pid available. The value must be positive and no more than 10%.) List of supported keys in crashLoopBackOff in 'kubeletConfig'. KEY VALUE maxContainerRestartPeriod duration (e.g., '30s', '1m'. The maximum duration the backoff delay can accrue to for container restarts. The value must be between [1s, 300s].) List of supported sysctls in 'linuxConfig'. KEY VALUE net.core.netdev_max_backlog Any positive integer, less than 2147483647 net.core.rmem_default Must be between [2304, 2147483647] net.core.rmem_max Must be between [2304, 2147483647] net.core.wmem_default Must be between [4608, 2147483647] net.core.wmem_max Must be between [4608, 2147483647] net.core.optmem_max Any positive integer, less than 2147483647 net.core.somaxconn Must be between [128, 2147483647] net.ipv4.tcp_rmem Any positive integer tuple net.ipv4.tcp_wmem Any positive integer tuple net.ipv4.tcp_tw_reuse Must be {0, 1, 2} net.ipv4.tcp_mtu_probing Must be {0, 1, 2} net.ipv4.tcp_max_orphans Must be between [16384, 262144] net.ipv4.tcp_max_tw_buckets Must be between [4096, 2147483647] net.ipv4.tcp_syn_retries Must be between [1, 127] net.ipv4.tcp_ecn Must be {0, 1, 2} net.ipv4.tcp_congestion_control Supported values for COS: 'reno', 'cubic', 'bbr', 'lp', 'htcp'. Supported values for Ubuntu: 'reno', 'cubic', 'bbr', 'lp', 'htcp', 'vegas', 'dctcp', 'bic', 'cdg', 'highspeed', 'hybla', 'illinois', 'nv', 'scalable', 'veno', 'westwood', 'yeah'. net.ipv4.neigh.default.gc_thresh1 Must be between [0, 262144] net.ipv4.neigh.default.gc_thresh2 Must be between [512, 524288] net.ipv4.neigh.default.gc_thresh3 Must be between [1024, 1048576] net.netfilter.nf_conntrack_max Must be between [65536, 4194304] net.netfilter.nf_conntrack_buckets Must be between [65536, 524288]. Recommend setting: nf_conntrack_max = nf_conntrack_buc kets * 4 net.netfilter.nf_conntrack_tcp_timeout_close_wait Must be between [60, 3600] net.netfilter.nf_conntrack_tcp_timeout_time_wait Must be between [1, 600] net.netfilter.nf_conntrack_tcp_timeout_established Must be between [600, 86400] net.netfilter.nf_conntrack_acct Must be {0, 1} kernel.keys.maxkeys Must be between [200, 1048576] kernel.keys.maxbytes Must be between [20000, 2097152] kernel.shmmni Must be between [4096, 32768] kernel.shmmax Must be between [0, 1844674407369277 4399] kernel.shmall Must be between [0, 1844674407369277 4399] kernel.perf_event_paranoid Must be {-1, 0, 1, 2, 3} kernel.sched_rt_runtime_us Must be [-1, 1000000] kernel.softlockup_panic Must be {0, 1} kernel.yama.ptrace_scope Must be {0, 1, 2, 3} kernel.kptr_restrict Must be {0, 1, 2} kernel.dmesg_restrict Must be {0, 1} kernel.sysrq Must be [0, 511] fs.aio-max-nr Must be between [65536, 4194304] fs.file-max Must be between [104857, 67108864] fs.inotify.max_user_instances Must be between [8192, 1048576] fs.inotify.max_user_watches Must be between [8192, 1048576] fs.nr_open Must be between [1048576, 2147483584] vm.dirty_background_ratio Must be between [1, 100] vm.dirty_background_bytes Must be between [0, 68719476736] vm.dirty_expire_centisecs Must be between [0, 6000] vm.dirty_ratio Must be between [1, 100] vm.dirty_bytes Must be between [0, 68719476736] vm.dirty_writeback_centisecs Must be between [0, 1000] vm.max_map_count Must be between [65536, 2147483647] vm.overcommit_memory Must be one of {0, 1, 2}. Not supported on machines with less than 15 GB memory. vm.overcommit_ratio Must be between [0, 100] vm.vfs_cache_pressure Must be between [0, 100] vm.swappiness Must be between [0, 200] vm.watermark_scale_factor Must be between [10, 3000] vm.min_free_kbytes Must be between [67584, 1048576] List of supported keys in 'accurateTimeConfig' under 'linuxConfig'. KEY VALUE enablePtpKvmTimeSync boolean List of supported hugepage size in 'hugepageConfig'. KEY VALUE hugepage_size2m Number of 2M huge pages, any positive integer hugepage_size1g Number of 1G huge pages, any positive integer List of supported keys in 'swapConfig' under 'linuxConfig'. KEY VALUE enabled boolean encryptionConfig specify encryption settings for the swap space bootDiskProfile specify swap on the node's boot disk ephemeralLocalSsdProfile specify swap on the local SSD shared with pod ephemeral storage dedicatedLocalSsdProfile specify swap on a new, separate local NVMe SSD exclusively for swap List of supported keys in 'encryptionConfig' under 'swapConfig'. KEY VALUE disabled boolean List of supported keys in 'bootDiskProfile' under 'swapConfig'. KEY VALUE swapSizeGib integer swapSizePercent integer List of supported keys in 'ephemeralLocalSsdProfile' under 'swapConfig'. KEY VALUE swapSizeGib integer swapSizePercent integer List of supported keys in 'dedicatedLocalSsdProfile' under 'swapConfig'. KEY VALUE diskCount integer List of supported keys in 'nodeKernelModuleLoading'. KEY VALUE policy ENFORCE_SIGNED_MODULES, DO_NOT_ENFORCE_SIGNED_MO DULES, POLICY_UNSPECIFIED List of supported keys in 'nodeVfioConfig' under 'linuxConfig'. KEY VALUE dmaEntryLimit integer between [65535, 4194304] List of supported keys in 'diskIoScheduler' under 'linuxConfig'. KEY VALUE nodeSystemIoScheduler string. Supported values: 'mq-deadline', 'bfq', 'kyber', 'none'. nodeAttachedDiskIoScheduler string. Supported values: 'mq-deadline', 'bfq', 'kyber', 'none'. The upper limit for total allocated hugepage size differs based upon machine size. ▸ On machines with less than 30 GB memory: 60% of the total memory. For example, on e2-standard-2 machine with 8 GB of memory, you can't allocate more than 4.8 GB for hugepages. ▸ On machines with more than 30 GB memory: 80% of the total memory. For example, on c4a-standard-8 machines with 32 GB of memory, hugepages cannot exceed 25.6 GB. 1G hugepages are only available in following machine familes: c3, m2, c2d, c3d, h3, m3, a2, a3, g2. Supported values for 'cgroupMode' under 'linuxConfig'. ▸ CGROUP_MODE_V1: Use cgroupv1 on the node pool. ▸ CGROUP_MODE_V2: Use cgroupv2 on the node pool. ▸ CGROUP_MODE_UNSPECIFIED: Use the default GKE cgroup configuration. Supported values for 'transparentHugepageEnabled' under 'linuxConfig' which controls transparent hugepage support for anonymous memory. ▸ TRANSPARENT_HUGEPAGE_ENABLED_ALWAYS: Transparent hugepage is enabled system wide. ▸ TRANSPARENT_HUGEPAGE_ENABLED_MADVISE: Transparent hugepage is enabled inside MADV_HUGEPAGE regions. This is the default kernel configuration. ▸ TRANSPARENT_HUGEPAGE_ENABLED_NEVER: Transparent hugepage is disabled. ▸ TRANSPARENT_HUGEPAGE_ENABLED_UNSPECIFIED: Default value. GKE will not modify the kernel configuration. Supported values for 'transparentHugepageDefrag' under 'linuxConfig' which defines the transparent hugepage defrag configuration on the node. ▸ TRANSPARENT_HUGEPAGE_DEFRAG_ALWAYS: It means that an application requesting THP will stall on allocation failure and directly reclaim pages and compact memory in an effort to allocate a THP immediately. ▸ TRANSPARENT_HUGEPAGE_DEFRAG_DEFER: It means that an application will wake kswapd in the background to reclaim pages and wake kcompactd to compact memory so that THP is available in the near future. It is the responsibility of khugepaged to then install the THP pages later. ▸ TRANSPARENT_HUGEPAGE_DEFRAG_DEFER_WITH_MADVISE: It means that an application will enter direct reclaim and compaction like always, but only for regions that have used madvise(MADV_HUGEPAGE); all other regions will wake kswapd in the background to reclaim pages and wake kcompactd to compact memory so that THP is available in the near future. ▸ TRANSPARENT_HUGEPAGE_DEFRAG_MADVISE: It means that an application will enter direct reclaim and compaction like always, but only for regions that have used madvise(MADV_HUGEPAGE); all other regions will wake kswapd in the background to reclaim pages and wake kcompactd to compact memory so that THP is available in the near future. ▸ TRANSPARENT_HUGEPAGE_DEFRAG_NEVER: It means that an application will never enter direct reclaim or compaction. ▸ TRANSPARENT_HUGEPAGE_DEFRAG_UNSPECIFIED: Default value. GKE will not modify the kernel configuration. Supported values for 'policy' under 'nodeKernelModuleLoading'. ▸ POLICY_UNSPECIFIED: Default behavior. GKE selects the image based on node type. For CPU and TPU nodes, the image will not allow loading external kernel modules. For GPU nodes, the image will allow loading any module, whether it is signed or not. ▸ ENFORCE_SIGNED_MODULES: Enforced signature verification: Node pools will use a Container-Optimized OS image configured to allow loading of Google-signed external kernel modules. Loadpin is enabled but configured to exclude modules, and kernel module signature checking is enforced. ▸ DO_NOT_ENFORCE_SIGNED_MODULES: Do not enforce kernel module signature enforcement. Mirrors existing DEFAULT behavior. Note, updating the system configuration of an existing node pool requires recreation of the nodes which which might cause a disruption. Use a full or relative path to a local file containing the value of system_config.
+    /// </summary>
+    [CliOption("--system-config-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? SystemConfigFromFile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Replaces all the user specified Compute Engine tags on all nodes in an existing node pool with the given tags (comma separated). Examples: $ gcloud container node-pools update node-pool-1 \ --cluster=example-cluster --tags=tag1,tag2 New nodes, including ones created by resize or recreate, will have these tags on the Compute Engine API instance object and these tags can be used in firewall rules. See https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/create for examples. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Tags
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __TagsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __TagsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies the Windows Server Image to use when creating a Windows node pool. Valid variants can be "ltsc2019", "ltsc2022". It means using LTSC2019 server image or LTSC2022 server image. If the node pool doesn't specify a Windows Server Image Os version, then Ltsc2019 will be the default one to use. WINDOWS_OS_VERSION must be one of: ltsc2019, ltsc2022.
+    /// </summary>
+    [CliOption("--windows-os-version", Format = OptionFormat.EqualsSeparated)]
+    public GcloudContainerNodePoolsUpdateWindowsOsVersion? WindowsOsVersion { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Type of metadata server available to pods running in the node pool. WORKLOAD_METADATA must be one of: GCE_METADATA Pods running in this node pool have access to the node's underlying Compute Engine Metadata Server. GKE_METADATA Run the Kubernetes Engine Metadata Server on this node. The Kubernetes Engine Metadata Server exposes a metadata API to workloads that is compatible with the V1 Compute Metadata APIs exposed by the Compute Engine and App Engine Metadata Servers. This feature can only be enabled if Workload Identity is enabled at the cluster level.
+    /// </summary>
+    [CliOption("--workload-metadata", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkloadMetadata { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Node pool maintenance exclusions Add node pool maintenance exclusion until the end of support.
+    /// </summary>
+    [CliFlag("--add-maintenance-exclusion-until-end-of-support")]
+    public bool? AddMaintenanceExclusionUntilEndOfSupport { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Node pool maintenance exclusions Remove node pool maintenance exclusion until the end of support.
+    /// </summary>
+    [CliFlag("--remove-maintenance-exclusion-until-end-of-support")]
+    public bool? RemoveMaintenanceExclusionUntilEndOfSupport { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Upgrade settings Autoscaled rollout policy options for blue-green upgrade. wait-for-drain-duration (Optional) Time in seconds to wait after cordoning the blue pool before draining the nodes. Examples: $ gcloud container node-pools update node-pool-1 \ --cluster=example-cluster --enable-blue-green-upgrade \ --autoscaled-rollout-policy="" $ gcloud container node-pools update node-pool-1 \ --cluster=example-cluster --enable-blue-green-upgrade \ --autoscaled-rollout-policy=wait-for-drain-duration=7200s
+    /// </summary>
+    [CliOption("--autoscaled-rollout-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscaledRolloutPolicy { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Upgrade settings Changes node pool upgrade strategy to blue-green upgrade.
+    /// </summary>
+    [CliFlag("--enable-blue-green-upgrade")]
+    public bool? EnableBlueGreenUpgrade { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Upgrade settings Changes node pool upgrade strategy to surge upgrade.
+    /// </summary>
+    [CliFlag("--enable-surge-upgrade")]
+    public bool? EnableSurgeUpgrade { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Upgrade settings Number of extra (surge) nodes to be created on each upgrade of the node pool. Specifies the number of extra (surge) nodes to be created during this node pool's upgrades. For example, running the following command will result in creating an extra node each time the node pool is upgraded: $ gcloud container node-pools update node-pool-1 \ --cluster=example-cluster --max-surge-upgrade=1 \ --max-unavailable-upgrade=0 Must be used in conjunction with '--max-unavailable-upgrade'.
+    /// </summary>
+    [CliOption("--max-surge-upgrade", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxSurgeUpgrade { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Upgrade settings Number of nodes that can be unavailable at the same time on each upgrade of the node pool. Specifies the number of nodes that can be unavailable at the same time during this node pool's upgrades. For example, assume the node pool has 5 nodes, running the following command will result in having 3 nodes being upgraded in parallel (1 + 2), but keeping always at least 3 (5 - 2) available each time the node pool is upgraded: $ gcloud container node-pools update node-pool-1 \ --cluster=example-cluster --max-surge-upgrade=1 \ --max-unavailable-upgrade=2 Must be used in conjunction with '--max-surge-upgrade'.
+    /// </summary>
+    [CliOption("--max-unavailable-upgrade", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxUnavailableUpgrade { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Upgrade settings Time in seconds to be spent waiting during blue-green upgrade before deleting the blue pool and completing the upgrade. $ gcloud container node-pools update node-pool-1 \ --cluster=example-cluster --node-pool-soak-duration=600s
+    /// </summary>
+    [CliOption("--node-pool-soak-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? NodePoolSoakDuration { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Upgrade settings Standard rollout policy options for blue-green upgrade. Batch sizes are specified by one of, batch-node-count or batch-percent. The duration between batches is specified by batch-soak-duration. $ gcloud container node-pools update node-pool-1 \ --cluster=example-cluster \ --standard-rollout-policy=batch-node-count=3,\ batch-soak-duration=60s $ gcloud container node-pools update node-pool-1 \ --cluster=example-cluster \ --standard-rollout-policy=batch-percent=0.3,\ batch-soak-duration=60s
+    /// </summary>
+    [CliOption("--standard-rollout-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? StandardRolloutPolicy { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node config Configure the Provisioned IOPS for the node pool boot disks. Only valid for hyperdisk-balanced boot disks.
+    /// </summary>
+    [CliOption("--boot-disk-provisioned-iops", Format = OptionFormat.EqualsSeparated)]
+    public int? BootDiskProvisionedIops { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node config Configure the Provisioned Throughput for the node pool boot disks. Only valid for hyperdisk-balanced boot disks.
+    /// </summary>
+    [CliOption("--boot-disk-provisioned-throughput", Format = OptionFormat.EqualsSeparated)]
+    public string? BootDiskProvisionedThroughput { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node config Size for node VM boot disks in GB. Defaults to 100GB.
+    /// </summary>
+    [CliOption("--disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? DiskSize { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node config Type of the node VM boot disk. For version 1.24 and later, defaults to pd-balanced. For versions earlier than 1.24, defaults to pd-standard. DISK_TYPE must be one of: pd-standard, pd-ssd, pd-balanced, hyperdisk-balanced, hyperdisk-extreme, hyperdisk-throughput.
+    /// </summary>
+    [CliOption("--disk-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudContainerNodePoolsUpdateDiskType? DiskType { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node config The type of machine to use for nodes. Defaults to e2-medium. The list of predefined machine types is available using the following command: $ gcloud compute machine-types list You can also specify custom machine types by providing a string with the format "custom-CPUS-RAM" where "CPUS" is the number of virtual CPUs and "RAM" is the amount of RAM in MiB. For example, to create a node pool using custom machines with 2 vCPUs and 12 GB of RAM: $ gcloud container node-pools update high-mem-pool \ --machine-type=custom-2-12288
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Cluster autoscaling Enables Cluster Autoscaler to treat the node pool as if it was autoprovisioned. Cluster Autoscaler will be able to delete the node pool if it's unneeded.
+    /// </summary>
+    [CliFlag("--enable-autoprovisioning")]
+    public bool? EnableAutoprovisioning { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Cluster autoscaling Enables autoscaling for a node pool. Enables autoscaling in the node pool specified by --node-pool or the default node pool if --node-pool is not provided. If not already, --max-nodes or --total-max-nodes must also be set.
+    /// </summary>
+    [CliFlag("--enable-autoscaling")]
+    public bool? EnableAutoscaling { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Cluster autoscaling Location policy specifies the algorithm used when scaling-up the node pool. ▫ BALANCED - Is a best effort policy that aims to balance the sizes of available zones. ▫ ANY - Instructs the cluster autoscaler to prioritize utilization of unused reservations, and reduces preemption risk for Spot VMs. LOCATION_POLICY must be one of: BALANCED, ANY.
+    /// </summary>
+    [CliOption("--location-policy", Format = OptionFormat.EqualsSeparated)]
+    public GcloudContainerNodePoolsUpdateLocationPolicy? LocationPolicy { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Cluster autoscaling Maximum number of nodes per zone in the node pool. Maximum number of nodes per zone to which the node pool specified by --node-pool (or default node pool if unspecified) can scale. Ignored unless --enable-autoscaling is also specified.
+    /// </summary>
+    [CliOption("--max-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxNodes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Cluster autoscaling Minimum number of nodes per zone in the node pool. Minimum number of nodes per zone to which the node pool specified by --node-pool (or default node pool if unspecified) can scale. Ignored unless --enable-autoscaling is also specified.
+    /// </summary>
+    [CliOption("--min-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? MinNodes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Cluster autoscaling Maximum number of all nodes in the node pool. Maximum number of all nodes to which the node pool specified by --node-pool (or default node pool if unspecified) can scale. Ignored unless --enable-autoscaling is also specified.
+    /// </summary>
+    [CliOption("--total-max-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? TotalMaxNodes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Cluster autoscaling Minimum number of all nodes in the node pool. Minimum number of all nodes to which the node pool specified by --node-pool (or default node pool if unspecified) can scale. Ignored unless --enable-autoscaling is also specified.
+    /// </summary>
+    [CliOption("--total-min-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? TotalMinNodes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node management Enable node autorepair feature for a node pool. $ gcloud container node-pools update node-pool-1 \ --cluster=example-cluster --enable-autorepair See https://cloud.google.com/kubernetes-engine/docs/how-to/node-auto-repair for more info.
+    /// </summary>
+    [CliFlag("--enable-autorepair")]
+    public bool? EnableAutorepair { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node management Sets autoupgrade feature for a node pool. $ gcloud container node-pools update node-pool-1 \ --cluster=example-cluster --enable-autoupgrade See https://cloud.google.com/kubernetes-engine/docs/node-auto-upgrades for more info.
+    /// </summary>
+    [CliFlag("--enable-autoupgrade")]
+    public bool? EnableAutoupgrade { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node drain settings The grace period in seconds for nodes to drain before being forcefully removed.
+    /// </summary>
+    [CliOption("--node-drain-grace-period-seconds", Format = OptionFormat.EqualsSeparated)]
+    public int? NodeDrainGracePeriodSeconds { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node drain settings The timeout in seconds for the node pool to be drained.
+    /// </summary>
+    [CliOption("--node-drain-pdb-timeout-seconds", Format = OptionFormat.EqualsSeparated)]
+    public int? NodeDrainPdbTimeoutSeconds { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node drain settings Whether to respect PDBs when deleting nodes in the node pool.
+    /// </summary>
+    [CliFlag("--respect-pdb-during-node-pool-deletion")]
+    public bool? RespectPdbDuringNodePoolDeletion { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The name of the cluster. Overrides the default container/cluster property value for this command invocation.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Compute zone or region (e.g. us-central1-a or us-central1) for the cluster. Overrides the default compute/region or compute/zone value for this command invocation. Prefer using this flag over the --region or --zone flags.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Compute region (e.g. us-central1) for a regional cluster. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// The name of the node pool.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Accelerator) ? 1 : 0) + ((object?)ConfidentialNodeType is not null ? 1 : 0) + (!string.IsNullOrWhiteSpace(ConsolidationDelay) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ContainerdConfigFromFile) ? 1 : 0) + (EnableConfidentialNodes == true ? 1 : 0) + (EnableGvnic == true ? 1 : 0) + (EnablePrivateNodes == true ? 1 : 0) + (EnableQueuedProvisioning == true ? 1 : 0) + (FlexStart == true ? 1 : 0) + (((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(LoggingVariant) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxRunDuration) ? 1 : 0) + (((object?)NetworkPerformanceConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)NetworkPerformanceConfigs is not string || !string.IsNullOrWhiteSpace(NetworkPerformanceConfigs?.ToString()) : ((object?)NetworkPerformanceConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NetworkPerformanceConfigs, static item => item is not null) : (NetworkPerformanceConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NetworkPerformanceConfigs), static item => item is not null)))) ? 1 : 0) + ((object?)NodeArchitectureTaintBehavior is not null ? 1 : 0) + (((object?)NodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)NodeLabels is not string || !string.IsNullOrWhiteSpace(NodeLabels?.ToString()) : ((object?)NodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NodeLabels, static item => item is not null) : (NodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NodeLabels), static item => item is not null)))) ? 1 : 0) + (((object?)NodeLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)NodeLocations is not string || !string.IsNullOrWhiteSpace(NodeLocations?.ToString()) : ((object?)NodeLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NodeLocations, static item => item is not null) : (NodeLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NodeLocations), static item => item is not null)))) ? 1 : 0) + (((object?)NodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)NodeTaints is not string || !string.IsNullOrWhiteSpace(NodeTaints?.ToString()) : ((object?)NodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NodeTaints, static item => item is not null) : (NodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NodeTaints), static item => item is not null)))) ? 1 : 0) + (((object?)ResourceManagerTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)ResourceManagerTags is not string || !string.IsNullOrWhiteSpace(ResourceManagerTags?.ToString()) : ((object?)ResourceManagerTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ResourceManagerTags, static item => item is not null) : (ResourceManagerTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ResourceManagerTags), static item => item is not null)))) ? 1 : 0) + (((object?)StoragePools is global::System.Collections.Generic.IEnumerable<char> ? (object?)StoragePools is not string || !string.IsNullOrWhiteSpace(StoragePools?.ToString()) : ((object?)StoragePools is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)StoragePools, static item => item is not null) : (StoragePools is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)StoragePools), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SystemConfigFromFile) ? 1 : 0) + (((object?)Tags is global::System.Collections.Generic.IEnumerable<char> ? (object?)Tags is not string || !string.IsNullOrWhiteSpace(Tags?.ToString()) : ((object?)Tags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Tags, static item => item is not null) : (Tags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Tags), static item => item is not null)))) ? 1 : 0) + ((object?)WindowsOsVersion is not null ? 1 : 0) + (!string.IsNullOrWhiteSpace(WorkloadMetadata) ? 1 : 0) + (AddMaintenanceExclusionUntilEndOfSupport == true ? 1 : 0) + (RemoveMaintenanceExclusionUntilEndOfSupport == true ? 1 : 0) + ((EnableImageStreaming == true || NoEnableImageStreaming == true) ? 1 : 0) + ((EnableInsecureKubeletReadonlyPort == true || NoEnableInsecureKubeletReadonlyPort == true) ? 1 : 0) + ((EnableKernelModuleSignatureEnforcement == true || NoEnableKernelModuleSignatureEnforcement == true) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AutoscaledRolloutPolicy) || EnableBlueGreenUpgrade == true || EnableSurgeUpgrade == true || !string.IsNullOrWhiteSpace(MaxSurgeUpgrade) || !string.IsNullOrWhiteSpace(MaxUnavailableUpgrade) || !string.IsNullOrWhiteSpace(NodePoolSoakDuration) || !string.IsNullOrWhiteSpace(StandardRolloutPolicy)) ? 1 : 0) + (((object?)BootDiskProvisionedIops is not null || !string.IsNullOrWhiteSpace(BootDiskProvisionedThroughput) || (object?)DiskSize is not null || (object?)DiskType is not null || !string.IsNullOrWhiteSpace(MachineType)) ? 1 : 0) + ((EnableAutoprovisioning == true || EnableAutoscaling == true || (object?)LocationPolicy is not null || !string.IsNullOrWhiteSpace(MaxNodes) || !string.IsNullOrWhiteSpace(MinNodes) || !string.IsNullOrWhiteSpace(TotalMaxNodes) || !string.IsNullOrWhiteSpace(TotalMinNodes)) ? 1 : 0) + ((EnableAutorepair == true || EnableAutoupgrade == true) ? 1 : 0) + (((object?)NodeDrainGracePeriodSeconds is not null || (object?)NodeDrainPdbTimeoutSeconds is not null || RespectPdbDuringNodePoolDeletion == true) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Accelerator, ConfidentialNodeType, ConsolidationDelay, ContainerdConfigFromFile, EnableConfidentialNodes, EnableGvnic, EnablePrivateNodes, EnableQueuedProvisioning, FlexStart, Labels, LoggingVariant, MaxRunDuration, NetworkPerformanceConfigs, NodeArchitectureTaintBehavior, NodeLabels, NodeLocations, NodeTaints, ResourceManagerTags, StoragePools, SystemConfigFromFile, Tags, WindowsOsVersion, WorkloadMetadata, AddMaintenanceExclusionUntilEndOfSupport, RemoveMaintenanceExclusionUntilEndOfSupport, (EnableImageStreaming or NoEnableImageStreaming), (EnableInsecureKubeletReadonlyPort or NoEnableInsecureKubeletReadonlyPort), (EnableKernelModuleSignatureEnforcement or NoEnableKernelModuleSignatureEnforcement), (AutoscaledRolloutPolicy, EnableBlueGreenUpgrade, EnableSurgeUpgrade, MaxSurgeUpgrade, MaxUnavailableUpgrade, NodePoolSoakDuration, or StandardRolloutPolicy), (BootDiskProvisionedIops, BootDiskProvisionedThroughput, DiskSize, DiskType, or MachineType), (EnableAutoprovisioning, EnableAutoscaling, LocationPolicy, MaxNodes, MinNodes, TotalMaxNodes, or TotalMinNodes), (EnableAutorepair or EnableAutoupgrade), or (NodeDrainGracePeriodSeconds, NodeDrainPdbTimeoutSeconds, or RespectPdbDuringNodePoolDeletion) must be specified.", [nameof(Accelerator), nameof(ConfidentialNodeType), nameof(ConsolidationDelay), nameof(ContainerdConfigFromFile), nameof(EnableConfidentialNodes), nameof(EnableGvnic), nameof(EnablePrivateNodes), nameof(EnableQueuedProvisioning), nameof(FlexStart), nameof(Labels), nameof(LoggingVariant), nameof(MaxRunDuration), nameof(NetworkPerformanceConfigs), nameof(NodeArchitectureTaintBehavior), nameof(NodeLabels), nameof(NodeLocations), nameof(NodeTaints), nameof(ResourceManagerTags), nameof(StoragePools), nameof(SystemConfigFromFile), nameof(Tags), nameof(WindowsOsVersion), nameof(WorkloadMetadata), nameof(AddMaintenanceExclusionUntilEndOfSupport), nameof(RemoveMaintenanceExclusionUntilEndOfSupport), nameof(EnableImageStreaming), nameof(NoEnableImageStreaming), nameof(EnableInsecureKubeletReadonlyPort), nameof(NoEnableInsecureKubeletReadonlyPort), nameof(EnableKernelModuleSignatureEnforcement), nameof(NoEnableKernelModuleSignatureEnforcement), nameof(AutoscaledRolloutPolicy), nameof(EnableBlueGreenUpgrade), nameof(EnableSurgeUpgrade), nameof(MaxSurgeUpgrade), nameof(MaxUnavailableUpgrade), nameof(NodePoolSoakDuration), nameof(StandardRolloutPolicy), nameof(BootDiskProvisionedIops), nameof(BootDiskProvisionedThroughput), nameof(DiskSize), nameof(DiskType), nameof(MachineType), nameof(EnableAutoprovisioning), nameof(EnableAutoscaling), nameof(LocationPolicy), nameof(MaxNodes), nameof(MinNodes), nameof(TotalMaxNodes), nameof(TotalMinNodes), nameof(EnableAutorepair), nameof(EnableAutoupgrade), nameof(NodeDrainGracePeriodSeconds), nameof(NodeDrainPdbTimeoutSeconds), nameof(RespectPdbDuringNodePoolDeletion)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Accelerator) || (object?)ConfidentialNodeType is not null || !string.IsNullOrWhiteSpace(ConsolidationDelay) || !string.IsNullOrWhiteSpace(ContainerdConfigFromFile) || EnableConfidentialNodes == true || EnableGvnic == true || EnablePrivateNodes == true || EnableQueuedProvisioning == true || FlexStart == true || ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null)))) || !string.IsNullOrWhiteSpace(LoggingVariant) || !string.IsNullOrWhiteSpace(MaxRunDuration) || ((object?)NetworkPerformanceConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)NetworkPerformanceConfigs is not string || !string.IsNullOrWhiteSpace(NetworkPerformanceConfigs?.ToString()) : ((object?)NetworkPerformanceConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NetworkPerformanceConfigs, static item => item is not null) : (NetworkPerformanceConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NetworkPerformanceConfigs), static item => item is not null)))) || (object?)NodeArchitectureTaintBehavior is not null || ((object?)NodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)NodeLabels is not string || !string.IsNullOrWhiteSpace(NodeLabels?.ToString()) : ((object?)NodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NodeLabels, static item => item is not null) : (NodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NodeLabels), static item => item is not null)))) || ((object?)NodeLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)NodeLocations is not string || !string.IsNullOrWhiteSpace(NodeLocations?.ToString()) : ((object?)NodeLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NodeLocations, static item => item is not null) : (NodeLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NodeLocations), static item => item is not null)))) || ((object?)NodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)NodeTaints is not string || !string.IsNullOrWhiteSpace(NodeTaints?.ToString()) : ((object?)NodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NodeTaints, static item => item is not null) : (NodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NodeTaints), static item => item is not null)))) || ((object?)ResourceManagerTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)ResourceManagerTags is not string || !string.IsNullOrWhiteSpace(ResourceManagerTags?.ToString()) : ((object?)ResourceManagerTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ResourceManagerTags, static item => item is not null) : (ResourceManagerTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ResourceManagerTags), static item => item is not null)))) || ((object?)StoragePools is global::System.Collections.Generic.IEnumerable<char> ? (object?)StoragePools is not string || !string.IsNullOrWhiteSpace(StoragePools?.ToString()) : ((object?)StoragePools is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)StoragePools, static item => item is not null) : (StoragePools is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)StoragePools), static item => item is not null)))) || !string.IsNullOrWhiteSpace(SystemConfigFromFile) || ((object?)Tags is global::System.Collections.Generic.IEnumerable<char> ? (object?)Tags is not string || !string.IsNullOrWhiteSpace(Tags?.ToString()) : ((object?)Tags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Tags, static item => item is not null) : (Tags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Tags), static item => item is not null)))) || (object?)WindowsOsVersion is not null || !string.IsNullOrWhiteSpace(WorkloadMetadata) || AddMaintenanceExclusionUntilEndOfSupport == true || RemoveMaintenanceExclusionUntilEndOfSupport == true || EnableImageStreaming == true || NoEnableImageStreaming == true || EnableInsecureKubeletReadonlyPort == true || NoEnableInsecureKubeletReadonlyPort == true || EnableKernelModuleSignatureEnforcement == true || NoEnableKernelModuleSignatureEnforcement == true || !string.IsNullOrWhiteSpace(AutoscaledRolloutPolicy) || EnableBlueGreenUpgrade == true || EnableSurgeUpgrade == true || !string.IsNullOrWhiteSpace(MaxSurgeUpgrade) || !string.IsNullOrWhiteSpace(MaxUnavailableUpgrade) || !string.IsNullOrWhiteSpace(NodePoolSoakDuration) || !string.IsNullOrWhiteSpace(StandardRolloutPolicy) || (object?)BootDiskProvisionedIops is not null || !string.IsNullOrWhiteSpace(BootDiskProvisionedThroughput) || (object?)DiskSize is not null || (object?)DiskType is not null || !string.IsNullOrWhiteSpace(MachineType) || EnableAutoprovisioning == true || EnableAutoscaling == true || (object?)LocationPolicy is not null || !string.IsNullOrWhiteSpace(MaxNodes) || !string.IsNullOrWhiteSpace(MinNodes) || !string.IsNullOrWhiteSpace(TotalMaxNodes) || !string.IsNullOrWhiteSpace(TotalMinNodes) || EnableAutorepair == true || EnableAutoupgrade == true || (object?)NodeDrainGracePeriodSeconds is not null || (object?)NodeDrainPdbTimeoutSeconds is not null || RespectPdbDuringNodePoolDeletion == true) && (EnableImageStreaming == true || NoEnableImageStreaming == true) && ((EnableImageStreaming == true ? 1 : 0) + (NoEnableImageStreaming == true ? 1 : 0) != 1))
+        {
+            yield return new ValidationResult("Exactly one of EnableImageStreaming or NoEnableImageStreaming must be specified.", [nameof(EnableImageStreaming), nameof(NoEnableImageStreaming)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Accelerator) || (object?)ConfidentialNodeType is not null || !string.IsNullOrWhiteSpace(ConsolidationDelay) || !string.IsNullOrWhiteSpace(ContainerdConfigFromFile) || EnableConfidentialNodes == true || EnableGvnic == true || EnablePrivateNodes == true || EnableQueuedProvisioning == true || FlexStart == true || ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null)))) || !string.IsNullOrWhiteSpace(LoggingVariant) || !string.IsNullOrWhiteSpace(MaxRunDuration) || ((object?)NetworkPerformanceConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)NetworkPerformanceConfigs is not string || !string.IsNullOrWhiteSpace(NetworkPerformanceConfigs?.ToString()) : ((object?)NetworkPerformanceConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NetworkPerformanceConfigs, static item => item is not null) : (NetworkPerformanceConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NetworkPerformanceConfigs), static item => item is not null)))) || (object?)NodeArchitectureTaintBehavior is not null || ((object?)NodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)NodeLabels is not string || !string.IsNullOrWhiteSpace(NodeLabels?.ToString()) : ((object?)NodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NodeLabels, static item => item is not null) : (NodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NodeLabels), static item => item is not null)))) || ((object?)NodeLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)NodeLocations is not string || !string.IsNullOrWhiteSpace(NodeLocations?.ToString()) : ((object?)NodeLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NodeLocations, static item => item is not null) : (NodeLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NodeLocations), static item => item is not null)))) || ((object?)NodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)NodeTaints is not string || !string.IsNullOrWhiteSpace(NodeTaints?.ToString()) : ((object?)NodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NodeTaints, static item => item is not null) : (NodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NodeTaints), static item => item is not null)))) || ((object?)ResourceManagerTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)ResourceManagerTags is not string || !string.IsNullOrWhiteSpace(ResourceManagerTags?.ToString()) : ((object?)ResourceManagerTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ResourceManagerTags, static item => item is not null) : (ResourceManagerTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ResourceManagerTags), static item => item is not null)))) || ((object?)StoragePools is global::System.Collections.Generic.IEnumerable<char> ? (object?)StoragePools is not string || !string.IsNullOrWhiteSpace(StoragePools?.ToString()) : ((object?)StoragePools is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)StoragePools, static item => item is not null) : (StoragePools is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)StoragePools), static item => item is not null)))) || !string.IsNullOrWhiteSpace(SystemConfigFromFile) || ((object?)Tags is global::System.Collections.Generic.IEnumerable<char> ? (object?)Tags is not string || !string.IsNullOrWhiteSpace(Tags?.ToString()) : ((object?)Tags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Tags, static item => item is not null) : (Tags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Tags), static item => item is not null)))) || (object?)WindowsOsVersion is not null || !string.IsNullOrWhiteSpace(WorkloadMetadata) || AddMaintenanceExclusionUntilEndOfSupport == true || RemoveMaintenanceExclusionUntilEndOfSupport == true || EnableImageStreaming == true || NoEnableImageStreaming == true || EnableInsecureKubeletReadonlyPort == true || NoEnableInsecureKubeletReadonlyPort == true || EnableKernelModuleSignatureEnforcement == true || NoEnableKernelModuleSignatureEnforcement == true || !string.IsNullOrWhiteSpace(AutoscaledRolloutPolicy) || EnableBlueGreenUpgrade == true || EnableSurgeUpgrade == true || !string.IsNullOrWhiteSpace(MaxSurgeUpgrade) || !string.IsNullOrWhiteSpace(MaxUnavailableUpgrade) || !string.IsNullOrWhiteSpace(NodePoolSoakDuration) || !string.IsNullOrWhiteSpace(StandardRolloutPolicy) || (object?)BootDiskProvisionedIops is not null || !string.IsNullOrWhiteSpace(BootDiskProvisionedThroughput) || (object?)DiskSize is not null || (object?)DiskType is not null || !string.IsNullOrWhiteSpace(MachineType) || EnableAutoprovisioning == true || EnableAutoscaling == true || (object?)LocationPolicy is not null || !string.IsNullOrWhiteSpace(MaxNodes) || !string.IsNullOrWhiteSpace(MinNodes) || !string.IsNullOrWhiteSpace(TotalMaxNodes) || !string.IsNullOrWhiteSpace(TotalMinNodes) || EnableAutorepair == true || EnableAutoupgrade == true || (object?)NodeDrainGracePeriodSeconds is not null || (object?)NodeDrainPdbTimeoutSeconds is not null || RespectPdbDuringNodePoolDeletion == true) && (EnableInsecureKubeletReadonlyPort == true || NoEnableInsecureKubeletReadonlyPort == true) && ((EnableInsecureKubeletReadonlyPort == true ? 1 : 0) + (NoEnableInsecureKubeletReadonlyPort == true ? 1 : 0) != 1))
+        {
+            yield return new ValidationResult("Exactly one of EnableInsecureKubeletReadonlyPort or NoEnableInsecureKubeletReadonlyPort must be specified.", [nameof(EnableInsecureKubeletReadonlyPort), nameof(NoEnableInsecureKubeletReadonlyPort)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Accelerator) || (object?)ConfidentialNodeType is not null || !string.IsNullOrWhiteSpace(ConsolidationDelay) || !string.IsNullOrWhiteSpace(ContainerdConfigFromFile) || EnableConfidentialNodes == true || EnableGvnic == true || EnablePrivateNodes == true || EnableQueuedProvisioning == true || FlexStart == true || ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null)))) || !string.IsNullOrWhiteSpace(LoggingVariant) || !string.IsNullOrWhiteSpace(MaxRunDuration) || ((object?)NetworkPerformanceConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)NetworkPerformanceConfigs is not string || !string.IsNullOrWhiteSpace(NetworkPerformanceConfigs?.ToString()) : ((object?)NetworkPerformanceConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NetworkPerformanceConfigs, static item => item is not null) : (NetworkPerformanceConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NetworkPerformanceConfigs), static item => item is not null)))) || (object?)NodeArchitectureTaintBehavior is not null || ((object?)NodeLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)NodeLabels is not string || !string.IsNullOrWhiteSpace(NodeLabels?.ToString()) : ((object?)NodeLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NodeLabels, static item => item is not null) : (NodeLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NodeLabels), static item => item is not null)))) || ((object?)NodeLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)NodeLocations is not string || !string.IsNullOrWhiteSpace(NodeLocations?.ToString()) : ((object?)NodeLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NodeLocations, static item => item is not null) : (NodeLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NodeLocations), static item => item is not null)))) || ((object?)NodeTaints is global::System.Collections.Generic.IEnumerable<char> ? (object?)NodeTaints is not string || !string.IsNullOrWhiteSpace(NodeTaints?.ToString()) : ((object?)NodeTaints is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NodeTaints, static item => item is not null) : (NodeTaints is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NodeTaints), static item => item is not null)))) || ((object?)ResourceManagerTags is global::System.Collections.Generic.IEnumerable<char> ? (object?)ResourceManagerTags is not string || !string.IsNullOrWhiteSpace(ResourceManagerTags?.ToString()) : ((object?)ResourceManagerTags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ResourceManagerTags, static item => item is not null) : (ResourceManagerTags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ResourceManagerTags), static item => item is not null)))) || ((object?)StoragePools is global::System.Collections.Generic.IEnumerable<char> ? (object?)StoragePools is not string || !string.IsNullOrWhiteSpace(StoragePools?.ToString()) : ((object?)StoragePools is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)StoragePools, static item => item is not null) : (StoragePools is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)StoragePools), static item => item is not null)))) || !string.IsNullOrWhiteSpace(SystemConfigFromFile) || ((object?)Tags is global::System.Collections.Generic.IEnumerable<char> ? (object?)Tags is not string || !string.IsNullOrWhiteSpace(Tags?.ToString()) : ((object?)Tags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Tags, static item => item is not null) : (Tags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Tags), static item => item is not null)))) || (object?)WindowsOsVersion is not null || !string.IsNullOrWhiteSpace(WorkloadMetadata) || AddMaintenanceExclusionUntilEndOfSupport == true || RemoveMaintenanceExclusionUntilEndOfSupport == true || EnableImageStreaming == true || NoEnableImageStreaming == true || EnableInsecureKubeletReadonlyPort == true || NoEnableInsecureKubeletReadonlyPort == true || EnableKernelModuleSignatureEnforcement == true || NoEnableKernelModuleSignatureEnforcement == true || !string.IsNullOrWhiteSpace(AutoscaledRolloutPolicy) || EnableBlueGreenUpgrade == true || EnableSurgeUpgrade == true || !string.IsNullOrWhiteSpace(MaxSurgeUpgrade) || !string.IsNullOrWhiteSpace(MaxUnavailableUpgrade) || !string.IsNullOrWhiteSpace(NodePoolSoakDuration) || !string.IsNullOrWhiteSpace(StandardRolloutPolicy) || (object?)BootDiskProvisionedIops is not null || !string.IsNullOrWhiteSpace(BootDiskProvisionedThroughput) || (object?)DiskSize is not null || (object?)DiskType is not null || !string.IsNullOrWhiteSpace(MachineType) || EnableAutoprovisioning == true || EnableAutoscaling == true || (object?)LocationPolicy is not null || !string.IsNullOrWhiteSpace(MaxNodes) || !string.IsNullOrWhiteSpace(MinNodes) || !string.IsNullOrWhiteSpace(TotalMaxNodes) || !string.IsNullOrWhiteSpace(TotalMinNodes) || EnableAutorepair == true || EnableAutoupgrade == true || (object?)NodeDrainGracePeriodSeconds is not null || (object?)NodeDrainPdbTimeoutSeconds is not null || RespectPdbDuringNodePoolDeletion == true) && (EnableKernelModuleSignatureEnforcement == true || NoEnableKernelModuleSignatureEnforcement == true) && ((EnableKernelModuleSignatureEnforcement == true ? 1 : 0) + (NoEnableKernelModuleSignatureEnforcement == true ? 1 : 0) != 1))
+        {
+            yield return new ValidationResult("Exactly one of EnableKernelModuleSignatureEnforcement or NoEnableKernelModuleSignatureEnforcement must be specified.", [nameof(EnableKernelModuleSignatureEnforcement), nameof(NoEnableKernelModuleSignatureEnforcement)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Location) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Location, Region, or Zone may be specified.", [nameof(Location), nameof(Region), nameof(Zone)]);
+        }
+        yield break;
+    }
+
 }

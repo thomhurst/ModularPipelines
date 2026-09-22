@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "tpus", "versions", "describe")]
 public record GcloudComputeTpusVersionsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Tensorflow version     available for Cloud TPUs
+    /// </summary>
+    /// <param name="Version">Tensorflow version resource - The Tensorflow version you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tensorflow_version or fully qualified identifier for the tensorflow_version. To set the version attribute: ▸ provide the argument version on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeTpusVersionsDescribeOptions(
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string Version)
+    {
+        Version = this.Version;
+    }
+
+    /// <summary>
+    /// Tensorflow version resource - The Tensorflow version you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The compute/zone of the Cloud TPU. If not specified, will use default compute/zone. To set the zone attribute: ▸ provide the argument version on the command line with a fully specified name; ▸ provide the argument --zone on the command line; ▸ set the property compute/zone.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Tensorflow version resource - The Tensorflow version you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tensorflow_version or fully qualified identifier for the tensorflow_version. To set the version attribute: ▸ provide the argument version on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Version { get; private init; }
+
 }

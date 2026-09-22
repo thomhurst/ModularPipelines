@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -19,8 +20,82 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "users", "create")]
-public record GcloudAlloydbUsersCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Username
-) : GcloudOptions
+public record GcloudAlloydbUsersCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// creates a user in a given cluster
+    /// </summary>
+    /// <param name="Cluster">AlloyDB cluster ID</param>
+    /// <param name="Region">Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.</param>
+    /// <param name="Username">AlloyDB username</param>
+    public GcloudAlloydbUsersCreateOptions(
+        string Cluster,
+        string Region,
+        string Username
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(Username);
+        this.Username = Username;
+    }
+
+    public void Deconstruct(out string Cluster, out string Region, out string Username)
+    {
+        Cluster = this.Cluster;
+        Region = this.Region;
+        Username = this.Username;
+    }
+
+    /// <summary>
+    /// AlloyDB cluster ID
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string Cluster { get; private init; }
+
+    /// <summary>
+    /// Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// Comma separated list of database roles this new user will be granted upon creation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--db-roles", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? DbRoles { get; set; }
+
+    /// <summary>
+    /// If the user already exists and has extra roles, keep them.
+    /// </summary>
+    [CliOption("--keep-extra-roles", Format = OptionFormat.EqualsSeparated)]
+    public string? KeepExtraRoles { get; set; }
+
+    /// <summary>
+    /// Password for this database user.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
+    public string? Password { get; set; }
+
+    /// <summary>
+    /// If true, new user will have AlloyDB superuser privileges. Default value is false.
+    /// </summary>
+    [CliOption("--superuser", Format = OptionFormat.EqualsSeparated)]
+    public string? Superuser { get; set; }
+
+    /// <summary>
+    /// Type corresponds to the user type. TYPE must be one of: BUILT_IN This database user can authenticate via password-based authentication IAM_BASED This database user can authenticate via IAM-based authentication IAM_GROUP This database user represents an IAM group whose members can authenticate via IAM group-based authentication
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string? Type { get; set; }
+
+    /// <summary>
+    /// AlloyDB username
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Username { get; private init; }
+
 }

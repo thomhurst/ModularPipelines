@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "subscriptions", "set-iam-policy")]
-public record GcloudPubsubSubscriptionsSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudPubsubSubscriptionsSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set IAM policy for a     subscription
+    /// </summary>
+    /// <param name="Subscription">Subscription resource - Name of the subscription to set an IAM policy on. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subscription on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the subscription or fully qualified identifier for the subscription. To set the subscription attribute: ▸ provide the argument subscription on the command line.</param>
+    /// <param name="PolicyFile">JSON or YAML file with the IAM policy</param>
+    public GcloudPubsubSubscriptionsSetIamPolicyOptions(
+        string Subscription,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Subscription);
+        this.Subscription = Subscription;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string Subscription, out string PolicyFile)
+    {
+        Subscription = this.Subscription;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// Subscription resource - Name of the subscription to set an IAM policy on. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subscription on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the subscription or fully qualified identifier for the subscription. To set the subscription attribute: ▸ provide the argument subscription on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Subscription { get; private init; }
+
+    /// <summary>
+    /// JSON or YAML file with the IAM policy
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

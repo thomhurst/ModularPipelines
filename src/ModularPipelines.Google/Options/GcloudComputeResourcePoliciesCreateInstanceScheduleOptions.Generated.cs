@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "resource-policies", "create", "instance-schedule")]
-public record GcloudComputeResourcePoliciesCreateInstanceScheduleOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeResourcePoliciesCreateInstanceScheduleOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a     Compute Engine instance schedule resource policy
+    /// </summary>
+    /// <param name="Name">Name of the resource policy to operate on.</param>
+    public GcloudComputeResourcePoliciesCreateInstanceScheduleOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// An optional, textual description for the backend.
     /// </summary>
@@ -64,5 +79,11 @@ public record GcloudComputeResourcePoliciesCreateInstanceScheduleOptions(
     /// </summary>
     [CliOption("--vm-stop-schedule", Format = OptionFormat.EqualsSeparated)]
     public string? VmStopSchedule { get; set; }
+
+    /// <summary>
+    /// Name of the resource policy to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

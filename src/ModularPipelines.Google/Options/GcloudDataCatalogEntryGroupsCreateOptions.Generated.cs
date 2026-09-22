@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataCatalogEntryGroupsCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// create a Data Catalog entry group
+    /// </summary>
+    /// <param name="EntryGroup">Entry group resource - Entry group to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the entry group or fully qualified identifier for the entry group. To set the entry_group attribute: ▸ provide the argument entry_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataCatalogEntryGroupsCreateOptions(
+        string EntryGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EntryGroup);
+        this.EntryGroup = EntryGroup;
+    }
+
+    public void Deconstruct(out string EntryGroup)
+    {
+        EntryGroup = this.EntryGroup;
+    }
+
+    /// <summary>
+    /// Entry group resource - Entry group to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the entry group. To set the location attribute: ▸ provide the argument entry_group on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Description of the entry group.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
@@ -32,5 +55,11 @@ public record GcloudDataCatalogEntryGroupsCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Entry group resource - Entry group to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the entry group or fully qualified identifier for the entry group. To set the entry_group attribute: ▸ provide the argument entry_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EntryGroup { get; private init; }
 
 }

@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("artifacts", "rules", "describe")]
 public record GcloudArtifactsRulesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an Artifact Registry rule
+    /// </summary>
+    /// <param name="Rule">Rule resource - The Artifact Registry rule to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the rule or fully qualified identifier for the rule. To set the rule attribute: ▸ provide the argument rule on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudArtifactsRulesDescribeOptions(
+        string Rule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Rule);
+        this.Rule = Rule;
+    }
+
+    public void Deconstruct(out string Rule)
+    {
+        Rule = this.Rule;
+    }
+
+    /// <summary>
+    /// Rule resource - The Artifact Registry rule to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the rule. Overrides the default artifacts/location property value for this command invocation. To configure the default location, use the command: gcloud config set artifacts/location. To set the location attribute: ▸ provide the argument rule on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Rule resource - The Artifact Registry rule to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The repository associated with the rule. Overrides the default artifacts/repository property value for this command invocation. To configure the default repository, use the command: gcloud config set artifacts/repository. To set the repository attribute: ▸ provide the argument rule on the command line with a fully specified name; ▸ provide the argument --repository on the command line; ▸ set the property artifacts/repository.
+    /// </summary>
+    [CliOption("--repository", Format = OptionFormat.EqualsSeparated)]
+    public string? Repository { get; set; }
+
+    /// <summary>
+    /// Rule resource - The Artifact Registry rule to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rule on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the rule or fully qualified identifier for the rule. To set the rule attribute: ▸ provide the argument rule on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Rule { get; private init; }
+
 }

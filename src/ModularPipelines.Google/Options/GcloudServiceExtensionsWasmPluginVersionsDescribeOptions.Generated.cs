@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("service-extensions", "wasm-plugin-versions", "describe")]
 public record GcloudServiceExtensionsWasmPluginVersionsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details     about a WasmPluginVersion resource
+    /// </summary>
+    /// <param name="WasmPluginVersion">WasmPluginVersion resource - The WasmPluginVersion resource that you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument wasm_plugin_version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the WasmPluginVersion or fully qualified identifier for the WasmPluginVersion. To set the wasm_plugin_version attribute: ▸ provide the argument wasm_plugin_version on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudServiceExtensionsWasmPluginVersionsDescribeOptions(
+        string WasmPluginVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WasmPluginVersion);
+        this.WasmPluginVersion = WasmPluginVersion;
+    }
+
+    public void Deconstruct(out string WasmPluginVersion)
+    {
+        WasmPluginVersion = this.WasmPluginVersion;
+    }
+
+    /// <summary>
+    /// WasmPluginVersion resource - The WasmPluginVersion resource that you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument wasm_plugin_version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location ID. To set the location attribute: ▸ provide the argument wasm_plugin_version on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ use global location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// WasmPluginVersion resource - The WasmPluginVersion resource that you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument wasm_plugin_version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The ID of the WasmPlugin. To set the wasm-plugin attribute: ▸ provide the argument wasm_plugin_version on the command line with a fully specified name; ▸ provide the argument --wasm-plugin on the command line.
+    /// </summary>
+    [CliOption("--wasm-plugin", Format = OptionFormat.EqualsSeparated)]
+    public string? WasmPlugin { get; set; }
+
+    /// <summary>
+    /// WasmPluginVersion resource - The WasmPluginVersion resource that you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument wasm_plugin_version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the WasmPluginVersion or fully qualified identifier for the WasmPluginVersion. To set the wasm_plugin_version attribute: ▸ provide the argument wasm_plugin_version on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WasmPluginVersion { get; private init; }
+
 }

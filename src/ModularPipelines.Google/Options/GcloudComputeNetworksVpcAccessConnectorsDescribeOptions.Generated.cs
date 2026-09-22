@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "networks", "vpc-access", "connectors", "describe")]
 public record GcloudComputeNetworksVpcAccessConnectorsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show metadata for     a VPC Access connector
+    /// </summary>
+    /// <param name="Connector">Connector resource - The connector to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connector on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connector or fully qualified identifier for the connector. To set the connector attribute: ▸ provide the argument connector on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeNetworksVpcAccessConnectorsDescribeOptions(
+        string Connector
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Connector);
+        this.Connector = Connector;
+    }
+
+    public void Deconstruct(out string Connector)
+    {
+        Connector = this.Connector;
+    }
+
+    /// <summary>
+    /// Connector resource - The connector to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connector on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Compute region (e.g. us-central1) for the connector. To set the region attribute: ▸ provide the argument connector on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Connector resource - The connector to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connector on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connector or fully qualified identifier for the connector. To set the connector attribute: ▸ provide the argument connector on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Connector { get; private init; }
+
 }

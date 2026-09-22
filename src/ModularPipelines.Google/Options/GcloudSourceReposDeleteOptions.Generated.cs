@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source", "repos", "delete")]
-public record GcloudSourceReposDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RepositoryName
-) : GcloudOptions
+public record GcloudSourceReposDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a cloud source repository
+    /// </summary>
+    /// <param name="RepositoryName">Name of the repository.</param>
+    public GcloudSourceReposDeleteOptions(
+        string RepositoryName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryName);
+        this.RepositoryName = RepositoryName;
+    }
+
+    public void Deconstruct(out string RepositoryName)
+    {
+        RepositoryName = this.RepositoryName;
+    }
+
     /// <summary>
     /// (REMOVED) If provided, skip the delete confirmation prompt. The --force option has been removed; use --quiet to suppress prompting.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// Name of the repository.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RepositoryName { get; private init; }
 
 }

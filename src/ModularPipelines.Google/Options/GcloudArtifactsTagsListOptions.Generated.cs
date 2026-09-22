@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudArtifactsTagsListOptions : GcloudOptions
 {
     /// <summary>
+    /// list Artifact Registry tags
+    /// </summary>
+    /// <param name="Package">List all tags in a specified artifact, such as a container image or a language package.</param>
+    public GcloudArtifactsTagsListOptions(
+        string Package
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Package);
+        this.Package = Package;
+    }
+
+    public void Deconstruct(out string Package)
+    {
+        Package = this.Package;
+    }
+
+    /// <summary>
+    /// List all tags in a specified artifact, such as a container image or a language package.
+    /// </summary>
+    [CliOption("--package", Format = OptionFormat.EqualsSeparated)]
+    public string Package { get; private init; }
+
+    /// <summary>
     /// Repository resource - The Artifact Registry repository. If not specified, the current artifacts/repository is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Location of the repository. To set the location attribute: ◆ provide the argument --repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property artifacts/location.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]

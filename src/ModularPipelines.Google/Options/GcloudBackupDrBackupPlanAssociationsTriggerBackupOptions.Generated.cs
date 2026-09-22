@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,37 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-dr", "backup-plan-associations", "trigger-backup")]
-public record GcloudBackupDrBackupPlanAssociationsTriggerBackupOptions : GcloudOptions
+public record GcloudBackupDrBackupPlanAssociationsTriggerBackupOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create an     on-demand backup for a resource
+    /// </summary>
+    /// <param name="BackupPlanAssociation">Backup Plan Association resource - Name of an existing backup plan association to use for creating an on-demand backup. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the Backup Plan Association or fully qualified identifier for the Backup Plan Association. To set the name attribute: ▸ provide the argument BACKUP_PLAN_ASSOCIATION on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBackupDrBackupPlanAssociationsTriggerBackupOptions(
+        string BackupPlanAssociation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupPlanAssociation);
+        this.BackupPlanAssociation = BackupPlanAssociation;
+    }
+
+    public void Deconstruct(out string BackupPlanAssociation)
+    {
+        BackupPlanAssociation = this.BackupPlanAssociation;
+    }
+
+    /// <summary>
+    /// Backup Plan Association resource - Name of an existing backup plan association to use for creating an on-demand backup. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location of the Backup Plan Association. To set the location attribute: ▸ provide the argument BACKUP_PLAN_ASSOCIATION on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Backup Plan Association resource - Name of an existing backup plan association to use for creating an on-demand backup. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Cloud project id for the Backup Plan Association. To set the workload-project attribute: ▸ provide the argument BACKUP_PLAN_ASSOCIATION on the command line with a fully specified name; ▸ provide the argument --workload-project on the command line; ▸ provide the argument --project on the command line; ▸ set the property core/project.
+    /// </summary>
+    [CliOption("--workload-project", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkloadProject { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
@@ -35,9 +65,9 @@ public record GcloudBackupDrBackupPlanAssociationsTriggerBackupOptions : GcloudO
     public bool? NoAsync { get; set; }
 
     /// <summary>
-    /// Labels to be applied to the backup.
+    /// Labels to be applied to the backup. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -51,5 +81,21 @@ public record GcloudBackupDrBackupPlanAssociationsTriggerBackupOptions : GcloudO
     /// </summary>
     [CliOption("--custom-retention-days", Format = OptionFormat.EqualsSeparated)]
     public string? CustomRetentionDays { get; set; }
+
+    /// <summary>
+    /// Backup Plan Association resource - Name of an existing backup plan association to use for creating an on-demand backup. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the Backup Plan Association or fully qualified identifier for the Backup Plan Association. To set the name attribute: ▸ provide the argument BACKUP_PLAN_ASSOCIATION on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackupPlanAssociation { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BackupRuleId) ? 1 : 0) + (!string.IsNullOrWhiteSpace(CustomRetentionDays) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BackupRuleId or CustomRetentionDays may be specified.", [nameof(BackupRuleId), nameof(CustomRetentionDays)]);
+        }
+        yield break;
+    }
 
 }

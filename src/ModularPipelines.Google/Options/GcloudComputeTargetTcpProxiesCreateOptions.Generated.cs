@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "target-tcp-proxies", "create")]
-public record GcloudComputeTargetTcpProxiesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeTargetTcpProxiesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a target TCP proxy
+    /// </summary>
+    /// <param name="Name">Name of the target TCP proxy to create.</param>
+    public GcloudComputeTargetTcpProxiesCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// A backend service that will be used for connections to the target TCP proxy.
     /// </summary>
@@ -82,5 +98,25 @@ public record GcloudComputeTargetTcpProxiesCreateOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the target TCP proxy to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BackendServiceRegion) ? 1 : 0) + (GlobalBackendService == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BackendServiceRegion or GlobalBackendService may be specified.", [nameof(BackendServiceRegion), nameof(GlobalBackendService)]);
+        }
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,36 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "url-maps", "delete")]
-public record GcloudPreviewComputeUrlMapsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> UrlMap
-) : GcloudOptions
+public record GcloudPreviewComputeUrlMapsDeleteOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// delete URL maps
+    /// </summary>
+    /// <param name="UrlMap">Names of the URL maps to delete.</param>
+    public GcloudPreviewComputeUrlMapsDeleteOptions(
+        IEnumerable<string> UrlMap
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(UrlMap);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(UrlMap));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(UrlMap));
+            }
+
+            UrlMap = materialized;
+        }
+        this.UrlMap = UrlMap;
+    }
+
+    public void Deconstruct(out IEnumerable<string> UrlMap)
+    {
+        UrlMap = this.UrlMap;
+    }
+
     /// <summary>
     /// At most one of these can be specified: If set, the URL maps are global.
     /// </summary>
@@ -34,5 +61,21 @@ public record GcloudPreviewComputeUrlMapsDeleteOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Names of the URL maps to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> UrlMap { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
 
 }

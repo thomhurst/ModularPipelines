@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,61 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instance-groups", "managed", "resize")]
-public record GcloudPreviewComputeInstanceGroupsManagedResizeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInstanceGroupsManagedResizeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// set managed     instance group size
+    /// </summary>
+    /// <param name="Size">Target number of running instances in managed instance group.</param>
+    /// <param name="Name">Name of the managed instance group to operate on.</param>
+    public GcloudPreviewComputeInstanceGroupsManagedResizeOptions(
+        int Size,
+        string Name
+    )
+    {
+        this.Size = Size;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out int Size, out string Name)
+    {
+        Size = this.Size;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Target number of running instances in managed instance group.
+    /// </summary>
+    [CliOption("--size", Format = OptionFormat.EqualsSeparated)]
+    public int Size { get; private init; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the managed instance group to operate on. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone of the managed instance group to operate on. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the managed instance group to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Region or Zone may be specified.", [nameof(Region), nameof(Zone)]);
+        }
+        yield break;
+    }
+
 }

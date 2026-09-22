@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("iap", "oauth-clients", "delete")]
 public record GcloudIapOauthClientsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a Cloud IAP OAuth client
+    /// </summary>
+    /// <param name="Name">Proxy client resource - Name of the Cloud IAP OAuth client to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the proxy client or fully qualified identifier for the proxy client. To set the identity_aware_proxy_clients attribute: ▸ provide the argument name on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIapOauthClientsDeleteOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Proxy client resource - Name of the Cloud IAP OAuth client to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the OAuth brand. To set the brand attribute: ▸ provide the argument name on the command line with a fully specified name; ▸ provide the argument --brand on the command line.
+    /// </summary>
+    [CliOption("--brand", Format = OptionFormat.EqualsSeparated)]
+    public string? Brand { get; set; }
+
+    /// <summary>
+    /// Proxy client resource - Name of the Cloud IAP OAuth client to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the proxy client or fully qualified identifier for the proxy client. To set the identity_aware_proxy_clients attribute: ▸ provide the argument name on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

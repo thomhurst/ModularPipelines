@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,10 +22,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "node-pools", "create")]
-public record GcloudContainerNodePoolsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudContainerNodePoolsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a node pool in a running     cluster
+    /// </summary>
+    /// <param name="Name">The name of the node pool to create.</param>
+    public GcloudContainerNodePoolsCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Attaches accelerators (e.g. GPUs) to all nodes. type (Required) The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4) of accelerator to attach to the instances. Use gcloud compute accelerator-types list to learn about all available accelerator types. count (Optional) The number of accelerators to attach to the instances. The default value is 1. gpu-driver-version (Optional) The NVIDIA driver version to install. GPU_DRIVER_VERSION must be one of: `default`: Install the default driver version for this GKE version. For GKE version 1.30.1-gke.1156000 and later, this is the default option. `latest`: Install the latest driver version available for this GKE version. Can only be used for nodes that use Container-Optimized OS. `disabled`: Skip automatic driver installation. You must manually install a driver after you create the cluster. For GKE version 1.30.1-gke.1156000 and earlier, this is the default option. To manually install the GPU driver, refer to https://cloud.google.com/kubernetes-engine/docs/how-to/gpus#installing_drivers. gpu-partition-size (Optional) The GPU partition size used when running multi-instance GPUs. For information about multi-instance GPUs, refer to: https://cloud.google.com/kubernetes-engine/docs/how-to/gpus-multi gpu-sharing-strategy (Optional) The GPU sharing strategy (e.g. time-sharing) to use. For information about GPU sharing, refer to: https://cloud.google.com/kubernetes-engine/docs/concepts/timesharing-gpus max-shared-clients-per-gpu (Optional) The max number of containers allowed to share each GPU on the node. This field is used together with gpu-sharing-strategy.
     /// </summary>
@@ -95,7 +111,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// Node pool maintenance exclusions Enable confidential nodes for the node pool. Enabling Confidential Nodes will create nodes using Confidential VM https://docs.cloud.google.com/compute/docs/about-confidential-vm. CONFIDENTIAL_NODE_TYPE must be one of: sev, sev_snp, tdx, disabled.
     /// </summary>
     [CliOption("--confidential-node-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudConfidentialNodeType? ConfidentialNodeType { get; set; }
+    public GcloudContainerNodePoolsCreateConfidentialNodeType? ConfidentialNodeType { get; set; }
 
     /// <summary>
     /// Node pool maintenance exclusions Set the duration after which the Cluster Autoscaler can scale down underutilized nodes. $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster --consolidation-delay=3600s
@@ -125,7 +141,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// Node pool maintenance exclusions Type of the node VM boot disk. For version 1.24 and later, defaults to pd-balanced. For versions earlier than 1.24, defaults to pd-standard. DISK_TYPE must be one of: pd-standard, pd-ssd, pd-balanced, hyperdisk-balanced, hyperdisk-extreme, hyperdisk-throughput.
     /// </summary>
     [CliOption("--disk-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudDiskType? DiskType { get; set; }
+    public GcloudContainerNodePoolsCreateDiskType? DiskType { get; set; }
 
     /// <summary>
     /// Node pool maintenance exclusions Enables Cluster Autoscaler to treat the node pool as if it was autoprovisioned. Cluster Autoscaler will be able to delete the node pool if it's unneeded.
@@ -266,9 +282,9 @@ public record GcloudContainerNodePoolsCreateOptions(
     public string? ImageType { get; set; }
 
     /// <summary>
-    /// Node pool maintenance exclusions Labels to apply to the Google Cloud resources of node pools in the Kubernetes Engine cluster. These are unrelated to Kubernetes labels. Warning: Updating this label will causes the node(s) to be recreated. Examples: $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster --labels=label1=value1,label2=value2
+    /// Node pool maintenance exclusions Labels to apply to the Google Cloud resources of node pools in the Kubernetes Engine cluster. These are unrelated to Kubernetes labels. Warning: Updating this label will causes the node(s) to be recreated. Examples: $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster --labels=label1=value1,label2=value2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -308,15 +324,15 @@ public record GcloudContainerNodePoolsCreateOptions(
     public string? MaxUnavailableUpgrade { get; set; }
 
     /// <summary>
-    /// Node pool maintenance exclusions Compute Engine metadata to be made available to the guest operating system running on nodes within the node pool. Each metadata entry is a key/value pair separated by an equals sign. Metadata keys must be unique and less than 128 bytes in length. Values must be less than or equal to 32,768 bytes in length. The total size of all keys and values must be less than 512 KB. Multiple arguments can be passed to this flag. For example: --metadata key-1=value-1,key-2=value-2,key-3=value-3 Additionally, the following keys are reserved for use by Kubernetes Engine: ◆ cluster-location ◆ cluster-name ◆ cluster-uid ◆ configure-sh ◆ enable-os-login ◆ gci-update-strategy ◆ gci-ensure-gke-docker ◆ instance-template ◆ kube-env ◆ startup-script ◆ user-data Google Kubernetes Engine sets the following keys by default: ◆ serial-port-logging-enable See also Compute Engine's documentation (https://cloud.google.com/compute/docs/storing-retrieving-metadata) on storing and retrieving instance metadata.
+    /// Node pool maintenance exclusions Compute Engine metadata to be made available to the guest operating system running on nodes within the node pool. Each metadata entry is a key/value pair separated by an equals sign. Metadata keys must be unique and less than 128 bytes in length. Values must be less than or equal to 32,768 bytes in length. The total size of all keys and values must be less than 512 KB. Multiple arguments can be passed to this flag. For example: --metadata key-1=value-1,key-2=value-2,key-3=value-3 Additionally, the following keys are reserved for use by Kubernetes Engine: ◆ cluster-location ◆ cluster-name ◆ cluster-uid ◆ configure-sh ◆ enable-os-login ◆ gci-update-strategy ◆ gci-ensure-gke-docker ◆ instance-template ◆ kube-env ◆ startup-script ◆ user-data Google Kubernetes Engine sets the following keys by default: ◆ serial-port-logging-enable See also Compute Engine's documentation (https://cloud.google.com/compute/docs/storing-retrieving-metadata) on storing and retrieving instance metadata. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// Node pool maintenance exclusions Same as --metadata except that the value for the entry will be read from a local file.
+    /// Node pool maintenance exclusions Same as --metadata except that the value for the entry will be read from a local file. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MetadataFromFile { get; set; }
 
     /// <summary>
@@ -326,16 +342,16 @@ public record GcloudContainerNodePoolsCreateOptions(
     public string? MinCpuPlatform { get; set; }
 
     /// <summary>
-    /// Node pool maintenance exclusions Configures network performance settings for the node pool. If this flag is not specified, the pool will be created with its default network performance configuration. total-egress-bandwidth-tier Total egress bandwidth is the available outbound bandwidth from a VM, regardless of whether the traffic is going to internal IP or external IP destinations. The following tier values are allowed: [TIER_UNSPECIFIED,TIER_1]
+    /// Node pool maintenance exclusions Configures network performance settings for the node pool. If this flag is not specified, the pool will be created with its default network performance configuration. total-egress-bandwidth-tier Total egress bandwidth is the available outbound bandwidth from a VM, regardless of whether the traffic is going to internal IP or external IP destinations. The following tier values are allowed: [TIER_UNSPECIFIED,TIER_1] Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-performance-configs", Format = OptionFormat.EqualsSeparated)]
-    public string? NetworkPerformanceConfigs { get; set; }
+    [CliOption("--network-performance-configs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NetworkPerformanceConfigs { get; set; }
 
     /// <summary>
     /// Node pool maintenance exclusions Control how architecture taint should be applied to nodes in a new node pool. Supported values: * unspecified: Default behavior, currently the same as `arm`. * arm: kubernetes.io/arch=arm:NoSchedule taint will be added for ARM nodes. * none: No architecture taint will be applied. Examples: $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster \ --node-architecture-taint-behavior=none To read more about node-taints, see https://cloud.google.com/kubernetes-engine/docs/node-taints. NODE_ARCHITECTURE_TAINT_BEHAVIOR must be one of: unspecified, arm, none.
     /// </summary>
     [CliOption("--node-architecture-taint-behavior", Format = OptionFormat.EqualsSeparated)]
-    public GcloudNodeArchitectureTaintBehavior? NodeArchitectureTaintBehavior { get; set; }
+    public GcloudContainerNodePoolsCreateNodeArchitectureTaintBehavior? NodeArchitectureTaintBehavior { get; set; }
 
     /// <summary>
     /// Node pool maintenance exclusions Assign instances of this pool to run on the specified Google Compute Engine node group. This is useful for running workloads on sole tenant nodes. To see available sole tenant node-groups, run: $ gcloud compute sole-tenancy node-groups list To create a sole tenant node group, run: $ gcloud compute sole-tenancy node-groups create [GROUP_NAME] \ --location [ZONE] --node-template [TEMPLATE_NAME] \ --target-size [TARGET_SIZE] See https://cloud.google.com/compute/docs/nodes for more information on sole tenancy and node groups.
@@ -344,15 +360,15 @@ public record GcloudContainerNodePoolsCreateOptions(
     public string? NodeGroup { get; set; }
 
     /// <summary>
-    /// Node pool maintenance exclusions Applies the given Kubernetes labels on all nodes in the new node pool. Examples: $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster \ --node-labels=label1=value1,label2=value2 Updating the node pool's --node-labels flag applies the labels to the Kubernetes Node objects for existing nodes in-place; it does not re-create or replace nodes. New nodes, including ones created by resizing or re-creating nodes, will have these labels on the Kubernetes API Node object. The labels can be used in the nodeSelector field. See https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/ for examples. Note that Kubernetes labels, intended to associate cluster components and resources with one another and manage resource lifecycles, are different from Google Kubernetes Engine labels that are used for the purpose of tracking billing and usage information.
+    /// Node pool maintenance exclusions Applies the given Kubernetes labels on all nodes in the new node pool. Examples: $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster \ --node-labels=label1=value1,label2=value2 Updating the node pool's --node-labels flag applies the labels to the Kubernetes Node objects for existing nodes in-place; it does not re-create or replace nodes. New nodes, including ones created by resizing or re-creating nodes, will have these labels on the Kubernetes API Node object. The labels can be used in the nodeSelector field. See https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/ for examples. Note that Kubernetes labels, intended to associate cluster components and resources with one another and manage resource lifecycles, are different from Google Kubernetes Engine labels that are used for the purpose of tracking billing and usage information. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NodeLabels { get; set; }
 
     /// <summary>
-    /// Node pool maintenance exclusions The set of zones in which the node pool's nodes should be located. Multiple locations can be specified, separated by commas. For example: $ gcloud container node-pools create node-pool-1 \ --cluster=sample-cluster \ --node-locations=us-central1-a,us-central1-b
+    /// Node pool maintenance exclusions The set of zones in which the node pool's nodes should be located. Multiple locations can be specified, separated by commas. For example: $ gcloud container node-pools create node-pool-1 \ --cluster=sample-cluster \ --node-locations=us-central1-a,us-central1-b Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--node-locations", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--node-locations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NodeLocations { get; set; }
 
     /// <summary>
@@ -362,9 +378,9 @@ public record GcloudContainerNodePoolsCreateOptions(
     public string? NodePoolSoakDuration { get; set; }
 
     /// <summary>
-    /// Node pool maintenance exclusions Applies the given kubernetes taints on all nodes in the new node pool, which can be used with tolerations for pod scheduling. Examples: $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster \ --node-taints=key1=val1:NoSchedule,key2=val2:PreferNoSchedule To read more about node-taints, see https://cloud.google.com/kubernetes-engine/docs/node-taints.
+    /// Node pool maintenance exclusions Applies the given kubernetes taints on all nodes in the new node pool, which can be used with tolerations for pod scheduling. Examples: $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster \ --node-taints=key1=val1:NoSchedule,key2=val2:PreferNoSchedule To read more about node-taints, see https://cloud.google.com/kubernetes-engine/docs/node-taints. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NodeTaints { get; set; }
 
     /// <summary>
@@ -401,7 +417,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// Node pool maintenance exclusions Placement type allows to define the type of node placement within this node pool. UNSPECIFIED - No requirements on the placement of nodes. This is the default option. COMPACT - GKE will attempt to place the nodes in a close proximity to each other. This helps to reduce the communication latency between the nodes, but imposes additional limitations on the node pool size. $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster --placement-type=COMPACT PLACEMENT_TYPE must be one of: UNSPECIFIED, COMPACT.
     /// </summary>
     [CliOption("--placement-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudPlacementType? PlacementType { get; set; }
+    public GcloudContainerNodePoolsCreatePlacementType? PlacementType { get; set; }
 
     /// <summary>
     /// Node pool maintenance exclusions Create nodes using preemptible VM instances in the new node pool. $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster --preemptible New nodes, including ones created by resize or recreate, will use preemptible VM instances. See https://cloud.google.com/kubernetes-engine/docs/preemptible-vm for more information on how to use Preemptible VMs with Kubernetes Engine.
@@ -410,9 +426,9 @@ public record GcloudContainerNodePoolsCreateOptions(
     public bool? Preemptible { get; set; }
 
     /// <summary>
-    /// Node pool maintenance exclusions Applies the specified comma-separated resource manager tags that has the GCE_FIREWALL purpose to all nodes in the new node pool. Examples: $ gcloud container node-pools create example-node-pool \ --resource-manager-tags=tagKeys/1234=tagValues/2345 $ gcloud container node-pools create example-node-pool \ --resource-manager-tags=my-project/key1=value1 $ gcloud container node-pools create example-node-pool \ --resource-manager-tags=12345/key1=value1,23456/key2=value2 $ gcloud container node-pools create example-node-pool \ --resource-manager-tags= All nodes, including nodes that are resized or re-created, will have the specified tags on the corresponding Instance object in the Compute Engine API. You can reference these tags in network firewall policy rules. For instructions, see https://cloud.google.com/firewall/docs/use-tags-for-firewalls.
+    /// Node pool maintenance exclusions Applies the specified comma-separated resource manager tags that has the GCE_FIREWALL purpose to all nodes in the new node pool. Examples: $ gcloud container node-pools create example-node-pool \ --resource-manager-tags=tagKeys/1234=tagValues/2345 $ gcloud container node-pools create example-node-pool \ --resource-manager-tags=my-project/key1=value1 $ gcloud container node-pools create example-node-pool \ --resource-manager-tags=12345/key1=value1,23456/key2=value2 $ gcloud container node-pools create example-node-pool \ --resource-manager-tags= All nodes, including nodes that are resized or re-created, will have the specified tags on the corresponding Instance object in the Compute Engine API. You can reference these tags in network firewall policy rules. For instructions, see https://cloud.google.com/firewall/docs/use-tags-for-firewalls. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
@@ -464,9 +480,9 @@ public record GcloudContainerNodePoolsCreateOptions(
     public string? StandardRolloutPolicy { get; set; }
 
     /// <summary>
-    /// Node pool maintenance exclusions A list of storage pools where the node pool's boot disks will be provisioned. STORAGE_POOL must be in the format projects/project/zones/zone/storagePools/storagePool
+    /// Node pool maintenance exclusions A list of storage pools where the node pool's boot disks will be provisioned. STORAGE_POOL must be in the format projects/project/zones/zone/storagePools/storagePool Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--storage-pools", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--storage-pools", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? StoragePools { get; set; }
 
     /// <summary>
@@ -482,9 +498,9 @@ public record GcloudContainerNodePoolsCreateOptions(
     public string? SystemConfigFromFile { get; set; }
 
     /// <summary>
-    /// Node pool maintenance exclusions Applies the given Compute Engine tags (comma separated) on all nodes in the new node-pool. Example: $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster --tags=tag1,tag2 New nodes, including ones created by resize or recreate, will have these tags on the Compute Engine API instance object and can be used in firewall rules. See https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/create for examples.
+    /// Node pool maintenance exclusions Applies the given Compute Engine tags (comma separated) on all nodes in the new node-pool. Example: $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster --tags=tag1,tag2 New nodes, including ones created by resize or recreate, will have these tags on the Compute Engine API instance object and can be used in firewall rules. See https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/create for examples. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -503,7 +519,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// Node pool maintenance exclusions Specifies the Windows Server Image to use when creating a Windows node pool. Valid variants can be "ltsc2019", "ltsc2022". It means using LTSC2019 server image or LTSC2022 server image. If the node pool doesn't specify a Windows Server Image Os version, then Ltsc2019 will be the default one to use. WINDOWS_OS_VERSION must be one of: ltsc2019, ltsc2022.
     /// </summary>
     [CliOption("--windows-os-version", Format = OptionFormat.EqualsSeparated)]
-    public GcloudWindowsOsVersion? WindowsOsVersion { get; set; }
+    public GcloudContainerNodePoolsCreateWindowsOsVersion? WindowsOsVersion { get; set; }
 
     /// <summary>
     /// Node pool maintenance exclusions Type of metadata server available to pods running in the node pool. WORKLOAD_METADATA must be one of: GCE_METADATA Pods running in this node pool have access to the node's underlying Compute Engine Metadata Server. GKE_METADATA Run the Kubernetes Engine Metadata Server on this node. The Kubernetes Engine Metadata Server exposes a metadata API to workloads that is compatible with the V1 Compute Metadata APIs exposed by the Compute Engine and App Engine Metadata Servers. This feature can only be enabled if Workload Identity is enabled at the cluster level.
@@ -512,13 +528,17 @@ public record GcloudContainerNodePoolsCreateOptions(
     public string? WorkloadMetadata { get; set; }
 
     /// <summary>
-    /// Node pool maintenance exclusions At most one of these can be specified: Create a new pod range for the node pool. The name and range of the pod range can be customized via optional name and range keys. name specifies the name of the secondary range to be created. range specifies the IP range for the new secondary range. This can either be a netmask size (e.g. "/20") or a CIDR range (e.g. "10.0.0.0/20"). If a netmask size is specified, the IP is automatically taken from the free space in the cluster's network. Must be used in VPC native clusters. Can not be used in conjunction with the --pod-ipv4-range option. Examples: Create a new pod range with a default name and size. $ gcloud container node-pools create --create-pod-ipv4-range "" Create a new pod range named my-range with netmask of size 21. $ gcloud container node-pools create \ --create-pod-ipv4-range name=my-range,range=/21 Create a new pod range with a default name with the primary range of 10.100.0.0/16. $ gcloud container node-pools create \ --create-pod-ipv4-range range=10.100.0.0/16 Create a new pod range with the name my-range with a default range. $ gcloud container node-pools create \ --create-pod-ipv4-range name=my-range Must be used in VPC native clusters. Can not be used in conjunction with the --pod-ipv4-range option.
+    /// At most one of these can be specified: Create a new pod range for the node pool. The name and range of the pod range can be customized via optional name and range keys. name specifies the name of the secondary range to be created. range specifies the IP range for the new secondary range. This can either be a netmask size (e.g. "/20") or a CIDR range (e.g. "10.0.0.0/20"). If a netmask size is specified, the IP is automatically taken from the free space in the cluster's network. Must be used in VPC native clusters. Can not be used in conjunction with the --pod-ipv4-range option. Examples: Create a new pod range with a default name and size. $ gcloud container node-pools create --create-pod-ipv4-range "" Create a new pod range named my-range with netmask of size 21. $ gcloud container node-pools create \ --create-pod-ipv4-range name=my-range,range=/21 Create a new pod range with a default name with the primary range of 10.100.0.0/16. $ gcloud container node-pools create \ --create-pod-ipv4-range range=10.100.0.0/16 Create a new pod range with the name my-range with a default range. $ gcloud container node-pools create \ --create-pod-ipv4-range name=my-range Must be used in VPC native clusters. Can not be used in conjunction with the --pod-ipv4-range option. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--create-pod-ipv4-range", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? CreatePodIpv4Range { get; set; }
+    [CliOption("--create-pod-ipv4-range", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? CreatePodIpv4Range
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
-    /// Node pool maintenance exclusions At most one of these can be specified: Set the pod range to be used as the source for pod IPs for the pods in this node pool. NAME must be the name of an existing subnetwork secondary range in the subnetwork for this cluster. Must be used in VPC native clusters. Cannot be used with --create-ipv4-pod-range. Examples: Specify a pod range called other-range $ gcloud container node-pools create --pod-ipv4-range other-range
+    /// At most one of these can be specified: Set the pod range to be used as the source for pod IPs for the pods in this node pool. NAME must be the name of an existing subnetwork secondary range in the subnetwork for this cluster. Must be used in VPC native clusters. Cannot be used with --create-ipv4-pod-range. Examples: Specify a pod range called other-range $ gcloud container node-pools create --pod-ipv4-range other-range
     /// </summary>
     [CliOption("--pod-ipv4-range", Format = OptionFormat.EqualsSeparated)]
     public string? PodIpv4Range { get; set; }
@@ -533,7 +553,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// Cluster autoscaling Location policy specifies the algorithm used when scaling-up the node pool. ◆ BALANCED - Is a best effort policy that aims to balance the sizes of available zones. ◆ ANY - Instructs the cluster autoscaler to prioritize utilization of unused reservations, and reduces preemption risk for Spot VMs. LOCATION_POLICY must be one of: BALANCED, ANY.
     /// </summary>
     [CliOption("--location-policy", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLocationPolicy? LocationPolicy { get; set; }
+    public GcloudContainerNodePoolsCreateLocationPolicy? LocationPolicy { get; set; }
 
     /// <summary>
     /// Cluster autoscaling Maximum number of nodes per zone in the node pool. Maximum number of nodes per zone to which the node pool specified by --node-pool (or default node pool if unspecified) can scale. Ignored unless --enable-autoscaling is also specified.
@@ -572,25 +592,25 @@ public record GcloudContainerNodePoolsCreateOptions(
     public string? MinProvisionNodes { get; set; }
 
     /// <summary>
-    /// Specifies minimum number of nodes to be created when best effort provisioning enabled. At most one of these can be specified: --ephemeral-storage-local-ssd[=[count=COUNT]] Parameters for the ephemeral storage filesystem. If unspecified, ephemeral storage is backed by the boot disk. Examples: $ gcloud container node-pools create node-pool-1 --cluster=example \ cluster --ephemeral-storage-local-ssd count=2 'count' specifies the number of local SSDs to use to back ephemeral storage. Local SDDs use NVMe interfaces. For first- and second-generation machine types, a nonzero count field is required for local ssd to be configured. For third-generation machine types, the count field is optional because the count is inferred from the machine type. See https://cloud.google.com/compute/docs/disks/local-ssd for more information. --local-nvme-ssd-block[=[count=COUNT]] Adds the requested local SSDs on all nodes in default node pool(s) in the new cluster. Examples: $ gcloud container node-pools create node-pool-1 --cluster=example \ cluster --local-nvme-ssd-block count=2 'count' must be between 1-8 New nodes, including ones created by resize or recreate, will have these local SSDs. For first- and second-generation machine types, a nonzero count field is required for local ssd to be configured. For third-generation machine types, the count field is optional because the count is inferred from the machine type. See https://cloud.google.com/compute/docs/disks/local-ssd for more information. The number of local SSD disks to provision on each node, formatted and mounted in the filesystem. Local SSDs have a fixed 375 GB capacity per device. The number of disks that can be attached to an instance is limited by the maximum number of disks available on a machine, which differs by compute zone. See https://cloud.google.com/compute/docs/disks/local-ssd for more information.
+    /// At most one of these can be specified: --ephemeral-storage-local-ssd[=[count=COUNT]] Parameters for the ephemeral storage filesystem. If unspecified, ephemeral storage is backed by the boot disk. Examples: $ gcloud container node-pools create node-pool-1 --cluster=example \ cluster --ephemeral-storage-local-ssd count=2 'count' specifies the number of local SSDs to use to back ephemeral storage. Local SDDs use NVMe interfaces. For first- and second-generation machine types, a nonzero count field is required for local ssd to be configured. For third-generation machine types, the count field is optional because the count is inferred from the machine type. See https://cloud.google.com/compute/docs/disks/local-ssd for more information. --local-nvme-ssd-block[=[count=COUNT]] Adds the requested local SSDs on all nodes in default node pool(s) in the new cluster. Examples: $ gcloud container node-pools create node-pool-1 --cluster=example \ cluster --local-nvme-ssd-block count=2 'count' must be between 1-8 New nodes, including ones created by resize or recreate, will have these local SSDs. For first- and second-generation machine types, a nonzero count field is required for local ssd to be configured. For third-generation machine types, the count field is optional because the count is inferred from the machine type. See https://cloud.google.com/compute/docs/disks/local-ssd for more information. The number of local SSD disks to provision on each node, formatted and mounted in the filesystem. Local SSDs have a fixed 375 GB capacity per device. The number of disks that can be attached to an instance is limited by the maximum number of disks available on a machine, which differs by compute zone. See https://cloud.google.com/compute/docs/disks/local-ssd for more information.
     /// </summary>
     [CliOption("--local-ssd-count", Format = OptionFormat.EqualsSeparated)]
     public int? LocalSsdCount { get; set; }
 
     /// <summary>
-    /// Specifies minimum number of nodes to be created when best effort provisioning enabled. At most one of these can be specified: Compute zone or region (e.g. us-central1-a or us-central1) for the cluster. Overrides the default compute/region or compute/zone value for this command invocation. Prefer using this flag over the --region or --zone flags.
+    /// At most one of these can be specified: Compute zone or region (e.g. us-central1-a or us-central1) for the cluster. Overrides the default compute/region or compute/zone value for this command invocation. Prefer using this flag over the --region or --zone flags.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// Specifies minimum number of nodes to be created when best effort provisioning enabled. At most one of these can be specified: Compute region (e.g. us-central1) for a regional cluster. Overrides the default compute/region property value for this command invocation.
+    /// At most one of these can be specified: Compute region (e.g. us-central1) for a regional cluster. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// Specifies minimum number of nodes to be created when best effort provisioning enabled. At most one of these can be specified: Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the default compute/zone property value for this command invocation.
+    /// At most one of these can be specified: Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the default compute/zone property value for this command invocation.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
@@ -623,12 +643,12 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// Specifies the reservation for the node pool. The type of the reservation for the node pool. RESERVATION_AFFINITY must be one of: any, none, specific, any-reservation-then-fail.
     /// </summary>
     [CliOption("--reservation-affinity", Format = OptionFormat.EqualsSeparated)]
-    public GcloudReservationAffinity? ReservationAffinity { get; set; }
+    public GcloudContainerNodePoolsCreateReservationAffinity? ReservationAffinity { get; set; }
 
     /// <summary>
-    /// Options to specify the node identity. Scopes options. Specifies scopes for the node instances. Examples: $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster \ --scopes=https://www.googleapis.com/auth/devstorage.read_only $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster \ --scopes=bigquery,storage-rw,compute-ro Multiple scopes can be specified, separated by commas. Various scopes are automatically added based on feature usage. Such scopes are not added if an equivalent scope already exists. ◆ monitoring-write: always added to ensure metrics can be written ◆ logging-write: added if Cloud Logging is enabled (--enable-cloud-logging/--logging) ◆ monitoring: added if Cloud Monitoring is enabled (--enable-cloud-monitoring/--monitoring) ◆ gke-default: added for Autopilot clusters that use the default service account ◆ cloud-platform: added for Autopilot clusters that use any other service account SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances.
+    /// Options to specify the node identity. Scopes options. Specifies scopes for the node instances. Examples: $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster \ --scopes=https://www.googleapis.com/auth/devstorage.read_only $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster \ --scopes=bigquery,storage-rw,compute-ro Multiple scopes can be specified, separated by commas. Various scopes are automatically added based on feature usage. Such scopes are not added if an equivalent scope already exists. ◆ monitoring-write: always added to ensure metrics can be written ◆ logging-write: added if Cloud Logging is enabled (--enable-cloud-logging/--logging) ◆ monitoring: added if Cloud Monitoring is enabled (--enable-cloud-monitoring/--monitoring) ◆ gke-default: added for Autopilot clusters that use the default service account ◆ cloud-platform: added for Autopilot clusters that use any other service account SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Scopes { get; set; }
 
     /// <summary>
@@ -636,5 +656,29 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// The name of the node pool to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)CreatePodIpv4Range is global::System.Collections.Generic.IEnumerable<char> ? (object?)CreatePodIpv4Range is not string || !string.IsNullOrWhiteSpace(CreatePodIpv4Range?.ToString()) : ((object?)CreatePodIpv4Range is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CreatePodIpv4Range, static item => item is not null) : (CreatePodIpv4Range is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CreatePodIpv4Range), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PodIpv4Range) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of CreatePodIpv4Range or PodIpv4Range may be specified.", [nameof(CreatePodIpv4Range), nameof(PodIpv4Range)]);
+        }
+        if ((((object?)LocalSsdCount is not null) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (LocalSsdCount) may be specified.", [nameof(LocalSsdCount)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Location) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Location, Region, or Zone may be specified.", [nameof(Location), nameof(Region), nameof(Zone)]);
+        }
+        yield break;
+    }
 
 }

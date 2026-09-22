@@ -21,4 +21,66 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-management", "network-monitoring-providers", "monitoring-points", "download-recreate-install-script")]
 public record GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadRecreateInstallScriptOptions : GcloudOptions
 {
+    /// <summary>
+    /// points     download-recreate-install-script - download an installation script for     recreating a Monitoring Point
+    /// </summary>
+    /// <param name="Location">The location of the Network Monitoring Provider (example: global).</param>
+    /// <param name="MonitoringPoint">The ID of the Monitoring Point.</param>
+    /// <param name="NetworkMonitoringProvider">The ID of the Network Monitoring Provider.</param>
+    /// <param name="OutputFile">The path to save the downloaded install script.</param>
+    public GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadRecreateInstallScriptOptions(
+        string Location,
+        string MonitoringPoint,
+        string NetworkMonitoringProvider,
+        string OutputFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(MonitoringPoint);
+        this.MonitoringPoint = MonitoringPoint;
+        global::System.ArgumentNullException.ThrowIfNull(NetworkMonitoringProvider);
+        this.NetworkMonitoringProvider = NetworkMonitoringProvider;
+        global::System.ArgumentNullException.ThrowIfNull(OutputFile);
+        this.OutputFile = OutputFile;
+    }
+
+    public void Deconstruct(out string Location, out string MonitoringPoint, out string NetworkMonitoringProvider, out string OutputFile)
+    {
+        Location = this.Location;
+        MonitoringPoint = this.MonitoringPoint;
+        NetworkMonitoringProvider = this.NetworkMonitoringProvider;
+        OutputFile = this.OutputFile;
+    }
+
+    /// <summary>
+    /// The location of the Network Monitoring Provider (example: global).
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The ID of the Monitoring Point.
+    /// </summary>
+    [CliOption("--monitoring-point", Format = OptionFormat.EqualsSeparated)]
+    public string MonitoringPoint { get; private init; }
+
+    /// <summary>
+    /// The ID of the Network Monitoring Provider.
+    /// </summary>
+    [CliOption("--network-monitoring-provider", Format = OptionFormat.EqualsSeparated)]
+    public string NetworkMonitoringProvider { get; private init; }
+
+    /// <summary>
+    /// The path to save the downloaded install script.
+    /// </summary>
+    [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
+    public string OutputFile { get; private init; }
+
+    /// <summary>
+    /// The hostname of the Monitoring Point, e.g. "test-vm".
+    /// </summary>
+    [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]
+    public string? Hostname { get; set; }
+
 }

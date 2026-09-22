@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("ids", "endpoints", "describe")]
 public record GcloudIdsEndpointsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Cloud IDS endpoint
+    /// </summary>
+    /// <param name="Endpoint">Endpoint resource - endpoint. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the endpoint or fully qualified identifier for the endpoint. To set the endpoint attribute: ▸ provide the argument endpoint on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIdsEndpointsDescribeOptions(
+        string Endpoint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Endpoint);
+        this.Endpoint = Endpoint;
+    }
+
+    public void Deconstruct(out string Endpoint)
+    {
+        Endpoint = this.Endpoint;
+    }
+
+    /// <summary>
+    /// Endpoint resource - endpoint. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Zone of the endpoint. To set the zone attribute: ▸ provide the argument endpoint on the command line with a fully specified name; ▸ provide the argument --zone on the command line.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Endpoint resource - endpoint. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the endpoint or fully qualified identifier for the endpoint. To set the endpoint attribute: ▸ provide the argument endpoint on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Endpoint { get; private init; }
+
 }

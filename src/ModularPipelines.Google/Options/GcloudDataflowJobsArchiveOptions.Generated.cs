@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataflow", "jobs", "archive")]
-public record GcloudDataflowJobsArchiveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string JobId
-) : GcloudOptions
+public record GcloudDataflowJobsArchiveOptions : GcloudOptions
 {
+    /// <summary>
+    /// archives a job
+    /// </summary>
+    /// <param name="JobId">Job ID to operate on.</param>
+    public GcloudDataflowJobsArchiveOptions(
+        string JobId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+    }
+
+    public void Deconstruct(out string JobId)
+    {
+        JobId = this.JobId;
+    }
+
     /// <summary>
     /// Region ID of the job's regional endpoint. Defaults to 'us-central1'.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Job ID to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string JobId { get; private init; }
 
 }

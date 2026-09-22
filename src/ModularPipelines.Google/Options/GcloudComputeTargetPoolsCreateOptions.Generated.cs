@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "target-pools", "create")]
-public record GcloudComputeTargetPoolsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeTargetPoolsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// balanced pool of virtual     machine instances
+    /// </summary>
+    /// <param name="Name">The name of the target pool.</param>
+    public GcloudComputeTargetPoolsCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Together with --failover-ratio, this flag defines the fallback behavior of the target pool (primary pool) to be created by this command. If the ratio of the healthy instances in the primary pool is at or below the specified --failover-ratio value, then traffic arriving at the load-balanced IP address will be directed to the backup pool. If this flag is provided, then --failover-ratio is required.
     /// </summary>
@@ -64,5 +79,11 @@ public record GcloudComputeTargetPoolsCreateOptions(
     /// </summary>
     [CliOption("--session-affinity", Format = OptionFormat.EqualsSeparated)]
     public string? SessionAffinity { get; set; }
+
+    /// <summary>
+    /// The name of the target pool.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

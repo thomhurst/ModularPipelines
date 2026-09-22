@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "machine-images", "set-iam-policy")]
-public record GcloudComputeMachineImagesSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudComputeMachineImagesSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the IAM policy for a     Compute Engine machine image
+    /// </summary>
+    /// <param name="MachineImage">Machine image resource - The machine image to set the IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument machine_image on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the machine image or fully qualified identifier for the machine image. To set the machine_image attribute: ▸ provide the argument machine_image on the command line.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudComputeMachineImagesSetIamPolicyOptions(
+        string MachineImage,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MachineImage);
+        this.MachineImage = MachineImage;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string MachineImage, out string PolicyFile)
+    {
+        MachineImage = this.MachineImage;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// Machine image resource - The machine image to set the IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument machine_image on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the machine image or fully qualified identifier for the machine image. To set the machine_image attribute: ▸ provide the argument machine_image on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MachineImage { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

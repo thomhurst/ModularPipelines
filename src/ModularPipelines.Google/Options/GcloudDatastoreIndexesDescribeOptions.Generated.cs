@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("datastore", "indexes", "describe")]
 public record GcloudDatastoreIndexesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details about an Cloud Datastore     index
+    /// </summary>
+    /// <param name="Index">Index resource - The index you want to get the details of. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the index or fully qualified identifier for the index. To set the index attribute: ▸ provide the argument index on the command line.</param>
+    public GcloudDatastoreIndexesDescribeOptions(
+        string Index
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Index);
+        this.Index = Index;
+    }
+
+    public void Deconstruct(out string Index)
+    {
+        Index = this.Index;
+    }
+
+    /// <summary>
+    /// Index resource - The index you want to get the details of. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the index or fully qualified identifier for the index. To set the index attribute: ▸ provide the argument index on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Index { get; private init; }
+
 }

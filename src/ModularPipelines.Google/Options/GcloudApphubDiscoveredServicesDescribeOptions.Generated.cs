@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apphub", "discovered-services", "describe")]
 public record GcloudApphubDiscoveredServicesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an Apphub discovered     service
+    /// </summary>
+    /// <param name="DiscoveredService">DiscoveredService resource - The Discovered Service ID. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument discovered_service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the discoveredService or fully qualified identifier for the discoveredService. To set the discovered_service attribute: ▸ provide the argument discovered_service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApphubDiscoveredServicesDescribeOptions(
+        string DiscoveredService
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DiscoveredService);
+        this.DiscoveredService = DiscoveredService;
+    }
+
+    public void Deconstruct(out string DiscoveredService)
+    {
+        DiscoveredService = this.DiscoveredService;
+    }
+
+    /// <summary>
+    /// DiscoveredService resource - The Discovered Service ID. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument discovered_service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the discoveredService. To set the location attribute: ▸ provide the argument discovered_service on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// DiscoveredService resource - The Discovered Service ID. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument discovered_service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the discoveredService or fully qualified identifier for the discoveredService. To set the discovered_service attribute: ▸ provide the argument discovered_service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DiscoveredService { get; private init; }
+
 }

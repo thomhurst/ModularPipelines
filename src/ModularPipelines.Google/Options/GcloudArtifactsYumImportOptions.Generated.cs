@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,68 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "yum", "import")]
-public record GcloudArtifactsYumImportOptions : GcloudOptions
+public record GcloudArtifactsYumImportOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// import one or more RPM packages into an     artifact repository
+    /// </summary>
+    /// <param name="GcsSource">The Google Cloud Storage location of a package to import. To import multiple packages, use wildcards at the end of the path. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    public GcloudArtifactsYumImportOptions(
+        IEnumerable<string> GcsSource
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(GcsSource);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(GcsSource));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(GcsSource));
+            }
+
+            GcsSource = materialized;
+        }
+        this.GcsSource = GcsSource;
+    }
+
+    public void Deconstruct(out IEnumerable<string> GcsSource)
+    {
+        GcsSource = this.GcsSource;
+    }
+
+    /// <summary>
+    /// The Google Cloud Storage location of a package to import. To import multiple packages, use wildcards at the end of the path. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--gcs-source", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> GcsSource { get; private init; }
+
+    /// <summary>
+    /// Repository resource - The Artifact Registry repository. If not specified, the current artifacts/repository is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Location of the repository. To set the location attribute: ◆ provide the argument repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Repository resource - The Artifact Registry repository. If not specified, the current artifacts/repository is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the repository or fully qualified identifier for the repository. To set the repository attribute: ◆ provide the argument repository on the command line; ◆ set the property artifacts/repository.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Repository { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Repository) || !string.IsNullOrWhiteSpace(Location)) && (!(!string.IsNullOrWhiteSpace(Location))))
+        {
+            yield return new ValidationResult("Location must be specified when other arguments in this group are specified.", [nameof(Location)]);
+        }
+        yield break;
+    }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,62 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("looker", "instances", "export")]
-public record GcloudLookerInstancesExportOptions : GcloudOptions
+public record GcloudLookerInstancesExportOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// export a Looker instance
+    /// </summary>
+    /// <param name="KmsKey">Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the Looker instance and backups. The 'Looker Service Agent' service account must hold role 'Cloud KMS CryptoKey Encrypter'. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Fully qualified identifier (name) for the key.</param>
+    /// <param name="Instance">Instance resource - Arguments and flags that specify the Looker instance you want to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudLookerInstancesExportOptions(
+        string KmsKey,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KmsKey);
+        this.KmsKey = KmsKey;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string KmsKey, out string Instance)
+    {
+        KmsKey = this.KmsKey;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the Looker instance and backups. The 'Looker Service Agent' service account must hold role 'Cloud KMS CryptoKey Encrypter'. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Fully qualified identifier (name) for the key.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string KmsKey { get; private init; }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Looker instance you want to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The region of the instance. To set the region attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Export Destination - The path and storage where the export will be stored. This must be specified. The path to the folder in Google Cloud Storage where the export will be stored. The URI is in the form gs://bucketName/folderName. The Looker Service Agent should have the role Storage Object Creator.
+    /// </summary>
+    [CliOption("--target-gcs-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetGcsUri { get; set; }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Looker instance you want to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(TargetGcsUri)))
+        {
+            yield return new ValidationResult("At least one of TargetGcsUri must be specified.", [nameof(TargetGcsUri)]);
+        }
+        yield break;
+    }
+
 }

@@ -40,9 +40,15 @@ public record GcloudRunMultiRegionServicesReplaceOptions : GcloudOptions
     public string? Region { get; set; }
 
     /// <summary>
-    /// Comma-separated list of regions in which the multi-region Service can be found.
+    /// Comma-separated list of regions in which the multi-region Service can be found. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--regions", Format = OptionFormat.EqualsSeparated)]
-    public string? Regions { get; set; }
+    [CliOption("--regions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Regions { get; set; }
+
+    /// <summary>
+    /// The absolute path to the YAML file with a Knative service definition for the service to update or deploy. Defaults to service.yaml if not specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? File { get; set; }
 
 }

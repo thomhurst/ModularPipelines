@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivityHubsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a hub
+    /// </summary>
+    /// <param name="Hub">Hub resource - Name of the hub to be deleted. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hub on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hub or fully qualified identifier for the hub. To set the hub attribute: ▸ provide the argument hub on the command line.</param>
+    public GcloudNetworkConnectivityHubsDeleteOptions(
+        string Hub
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Hub);
+        this.Hub = Hub;
+    }
+
+    public void Deconstruct(out string Hub)
+    {
+        Hub = this.Hub;
+    }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Hub resource - Name of the hub to be deleted. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument hub on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the hub or fully qualified identifier for the hub. To set the hub attribute: ▸ provide the argument hub on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Hub { get; private init; }
 
 }

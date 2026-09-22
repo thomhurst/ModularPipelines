@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "muteconfigs", "update")]
-public record GcloudSccMuteconfigsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string MuteConfig
-) : GcloudOptions
+public record GcloudSccMuteconfigsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Security Command Center mute     config
+    /// </summary>
+    /// <param name="MuteConfig">ID of the mute config or the full resource name of the mute config.</param>
+    public GcloudSccMuteconfigsUpdateOptions(
+        string MuteConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MuteConfig);
+        this.MuteConfig = MuteConfig;
+    }
+
+    public void Deconstruct(out string MuteConfig)
+    {
+        MuteConfig = this.MuteConfig;
+    }
+
     /// <summary>
     /// The text that will be used to describe a mute configuration.
     /// </summary>
@@ -70,5 +86,21 @@ public record GcloudSccMuteconfigsUpdateOptions(
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
+
+    /// <summary>
+    /// ID of the mute config or the full resource name of the mute config.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MuteConfig { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Folder, Organization, or Project may be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
 
 }

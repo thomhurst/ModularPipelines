@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apihub", "plugins", "instances", "list")]
 public record GcloudApihubPluginsInstancesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list Plugin Instances
+    /// </summary>
+    /// <param name="Plugin">Plugin resource - The parent resource where this plugin will be created. Format: projects/{project}/locations/{location}/plugins/{plugin}. To list plugin instances for multiple plugins, use the - character instead of the plugin ID. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --plugin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the plugin or fully qualified identifier for the plugin. To set the plugin attribute: ▸ provide the argument --plugin on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubPluginsInstancesListOptions(
+        string Plugin
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Plugin);
+        this.Plugin = Plugin;
+    }
+
+    public void Deconstruct(out string Plugin)
+    {
+        Plugin = this.Plugin;
+    }
+
+    /// <summary>
+    /// Plugin resource - The parent resource where this plugin will be created. Format: projects/{project}/locations/{location}/plugins/{plugin}. To list plugin instances for multiple plugins, use the - character instead of the plugin ID. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --plugin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the plugin or fully qualified identifier for the plugin. To set the plugin attribute: ▸ provide the argument --plugin on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--plugin", Format = OptionFormat.EqualsSeparated)]
+    public string Plugin { get; private init; }
+
+    /// <summary>
+    /// Plugin resource - The parent resource where this plugin will be created. Format: projects/{project}/locations/{location}/plugins/{plugin}. To list plugin instances for multiple plugins, use the - character instead of the plugin ID. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --plugin on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the plugin resource. To set the location attribute: ▸ provide the argument --plugin on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

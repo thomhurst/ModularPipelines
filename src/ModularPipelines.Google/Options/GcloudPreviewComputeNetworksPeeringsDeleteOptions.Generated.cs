@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "networks", "peerings", "delete")]
-public record GcloudPreviewComputeNetworksPeeringsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeNetworksPeeringsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a Compute Engine     network peering
+    /// </summary>
+    /// <param name="Network">The name of the network in the current project containing the peering.</param>
+    /// <param name="Name">The name of the peering to delete.</param>
+    public GcloudPreviewComputeNetworksPeeringsDeleteOptions(
+        string Network,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Network, out string Name)
+    {
+        Network = this.Network;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the network in the current project containing the peering.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// The name of the peering to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

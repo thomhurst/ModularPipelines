@@ -19,8 +19,52 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "record-sets", "export")]
-public record GcloudDnsRecordSetsExportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RecordsFile
-) : GcloudOptions
+public record GcloudDnsRecordSetsExportOptions : GcloudOptions
 {
+    /// <summary>
+    /// sets into a file
+    /// </summary>
+    /// <param name="Zone">Name of the managed zone whose record sets you want to manage.</param>
+    /// <param name="RecordsFile">File to which record-sets should be exported.</param>
+    public GcloudDnsRecordSetsExportOptions(
+        string Zone,
+        string RecordsFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+        global::System.ArgumentNullException.ThrowIfNull(RecordsFile);
+        this.RecordsFile = RecordsFile;
+    }
+
+    public void Deconstruct(out string Zone, out string RecordsFile)
+    {
+        Zone = this.Zone;
+        RecordsFile = this.RecordsFile;
+    }
+
+    /// <summary>
+    /// Name of the managed zone whose record sets you want to manage.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
+    /// <summary>
+    /// Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Indicates that records-file should be in the zone file format. When using this flag, expect the record-set to be exported to a BIND zone formatted file. If you omit this flag, the record-set is exported into a YAML formatted records file. Note, this format flag determines the format of the output recorded in the records-file; it is different from the global --format flag which affects console output alone.
+    /// </summary>
+    [CliFlag("--zone-file-format")]
+    public bool? ZoneFileFormat { get; set; }
+
+    /// <summary>
+    /// File to which record-sets should be exported.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RecordsFile { get; private init; }
+
 }

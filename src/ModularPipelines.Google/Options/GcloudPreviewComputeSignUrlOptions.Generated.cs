@@ -19,8 +19,68 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "sign-url")]
-public record GcloudPreviewComputeSignUrlOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Url
-) : GcloudOptions
+public record GcloudPreviewComputeSignUrlOptions : GcloudOptions
 {
+    /// <summary>
+    /// sign specified URL for use with Cloud CDN     Signed URLs
+    /// </summary>
+    /// <param name="ExpiresIn">The duration for which the signed URL will be valid. For example, specifying 12h will cause the signed URL to be valid up to 12 hours. See $ gcloud topic datetimes for information on duration formats.</param>
+    /// <param name="KeyFile">The file containing the RFC 4648 Section 5 base64url encoded 128-bit secret key for Cloud CDN Signed URL. It is vital that the key is strongly random. One way to generate such a key is with the following command: head -c 16 /dev/random | base64 | tr +/ -_ &gt; [KEY_FILE_NAME]</param>
+    /// <param name="KeyName">Name of the Cloud CDN Signed URL key.</param>
+    /// <param name="Url">The URL to sign.</param>
+    public GcloudPreviewComputeSignUrlOptions(
+        string ExpiresIn,
+        string KeyFile,
+        string KeyName,
+        string Url
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ExpiresIn);
+        this.ExpiresIn = ExpiresIn;
+        global::System.ArgumentNullException.ThrowIfNull(KeyFile);
+        this.KeyFile = KeyFile;
+        global::System.ArgumentNullException.ThrowIfNull(KeyName);
+        this.KeyName = KeyName;
+        global::System.ArgumentNullException.ThrowIfNull(Url);
+        this.Url = Url;
+    }
+
+    public void Deconstruct(out string ExpiresIn, out string KeyFile, out string KeyName, out string Url)
+    {
+        ExpiresIn = this.ExpiresIn;
+        KeyFile = this.KeyFile;
+        KeyName = this.KeyName;
+        Url = this.Url;
+    }
+
+    /// <summary>
+    /// The duration for which the signed URL will be valid. For example, specifying 12h will cause the signed URL to be valid up to 12 hours. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--expires-in", Format = OptionFormat.EqualsSeparated)]
+    public string ExpiresIn { get; private init; }
+
+    /// <summary>
+    /// The file containing the RFC 4648 Section 5 base64url encoded 128-bit secret key for Cloud CDN Signed URL. It is vital that the key is strongly random. One way to generate such a key is with the following command: head -c 16 /dev/random | base64 | tr +/ -_ &gt; [KEY_FILE_NAME]
+    /// </summary>
+    [CliOption("--key-file", Format = OptionFormat.EqualsSeparated)]
+    public string KeyFile { get; private init; }
+
+    /// <summary>
+    /// Name of the Cloud CDN Signed URL key.
+    /// </summary>
+    [CliOption("--key-name", Format = OptionFormat.EqualsSeparated)]
+    public string KeyName { get; private init; }
+
+    /// <summary>
+    /// If provided, validates the generated signed URL by sending a HEAD request and prints out the HTTP response code. If the signed URL is valid, the result should be the same as the response code sent by the backend. If it isn't, recheck the key name and the contents of the key file, and ensure that expires-in is set to at least several seconds and that the clock on the computer running this command is accurate. If not provided, the generated signed URL is not verified.
+    /// </summary>
+    [CliFlag("--validate")]
+    public bool? Validate { get; set; }
+
+    /// <summary>
+    /// The URL to sign.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Url { get; private init; }
+
 }

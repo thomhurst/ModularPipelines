@@ -19,14 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "packet-mirrorings", "delete")]
-public record GcloudPreviewComputePacketMirroringsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Name
-) : GcloudOptions
+public record GcloudPreviewComputePacketMirroringsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a Compute Engine     packet mirroring policy
+    /// </summary>
+    /// <param name="Name">Names of the packet mirrorings to delete.</param>
+    public GcloudPreviewComputePacketMirroringsDeleteOptions(
+        IEnumerable<string> Name
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Name);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Name));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Name));
+            }
+
+            Name = materialized;
+        }
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Region of the packet mirrorings to delete. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Names of the packet mirrorings to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Name { get; private init; }
 
 }

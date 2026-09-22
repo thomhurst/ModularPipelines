@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "instances", "ssh")]
-public record GcloudAppInstancesSshOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudAppInstancesSshOptions : GcloudOptions
 {
+    /// <summary>
+    /// SSH into the VM of an App Engine Flexible     instance
+    /// </summary>
+    /// <param name="Instance">The instance ID.</param>
+    public GcloudAppInstancesSshOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
     /// <summary>
     /// Name of the container within the VM to connect to.
     /// </summary>
@@ -46,5 +61,17 @@ public record GcloudAppInstancesSshOptions(
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
+
+    /// <summary>
+    /// The instance ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <summary>
+    /// Remote command to execute on the VM. The '--' argument must be specified between gcloud specific args on the left and COMMAND on the right.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
+    public IEnumerable<string>? Command { get; set; }
 
 }

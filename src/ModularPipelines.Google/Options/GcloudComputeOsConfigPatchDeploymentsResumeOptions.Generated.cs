@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "os-config", "patch-deployments", "resume")]
 public record GcloudComputeOsConfigPatchDeploymentsResumeOptions : GcloudOptions
 {
+    /// <summary>
+    /// resume patch deployment     in a project
+    /// </summary>
+    /// <param name="PatchDeployment">Patch deployment resource - Patch deployment to resume. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument patch_deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the patch_deployment or fully qualified identifier for the patch_deployment. To set the patch_deployment attribute: ▸ provide the argument patch_deployment on the command line.</param>
+    public GcloudComputeOsConfigPatchDeploymentsResumeOptions(
+        string PatchDeployment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PatchDeployment);
+        this.PatchDeployment = PatchDeployment;
+    }
+
+    public void Deconstruct(out string PatchDeployment)
+    {
+        PatchDeployment = this.PatchDeployment;
+    }
+
+    /// <summary>
+    /// Patch deployment resource - Patch deployment to resume. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument patch_deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the patch_deployment or fully qualified identifier for the patch_deployment. To set the patch_deployment attribute: ▸ provide the argument patch_deployment on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PatchDeployment { get; private init; }
+
 }

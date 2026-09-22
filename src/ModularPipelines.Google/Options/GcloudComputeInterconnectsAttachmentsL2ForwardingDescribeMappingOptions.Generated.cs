@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "attachments", "l2-forwarding", "describe-mapping")]
-public record GcloudComputeInterconnectsAttachmentsL2ForwardingDescribeMappingOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeInterconnectsAttachmentsL2ForwardingDescribeMappingOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Compute Engine L2 forwarding interconnect attachment
+    /// </summary>
+    /// <param name="VlanKey">Desired VLAN key for L2 forwarding mapping for the attachment. If not supplied, all mappings will be displayed.</param>
+    /// <param name="Name">Name of the interconnect attachment to describe.</param>
+    public GcloudComputeInterconnectsAttachmentsL2ForwardingDescribeMappingOptions(
+        string VlanKey,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VlanKey);
+        this.VlanKey = VlanKey;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string VlanKey, out string Name)
+    {
+        VlanKey = this.VlanKey;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Desired VLAN key for L2 forwarding mapping for the attachment. If not supplied, all mappings will be displayed.
+    /// </summary>
+    [CliOption("--vlan-key", Format = OptionFormat.EqualsSeparated)]
+    public string VlanKey { get; private init; }
+
+    /// <summary>
+    /// Region of the interconnect attachment to describe. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the interconnect attachment to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

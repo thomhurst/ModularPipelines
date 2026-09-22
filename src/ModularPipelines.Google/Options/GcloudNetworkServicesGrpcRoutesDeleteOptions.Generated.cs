@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkServicesGrpcRoutesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete grpc route
+    /// </summary>
+    /// <param name="GrpcRoute">Grpc route resource - Name of the grpc route you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument grpc_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the grpc route or fully qualified identifier for the grpc route. To set the grpc_route attribute: ▸ provide the argument grpc_route on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkServicesGrpcRoutesDeleteOptions(
+        string GrpcRoute
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GrpcRoute);
+        this.GrpcRoute = GrpcRoute;
+    }
+
+    public void Deconstruct(out string GrpcRoute)
+    {
+        GrpcRoute = this.GrpcRoute;
+    }
+
+    /// <summary>
+    /// Grpc route resource - Name of the grpc route you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument grpc_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument grpc_route on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Grpc route resource - Name of the grpc route you want to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument grpc_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the grpc route or fully qualified identifier for the grpc route. To set the grpc_route attribute: ▸ provide the argument grpc_route on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GrpcRoute { get; private init; }
 
 }

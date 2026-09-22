@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// agnostic     security and AI safety measures to mitigate risks associated with large     language models (LLMs)
+/// agnostic     security and AI safety measures to mitigate risks associated with the     use of large language models (LLMs)
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

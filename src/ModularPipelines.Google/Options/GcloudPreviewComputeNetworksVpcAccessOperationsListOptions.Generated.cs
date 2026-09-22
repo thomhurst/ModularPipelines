@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("preview", "compute", "networks", "vpc-access", "operations", "list")]
 public record GcloudPreviewComputeNetworksVpcAccessOperationsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list VPC     Access Service operations
+    /// </summary>
+    /// <param name="Region">Region resource - The region of the operations to list. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the region or fully qualified identifier for the region. To set the region attribute: ▸ provide the argument --region on the command line.</param>
+    public GcloudPreviewComputeNetworksVpcAccessOperationsListOptions(
+        string Region
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+    }
+
+    public void Deconstruct(out string Region)
+    {
+        Region = this.Region;
+    }
+
+    /// <summary>
+    /// Region resource - The region of the operations to list. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the region or fully qualified identifier for the region. To set the region attribute: ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
 }

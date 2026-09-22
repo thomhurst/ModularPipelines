@@ -21,4 +21,62 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("artifacts", "go", "upload")]
 public record GcloudArtifactsGoUploadOptions : GcloudOptions
 {
+    /// <summary>
+    /// upload a Go module to an artifact repository
+    /// </summary>
+    /// <param name="ModulePath">The module path of the Go module.</param>
+    /// <param name="Version">The version of the Go module.</param>
+    public GcloudArtifactsGoUploadOptions(
+        string ModulePath,
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ModulePath);
+        this.ModulePath = ModulePath;
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string ModulePath, out string Version)
+    {
+        ModulePath = this.ModulePath;
+        Version = this.Version;
+    }
+
+    /// <summary>
+    /// The module path of the Go module.
+    /// </summary>
+    [CliOption("--module-path", Format = OptionFormat.EqualsSeparated)]
+    public string ModulePath { get; private init; }
+
+    /// <summary>
+    /// The version of the Go module.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string Version { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The root directory of the go module source code, defaults to the current directory.
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// Repository resource - The Artifact Registry repository. If not specified, the current artifacts/repository is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Location of the repository. To set the location attribute: ◆ provide the argument --repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Repository resource - The Artifact Registry repository. If not specified, the current artifacts/repository is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the repository or fully qualified identifier for the repository. To set the repository attribute: ◆ provide the argument --repository on the command line; ◆ set the property artifacts/repository.
+    /// </summary>
+    [CliOption("--repository", Format = OptionFormat.EqualsSeparated)]
+    public string? Repository { get; set; }
+
 }

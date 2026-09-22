@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("edge-cloud", "container", "machines", "describe")]
 public record GcloudEdgeCloudContainerMachinesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details about the     machine
+    /// </summary>
+    /// <param name="Machine">Machine resource - The machine you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument machine on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the machine or fully qualified identifier for the machine. To set the machine attribute: ▸ provide the argument machine on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEdgeCloudContainerMachinesDescribeOptions(
+        string Machine
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Machine);
+        this.Machine = Machine;
+    }
+
+    public void Deconstruct(out string Machine)
+    {
+        Machine = this.Machine;
+    }
+
+    /// <summary>
+    /// Machine resource - The machine you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument machine on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The global location name. To set the location attribute: ▸ provide the argument machine on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property edge_container/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Machine resource - The machine you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument machine on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the machine or fully qualified identifier for the machine. To set the machine attribute: ▸ provide the argument machine on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Machine { get; private init; }
+
 }

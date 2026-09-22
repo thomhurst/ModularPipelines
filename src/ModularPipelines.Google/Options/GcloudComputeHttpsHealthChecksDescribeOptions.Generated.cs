@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "https-health-checks", "describe")]
-public record GcloudComputeHttpsHealthChecksDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeHttpsHealthChecksDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// display detailed information     about an HTTPS health check
+    /// </summary>
+    /// <param name="Name">Name of the HTTPS health check to describe.</param>
+    public GcloudComputeHttpsHealthChecksDescribeOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the HTTPS health check to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

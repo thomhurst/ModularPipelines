@@ -21,4 +21,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("scc", "assets", "run-discovery")]
 public record GcloudSccAssetsRunDiscoveryOptions : GcloudOptions
 {
+    /// <summary>
+    /// Organization resource - The organization for which scan should be run. This represents a Cloud resource. ID of the organization or fully qualified identifier for the organization. To set the organization attribute: ◆ provide the argument organization on the command line; ◆ Set the organization property in configuration using gcloud config set scc/organization if it is not specified in command line..
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Organization { get; set; }
+
 }

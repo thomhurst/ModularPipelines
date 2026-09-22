@@ -21,4 +21,55 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("artifacts", "repositories", "delete-cleanup-policies")]
 public record GcloudArtifactsRepositoriesDeleteCleanupPoliciesOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete cleanup     policies from an Artifact Registry repository
+    /// </summary>
+    /// <param name="Policynames">Comma-separated list of cleanup policy names to delete. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Repository">Repository resource - The Artifact Registry repository to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the repository or fully qualified identifier for the repository. To set the repository attribute: ▸ provide the argument repository on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudArtifactsRepositoriesDeleteCleanupPoliciesOptions(
+        IEnumerable<string> Policynames,
+        string Repository
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Policynames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Policynames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Policynames));
+            }
+
+            Policynames = materialized;
+        }
+        this.Policynames = Policynames;
+        global::System.ArgumentNullException.ThrowIfNull(Repository);
+        this.Repository = Repository;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Policynames, out string Repository)
+    {
+        Policynames = this.Policynames;
+        Repository = this.Repository;
+    }
+
+    /// <summary>
+    /// Comma-separated list of cleanup policy names to delete. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--policynames", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Policynames { get; private init; }
+
+    /// <summary>
+    /// Repository resource - The Artifact Registry repository to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the repository. Overrides the default artifacts/location property value for this command invocation. To configure the default location, use the command: gcloud config set artifacts/location. To set the location attribute: ▸ provide the argument repository on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Repository resource - The Artifact Registry repository to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the repository or fully qualified identifier for the repository. To set the repository attribute: ▸ provide the argument repository on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Repository { get; private init; }
+
 }

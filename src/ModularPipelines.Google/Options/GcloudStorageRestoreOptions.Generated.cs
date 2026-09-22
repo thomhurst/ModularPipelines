@@ -81,4 +81,10 @@ public record GcloudStorageRestoreOptions : GcloudOptions
     [CliOption("--deleted-before-time", Format = OptionFormat.EqualsSeparated)]
     public string? DeletedBeforeTime { get; set; }
 
+    /// <summary>
+    /// The url of objects to list.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Urls { get; set; }
+
 }

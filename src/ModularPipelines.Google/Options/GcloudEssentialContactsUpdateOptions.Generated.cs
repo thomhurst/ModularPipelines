@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,10 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("essential-contacts", "update")]
-public record GcloudEssentialContactsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ContactId
-) : GcloudOptions
+public record GcloudEssentialContactsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update an essential contact
+    /// </summary>
+    /// <param name="ContactId">id of contact</param>
+    public GcloudEssentialContactsUpdateOptions(
+        string ContactId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContactId);
+        this.ContactId = ContactId;
+    }
+
+    public void Deconstruct(out string ContactId)
+    {
+        ContactId = this.ContactId;
+    }
+
     /// <summary>
     /// preferred language of contact. Must be a valid ISO 639-1 language code.
     /// </summary>
@@ -33,8 +49,8 @@ public record GcloudEssentialContactsUpdateOptions(
     /// <summary>
     /// list of notification categories contact is subscribed to. NOTIFICATION_CATEGORIES must be one of: all, billing, legal, notification-category-unspecified, product-updates, security, suspension, technical, technical-incidents.
     /// </summary>
-    [CliOption("--notification-categories", Format = OptionFormat.EqualsSeparated)]
-    public GcloudNotificationCategories? NotificationCategories { get; set; }
+    [CliOption("--notification-categories", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudEssentialContactsUpdateNotificationCategories>? NotificationCategories { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: folder number where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.
@@ -53,5 +69,21 @@ public record GcloudEssentialContactsUpdateOptions(
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
+
+    /// <summary>
+    /// id of contact
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ContactId { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Folder, Organization, or Project may be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
 
 }

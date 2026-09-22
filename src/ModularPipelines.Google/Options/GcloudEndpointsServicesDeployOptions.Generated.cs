@@ -19,10 +19,36 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("endpoints", "services", "deploy")]
-public record GcloudEndpointsServicesDeployOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> ServiceConfigFile
-) : GcloudOptions
+public record GcloudEndpointsServicesDeployOptions : GcloudOptions
 {
+    /// <summary>
+    /// deploys a service configuration for the     given service name
+    /// </summary>
+    /// <param name="ServiceConfigFile">The service configuration file (or files) containing the API specification to upload. Proto Descriptors, Open API (Swagger) specifications, and Google Service Configuration files in JSON and YAML formats are acceptable.</param>
+    public GcloudEndpointsServicesDeployOptions(
+        IEnumerable<string> ServiceConfigFile
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ServiceConfigFile);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ServiceConfigFile));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ServiceConfigFile));
+            }
+
+            ServiceConfigFile = materialized;
+        }
+        this.ServiceConfigFile = ServiceConfigFile;
+    }
+
+    public void Deconstruct(out IEnumerable<string> ServiceConfigFile)
+    {
+        ServiceConfigFile = this.ServiceConfigFile;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -40,5 +66,11 @@ public record GcloudEndpointsServicesDeployOptions(
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// The service configuration file (or files) containing the API specification to upload. Proto Descriptors, Open API (Swagger) specifications, and Google Service Configuration files in JSON and YAML formats are acceptable.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> ServiceConfigFile { get; private init; }
 
 }

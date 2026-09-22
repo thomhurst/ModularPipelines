@@ -22,6 +22,23 @@ namespace ModularPipelines.Google.Options;
 public record GcloudEdgeCloudProjectsEnableOptions : GcloudOptions
 {
     /// <summary>
+    /// enables a Google Cloud Platform project     on Google Distributed Cloud zone
+    /// </summary>
+    /// <param name="ZonalProject">Zonal Project resource - Google Cloud Platform project This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the organization attribute: ◆ provide the argument zonal_project on the command line with a fully specified name; ◆ provide the argument --organization on the command line. To set the location attribute: ◆ provide the argument zonal_project on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the zone attribute: ◆ provide the argument zonal_project on the command line with a fully specified name; ◆ provide the argument --zone on the command line. This must be specified. ID of the Zonal Project or fully qualified identifier for the Zonal Project. To set the zonal_project attribute: ▸ provide the argument zonal_project on the command line.</param>
+    public GcloudEdgeCloudProjectsEnableOptions(
+        string ZonalProject
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ZonalProject);
+        this.ZonalProject = ZonalProject;
+    }
+
+    public void Deconstruct(out string ZonalProject)
+    {
+        ZonalProject = this.ZonalProject;
+    }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -44,5 +61,11 @@ public record GcloudEdgeCloudProjectsEnableOptions : GcloudOptions
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Zonal Project resource - Google Cloud Platform project This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the organization attribute: ◆ provide the argument zonal_project on the command line with a fully specified name; ◆ provide the argument --organization on the command line. To set the location attribute: ◆ provide the argument zonal_project on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the zone attribute: ◆ provide the argument zonal_project on the command line with a fully specified name; ◆ provide the argument --zone on the command line. This must be specified. ID of the Zonal Project or fully qualified identifier for the Zonal Project. To set the zonal_project attribute: ▸ provide the argument zonal_project on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ZonalProject { get; private init; }
 
 }

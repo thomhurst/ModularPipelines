@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudResourceManagerFoldersGetAncestorsIamPolicyOptions : GcloudOptions
 {
     /// <summary>
+    /// get IAM policies     for a folder and its ancestors
+    /// </summary>
+    /// <param name="FolderId">Folder resource - ID for the folder you want to get IAM policy for. This represents a Cloud resource. This must be specified. ID of the folder or fully qualified identifier for the folder. To set the folder attribute: ▸ provide the argument folder_id on the command line.</param>
+    public GcloudResourceManagerFoldersGetAncestorsIamPolicyOptions(
+        string FolderId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FolderId);
+        this.FolderId = FolderId;
+    }
+
+    public void Deconstruct(out string FolderId)
+    {
+        FolderId = this.FolderId;
+    }
+
+    /// <summary>
     /// Include deny policies on the project and its ancestors in the result
     /// </summary>
     [CliFlag("--include-deny")]
     public bool? IncludeDeny { get; set; }
+
+    /// <summary>
+    /// Folder resource - ID for the folder you want to get IAM policy for. This represents a Cloud resource. This must be specified. ID of the folder or fully qualified identifier for the folder. To set the folder attribute: ▸ provide the argument folder_id on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FolderId { get; private init; }
 
 }

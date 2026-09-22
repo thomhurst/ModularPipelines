@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,48 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "lakes", "authorize")]
-public record GcloudDataplexLakesAuthorizeOptions : GcloudOptions
+public record GcloudDataplexLakesAuthorizeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// The resource on which to grant a role to the service agent. Exactly one of these must be specified: The identifier of the project whose resources the service agent will manage.
+    /// </summary>
+    [CliOption("--project-resource", Format = OptionFormat.EqualsSeparated)]
+    public string? ProjectResource { get; set; }
+
+    /// <summary>
+    /// The resource on which to grant a role to the service agent. Exactly one of these must be specified: The identifier of the Cloud Storage bucket that the service agent will manage.
+    /// </summary>
+    [CliOption("--storage-bucket-resource", Format = OptionFormat.EqualsSeparated)]
+    public string? StorageBucketResource { get; set; }
+
+    /// <summary>
+    /// The resource on which to grant a role to the service agent. Exactly one of these must be specified: Or at least one of these can be specified: Fields to identify the BigQuery dataset. The identifier of the BigQuery dataset that the service agent will manage. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--bigquery-dataset-resource", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryDataSetResource { get; set; }
+
+    /// <summary>
+    /// The resource on which to grant a role to the service agent. Exactly one of these must be specified: Or at least one of these can be specified: Fields to identify the BigQuery dataset. The identifier of the project where the BigQuery dataset is located. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--secondary-project", Format = OptionFormat.EqualsSeparated)]
+    public string? SecondaryProject { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ProjectResource) ? 1 : 0) + (!string.IsNullOrWhiteSpace(StorageBucketResource) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(BigqueryDataSetResource) || !string.IsNullOrWhiteSpace(SecondaryProject)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ProjectResource, StorageBucketResource, or (BigqueryDataSetResource or SecondaryProject) must be specified.", [nameof(ProjectResource), nameof(StorageBucketResource), nameof(BigqueryDataSetResource), nameof(SecondaryProject)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ProjectResource) || !string.IsNullOrWhiteSpace(StorageBucketResource) || !string.IsNullOrWhiteSpace(BigqueryDataSetResource) || !string.IsNullOrWhiteSpace(SecondaryProject)) && (!string.IsNullOrWhiteSpace(BigqueryDataSetResource) || !string.IsNullOrWhiteSpace(SecondaryProject)) && (!string.IsNullOrWhiteSpace(BigqueryDataSetResource) || !string.IsNullOrWhiteSpace(SecondaryProject)) && (!(!string.IsNullOrWhiteSpace(BigqueryDataSetResource))))
+        {
+            yield return new ValidationResult("BigqueryDataSetResource must be specified when other arguments in this group are specified.", [nameof(BigqueryDataSetResource)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ProjectResource) || !string.IsNullOrWhiteSpace(StorageBucketResource) || !string.IsNullOrWhiteSpace(BigqueryDataSetResource) || !string.IsNullOrWhiteSpace(SecondaryProject)) && (!string.IsNullOrWhiteSpace(BigqueryDataSetResource) || !string.IsNullOrWhiteSpace(SecondaryProject)) && (!string.IsNullOrWhiteSpace(BigqueryDataSetResource) || !string.IsNullOrWhiteSpace(SecondaryProject)) && (!(!string.IsNullOrWhiteSpace(SecondaryProject))))
+        {
+            yield return new ValidationResult("SecondaryProject must be specified when other arguments in this group are specified.", [nameof(SecondaryProject)]);
+        }
+        yield break;
+    }
+
 }

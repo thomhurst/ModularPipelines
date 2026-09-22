@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "folders", "describe")]
-public record GcloudResourceManagerFoldersDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FolderId
-) : GcloudOptions
+public record GcloudResourceManagerFoldersDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show metadata for a folder
+    /// </summary>
+    /// <param name="FolderId">ID for the folder you want to describe.</param>
+    public GcloudResourceManagerFoldersDescribeOptions(
+        string FolderId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FolderId);
+        this.FolderId = FolderId;
+    }
+
+    public void Deconstruct(out string FolderId)
+    {
+        FolderId = this.FolderId;
+    }
+
+    /// <summary>
+    /// ID for the folder you want to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FolderId { get; private init; }
+
 }

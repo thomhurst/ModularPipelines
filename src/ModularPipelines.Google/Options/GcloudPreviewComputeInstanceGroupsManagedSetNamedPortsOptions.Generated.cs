@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,73 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instance-groups", "managed", "set-named-ports")]
-public record GcloudPreviewComputeInstanceGroupsManagedSetNamedPortsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInstanceGroupsManagedSetNamedPortsOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// sets the     list of named ports for an instance group
+    /// </summary>
+    /// <param name="NamedPorts">The comma-separated list of key:value pairs representing the service name and the port that it is running on. To clear the list of named ports pass empty list as flag value. For example: $ gcloud preview compute instance-groups managed set-named-ports \ example-instance-group --named-ports "" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Name">Name of the instance group to operate on.</param>
+    public GcloudPreviewComputeInstanceGroupsManagedSetNamedPortsOptions(
+        IEnumerable<string> NamedPorts,
+        string Name
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(NamedPorts);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(NamedPorts));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(NamedPorts));
+            }
+
+            NamedPorts = materialized;
+        }
+        this.NamedPorts = NamedPorts;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out IEnumerable<string> NamedPorts, out string Name)
+    {
+        NamedPorts = this.NamedPorts;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The comma-separated list of key:value pairs representing the service name and the port that it is running on. To clear the list of named ports pass empty list as flag value. For example: $ gcloud preview compute instance-groups managed set-named-ports \ example-instance-group --named-ports "" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--named-ports", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> NamedPorts { get; private init; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the instance group to operate on. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone of the instance group to operate on. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the instance group to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Region or Zone may be specified.", [nameof(Region), nameof(Zone)]);
+        }
+        yield break;
+    }
+
 }

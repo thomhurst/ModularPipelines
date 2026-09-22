@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "set-iam-policy")]
-public record GcloudOrganizationsSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OrganizationId
-) : GcloudOptions
+public record GcloudOrganizationsSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set IAM policy for an organization
+    /// </summary>
+    /// <param name="OrganizationId">ID or domain for the organization whose IAM policy you want to set.</param>
+    /// <param name="PolicyFile">JSON or YAML file containing the IAM policy.</param>
+    public GcloudOrganizationsSetIamPolicyOptions(
+        string OrganizationId,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OrganizationId);
+        this.OrganizationId = OrganizationId;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string OrganizationId, out string PolicyFile)
+    {
+        OrganizationId = this.OrganizationId;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// ID or domain for the organization whose IAM policy you want to set.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OrganizationId { get; private init; }
+
+    /// <summary>
+    /// JSON or YAML file containing the IAM policy.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

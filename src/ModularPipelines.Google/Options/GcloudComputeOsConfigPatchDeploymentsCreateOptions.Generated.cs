@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "os-config", "patch-deployments", "create")]
-public record GcloudComputeOsConfigPatchDeploymentsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PatchDeploymentId
-) : GcloudOptions
+public record GcloudComputeOsConfigPatchDeploymentsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a patch     deployment for a project
+    /// </summary>
+    /// <param name="File">The JSON or YAML file with the patch deployment to create. For information about the patch deployment format, see https://cloud.google.com/compute/docs/osconfig/rest/v1/projects.patchDeployments.</param>
+    /// <param name="PatchDeploymentId">Name of the patch deployment to create. This name must contain only lowercase letters, numbers, and hyphens, start with a letter, end with a number or a letter, be between 1-63 characters, and unique within the project.</param>
+    public GcloudComputeOsConfigPatchDeploymentsCreateOptions(
+        string File,
+        string PatchDeploymentId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+        global::System.ArgumentNullException.ThrowIfNull(PatchDeploymentId);
+        this.PatchDeploymentId = PatchDeploymentId;
+    }
+
+    public void Deconstruct(out string File, out string PatchDeploymentId)
+    {
+        File = this.File;
+        PatchDeploymentId = this.PatchDeploymentId;
+    }
+
+    /// <summary>
+    /// The JSON or YAML file with the patch deployment to create. For information about the patch deployment format, see https://cloud.google.com/compute/docs/osconfig/rest/v1/projects.patchDeployments.
+    /// </summary>
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public string File { get; private init; }
+
+    /// <summary>
+    /// Name of the patch deployment to create. This name must contain only lowercase letters, numbers, and hyphens, start with a letter, end with a number or a letter, be between 1-63 characters, and unique within the project.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PatchDeploymentId { get; private init; }
+
 }

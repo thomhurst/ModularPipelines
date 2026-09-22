@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -22,10 +23,33 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBiglakeDeltaSharingCatalogsUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// update a BigLake Delta     Sharing catalog
+    /// </summary>
+    /// <param name="Catalog">Catalog resource - The Delta Sharing catalog to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▸ provide the argument catalog on the command line.</param>
+    public GcloudBiglakeDeltaSharingCatalogsUpdateOptions(
+        string Catalog
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+    }
+
+    public void Deconstruct(out string Catalog)
+    {
+        Catalog = this.Catalog;
+    }
+
+    /// <summary>
     /// The SAP BDC Connector Endpoint.
     /// </summary>
     [CliOption("--connector-endpoint", Format = OptionFormat.EqualsSeparated)]
     public string? ConnectorEndpoint { get; set; }
+
+    /// <summary>
+    /// Whether to enable caching of remote data on Google Cloud. This may result in data being temporarily persisted on Google Cloud. MODE must be one of: disabled, enabled.
+    /// </summary>
+    [CliOption("--cross-cloud-cache", Format = OptionFormat.EqualsSeparated)]
+    public GcloudBiglakeDeltaSharingCatalogsUpdateCrossCloudCache? CrossCloudCache { get; set; }
 
     /// <summary>
     /// The SAP BDC Invitation Code.
@@ -50,5 +74,11 @@ public record GcloudBiglakeDeltaSharingCatalogsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--refresh-interval", Format = OptionFormat.EqualsSeparated)]
     public string? RefreshInterval { get; set; }
+
+    /// <summary>
+    /// Catalog resource - The Delta Sharing catalog to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▸ provide the argument catalog on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Catalog { get; private init; }
 
 }

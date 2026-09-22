@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apihub", "dependencies", "describe")]
 public record GcloudApihubDependenciesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Dependency
+    /// </summary>
+    /// <param name="Dependency">Dependency resource - The name of the dependency resource to retrieve. Format: projects/{project}/locations/{location}/dependencies/{dependency} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dependency on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dependency or fully qualified identifier for the dependency. To set the dependency attribute: ▸ provide the argument dependency on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubDependenciesDescribeOptions(
+        string Dependency
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Dependency);
+        this.Dependency = Dependency;
+    }
+
+    public void Deconstruct(out string Dependency)
+    {
+        Dependency = this.Dependency;
+    }
+
+    /// <summary>
+    /// Dependency resource - The name of the dependency resource to retrieve. Format: projects/{project}/locations/{location}/dependencies/{dependency} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dependency on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the dependency resource. To set the location attribute: ▸ provide the argument dependency on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Dependency resource - The name of the dependency resource to retrieve. Format: projects/{project}/locations/{location}/dependencies/{dependency} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dependency on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dependency or fully qualified identifier for the dependency. To set the dependency attribute: ▸ provide the argument dependency on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Dependency { get; private init; }
+
 }

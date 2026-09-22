@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "lakes", "set-iam-policy")]
-public record GcloudDataplexLakesSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudDataplexLakesSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the IAM policy to a Dataplex     lake as defined in a JSON or YAML file
+    /// </summary>
+    /// <param name="Lake">Lakes resource - Arguments and flags that define the Dataplex lake you want to set IAM policy binding to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lake on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the lakes or fully qualified identifier for the lakes. To set the lake attribute: ▸ provide the argument lake on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudDataplexLakesSetIamPolicyOptions(
+        string Lake,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Lake);
+        this.Lake = Lake;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string Lake, out string PolicyFile)
+    {
+        Lake = this.Lake;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// Lakes resource - Arguments and flags that define the Dataplex lake you want to set IAM policy binding to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lake on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataplex resource. To set the location attribute: ▸ provide the argument lake on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Lakes resource - Arguments and flags that define the Dataplex lake you want to set IAM policy binding to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lake on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the lakes or fully qualified identifier for the lakes. To set the lake attribute: ▸ provide the argument lake on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Lake { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

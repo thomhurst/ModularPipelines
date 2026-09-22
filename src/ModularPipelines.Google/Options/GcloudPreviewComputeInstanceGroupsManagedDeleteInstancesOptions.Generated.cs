@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,85 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instance-groups", "managed", "delete-instances")]
-public record GcloudPreviewComputeInstanceGroupsManagedDeleteInstancesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInstanceGroupsManagedDeleteInstancesOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// delete     instances that are managed by a managed instance group
+    /// </summary>
+    /// <param name="Instances">Names of instances to delete. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Name">Name of the managed instance group to operate on.</param>
+    public GcloudPreviewComputeInstanceGroupsManagedDeleteInstancesOptions(
+        IEnumerable<string> Instances,
+        string Name
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Instances);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Instances));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Instances));
+            }
+
+            Instances = materialized;
+        }
+        this.Instances = Instances;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Instances, out string Name)
+    {
+        Instances = this.Instances;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Names of instances to delete. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--instances", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Instances { get; private init; }
+
+    /// <summary>
+    /// End an ongoing graceful shutdown, or delete the specified instances without graceful shutdown.
+    /// </summary>
+    [CliFlag("--no-graceful-shutdown")]
+    public bool? NoGracefulShutdown { get; set; }
+
+    /// <summary>
+    /// Specifies whether the request should proceed even if the request includes instances that are not members of the group or that are already being deleted or abandoned. By default, if you omit this flag and such an instance is specified in the request, the operation fails. The operation always fails if the request contains a badly formatted instance name or a reference to an instance that exists in a zone or region other than the group's zone or region.
+    /// </summary>
+    [CliFlag("--skip-instances-on-validation-error")]
+    public bool? SkipInstancesOnValidationError { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the managed instance group to operate on. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone of the managed instance group to operate on. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the managed instance group to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Region or Zone may be specified.", [nameof(Region), nameof(Zone)]);
+        }
+        yield break;
+    }
+
 }

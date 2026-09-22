@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "export")]
-public record GcloudFirestoreExportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OutputUriPrefix
-) : GcloudOptions
+public record GcloudFirestoreExportOptions : GcloudOptions
 {
+    /// <summary>
+    /// export Cloud Firestore documents to Google Cloud     Storage
+    /// </summary>
+    /// <param name="OutputUriPrefix">Location where the export files will be stored. Must be a valid Google Cloud Storage bucket with an optional path prefix. For example: $ gcloud firestore export gs://mybucket/my/path Will place the export in the mybucket bucket in objects prefixed with my/path.</param>
+    public GcloudFirestoreExportOptions(
+        string OutputUriPrefix
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutputUriPrefix);
+        this.OutputUriPrefix = OutputUriPrefix;
+    }
+
+    public void Deconstruct(out string OutputUriPrefix)
+    {
+        OutputUriPrefix = this.OutputUriPrefix;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -30,9 +45,9 @@ public record GcloudFirestoreExportOptions(
     public bool? Async { get; set; }
 
     /// <summary>
-    /// List specifying which collection groups will be included in the operation. When omitted, all collection groups are included. For example, to operate on only the customers and orders collections groups: $ gcloud firestore export --collection-ids='customers','orders'
+    /// List specifying which collection groups will be included in the operation. When omitted, all collection groups are included. For example, to operate on only the customers and orders collections groups: $ gcloud firestore export --collection-ids='customers','orders' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--collection-ids", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--collection-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? CollectionIds { get; set; }
 
     /// <summary>
@@ -42,9 +57,9 @@ public record GcloudFirestoreExportOptions(
     public string? Database { get; set; }
 
     /// <summary>
-    /// List specifying which namespaces will be included in the operation. When omitted, all namespaces are included. This is only supported for Datastore Mode databases. For example, to operate on only the customers and orders namespaces: $ gcloud firestore export --namespaces-ids='customers','orders'
+    /// List specifying which namespaces will be included in the operation. When omitted, all namespaces are included. This is only supported for Datastore Mode databases. For example, to operate on only the customers and orders namespaces: $ gcloud firestore export --namespaces-ids='customers','orders' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--namespace-ids", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--namespace-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NamespaceIds { get; set; }
 
     /// <summary>
@@ -52,5 +67,11 @@ public record GcloudFirestoreExportOptions(
     /// </summary>
     [CliOption("--snapshot-time", Format = OptionFormat.EqualsSeparated)]
     public string? SnapshotTime { get; set; }
+
+    /// <summary>
+    /// Location where the export files will be stored. Must be a valid Google Cloud Storage bucket with an optional path prefix. For example: $ gcloud firestore export gs://mybucket/my/path Will place the export in the mybucket bucket in objects prefixed with my/path.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OutputUriPrefix { get; private init; }
 
 }

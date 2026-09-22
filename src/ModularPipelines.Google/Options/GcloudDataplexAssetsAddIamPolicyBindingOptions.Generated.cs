@@ -21,4 +21,67 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dataplex", "assets", "add-iam-policy-binding")]
 public record GcloudDataplexAssetsAddIamPolicyBindingOptions : GcloudOptions
 {
+    /// <summary>
+    /// adds IAM policy binding to     a Dataplex asset resource
+    /// </summary>
+    /// <param name="Member">The principal to add the binding for. Should be of the form user|group|serviceAccount:email or domain:domain. Examples: user:test-user@gmail.com, group:admins@example.com, serviceAccount:test123@example.domain.com, or domain:example.domain.com. Some resources also accept the following special values: ◆ allUsers - Special identifier that represents anyone who is on the internet, with or without a Google account. ◆ allAuthenticatedUsers - Special identifier that represents anyone who is authenticated with a Google account or a service account.</param>
+    /// <param name="Role">Role name to assign to the principal. The role name is the complete path of a predefined role, such as roles/logging.viewer, or the role ID for a custom role, such as organizations/{ORGANIZATION_ID}/roles/logging.viewer.</param>
+    /// <param name="Asset">Assets resource - Arguments and flags that define the Dataplex asset you want to add IAM policy binding to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument asset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the assets or fully qualified identifier for the assets. To set the asset attribute: ▸ provide the argument asset on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexAssetsAddIamPolicyBindingOptions(
+        string Member,
+        string Role,
+        string Asset
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Member);
+        this.Member = Member;
+        global::System.ArgumentNullException.ThrowIfNull(Role);
+        this.Role = Role;
+        global::System.ArgumentNullException.ThrowIfNull(Asset);
+        this.Asset = Asset;
+    }
+
+    public void Deconstruct(out string Member, out string Role, out string Asset)
+    {
+        Member = this.Member;
+        Role = this.Role;
+        Asset = this.Asset;
+    }
+
+    /// <summary>
+    /// The principal to add the binding for. Should be of the form user|group|serviceAccount:email or domain:domain. Examples: user:test-user@gmail.com, group:admins@example.com, serviceAccount:test123@example.domain.com, or domain:example.domain.com. Some resources also accept the following special values: ◆ allUsers - Special identifier that represents anyone who is on the internet, with or without a Google account. ◆ allAuthenticatedUsers - Special identifier that represents anyone who is authenticated with a Google account or a service account.
+    /// </summary>
+    [CliOption("--member", Format = OptionFormat.EqualsSeparated)]
+    public string Member { get; private init; }
+
+    /// <summary>
+    /// Role name to assign to the principal. The role name is the complete path of a predefined role, such as roles/logging.viewer, or the role ID for a custom role, such as organizations/{ORGANIZATION_ID}/roles/logging.viewer.
+    /// </summary>
+    [CliOption("--role", Format = OptionFormat.EqualsSeparated)]
+    public string Role { get; private init; }
+
+    /// <summary>
+    /// Assets resource - Arguments and flags that define the Dataplex asset you want to add IAM policy binding to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument asset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The identifier of the Dataplex lake resource. To set the lake attribute: ▸ provide the argument asset on the command line with a fully specified name; ▸ provide the argument --lake on the command line.
+    /// </summary>
+    [CliOption("--lake", Format = OptionFormat.EqualsSeparated)]
+    public string? Lake { get; set; }
+
+    /// <summary>
+    /// Assets resource - Arguments and flags that define the Dataplex asset you want to add IAM policy binding to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument asset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataplex resource. To set the location attribute: ▸ provide the argument asset on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Assets resource - Arguments and flags that define the Dataplex asset you want to add IAM policy binding to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument asset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The identifier of the Dataplex zone resource. To set the zone attribute: ▸ provide the argument asset on the command line with a fully specified name; ▸ provide the argument --zone on the command line.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Assets resource - Arguments and flags that define the Dataplex asset you want to add IAM policy binding to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument asset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the assets or fully qualified identifier for the assets. To set the asset attribute: ▸ provide the argument asset on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Asset { get; private init; }
+
 }

@@ -23,6 +23,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudInfraManagerDeploymentsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete deployments
+    /// </summary>
+    /// <param name="Deployment">Deployment resource - deployments TBD The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the deployment or fully qualified identifier for the deployment. To set the deployment attribute: ▸ provide the argument deployment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudInfraManagerDeploymentsDeleteOptions(
+        string Deployment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Deployment);
+        this.Deployment = Deployment;
+    }
+
+    public void Deconstruct(out string Deployment)
+    {
+        Deployment = this.Deployment;
+    }
+
+    /// <summary>
+    /// Deployment resource - deployments TBD The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. locations TBD To set the location attribute: ▸ provide the argument deployment on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property infra-manager/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -32,6 +55,12 @@ public record GcloudInfraManagerDeploymentsDeleteOptions : GcloudOptions
     /// Policy on how resources actuated by the deployment should be deleted. The accepted values are DELETE, ABANDON. DELETE = Delete resources actuated by the deployment. ABANDON = Abandon resources and only delete deployment metadata. DELETE_POLICY must be one of: abandon, delete, delete-policy-unspecified.
     /// </summary>
     [CliOption("--delete-policy", Format = OptionFormat.EqualsSeparated)]
-    public GcloudDeletePolicy? DeletePolicy { get; set; }
+    public GcloudInfraManagerDeploymentsDeleteDeletePolicy? DeletePolicy { get; set; }
+
+    /// <summary>
+    /// Deployment resource - deployments TBD The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the deployment or fully qualified identifier for the deployment. To set the deployment attribute: ▸ provide the argument deployment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Deployment { get; private init; }
 
 }

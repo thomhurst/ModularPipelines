@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,79 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("datastream", "routes", "create")]
 public record GcloudDatastreamRoutesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Datastream private connection     route
+    /// </summary>
+    /// <param name="DestinationAddress">Destination address for connection.</param>
+    /// <param name="DisplayName">Friendly name for the route.</param>
+    /// <param name="Route">Route resource - The route to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the route or fully qualified identifier for the route. To set the route attribute: ▸ provide the argument route on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatastreamRoutesCreateOptions(
+        string DestinationAddress,
+        string DisplayName,
+        string Route
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestinationAddress);
+        this.DestinationAddress = DestinationAddress;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(Route);
+        this.Route = Route;
+    }
+
+    public void Deconstruct(out string DestinationAddress, out string DisplayName, out string Route)
+    {
+        DestinationAddress = this.DestinationAddress;
+        DisplayName = this.DisplayName;
+        Route = this.Route;
+    }
+
+    /// <summary>
+    /// Destination address for connection.
+    /// </summary>
+    [CliOption("--destination-address", Format = OptionFormat.EqualsSeparated)]
+    public string DestinationAddress { get; private init; }
+
+    /// <summary>
+    /// Friendly name for the route.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Route resource - The route to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the route. To set the location attribute: ▸ provide the argument route on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Route resource - The route to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The private connection of the route. To set the private-connection attribute: ▸ provide the argument route on the command line with a fully specified name; ▸ provide the argument --private-connection on the command line.
+    /// </summary>
+    [CliOption("--private-connection", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateConnection { get; set; }
+
+    /// <summary>
+    /// Destination port for connection.
+    /// </summary>
+    [CliOption("--destination-port", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationPort { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Route resource - The route to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the route or fully qualified identifier for the route. To set the route attribute: ▸ provide the argument route on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Route { get; private init; }
+
 }

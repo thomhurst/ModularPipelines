@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment-manager", "operations", "wait")]
-public record GcloudDeploymentManagerOperationsWaitOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> OperationName
-) : GcloudOptions
+public record GcloudDeploymentManagerOperationsWaitOptions : GcloudOptions
 {
+    /// <summary>
+    /// wait for all operations     specified to complete before returning
+    /// </summary>
+    /// <param name="OperationName">Operation name.</param>
+    public GcloudDeploymentManagerOperationsWaitOptions(
+        IEnumerable<string> OperationName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(OperationName);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(OperationName));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(OperationName));
+            }
+
+            OperationName = materialized;
+        }
+        this.OperationName = OperationName;
+    }
+
+    public void Deconstruct(out IEnumerable<string> OperationName)
+    {
+        OperationName = this.OperationName;
+    }
+
+    /// <summary>
+    /// Operation name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> OperationName { get; private init; }
+
 }

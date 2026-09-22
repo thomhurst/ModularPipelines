@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "connect-to-serial-port")]
-public record GcloudComputeConnectToSerialPortOptions : GcloudOptions
+public record GcloudComputeConnectToSerialPortOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// connect to the serial port of an     instance
+    /// </summary>
+    /// <param name="UserInstance">Specifies the user/instance for the serial port connection. USER specifies the username to authenticate as. If omitted, the current OS user is selected.</param>
+    public GcloudComputeConnectToSerialPortOptions(
+        string UserInstance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserInstance);
+        this.UserInstance = UserInstance;
+    }
+
+    public void Deconstruct(out string UserInstance)
+    {
+        UserInstance = this.UserInstance;
+    }
+
     /// <summary>
     /// If provided, the ssh command is printed to standard out rather than being executed.
     /// </summary>
@@ -29,9 +47,9 @@ public record GcloudComputeConnectToSerialPortOptions : GcloudOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Optional arguments can be passed to the serial port connection by passing key-value pairs to this flag, such as max-connections=N or replay-lines=N. See https://cloud.google.com/compute/docs/instances/interacting-with-serial-console for additional options.
+    /// Optional arguments can be passed to the serial port connection by passing key-value pairs to this flag, such as max-connections=N or replay-lines=N. See https://cloud.google.com/compute/docs/instances/interacting-with-serial-console for additional options. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--extra-args", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--extra-args", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ExtraArgs { get; set; }
 
     /// <summary>
@@ -75,5 +93,21 @@ public record GcloudComputeConnectToSerialPortOptions : GcloudOptions
     /// </summary>
     [CliOption("--ssh-key-expire-after", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyExpireAfter { get; set; }
+
+    /// <summary>
+    /// Specifies the user/instance for the serial port connection. USER specifies the username to authenticate as. If omitted, the current OS user is selected.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string UserInstance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(SshKeyExpiration) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SshKeyExpireAfter) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SshKeyExpiration or SshKeyExpireAfter may be specified.", [nameof(SshKeyExpiration), nameof(SshKeyExpireAfter)]);
+        }
+        yield break;
+    }
 
 }

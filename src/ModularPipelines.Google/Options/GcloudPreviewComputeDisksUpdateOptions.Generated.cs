@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,15 +22,30 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "disks", "update")]
-public record GcloudPreviewComputeDisksUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DiskName
-) : GcloudOptions
+public record GcloudPreviewComputeDisksUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Compute Engine Hyperdisk or     Persistent Disk
+    /// </summary>
+    /// <param name="DiskName">Name of the disk to update.</param>
+    public GcloudPreviewComputeDisksUpdateOptions(
+        string DiskName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DiskName);
+        this.DiskName = DiskName;
+    }
+
+    public void Deconstruct(out string DiskName)
+    {
+        DiskName = this.DiskName;
+    }
+
     /// <summary>
     /// Specifies how VMs attached to the disk can access the data on the disk. To grant read-only access to multiple VMs attached to the disk, set access-mode to READ_ONLY_MANY. To grant read-write access to only one VM attached to the disk, use READ_WRITE_SINGLE. READ_WRITE_SINGLE is used if omitted. ACCESS_MODE must be one of: READ_ONLY_MANY, READ_WRITE_MANY, READ_WRITE_SINGLE.
     /// </summary>
     [CliOption("--access-mode", Format = OptionFormat.EqualsSeparated)]
-    public GcloudAccessMode? AccessMode { get; set; }
+    public GcloudPreviewComputeDisksUpdateAccessMode? AccessMode { get; set; }
 
     /// <summary>
     /// Provisioned IOPS of disk to update. Only for use with disks of type hyperdisk-extreme.
@@ -50,21 +66,21 @@ public record GcloudPreviewComputeDisksUpdateOptions(
     public int? Size { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// "A list of license URIs or license codes. These licenses will be appended to the existing licenses on the disk. Provided licenses can be either license URIs or license codes but not a mix of both.
+    /// "A list of license URIs or license codes. These licenses will be appended to the existing licenses on the disk. Provided licenses can be either license URIs or license codes but not a mix of both. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--append-licenses", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--append-licenses", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AppendLicenses { get; set; }
 
     /// <summary>
-    /// A list of license URIs or license codes. If present in the set of existing licenses, these licenses will be removed. If not present, this is a no-op. Provided licenses can be either license URIs or license codes but not a mix of both.
+    /// A list of license URIs or license codes. If present in the set of existing licenses, these licenses will be removed. If not present, this is a no-op. Provided licenses can be either license URIs or license codes but not a mix of both. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-licenses", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-licenses", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLicenses { get; set; }
 
     /// <summary>
@@ -83,7 +99,7 @@ public record GcloudPreviewComputeDisksUpdateOptions(
     /// At most one of these can be specified: Updates the architecture or processor type that this disk can support. For available processor types on Compute Engine, see https://cloud.google.com/compute/docs/cpu-platforms. UPDATE_ARCHITECTURE must be one of: ARM64, X86_64.
     /// </summary>
     [CliOption("--update-architecture", Format = OptionFormat.EqualsSeparated)]
-    public GcloudUpdateArchitecture? UpdateArchitecture { get; set; }
+    public GcloudPreviewComputeDisksUpdateUpdateArchitecture? UpdateArchitecture { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud preview compute disks update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud preview compute disks update --clear-labels \ --update-labels foo=bar,baz=qux
@@ -92,10 +108,32 @@ public record GcloudPreviewComputeDisksUpdateOptions(
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Region of the disk to update. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
@@ -108,5 +146,29 @@ public record GcloudPreviewComputeDisksUpdateOptions(
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the disk to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DiskName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearArchitecture == true ? 1 : 0) + ((object?)UpdateArchitecture is not null ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearArchitecture or UpdateArchitecture may be specified.", [nameof(ClearArchitecture), nameof(UpdateArchitecture)]);
+        }
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Region or Zone may be specified.", [nameof(Region), nameof(Zone)]);
+        }
+        yield break;
+    }
 
 }

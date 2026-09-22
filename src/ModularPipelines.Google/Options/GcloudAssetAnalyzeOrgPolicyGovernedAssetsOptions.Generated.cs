@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("asset", "analyze-org-policy-governed-assets")]
 public record GcloudAssetAnalyzeOrgPolicyGovernedAssetsOptions : GcloudOptions
 {
+    /// <summary>
+    /// analyze organization     policies governed assets under a scope
+    /// </summary>
+    /// <param name="Constraint">The name of the constraint to analyze organization policies for. The response only contains analyzed organization policies for the provided constraint. Examples: ◆ organizations/{ORGANIZATION_NUMBER}/customConstraints/{CUSTOM_CONSTRAINT_NAME} for a user-defined custom constraint. ◆ organizations/{ORGANIZATION_NUMBER}/constraints/{CANNED_CONSTRAINT_NAME} for a gcp-service-defined canned constraint.</param>
+    /// <param name="Scope">Scope can only be an organization. The analysis is limited to the Cloud organization policies and assets within this scope. The caller must be granted the cloudasset.assets.searchAllResources and cloudasset.assets.searchAllIamPolicies permission on the desired scope. The allowed values are: ◆ organizations/{ORGANIZATION_NUMBER} (e.g. organizations/123456)</param>
+    public GcloudAssetAnalyzeOrgPolicyGovernedAssetsOptions(
+        string Constraint,
+        string Scope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Constraint);
+        this.Constraint = Constraint;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+    }
+
+    public void Deconstruct(out string Constraint, out string Scope)
+    {
+        Constraint = this.Constraint;
+        Scope = this.Scope;
+    }
+
+    /// <summary>
+    /// The name of the constraint to analyze organization policies for. The response only contains analyzed organization policies for the provided constraint. Examples: ◆ organizations/{ORGANIZATION_NUMBER}/customConstraints/{CUSTOM_CONSTRAINT_NAME} for a user-defined custom constraint. ◆ organizations/{ORGANIZATION_NUMBER}/constraints/{CANNED_CONSTRAINT_NAME} for a gcp-service-defined canned constraint.
+    /// </summary>
+    [CliOption("--constraint", Format = OptionFormat.EqualsSeparated)]
+    public string Constraint { get; private init; }
+
+    /// <summary>
+    /// Scope can only be an organization. The analysis is limited to the Cloud organization policies and assets within this scope. The caller must be granted the cloudasset.assets.searchAllResources and cloudasset.assets.searchAllIamPolicies permission on the desired scope. The allowed values are: ◆ organizations/{ORGANIZATION_NUMBER} (e.g. organizations/123456)
+    /// </summary>
+    [CliOption("--scope", Format = OptionFormat.EqualsSeparated)]
+    public string Scope { get; private init; }
+
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,14 +21,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "certificates", "update")]
-public record GcloudPrivatecaCertificatesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Certificate
-) : GcloudOptions
+public record GcloudPrivatecaCertificatesUpdateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// update an existing certificate
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Certificate">CERTIFICATE resource - The certificate to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CERTIFICATE or fully qualified identifier for the CERTIFICATE. To set the certificate attribute: ▸ provide the argument CERTIFICATE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPrivatecaCertificatesUpdateOptions(
+        string Certificate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Certificate);
+        this.Certificate = Certificate;
+    }
+
+    public void Deconstruct(out string Certificate)
+    {
+        Certificate = this.Certificate;
+    }
+
+    /// <summary>
+    /// CERTIFICATE resource - The certificate to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the CERTIFICATE. To set the issuer-location attribute: ▸ provide the argument CERTIFICATE on the command line with a fully specified name; ▸ provide the argument --issuer-location on the command line; ▸ set the property privateca/location.
+    /// </summary>
+    [CliOption("--issuer-location", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerLocation { get; set; }
+
+    /// <summary>
+    /// CERTIFICATE resource - The certificate to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The parent CA Pool of the CERTIFICATE. To set the issuer-pool attribute: ▸ provide the argument CERTIFICATE on the command line with a fully specified name; ▸ provide the argument --issuer-pool on the command line.
+    /// </summary>
+    [CliOption("--issuer-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerPool { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
@@ -37,9 +65,47 @@ public record GcloudPrivatecaCertificatesUpdateOptions(
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// CERTIFICATE resource - The certificate to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CERTIFICATE or fully qualified identifier for the CERTIFICATE. To set the certificate attribute: ▸ provide the argument CERTIFICATE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Certificate { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        yield break;
+    }
 
 }

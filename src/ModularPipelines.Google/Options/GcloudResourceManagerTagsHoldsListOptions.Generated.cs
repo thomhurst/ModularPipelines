@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "tags", "holds", "list")]
-public record GcloudResourceManagerTagsHoldsListOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Parent
-) : GcloudOptions
+public record GcloudResourceManagerTagsHoldsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list TagHolds under the specified     TagValue
+    /// </summary>
+    /// <param name="Parent">TagValue resource name or namespaced name to list TagHolds for. This field should be in the form tagValues/&lt;id&gt; or &lt;parent_namespace&gt;/&lt;tagkey_short_name&gt;/&lt;short_name&gt;.</param>
+    public GcloudResourceManagerTagsHoldsListOptions(
+        string Parent
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Parent);
+        this.Parent = Parent;
+    }
+
+    public void Deconstruct(out string Parent)
+    {
+        Parent = this.Parent;
+    }
+
     /// <summary>
     /// The holder field of the TagHold to match exactly. If not provided, the API will return all matching TagHolds disregarding the holder field.
     /// </summary>
@@ -40,5 +55,11 @@ public record GcloudResourceManagerTagsHoldsListOptions(
     /// </summary>
     [CliOption("--origin", Format = OptionFormat.EqualsSeparated)]
     public string? Origin { get; set; }
+
+    /// <summary>
+    /// TagValue resource name or namespaced name to list TagHolds for. This field should be in the form tagValues/&lt;id&gt; or &lt;parent_namespace&gt;/&lt;tagkey_short_name&gt;/&lt;short_name&gt;.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Parent { get; private init; }
 
 }

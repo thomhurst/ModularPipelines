@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("iam", "workload-identity-pools", "set-attestation-rules")]
 public record GcloudIamWorkloadIdentityPoolsSetAttestationRulesOptions : GcloudOptions
 {
+    /// <summary>
+    /// set attestation     rules on a workload identity pool
+    /// </summary>
+    /// <param name="PolicyFile">Path to a local JSON-formatted or YAML-formatted file containing an attestation policy, structured as a list of attestation rules (https://cloud.google.com/iam/docs/reference/rest/v1/projects.locations.workloadIdentityPools.namespaces.managedIdentities/setAttestationRules#request-body).</param>
+    /// <param name="WorkloadIdentityPool">Workload identity pool resource - The workload identity pool to set attestation rules on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workload_identity_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workload identity pool or fully qualified identifier for the workload identity pool. To set the workload_identity_pool attribute: ▸ provide the argument workload_identity_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamWorkloadIdentityPoolsSetAttestationRulesOptions(
+        string PolicyFile,
+        string WorkloadIdentityPool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+        global::System.ArgumentNullException.ThrowIfNull(WorkloadIdentityPool);
+        this.WorkloadIdentityPool = WorkloadIdentityPool;
+    }
+
+    public void Deconstruct(out string PolicyFile, out string WorkloadIdentityPool)
+    {
+        PolicyFile = this.PolicyFile;
+        WorkloadIdentityPool = this.WorkloadIdentityPool;
+    }
+
+    /// <summary>
+    /// Path to a local JSON-formatted or YAML-formatted file containing an attestation policy, structured as a list of attestation rules (https://cloud.google.com/iam/docs/reference/rest/v1/projects.locations.workloadIdentityPools.namespaces.managedIdentities/setAttestationRules#request-body).
+    /// </summary>
+    [CliOption("--policy-file", Format = OptionFormat.EqualsSeparated)]
+    public string PolicyFile { get; private init; }
+
+    /// <summary>
+    /// Workload identity pool resource - The workload identity pool to set attestation rules on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workload_identity_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location name. To set the location attribute: ▸ provide the argument workload_identity_pool on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Workload identity pool resource - The workload identity pool to set attestation rules on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workload_identity_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workload identity pool or fully qualified identifier for the workload identity pool. To set the workload_identity_pool attribute: ▸ provide the argument workload_identity_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WorkloadIdentityPool { get; private init; }
+
 }

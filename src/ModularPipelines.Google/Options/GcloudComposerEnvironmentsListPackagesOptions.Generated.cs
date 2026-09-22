@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComposerEnvironmentsListPackagesOptions : GcloudOptions
 {
     /// <summary>
+    /// list all PyPI modules     installed in an Airflow worker
+    /// </summary>
+    /// <param name="Environment">Environment resource - The environment in which to list PyPI modules. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: ▸ provide the argument environment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComposerEnvironmentsListPackagesOptions(
+        string Environment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Environment);
+        this.Environment = Environment;
+    }
+
+    public void Deconstruct(out string Environment)
+    {
+        Environment = this.Environment;
+    }
+
+    /// <summary>
+    /// Environment resource - The environment in which to list PyPI modules. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Region where Composer environment runs or in which to create the environment. To set the location attribute: ▸ provide the argument environment on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property composer/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// List PyPI packages, their versions and a dependency tree, as displayed by the "python -m pipdeptree --warn" command.
     /// </summary>
     [CliFlag("--tree")]
     public bool? Tree { get; set; }
+
+    /// <summary>
+    /// Environment resource - The environment in which to list PyPI modules. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: ▸ provide the argument environment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Environment { get; private init; }
 
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,10 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai-platform", "models", "create")]
-public record GcloudAiPlatformModelsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Model
-) : GcloudOptions
+public record GcloudAiPlatformModelsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new AI Platform model
+    /// </summary>
+    /// <param name="Model">Name of the model.</param>
+    public GcloudAiPlatformModelsCreateOptions(
+        string Model
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Model);
+        this.Model = Model;
+    }
+
+    public void Deconstruct(out string Model)
+    {
+        Model = this.Model;
+    }
+
     /// <summary>
     /// Description of the model.
     /// </summary>
@@ -37,9 +53,9 @@ public record GcloudAiPlatformModelsCreateOptions(
     public bool? EnableLogging { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -49,9 +65,47 @@ public record GcloudAiPlatformModelsCreateOptions(
     public string? Region { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: The Google Cloud region where the model will be deployed (currently only a single region is supported) against the global endpoint. If you specify this flag, do not specify --region. Defaults to 'us-central1' while using the global endpoint.
+    /// At most one of these can be specified: The Google Cloud region where the model will be deployed (currently only a single region is supported) against the global endpoint. If you specify this flag, do not specify --region. Defaults to 'us-central1' while using the global endpoint. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--regions", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Regions { get; set; }
+    [CliOption("--regions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Regions
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RegionsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RegionsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Name of the model.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Model { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (((object?)Regions is global::System.Collections.Generic.IEnumerable<char> ? (object?)Regions is not string || !string.IsNullOrWhiteSpace(Regions?.ToString()) : ((object?)Regions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Regions, static item => item is not null) : (Regions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Regions), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Region or Regions may be specified.", [nameof(Region), nameof(Regions)]);
+        }
+        yield break;
+    }
 
 }

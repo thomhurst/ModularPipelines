@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "vision", "detect-web")]
-public record GcloudMlVisionDetectWebOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImagePath
-) : GcloudOptions
+public record GcloudMlVisionDetectWebOptions : GcloudOptions
 {
+    /// <summary>
+    /// detect entities in an image from similar     images on the web
+    /// </summary>
+    /// <param name="ImagePath">Path to the image to be analyzed. This can be either a local path or a URL. If you provide a local file, the contents will be sent directly to Google Cloud Vision. If you provide a URL, it must be in Google Cloud Storage format (gs://bucket/object) or an HTTP URL (http://... or https://...)</param>
+    public GcloudMlVisionDetectWebOptions(
+        string ImagePath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImagePath);
+        this.ImagePath = ImagePath;
+    }
+
+    public void Deconstruct(out string ImagePath)
+    {
+        ImagePath = this.ImagePath;
+    }
+
     /// <summary>
     /// Maximum number of results to be provided.
     /// </summary>
     [CliOption("--max-results", Format = OptionFormat.EqualsSeparated)]
     public string? MaxResults { get; set; }
+
+    /// <summary>
+    /// Path to the image to be analyzed. This can be either a local path or a URL. If you provide a local file, the contents will be sent directly to Google Cloud Vision. If you provide a URL, it must be in Google Cloud Storage format (gs://bucket/object) or an HTTP URL (http://... or https://...)
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ImagePath { get; private init; }
 
 }

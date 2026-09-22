@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bigtable", "materialized-views", "update")]
 public record GcloudBigtableMaterializedViewsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a Bigtable materialized     view
+    /// </summary>
+    /// <param name="DeletionProtection">Whether the view is protected from deletion.</param>
+    /// <param name="MaterializedView">Materialized view resource - The materialized view to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument materialized_view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the materialized view or fully qualified identifier for the materialized view. To set the name attribute: ▸ provide the argument materialized_view on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBigtableMaterializedViewsUpdateOptions(
+        string DeletionProtection,
+        string MaterializedView
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeletionProtection);
+        this.DeletionProtection = DeletionProtection;
+        global::System.ArgumentNullException.ThrowIfNull(MaterializedView);
+        this.MaterializedView = MaterializedView;
+    }
+
+    public void Deconstruct(out string DeletionProtection, out string MaterializedView)
+    {
+        DeletionProtection = this.DeletionProtection;
+        MaterializedView = this.MaterializedView;
+    }
+
+    /// <summary>
+    /// Whether the view is protected from deletion.
+    /// </summary>
+    [CliOption("--deletion-protection", Format = OptionFormat.EqualsSeparated)]
+    public string DeletionProtection { get; private init; }
+
+    /// <summary>
+    /// Materialized view resource - The materialized view to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument materialized_view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Bigtable instance for the materialized view. To set the instance attribute: ▸ provide the argument materialized_view on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Materialized view resource - The materialized view to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument materialized_view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the materialized view or fully qualified identifier for the materialized view. To set the name attribute: ▸ provide the argument materialized_view on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MaterializedView { get; private init; }
+
 }

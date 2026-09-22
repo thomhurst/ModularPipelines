@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "dns-threat-detectors", "update")]
-public record GcloudNetworkSecurityDnsThreatDetectorsUpdateOptions : GcloudOptions
+public record GcloudNetworkSecurityDnsThreatDetectorsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a     DnsThreatDetector resource
+    /// </summary>
+    /// <param name="DnsThreatDetector">DnsThreatDetector resource - Identifier. Name of the DnsThreatDetector resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dns_threat_detector on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dnsThreatDetector or fully qualified identifier for the dnsThreatDetector. To set the dns_threat_detector attribute: ▸ provide the argument dns_threat_detector on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecurityDnsThreatDetectorsUpdateOptions(
+        string DnsThreatDetector
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DnsThreatDetector);
+        this.DnsThreatDetector = DnsThreatDetector;
+    }
+
+    public void Deconstruct(out string DnsThreatDetector)
+    {
+        DnsThreatDetector = this.DnsThreatDetector;
+    }
+
+    /// <summary>
+    /// DnsThreatDetector resource - Identifier. Name of the DnsThreatDetector resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dns_threat_detector on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the dnsThreatDetector resource. To set the location attribute: ▸ provide the argument dns_threat_detector on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// The provider used for DNS threat analysis. PROVIDER must be (only one value is supported): infoblox The Infoblox DNS threat detector provider.
     /// </summary>
@@ -28,40 +52,186 @@ public record GcloudNetworkSecurityDnsThreatDetectorsUpdateOptions : GcloudOptio
     public string? Provider { get; set; }
 
     /// <summary>
-    /// Update excluded_networks. At most one of these can be specified: Network resource - Set excluded_networks to new value. A list of network resource names which aren't monitored by this DnsThreatDetector. Example: projects/PROJECT_ID/global/networks/NETWORK_NAME. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --excluded-networks on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. IDs of the networks or fully qualified identifiers for the networks. To set the network attribute: ▸ provide the argument --excluded-networks on the command line.
+    /// Update excluded_networks. At most one of these can be specified: Network resource - Set excluded_networks to new value. A list of network resource names which aren't monitored by this DnsThreatDetector. Example: projects/PROJECT_ID/global/networks/NETWORK_NAME. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --excluded-networks on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. IDs of the networks or fully qualified identifiers for the networks. To set the network attribute: ▸ provide the argument --excluded-networks on the command line. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--excluded-networks", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ExcludedNetworks { get; set; }
+    [CliOption("--excluded-networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ExcludedNetworks
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ExcludedNetworksSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ExcludedNetworksSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Network resource - Add new value to excluded_networks list. A list of network resource names which aren't monitored by this DnsThreatDetector. Example: projects/PROJECT_ID/global/networks/NETWORK_NAME. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --add-excluded-networks on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. IDs of the networks or fully qualified identifiers for the networks. To set the network attribute: ▸ provide the argument --add-excluded-networks on the command line.
+    /// Update excluded_networks. At most one of these can be specified: Network resource - Add new value to excluded_networks list. A list of network resource names which aren't monitored by this DnsThreatDetector. Example: projects/PROJECT_ID/global/networks/NETWORK_NAME. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --add-excluded-networks on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. IDs of the networks or fully qualified identifiers for the networks. To set the network attribute: ▸ provide the argument --add-excluded-networks on the command line. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-excluded-networks", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddExcludedNetworks { get; set; }
+    [CliOption("--add-excluded-networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddExcludedNetworks
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddExcludedNetworksSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddExcludedNetworksSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Network resource - Add new value to excluded_networks list. A list of network resource names which aren't monitored by this DnsThreatDetector. Example: projects/PROJECT_ID/global/networks/NETWORK_NAME. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --add-excluded-networks on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. At most one of these can be specified: Clear excluded_networks value and set to empty list.
+    /// Update excluded_networks. At most one of these can be specified: Network resource - Add new value to excluded_networks list. A list of network resource names which aren't monitored by this DnsThreatDetector. Example: projects/PROJECT_ID/global/networks/NETWORK_NAME. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --add-excluded-networks on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. At most one of these can be specified: Clear excluded_networks value and set to empty list.
     /// </summary>
     [CliFlag("--clear-excluded-networks")]
     public bool? ClearExcludedNetworks { get; set; }
 
     /// <summary>
-    /// Network resource - Add new value to excluded_networks list. A list of network resource names which aren't monitored by this DnsThreatDetector. Example: projects/PROJECT_ID/global/networks/NETWORK_NAME. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --add-excluded-networks on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. At most one of these can be specified: Or at least one of these can be specified: Network resource - Remove value from excluded_networks list. A list of network resource names which aren't monitored by this DnsThreatDetector. Example: projects/PROJECT_ID/global/networks/NETWORK_NAME. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◇ provide the argument --remove-excluded-networks on the command line with a fully specified name; ◇ provide the argument --project on the command line; ◇ set the property core/project. IDs of the networks or fully qualified identifiers for the networks. To set the network attribute: ◇ provide the argument --remove-excluded-networks on the command line.
+    /// Update excluded_networks. At most one of these can be specified: Network resource - Add new value to excluded_networks list. A list of network resource names which aren't monitored by this DnsThreatDetector. Example: projects/PROJECT_ID/global/networks/NETWORK_NAME. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --add-excluded-networks on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. At most one of these can be specified: Or at least one of these can be specified: Network resource - Remove value from excluded_networks list. A list of network resource names which aren't monitored by this DnsThreatDetector. Example: projects/PROJECT_ID/global/networks/NETWORK_NAME. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◇ provide the argument --remove-excluded-networks on the command line with a fully specified name; ◇ provide the argument --project on the command line; ◇ set the property core/project. IDs of the networks or fully qualified identifiers for the networks. To set the network attribute: ◇ provide the argument --remove-excluded-networks on the command line. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-excluded-networks", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveExcludedNetworks { get; set; }
+    [CliOption("--remove-excluded-networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveExcludedNetworks
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveExcludedNetworksSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveExcludedNetworksSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update labels. At most one of these can be specified: Set labels to new value. Any labels associated with the DnsThreatDetector, listed as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Labels { get; set; }
+    public IEnumerable<string>? Labels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __LabelsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __LabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __LabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __LabelsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update labels. At most one of these can be specified: Or at least one of these can be specified: Update labels value or add key value pair. Any labels associated with the DnsThreatDetector, listed as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? UpdateLabels { get; set; }
+    public IEnumerable<string>? UpdateLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __UpdateLabelsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UpdateLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __UpdateLabelsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
@@ -74,5 +244,37 @@ public record GcloudNetworkSecurityDnsThreatDetectorsUpdateOptions : GcloudOptio
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// DnsThreatDetector resource - Identifier. Name of the DnsThreatDetector resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dns_threat_detector on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dnsThreatDetector or fully qualified identifier for the dnsThreatDetector. To set the dns_threat_detector attribute: ▸ provide the argument dns_threat_detector on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DnsThreatDetector { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((((object?)ExcludedNetworks is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludedNetworks is not string || !string.IsNullOrWhiteSpace(ExcludedNetworks?.ToString()) : ((object?)ExcludedNetworks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludedNetworks, static item => item is not null) : (ExcludedNetworks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludedNetworks), static item => item is not null))))) ? 1 : 0) + ((((object?)AddExcludedNetworks is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddExcludedNetworks is not string || !string.IsNullOrWhiteSpace(AddExcludedNetworks?.ToString()) : ((object?)AddExcludedNetworks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddExcludedNetworks, static item => item is not null) : (AddExcludedNetworks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddExcludedNetworks), static item => item is not null)))) || ClearExcludedNetworks == true || ((object?)RemoveExcludedNetworks is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveExcludedNetworks is not string || !string.IsNullOrWhiteSpace(RemoveExcludedNetworks?.ToString()) : ((object?)RemoveExcludedNetworks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveExcludedNetworks, static item => item is not null) : (RemoveExcludedNetworks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveExcludedNetworks), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (ExcludedNetworks) or (AddExcludedNetworks, ClearExcludedNetworks, or RemoveExcludedNetworks) may be specified.", [nameof(ExcludedNetworks), nameof(AddExcludedNetworks), nameof(ClearExcludedNetworks), nameof(RemoveExcludedNetworks)]);
+        }
+        if ((((object?)ExcludedNetworks is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludedNetworks is not string || !string.IsNullOrWhiteSpace(ExcludedNetworks?.ToString()) : ((object?)ExcludedNetworks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludedNetworks, static item => item is not null) : (ExcludedNetworks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludedNetworks), static item => item is not null)))) || ((object?)AddExcludedNetworks is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddExcludedNetworks is not string || !string.IsNullOrWhiteSpace(AddExcludedNetworks?.ToString()) : ((object?)AddExcludedNetworks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddExcludedNetworks, static item => item is not null) : (AddExcludedNetworks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddExcludedNetworks), static item => item is not null)))) || ClearExcludedNetworks == true || ((object?)RemoveExcludedNetworks is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveExcludedNetworks is not string || !string.IsNullOrWhiteSpace(RemoveExcludedNetworks?.ToString()) : ((object?)RemoveExcludedNetworks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveExcludedNetworks, static item => item is not null) : (RemoveExcludedNetworks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveExcludedNetworks), static item => item is not null))))) && (((object?)AddExcludedNetworks is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddExcludedNetworks is not string || !string.IsNullOrWhiteSpace(AddExcludedNetworks?.ToString()) : ((object?)AddExcludedNetworks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddExcludedNetworks, static item => item is not null) : (AddExcludedNetworks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddExcludedNetworks), static item => item is not null)))) || ClearExcludedNetworks == true || ((object?)RemoveExcludedNetworks is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveExcludedNetworks is not string || !string.IsNullOrWhiteSpace(RemoveExcludedNetworks?.ToString()) : ((object?)RemoveExcludedNetworks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveExcludedNetworks, static item => item is not null) : (RemoveExcludedNetworks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveExcludedNetworks), static item => item is not null))))) && (!(((object?)AddExcludedNetworks is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddExcludedNetworks is not string || !string.IsNullOrWhiteSpace(AddExcludedNetworks?.ToString()) : ((object?)AddExcludedNetworks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddExcludedNetworks, static item => item is not null) : (AddExcludedNetworks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddExcludedNetworks), static item => item is not null)))))))
+        {
+            yield return new ValidationResult("AddExcludedNetworks must be specified when other arguments in this group are specified.", [nameof(AddExcludedNetworks)]);
+        }
+        if ((((object?)ExcludedNetworks is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExcludedNetworks is not string || !string.IsNullOrWhiteSpace(ExcludedNetworks?.ToString()) : ((object?)ExcludedNetworks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExcludedNetworks, static item => item is not null) : (ExcludedNetworks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExcludedNetworks), static item => item is not null)))) || ((object?)AddExcludedNetworks is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddExcludedNetworks is not string || !string.IsNullOrWhiteSpace(AddExcludedNetworks?.ToString()) : ((object?)AddExcludedNetworks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddExcludedNetworks, static item => item is not null) : (AddExcludedNetworks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddExcludedNetworks), static item => item is not null)))) || ClearExcludedNetworks == true || ((object?)RemoveExcludedNetworks is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveExcludedNetworks is not string || !string.IsNullOrWhiteSpace(RemoveExcludedNetworks?.ToString()) : ((object?)RemoveExcludedNetworks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveExcludedNetworks, static item => item is not null) : (RemoveExcludedNetworks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveExcludedNetworks), static item => item is not null))))) && (((object?)AddExcludedNetworks is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddExcludedNetworks is not string || !string.IsNullOrWhiteSpace(AddExcludedNetworks?.ToString()) : ((object?)AddExcludedNetworks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddExcludedNetworks, static item => item is not null) : (AddExcludedNetworks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddExcludedNetworks), static item => item is not null)))) || ClearExcludedNetworks == true || ((object?)RemoveExcludedNetworks is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveExcludedNetworks is not string || !string.IsNullOrWhiteSpace(RemoveExcludedNetworks?.ToString()) : ((object?)RemoveExcludedNetworks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveExcludedNetworks, static item => item is not null) : (RemoveExcludedNetworks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveExcludedNetworks), static item => item is not null))))) && ((ClearExcludedNetworks == true ? 1 : 0) + ((((object?)RemoveExcludedNetworks is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveExcludedNetworks is not string || !string.IsNullOrWhiteSpace(RemoveExcludedNetworks?.ToString()) : ((object?)RemoveExcludedNetworks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveExcludedNetworks, static item => item is not null) : (RemoveExcludedNetworks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveExcludedNetworks), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearExcludedNetworks or (RemoveExcludedNetworks) may be specified.", [nameof(ClearExcludedNetworks), nameof(RemoveExcludedNetworks)]);
+        }
+        if ((((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Labels, static item => item is not null) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Labels or (UpdateLabels, ClearLabels, or RemoveLabels) may be specified.", [nameof(Labels), nameof(UpdateLabels), nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Labels, static item => item is not null) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null))))) || ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) && (((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) && ((ClearLabels == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveLabels) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        yield break;
+    }
 
 }

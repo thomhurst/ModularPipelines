@@ -10,6 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +22,537 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "subordinates", "create")]
-public record GcloudPrivatecaSubordinatesCreateOptions : GcloudOptions
+public record GcloudPrivatecaSubordinatesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new subordinate certificate     authority
+    /// </summary>
+    /// <param name="CertificateAuthority">Certificate Authority resource - The name of the subordinate CA to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_AUTHORITY on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Certificate Authority or fully qualified identifier for the Certificate Authority. To set the certificate_authority attribute: ▸ provide the argument CERTIFICATE_AUTHORITY on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPrivatecaSubordinatesCreateOptions(
+        string CertificateAuthority
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateAuthority);
+        this.CertificateAuthority = CertificateAuthority;
+    }
+
+    public void Deconstruct(out string CertificateAuthority)
+    {
+        CertificateAuthority = this.CertificateAuthority;
+    }
+
+    /// <summary>
+    /// Certificate Authority resource - The name of the subordinate CA to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_AUTHORITY on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Certificate Authority. To set the location attribute: ▸ provide the argument CERTIFICATE_AUTHORITY on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property privateca/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Certificate Authority resource - The name of the subordinate CA to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_AUTHORITY on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The parent CA Pool of the Certificate Authority. To set the pool attribute: ▸ provide the argument CERTIFICATE_AUTHORITY on the command line with a fully specified name; ▸ provide the argument --pool on the command line.
+    /// </summary>
+    [CliOption("--pool", Format = OptionFormat.EqualsSeparated)]
+    public string? Pool { get; set; }
+
+    /// <summary>
+    /// The issuer configuration used for this CA certificate. Exactly one of these must be specified: If the issuing CA is not hosted on Certificate Authority Service, you must provide these settings: Indicates that a CSR should be generated which can be signed by the issuing CA. This must be set if --issuer is not provided. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--create-csr")]
+    public bool? CreateCsr { get; set; }
+
+    /// <summary>
+    /// The issuer configuration used for this CA certificate. Exactly one of these must be specified: If the issuing CA is not hosted on Certificate Authority Service, you must provide these settings: The path where the resulting PEM-encoded CSR file should be written. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--csr-output-file", Format = OptionFormat.EqualsSeparated)]
+    public string? CsrOutputFile { get; set; }
+
+    /// <summary>
+    /// The issuer configuration used for this CA certificate. Exactly one of these must be specified: The issuing resource used for this CA certificate. Issuer resource - The issuing CA Pool to use, if it is on Certificate Authority Service. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --issuer-pool on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. ID of the Issuer or fully qualified identifier for the Issuer. To set the pool attribute: ▸ provide the argument --issuer-pool on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--issuer-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerPool { get; set; }
+
+    /// <summary>
+    /// The issuer configuration used for this CA certificate. Exactly one of these must be specified: The issuing resource used for this CA certificate. Issuer resource - The issuing CA Pool to use, if it is on Certificate Authority Service. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --issuer-pool on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. The location of the Issuer. To set the location attribute: ▸ provide the argument --issuer-pool on the command line with a fully specified name; ▸ provide the argument --issuer-location on the command line; ▸ set the property privateca/location.
+    /// </summary>
+    [CliOption("--issuer-location", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerLocation { get; set; }
+
+    /// <summary>
+    /// If this flag is set, the Certificate Authority will be automatically enabled upon creation.
+    /// </summary>
+    [CliFlag("--auto-enable")]
+    public bool? AutoEnable { get; set; }
+
+    /// <summary>
+    /// The name of an existing storage bucket to use for storing the CA certificates and CRLs for CAs in this pool. If omitted, a new bucket will be created and managed by the service on your behalf.
+    /// </summary>
+    [CliOption("--bucket", Format = OptionFormat.EqualsSeparated)]
+    public string? Bucket { get; set; }
+
+    /// <summary>
+    /// One or more comma-separated URLs that will be added to the Authority Information Access extension in the issued certificate. These URLs are where the issuer CA certificate is located. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--custom-aia-urls", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CustomAiaUrls { get; set; }
+
+    /// <summary>
+    /// One or more comma-separated URLs that will be added to the CRL Distribution Points (CDP) extension in the issued certificate. These URLs are where CRL information is located. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--custom-cdp-urls", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CustomCdpUrls { get; set; }
+
+    /// <summary>
+    /// One or more comma-separated DNS Subject Alternative Names. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--dns-san", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? DnsSan { get; set; }
+
+    /// <summary>
+    /// One or more comma-separated email Subject Alternative Names. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--email-san", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? EmailSan { get; set; }
+
+    /// <summary>
+    /// Source CA resource - An existing CA from which to copy configuration values for the new CA. You can still override any of those values by explicitly providing the appropriate flags. The specified existing CA must be part of the same pool as the one being created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property privateca/location. To set the pool attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --pool on the command line. ID of the source CA or fully qualified identifier for the source CA. To set the certificate_authority attribute: ◆ provide the argument --from-ca on the command line.
+    /// </summary>
+    [CliOption("--from-ca", Format = OptionFormat.EqualsSeparated)]
+    public string? FromCa { get; set; }
+
+    /// <summary>
+    /// Source CA resource - An existing CA from which to copy configuration values for the new CA. You can still override any of those values by explicitly providing the appropriate flags. The specified existing CA must be part of the same pool as the one being created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property privateca/location. To set the pool attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --pool on the command line. One or more comma-separated IP Subject Alternative Names. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--ip-san", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? IpSan { get; set; }
+
+    /// <summary>
+    /// Source CA resource - An existing CA from which to copy configuration values for the new CA. You can still override any of those values by explicitly providing the appropriate flags. The specified existing CA must be part of the same pool as the one being created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property privateca/location. To set the pool attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --pool on the command line. The Certificate Authority ID of the CA to issue the subordinate CA certificate from. This ID is optional. If ommitted, any available ENABLED CA in the issuing CA pool will be chosen.
+    /// </summary>
+    [CliOption("--issuer-ca", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerCa { get; set; }
+
+    /// <summary>
+    /// Source CA resource - An existing CA from which to copy configuration values for the new CA. You can still override any of those values by explicitly providing the appropriate flags. The specified existing CA must be part of the same pool as the one being created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property privateca/location. To set the pool attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --pool on the command line. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Source CA resource - An existing CA from which to copy configuration values for the new CA. You can still override any of those values by explicitly providing the appropriate flags. The specified existing CA must be part of the same pool as the one being created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property privateca/location. To set the pool attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --pool on the command line. X.501 name of the certificate subject. Example: --subject "C=US,ST=California,L=Mountain View,O=Google LLC,CN=google.com" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--subject", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Subject { get; set; }
+
+    /// <summary>
+    /// Source CA resource - An existing CA from which to copy configuration values for the new CA. You can still override any of those values by explicitly providing the appropriate flags. The specified existing CA must be part of the same pool as the one being created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property privateca/location. To set the pool attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --pool on the command line. Optional field to specify subject key ID for certificate. DO NOT USE except to maintain a previously established identifier for a public key, whose SKI was not generated using method (1) described in RFC 5280 section 4.2.1.2.
+    /// </summary>
+    [CliOption("--subject-key-id", Format = OptionFormat.EqualsSeparated)]
+    public string? SubjectKeyId { get; set; }
+
+    /// <summary>
+    /// Source CA resource - An existing CA from which to copy configuration values for the new CA. You can still override any of those values by explicitly providing the appropriate flags. The specified existing CA must be part of the same pool as the one being created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property privateca/location. To set the pool attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --pool on the command line. One or more comma-separated URI Subject Alternative Names. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--uri-san", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? UriSan { get; set; }
+
+    /// <summary>
+    /// Source CA resource - An existing CA from which to copy configuration values for the new CA. You can still override any of those values by explicitly providing the appropriate flags. The specified existing CA must be part of the same pool as the one being created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property privateca/location. To set the pool attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --pool on the command line. The validity of this CA, as an ISO8601 duration. Defaults to 3 years.
+    /// </summary>
+    [CliOption("--validity", Format = OptionFormat.EqualsSeparated)]
+    public string? Validity { get; set; }
+
+    /// <summary>
+    /// The key configuration used for the CA certificate. Defaults to a managed key if not specified. At most one of these can be specified: The crypto algorithm to use for creating a managed KMS key for the Certificate Authority. The default is rsa-pkcs1-2048-sha256. KEY_ALGORITHM must be one of: ec-p256-sha256, ec-p384-sha384, rsa-pkcs1-2048-sha256, rsa-pkcs1-3072-sha256, rsa-pkcs1-4096-sha256, rsa-pss-2048-sha256, rsa-pss-3072-sha256, rsa-pss-4096-sha256.
+    /// </summary>
+    [CliOption("--key-algorithm", Format = OptionFormat.EqualsSeparated)]
+    public GcloudPrivatecaSubordinatesCreateKeyAlgorithm? KeyAlgorithm { get; set; }
+
+    /// <summary>
+    /// The key configuration used for the CA certificate. Defaults to a managed key if not specified. At most one of these can be specified: Or at least one of these can be specified: Key version resource - The KMS key version backing this CA. The arguments in this group can be used to specify the attributes of this resource. ID of the key version or fully qualified identifier for the key version. To set the kms-key-version attribute: ▫ provide the argument --kms-key-version on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key-version", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyVersion { get; set; }
+
+    /// <summary>
+    /// The key configuration used for the CA certificate. Defaults to a managed key if not specified. At most one of these can be specified: Or at least one of these can be specified: Key version resource - The KMS key version backing this CA. The arguments in this group can be used to specify the attributes of this resource. The KMS key of the key version. To set the kms-key attribute: ▫ provide the argument --kms-key-version on the command line with a fully specified name; ▫ provide the argument --kms-key on the command line.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// The key configuration used for the CA certificate. Defaults to a managed key if not specified. At most one of these can be specified: Or at least one of these can be specified: Key version resource - The KMS key version backing this CA. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key version. To set the kms-keyring attribute: ▫ provide the argument --kms-key-version on the command line with a fully specified name; ▫ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// The key configuration used for the CA certificate. Defaults to a managed key if not specified. At most one of these can be specified: Or at least one of these can be specified: Key version resource - The KMS key version backing this CA. The arguments in this group can be used to specify the attributes of this resource. The location of the key version. To set the kms-location attribute: ▫ provide the argument --kms-key-version on the command line with a fully specified name; ▫ provide the argument --kms-location on the command line; ▫ provide the argument location on the command line; ▫ set the property privateca/location.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// The key configuration used for the CA certificate. Defaults to a managed key if not specified. At most one of these can be specified: Or at least one of these can be specified: Key version resource - The KMS key version backing this CA. The arguments in this group can be used to specify the attributes of this resource. The project containing the key version. To set the kms-project attribute: ▫ provide the argument --kms-key-version on the command line with a fully specified name; ▫ provide the argument --kms-project on the command line; ▫ provide the argument project on the command line; ▫ set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <summary>
+    /// The X.509 configuration used for the CA certificate. At most one of these can be specified: The name of an existing preset profile used to encapsulate X.509 parameter values. USE_PRESET_PROFILE must be one of: leaf_client_tls, leaf_code_signing, leaf_mtls, leaf_server_tls, leaf_smime, root_unconstrained, subordinate_client_tls_pathlen_0, subordinate_code_signing_pathlen_0, subordinate_mtls_pathlen_0, subordinate_server_tls_pathlen_0, subordinate_smime_pathlen_0, subordinate_unconstrained_pathlen_0. For more information, see https://cloud.google.com/certificate-authority-service/docs/certificate-profile.
+    /// </summary>
+    [CliOption("--use-preset-profile", Format = OptionFormat.EqualsSeparated)]
+    public GcloudPrivatecaSubordinatesCreateUsePresetProfile? UsePresetProfile { get; set; }
+
+    /// <summary>
+    /// The X.509 configuration used for the CA certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations The list of extended key usages for this CA. This can only be provided if --use-preset-profile is not provided. EXTENDED_KEY_USAGES must be one of: server_auth, client_auth, code_signing, email_protection, time_stamping, ocsp_signing.
+    /// </summary>
+    [CliOption("--extended-key-usages", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudPrivatecaSubordinatesCreateExtendedKeyUsages>? ExtendedKeyUsages
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ExtendedKeyUsagesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<GcloudPrivatecaSubordinatesCreateExtendedKeyUsages>).Equals((object)values) ? global::System.Array.Empty<GcloudPrivatecaSubordinatesCreateExtendedKeyUsages>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<GcloudPrivatecaSubordinatesCreateExtendedKeyUsages>(values))))) : default;
+    }
+
+    private sealed class __ExtendedKeyUsagesSnapshotKeyValue(
+        IEnumerable<GcloudPrivatecaSubordinatesCreateExtendedKeyUsages> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<GcloudPrivatecaSubordinatesCreateExtendedKeyUsages>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<GcloudPrivatecaSubordinatesCreateExtendedKeyUsages>
+            global::System.Collections.Generic.IEnumerable<GcloudPrivatecaSubordinatesCreateExtendedKeyUsages>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// The X.509 configuration used for the CA certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations The list of key usages for this CA. This can only be provided if --use-preset-profile is not provided. KEY_USAGES must be one of: digital_signature, content_commitment, key_encipherment, data_encipherment, key_agreement, cert_sign, crl_sign, encipher_only, decipher_only.
+    /// </summary>
+    [CliOption("--key-usages", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudPrivatecaSubordinatesCreateKeyUsages>? KeyUsages
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __KeyUsagesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<GcloudPrivatecaSubordinatesCreateKeyUsages>).Equals((object)values) ? global::System.Array.Empty<GcloudPrivatecaSubordinatesCreateKeyUsages>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<GcloudPrivatecaSubordinatesCreateKeyUsages>(values))))) : default;
+    }
+
+    private sealed class __KeyUsagesSnapshotKeyValue(
+        IEnumerable<GcloudPrivatecaSubordinatesCreateKeyUsages> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<GcloudPrivatecaSubordinatesCreateKeyUsages>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<GcloudPrivatecaSubordinatesCreateKeyUsages>
+            global::System.Collections.Generic.IEnumerable<GcloudPrivatecaSubordinatesCreateKeyUsages>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// The X.509 configuration used for the CA certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations At most one of these can be specified: Maximum depth of subordinate CAs allowed under this CA for a CA certificate. This can only be provided if neither --use-preset-profile nor --unconstrained-chain-length are provided.
+    /// </summary>
+    [CliOption("--max-chain-length", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxChainLength { get; set; }
+
+    /// <summary>
+    /// The X.509 configuration used for the CA certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations At most one of these can be specified: If set, allows an unbounded number of subordinate CAs under this newly issued CA certificate. This can only be provided if neither --use-preset-profile nor --max-chain-length are provided.
+    /// </summary>
+    [CliFlag("--unconstrained-chain-length")]
+    public bool? UnconstrainedChainLength { get; set; }
+
+    /// <summary>
+    /// The X.509 configuration used for the CA certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations Indicates whether or not name constraints are marked as critical. Name constraints are considered critical unless explicitly set to false. Enabled by default, use --no-name-constraints-critical to disable.
+    /// </summary>
+    [CliFlag("--name-constraints-critical")]
+    public bool? NameConstraintsCritical { get; set; }
+
+    /// <summary>
+    /// Negates --name-constraints-critical. The X.509 configuration used for the CA certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations Indicates whether or not name constraints are marked as critical. Name constraints are considered critical unless explicitly set to false. Enabled by default, use --no-name-constraints-critical to disable.
+    /// </summary>
+    [CliFlag("--no-name-constraints-critical")]
+    public bool? NoNameConstraintsCritical { get; set; }
+
+    /// <summary>
+    /// The X.509 configuration used for the CA certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations One or more comma-separated DNS names which are excluded from being issued certificates. Any DNS name that can be constructed by simply adding zero or more labels to the left-hand side of the name satisfies the name constraint. For example, example.com, www.example.com, www.sub.example.com would satisfy example.com, while example1.com does not. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--name-excluded-dns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NameExcludedDns
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NameExcludedDnsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NameExcludedDnsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// The X.509 configuration used for the CA certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations One or more comma-separated emails which are excluded from being issued certificates. The value can be a particular email address, a hostname to indicate all email addresses on that host or a domain with a leading period (e.g. .example.com) to indicate all email addresses in that domain. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--name-excluded-email", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NameExcludedEmail
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NameExcludedEmailSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NameExcludedEmailSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// The X.509 configuration used for the CA certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations One or more comma-separated IP ranges which are excluded from being issued certificates. For IPv4 addresses, the ranges are expressed using CIDR notation as specified in RFC 4632. For IPv6 addresses, the ranges are expressed in similar encoding as IPv4 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--name-excluded-ip", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NameExcludedIp
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NameExcludedIpSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NameExcludedIpSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// The X.509 configuration used for the CA certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations One or more comma-separated URIs which are excluded from being issued certificates. The value can be a hostname or a domain with a leading period (like .example.com) Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--name-excluded-uri", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NameExcludedUri
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NameExcludedUriSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NameExcludedUriSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// The X.509 configuration used for the CA certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations One or more comma-separated DNS names which are permitted to be issued certificates. Any DNS name that can be constructed by simply adding zero or more labels to the left-hand side of the name satisfies the name constraint. For example, example.com, www.example.com, www.sub.example.com would satisfy example.com, while example1.com does not. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--name-permitted-dns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NamePermittedDns
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NamePermittedDnsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NamePermittedDnsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// The X.509 configuration used for the CA certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations One or more comma-separated email addresses which are permitted to be issued certificates. The value can be a particular email address, a hostname to indicate all email addresses on that host or a domain with a leading period (e.g. .example.com) to indicate all email addresses in that domain. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--name-permitted-email", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NamePermittedEmail
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NamePermittedEmailSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NamePermittedEmailSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// The X.509 configuration used for the CA certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations One or more comma-separated IP ranges which are permitted to be issued certificates. For IPv4 addresses, the ranges are expressed using CIDR notation as specified in RFC 4632. For IPv6 addresses, the ranges are expressed in similar encoding as IPv4 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--name-permitted-ip", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NamePermittedIp
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NamePermittedIpSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NamePermittedIpSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// The X.509 configuration used for the CA certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations One or more comma-separated URIs which are permitted to be issued certificates. The value can be a hostname or a domain with a leading period (like .example.com) Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--name-permitted-uri", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NamePermittedUri
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NamePermittedUriSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __NamePermittedUriSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Certificate Authority resource - The name of the subordinate CA to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_AUTHORITY on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Certificate Authority or fully qualified identifier for the Certificate Authority. To set the certificate_authority attribute: ▸ provide the argument CERTIFICATE_AUTHORITY on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CertificateAuthority { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((CreateCsr == true || !string.IsNullOrWhiteSpace(CsrOutputFile)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(IssuerPool) || !string.IsNullOrWhiteSpace(IssuerLocation)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (CreateCsr or CsrOutputFile) or (IssuerPool or IssuerLocation) must be specified.", [nameof(CreateCsr), nameof(CsrOutputFile), nameof(IssuerPool), nameof(IssuerLocation)]);
+        }
+        if ((CreateCsr == true || !string.IsNullOrWhiteSpace(CsrOutputFile) || !string.IsNullOrWhiteSpace(IssuerPool) || !string.IsNullOrWhiteSpace(IssuerLocation)) && (CreateCsr == true || !string.IsNullOrWhiteSpace(CsrOutputFile)) && (!(CreateCsr == true)))
+        {
+            yield return new ValidationResult("CreateCsr must be specified when other arguments in this group are specified.", [nameof(CreateCsr)]);
+        }
+        if ((CreateCsr == true || !string.IsNullOrWhiteSpace(CsrOutputFile) || !string.IsNullOrWhiteSpace(IssuerPool) || !string.IsNullOrWhiteSpace(IssuerLocation)) && (CreateCsr == true || !string.IsNullOrWhiteSpace(CsrOutputFile)) && (!(!string.IsNullOrWhiteSpace(CsrOutputFile))))
+        {
+            yield return new ValidationResult("CsrOutputFile must be specified when other arguments in this group are specified.", [nameof(CsrOutputFile)]);
+        }
+        if ((CreateCsr == true || !string.IsNullOrWhiteSpace(CsrOutputFile) || !string.IsNullOrWhiteSpace(IssuerPool) || !string.IsNullOrWhiteSpace(IssuerLocation)) && (!string.IsNullOrWhiteSpace(IssuerPool) || !string.IsNullOrWhiteSpace(IssuerLocation)) && (!(!string.IsNullOrWhiteSpace(IssuerPool))))
+        {
+            yield return new ValidationResult("IssuerPool must be specified when other arguments in this group are specified.", [nameof(IssuerPool)]);
+        }
+        if (((object?)KeyAlgorithm is not null ? 1 : 0) + ((!string.IsNullOrWhiteSpace(KmsKeyVersion) || !string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of KeyAlgorithm or (KmsKeyVersion, KmsKey, KmsKeyring, KmsLocation, or KmsProject) may be specified.", [nameof(KeyAlgorithm), nameof(KmsKeyVersion), nameof(KmsKey), nameof(KmsKeyring), nameof(KmsLocation), nameof(KmsProject)]);
+        }
+        if (((object?)KeyAlgorithm is not null || !string.IsNullOrWhiteSpace(KmsKeyVersion) || !string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!string.IsNullOrWhiteSpace(KmsKeyVersion) || !string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!string.IsNullOrWhiteSpace(KmsKeyVersion) || !string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!(!string.IsNullOrWhiteSpace(KmsKeyVersion))))
+        {
+            yield return new ValidationResult("KmsKeyVersion must be specified when other arguments in this group are specified.", [nameof(KmsKeyVersion)]);
+        }
+        if (((object?)UsePresetProfile is not null ? 1 : 0) + ((((object?)ExtendedKeyUsages is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExtendedKeyUsages is not string || !string.IsNullOrWhiteSpace(ExtendedKeyUsages?.ToString()) : ((object?)ExtendedKeyUsages is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExtendedKeyUsages, static item => item is not null) : (ExtendedKeyUsages is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExtendedKeyUsages), static item => item is not null)))) || ((object?)KeyUsages is global::System.Collections.Generic.IEnumerable<char> ? (object?)KeyUsages is not string || !string.IsNullOrWhiteSpace(KeyUsages?.ToString()) : ((object?)KeyUsages is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)KeyUsages, static item => item is not null) : (KeyUsages is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)KeyUsages), static item => item is not null)))) || ((object?)NameExcludedDns is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedDns is not string || !string.IsNullOrWhiteSpace(NameExcludedDns?.ToString()) : ((object?)NameExcludedDns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedDns, static item => item is not null) : (NameExcludedDns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedDns), static item => item is not null)))) || ((object?)NameExcludedEmail is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedEmail is not string || !string.IsNullOrWhiteSpace(NameExcludedEmail?.ToString()) : ((object?)NameExcludedEmail is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedEmail, static item => item is not null) : (NameExcludedEmail is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedEmail), static item => item is not null)))) || ((object?)NameExcludedIp is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedIp is not string || !string.IsNullOrWhiteSpace(NameExcludedIp?.ToString()) : ((object?)NameExcludedIp is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedIp, static item => item is not null) : (NameExcludedIp is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedIp), static item => item is not null)))) || ((object?)NameExcludedUri is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedUri is not string || !string.IsNullOrWhiteSpace(NameExcludedUri?.ToString()) : ((object?)NameExcludedUri is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedUri, static item => item is not null) : (NameExcludedUri is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedUri), static item => item is not null)))) || ((object?)NamePermittedDns is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedDns is not string || !string.IsNullOrWhiteSpace(NamePermittedDns?.ToString()) : ((object?)NamePermittedDns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedDns, static item => item is not null) : (NamePermittedDns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedDns), static item => item is not null)))) || ((object?)NamePermittedEmail is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedEmail is not string || !string.IsNullOrWhiteSpace(NamePermittedEmail?.ToString()) : ((object?)NamePermittedEmail is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedEmail, static item => item is not null) : (NamePermittedEmail is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedEmail), static item => item is not null)))) || ((object?)NamePermittedIp is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedIp is not string || !string.IsNullOrWhiteSpace(NamePermittedIp?.ToString()) : ((object?)NamePermittedIp is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedIp, static item => item is not null) : (NamePermittedIp is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedIp), static item => item is not null)))) || ((object?)NamePermittedUri is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedUri is not string || !string.IsNullOrWhiteSpace(NamePermittedUri?.ToString()) : ((object?)NamePermittedUri is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedUri, static item => item is not null) : (NamePermittedUri is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedUri), static item => item is not null)))) || !string.IsNullOrWhiteSpace(MaxChainLength) || UnconstrainedChainLength == true || NameConstraintsCritical == true || NoNameConstraintsCritical == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of UsePresetProfile or (ExtendedKeyUsages, KeyUsages, NameExcludedDns, NameExcludedEmail, NameExcludedIp, NameExcludedUri, NamePermittedDns, NamePermittedEmail, NamePermittedIp, NamePermittedUri, MaxChainLength, UnconstrainedChainLength, NameConstraintsCritical, or NoNameConstraintsCritical) may be specified.", [nameof(UsePresetProfile), nameof(ExtendedKeyUsages), nameof(KeyUsages), nameof(NameExcludedDns), nameof(NameExcludedEmail), nameof(NameExcludedIp), nameof(NameExcludedUri), nameof(NamePermittedDns), nameof(NamePermittedEmail), nameof(NamePermittedIp), nameof(NamePermittedUri), nameof(MaxChainLength), nameof(UnconstrainedChainLength), nameof(NameConstraintsCritical), nameof(NoNameConstraintsCritical)]);
+        }
+        if (((object?)UsePresetProfile is not null || ((object?)ExtendedKeyUsages is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExtendedKeyUsages is not string || !string.IsNullOrWhiteSpace(ExtendedKeyUsages?.ToString()) : ((object?)ExtendedKeyUsages is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExtendedKeyUsages, static item => item is not null) : (ExtendedKeyUsages is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExtendedKeyUsages), static item => item is not null)))) || ((object?)KeyUsages is global::System.Collections.Generic.IEnumerable<char> ? (object?)KeyUsages is not string || !string.IsNullOrWhiteSpace(KeyUsages?.ToString()) : ((object?)KeyUsages is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)KeyUsages, static item => item is not null) : (KeyUsages is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)KeyUsages), static item => item is not null)))) || ((object?)NameExcludedDns is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedDns is not string || !string.IsNullOrWhiteSpace(NameExcludedDns?.ToString()) : ((object?)NameExcludedDns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedDns, static item => item is not null) : (NameExcludedDns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedDns), static item => item is not null)))) || ((object?)NameExcludedEmail is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedEmail is not string || !string.IsNullOrWhiteSpace(NameExcludedEmail?.ToString()) : ((object?)NameExcludedEmail is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedEmail, static item => item is not null) : (NameExcludedEmail is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedEmail), static item => item is not null)))) || ((object?)NameExcludedIp is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedIp is not string || !string.IsNullOrWhiteSpace(NameExcludedIp?.ToString()) : ((object?)NameExcludedIp is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedIp, static item => item is not null) : (NameExcludedIp is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedIp), static item => item is not null)))) || ((object?)NameExcludedUri is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedUri is not string || !string.IsNullOrWhiteSpace(NameExcludedUri?.ToString()) : ((object?)NameExcludedUri is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedUri, static item => item is not null) : (NameExcludedUri is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedUri), static item => item is not null)))) || ((object?)NamePermittedDns is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedDns is not string || !string.IsNullOrWhiteSpace(NamePermittedDns?.ToString()) : ((object?)NamePermittedDns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedDns, static item => item is not null) : (NamePermittedDns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedDns), static item => item is not null)))) || ((object?)NamePermittedEmail is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedEmail is not string || !string.IsNullOrWhiteSpace(NamePermittedEmail?.ToString()) : ((object?)NamePermittedEmail is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedEmail, static item => item is not null) : (NamePermittedEmail is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedEmail), static item => item is not null)))) || ((object?)NamePermittedIp is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedIp is not string || !string.IsNullOrWhiteSpace(NamePermittedIp?.ToString()) : ((object?)NamePermittedIp is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedIp, static item => item is not null) : (NamePermittedIp is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedIp), static item => item is not null)))) || ((object?)NamePermittedUri is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedUri is not string || !string.IsNullOrWhiteSpace(NamePermittedUri?.ToString()) : ((object?)NamePermittedUri is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedUri, static item => item is not null) : (NamePermittedUri is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedUri), static item => item is not null)))) || !string.IsNullOrWhiteSpace(MaxChainLength) || UnconstrainedChainLength == true || NameConstraintsCritical == true || NoNameConstraintsCritical == true) && (((object?)ExtendedKeyUsages is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExtendedKeyUsages is not string || !string.IsNullOrWhiteSpace(ExtendedKeyUsages?.ToString()) : ((object?)ExtendedKeyUsages is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExtendedKeyUsages, static item => item is not null) : (ExtendedKeyUsages is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExtendedKeyUsages), static item => item is not null)))) || ((object?)KeyUsages is global::System.Collections.Generic.IEnumerable<char> ? (object?)KeyUsages is not string || !string.IsNullOrWhiteSpace(KeyUsages?.ToString()) : ((object?)KeyUsages is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)KeyUsages, static item => item is not null) : (KeyUsages is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)KeyUsages), static item => item is not null)))) || ((object?)NameExcludedDns is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedDns is not string || !string.IsNullOrWhiteSpace(NameExcludedDns?.ToString()) : ((object?)NameExcludedDns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedDns, static item => item is not null) : (NameExcludedDns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedDns), static item => item is not null)))) || ((object?)NameExcludedEmail is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedEmail is not string || !string.IsNullOrWhiteSpace(NameExcludedEmail?.ToString()) : ((object?)NameExcludedEmail is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedEmail, static item => item is not null) : (NameExcludedEmail is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedEmail), static item => item is not null)))) || ((object?)NameExcludedIp is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedIp is not string || !string.IsNullOrWhiteSpace(NameExcludedIp?.ToString()) : ((object?)NameExcludedIp is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedIp, static item => item is not null) : (NameExcludedIp is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedIp), static item => item is not null)))) || ((object?)NameExcludedUri is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedUri is not string || !string.IsNullOrWhiteSpace(NameExcludedUri?.ToString()) : ((object?)NameExcludedUri is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedUri, static item => item is not null) : (NameExcludedUri is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedUri), static item => item is not null)))) || ((object?)NamePermittedDns is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedDns is not string || !string.IsNullOrWhiteSpace(NamePermittedDns?.ToString()) : ((object?)NamePermittedDns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedDns, static item => item is not null) : (NamePermittedDns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedDns), static item => item is not null)))) || ((object?)NamePermittedEmail is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedEmail is not string || !string.IsNullOrWhiteSpace(NamePermittedEmail?.ToString()) : ((object?)NamePermittedEmail is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedEmail, static item => item is not null) : (NamePermittedEmail is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedEmail), static item => item is not null)))) || ((object?)NamePermittedIp is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedIp is not string || !string.IsNullOrWhiteSpace(NamePermittedIp?.ToString()) : ((object?)NamePermittedIp is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedIp, static item => item is not null) : (NamePermittedIp is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedIp), static item => item is not null)))) || ((object?)NamePermittedUri is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedUri is not string || !string.IsNullOrWhiteSpace(NamePermittedUri?.ToString()) : ((object?)NamePermittedUri is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedUri, static item => item is not null) : (NamePermittedUri is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedUri), static item => item is not null)))) || !string.IsNullOrWhiteSpace(MaxChainLength) || UnconstrainedChainLength == true || NameConstraintsCritical == true || NoNameConstraintsCritical == true) && ((!string.IsNullOrWhiteSpace(MaxChainLength) ? 1 : 0) + (UnconstrainedChainLength == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of MaxChainLength or UnconstrainedChainLength may be specified.", [nameof(MaxChainLength), nameof(UnconstrainedChainLength)]);
+        }
+        if (((object?)UsePresetProfile is not null || ((object?)ExtendedKeyUsages is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExtendedKeyUsages is not string || !string.IsNullOrWhiteSpace(ExtendedKeyUsages?.ToString()) : ((object?)ExtendedKeyUsages is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExtendedKeyUsages, static item => item is not null) : (ExtendedKeyUsages is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExtendedKeyUsages), static item => item is not null)))) || ((object?)KeyUsages is global::System.Collections.Generic.IEnumerable<char> ? (object?)KeyUsages is not string || !string.IsNullOrWhiteSpace(KeyUsages?.ToString()) : ((object?)KeyUsages is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)KeyUsages, static item => item is not null) : (KeyUsages is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)KeyUsages), static item => item is not null)))) || ((object?)NameExcludedDns is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedDns is not string || !string.IsNullOrWhiteSpace(NameExcludedDns?.ToString()) : ((object?)NameExcludedDns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedDns, static item => item is not null) : (NameExcludedDns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedDns), static item => item is not null)))) || ((object?)NameExcludedEmail is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedEmail is not string || !string.IsNullOrWhiteSpace(NameExcludedEmail?.ToString()) : ((object?)NameExcludedEmail is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedEmail, static item => item is not null) : (NameExcludedEmail is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedEmail), static item => item is not null)))) || ((object?)NameExcludedIp is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedIp is not string || !string.IsNullOrWhiteSpace(NameExcludedIp?.ToString()) : ((object?)NameExcludedIp is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedIp, static item => item is not null) : (NameExcludedIp is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedIp), static item => item is not null)))) || ((object?)NameExcludedUri is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedUri is not string || !string.IsNullOrWhiteSpace(NameExcludedUri?.ToString()) : ((object?)NameExcludedUri is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedUri, static item => item is not null) : (NameExcludedUri is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedUri), static item => item is not null)))) || ((object?)NamePermittedDns is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedDns is not string || !string.IsNullOrWhiteSpace(NamePermittedDns?.ToString()) : ((object?)NamePermittedDns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedDns, static item => item is not null) : (NamePermittedDns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedDns), static item => item is not null)))) || ((object?)NamePermittedEmail is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedEmail is not string || !string.IsNullOrWhiteSpace(NamePermittedEmail?.ToString()) : ((object?)NamePermittedEmail is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedEmail, static item => item is not null) : (NamePermittedEmail is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedEmail), static item => item is not null)))) || ((object?)NamePermittedIp is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedIp is not string || !string.IsNullOrWhiteSpace(NamePermittedIp?.ToString()) : ((object?)NamePermittedIp is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedIp, static item => item is not null) : (NamePermittedIp is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedIp), static item => item is not null)))) || ((object?)NamePermittedUri is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedUri is not string || !string.IsNullOrWhiteSpace(NamePermittedUri?.ToString()) : ((object?)NamePermittedUri is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedUri, static item => item is not null) : (NamePermittedUri is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedUri), static item => item is not null)))) || !string.IsNullOrWhiteSpace(MaxChainLength) || UnconstrainedChainLength == true || NameConstraintsCritical == true || NoNameConstraintsCritical == true) && (((object?)ExtendedKeyUsages is global::System.Collections.Generic.IEnumerable<char> ? (object?)ExtendedKeyUsages is not string || !string.IsNullOrWhiteSpace(ExtendedKeyUsages?.ToString()) : ((object?)ExtendedKeyUsages is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ExtendedKeyUsages, static item => item is not null) : (ExtendedKeyUsages is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ExtendedKeyUsages), static item => item is not null)))) || ((object?)KeyUsages is global::System.Collections.Generic.IEnumerable<char> ? (object?)KeyUsages is not string || !string.IsNullOrWhiteSpace(KeyUsages?.ToString()) : ((object?)KeyUsages is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)KeyUsages, static item => item is not null) : (KeyUsages is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)KeyUsages), static item => item is not null)))) || ((object?)NameExcludedDns is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedDns is not string || !string.IsNullOrWhiteSpace(NameExcludedDns?.ToString()) : ((object?)NameExcludedDns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedDns, static item => item is not null) : (NameExcludedDns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedDns), static item => item is not null)))) || ((object?)NameExcludedEmail is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedEmail is not string || !string.IsNullOrWhiteSpace(NameExcludedEmail?.ToString()) : ((object?)NameExcludedEmail is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedEmail, static item => item is not null) : (NameExcludedEmail is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedEmail), static item => item is not null)))) || ((object?)NameExcludedIp is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedIp is not string || !string.IsNullOrWhiteSpace(NameExcludedIp?.ToString()) : ((object?)NameExcludedIp is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedIp, static item => item is not null) : (NameExcludedIp is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedIp), static item => item is not null)))) || ((object?)NameExcludedUri is global::System.Collections.Generic.IEnumerable<char> ? (object?)NameExcludedUri is not string || !string.IsNullOrWhiteSpace(NameExcludedUri?.ToString()) : ((object?)NameExcludedUri is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NameExcludedUri, static item => item is not null) : (NameExcludedUri is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NameExcludedUri), static item => item is not null)))) || ((object?)NamePermittedDns is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedDns is not string || !string.IsNullOrWhiteSpace(NamePermittedDns?.ToString()) : ((object?)NamePermittedDns is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedDns, static item => item is not null) : (NamePermittedDns is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedDns), static item => item is not null)))) || ((object?)NamePermittedEmail is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedEmail is not string || !string.IsNullOrWhiteSpace(NamePermittedEmail?.ToString()) : ((object?)NamePermittedEmail is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedEmail, static item => item is not null) : (NamePermittedEmail is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedEmail), static item => item is not null)))) || ((object?)NamePermittedIp is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedIp is not string || !string.IsNullOrWhiteSpace(NamePermittedIp?.ToString()) : ((object?)NamePermittedIp is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedIp, static item => item is not null) : (NamePermittedIp is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedIp), static item => item is not null)))) || ((object?)NamePermittedUri is global::System.Collections.Generic.IEnumerable<char> ? (object?)NamePermittedUri is not string || !string.IsNullOrWhiteSpace(NamePermittedUri?.ToString()) : ((object?)NamePermittedUri is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NamePermittedUri, static item => item is not null) : (NamePermittedUri is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NamePermittedUri), static item => item is not null)))) || !string.IsNullOrWhiteSpace(MaxChainLength) || UnconstrainedChainLength == true || NameConstraintsCritical == true || NoNameConstraintsCritical == true) && ((NameConstraintsCritical == true ? 1 : 0) + (NoNameConstraintsCritical == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of NameConstraintsCritical or NoNameConstraintsCritical may be specified.", [nameof(NameConstraintsCritical), nameof(NoNameConstraintsCritical)]);
+        }
+        yield break;
+    }
+
 }

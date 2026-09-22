@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,157 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scheduler", "jobs", "create", "pubsub")]
-public record GcloudSchedulerJobsCreatePubsubOptions : GcloudOptions
+public record GcloudSchedulerJobsCreatePubsubOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Cloud Scheduler job with a     Pub/Sub target
+    /// </summary>
+    /// <param name="Schedule">Schedule on which the job will be executed. As a general rule, execution n + 1 of a job will not begin until execution n has finished. Cloud Scheduler will never allow two simultaneously outstanding executions. For example, this implies that if the n+1 execution is scheduled to run at 16:00 but the n execution takes until 16:15, the n+1 execution will not start until 16:15. A scheduled start time will be delayed if the previous execution has not ended when its scheduled time occurs. Learn more about the cron job format (https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules). If --retry-count &gt; 0 and a job attempt fails, the job will be tried a total of --retry-count times, with exponential backoff, until the job succeeds or the number of retries is exhausted. Note that the next scheduled execution time might be skipped if the retries continue through that time. For more information, see Retry jobs (https://cloud.google.com/scheduler/docs/configuring/retry-jobs).</param>
+    /// <param name="Topic">Name of the Google Cloud Pub/Sub topic to publish to when the job runs.</param>
+    /// <param name="Job">Job resource - Job to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the job or fully qualified identifier for the job. To set the job attribute: ▸ provide the argument job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSchedulerJobsCreatePubsubOptions(
+        string Schedule,
+        string Topic,
+        string Job
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Schedule);
+        this.Schedule = Schedule;
+        global::System.ArgumentNullException.ThrowIfNull(Topic);
+        this.Topic = Topic;
+        global::System.ArgumentNullException.ThrowIfNull(Job);
+        this.Job = Job;
+    }
+
+    public void Deconstruct(out string Schedule, out string Topic, out string Job)
+    {
+        Schedule = this.Schedule;
+        Topic = this.Topic;
+        Job = this.Job;
+    }
+
+    /// <summary>
+    /// Schedule on which the job will be executed. As a general rule, execution n + 1 of a job will not begin until execution n has finished. Cloud Scheduler will never allow two simultaneously outstanding executions. For example, this implies that if the n+1 execution is scheduled to run at 16:00 but the n execution takes until 16:15, the n+1 execution will not start until 16:15. A scheduled start time will be delayed if the previous execution has not ended when its scheduled time occurs. Learn more about the cron job format (https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules). If --retry-count &gt; 0 and a job attempt fails, the job will be tried a total of --retry-count times, with exponential backoff, until the job succeeds or the number of retries is exhausted. Note that the next scheduled execution time might be skipped if the retries continue through that time. For more information, see Retry jobs (https://cloud.google.com/scheduler/docs/configuring/retry-jobs).
+    /// </summary>
+    [CliOption("--schedule", Format = OptionFormat.EqualsSeparated)]
+    public string Schedule { get; private init; }
+
+    /// <summary>
+    /// Name of the Google Cloud Pub/Sub topic to publish to when the job runs.
+    /// </summary>
+    [CliOption("--topic", Format = OptionFormat.EqualsSeparated)]
+    public string Topic { get; private init; }
+
+    /// <summary>
+    /// Job resource - Job to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the job. By default, uses the location of the current project's App Engine app if there is an associated app. To set the location attribute: ▸ provide the argument job on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ defaults to App Engine's app location if not provided &amp; an app exists.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Body of the message to publish to the given topic name. Information on message formatting and size limits can be found at: https://cloud.google.com/pubsub/docs/publisher#publish At least one of these must be specified: Comma-separated list of attributes. Each attribute has the form "NAME=VALUE". You can specify up to 100 attributes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Attributes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AttributesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AttributesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Body of the message to publish to the given topic name. Information on message formatting and size limits can be found at: https://cloud.google.com/pubsub/docs/publisher#publish At least one of these must be specified: At most one of these can be specified: Body of the message.
+    /// </summary>
+    [CliOption("--message-body", Format = OptionFormat.EqualsSeparated)]
+    public string? MessageBody { get; set; }
+
+    /// <summary>
+    /// Body of the message to publish to the given topic name. Information on message formatting and size limits can be found at: https://cloud.google.com/pubsub/docs/publisher#publish At least one of these must be specified: At most one of these can be specified: Path to a file containing the body of the message. Use a full or relative path to a local file containing the value of message_body.
+    /// </summary>
+    [CliOption("--message-body-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? MessageBodyFromFile { get; set; }
+
+    /// <summary>
+    /// Human-readable description of the job.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Maximum amount of time to wait before retrying a job after it fails. For example, 60s. Default is 3600s (1 hour).
+    /// </summary>
+    [CliOption("--max-backoff", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxBackoff { get; set; }
+
+    /// <summary>
+    /// Maximum number of times that the interval between failed job retries will be doubled before the increase becomes constant.
+    /// </summary>
+    [CliOption("--max-doublings", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxDoublings { get; set; }
+
+    /// <summary>
+    /// Number of times to retry the request if it fails or times out. Must be in range 0-5 inclusive. Default is 0.
+    /// </summary>
+    [CliOption("--max-retry-attempts", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxRetryAttempts { get; set; }
+
+    /// <summary>
+    /// Time limit for retrying a failed job, measured from when the job was first run. If specified with --max-retry-attempts greater than 0, the job will be retried until both limits are reached. Default is 0 seconds (which means unlimited); however, if --max-retry-attempts is also 0, a job attempt won't be retried if it fails.
+    /// </summary>
+    [CliOption("--max-retry-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxRetryDuration { get; set; }
+
+    /// <summary>
+    /// Minimum amount of time to wait before retrying a job after it fails. For example, 10s. Default is 5s.
+    /// </summary>
+    [CliOption("--min-backoff", Format = OptionFormat.EqualsSeparated)]
+    public string? MinBackoff { get; set; }
+
+    /// <summary>
+    /// Specifies the time zone to be used in interpreting --schedule. The value of this field must be a time zone name from the tz database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). Note that some time zones include a provision for daylight savings time. The rules for daylight saving time are determined by the chosen time zone. For UTC use the string "utc". Default is "utc".
+    /// </summary>
+    [CliOption("--time-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? TimeZone { get; set; }
+
+    /// <summary>
+    /// Job resource - Job to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the job or fully qualified identifier for the job. To set the job attribute: ▸ provide the argument job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Job { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(MessageBodyFromFile) ? 1 : 0) + ((((object?)Attributes is global::System.Collections.Generic.IEnumerable<char> ? (object?)Attributes is not string || !string.IsNullOrWhiteSpace(Attributes?.ToString()) : ((object?)Attributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Attributes, static item => item is not null) : (Attributes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Attributes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(MessageBody)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of MessageBodyFromFile or (Attributes or MessageBody) must be specified.", [nameof(MessageBodyFromFile), nameof(Attributes), nameof(MessageBody)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MessageBodyFromFile) || ((object?)Attributes is global::System.Collections.Generic.IEnumerable<char> ? (object?)Attributes is not string || !string.IsNullOrWhiteSpace(Attributes?.ToString()) : ((object?)Attributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Attributes, static item => item is not null) : (Attributes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Attributes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(MessageBody)) && (((object?)Attributes is global::System.Collections.Generic.IEnumerable<char> ? (object?)Attributes is not string || !string.IsNullOrWhiteSpace(Attributes?.ToString()) : ((object?)Attributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Attributes, static item => item is not null) : (Attributes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Attributes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(MessageBody)) && (!(((object?)Attributes is global::System.Collections.Generic.IEnumerable<char> ? (object?)Attributes is not string || !string.IsNullOrWhiteSpace(Attributes?.ToString()) : ((object?)Attributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Attributes, static item => item is not null) : (Attributes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Attributes), static item => item is not null)))))))
+        {
+            yield return new ValidationResult("Attributes must be specified when other arguments in this group are specified.", [nameof(Attributes)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MessageBodyFromFile) || ((object?)Attributes is global::System.Collections.Generic.IEnumerable<char> ? (object?)Attributes is not string || !string.IsNullOrWhiteSpace(Attributes?.ToString()) : ((object?)Attributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Attributes, static item => item is not null) : (Attributes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Attributes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(MessageBody)) && (((object?)Attributes is global::System.Collections.Generic.IEnumerable<char> ? (object?)Attributes is not string || !string.IsNullOrWhiteSpace(Attributes?.ToString()) : ((object?)Attributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Attributes, static item => item is not null) : (Attributes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Attributes), static item => item is not null)))) || !string.IsNullOrWhiteSpace(MessageBody)) && (!(!string.IsNullOrWhiteSpace(MessageBody))))
+        {
+            yield return new ValidationResult("MessageBody must be specified when other arguments in this group are specified.", [nameof(MessageBody)]);
+        }
+        yield break;
+    }
+
 }

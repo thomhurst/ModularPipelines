@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBeyondcorpSecurityGatewaysDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete securityGateways
+    /// </summary>
+    /// <param name="SecurityGateway">SecurityGateway resource - BeyondCorp SecurityGateway name using the form: projects/{project_id}/locations/{location_id}/securityGateways/{security_gateway_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the securityGateway or fully qualified identifier for the securityGateway. To set the security_gateway attribute: ▸ provide the argument security_gateway on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBeyondcorpSecurityGatewaysDeleteOptions(
+        string SecurityGateway
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityGateway);
+        this.SecurityGateway = SecurityGateway;
+    }
+
+    public void Deconstruct(out string SecurityGateway)
+    {
+        SecurityGateway = this.SecurityGateway;
+    }
+
+    /// <summary>
+    /// SecurityGateway resource - BeyondCorp SecurityGateway name using the form: projects/{project_id}/locations/{location_id}/securityGateways/{security_gateway_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the securityGateway resource. We support only global location. To set the location attribute: ▸ provide the argument security_gateway on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -38,5 +61,11 @@ public record GcloudBeyondcorpSecurityGatewaysDeleteOptions : GcloudOptions
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// SecurityGateway resource - BeyondCorp SecurityGateway name using the form: projects/{project_id}/locations/{location_id}/securityGateways/{security_gateway_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the securityGateway or fully qualified identifier for the securityGateway. To set the security_gateway attribute: ▸ provide the argument security_gateway on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SecurityGateway { get; private init; }
 
 }

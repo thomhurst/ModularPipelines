@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,62 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "url-maps", "remove-path-matcher")]
-public record GcloudComputeUrlMapsRemovePathMatcherOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string UrlMap
-) : GcloudOptions
+public record GcloudComputeUrlMapsRemovePathMatcherOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// remove a path matcher from a     URL map
+    /// </summary>
+    /// <param name="PathMatcherName">The name of the path matcher to remove.</param>
+    /// <param name="UrlMap">Name of the URL map to operate on.</param>
+    public GcloudComputeUrlMapsRemovePathMatcherOptions(
+        string PathMatcherName,
+        string UrlMap
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PathMatcherName);
+        this.PathMatcherName = PathMatcherName;
+        global::System.ArgumentNullException.ThrowIfNull(UrlMap);
+        this.UrlMap = UrlMap;
+    }
+
+    public void Deconstruct(out string PathMatcherName, out string UrlMap)
+    {
+        PathMatcherName = this.PathMatcherName;
+        UrlMap = this.UrlMap;
+    }
+
+    /// <summary>
+    /// The name of the path matcher to remove.
+    /// </summary>
+    [CliOption("--path-matcher-name", Format = OptionFormat.EqualsSeparated)]
+    public string PathMatcherName { get; private init; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the URL map is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the URL map to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the URL map to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string UrlMap { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
+
 }

@@ -10,6 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +22,139 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memcache", "instances", "update")]
-public record GcloudMemcacheInstancesUpdateOptions : GcloudOptions
+public record GcloudMemcacheInstancesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Memorystore Memcached instance
+    /// </summary>
+    /// <param name="Instance">Instance resource - Arguments and flags that specify the Memcached instance to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMemcacheInstancesUpdateOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Memcached instance to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Memcached region of the instance. Overrides the default memcache/region property value for this command invocation. To set the region attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property memcache/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: User defined parameters to apply to the memcached process on each node. Possible attributes include: listen-backlog The backlog queue limit for the instance. disable-flush-all If enabled, flush_all command will be disabled. Applicable to 1.4.24 and higher. max-item-size Max bytes of the instance. Must at least be equal to slab_chunk_max (which defaults to 524288 bytes) and less than 134217728 bytes. Additionally it must be a multiple of slab_chunk_max. slab-min-size This is an integer in the range [1, 1024]. slab-growth-factor This is a float in the range [1.01, 100]. protocol This is an enum with acceptable values of ["ascii", "auto"]. disable-cas This is a boolean value. disable-evictions This is a boolean value. max-reqs-per-event This is an integer in the range [1, 1000]. track-sizes This is a boolean value. worker-logbuf-size This is an integer in the range [48, 524288]. watcher-logbuf-size This is an integer in the range [0, 2097151]. lru-crawler This is a boolean value. idle-timeout This is an integer in the range [1,86400]. lru-maintainer This is a boolean value. maxconns-fast This is a boolean value. hash-algorithm This is an enum with accepted values of ["jenkins", "murmur3"].
+    /// </summary>
+    [CliOption("--parameters", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Parameters
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __ParametersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    private sealed class __ParametersSnapshotCliValuePair(
+        IReadOnlyList<KeyValue> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IReadOnlyList<KeyValue>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+
+        public int Count => source.Count;
+
+        public KeyValue this[int index] => source[index];
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: An arbitrary and optional user provided name for the instance.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: List of label KEY=VALUE pairs to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: The maintenance version to update to.
+    /// </summary>
+    [CliOption("--maintenance-version", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceVersion { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Number of memcache nodes in this instance. Valid values range from 1 to 20.
+    /// </summary>
+    [CliOption("--node-count", Format = OptionFormat.EqualsSeparated)]
+    public int? NodeCount { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Removes the user-specified maintenance window.
+    /// </summary>
+    [CliFlag("--maintenance-window-any")]
+    public bool? MaintenanceWindowAny { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: The day of week when the window starts, e.g. 'sunday'. MAINTENANCE_WINDOW_DAY must be one of: friday, monday, saturday, sunday, thursday, tuesday, wednesday.
+    /// </summary>
+    [CliOption("--maintenance-window-day", Format = OptionFormat.EqualsSeparated)]
+    public GcloudMemcacheInstancesUpdateMaintenanceWindowDay? MaintenanceWindowDay { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Duration in integer hours (3 to 8) of the maintenance window.
+    /// </summary>
+    [CliOption("--maintenance-window-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowDuration { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Hour of day (0 to 23) for the start of maintenance window, in UTC time zone.
+    /// </summary>
+    [CliOption("--maintenance-window-start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowStartTime { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Instance resource - Arguments and flags that specify the Memcached instance to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)Parameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Parameters, static item => item is not null) : ((object?)Parameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)Parameters is not string || !string.IsNullOrWhiteSpace(Parameters?.ToString()) : ((object?)Parameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Parameters, static item => item is not null) : (Parameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Parameters), static item => item is not null))))) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(DisplayName) || ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null)))) || !string.IsNullOrWhiteSpace(MaintenanceVersion) || (object?)NodeCount is not null || MaintenanceWindowAny == true || (object?)MaintenanceWindowDay is not null || !string.IsNullOrWhiteSpace(MaintenanceWindowDuration) || !string.IsNullOrWhiteSpace(MaintenanceWindowStartTime)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Parameters or (DisplayName, Labels, MaintenanceVersion, NodeCount, MaintenanceWindowAny, MaintenanceWindowDay, MaintenanceWindowDuration, or MaintenanceWindowStartTime) must be specified.", [nameof(Parameters), nameof(DisplayName), nameof(Labels), nameof(MaintenanceVersion), nameof(NodeCount), nameof(MaintenanceWindowAny), nameof(MaintenanceWindowDay), nameof(MaintenanceWindowDuration), nameof(MaintenanceWindowStartTime)]);
+        }
+        if ((((object?)Parameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Parameters, static item => item is not null) : ((object?)Parameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)Parameters is not string || !string.IsNullOrWhiteSpace(Parameters?.ToString()) : ((object?)Parameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Parameters, static item => item is not null) : (Parameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Parameters), static item => item is not null))))) || !string.IsNullOrWhiteSpace(DisplayName) || ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null)))) || !string.IsNullOrWhiteSpace(MaintenanceVersion) || (object?)NodeCount is not null || MaintenanceWindowAny == true || (object?)MaintenanceWindowDay is not null || !string.IsNullOrWhiteSpace(MaintenanceWindowDuration) || !string.IsNullOrWhiteSpace(MaintenanceWindowStartTime)) && (!string.IsNullOrWhiteSpace(DisplayName) || ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null)))) || !string.IsNullOrWhiteSpace(MaintenanceVersion) || (object?)NodeCount is not null || MaintenanceWindowAny == true || (object?)MaintenanceWindowDay is not null || !string.IsNullOrWhiteSpace(MaintenanceWindowDuration) || !string.IsNullOrWhiteSpace(MaintenanceWindowStartTime)) && ((MaintenanceWindowAny == true ? 1 : 0) + (((object?)MaintenanceWindowDay is not null || !string.IsNullOrWhiteSpace(MaintenanceWindowDuration) || !string.IsNullOrWhiteSpace(MaintenanceWindowStartTime)) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of MaintenanceWindowAny or (MaintenanceWindowDay, MaintenanceWindowDuration, or MaintenanceWindowStartTime) may be specified.", [nameof(MaintenanceWindowAny), nameof(MaintenanceWindowDay), nameof(MaintenanceWindowDuration), nameof(MaintenanceWindowStartTime)]);
+        }
+        yield break;
+    }
+
 }

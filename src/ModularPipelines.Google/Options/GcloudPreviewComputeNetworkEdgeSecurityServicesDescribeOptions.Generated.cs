@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "network-edge-security-services", "describe")]
-public record GcloudPreviewComputeNetworkEdgeSecurityServicesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeNetworkEdgeSecurityServicesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a     Compute Engine network edge security service
+    /// </summary>
+    /// <param name="Name">Name of the network edge security service to describe.</param>
+    public GcloudPreviewComputeNetworkEdgeSecurityServicesDescribeOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Region of the network edge security service to describe. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the network edge security service to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

@@ -21,4 +21,102 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-connectivity", "multicloud-data-transfer-configs", "destinations", "create")]
 public record GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinationsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// configs destinations     create - create a destination
+    /// </summary>
+    /// <param name="Endpoints">Required, The list of DestinationEndpoint resources configured for the IP prefix. asn The ASN of the remote IP prefix. csp The CSP of the remote IP prefix. Shorthand Example: --endpoints=asn=int,csp=string --endpoints=asn=int,csp=string JSON Example: --endpoints='[{"asn": int, "csp": "string"}]' File Example: --endpoints=path_to_file.(yaml|json)</param>
+    /// <param name="IpPrefix">The IP prefix that represents your workload on another CSP.</param>
+    /// <param name="Destination">Destination resource - Identifier. The name of the Destination resource. Format: projects/{project}/locations/{location}/multicloudDataTransferConfigs/{multicloud_data_transfer_config}/destinations/{destination}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the destination or fully qualified identifier for the destination. To set the destination attribute: ▸ provide the argument destination on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinationsCreateOptions(
+        IEnumerable<string> Endpoints,
+        string IpPrefix,
+        string Destination
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Endpoints);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Endpoints));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Endpoints));
+            }
+
+            Endpoints = materialized;
+        }
+        this.Endpoints = Endpoints;
+        global::System.ArgumentNullException.ThrowIfNull(IpPrefix);
+        this.IpPrefix = IpPrefix;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Endpoints, out string IpPrefix, out string Destination)
+    {
+        Endpoints = this.Endpoints;
+        IpPrefix = this.IpPrefix;
+        Destination = this.Destination;
+    }
+
+    /// <summary>
+    /// Required, The list of DestinationEndpoint resources configured for the IP prefix. asn The ASN of the remote IP prefix. csp The CSP of the remote IP prefix. Shorthand Example: --endpoints=asn=int,csp=string --endpoints=asn=int,csp=string JSON Example: --endpoints='[{"asn": int, "csp": "string"}]' File Example: --endpoints=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--endpoints", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string> Endpoints { get; private init; }
+
+    /// <summary>
+    /// The IP prefix that represents your workload on another CSP.
+    /// </summary>
+    [CliOption("--ip-prefix", Format = OptionFormat.EqualsSeparated)]
+    public string IpPrefix { get; private init; }
+
+    /// <summary>
+    /// Destination resource - Identifier. The name of the Destination resource. Format: projects/{project}/locations/{location}/multicloudDataTransferConfigs/{multicloud_data_transfer_config}/destinations/{destination}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the destination resource. To set the location attribute: ▸ provide the argument destination on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Destination resource - Identifier. The name of the Destination resource. Format: projects/{project}/locations/{location}/multicloudDataTransferConfigs/{multicloud_data_transfer_config}/destinations/{destination}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The multicloudDataTransferConfig id of the destination resource. To set the multicloud-data-transfer-config attribute: ▸ provide the argument destination on the command line with a fully specified name; ▸ provide the argument --multicloud-data-transfer-config on the command line.
+    /// </summary>
+    [CliOption("--multicloud-data-transfer-config", Format = OptionFormat.EqualsSeparated)]
+    public string? MulticloudDataTransferConfig { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A description of this resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The etag is computed by the server, and might be sent with update and delete requests so that the client has an up-to-date value before proceeding.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string? Etag { get; set; }
+
+    /// <summary>
+    /// User-defined labels. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server waits for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, can ignore the second request. This prevents clients from accidentally creating duplicate Destination resources. The request ID must be a valid UUID with the exception that zero UUID (00000000-0000-0000-0000-000000000000) isn't supported.
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Destination resource - Identifier. The name of the Destination resource. Format: projects/{project}/locations/{location}/multicloudDataTransferConfigs/{multicloud_data_transfer_config}/destinations/{destination}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the destination or fully qualified identifier for the destination. To set the destination attribute: ▸ provide the argument destination on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Destination { get; private init; }
+
 }

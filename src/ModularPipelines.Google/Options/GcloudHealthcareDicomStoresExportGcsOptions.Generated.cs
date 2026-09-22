@@ -21,4 +21,62 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("healthcare", "dicom-stores", "export", "gcs")]
 public record GcloudHealthcareDicomStoresExportGcsOptions : GcloudOptions
 {
+    /// <summary>
+    /// export a Cloud Healthcare API     DICOM store to Google Cloud Storage
+    /// </summary>
+    /// <param name="GcsUriPrefix">URI for a Google Cloud Storage directory to which result files should be written (for example, gs://bucket-id/path/to/destination/dir). If there is no trailing slash, the service will append one when composing the object path. The user is responsible for creating the Google Cloud Storage bucket referenced in uri_prefix.</param>
+    /// <param name="DicomStore">DicomStore resource - Cloud Healthcare API DICOM store to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dicom_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dicomStore or fully qualified identifier for the dicomStore. To set the dicom_store attribute: ▸ provide the argument dicom_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudHealthcareDicomStoresExportGcsOptions(
+        string GcsUriPrefix,
+        string DicomStore
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GcsUriPrefix);
+        this.GcsUriPrefix = GcsUriPrefix;
+        global::System.ArgumentNullException.ThrowIfNull(DicomStore);
+        this.DicomStore = DicomStore;
+    }
+
+    public void Deconstruct(out string GcsUriPrefix, out string DicomStore)
+    {
+        GcsUriPrefix = this.GcsUriPrefix;
+        DicomStore = this.DicomStore;
+    }
+
+    /// <summary>
+    /// URI for a Google Cloud Storage directory to which result files should be written (for example, gs://bucket-id/path/to/destination/dir). If there is no trailing slash, the service will append one when composing the object path. The user is responsible for creating the Google Cloud Storage bucket referenced in uri_prefix.
+    /// </summary>
+    [CliOption("--gcs-uri-prefix", Format = OptionFormat.EqualsSeparated)]
+    public string GcsUriPrefix { get; private init; }
+
+    /// <summary>
+    /// DicomStore resource - Cloud Healthcare API DICOM store to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dicom_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud Healthcare dataset. To set the dataset attribute: ▸ provide the argument dicom_store on the command line with a fully specified name; ▸ provide the argument --dataset on the command line.
+    /// </summary>
+    [CliOption("--dataset", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSet { get; set; }
+
+    /// <summary>
+    /// DicomStore resource - Cloud Healthcare API DICOM store to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dicom_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location. To set the location attribute: ▸ provide the argument dicom_store on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property healthcare/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// 'MIME types supported by DICOM spec. Each file will be written in the following format: .../{study_id}/{series_id}/{instance_id}[/{frame_number}].{extension} The frame_number component will exist only for multi-frame instances. Refer to the DICOM conformance statement for permissible MIME types: https://cloud.google.com/healthcare/docs/dicom#wado-rs The following extensions will be used for output files: ◆ application/dicom -&gt; .dcm ◆ image/jpeg -&gt; .jpg ◆ image/png -&gt; .png If unspecified, the instances will be exported in their original DICOM format.'
+    /// </summary>
+    [CliOption("--mime-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MimeType { get; set; }
+
+    /// <summary>
+    /// DicomStore resource - Cloud Healthcare API DICOM store to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dicom_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dicomStore or fully qualified identifier for the dicomStore. To set the dicom_store attribute: ▸ provide the argument dicom_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DicomStore { get; private init; }
+
 }

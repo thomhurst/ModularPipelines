@@ -23,15 +23,50 @@ namespace ModularPipelines.Google.Options;
 public record GcloudServiceDirectoryEndpointsCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// creates an endpoint
+    /// </summary>
+    /// <param name="Endpoint">Endpoint resource - The Service Directory endpoint to create. The endpoint id must be 1-63 characters long and match the regular expression [a-z](?:[-a-z0-9]{0,61}[a-z0-9])? which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the endpoint or fully qualified identifier for the endpoint. To set the endpoint attribute: ▸ provide the argument endpoint on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudServiceDirectoryEndpointsCreateOptions(
+        string Endpoint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Endpoint);
+        this.Endpoint = Endpoint;
+    }
+
+    public void Deconstruct(out string Endpoint)
+    {
+        Endpoint = this.Endpoint;
+    }
+
+    /// <summary>
+    /// Endpoint resource - The Service Directory endpoint to create. The endpoint id must be 1-63 characters long and match the regular expression [a-z](?:[-a-z0-9]{0,61}[a-z0-9])? which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The name of the region for the endpoint. To set the location attribute: ▸ provide the argument endpoint on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Endpoint resource - The Service Directory endpoint to create. The endpoint id must be 1-63 characters long and match the regular expression [a-z](?:[-a-z0-9]{0,61}[a-z0-9])? which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The name of the namespace for the endpoint. To set the namespace attribute: ▸ provide the argument endpoint on the command line with a fully specified name; ▸ provide the argument --namespace on the command line.
+    /// </summary>
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? Namespace { get; set; }
+
+    /// <summary>
+    /// Endpoint resource - The Service Directory endpoint to create. The endpoint id must be 1-63 characters long and match the regular expression [a-z](?:[-a-z0-9]{0,61}[a-z0-9])? which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The name of the service for the endpoint. To set the service attribute: ▸ provide the argument endpoint on the command line with a fully specified name; ▸ provide the argument --service on the command line.
+    /// </summary>
+    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    public string? Service { get; set; }
+
+    /// <summary>
     /// IPv4 or IPv6 address of the endpoint. The default is empty string.
     /// </summary>
     [CliOption("--address", Format = OptionFormat.EqualsSeparated)]
     public string? Address { get; set; }
 
     /// <summary>
-    /// Annotations for the endpoint. Annotations take the form of key/value string pairs. Keys are composed of an optional prefix and a name segment, separated by a slash(/). Prefixes and names must be composed of alphanumeric characters, dashes, and dots. Names may also use underscores. There are no character restrictions on what may go into the value of an annotation. The entire dictionary is limited to 512 characters, spread across all key-value pairs.
+    /// Annotations for the endpoint. Annotations take the form of key/value string pairs. Keys are composed of an optional prefix and a name segment, separated by a slash(/). Prefixes and names must be composed of alphanumeric characters, dashes, and dots. Names may also use underscores. There are no character restrictions on what may go into the value of an annotation. The entire dictionary is limited to 512 characters, spread across all key-value pairs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Annotations { get; set; }
 
     /// <summary>
@@ -45,5 +80,11 @@ public record GcloudServiceDirectoryEndpointsCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
     public string? Port { get; set; }
+
+    /// <summary>
+    /// Endpoint resource - The Service Directory endpoint to create. The endpoint id must be 1-63 characters long and match the regular expression [a-z](?:[-a-z0-9]{0,61}[a-z0-9])? which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the endpoint or fully qualified identifier for the endpoint. To set the endpoint attribute: ▸ provide the argument endpoint on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Endpoint { get; private init; }
 
 }

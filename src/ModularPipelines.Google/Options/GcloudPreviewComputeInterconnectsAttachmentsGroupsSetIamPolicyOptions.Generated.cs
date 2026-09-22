@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "attachments", "groups", "set-iam-policy")]
-public record GcloudPreviewComputeInterconnectsAttachmentsGroupsSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudPreviewComputeInterconnectsAttachmentsGroupsSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the IAM policy for a Compute Engine interconnect attachment group
+    /// </summary>
+    /// <param name="InterconnectAttachmentGroup">Interconnect attachment group resource - The interconnect attachment group to set the IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument interconnect_attachment_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the interconnect_attachment_group or fully qualified identifier for the interconnect_attachment_group. To set the interconnect_attachment_group attribute: ▸ provide the argument interconnect_attachment_group on the command line.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudPreviewComputeInterconnectsAttachmentsGroupsSetIamPolicyOptions(
+        string InterconnectAttachmentGroup,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InterconnectAttachmentGroup);
+        this.InterconnectAttachmentGroup = InterconnectAttachmentGroup;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string InterconnectAttachmentGroup, out string PolicyFile)
+    {
+        InterconnectAttachmentGroup = this.InterconnectAttachmentGroup;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// Interconnect attachment group resource - The interconnect attachment group to set the IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument interconnect_attachment_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the interconnect_attachment_group or fully qualified identifier for the interconnect_attachment_group. To set the interconnect_attachment_group attribute: ▸ provide the argument interconnect_attachment_group on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InterconnectAttachmentGroup { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

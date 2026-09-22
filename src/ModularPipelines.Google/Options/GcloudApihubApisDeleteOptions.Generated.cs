@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudApihubApisDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete an Api
+    /// </summary>
+    /// <param name="Api">Api resource - The name of the API resource to delete. Format: projects/{project}/locations/{location}/apis/{api} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument api on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the api or fully qualified identifier for the api. To set the api attribute: ▸ provide the argument api on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubApisDeleteOptions(
+        string Api
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Api);
+        this.Api = Api;
+    }
+
+    public void Deconstruct(out string Api)
+    {
+        Api = this.Api;
+    }
+
+    /// <summary>
+    /// Api resource - The name of the API resource to delete. Format: projects/{project}/locations/{location}/apis/{api} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument api on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the api resource. To set the location attribute: ▸ provide the argument api on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// If set to true, any versions from this API will also be deleted. Otherwise, the request will only work if the API has no versions.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// Api resource - The name of the API resource to delete. Format: projects/{project}/locations/{location}/apis/{api} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument api on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the api or fully qualified identifier for the api. To set the api attribute: ▸ provide the argument api on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Api { get; private init; }
 
 }

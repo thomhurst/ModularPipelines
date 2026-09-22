@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "health-checks", "create", "ssl")]
-public record GcloudPreviewComputeHealthChecksCreateSslOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeHealthChecksCreateSslOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a SSL health check     to monitor load balanced instances
+    /// </summary>
+    /// <param name="Name">Name of the SSL health check to create.</param>
+    public GcloudPreviewComputeHealthChecksCreateSslOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. The default value is 5s. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
@@ -75,7 +91,7 @@ public record GcloudPreviewComputeHealthChecksCreateSslOptions(
     /// If Google Compute Engine doesn't receive a healthy response from the instance by the time specified by the value of this flag, the health check request is considered a failure. For example, specifying 10s will cause the check to wait for 10 seconds before considering the request a failure. The default value is 5s. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? Timeout { get; set; }
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// The number of consecutive health check failures before a healthy instance is marked as unhealthy. The default is 2.
@@ -112,5 +128,21 @@ public record GcloudPreviewComputeHealthChecksCreateSslOptions(
     /// </summary>
     [CliFlag("--use-serving-port")]
     public bool? UseServingPort { get; set; }
+
+    /// <summary>
+    /// Name of the SSL health check to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
 
 }

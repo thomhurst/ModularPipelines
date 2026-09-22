@@ -21,4 +21,84 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("netapp", "volumes", "restore-backup-files")]
 public record GcloudNetappVolumesRestoreBackupFilesOptions : GcloudOptions
 {
+    /// <summary>
+    /// restore specific files from a     backup to a Volume
+    /// </summary>
+    /// <param name="FileList">List of files to be restored in the form of their absolute path as in source volume. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Backup">Backup resource - The Backup from which files are restored back to the Volume. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --backup on the command line with a fully specified name; ◆ set the property netapp/location. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument --backup on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="Volume">Volume resource - The Volume to restore into. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the volume or fully qualified identifier for the volume. To set the volume attribute: ▸ provide the argument volume on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetappVolumesRestoreBackupFilesOptions(
+        IEnumerable<string> FileList,
+        string Backup,
+        string Volume
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FileList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(FileList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FileList));
+            }
+
+            FileList = materialized;
+        }
+        this.FileList = FileList;
+        global::System.ArgumentNullException.ThrowIfNull(Backup);
+        this.Backup = Backup;
+        global::System.ArgumentNullException.ThrowIfNull(Volume);
+        this.Volume = Volume;
+    }
+
+    public void Deconstruct(out IEnumerable<string> FileList, out string Backup, out string Volume)
+    {
+        FileList = this.FileList;
+        Backup = this.Backup;
+        Volume = this.Volume;
+    }
+
+    /// <summary>
+    /// List of files to be restored in the form of their absolute path as in source volume. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--file-list", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> FileList { get; private init; }
+
+    /// <summary>
+    /// Backup resource - The Backup from which files are restored back to the Volume. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --backup on the command line with a fully specified name; ◆ set the property netapp/location. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument --backup on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--backup", Format = OptionFormat.EqualsSeparated)]
+    public string Backup { get; private init; }
+
+    /// <summary>
+    /// Volume resource - The Volume to restore into. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the volume. To set the location attribute: ▸ provide the argument volume on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Backup resource - The Backup from which files are restored back to the Volume. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --backup on the command line with a fully specified name; ◆ set the property netapp/location. This must be specified. The Backup Vault of the backup. To set the backup_vault attribute: ▸ provide the argument --backup on the command line with a fully specified name; ▸ provide the argument --backup_vault on the command line; ▸ provide the argument --backup-vault on the command line.
+    /// </summary>
+    [CliOption("--backup_vault", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupVault { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Name of the absolute directory path in the destination volume..
+    /// </summary>
+    [CliOption("--restore-destination-path", Format = OptionFormat.EqualsSeparated)]
+    public string? RestoreDestinationPath { get; set; }
+
+    /// <summary>
+    /// Volume resource - The Volume to restore into. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument volume on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the volume or fully qualified identifier for the volume. To set the volume attribute: ▸ provide the argument volume on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Volume { get; private init; }
+
 }

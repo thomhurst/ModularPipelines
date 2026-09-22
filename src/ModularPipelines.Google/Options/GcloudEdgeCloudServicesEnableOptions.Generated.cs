@@ -19,8 +19,63 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cloud", "services", "enable")]
-public record GcloudEdgeCloudServicesEnableOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ServiceName
-) : GcloudOptions
+public record GcloudEdgeCloudServicesEnableOptions : GcloudOptions
 {
+    /// <summary>
+    /// enables a Google Cloud Platform service     on a Google Distributed Cloud zone
+    /// </summary>
+    /// <param name="Location">Location resource - Google Cloud Platform region This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.</param>
+    /// <param name="Zone">Google Distributed Cloud zone.</param>
+    /// <param name="ServiceName">Google Cloud Platform service name.</param>
+    public GcloudEdgeCloudServicesEnableOptions(
+        string Location,
+        string Zone,
+        string ServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+    }
+
+    public void Deconstruct(out string Location, out string Zone, out string ServiceName)
+    {
+        Location = this.Location;
+        Zone = this.Zone;
+        ServiceName = this.ServiceName;
+    }
+
+    /// <summary>
+    /// Location resource - Google Cloud Platform region This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Google Distributed Cloud zone.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Service ID.
+    /// </summary>
+    [CliOption("--id", Format = OptionFormat.EqualsSeparated)]
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// Google Cloud Platform service name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ServiceName { get; private init; }
+
 }

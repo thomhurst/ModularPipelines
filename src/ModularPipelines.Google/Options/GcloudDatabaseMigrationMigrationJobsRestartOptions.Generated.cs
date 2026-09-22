@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,13 +20,58 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "migration-jobs", "restart")]
-public record GcloudDatabaseMigrationMigrationJobsRestartOptions : GcloudOptions
+public record GcloudDatabaseMigrationMigrationJobsRestartOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// The migration job objects config. At most one of these can be specified: A list of databases to be migrated to the destination instance. Provide databases as a comma separated list. This flag is used only for SQL Server to Cloud SQL SQL Server migrations.
+    /// restart a Database     Migration Service migration job
     /// </summary>
-    [CliOption("--databases-filter", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? DatabasesFilter { get; set; }
+    /// <param name="MigrationJob">Migration job resource - The migration job to restart. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument migration_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the migration_job or fully qualified identifier for the migration_job. To set the migration_job attribute: ▸ provide the argument migration_job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatabaseMigrationMigrationJobsRestartOptions(
+        string MigrationJob
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MigrationJob);
+        this.MigrationJob = MigrationJob;
+    }
+
+    public void Deconstruct(out string MigrationJob)
+    {
+        MigrationJob = this.MigrationJob;
+    }
+
+    /// <summary>
+    /// Migration job resource - The migration job to restart. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument migration_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the migration_job. To set the region attribute: ▸ provide the argument migration_job on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// The migration job objects config. At most one of these can be specified: A list of databases to be migrated to the destination instance. Provide databases as a comma separated list. This flag is used only for SQL Server to Cloud SQL SQL Server migrations. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--databases-filter", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? DatabasesFilter
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __DatabasesFilterSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __DatabasesFilterSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
@@ -44,5 +90,21 @@ public record GcloudDatabaseMigrationMigrationJobsRestartOptions : GcloudOptions
     /// </summary>
     [CliFlag("--skip-validation")]
     public bool? SkipValidation { get; set; }
+
+    /// <summary>
+    /// Migration job resource - The migration job to restart. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument migration_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the migration_job or fully qualified identifier for the migration_job. To set the migration_job attribute: ▸ provide the argument migration_job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MigrationJob { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)DatabasesFilter is global::System.Collections.Generic.IEnumerable<char> ? (object?)DatabasesFilter is not string || !string.IsNullOrWhiteSpace(DatabasesFilter?.ToString()) : ((object?)DatabasesFilter is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DatabasesFilter, static item => item is not null) : (DatabasesFilter is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DatabasesFilter), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DatabasesFilter may be specified.", [nameof(DatabasesFilter)]);
+        }
+        yield break;
+    }
 
 }

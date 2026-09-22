@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,88 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bms", "nfs-shares", "create")]
 public record GcloudBmsNfsSharesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Bare Metal Solution NFS share
+    /// </summary>
+    /// <param name="AllowedClient">Adds an allowed client to the NFS share. This flag can be repeated to specify multiple allowed clients. network The name of the network to allow. network-project-id The project ID of the allowed client network. If not present, the project ID of the NFS share will be used. cidr The subnet of IP addresses permitted to access the NFS share. mount-permissions The mount permissions for the allowed client. MOUNT_PERMISSIONS must be one of: READ_ONLY, READ_WRITE. allow-dev If yes, allows creation of devices. allow-suid If yes, allows SUID. enable-root-squash If yes, enables root squashing which is a special mapping of the remote superuser (root) identity when using identity authentication .</param>
+    /// <param name="SizeGib">The requested size of the NFS share in GiB</param>
+    /// <param name="StorageType">Specifies the storage type of the underlying volume which will be created for the NFS share. STORAGE_TYPE must be one of: HDD The storage type of the underlying volume will be HDD SSD The storage type of the underlying volume will be SSD</param>
+    /// <param name="NfsShare">Nfs share resource - nfs_share. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument nfs_share on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the nfs_share or fully qualified identifier for the nfs_share. To set the nfs_share attribute: ▸ provide the argument nfs_share on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBmsNfsSharesCreateOptions(
+        IEnumerable<string> AllowedClient,
+        int SizeGib,
+        string StorageType,
+        string NfsShare
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AllowedClient);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AllowedClient));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AllowedClient));
+            }
+
+            AllowedClient = materialized;
+        }
+        this.AllowedClient = AllowedClient;
+        this.SizeGib = SizeGib;
+        global::System.ArgumentNullException.ThrowIfNull(StorageType);
+        this.StorageType = StorageType;
+        global::System.ArgumentNullException.ThrowIfNull(NfsShare);
+        this.NfsShare = NfsShare;
+    }
+
+    public void Deconstruct(out IEnumerable<string> AllowedClient, out int SizeGib, out string StorageType, out string NfsShare)
+    {
+        AllowedClient = this.AllowedClient;
+        SizeGib = this.SizeGib;
+        StorageType = this.StorageType;
+        NfsShare = this.NfsShare;
+    }
+
+    /// <summary>
+    /// Adds an allowed client to the NFS share. This flag can be repeated to specify multiple allowed clients. network The name of the network to allow. network-project-id The project ID of the allowed client network. If not present, the project ID of the NFS share will be used. cidr The subnet of IP addresses permitted to access the NFS share. mount-permissions The mount permissions for the allowed client. MOUNT_PERMISSIONS must be one of: READ_ONLY, READ_WRITE. allow-dev If yes, allows creation of devices. allow-suid If yes, allows SUID. enable-root-squash If yes, enables root squashing which is a special mapping of the remote superuser (root) identity when using identity authentication .
+    /// </summary>
+    [CliOption("--allowed-client", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string> AllowedClient { get; private init; }
+
+    /// <summary>
+    /// The requested size of the NFS share in GiB
+    /// </summary>
+    [CliOption("--size-gib", Format = OptionFormat.EqualsSeparated)]
+    public int SizeGib { get; private init; }
+
+    /// <summary>
+    /// Specifies the storage type of the underlying volume which will be created for the NFS share. STORAGE_TYPE must be one of: HDD The storage type of the underlying volume will be HDD SSD The storage type of the underlying volume will be SSD
+    /// </summary>
+    [CliOption("--storage-type", Format = OptionFormat.EqualsSeparated)]
+    public string StorageType { get; private init; }
+
+    /// <summary>
+    /// Nfs share resource - nfs_share. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument nfs_share on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Region of the resource. To set the region attribute: ▸ provide the argument nfs_share on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Nfs share resource - nfs_share. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument nfs_share on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the nfs_share or fully qualified identifier for the nfs_share. To set the nfs_share attribute: ▸ provide the argument nfs_share on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NfsShare { get; private init; }
+
 }

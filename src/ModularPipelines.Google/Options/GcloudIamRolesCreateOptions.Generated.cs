@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,107 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "roles", "create")]
-public record GcloudIamRolesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RoleId
-) : GcloudOptions
+public record GcloudIamRolesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a custom role for a project or an     organization
+    /// </summary>
+    /// <param name="RoleId">ID of the custom role to create. You must also specify the --organization or --project flag.</param>
+    public GcloudIamRolesCreateOptions(
+        string RoleId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RoleId);
+        this.RoleId = RoleId;
+    }
+
+    public void Deconstruct(out string RoleId)
+    {
+        RoleId = this.RoleId;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization of the role you want to create.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Project of the role you want to create. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation: they specify both the project of the resource to operate on, and the project for API enablement checks, quota, and billing. To specify a different project for quota and billing, use the --billing-project flag or the billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The JSON or YAML file with the IAM Role to create. See https://docs.cloud.google.com/iam/docs/reference/rest/v1/projects.roles.
+    /// </summary>
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public string? File { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Roles Settings The description of the role you want to create.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Roles Settings The permissions of the role you want to create. Use commas to separate them. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--permissions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Permissions
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __PermissionsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __PermissionsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Roles Settings The state of the role you want to create. This represents a role's lifecycle phase: ALPHA, BETA, GA, DEPRECATED, DISABLED, EAP.
+    /// </summary>
+    [CliOption("--stage", Format = OptionFormat.EqualsSeparated)]
+    public string? Stage { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Roles Settings The title of the role you want to create.
+    /// </summary>
+    [CliOption("--title", Format = OptionFormat.EqualsSeparated)]
+    public string? Title { get; set; }
+
+    /// <summary>
+    /// ID of the custom role to create. You must also specify the --organization or --project flag.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RoleId { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Organization or Project must be specified.", [nameof(Organization), nameof(Project)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(File) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Description) || ((object?)Permissions is global::System.Collections.Generic.IEnumerable<char> ? (object?)Permissions is not string || !string.IsNullOrWhiteSpace(Permissions?.ToString()) : ((object?)Permissions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Permissions, static item => item is not null) : (Permissions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Permissions), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Stage) || !string.IsNullOrWhiteSpace(Title)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of File or (Description, Permissions, Stage, or Title) may be specified.", [nameof(File), nameof(Description), nameof(Permissions), nameof(Stage), nameof(Title)]);
+        }
+        yield break;
+    }
+
 }

@@ -19,8 +19,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gemini", "code-repository-indexes", "repository-groups", "get-iam-policy")]
-public record GcloudGeminiCodeRepositoryIndexesRepositoryGroupsGetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Iam
-) : GcloudOptions
+public record GcloudGeminiCodeRepositoryIndexesRepositoryGroupsGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the IAM policy for a code repository index repository group
+    /// </summary>
+    /// <param name="RepositoryGroup">Repository group resource - The repository group for which to display the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the repository_group or fully qualified identifier for the repository_group. To set the repository_group attribute: ▸ provide the argument repository_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudGeminiCodeRepositoryIndexesRepositoryGroupsGetIamPolicyOptions(
+        string RepositoryGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryGroup);
+        this.RepositoryGroup = RepositoryGroup;
+    }
+
+    public void Deconstruct(out string RepositoryGroup)
+    {
+        RepositoryGroup = this.RepositoryGroup;
+    }
+
+    /// <summary>
+    /// Repository group resource - The repository group for which to display the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the code repository index resource. To set the code-repository-index attribute: ▸ provide the argument repository_group on the command line with a fully specified name; ▸ provide the argument --code-repository-index on the command line.
+    /// </summary>
+    [CliOption("--code-repository-index", Format = OptionFormat.EqualsSeparated)]
+    public string? CodeRepositoryIndex { get; set; }
+
+    /// <summary>
+    /// Repository group resource - The repository group for which to display the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the Gemini resource. To set the location attribute: ▸ provide the argument repository_group on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Repository group resource - The repository group for which to display the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the repository_group or fully qualified identifier for the repository_group. To set the repository_group attribute: ▸ provide the argument repository_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RepositoryGroup { get; private init; }
+
 }

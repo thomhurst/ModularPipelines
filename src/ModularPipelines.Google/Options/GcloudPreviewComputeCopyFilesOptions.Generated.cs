@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,8 +21,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "copy-files")]
-public record GcloudPreviewComputeCopyFilesOptions : GcloudOptions
+public record GcloudPreviewComputeCopyFilesOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// copy files to and from Google Compute     Engine virtual machines via scp
+    /// </summary>
+    /// <param name="UserInstanceSrc">Specifies the files to copy.</param>
+    /// <param name="UserInstanceDest">Specifies a destination for the source files.</param>
+    public GcloudPreviewComputeCopyFilesOptions(
+        IEnumerable<string> UserInstanceSrc,
+        string UserInstanceDest
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(UserInstanceSrc);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(UserInstanceSrc));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(UserInstanceSrc));
+            }
+
+            UserInstanceSrc = materialized;
+        }
+        this.UserInstanceSrc = UserInstanceSrc;
+        global::System.ArgumentNullException.ThrowIfNull(UserInstanceDest);
+        this.UserInstanceDest = UserInstanceDest;
+    }
+
+    public void Deconstruct(out IEnumerable<string> UserInstanceSrc, out string UserInstanceDest)
+    {
+        UserInstanceSrc = this.UserInstanceSrc;
+        UserInstanceDest = this.UserInstanceDest;
+    }
+
     /// <summary>
     /// Print the equivalent scp/ssh command that would be run to stdout, instead of executing it.
     /// </summary>
@@ -50,7 +84,7 @@ public record GcloudPreviewComputeCopyFilesOptions : GcloudOptions
     /// Override the default behavior of StrictHostKeyChecking for the connection. By default, StrictHostKeyChecking is set to 'no' the first time you connect to an instance, and will be set to 'yes' for all subsequent connections. STRICT_HOST_KEY_CHECKING must be one of: yes, no, ask.
     /// </summary>
     [CliOption("--strict-host-key-checking", Format = OptionFormat.EqualsSeparated)]
-    public GcloudStrictHostKeyChecking? StrictHostKeyChecking { get; set; }
+    public GcloudPreviewComputeCopyFilesStrictHostKeyChecking? StrictHostKeyChecking { get; set; }
 
     /// <summary>
     /// The zone of the instance to copy files to/from. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
@@ -69,5 +103,27 @@ public record GcloudPreviewComputeCopyFilesOptions : GcloudOptions
     /// </summary>
     [CliOption("--ssh-key-expire-after", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyExpireAfter { get; set; }
+
+    /// <summary>
+    /// Specifies the files to copy.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> UserInstanceSrc { get; private init; }
+
+    /// <summary>
+    /// Specifies a destination for the source files.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string UserInstanceDest { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(SshKeyExpiration) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SshKeyExpireAfter) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SshKeyExpiration or SshKeyExpireAfter may be specified.", [nameof(SshKeyExpiration), nameof(SshKeyExpireAfter)]);
+        }
+        yield break;
+    }
 
 }

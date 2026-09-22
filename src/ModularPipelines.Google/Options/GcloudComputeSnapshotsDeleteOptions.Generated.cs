@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "snapshots", "delete")]
-public record GcloudComputeSnapshotsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> SnapshotName
-) : GcloudOptions
+public record GcloudComputeSnapshotsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete Compute Engine snapshots
+    /// </summary>
+    /// <param name="SnapshotName">Names of the snapshots to delete.</param>
+    public GcloudComputeSnapshotsDeleteOptions(
+        IEnumerable<string> SnapshotName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(SnapshotName);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SnapshotName));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(SnapshotName));
+            }
+
+            SnapshotName = materialized;
+        }
+        this.SnapshotName = SnapshotName;
+    }
+
+    public void Deconstruct(out IEnumerable<string> SnapshotName)
+    {
+        SnapshotName = this.SnapshotName;
+    }
+
+    /// <summary>
+    /// Names of the snapshots to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> SnapshotName { get; private init; }
+
 }

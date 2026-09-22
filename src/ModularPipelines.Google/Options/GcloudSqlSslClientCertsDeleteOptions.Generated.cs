@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "ssl", "client-certs", "delete")]
-public record GcloudSqlSslClientCertsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string CommonName
-) : GcloudOptions
+public record GcloudSqlSslClientCertsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a client certificate for a     Cloud SQL instance
+    /// </summary>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    /// <param name="CommonName">User supplied name. Constrained to [a-zA-Z.-_ ]+.</param>
+    public GcloudSqlSslClientCertsDeleteOptions(
+        string Instance,
+        string CommonName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+        global::System.ArgumentNullException.ThrowIfNull(CommonName);
+        this.CommonName = CommonName;
+    }
+
+    public void Deconstruct(out string Instance, out string CommonName)
+    {
+        Instance = this.Instance;
+        CommonName = this.CommonName;
+    }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string Instance { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// User supplied name. Constrained to [a-zA-Z.-_ ]+.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CommonName { get; private init; }
+
 }

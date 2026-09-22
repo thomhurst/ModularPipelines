@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,97 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataproc", "jobs", "update")]
-public record GcloudDataprocJobsUpdateOptions : GcloudOptions
+public record GcloudDataprocJobsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update the labels for a job
+    /// </summary>
+    /// <param name="Job">Job resource - The ID of the job to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the job or fully qualified identifier for the job. To set the job attribute: ▸ provide the argument job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataprocJobsUpdateOptions(
+        string Job
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Job);
+        this.Job = Job;
+    }
+
+    public void Deconstruct(out string Job)
+    {
+        Job = this.Job;
+    }
+
+    /// <summary>
+    /// Job resource - The ID of the job to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Dataproc region for the job. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. Overrides the default dataproc/region property value for this command invocation. To set the region attribute: ▸ provide the argument job on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property dataproc/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? UpdateLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud dataproc jobs update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud dataproc jobs update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Job resource - The ID of the job to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the job or fully qualified identifier for the job. To set the job attribute: ▸ provide the argument job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Job { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) + ((((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null)))) || ClearLabels == true) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of RemoveLabels or (UpdateLabels or ClearLabels) must be specified.", [nameof(RemoveLabels), nameof(UpdateLabels), nameof(ClearLabels)]);
+        }
+        if ((((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) || ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null)))) || ClearLabels == true) && (((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null)))) || ClearLabels == true) && (!(((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null)))))))
+        {
+            yield return new ValidationResult("UpdateLabels must be specified when other arguments in this group are specified.", [nameof(UpdateLabels)]);
+        }
+        if ((((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) || ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null)))) || ClearLabels == true) && (((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null)))) || ClearLabels == true) && (!(ClearLabels == true)))
+        {
+            yield return new ValidationResult("ClearLabels must be specified when other arguments in this group are specified.", [nameof(ClearLabels)]);
+        }
+        yield break;
+    }
+
 }

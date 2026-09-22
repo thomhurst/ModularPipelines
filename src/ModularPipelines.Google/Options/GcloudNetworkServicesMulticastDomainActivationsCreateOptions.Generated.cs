@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,98 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-services", "multicast-domain-activations", "create")]
 public record GcloudNetworkServicesMulticastDomainActivationsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a     multicast domain activation
+    /// </summary>
+    /// <param name="MulticastDomain">The multicast domain to be used.</param>
+    /// <param name="MulticastDomainActivation">Multicast domain activation resource - Name of the multicast domain activation to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_domain_activation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the multicast domain activation or fully qualified identifier for the multicast domain activation. To set the multicast_domain_activation attribute: ▸ provide the argument multicast_domain_activation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkServicesMulticastDomainActivationsCreateOptions(
+        string MulticastDomain,
+        string MulticastDomainActivation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MulticastDomain);
+        this.MulticastDomain = MulticastDomain;
+        global::System.ArgumentNullException.ThrowIfNull(MulticastDomainActivation);
+        this.MulticastDomainActivation = MulticastDomainActivation;
+    }
+
+    public void Deconstruct(out string MulticastDomain, out string MulticastDomainActivation)
+    {
+        MulticastDomain = this.MulticastDomain;
+        MulticastDomainActivation = this.MulticastDomainActivation;
+    }
+
+    /// <summary>
+    /// The multicast domain to be used.
+    /// </summary>
+    [CliOption("--multicast-domain", Format = OptionFormat.EqualsSeparated)]
+    public string MulticastDomain { get; private init; }
+
+    /// <summary>
+    /// Multicast domain activation resource - Name of the multicast domain activation to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_domain_activation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument multicast_domain_activation on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The description for the multicast domain activation.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// True to disable the use of the placement policy for this multicast domain activation.
+    /// </summary>
+    [CliFlag("--disable-placement-policy")]
+    public bool? DisablePlacementPolicy { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Aggregated egress Packet-Per-Second for all multicast groups in the domain in this zone.
+    /// </summary>
+    [CliOption("--aggr-egress-pps", Format = OptionFormat.EqualsSeparated)]
+    public string? AggrEgressPps { get; set; }
+
+    /// <summary>
+    /// Aggregated ingress Packet-Per-Second for all multicast groups in the domain in this zone.
+    /// </summary>
+    [CliOption("--aggr-ingress-pps", Format = OptionFormat.EqualsSeparated)]
+    public string? AggrIngressPps { get; set; }
+
+    /// <summary>
+    /// Average packet size (defaults to 512 bytes).
+    /// </summary>
+    [CliOption("--avg-packet-size", Format = OptionFormat.EqualsSeparated)]
+    public int? AvgPacketSize { get; set; }
+
+    /// <summary>
+    /// Maximum ingress Packet-Per-Second for a single multicast group in this zone.
+    /// </summary>
+    [CliOption("--max-per-group-ingress-pps", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxPerGroupIngressPps { get; set; }
+
+    /// <summary>
+    /// Maximum number of subscribers for a single multicast group in this zone.
+    /// </summary>
+    [CliOption("--max-per-group-subscribers", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxPerGroupSubscribers { get; set; }
+
+    /// <summary>
+    /// Multicast domain activation resource - Name of the multicast domain activation to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument multicast_domain_activation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the multicast domain activation or fully qualified identifier for the multicast domain activation. To set the multicast_domain_activation attribute: ▸ provide the argument multicast_domain_activation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MulticastDomainActivation { get; private init; }
+
 }
