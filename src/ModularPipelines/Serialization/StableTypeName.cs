@@ -37,16 +37,7 @@ internal static class StableTypeName
             return identity;
         }
 
-        if (type.HasElementType)
-        {
-            identity += $"\0Element={GetBuildIdentity(type.GetElementType()!, visitedTypes, expandedDefinitions)}";
-        }
-        else if (type.IsGenericType)
-        {
-            var arguments = string.Join("\u001F", type.GetGenericArguments()
-                .Select(argument => GetBuildIdentity(argument, visitedTypes, expandedDefinitions)));
-            identity += $"\0Arguments={arguments}";
-        }
+        identity += GetConstructionBuildIdentity(type, visitedTypes, expandedDefinitions);
 
         // Framework servicing builds do not define the application's wire contract.
         // Generic arguments still need validation, e.g. List<ApplicationResult>.
@@ -73,6 +64,23 @@ internal static class StableTypeName
         }
 
         return identity;
+    }
+
+    private static string GetConstructionBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions)
+    {
+        if (type.HasElementType)
+        {
+            return $"\0Element={GetBuildIdentity(type.GetElementType()!, visitedTypes, expandedDefinitions)}";
+        }
+
+        if (type.IsGenericType)
+        {
+            var arguments = string.Join("\u001F", type.GetGenericArguments()
+                .Select(argument => GetBuildIdentity(argument, visitedTypes, expandedDefinitions)));
+            return $"\0Arguments={arguments}";
+        }
+
+        return string.Empty;
     }
 
     [UnconditionalSuppressMessage("SingleFile", "IL3000", Justification = "Locationless assemblies retain build validation; CoreLib is recognized by assembly identity.")]
