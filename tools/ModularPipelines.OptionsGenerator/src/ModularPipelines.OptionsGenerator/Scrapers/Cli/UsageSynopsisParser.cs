@@ -239,44 +239,56 @@ public static class UsageSynopsisParser
                 continue;
             }
 
-            var alternativeMembers = alternatives
-                .Select(alternative =>
-                {
-                    var normalizedAlternative = NormalizeCommaSeparatedOptionAliases(alternative);
-                    return CollapseOptionAliases(
-                        GetRequiredAlternativeMembers(
-                            ParseOperandTokens(Tokenize(normalizedAlternative), phase), options),
-                        alternative);
-                })
-                .ToArray();
-            if (alternativeMembers.Any(static members => members.Count == 0))
+            if (ParseRequiredAlternativeGroup(alternatives, phase, options) is { } choice)
             {
-                continue;
-            }
-
-            // Conjunction inference follows the same operand-bearing branch extraction.
-            // Other forms retain their existing option-specific reconciliation.
-            if (alternativeMembers.Any(static members => members.Count > 1)
-                && GetBundledOperandBranch(alternatives) is null)
-            {
-                continue;
-            }
-
-            var members = DistinctAlternativeMembers(alternativeMembers.SelectMany(static members => members));
-            if (members.Count > 1
-                && members.Any(static member => member.OptionSwitch is not null))
-            {
-                groups.Add(new UsageRequiredAlternativeGroup
-                {
-                    Members = DistinctAlternativeMembers(alternativeMembers
-                        .Where(static branch => branch.Count == 1).SelectMany(static branch => branch)),
-                    Groups = [.. alternativeMembers.Where(static branch => branch.Count > 1)
-                        .Select(static branch => new UsageRequiredAlternativeGroup { IsChoice = false, Members = branch })],
-                });
+                groups.Add(choice);
             }
         }
 
         return groups;
+    }
+
+    private static UsageRequiredAlternativeGroup? ParseRequiredAlternativeGroup(
+        IReadOnlyList<string> alternatives,
+        CommandLinePhase phase,
+        IReadOnlyList<CliOptionDefinition>? options)
+    {
+        var alternativeMembers = alternatives
+            .Select(alternative =>
+            {
+                var normalizedAlternative = NormalizeCommaSeparatedOptionAliases(alternative);
+                return CollapseOptionAliases(
+                    GetRequiredAlternativeMembers(
+                        ParseOperandTokens(Tokenize(normalizedAlternative), phase), options),
+                    alternative);
+            })
+            .ToArray();
+        if (alternativeMembers.Any(static members => members.Count == 0))
+        {
+            return null;
+        }
+
+        // Conjunction inference follows the same operand-bearing branch extraction.
+        // Other forms retain their existing option-specific reconciliation.
+        if (alternativeMembers.Any(static members => members.Count > 1)
+            && GetBundledOperandBranch(alternatives) is null)
+        {
+            return null;
+        }
+
+        var members = DistinctAlternativeMembers(alternativeMembers.SelectMany(static members => members));
+        if (members.Count <= 1 || !members.Any(static member => member.OptionSwitch is not null))
+        {
+            return null;
+        }
+
+        return new UsageRequiredAlternativeGroup
+        {
+            Members = DistinctAlternativeMembers(alternativeMembers
+                .Where(static branch => branch.Count == 1).SelectMany(static branch => branch)),
+            Groups = [.. alternativeMembers.Where(static branch => branch.Count > 1)
+                .Select(static branch => new UsageRequiredAlternativeGroup { IsChoice = false, Members = branch })],
+        };
     }
 
     private static IReadOnlySet<string> GetRequiredAlternativeMemberKeys(
