@@ -3401,5 +3401,4 @@ public class DistributedModuleExecutorTests
 
         return registry.GetPipelineSchemaVersion();
     }
-
 }

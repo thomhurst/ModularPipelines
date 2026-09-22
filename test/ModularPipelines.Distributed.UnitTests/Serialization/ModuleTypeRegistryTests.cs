@@ -169,5 +169,4 @@ public class ModuleTypeRegistryTests
         await Assert.That(ModuleId.FromType(firstType)).IsEqualTo(ModuleId.FromType(secondType));
         await Assert.That(first.GetPipelineSchemaVersion()).IsNotEqualTo(second.GetPipelineSchemaVersion());
     }
-
 }
