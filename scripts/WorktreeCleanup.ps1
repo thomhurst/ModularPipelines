@@ -247,17 +247,120 @@ function Select-MergeCleanupWorktree {
     return $null
 }
 
+function Get-WorktreeAgentLockNames {
+    param([Parameter(Mandatory)][string]$Worktree, [string]$Branch, [switch]$Orphan)
+
+    $names = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+    if (-not $Orphan) {
+        $extension = git -C $Worktree config --local --bool --get extensions.worktreeConfig 2>$null
+        if ($LASTEXITCODE -notin @(0, 1)) { throw 'Cannot inspect worktree configuration.' }
+        if ($extension -eq 'true') {
+            $marker = git -C $Worktree config --worktree --get agent.lockName 2>$null
+            if ($LASTEXITCODE -notin @(0, 1)) { throw 'Cannot inspect worktree ownership marker.' }
+            if (-not [string]::IsNullOrWhiteSpace($marker)) { [void]$names.Add($marker.Trim()) }
+        }
+    }
+
+    # The canonical path identifies a detached setup checkout before renew writes its marker.
+    $leaf = Split-Path -Path $Worktree -Leaf
+    if ($leaf -match '^(?<Lock>(?:pr|issue)-\d+)(?:-|$)') {
+        [void]$names.Add($Matches.Lock.ToLowerInvariant())
+    }
+    foreach ($match in [regex]::Matches($Branch, '(?:^|[-/])((?:pr|issue)-\d+)(?=$|[-/])', 'IgnoreCase')) {
+        [void]$names.Add($match.Groups[1].Value.ToLowerInvariant())
+    }
+    return $names | Sort-Object -CaseSensitive
+}
+
+function Invoke-WorktreeAgentLock {
+    param(
+        [Parameter(Mandatory)][string]$ScriptPath,
+        [Parameter(Mandatory)][ValidateSet('status', 'acquire', 'release')][string]$Verb,
+        [Parameter(Mandatory)][string]$LockName,
+        [Parameter(Mandatory)][string]$OwnerId
+    )
+
+    # Acquire prints a token. Never forward it, including on a failed cleanup attempt.
+    $output = @(& pwsh -NoProfile -File $ScriptPath $Verb -LockName $LockName -OwnerId $OwnerId 2>&1)
+    return [pscustomobject]@{
+        ExitCode = $LASTEXITCODE
+        Status = if ($Verb -eq 'status') { ($output -join "`n").Trim() } else { '' }
+    }
+}
+
+function Invoke-WithWorktreeCleanupLocks {
+    param(
+        [Parameter(Mandatory)][string]$RepoPath,
+        [Parameter(Mandatory)][string]$Worktree,
+        [string]$Branch = '',
+        [Parameter(Mandatory)][scriptblock]$Action,
+        [switch]$Orphan,
+        [switch]$Preview
+    )
+
+    try { $names = @(Get-WorktreeAgentLockNames -Worktree $Worktree -Branch $Branch -Orphan:$Orphan) }
+    catch {
+        Write-Host "Preserving worktree: ownership could not be inspected: $Worktree"
+        return
+    }
+    if ($names.Count -eq 0) {
+        Write-Host "Preserving worktree: ownership identity is unavailable: $Worktree"
+        return
+    }
+    $agentLocks = Join-Path $RepoPath 'scripts/AgentLocks.ps1'
+    if ($names.Count -gt 0 -and -not (Test-Path -LiteralPath $agentLocks -PathType Leaf)) {
+        Write-Host "Preserving worktree: canonical lock script is unavailable: $Worktree"
+        return
+    }
+
+    $owner = "worktree-cleanup-$([Guid]::NewGuid().ToString('N'))"
+    $acquired = [Collections.Generic.List[string]]::new()
+    try {
+        foreach ($name in $names) {
+            $verb = if ($Preview) { 'status' } else { 'acquire' }
+            try {
+                $result = Invoke-WorktreeAgentLock -ScriptPath $agentLocks -Verb $verb -LockName $name -OwnerId $owner
+            }
+            catch {
+                Write-Host "Preserving worktree: lock $name could not be checked: $Worktree"
+                return
+            }
+            if ($result.ExitCode -ne 0 -or ($Preview -and $result.Status -ne 'FREE')) {
+                Write-Host "Preserving worktree: lock $name is held or unavailable: $Worktree"
+                return
+            }
+            if (-not $Preview) { $acquired.Add($name) }
+        }
+
+        # Keep reservations through deletion, rather than checking FREE then racing a new owner.
+        & $Action
+    }
+    finally {
+        for ($index = $acquired.Count - 1; $index -ge 0; $index--) {
+            $name = $acquired[$index]
+            try {
+                $released = Invoke-WorktreeAgentLock -ScriptPath $agentLocks -Verb release -LockName $name -OwnerId $owner
+                if ($released.ExitCode -ne 0) { Write-Host "WARNING: could not release cleanup reservation $name." }
+            }
+            catch { Write-Host "WARNING: could not release cleanup reservation $name." }
+        }
+    }
+}
+
 function Remove-MergedWorktree {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory)][string]$Repo,       # a checkout that is NOT the one being removed (main)
         [Parameter(Mandatory)][string]$Worktree,   # path to remove
-        [string]$Label = '',                       # e.g. "#1234" for log lines
-        [switch]$WhatIf
+        [string]$Label = ''                        # e.g. "#1234" for log lines
     )
 
     if (-not (Test-Path -LiteralPath $Worktree)) {
-        if (-not $WhatIf) { git -C $Repo worktree prune }
+        if ($WhatIfPreference) {
+            Write-Host "sweep: WOULD prune missing worktree registrations for $Repo"
+            return
+        }
+        if ($PSCmdlet.ShouldProcess($Repo, 'Prune missing worktree registrations')) { git -C $Repo worktree prune }
         return
     }
 
@@ -284,7 +387,11 @@ function Remove-MergedWorktree {
         return
     }
 
-    if ($WhatIf) { Write-Host "sweep: WOULD remove $Worktree -- $Label"; return }
+    if ($WhatIfPreference) {
+        Write-Host "sweep: WOULD remove $Worktree -- $Label"
+        return
+    }
+    if (-not $PSCmdlet.ShouldProcess($Worktree, "Remove merged worktree $Label")) { return }
 
     # Primary path: let git remove it (force clears untracked artifacts; tracked is clean).
     git -C $Repo worktree remove --force $Worktree 2>$null

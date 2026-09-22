@@ -34,6 +34,7 @@
 #              stderr = "LOST", exit 4   -> ownership lost; abandon the item
 #   status   [-LockName pr-1234]
 #              stdout = HELD-BY-ME | HELD | FREE, exit 0
+#              read-only; unavailable Redis returns exit 1 without starting infrastructure
 #
 # Common failure exit: 1 (docker/redis unavailable, or no cached token for
 # renew/release). 2 = bad usage / lock name or owner identity could not be resolved.
@@ -159,7 +160,11 @@ function Ensure-AgentRedis {
     }
 }
 
-function Redis { (& docker exec $redisContainer redis-cli @args | Out-String).Trim() }
+function Redis {
+    $output = & docker exec $redisContainer redis-cli @args
+    if ($LASTEXITCODE -ne 0) { Die 1 "redis command failed on $redisContainer" }
+    ($output | Out-String).Trim()
+}
 
 function New-Meta([string]$Token) {
     @{
@@ -179,7 +184,7 @@ function Read-Token {
     if ($t) { $t.Trim() } else { $null }
 }
 
-Ensure-AgentRedis
+if ($Verb -ne 'status') { Ensure-AgentRedis }
 
 switch ($Verb) {
 
