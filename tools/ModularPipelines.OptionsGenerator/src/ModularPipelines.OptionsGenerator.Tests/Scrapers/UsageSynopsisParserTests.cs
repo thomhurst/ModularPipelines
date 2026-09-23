@@ -1631,21 +1631,38 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
-    public async Task Does_Not_Flatten_Parenthesized_Conjunctive_Alternative_Branches()
+    [Arguments("(<TARGET>|(--force --all))", "--force")]
+    [Arguments("(<TARGET>|(-f --all))", "-f")]
+    [Arguments("(TARGET | --force --all)", "--force")]
+    [Arguments("(--force --all | TARGET)", "--force")]
+    [Arguments("{TARGET | --force --all=ALL}", "--force")]
+    [Arguments("{--force --all=ALL | TARGET}", "--force")]
+    public async Task Preserves_Option_Only_Conjunctions_Beside_An_Operand(string group, string firstSwitch)
     {
-        var result = UsageSynopsisParser.Parse(
-            "Usage: tool clean (<TARGET>|(--force --all))",
-            ["tool", "clean"]);
+        var result = UsageSynopsisParser.Parse($"Usage: tool clean {group}", ["tool", "clean"]);
 
-        await Assert.That(result.RequiredAlternativeGroups).IsEmpty();
+        // Conjunctive switches stay together; short and long switches are not aliases here.
+        var choice = result.RequiredAlternativeGroups.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(choice.IsRequired).IsTrue();
+            await Assert.That(choice.IsChoice).IsTrue();
+            await Assert.That(choice.Members.Select(member => member.PositionalPropertyName!)).IsEquivalentTo(["Target"]);
+            var bundle = choice.Groups.Single();
+            await Assert.That(bundle.IsChoice).IsFalse();
+            await Assert.That(bundle.Members.Select(member => member.OptionSwitch!)).IsEquivalentTo([firstSwitch, "--all"]);
+            await Assert.That(bundle.Members.All(member => member.IsRequired)).IsTrue();
+            await Assert.That(result.PositionalArguments.Single().IsRequired).IsFalse();
+            await Assert.That(result.RequiredOptionSwitches).IsEmpty();
+        }
     }
 
     [Test]
-    public async Task Does_Not_Treat_Conjunctive_Short_And_Long_Switches_As_Aliases()
+    [Arguments("(--force --all | --global)")]
+    [Arguments("(--force --all | --global --region=REGION)")]
+    public async Task Leaves_Option_Only_Conjunctive_Choices_To_Option_Reconciliation(string group)
     {
-        var result = UsageSynopsisParser.Parse(
-            "Usage: tool clean (<TARGET>|(-f --all))",
-            ["tool", "clean"]);
+        var result = UsageSynopsisParser.Parse($"Usage: tool clean {group}", ["tool", "clean"]);
 
         await Assert.That(result.RequiredAlternativeGroups).IsEmpty();
     }

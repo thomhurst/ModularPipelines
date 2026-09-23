@@ -283,9 +283,11 @@ public static class UsageSynopsisParser
         }
 
         // Conjunction inference follows the same operand-bearing branch extraction.
-        // Other forms retain their existing option-specific reconciliation.
+        // Option-only conjunctions beside an operand branch need no extraction;
+        // option-only choices retain their existing option-specific reconciliation.
         if (branches.Any(IsConjunctiveBranch)
-            && GetBundledOperandBranch(alternatives) is null)
+            && GetBundledOperandBranch(alternatives) is null
+            && !HasOptionConjunctionsBesideOperand(alternatives, branches))
         {
             return null;
         }
@@ -329,6 +331,15 @@ public static class UsageSynopsisParser
 
     private static bool IsConjunctiveBranch(UsageRequiredAlternativeGroup branch) =>
         branch.Members.Count > 1 || branch.Groups.Count > 0;
+
+    private static bool HasOptionConjunctionsBesideOperand(
+        IReadOnlyList<string> alternatives,
+        UsageRequiredAlternativeGroup[] branches)
+    {
+        var isOptionOnly = alternatives.Select(static alternative => ContainsOnlyInlineOptions(TokenizeNestedGroup(alternative))).ToArray();
+        return isOptionOnly.Contains(false)
+            && isOptionOnly.Select((optionOnly, index) => optionOnly || !IsConjunctiveBranch(branches[index])).All(static supported => supported);
+    }
 
     private static IReadOnlySet<string> GetRequiredAlternativeMemberKeys(
         UsageSynopsisParseResult candidate) =>
@@ -2293,8 +2304,15 @@ public static class UsageSynopsisParser
                && valueStartIndex < normalized.Length
                && normalized.StartsWith('-')
                && normalized[valueStartIndex] != '|'
+               && !StartsWithOptionSwitch(normalized, valueStartIndex)
                && normalized.IndexOf('|', valueStartIndex + 1) >= 0;
     }
+
+    // A following switch starts a conjunction; a lone dash can still be a value such as stdin.
+    private static bool StartsWithOptionSwitch(string content, int index) =>
+        content[index] == '-'
+        && index + 1 < content.Length
+        && (content[index + 1] == '-' || char.IsLetter(content[index + 1]));
 
     private static int GetOptionValueStartIndex(string content)
     {
@@ -2347,8 +2365,10 @@ public static class UsageSynopsisParser
             branchStartIndex++;
         }
 
+        // Whitespace before the assignment means it belongs to a later switch in a conjunction.
         return branchStartIndex + 1 < assignmentIndex
-               && content[branchStartIndex] == '-';
+               && content[branchStartIndex] == '-'
+               && content.AsSpan(branchStartIndex, assignmentIndex - branchStartIndex).IndexOfAny(' ', '\t') < 0;
     }
 
     private static bool HasLoneDashOperandAlternatives(string content)
