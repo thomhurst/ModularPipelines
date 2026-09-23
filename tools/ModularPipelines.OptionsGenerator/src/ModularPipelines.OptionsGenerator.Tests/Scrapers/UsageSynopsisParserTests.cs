@@ -389,10 +389,13 @@ public class UsageSynopsisParserTests
         var choice = usage.RequiredAlternativeGroups.Single();
         await Assert.That(choice.IsRequired).IsTrue();
         await Assert.That(choice.IsChoice).IsTrue();
-        await Assert.That(choice.Members.Count).IsEqualTo(1);
+        var flagSwitch = group.Contains("--workload-id", StringComparison.Ordinal) ? "--workload-id" : "--global";
+        await Assert.That(choice.Members.Select(member => member.OptionSwitch!)).IsEquivalentTo([flagSwitch]);
         var bundle = choice.Groups.Single();
         await Assert.That(bundle.IsChoice).IsFalse();
-        await Assert.That(bundle.Members.Count).IsEqualTo(2);
+        await Assert.That(bundle.Members.Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!))
+            .IsEquivalentTo([usage.PositionalArguments.Single().PropertyName,
+                group.Contains("--external-identifier", StringComparison.Ordinal) ? "--external-identifier" : "--mode"]);
         await Assert.That(bundle.Members.All(member => member.IsRequired)).IsTrue();
         await Assert.That(usage.PositionalArguments.Single().IsRequired).IsFalse();
         await Assert.That(usage.RequiredOptionSwitches).IsEmpty();
