@@ -193,6 +193,7 @@ public static class UsageSynopsisParser
         return new UsageSynopsisParseResult
         {
             Synopsis = synopsis,
+            OperandTokens = materializedOperandTokens,
             CommandMatched = true,
             MatchedCommandPartCount = commandMatch.PartCount,
             HasOperandTokens = parsedOperands.Arguments.Count > 0
@@ -239,31 +240,95 @@ public static class UsageSynopsisParser
                 continue;
             }
 
-            var alternativeMembers = alternatives
-                .Select(alternative =>
-                {
-                    var normalizedAlternative = NormalizeCommaSeparatedOptionAliases(alternative);
-                    return CollapseOptionAliases(
-                        GetRequiredAlternativeMembers(
-                            ParseOperandTokens(Tokenize(normalizedAlternative), phase), options),
-                        alternative);
-                })
-                .ToArray();
-            if (alternativeMembers.Any(static members => members.Count != 1))
+            if (ParseRequiredAlternativeGroup(alternatives, phase, options) is { } choice)
             {
-                continue;
-            }
-
-            var members = DistinctAlternativeMembers(alternativeMembers.SelectMany(static members => members));
-            if (members.Count > 1
-                && members.Any(static member => member.OptionSwitch is not null))
-            {
-                groups.Add(new UsageRequiredAlternativeGroup { Members = members });
+                groups.Add(choice);
             }
         }
 
         return groups;
     }
+
+    private static UsageRequiredAlternativeGroup? ParseRequiredAlternativeGroup(
+        IReadOnlyList<string> alternatives,
+        CommandLinePhase phase,
+        IReadOnlyList<CliOptionDefinition>? options)
+    {
+        alternatives = FlattenNestedChoiceBranches(alternatives, phase, options);
+        var branches = alternatives
+            .Select(alternative =>
+            {
+                var tokens = Tokenize(NormalizeCommaSeparatedOptionAliases(alternative));
+                // A conjunctive branch's own required choices apply only when that branch is selected.
+                // A remaining single wrapped token is the branch itself, whose alternatives are aliases.
+                UsageRequiredAlternativeGroup[] nestedGroups = tokens.Count > 1
+                    ? [.. ParseInlineRequiredAlternativeGroups(tokens, phase, options).Where(static group => group.IsRequired)]
+                    : [];
+                var nestedKeys = nestedGroups.SelectMany(static group => group.EnumerateMembers())
+                    .Select(GetAlternativeMemberKey).ToHashSet(StringComparer.Ordinal);
+                return new UsageRequiredAlternativeGroup
+                {
+                    IsChoice = false,
+                    Members = [.. CollapseOptionAliases(
+                            GetRequiredAlternativeMembers(ParseOperandTokens(tokens, phase), options),
+                            alternative)
+                        .Where(member => !nestedKeys.Contains(GetAlternativeMemberKey(member)))],
+                    Groups = nestedGroups,
+                };
+            })
+            .ToArray();
+        if (branches.Any(static branch => branch.Members.Count == 0))
+        {
+            return null;
+        }
+
+        // Conjunction inference follows the same operand-bearing branch extraction.
+        // Other forms retain their existing option-specific reconciliation.
+        if (branches.Any(IsConjunctiveBranch)
+            && GetBundledOperandBranch(alternatives) is null)
+        {
+            return null;
+        }
+
+        var members = DistinctAlternativeMembers(branches.SelectMany(static branch => branch.Members));
+        if (members.Count <= 1 || !members.Any(static member => member.OptionSwitch is not null))
+        {
+            return null;
+        }
+
+        return new UsageRequiredAlternativeGroup
+        {
+            Members = DistinctAlternativeMembers(branches
+                .Where(static branch => !IsConjunctiveBranch(branch)).SelectMany(static branch => branch.Members)),
+            Groups = [.. branches.Where(IsConjunctiveBranch)],
+        };
+    }
+
+    // A required wrapped branch of distinct options is a nested choice: (A | (B | C)) accepts A, B or C.
+    private static IReadOnlyList<string> FlattenNestedChoiceBranches(
+        IReadOnlyList<string> alternatives,
+        CommandLinePhase phase,
+        IReadOnlyList<CliOptionDefinition>? options) =>
+        [.. alternatives.SelectMany(alternative =>
+        {
+            var branch = alternative.Trim();
+            if (!IsWrapped(branch)
+                || !IsRequiredUsageToken(branch)
+                || Tokenize(branch).Count != 1
+                || SplitTopLevelAlternatives(TrimWrapper(branch)) is not { Count: > 1 } nested)
+            {
+                return [alternative];
+            }
+
+            var members = CollapseOptionAliases(
+                GetRequiredAlternativeMembers(
+                    ParseOperandTokens(Tokenize(NormalizeCommaSeparatedOptionAliases(branch)), phase), options),
+                branch);
+            return members.Count > 1 ? FlattenNestedChoiceBranches(nested, phase, options) : [alternative];
+        })];
+
+    private static bool IsConjunctiveBranch(UsageRequiredAlternativeGroup branch) =>
+        branch.Members.Count > 1 || branch.Groups.Count > 0;
 
     private static IReadOnlySet<string> GetRequiredAlternativeMemberKeys(
         UsageSynopsisParseResult candidate) =>
@@ -318,17 +383,92 @@ public static class UsageSynopsisParser
         UsageSynopsisParseResult selected,
         IReadOnlyList<UsageSynopsisParseResult> candidates)
     {
+        if (candidates.Count > 1 && candidates.Any(candidate => candidate.RequiredAlternativeGroups
+                .Any(static group => group.IsRequired && group.Groups.Count > 0)))
+        {
+            return GetBundledCrossSynopsisGroups(selected, candidates);
+        }
+
         var candidateMemberKeys = candidates.Select(GetRequiredAlternativeMemberKeys).ToArray();
         return
         [
             .. selected.RequiredAlternativeGroups.Where(group =>
                 group.IsRequired
-                    ? candidateMemberKeys.All(keys => group.Members.Any(member => keys.Contains(GetAlternativeMemberKey(member))))
+                    ? candidateMemberKeys.All(keys => group.EnumerateMembers().Any(member => keys.Contains(GetAlternativeMemberKey(member))))
                     : candidates.All(candidate => candidate.RequiredAlternativeGroups.Any(alternative =>
                         HaveSameConstraint(group, alternative)))),
             .. GetCrossSynopsisRequiredAlternativeGroups(candidates, selected.PositionalArguments),
         ];
     }
+
+    private static IReadOnlyList<UsageRequiredAlternativeGroup> GetBundledCrossSynopsisGroups(
+        UsageSynopsisParseResult selected,
+        IReadOnlyList<UsageSynopsisParseResult> candidates)
+    {
+        var commonOptionalGroups = selected.RequiredAlternativeGroups.Where(group => !group.IsRequired
+            && candidates.All(candidate => candidate.RequiredAlternativeGroups.Any(alternative => HaveSameConstraint(group, alternative))));
+        var forms = candidates.Select(candidate => CreateRequiredSynopsisForm(candidate, selected.PositionalArguments)).ToArray();
+        var selectedNames = selected.PositionalArguments.Select(static argument => argument.PropertyName).ToHashSet(StringComparer.Ordinal);
+        if (forms.Any(static form => form.Members.Count == 0 && form.Groups.Count == 0)
+            || forms.SelectMany(static form => form.EnumerateMembers()).Any(member =>
+                member.PositionalPropertyName is { } name && !selectedNames.Contains(name)))
+        {
+            return [.. commonOptionalGroups];
+        }
+
+        // Accepted synopses are alternatives. Preserve each whole form, including its
+        // nested conjunctions, rather than retaining a constraint from partial overlap.
+        return [.. commonOptionalGroups, new UsageRequiredAlternativeGroup { Members = [], Groups = forms }];
+    }
+
+    private static UsageRequiredAlternativeGroup CreateRequiredSynopsisForm(
+        UsageSynopsisParseResult candidate,
+        IReadOnlyList<CliPositionalArgument> selectedArguments)
+    {
+        var mappedArguments = MapAlternativeArguments(candidate, selectedArguments);
+        var names = candidate.PositionalArguments.Zip(mappedArguments)
+            .GroupBy(static pair => pair.First.PropertyName, StringComparer.Ordinal)
+            .ToDictionary(static group => group.Key, static group => group.First().Second.PropertyName, StringComparer.Ordinal);
+        var groups = candidate.RequiredAlternativeGroups.Where(static group => group.IsRequired)
+            .Select(group => MapGroupPositionalNames(group, names)).ToArray();
+        var unconditional = ParseOperandTokens(GetUnconditionalTokens(candidate.OperandTokens), CommandLinePhase.EarlyOperand);
+        var members = GetRequiredAlternativeMembers(new ParsedOperands(
+            mappedArguments, candidate.UnparsedOperandTokens, unconditional.RequiredOptionSwitches));
+        return new UsageRequiredAlternativeGroup
+        {
+            IsChoice = false,
+            Members = CollapseOptionAliases(members, candidate.Synopsis ?? ""),
+            Groups = groups,
+        };
+    }
+
+    private static IEnumerable<string> GetUnconditionalTokens(IEnumerable<string> tokens)
+    {
+        foreach (var token in tokens)
+        {
+            if (!IsWrapped(token))
+            {
+                yield return token;
+                continue;
+            }
+
+            if (IsRequiredUsageToken(token) && SplitTopLevelAlternatives(TrimWrapper(token)).Count == 1)
+            {
+                foreach (var nested in GetUnconditionalTokens(Tokenize(TrimWrapper(token))))
+                {
+                    yield return nested;
+                }
+            }
+        }
+    }
+
+    private static UsageRequiredAlternativeGroup MapGroupPositionalNames(
+        UsageRequiredAlternativeGroup group, IReadOnlyDictionary<string, string> names) => group with
+        {
+            Members = [.. group.Members.Select(member => member.PositionalPropertyName is { } name && names.TryGetValue(name, out var mapped)
+            ? member with { PositionalPropertyName = mapped } : member)],
+            Groups = [.. group.Groups.Select(nested => MapGroupPositionalNames(nested, names))],
+        };
 
     // An optional constraint may apply globally only when every accepted form declares it.
     private static bool HaveSameConstraint(UsageRequiredAlternativeGroup left, UsageRequiredAlternativeGroup right) =>
@@ -399,6 +539,12 @@ public static class UsageSynopsisParser
 
     private static IReadOnlyList<UsageRequiredAlternativeMember> MapAlternativePositionalNames(
         UsageSynopsisParseResult candidate,
+        IReadOnlyList<CliPositionalArgument> selectedArguments) =>
+        GetRequiredAlternativeMembers(new ParsedOperands(
+            MapAlternativeArguments(candidate, selectedArguments), candidate.UnparsedOperandTokens, candidate.RequiredOptionSwitches));
+
+    private static CliPositionalArgument[] MapAlternativeArguments(
+        UsageSynopsisParseResult candidate,
         IReadOnlyList<CliPositionalArgument> selectedArguments)
     {
         var selectedPositionals = selectedArguments.Where(static argument => argument.AssociatedOptionSwitch is null).ToArray();
@@ -425,8 +571,7 @@ public static class UsageSynopsisParser
             }
         }
 
-        return GetRequiredAlternativeMembers(new ParsedOperands(
-            arguments, candidate.UnparsedOperandTokens, candidate.RequiredOptionSwitches));
+        return arguments;
     }
 
     private static bool SupportsRequiredAlternativeInference(IEnumerable<string> operandTokens)
@@ -596,11 +741,6 @@ public static class UsageSynopsisParser
                 continue;
             }
 
-            if (IsNonOperandSyntax(operandToken))
-            {
-                continue;
-            }
-
             if (TryParseNestedOperandGroup(
                     operandToken,
                     arguments.Count,
@@ -628,6 +768,11 @@ public static class UsageSynopsisParser
 
                 AdvancePastOptionTerminatedOperand(groupedBehindOptionTerminator, ref phase);
 
+                continue;
+            }
+
+            if (IsNonOperandSyntax(operandToken))
+            {
                 continue;
             }
 
@@ -826,6 +971,7 @@ public static class UsageSynopsisParser
             usage = usage with
             {
                 Synopsis = selected.Synopsis,
+                OperandTokens = selected.OperandTokens,
                 ArgumentGroupSynopsis = selected.ArgumentGroupSynopsis,
                 HasOperandTokens = selected.PositionalArguments.Count > 0 || selected.UnparsedOperandTokens.Count > 0,
                 PositionalArguments = selected.PositionalArguments,
@@ -1322,17 +1468,7 @@ public static class UsageSynopsisParser
             return true;
         }
 
-        if (nestedTokens.Contains(":") && SplitTopLevelAlternatives(content).Count > 1)
-        {
-            throw new InvalidOperationException(
-                $"Usage synopsis has ambiguous alternatives in colon group '{normalizedToken}'.");
-        }
-
-        if (nestedTokens.Contains(":") && IsRequiredUsageToken(normalizedToken) && ContainsOnlyInlineOptions(nestedTokens))
-        {
-            throw new InvalidOperationException(
-                $"Usage synopsis has unsupported required option-only colon group '{normalizedToken}'.");
-        }
+        ValidateNestedColonGroup(normalizedToken, content, nestedTokens);
 
         if (TryParseColonSeparatedOperands(
                 nestedTokens, IsRequiredUsageToken(normalizedToken), positionIndex, phase, out arguments, out requiredOptionSwitches))
@@ -1340,8 +1476,20 @@ public static class UsageSynopsisParser
             return true;
         }
 
-        if ((!content.Contains('[') && !nestedTokens.Any(nestedToken => GetOptionSwitches(nestedToken).Count > 0))
-            || SplitTopLevelAlternatives(content).Count > 1)
+        var alternatives = SplitTopLevelAlternatives(content);
+        if (alternatives.Count > 1)
+        {
+            if (GetBundledOperandBranch(alternatives) is not { } branch)
+            {
+                return false;
+            }
+
+            // A single operand-bearing branch can bundle an operand with flags.
+            // Its operands stay optional; the enclosing choice validates complete branches.
+            return TryParseNestedOperands(branch, false, positionIndex, phase, out arguments, out requiredOptionSwitches);
+        }
+
+        if (!content.Contains('[') && !nestedTokens.Any(nestedToken => GetOptionSwitches(nestedToken).Count > 0))
         {
             return false;
         }
@@ -1352,6 +1500,34 @@ public static class UsageSynopsisParser
         }
 
         return TryParseNestedOperands(nestedTokens, IsRequiredUsageToken(normalizedToken), positionIndex, phase, out arguments, out requiredOptionSwitches);
+    }
+
+    private static void ValidateNestedColonGroup(string token, string content, List<string> nestedTokens)
+    {
+        if (!nestedTokens.Any(static nestedToken =>
+                nestedToken == ":" || (nestedToken.EndsWith(':') && IsWrapped(nestedToken[..^1]))))
+        {
+            return;
+        }
+
+        if (SplitTopLevelAlternatives(content).Count > 1)
+        {
+            throw new InvalidOperationException(
+                $"Usage synopsis has ambiguous alternatives in colon group '{token}'.");
+        }
+
+        if (IsRequiredUsageToken(token) && ContainsOnlyInlineOptions(nestedTokens))
+        {
+            throw new InvalidOperationException(
+                $"Usage synopsis has unsupported required option-only colon group '{token}'.");
+        }
+    }
+
+    private static List<string>? GetBundledOperandBranch(IReadOnlyList<string> alternatives)
+    {
+        var operandBranches = alternatives.Select(TokenizeNestedGroup)
+            .Where(branch => !ContainsOnlyInlineOptions(branch)).ToArray();
+        return operandBranches is [var branch] && branch.Count > 1 ? branch : null;
     }
 
     internal static string DeferDocumentedOptionGroups(string synopsis, IReadOnlyList<CliArgumentGroup> groups)
@@ -2100,6 +2276,12 @@ public static class UsageSynopsisParser
     private static bool HasOptionValueAlternatives(string content)
     {
         var normalized = TrimControlWrappers(content);
+        var alternatives = SplitTopLevelAlternatives(normalized);
+        if (alternatives.Count > 1 && GetBundledOperandBranch(alternatives) is not null)
+        {
+            return false;
+        }
+
         if (HasOptionAssignment(normalized))
         {
             return true;
@@ -2277,6 +2459,8 @@ public static class UsageSynopsisParser
 /// </summary>
 public sealed record UsageSynopsisParseResult
 {
+    internal IReadOnlyList<string> OperandTokens { get; init; } = [];
+
     // Retains option-group syntax that a tool defers while parsing positional operands.
     internal string? ArgumentGroupSynopsis { get; init; }
 

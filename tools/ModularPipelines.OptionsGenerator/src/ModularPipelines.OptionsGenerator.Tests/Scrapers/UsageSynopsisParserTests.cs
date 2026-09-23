@@ -366,12 +366,111 @@ public class UsageSynopsisParserTests
     [Arguments("[--force|TARGET : --location=LOCATION]")]
     [Arguments("[--force | TARGET : --location=LOCATION]")]
     [Arguments("[TARGET|--force : --location=LOCATION]")]
+    [Arguments("(<ID>: --external-identifier=VALUE | --workload-id=VALUE)")]
+    [Arguments("[<ID>: --external-identifier=VALUE | --workload-id=VALUE]")]
+    [Arguments("(--workload-id=VALUE | [ID]: --external-identifier=VALUE)")]
+    [Arguments("({ID}: --external-identifier=VALUE | --workload-id=VALUE)")]
     public async Task Rejects_Ambiguous_Alternatives_Across_Colon_Groups(string group)
     {
         await Assert.That(() => UsageSynopsisParser.Parse(
                 $"Usage: tool show {group}", ["tool", "show"]))
             .Throws<InvalidOperationException>()
             .And.HasMessageContaining("ambiguous alternatives in colon group");
+    }
+
+    [Test]
+    [Arguments("(TARGET --mode=MODE | --global)")]
+    [Arguments("(--global | TARGET --mode=MODE)")]
+    [Arguments("{TARGET --mode=MODE | --global}")]
+    [Arguments("(WORKLOAD_ID --external-identifier=EXTERNAL_IDENTIFIER | --workload-id=FLAG_WORKLOAD_ID)")]
+    public async Task Preserves_Required_Bundled_Operand_Alternatives(string group)
+    {
+        var usage = UsageSynopsisParser.Parse($"Usage: tool show {group}", ["tool", "show"]);
+        var choice = usage.RequiredAlternativeGroups.Single();
+        await Assert.That(choice.IsRequired).IsTrue();
+        await Assert.That(choice.IsChoice).IsTrue();
+        var flagSwitch = group.Contains("--workload-id", StringComparison.Ordinal) ? "--workload-id" : "--global";
+        await Assert.That(choice.Members.Select(member => member.OptionSwitch!)).IsEquivalentTo([flagSwitch]);
+        var bundle = choice.Groups.Single();
+        await Assert.That(bundle.IsChoice).IsFalse();
+        await Assert.That(bundle.Members.Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!))
+            .IsEquivalentTo([usage.PositionalArguments.Single().PropertyName,
+                group.Contains("--external-identifier", StringComparison.Ordinal) ? "--external-identifier" : "--mode"]);
+        await Assert.That(bundle.Members.All(member => member.IsRequired)).IsTrue();
+        await Assert.That(usage.PositionalArguments.Single().IsRequired).IsFalse();
+        await Assert.That(usage.RequiredOptionSwitches).IsEmpty();
+    }
+
+    [Test]
+    [Arguments("(TARGET (--mode=MODE | --region=REGION) | --global)")]
+    [Arguments("(--global | TARGET (--mode=MODE | --region=REGION))")]
+    public async Task Bundled_Operand_Branches_Preserve_Nested_Required_Choices(string group)
+    {
+        var usage = UsageSynopsisParser.Parse($"Usage: tool show {group}", ["tool", "show"]);
+        var choice = usage.RequiredAlternativeGroups.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(choice.IsChoice).IsTrue();
+            await Assert.That(choice.Members.Select(member => member.OptionSwitch!)).IsEquivalentTo(["--global"]);
+            var bundle = choice.Groups.Single();
+            await Assert.That(bundle.IsChoice).IsFalse();
+            await Assert.That(bundle.Members.Select(member => member.PositionalPropertyName!)).IsEquivalentTo(["Target"]);
+            var nested = bundle.Groups.Single();
+            await Assert.That(nested.IsChoice).IsTrue();
+            await Assert.That(nested.Members.Select(member => member.OptionSwitch!)).IsEquivalentTo(["--mode", "--region"]);
+            await Assert.That(usage.PositionalArguments.Single().IsRequired).IsFalse();
+            await Assert.That(usage.RequiredOptionSwitches).IsEmpty();
+        }
+    }
+
+    [Test]
+    [Arguments("(TARGET (--mode=MODE | --region=REGION) | (--global | --all))")]
+    [Arguments("((--global | --all) | TARGET (--mode=MODE | --region=REGION))")]
+    [Arguments("(TARGET (--mode=MODE | --region=REGION) | {--global | --all})")]
+    public async Task Required_Alternatives_Flatten_Nested_Choice_Branches(string group)
+    {
+        var usage = UsageSynopsisParser.Parse($"Usage: tool show {group}", ["tool", "show"]);
+        var choice = usage.RequiredAlternativeGroups.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(choice.IsChoice).IsTrue();
+            await Assert.That(choice.Members.Select(member => member.OptionSwitch!)).IsEquivalentTo(["--global", "--all"]);
+            var bundle = choice.Groups.Single();
+            await Assert.That(bundle.Members.Select(member => member.PositionalPropertyName!)).IsEquivalentTo(["Target"]);
+            await Assert.That(bundle.Groups.Single().Members.Select(member => member.OptionSwitch!))
+                .IsEquivalentTo(["--mode", "--region"]);
+        }
+    }
+
+    [Test]
+    [Arguments("(TARGET ... | --all)")]
+    [Arguments("(--all | TARGET ...)")]
+    public async Task Required_Alternatives_Preserve_Standalone_Repeat_Markers(string group)
+    {
+        var usage = UsageSynopsisParser.Parse($"Usage: tool show {group}", ["tool", "show"]);
+        var argument = usage.PositionalArguments.Single();
+        await Assert.That(argument.PropertyName).IsEqualTo("Target");
+        await Assert.That(argument.IsVariadic).IsTrue();
+        await Assert.That(argument.IsRequired).IsFalse();
+        var choice = usage.RequiredAlternativeGroups.Single();
+        await Assert.That(choice.IsRequired).IsTrue();
+        await Assert.That(choice.Groups).IsEmpty();
+        await Assert.That(choice.Members.Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!))
+            .IsEquivalentTo(["Target", "--all"]);
+    }
+
+    [Test]
+    [Arguments("<SOURCE>:<DESTINATION>", "SourceDestination")]
+    [Arguments("<HOST:PORT>", "HostPort")]
+    [Arguments("[CONTAINER:]PATH", "ContainerPath")]
+    public async Task Bundled_Operand_Alternatives_Preserve_Value_Colons(string operand, string propertyName)
+    {
+        var result = UsageSynopsisParser.Parse(
+            $"Usage: tool show [{operand} --location=LOCATION | --global]", ["tool", "show"]);
+
+        var argument = result.PositionalArguments.Single();
+        await Assert.That(argument.PropertyName).IsEqualTo(propertyName);
+        await Assert.That(argument.IsRequired).IsFalse();
     }
 
     [Test]
