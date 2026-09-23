@@ -254,12 +254,13 @@ public static class UsageSynopsisParser
         CommandLinePhase phase,
         IReadOnlyList<CliOptionDefinition>? options)
     {
+        alternatives = FlattenNestedChoiceBranches(alternatives, phase, options);
         var branches = alternatives
             .Select(alternative =>
             {
                 var tokens = Tokenize(NormalizeCommaSeparatedOptionAliases(alternative));
                 // A conjunctive branch's own required choices apply only when that branch is selected.
-                // A single wrapped token is the branch itself, whose alternatives are aliases.
+                // A remaining single wrapped token is the branch itself, whose alternatives are aliases.
                 UsageRequiredAlternativeGroup[] nestedGroups = tokens.Count > 1
                     ? [.. ParseInlineRequiredAlternativeGroups(tokens, phase, options).Where(static group => group.IsRequired)]
                     : [];
@@ -302,6 +303,29 @@ public static class UsageSynopsisParser
             Groups = [.. branches.Where(IsConjunctiveBranch)],
         };
     }
+
+    // A required wrapped branch of distinct options is a nested choice: (A | (B | C)) accepts A, B or C.
+    private static IReadOnlyList<string> FlattenNestedChoiceBranches(
+        IReadOnlyList<string> alternatives,
+        CommandLinePhase phase,
+        IReadOnlyList<CliOptionDefinition>? options) =>
+        [.. alternatives.SelectMany(alternative =>
+        {
+            var branch = alternative.Trim();
+            if (!IsWrapped(branch)
+                || !IsRequiredUsageToken(branch)
+                || Tokenize(branch).Count != 1
+                || SplitTopLevelAlternatives(TrimWrapper(branch)) is not { Count: > 1 } nested)
+            {
+                return [alternative];
+            }
+
+            var members = CollapseOptionAliases(
+                GetRequiredAlternativeMembers(
+                    ParseOperandTokens(Tokenize(NormalizeCommaSeparatedOptionAliases(branch)), phase), options),
+                branch);
+            return members.Count > 1 ? FlattenNestedChoiceBranches(nested, phase, options) : [alternative];
+        })];
 
     private static bool IsConjunctiveBranch(UsageRequiredAlternativeGroup branch) =>
         branch.Members.Count > 1 || branch.Groups.Count > 0;

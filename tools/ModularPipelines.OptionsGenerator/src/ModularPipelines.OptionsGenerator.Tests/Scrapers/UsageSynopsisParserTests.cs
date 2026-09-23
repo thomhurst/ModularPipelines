@@ -424,6 +424,25 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    [Arguments("(TARGET (--mode=MODE | --region=REGION) | (--global | --all))")]
+    [Arguments("((--global | --all) | TARGET (--mode=MODE | --region=REGION))")]
+    [Arguments("(TARGET (--mode=MODE | --region=REGION) | {--global | --all})")]
+    public async Task Required_Alternatives_Flatten_Nested_Choice_Branches(string group)
+    {
+        var usage = UsageSynopsisParser.Parse($"Usage: tool show {group}", ["tool", "show"]);
+        var choice = usage.RequiredAlternativeGroups.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(choice.IsChoice).IsTrue();
+            await Assert.That(choice.Members.Select(member => member.OptionSwitch!)).IsEquivalentTo(["--global", "--all"]);
+            var bundle = choice.Groups.Single();
+            await Assert.That(bundle.Members.Select(member => member.PositionalPropertyName!)).IsEquivalentTo(["Target"]);
+            await Assert.That(bundle.Groups.Single().Members.Select(member => member.OptionSwitch!))
+                .IsEquivalentTo(["--mode", "--region"]);
+        }
+    }
+
+    [Test]
     [Arguments("(TARGET ... | --all)")]
     [Arguments("(--all | TARGET ...)")]
     public async Task Required_Alternatives_Preserve_Standalone_Repeat_Markers(string group)
