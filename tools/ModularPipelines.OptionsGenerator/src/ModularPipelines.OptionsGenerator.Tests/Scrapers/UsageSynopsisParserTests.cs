@@ -402,6 +402,28 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    [Arguments("(TARGET (--mode=MODE | --region=REGION) | --global)")]
+    [Arguments("(--global | TARGET (--mode=MODE | --region=REGION))")]
+    public async Task Bundled_Operand_Branches_Preserve_Nested_Required_Choices(string group)
+    {
+        var usage = UsageSynopsisParser.Parse($"Usage: tool show {group}", ["tool", "show"]);
+        var choice = usage.RequiredAlternativeGroups.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(choice.IsChoice).IsTrue();
+            await Assert.That(choice.Members.Select(member => member.OptionSwitch!)).IsEquivalentTo(["--global"]);
+            var bundle = choice.Groups.Single();
+            await Assert.That(bundle.IsChoice).IsFalse();
+            await Assert.That(bundle.Members.Select(member => member.PositionalPropertyName!)).IsEquivalentTo(["Target"]);
+            var nested = bundle.Groups.Single();
+            await Assert.That(nested.IsChoice).IsTrue();
+            await Assert.That(nested.Members.Select(member => member.OptionSwitch!)).IsEquivalentTo(["--mode", "--region"]);
+            await Assert.That(usage.PositionalArguments.Single().IsRequired).IsFalse();
+            await Assert.That(usage.RequiredOptionSwitches).IsEmpty();
+        }
+    }
+
+    [Test]
     [Arguments("(TARGET ... | --all)")]
     [Arguments("(--all | TARGET ...)")]
     public async Task Required_Alternatives_Preserve_Standalone_Repeat_Markers(string group)

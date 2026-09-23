@@ -62,6 +62,50 @@ public partial class RequiredConstructorValidationTests
         }
     }
 
+    [Test]
+    [Arguments("(TARGET (--mode=MODE | --region=REGION) | --global)")]
+    [Arguments("(--global | TARGET (--mode=MODE | --region=REGION))")]
+    public async Task Required_Bundled_Synopsis_Validates_Nested_Branch_Choices(string syntax)
+    {
+        var help = $$"""
+            NAME
+                gcloud example run - run an example
+            SYNOPSIS
+                gcloud example run {{syntax}}
+            POSITIONAL ARGUMENTS
+                 [TARGET]
+                    The target.
+            FLAGS
+                 --mode=MODE
+                    The mode.
+                 --global
+                    Select all targets.
+                 --region=REGION
+                    The region.
+            """;
+        var command = (await GcloudResourceArgumentTests.ScrapeFixture("example run", help)).Single();
+        var generated = await Generate([.. command.Options], command.PositionalArguments, command.RequiredAlternativeGroups);
+        var optionsType = Compile(generated).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+
+        for (var selection = 0; selection < 16; selection++)
+        {
+            var target = (selection & 1) != 0;
+            var mode = (selection & 2) != 0;
+            var global = (selection & 4) != 0;
+            var region = (selection & 8) != 0;
+            var instance = Activator.CreateInstance(optionsType)!;
+            optionsType.GetProperty("Target")!.SetValue(instance, target ? "target" : null);
+            optionsType.GetProperty("Mode")!.SetValue(instance, mode ? "mode" : null);
+            optionsType.GetProperty("Global")!.SetValue(instance, global ? true : null);
+            optionsType.GetProperty("Region")!.SetValue(instance, region ? "region" : null);
+            var errors = new List<ValidationResult>();
+
+            await Assert.That(Validator.TryValidateObject(instance, new(instance), errors, true))
+                .IsEqualTo(global || (target && (mode || region)))
+                .Because($"Selection {selection}: {string.Join("; ", errors)}");
+        }
+    }
+
     private static bool IsCompletePrimarySynopsis(
         bool target, bool mode, bool global, bool region, bool requiresMode, bool requiresRegion) =>
         (!requiresMode || mode) && ((target && mode) || (global && (!requiresRegion || region)));

@@ -254,30 +254,42 @@ public static class UsageSynopsisParser
         CommandLinePhase phase,
         IReadOnlyList<CliOptionDefinition>? options)
     {
-        var alternativeMembers = alternatives
+        var branches = alternatives
             .Select(alternative =>
             {
-                var normalizedAlternative = NormalizeCommaSeparatedOptionAliases(alternative);
-                return CollapseOptionAliases(
-                    GetRequiredAlternativeMembers(
-                        ParseOperandTokens(Tokenize(normalizedAlternative), phase), options),
-                    alternative);
+                var tokens = Tokenize(NormalizeCommaSeparatedOptionAliases(alternative));
+                // A conjunctive branch's own required choices apply only when that branch is selected.
+                // A single wrapped token is the branch itself, whose alternatives are aliases.
+                UsageRequiredAlternativeGroup[] nestedGroups = tokens.Count > 1
+                    ? [.. ParseInlineRequiredAlternativeGroups(tokens, phase, options).Where(static group => group.IsRequired)]
+                    : [];
+                var nestedKeys = nestedGroups.SelectMany(static group => group.EnumerateMembers())
+                    .Select(GetAlternativeMemberKey).ToHashSet(StringComparer.Ordinal);
+                return new UsageRequiredAlternativeGroup
+                {
+                    IsChoice = false,
+                    Members = [.. CollapseOptionAliases(
+                            GetRequiredAlternativeMembers(ParseOperandTokens(tokens, phase), options),
+                            alternative)
+                        .Where(member => !nestedKeys.Contains(GetAlternativeMemberKey(member)))],
+                    Groups = nestedGroups,
+                };
             })
             .ToArray();
-        if (alternativeMembers.Any(static members => members.Count == 0))
+        if (branches.Any(static branch => branch.Members.Count == 0))
         {
             return null;
         }
 
         // Conjunction inference follows the same operand-bearing branch extraction.
         // Other forms retain their existing option-specific reconciliation.
-        if (alternativeMembers.Any(static members => members.Count > 1)
+        if (branches.Any(IsConjunctiveBranch)
             && GetBundledOperandBranch(alternatives) is null)
         {
             return null;
         }
 
-        var members = DistinctAlternativeMembers(alternativeMembers.SelectMany(static members => members));
+        var members = DistinctAlternativeMembers(branches.SelectMany(static branch => branch.Members));
         if (members.Count <= 1 || !members.Any(static member => member.OptionSwitch is not null))
         {
             return null;
@@ -285,12 +297,14 @@ public static class UsageSynopsisParser
 
         return new UsageRequiredAlternativeGroup
         {
-            Members = DistinctAlternativeMembers(alternativeMembers
-                .Where(static branch => branch.Count == 1).SelectMany(static branch => branch)),
-            Groups = [.. alternativeMembers.Where(static branch => branch.Count > 1)
-                .Select(static branch => new UsageRequiredAlternativeGroup { IsChoice = false, Members = branch })],
+            Members = DistinctAlternativeMembers(branches
+                .Where(static branch => !IsConjunctiveBranch(branch)).SelectMany(static branch => branch.Members)),
+            Groups = [.. branches.Where(IsConjunctiveBranch)],
         };
     }
+
+    private static bool IsConjunctiveBranch(UsageRequiredAlternativeGroup branch) =>
+        branch.Members.Count > 1 || branch.Groups.Count > 0;
 
     private static IReadOnlySet<string> GetRequiredAlternativeMemberKeys(
         UsageSynopsisParseResult candidate) =>
