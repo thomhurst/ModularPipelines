@@ -1637,6 +1637,8 @@ public class UsageSynopsisParserTests
     [Arguments("(--force --all | TARGET)", "--force")]
     [Arguments("{TARGET | --force --all=ALL}", "--force")]
     [Arguments("{--force --all=ALL | TARGET}", "--force")]
+    [Arguments("(--force=MODE --all | TARGET)", "--force")]
+    [Arguments("(TARGET | --force=MODE --all)", "--force")]
     public async Task Preserves_Option_Only_Conjunctions_Beside_An_Operand(string group, string firstSwitch)
     {
         var result = UsageSynopsisParser.Parse($"Usage: tool clean {group}", ["tool", "clean"]);

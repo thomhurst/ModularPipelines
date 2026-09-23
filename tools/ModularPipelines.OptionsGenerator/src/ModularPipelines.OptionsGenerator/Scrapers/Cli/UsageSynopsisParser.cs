@@ -2366,9 +2366,19 @@ public static class UsageSynopsisParser
         }
 
         // Whitespace before the assignment means it belongs to a later switch in a conjunction.
-        return branchStartIndex + 1 < assignmentIndex
-               && content[branchStartIndex] == '-'
-               && content.AsSpan(branchStartIndex, assignmentIndex - branchStartIndex).IndexOfAny(' ', '\t') < 0;
+        if (branchStartIndex + 1 >= assignmentIndex
+            || content[branchStartIndex] != '-'
+            || content.AsSpan(branchStartIndex, assignmentIndex - branchStartIndex).IndexOfAny(' ', '\t') >= 0)
+        {
+            return false;
+        }
+
+        // A switch after the assigned value also starts a conjunction rather than value alternatives.
+        var branchEndIndex = content.IndexOf('|', assignmentIndex);
+        var value = content[(assignmentIndex + 1)..(branchEndIndex < 0 ? content.Length : branchEndIndex)];
+        return !value.Split([' ', '\t'], StringSplitOptions.RemoveEmptyEntries)
+            .Skip(1)
+            .Any(static token => StartsWithOptionSwitch(token, 0));
     }
 
     private static bool HasLoneDashOperandAlternatives(string content)

@@ -115,6 +115,7 @@ public partial class RequiredConstructorValidationTests
     [Test]
     [Arguments("(TARGET | --global --region=REGION)")]
     [Arguments("(--global --region=REGION | TARGET)")]
+    [Arguments("(--region=REGION --global | TARGET)")]
     public async Task Required_Operand_Or_Option_Conjunction_Validates_Complete_Branches(string syntax)
     {
         var help = $$"""
