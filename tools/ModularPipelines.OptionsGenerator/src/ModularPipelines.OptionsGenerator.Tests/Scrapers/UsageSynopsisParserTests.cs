@@ -1660,6 +1660,31 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    [Arguments("(--mode=MODE | --global --region=REGION | TARGET)")]
+    [Arguments("(--mode=MODE | TARGET | --global --region=REGION)")]
+    [Arguments("(TARGET | --mode=MODE | --global --region=REGION)")]
+    [Arguments("(--mode=MODE | (--global --region=REGION) | TARGET)")]
+    [Arguments("{--mode=MODE | --global --region=REGION | TARGET}")]
+    public async Task Preserves_Operand_After_Assigned_Option_And_Later_Conjunction(string group)
+    {
+        var result = UsageSynopsisParser.Parse($"Usage: tool clean {group}", ["tool", "clean"]);
+
+        var target = result.PositionalArguments.Single();
+        await Assert.That(target.PropertyName).IsEqualTo("Target");
+        await Assert.That(target.IsRequired).IsFalse();
+        var choice = result.RequiredAlternativeGroups.Single();
+        await Assert.That(choice.IsRequired).IsTrue();
+        await Assert.That(choice.IsChoice).IsTrue();
+        await Assert.That(choice.Members.Select(member => member.OptionSwitch ?? member.PositionalPropertyName!))
+            .IsEquivalentTo(["--mode", "Target"]);
+        var bundle = choice.Groups.Single();
+        await Assert.That(bundle.IsChoice).IsFalse();
+        await Assert.That(bundle.Members.Select(member => member.OptionSwitch!)).IsEquivalentTo(["--global", "--region"]);
+        await Assert.That(bundle.Members.All(member => member.IsRequired)).IsTrue();
+        await Assert.That(result.RequiredOptionSwitches).IsEmpty();
+    }
+
+    [Test]
     [Arguments("(--force --all | --global)")]
     [Arguments("(--force --all | --global --region=REGION)")]
     public async Task Leaves_Option_Only_Conjunctive_Choices_To_Option_Reconciliation(string group)

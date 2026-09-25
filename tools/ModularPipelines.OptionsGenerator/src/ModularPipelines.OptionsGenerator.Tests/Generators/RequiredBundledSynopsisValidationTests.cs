@@ -116,7 +116,11 @@ public partial class RequiredConstructorValidationTests
     [Arguments("(TARGET | --global --region=REGION)")]
     [Arguments("(--global --region=REGION | TARGET)")]
     [Arguments("(--region=REGION --global | TARGET)")]
-    public async Task Required_Operand_Or_Option_Conjunction_Validates_Complete_Branches(string syntax)
+    [Arguments("(--mode=MODE | --global --region=REGION | TARGET)", true)]
+    [Arguments("(--mode=MODE | TARGET | --global --region=REGION)", true)]
+    [Arguments("(TARGET | --mode=MODE | --global --region=REGION)", true)]
+    [Arguments("(--mode=MODE | (--global --region=REGION) | TARGET)", true)]
+    public async Task Required_Operand_Or_Option_Conjunction_Validates_Complete_Branches(string syntax, bool hasModeBranch = false)
     {
         var help = $$"""
             NAME
@@ -127,6 +131,8 @@ public partial class RequiredConstructorValidationTests
                  [TARGET]
                     The target.
             FLAGS
+                 --mode=MODE
+                    The mode.
                  --global
                     Select all targets.
                  --region=REGION
@@ -137,19 +143,21 @@ public partial class RequiredConstructorValidationTests
         var generated = await Generate([.. command.Options], command.PositionalArguments, command.RequiredAlternativeGroups);
         var optionsType = Compile(generated).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
 
-        for (var selection = 0; selection < 8; selection++)
+        for (var selection = 0; selection < 16; selection++)
         {
             var target = (selection & 1) != 0;
             var global = (selection & 2) != 0;
             var region = (selection & 4) != 0;
+            var mode = (selection & 8) != 0;
             var instance = Activator.CreateInstance(optionsType)!;
+            optionsType.GetProperty("Mode")!.SetValue(instance, mode ? "mode" : null);
             optionsType.GetProperty("Target")!.SetValue(instance, target ? "target" : null);
             optionsType.GetProperty("Global")!.SetValue(instance, global ? true : null);
             optionsType.GetProperty("Region")!.SetValue(instance, region ? "region" : null);
             var errors = new List<ValidationResult>();
 
             await Assert.That(Validator.TryValidateObject(instance, new(instance), errors, true))
-                .IsEqualTo(target || (global && region))
+                .IsEqualTo(target || (global && region) || (hasModeBranch && mode))
                 .Because($"Selection {selection}: {string.Join("; ", errors)}");
         }
     }

@@ -2288,7 +2288,14 @@ public static class UsageSynopsisParser
     {
         var normalized = TrimControlWrappers(content);
         var alternatives = SplitTopLevelAlternatives(normalized);
-        if (alternatives.Count > 1 && GetBundledOperandBranch(alternatives) is not null)
+        if (alternatives.Count > 1
+            && (GetBundledOperandBranch(alternatives) is not null
+                || alternatives.Any(static alternative =>
+                {
+                    // Every branch matters: an earlier assignment cannot own a later conjunction.
+                    var tokens = TokenizeNestedGroup(TrimControlWrappers(alternative));
+                    return tokens.Count > 1 && !tokens.Contains("|") && ContainsOnlyInlineOptions(tokens);
+                })))
         {
             return false;
         }
