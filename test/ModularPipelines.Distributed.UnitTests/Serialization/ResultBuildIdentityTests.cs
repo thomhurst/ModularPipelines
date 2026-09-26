@@ -222,6 +222,12 @@ public class ResultBuildIdentityTests
     [Arguments("BaseTypeFactory", null, false, "{}")]
     [Arguments("BaseTypeAttribute", null, false, "{}")]
     [Arguments("BaseTypeFactoryAttribute", null, false, "{}")]
+    [Arguments("ListPropertyCollectionMember", null, false, "[0]")]
+    [Arguments("ListFieldCollectionMember", null, false, "[0]")]
+    [Arguments("DictionaryPropertyCollectionMember", null, false, "{\"key\":0}")]
+    [Arguments("DictionaryFieldCollectionMember", null, false, "{\"key\":0}")]
+    [Arguments("ArrayListPropertyCollectionMember", null, false, "[]")]
+    [Arguments("ArrayListFieldCollectionMember", null, false, "[]")]
     public async Task Effective_Member_Build_Follows_Serialized_Contract(string memberKind, JsonIgnoreCondition? condition, bool includesDependency, string expectedJson)
     {
         using var builds = new ResultBuilds(0, memberKind, condition);
@@ -363,6 +369,12 @@ public class ResultBuildIdentityTests
             var derived = new PersistedAssemblyBuilder(new AssemblyName($"Derived_{Guid.NewGuid():N}"), typeof(object).Assembly);
             var module = derived.DefineDynamicModule("Derived");
             var parent = firstBase;
+            if (memberKind.EndsWith("CollectionMember", StringComparison.Ordinal))
+            {
+                parent = DefineCollectionMemberType(module, parent, memberKind);
+                memberKind = "Base";
+            }
+
             if (memberKind == "BaseTypeConverter")
             {
                 parent = DefineResultType(module, "ConvertedBase", parent, "TypeConverter", null);
@@ -637,6 +649,27 @@ public class ResultBuildIdentityTests
                 il.Emit(OpCodes.Ret);
                 property.SetGetMethod(getter);
             }
+        }
+
+        private static Type DefineCollectionMemberType(ModuleBuilder module, Type dependency, string memberKind)
+        {
+            var parent = memberKind switch
+            {
+                var kind when kind.StartsWith("Dictionary", StringComparison.Ordinal) => typeof(Dictionary<string, int>),
+                var kind when kind.StartsWith("ArrayList", StringComparison.Ordinal) => typeof(System.Collections.ArrayList),
+                _ => typeof(List<int>),
+            };
+            var type = module.DefineType("CollectionBase", TypeAttributes.Public, parent);
+            if (memberKind.Contains("Property", StringComparison.Ordinal))
+            {
+                DefineResultProperty(type, dependency, null, null);
+            }
+            else
+            {
+                DefineResultField(type, dependency, null, null);
+            }
+
+            return type.CreateType()!;
         }
 
         private static Type DefineCollectionType(ModuleBuilder module, string name, Type element, bool dictionary)

@@ -225,6 +225,13 @@ internal static class StableTypeName
     [UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Runtime result serialization and its inherited build fingerprints are explicitly unsupported in trimmed applications.")]
     private static IEnumerable<(MemberInfo Member, Type Type)> GetSerializedMembers(Type type)
     {
+        // Collection converters serialize elements and dictionary entries, not object
+        // properties or JsonInclude fields. Their contracts are traversed separately.
+        if (typeof(System.Collections.IEnumerable).IsAssignableFrom(type))
+        {
+            yield break;
+        }
+
         const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
         var getters = new HashSet<MethodInfo>();
         var membersByJsonName = new Dictionary<string, MemberInfo>(StringComparer.Ordinal);
