@@ -84,6 +84,24 @@ internal static class DependencyResultApplicator
                 continue;
             }
 
+            // Completed local results remain authoritative if the remote copy
+            // expires or is evicted; refetching would block unnecessarily.
+            var localResult = depModule.AsInternal().ResultTask;
+            if (localResult.IsCompletedSuccessfully)
+            {
+                var localProcessingStartedAt = clock.GetTimestamp();
+                try
+                {
+                    resultRegistry.RegisterResult(depModule.GetType(), localResult.Result);
+                }
+                finally
+                {
+                    executionTimer?.DependencyResultProcessingDuration += clock.GetElapsedTime(localProcessingStartedAt);
+                }
+
+                continue;
+            }
+
             var transferStartedAt = clock.GetTimestamp();
             SerializedModuleResult serializedResult;
             try

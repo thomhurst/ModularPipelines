@@ -218,6 +218,41 @@ public class DependencyResultPropagationTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Completed_Local_Dependency_Does_Not_Require_Retained_Remote_Result(bool skipped)
+    {
+        var module = new DependencyModule();
+        var result = skipped
+            ? (IModuleResult) new ModuleResult<DepResult>.Skipped(SkipDecision.Skip("Already validated"))
+            {
+                Name = nameof(DependencyModule),
+                TypeName = typeof(DependencyModule).FullName,
+                Status = ModuleStatus.Skipped,
+                Duration = TimeSpan.Zero,
+                StartTime = DateTimeOffset.UtcNow,
+                EndTime = DateTimeOffset.UtcNow,
+            }
+            : CreateSuccessResult(new DepResult { Value = "completed locally" }, nameof(DependencyModule));
+        ModuleCompletionSourceApplicator.TryApply(module, result);
+        var coordinator = new Mock<IDistributedWorkerCoordinator>();
+        coordinator.Setup(value => value.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("The remote result has been evicted."));
+        var registry = new ModuleResultRegistry();
+
+        await DependencyResultApplicator.FetchAndApplyAsync(
+            [new DependencyResultReference(ModuleId.FromType(typeof(DependencyModule)), true)],
+            new DependencyResultCache(coordinator.Object, CancellationToken.None),
+            DependencyResultApplicator.BuildModuleLookup([module]),
+            new ModuleResultSerializer(new ModuleTypeRegistry()),
+            registry,
+            NullLogger.Instance);
+
+        await Assert.That(registry.GetResult(typeof(DependencyModule))).IsSameReferenceAs(result);
+        coordinator.Verify(value => value.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Test]
     public async Task Null_Dependency_Result_References_Does_Not_Crash()
     {
         // Arrange — assignment with null DependencyResults (backwards compat)
