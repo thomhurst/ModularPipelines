@@ -11,6 +11,7 @@ namespace ModularPipelines.Serialization;
 internal static class StableTypeName
 {
     private static readonly ConditionalWeakTable<Type, string> BuildFingerprints = [];
+    private static readonly ConditionalWeakTable<Type, string> DeclarationBuildFingerprints = [];
     // The trusted-platform list includes application assemblies. Only shared-framework
     // dependency manifests identify directories whose implementation builds may vary.
     // The host separates these manifests with semicolons on every platform.
@@ -28,6 +29,12 @@ internal static class StableTypeName
     public static string GetBuildFingerprint(Type type) =>
         BuildFingerprints.GetValue(type, static value =>
             Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(GetBuildIdentity(value, [], [])))));
+
+    // Implemented module interfaces describe code, not values being serialized. Their
+    // attributes and reflected members must not instantiate unused JSON converters.
+    public static string GetDeclarationBuildFingerprint(Type type) =>
+        DeclarationBuildFingerprints.GetValue(type, static value =>
+            Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(GetBuildIdentity(value, [], [], expandMembers: false)))));
 
     private static string GetBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions, bool expandMembers = true)
     {

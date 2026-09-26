@@ -1,5 +1,7 @@
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using ModularPipelines.Attributes;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Modules;
@@ -9,6 +11,36 @@ namespace ModularPipelines.Distributed.UnitTests.Serialization;
 public class ModuleInterfaceBuildIdentityTests
 {
     public interface IProcessor<T>;
+
+    [JsonConverter(typeof(UnusedConverterFactory))]
+    public interface IMarker;
+
+    [JsonConverter(typeof(UnusedConverterFactory))]
+    public class MarkerValue;
+
+    public abstract class MarkerModule : Module<string>, IMarker;
+
+    public abstract class MarkerArgumentModule : Module<string>, IProcessor<MarkerValue>;
+
+    public sealed class UnusedConverterFactory : JsonConverterFactory
+    {
+        public UnusedConverterFactory(int value) => _ = value;
+
+        public override bool CanConvert(Type typeToConvert) => throw new InvalidOperationException("This interface is not serialized.");
+
+        public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options) =>
+            throw new InvalidOperationException("This interface is not serialized.");
+    }
+
+    [Test]
+    [Arguments(typeof(MarkerModule))]
+    [Arguments(typeof(MarkerArgumentModule))]
+    public async Task Schema_Does_Not_Construct_Unused_Interface_Converters(Type moduleType)
+    {
+        var registry = new ModuleTypeRegistry();
+        registry.Register(moduleType);
+        await Assert.That(registry.GetPipelineSchemaVersion()).IsNotEmpty();
+    }
 
     [Test]
     [Arguments(false, false)]

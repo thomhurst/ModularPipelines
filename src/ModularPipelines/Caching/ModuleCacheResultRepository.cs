@@ -434,7 +434,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 
         foreach (var contract in moduleType.GetInterfaces().OrderBy(StableTypeName.Get, StringComparer.Ordinal))
         {
-            fingerprint.Append("module-interface", StableTypeName.GetBuildFingerprint(contract));
+            fingerprint.Append("module-interface", StableTypeName.GetDeclarationBuildFingerprint(contract));
         }
     }
 

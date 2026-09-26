@@ -1,5 +1,7 @@
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
@@ -17,6 +19,54 @@ namespace ModularPipelines.UnitTests.Caching;
 public class GenericModuleCacheTests
 {
     public interface IProcessor<T>;
+
+    [JsonConverter(typeof(UnusedConverterFactory))]
+    public interface IMarker;
+
+    [JsonConverter(typeof(UnusedConverterFactory))]
+    public class MarkerValue;
+
+    public class ConverterCacheModule : Module<string>
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) => module.WithCacheKeyPart("unused-converter");
+
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+            Task.FromResult("marker");
+    }
+
+    public class MarkerCacheModule : ConverterCacheModule, IMarker;
+
+    public class MarkerArgumentCacheModule : ConverterCacheModule, IProcessor<MarkerValue>;
+
+    public sealed class UnusedConverterFactory : JsonConverterFactory
+    {
+        public UnusedConverterFactory(int value) => _ = value;
+
+        public override bool CanConvert(Type typeToConvert) => throw new InvalidOperationException("This interface is not serialized.");
+
+        public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options) =>
+            throw new InvalidOperationException("This interface is not serialized.");
+    }
+
+    [Test]
+    [Arguments(typeof(MarkerCacheModule))]
+    [Arguments(typeof(MarkerArgumentCacheModule))]
+    public async Task Cache_Does_Not_Construct_Unused_Interface_Converters(Type moduleType)
+    {
+        var directory = Directory.CreateTempSubdirectory("ModularPipelines-unused-converter-cache-");
+        try
+        {
+            var first = await RunAsync(moduleType, directory.FullName);
+            var repeated = await RunAsync(moduleType, directory.FullName);
+            await Assert.That(first.Status).IsEqualTo(ModuleStatus.Succeeded);
+            await Assert.That(repeated.Status).IsEqualTo(ModuleStatus.RestoredFromCache);
+            await Assert.That(repeated.ValueOrDefault).IsEqualTo("marker");
+        }
+        finally
+        {
+            directory.Delete(recursive: true);
+        }
+    }
 
     public class InterfaceCacheModule : Module<string>
     {
