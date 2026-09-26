@@ -9,9 +9,9 @@ namespace ModularPipelines.Build.Modules;
 
 public abstract class BuildSolutionOnPlatformModule : Module<CommandResult[]>
 {
-    // The macOS baseline takes about 56 minutes. The same budget applies to
-    // commands and the enclosing module, below the 90-minute job timeout.
-    private static readonly TimeSpan BuildTimeout = TimeSpan.FromMinutes(60);
+    // Full macOS compilation can exceed an hour. The same budget applies to
+    // commands and the enclosing module, leaving 15 minutes below the job timeout.
+    private static readonly TimeSpan BuildTimeout = TimeSpan.FromMinutes(75);
 
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithTimeout(BuildTimeout);

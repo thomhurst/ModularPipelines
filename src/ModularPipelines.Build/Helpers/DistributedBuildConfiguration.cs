@@ -103,9 +103,9 @@ internal static class DistributedBuildConfiguration
             options.Capabilities = index == 0 ? [new Capability(MasterCapability)] : [];
             options.MinimumWorkerCount = count - 1;
             options.CapabilityTimeout = TimeSpan.FromMinutes(10);
-            // The macOS compilation alone can take more than 50 minutes. Keep result
+            // Explicit platform build timeouts take precedence. Keep the default result
             // failure bounded below the workflow's 90-minute lifetime.
-            options.ModuleResultTimeout = TimeSpan.FromMinutes(65);
+            options.ModuleResultTimeout = TimeSpan.FromMinutes(80);
             options.MaxParallelism = 2;
         });
         builder.AddRedisDistributed(options =>

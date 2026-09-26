@@ -38,8 +38,9 @@ repository access. Both jobs reuse the same execution steps.
 
 `MODULARPIPELINES_RUN_ID` combines `GITHUB_RUN_ID` and `GITHUB_RUN_ATTEMPT`. Use **Re-run all
 jobs** for a distributed retry: partial retries are rejected because they cannot recreate the
-cooperating matrix. Worker capability discovery is bounded to 10 minutes, module results to
-65 minutes, and each matrix job to 90 minutes. Redis coordination keys and artifacts expire
+cooperating matrix. Worker capability discovery is bounded to 10 minutes, platform compilation to
+75 minutes, the default module result wait to 80 minutes, and each runner job to 90 minutes.
+Redis coordination keys and artifacts expire
 after two hours. A failed or lost worker fails the run within these limits; it does not silently
 rerun publishing or test work on another runner.
 
