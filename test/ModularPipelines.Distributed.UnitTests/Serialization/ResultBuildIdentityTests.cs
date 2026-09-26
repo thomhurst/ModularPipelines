@@ -342,45 +342,54 @@ public class ResultBuildIdentityTests
                     break;
                 case "Property":
                 case "PropertyConverter":
-                    var propertyType = memberKind == "PropertyConverter" ? typeof(object) : dependency;
-                    var property = type.DefineProperty("Value", PropertyAttributes.None, propertyType, null);
-                    if (ignoreCondition is { } propertyCondition)
-                    {
-                        property.SetCustomAttribute(IgnoreAttribute(propertyCondition));
-                    }
-
-                    if (memberKind == "PropertyConverter")
-                    {
-                        property.SetCustomAttribute(ConverterAttribute());
-                    }
-
-                    var getter = type.DefineMethod("get_Value",
-                        MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig, propertyType, Type.EmptyTypes);
-                    var il = getter.GetILGenerator();
-                    il.Emit(OpCodes.Ldnull);
-                    il.Emit(OpCodes.Ret);
-                    property.SetGetMethod(getter);
+                    DefineResultProperty(type, dependency, memberKind == "PropertyConverter" ? ConverterAttribute() : null, ignoreCondition);
                     break;
                 case "Field":
                 case "FieldConverter":
-                    var fieldType = memberKind == "FieldConverter" ? typeof(object) : dependency;
-                    var field = type.DefineField("Value", fieldType, FieldAttributes.Public);
-                    if (ignoreCondition is { } fieldCondition)
-                    {
-                        field.SetCustomAttribute(IgnoreAttribute(fieldCondition));
-                    }
-
-                    field.SetCustomAttribute(new CustomAttributeBuilder(
-                        typeof(JsonIncludeAttribute).GetConstructor(Type.EmptyTypes)!, []));
-                    if (memberKind == "FieldConverter")
-                    {
-                        field.SetCustomAttribute(ConverterAttribute());
-                    }
-
+                    DefineResultField(type, dependency, memberKind == "FieldConverter" ? ConverterAttribute() : null, ignoreCondition);
                     break;
             }
 
             return type.CreateType()!;
+        }
+
+        private static void DefineResultProperty(TypeBuilder type, Type dependency, CustomAttributeBuilder? converterAttribute, JsonIgnoreCondition? ignoreCondition)
+        {
+            var propertyType = converterAttribute is null ? dependency : typeof(object);
+            var property = type.DefineProperty("Value", PropertyAttributes.None, propertyType, null);
+            if (ignoreCondition is { } condition)
+            {
+                property.SetCustomAttribute(IgnoreAttribute(condition));
+            }
+
+            if (converterAttribute is not null)
+            {
+                property.SetCustomAttribute(converterAttribute);
+            }
+
+            var getter = type.DefineMethod("get_Value",
+                MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig, propertyType, Type.EmptyTypes);
+            var il = getter.GetILGenerator();
+            il.Emit(OpCodes.Ldnull);
+            il.Emit(OpCodes.Ret);
+            property.SetGetMethod(getter);
+        }
+
+        private static void DefineResultField(TypeBuilder type, Type dependency, CustomAttributeBuilder? converterAttribute, JsonIgnoreCondition? ignoreCondition)
+        {
+            var fieldType = converterAttribute is null ? dependency : typeof(object);
+            var field = type.DefineField("Value", fieldType, FieldAttributes.Public);
+            if (ignoreCondition is { } condition)
+            {
+                field.SetCustomAttribute(IgnoreAttribute(condition));
+            }
+
+            field.SetCustomAttribute(new CustomAttributeBuilder(
+                typeof(JsonIncludeAttribute).GetConstructor(Type.EmptyTypes)!, []));
+            if (converterAttribute is not null)
+            {
+                field.SetCustomAttribute(converterAttribute);
+            }
         }
 
         private static CustomAttributeBuilder IgnoreAttribute(JsonIgnoreCondition condition) => new(
