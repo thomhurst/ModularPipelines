@@ -283,9 +283,11 @@ public static class UsageSynopsisParser
         }
 
         // Conjunction inference follows the same operand-bearing branch extraction.
-        // Other forms retain their existing option-specific reconciliation.
+        // Option-only conjunctions beside an operand branch need no extraction;
+        // option-only choices retain their existing option-specific reconciliation.
         if (branches.Any(IsConjunctiveBranch)
-            && GetBundledOperandBranch(alternatives) is null)
+            && GetBundledOperandBranch(alternatives) is null
+            && !HasOptionConjunctionsBesideOperand(branches))
         {
             return null;
         }
@@ -329,6 +331,15 @@ public static class UsageSynopsisParser
 
     private static bool IsConjunctiveBranch(UsageRequiredAlternativeGroup branch) =>
         branch.Members.Count > 1 || branch.Groups.Count > 0;
+
+    private static bool HasOptionConjunctionsBesideOperand(
+        UsageRequiredAlternativeGroup[] branches)
+    {
+        var isOptionOnly = branches.Select(static branch =>
+            branch.EnumerateMembers().All(static member => member.OptionSwitch is not null)).ToArray();
+        return isOptionOnly.Contains(false)
+            && isOptionOnly.Select((optionOnly, index) => optionOnly || !IsConjunctiveBranch(branches[index])).All(static supported => supported);
+    }
 
     private static IReadOnlySet<string> GetRequiredAlternativeMemberKeys(
         UsageSynopsisParseResult candidate) =>
@@ -2266,6 +2277,11 @@ public static class UsageSynopsisParser
 
     private static bool HasMixedOptionOperandAlternatives(string content)
     {
+        if (ContainsOnlyInlineOptions(TokenizeNestedGroup(content)))
+        {
+            return false;
+        }
+
         var alternatives = GetAlternatives(content);
         return !HasOptionValueAlternatives(content)
                && alternatives.Length > 1
@@ -2277,7 +2293,9 @@ public static class UsageSynopsisParser
     {
         var normalized = TrimControlWrappers(content);
         var alternatives = SplitTopLevelAlternatives(normalized);
-        if (alternatives.Count > 1 && GetBundledOperandBranch(alternatives) is not null)
+        if (alternatives.Count > 1
+            && (GetBundledOperandBranch(alternatives) is not null
+                || HasOptionConjunctionAndOperand(alternatives)))
         {
             return false;
         }
@@ -2293,8 +2311,26 @@ public static class UsageSynopsisParser
                && valueStartIndex < normalized.Length
                && normalized.StartsWith('-')
                && normalized[valueStartIndex] != '|'
+               && !StartsWithOptionSwitch(normalized, valueStartIndex)
                && normalized.IndexOf('|', valueStartIndex + 1) >= 0;
     }
+
+    private static bool HasOptionConjunctionAndOperand(IReadOnlyList<string> alternatives)
+    {
+        var branches = alternatives.Select(static alternative => GetRequiredAlternativeMembers(
+            ParseOperandTokens(TokenizeNestedGroup(TrimControlWrappers(alternative)), CommandLinePhase.EarlyOperand))).ToArray();
+
+        // Pure option groups keep their option-specific reconciliation, including nested choices.
+        return branches.Any(static members => members.Any(static member => member.PositionalPropertyName is not null))
+               && branches.Any(static members =>
+                   members.Count > 1 && members.All(static member => member.OptionSwitch is not null));
+    }
+
+    // A following switch starts a conjunction; a lone dash can still be a value such as stdin.
+    private static bool StartsWithOptionSwitch(string content, int index) =>
+        content[index] == '-'
+        && index + 1 < content.Length
+        && (content[index + 1] == '-' || char.IsLetter(content[index + 1]));
 
     private static int GetOptionValueStartIndex(string content)
     {
@@ -2363,12 +2399,12 @@ public static class UsageSynopsisParser
 
     private static bool HasOnlyOptionControlAlternatives(string content)
     {
-        var alternatives = GetAlternatives(content);
-        return alternatives.Length > 1
+        var alternatives = SplitTopLevelAlternatives(content);
+        return alternatives.Count > 1
                && alternatives.All(static alternative =>
                {
                    var normalized = TrimControlWrappers(alternative);
-                   return IsOptionAlternative(normalized)
+                   return ContainsOnlyInlineOptions(TokenizeNestedGroup(normalized))
                           || IsOptionControlLabel(normalized);
                });
     }
