@@ -26,11 +26,7 @@ function hasExactKeys(value, keys) {
     && Object.keys(value).length === keys.length && keys.every(key => Object.hasOwn(value, key));
 }
 
-export function buildReview(rawReview, headSha, changedFiles) {
-  if (!/^[a-f0-9]{40}$/.test(headSha ?? '')) {
-    throw new Error('A captured pull request head SHA is required.');
-  }
-
+function parseReview(rawReview, changedFiles) {
   let review;
   try {
     review = JSON.parse(rawReview);
@@ -59,6 +55,17 @@ export function buildReview(rawReview, headSha, changedFiles) {
     || new Set(evidence.map(item => item.path)).size !== evidence.length) {
     throw new Error('Review evidence must describe checks against distinct files in the captured diff.');
   }
+
+  return review;
+}
+
+export function buildReview(rawReview, headSha, changedFiles) {
+  if (!/^[a-f0-9]{40}$/.test(headSha ?? '')) {
+    throw new Error('A captured pull request head SHA is required.');
+  }
+
+  const review = parseReview(rawReview, changedFiles);
+  const { notes, evidence } = review;
 
   // Reviews may discuss the verdict format. Render model-supplied HTML comments
   // literally so only the publisher's footer can act as a machine-readable verdict.
