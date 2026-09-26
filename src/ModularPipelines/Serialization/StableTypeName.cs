@@ -34,16 +34,20 @@ internal static class StableTypeName
 
     // Interface signatures affect module behavior even when none of their values are
     // serialized. Inspect CLR types without constructing attributed JSON converters.
-    public static string GetInterfaceBuildFingerprint(Type type) =>
-        InterfaceBuildFingerprints.GetValue(type, static value =>
-            Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(GetInterfaceBuildIdentity(value)))));
+    public static string GetInterfaceBuildFingerprint(Type type, Assembly? versionedAssembly = null) =>
+        versionedAssembly is null
+            ? InterfaceBuildFingerprints.GetValue(type, static value => ComputeInterfaceBuildFingerprint(value, null))
+            : ComputeInterfaceBuildFingerprint(type, versionedAssembly);
 
-    private static string GetInterfaceBuildIdentity(Type type)
+    private static string ComputeInterfaceBuildFingerprint(Type type, Assembly? versionedAssembly) =>
+        Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(GetInterfaceBuildIdentity(type, versionedAssembly))));
+
+    private static string GetInterfaceBuildIdentity(Type type, Assembly? versionedAssembly)
     {
-        var identity = GetBuildIdentity(type, [], [], expandMembers: false);
+        var identity = GetBuildIdentity(type, [], [], expandMembers: false, versionedAssembly);
         foreach (var memberType in GetInterfaceMemberTypes(type).Distinct().OrderBy(Get, StringComparer.Ordinal))
         {
-            identity += $"\0InterfaceMember={GetBuildIdentity(memberType, [], [], expandMembers: false)}";
+            identity += $"\0InterfaceMember={GetBuildIdentity(memberType, [], [], expandMembers: false, versionedAssembly)}";
         }
 
         return identity;
@@ -74,17 +78,17 @@ internal static class StableTypeName
         }
     }
 
-    private static string GetBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions, bool expandMembers = true)
+    private static string GetBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions, bool expandMembers = true, Assembly? versionedAssembly = null)
     {
         var frameworkType = IsFrameworkAssembly(type.Assembly);
-        var identity = GetTypeBuildIdentity(type);
+        var identity = GetTypeBuildIdentity(type, versionedAssembly);
         // Types can recur through base classes, generic arguments, and serialized members.
         if (!visitedTypes.Add(type))
         {
             return identity;
         }
 
-        identity += GetConstructionBuildIdentity(type, visitedTypes, expandedDefinitions, expandMembers);
+        identity += GetConstructionBuildIdentity(type, visitedTypes, expandedDefinitions, expandMembers, versionedAssembly);
 
         // Framework servicing builds do not define the application's wire contract.
         // Generic arguments still need validation, e.g. List<ApplicationResult>.
@@ -97,7 +101,7 @@ internal static class StableTypeName
         // Keep its binary, base, and generic argument builds without expanding members.
         if (!expandMembers)
         {
-            return identity + GetBaseBuildIdentity(type, visitedTypes, expandedDefinitions, expandMembers: false);
+            return identity + GetBaseBuildIdentity(type, visitedTypes, expandedDefinitions, expandMembers: false, versionedAssembly);
         }
 
         // Node<T>.Next can be Node<Node<T>>. Expand each definition once, while still
@@ -122,17 +126,17 @@ internal static class StableTypeName
         return identity;
     }
 
-    private static string GetTypeBuildIdentity(Type type) =>
-        IsFrameworkAssembly(type.Assembly) ? Get(type) : $"{Get(type)}\0{type.Module.ModuleVersionId}";
+    private static string GetTypeBuildIdentity(Type type, Assembly? versionedAssembly = null) =>
+        type.Assembly == versionedAssembly || IsFrameworkAssembly(type.Assembly) ? Get(type) : $"{Get(type)}\0{type.Module.ModuleVersionId}";
 
-    private static string GetBaseBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions, bool expandMembers = true)
+    private static string GetBaseBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions, bool expandMembers = true, Assembly? versionedAssembly = null)
     {
         var identity = string.Empty;
         for (var current = type.BaseType; current is not null; current = current.BaseType)
         {
             // Preserve base binary/argument checks without treating its hidden declarations
             // as a second serialization contract. Members are selected from the derived type.
-            identity += $"\0Base={GetTypeBuildIdentity(current)}{GetConstructionBuildIdentity(current, visitedTypes, expandedDefinitions, expandMembers)}";
+            identity += $"\0Base={GetTypeBuildIdentity(current, versionedAssembly)}{GetConstructionBuildIdentity(current, visitedTypes, expandedDefinitions, expandMembers, versionedAssembly)}";
             if (IsFrameworkAssembly(current.Assembly))
             {
                 break;
@@ -150,15 +154,16 @@ internal static class StableTypeName
         }
     }
 
-    private static string GetConstructionBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions, bool expandMembers = true)
+    private static string GetConstructionBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions, bool expandMembers = true, Assembly? versionedAssembly = null)
     {
         if (type.HasElementType)
         {
-            return $"\0Element={GetBuildIdentity(type.GetElementType()!, visitedTypes, expandedDefinitions, expandMembers)}";
+            return $"\0Element={GetBuildIdentity(type.GetElementType()!, visitedTypes, expandedDefinitions, expandMembers, versionedAssembly)}";
         }
 
         if (type.IsGenericType)
         {
+            // A module version override never replaces generic argument build checks.
             var arguments = string.Join("\u001F", type.GetGenericArguments()
                 .Select(argument => GetBuildIdentity(argument, visitedTypes, expandedDefinitions, expandMembers)));
             return $"\0Arguments={arguments}";

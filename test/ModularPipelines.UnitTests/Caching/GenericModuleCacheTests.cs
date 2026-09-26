@@ -18,6 +18,69 @@ namespace ModularPipelines.UnitTests.Caching;
 
 public class GenericModuleCacheTests
 {
+    public class VersionOverrideMarkerModule : ConverterCacheModule
+    {
+        protected override void Configure(ModuleConfigurationBuilder module)
+        {
+            base.Configure(module);
+            module.WithCacheAssemblyVersionKey("stable-interface-module");
+        }
+    }
+
+    [Test]
+    [Arguments(false, false, false)]
+    [Arguments(true, false, false)]
+    [Arguments(false, true, false)]
+    [Arguments(true, true, false)]
+    [Arguments(true, false, true)]
+    public async Task Same_Assembly_Interface_Respects_Version_Override(bool versionOverride, bool includeMember, bool genericArgument)
+    {
+        var name = $"VersionedInterface_{Guid.NewGuid():N}";
+        var parent = versionOverride ? typeof(VersionOverrideMarkerModule) : typeof(ConverterCacheModule);
+        var firstType = CreateVersionedInterfaceModule(name, parent, includeMember, genericArgument);
+        var secondType = CreateVersionedInterfaceModule(name, parent, includeMember, genericArgument);
+        await Assert.That(firstType.Module.ModuleVersionId).IsNotEqualTo(secondType.Module.ModuleVersionId);
+        await Assert.That(ModuleId.FromType(firstType)).IsEqualTo(ModuleId.FromType(secondType));
+        var directory = Directory.CreateTempSubdirectory("ModularPipelines-versioned-interface-");
+        try
+        {
+            await RunAsync(firstType, directory.FullName);
+            var repeated = await RunAsync(firstType, directory.FullName);
+            var rebuilt = await RunAsync(secondType, directory.FullName);
+            await Assert.That(repeated.Status).IsEqualTo(ModuleStatus.RestoredFromCache);
+            await Assert.That(rebuilt.Status).IsEqualTo(versionOverride && !genericArgument ? ModuleStatus.RestoredFromCache : ModuleStatus.Succeeded);
+            await Assert.That(rebuilt.ValueOrDefault).IsEqualTo("marker");
+        }
+        finally
+        {
+            directory.Delete(recursive: true);
+        }
+    }
+
+    private static Type CreateVersionedInterfaceModule(string name, Type parent, bool includeMember, bool genericArgument)
+    {
+        var module = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName(name), AssemblyBuilderAccess.RunAndCollect).DefineDynamicModule(name);
+        var value = module.DefineType("LocalValue", TypeAttributes.Public).CreateType()!;
+        var contract = module.DefineType("ILocalContract", TypeAttributes.Public | TypeAttributes.Interface | TypeAttributes.Abstract);
+        if (includeMember)
+        {
+            contract.DefineMethod("GetValue", MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.Abstract, value, Type.EmptyTypes);
+        }
+
+        var declaredContract = contract.CreateType()!;
+        var implementation = module.DefineType("VersionedModule", TypeAttributes.Public, parent);
+        implementation.AddInterfaceImplementation(genericArgument ? typeof(IProcessor<>).MakeGenericType(value) : declaredContract);
+        if (includeMember)
+        {
+            var getter = implementation.DefineMethod("GetValue", MethodAttributes.Public | MethodAttributes.Virtual, value, Type.EmptyTypes);
+            var il = getter.GetILGenerator();
+            il.Emit(OpCodes.Ldnull);
+            il.Emit(OpCodes.Ret);
+        }
+
+        return implementation.CreateType()!;
+    }
+
     public class PluginCacheModule(object value) : Module<object>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module.WithCacheKeyPart("plugin-cache");
@@ -129,12 +192,23 @@ public class GenericModuleCacheTests
         }
     }
 
-    [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task Changed_Interface_Member_Build_Invalidates_Cache(bool inherited)
+    public class VersionOverrideInterfaceMemberCacheModule : InterfaceMemberCacheModule
     {
-        using var builds = new InterfaceMemberBuilds(typeof(InterfaceMemberCacheModule), inherited);
+        protected override void Configure(ModuleConfigurationBuilder module)
+        {
+            base.Configure(module);
+            module.WithCacheAssemblyVersionKey("stable-interface-members");
+        }
+    }
+
+    [Test]
+    [Arguments(false, false)]
+    [Arguments(true, false)]
+    [Arguments(false, true)]
+    [Arguments(true, true)]
+    public async Task Changed_Interface_Member_Build_Invalidates_Cache(bool inherited, bool versionOverride)
+    {
+        using var builds = new InterfaceMemberBuilds(versionOverride ? typeof(VersionOverrideInterfaceMemberCacheModule) : typeof(InterfaceMemberCacheModule), inherited);
         await Assert.That(builds.First.Module.ModuleVersionId).IsEqualTo(builds.Second.Module.ModuleVersionId);
         var directory = Directory.CreateTempSubdirectory("ModularPipelines-interface-member-cache-");
         try
