@@ -11,6 +11,8 @@ public class GcloudEmptyValueTests
     [Arguments("Do not specify empty string to reset this value.", false)]
     [Arguments("To reset this field, do not pass an empty string.", false)]
     [Arguments("A non-empty string means default behavior.", false)]
+    [Arguments("An empty string means default behavior is not supported; provide a non-empty value.", false)]
+    [Arguments("An empty string means that the default Kafka behavior is not used.", false)]
     [Arguments("An empty string is not allowed.", false)]
     [Arguments("An empty string means an invalid setting.", false)]
     [Arguments("The mapping rules to use.", false)]

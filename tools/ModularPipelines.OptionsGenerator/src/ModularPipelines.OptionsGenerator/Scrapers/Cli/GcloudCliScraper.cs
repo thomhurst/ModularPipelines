@@ -1284,7 +1284,7 @@ public partial class GcloudCliScraper : CliScraperBase
     [GeneratedRegex(@"\bdurations?\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex DurationDescriptionPattern();
 
-    [GeneratedRegex(@"(?:(?<![\w-])(?:an?\s+)?empty\s+string\s+means\s+(?:that\s+)?(?:the\s+)?default\b"
+    [GeneratedRegex(@"(?:(?<![\w-])(?:an?\s+)?empty\s+string\s+means\s+(?:that\s+)?(?:the\s+)?default(?:\s+\w+)*\s+behaviou?r(?:\s+is\s+used)?(?=\s*(?:[.!?]|$))"
         + @"|(?:^|[.!?]\s+)(?:specify|set|pass|provide|use)\s+(?:an?\s+)?empty\s+string\s+to\s+(?:clear|reset|revert|restore)\b"
         + @"|(?:^|[.!?]\s+)to\s+(?:clear|reset|revert|restore)\b[^.!?]*,\s*(?:specify|set|pass|provide|use)\s+(?:an?\s+)?empty\s+string\b)",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
