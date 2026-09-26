@@ -103,7 +103,7 @@ jobs:
           done
 
       - name: Test trusted review publisher
-        run: node --test .github/scripts/post-claude-review.test.mjs .github/scripts/review-evidence-limits.test.mjs .github/scripts/validate-claude-review-stop.test.mjs
+        run: node --test .github/scripts/post-claude-review.test.mjs .github/scripts/review-evidence-limits.test.mjs .github/scripts/validate-claude-review-stop.test.mjs .github/scripts/report-claude-failure.test.mjs
 
       - name: Test review merge gate
         shell: pwsh
@@ -193,6 +193,14 @@ jobs:
             --append-system-prompt-file .github/prompts/claude-review-system.md
             --settings .github/claude-review-settings.json
           allowed_bots: 'dependabot[bot]'
+
+      - name: Classify failed Claude execution without exposing its transcript
+        if: failure() && steps.claude-review.outcome == 'failure'
+        env:
+          # The action writes this file before throwing on is_error:true, but
+          # does not set its execution_file output when it throws.
+          REVIEW_EXECUTION_FILE: ${{ runner.temp }}/claude-execution-output.json
+        run: node .github/scripts/report-claude-failure.mjs
 
       - name: Publish validated review
         env:
