@@ -1,4 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using System.Runtime.Loader;
 using System.Text.Json;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
@@ -13,14 +15,15 @@ internal class ModuleResultSerializer(
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
     private readonly ICommandExecutionCounter? _commandExecutionCounter = commandExecutionCounter;
     private readonly JsonSerializerOptions _options = CreateOptions();
+    private readonly ConditionalWeakTable<Type, JsonSerializerOptions> _deserializationOptions = new();
 
-    internal static JsonSerializerOptions CreateOptions()
+    internal static JsonSerializerOptions CreateOptions(AssemblyLoadContext? loadContext = null)
     {
         var options = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
             WriteIndented = false,
-            Converters = { new ModuleResultJsonConverterFactory() },
+            Converters = { new ModuleResultJsonConverterFactory { LoadContext = loadContext } },
         };
 
         // Add portable path converters so FilePath/FolderPath objects serialize as git-root-relative paths.
@@ -78,7 +81,9 @@ internal class ModuleResultSerializer(
         var (moduleType, valueType) = _typeRegistry.Resolve(serialized.ModuleId) ?? throw new InvalidOperationException(
                 $"Cannot deserialize result for module '{serialized.ModuleId}': type not found in registry.");
         var resultType = typeof(ModuleResult<>).MakeGenericType(valueType);
-        var result = JsonSerializer.Deserialize(serialized.Payload, resultType, _options) as ModuleResult;
+        var options = _deserializationOptions.GetValue(moduleType, type =>
+            CreateOptions(ModuleResultJsonConverterFactory.GetLoadContext(type, valueType)));
+        var result = JsonSerializer.Deserialize(serialized.Payload, resultType, options) as ModuleResult;
         int? workerIndex = serialized.WorkerIndex >= 0 ? serialized.WorkerIndex : null;
         if (result?.ExceptionOrDefault is RemoteModuleException remoteException)
         {

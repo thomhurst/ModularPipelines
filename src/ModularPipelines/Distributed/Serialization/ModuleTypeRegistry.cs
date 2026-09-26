@@ -95,7 +95,7 @@ internal class ModuleTypeRegistry
 
         foreach (var contract in moduleType.GetInterfaces().OrderBy(StableTypeName.Get, StringComparer.Ordinal))
         {
-            identity.Append(StableTypeName.GetDeclarationBuildFingerprint(contract)).Append('\n');
+            identity.Append(StableTypeName.GetInterfaceBuildFingerprint(contract)).Append('\n');
         }
 
         return identity.ToString();

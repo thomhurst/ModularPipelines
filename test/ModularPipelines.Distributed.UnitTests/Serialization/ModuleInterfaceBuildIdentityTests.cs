@@ -5,11 +5,33 @@ using System.Text.Json.Serialization;
 using ModularPipelines.Attributes;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Modules;
+using ModularPipelines.Context;
+using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.Distributed.UnitTests.Serialization;
 
 public class ModuleInterfaceBuildIdentityTests
 {
+    public class InterfaceMemberModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+            Task.FromResult("unused");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Schema_Detects_Interface_Member_Builds(bool inherited)
+    {
+        using var builds = new InterfaceMemberBuilds(typeof(InterfaceMemberModule), inherited);
+        var first = new ModuleTypeRegistry();
+        var second = new ModuleTypeRegistry();
+        first.Register(builds.First);
+        second.Register(builds.Second);
+        await Assert.That(builds.First.Module.ModuleVersionId).IsEqualTo(builds.Second.Module.ModuleVersionId);
+        await Assert.That(first.GetPipelineSchemaVersion()).IsNotEqualTo(second.GetPipelineSchemaVersion());
+    }
+
     public interface IProcessor<T>;
 
     [JsonConverter(typeof(UnusedConverterFactory))]

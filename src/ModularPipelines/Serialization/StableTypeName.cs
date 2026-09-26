@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.Loader;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -11,7 +12,7 @@ namespace ModularPipelines.Serialization;
 internal static class StableTypeName
 {
     private static readonly ConditionalWeakTable<Type, string> BuildFingerprints = [];
-    private static readonly ConditionalWeakTable<Type, string> DeclarationBuildFingerprints = [];
+    private static readonly ConditionalWeakTable<Type, string> InterfaceBuildFingerprints = [];
     // The trusted-platform list includes application assemblies. Only shared-framework
     // dependency manifests identify directories whose implementation builds may vary.
     // The host separates these manifests with semicolons on every platform.
@@ -30,11 +31,47 @@ internal static class StableTypeName
         BuildFingerprints.GetValue(type, static value =>
             Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(GetBuildIdentity(value, [], [])))));
 
-    // Implemented module interfaces describe code, not values being serialized. Their
-    // attributes and reflected members must not instantiate unused JSON converters.
-    public static string GetDeclarationBuildFingerprint(Type type) =>
-        DeclarationBuildFingerprints.GetValue(type, static value =>
-            Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(GetBuildIdentity(value, [], [], expandMembers: false)))));
+    // Interface signatures affect module behavior even when none of their values are
+    // serialized. Inspect CLR types without constructing attributed JSON converters.
+    public static string GetInterfaceBuildFingerprint(Type type) =>
+        InterfaceBuildFingerprints.GetValue(type, static value =>
+            Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(GetInterfaceBuildIdentity(value)))));
+
+    private static string GetInterfaceBuildIdentity(Type type)
+    {
+        var identity = GetBuildIdentity(type, [], [], expandMembers: false);
+        foreach (var memberType in GetInterfaceMemberTypes(type).Distinct().OrderBy(Get, StringComparer.Ordinal))
+        {
+            identity += $"\0InterfaceMember={GetBuildIdentity(memberType, [], [], expandMembers: false)}";
+        }
+
+        return identity;
+    }
+
+    [UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Module interface build fingerprints require runtime type metadata.")]
+    private static IEnumerable<Type> GetInterfaceMemberTypes(Type type)
+    {
+        const BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
+        // Accessors include property/indexer/event signatures as well as ordinary methods.
+        foreach (var method in type.GetMethods(flags))
+        {
+            yield return method.ReturnType;
+            foreach (var parameter in method.GetParameters())
+            {
+                yield return parameter.ParameterType;
+            }
+
+            foreach (var constraint in method.GetGenericArguments().SelectMany(argument => argument.GetGenericParameterConstraints()))
+            {
+                yield return constraint;
+            }
+        }
+
+        foreach (var field in type.GetFields(flags))
+        {
+            yield return field.FieldType;
+        }
+    }
 
     private static string GetBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions, bool expandMembers = true)
     {
@@ -311,10 +348,10 @@ internal static class StableTypeName
 
     [UnconditionalSuppressMessage("Trimming", "IL2057", Justification = "Runtime module result value types are explicitly unsupported in trimmed applications.")]
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Runtime module result value types are explicitly unsupported in trimmed applications.")]
-    public static Type? Resolve(string typeName) =>
+    public static Type? Resolve(string typeName, AssemblyLoadContext? loadContext = null) =>
         Type.GetType(
             typeName,
-            ResolveAssembly,
+            assemblyName => ResolveAssembly(assemblyName, loadContext),
             static (assembly, name, ignoreCase) => assembly?.GetType(name, throwOnError: false, ignoreCase),
             throwOnError: false);
 
@@ -345,11 +382,25 @@ internal static class StableTypeName
         return $"{definition.FullName}[{arguments}]";
     }
 
-    private static Assembly? ResolveAssembly(AssemblyName requestedAssembly)
+    private static Assembly? ResolveAssembly(AssemblyName requestedAssembly, AssemblyLoadContext? loadContext)
     {
         if (requestedAssembly.Name is not { } simpleName)
         {
             return null;
+        }
+
+        if (loadContext is not null)
+        {
+            try
+            {
+                return loadContext.Assemblies.FirstOrDefault(assembly => string.Equals(
+                           assembly.GetName().Name, simpleName, StringComparison.Ordinal))
+                       ?? loadContext.LoadFromAssemblyName(requestedAssembly);
+            }
+            catch (FileNotFoundException)
+            {
+                return null;
+            }
         }
 
         return AppDomain.CurrentDomain.GetAssemblies()

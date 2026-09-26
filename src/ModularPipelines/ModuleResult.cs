@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.ExceptionServices;
+using System.Runtime.Loader;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -632,6 +633,16 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
 /// </summary>
 internal sealed class ModuleResultJsonConverterFactory : JsonConverterFactory
 {
+    internal AssemblyLoadContext? LoadContext { get; init; }
+
+    internal static AssemblyLoadContext? GetLoadContext(Type moduleType, Type valueType)
+    {
+        var context = AssemblyLoadContext.GetLoadContext(moduleType.Assembly);
+        return context is not null && context != AssemblyLoadContext.Default
+            ? context
+            : AssemblyLoadContext.GetLoadContext(valueType.Assembly);
+    }
+
     public override bool CanConvert(Type typeToConvert)
     {
         // Handle non-generic ModuleResult and its subtypes
@@ -1081,7 +1092,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
 
         var valueType = valueTypeName is null
             ? typeof(T)
-            : StableTypeName.Resolve(valueTypeName)
+            : StableTypeName.Resolve(valueTypeName, options.Converters.OfType<ModuleResultJsonConverterFactory>().FirstOrDefault()?.LoadContext)
               ?? throw new JsonException($"Unknown module result value type '{valueTypeName}'.");
         if (valueTypeName is not null && !DeclaredValueType.IsAssignableFrom(valueType))
         {

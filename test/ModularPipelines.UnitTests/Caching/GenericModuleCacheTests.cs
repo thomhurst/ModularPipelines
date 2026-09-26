@@ -18,6 +18,73 @@ namespace ModularPipelines.UnitTests.Caching;
 
 public class GenericModuleCacheTests
 {
+    public class LoadContextCacheModule : Module<object>
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) => module.WithCacheKeyPart("load-context-cache");
+
+        protected internal override Task<object> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+            Task.FromResult(Activator.CreateInstance(GetType().Assembly.GetType("RuntimeValue")!)!);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Cached_Runtime_Value_Uses_Module_Context(bool identicalBuilds)
+    {
+        using var builds = new ModuleLoadContextBuilds(typeof(LoadContextCacheModule), identicalBuilds);
+        var directory = Directory.CreateTempSubdirectory("ModularPipelines-load-context-cache-");
+        try
+        {
+            foreach (var assembly in new[] { builds.First, builds.Second })
+            {
+                var moduleType = assembly.GetType("ContextModule")!;
+                await RunAsync(moduleType, directory.FullName);
+                var repeated = await RunAsync(moduleType, directory.FullName);
+                await Assert.That(repeated.Status).IsEqualTo(ModuleStatus.RestoredFromCache);
+                await Assert.That(repeated.ValueOrDefault!.GetType()).IsEqualTo(assembly.GetType("RuntimeValue"));
+            }
+        }
+        finally
+        {
+            directory.Delete(recursive: true);
+        }
+    }
+
+    public class InterfaceMemberCacheModule : Module<string>
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) => module.WithCacheKeyPart("interface-members");
+
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            var value = GetType().GetProperty("Value")!.GetValue(this)!;
+            return Task.FromResult((string) value.GetType().GetProperty("Label")!.GetValue(value)!);
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Changed_Interface_Member_Build_Invalidates_Cache(bool inherited)
+    {
+        using var builds = new InterfaceMemberBuilds(typeof(InterfaceMemberCacheModule), inherited);
+        await Assert.That(builds.First.Module.ModuleVersionId).IsEqualTo(builds.Second.Module.ModuleVersionId);
+        var directory = Directory.CreateTempSubdirectory("ModularPipelines-interface-member-cache-");
+        try
+        {
+            var first = await RunAsync(builds.First, directory.FullName);
+            var repeated = await RunAsync(builds.First, directory.FullName);
+            var changed = await RunAsync(builds.Second, directory.FullName);
+            await Assert.That(first.ValueOrDefault).IsEqualTo("original");
+            await Assert.That(repeated.Status).IsEqualTo(ModuleStatus.RestoredFromCache);
+            await Assert.That(changed.Status).IsEqualTo(ModuleStatus.Succeeded);
+            await Assert.That(changed.ValueOrDefault).IsEqualTo("changed");
+        }
+        finally
+        {
+            directory.Delete(recursive: true);
+        }
+    }
+
     public interface IProcessor<T>;
 
     [JsonConverter(typeof(UnusedConverterFactory))]

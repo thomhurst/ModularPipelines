@@ -3,6 +3,7 @@ using System.Buffers.Binary;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.IO.Compression;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
@@ -37,6 +38,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
     private readonly ModuleLookup _moduleLookup;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry;
+    private readonly ConditionalWeakTable<Type, JsonSerializerOptions> _deserializationOptions = new();
     private readonly ConcurrentDictionary<IModule, ComputedFingerprint> _fingerprints =
         new(ReferenceEqualityComparer.Instance);
 
@@ -244,7 +246,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             using var archive = ZipFile.OpenRead(temporary);
             var resultEntry = archive.GetEntry(ResultEntryName)
                               ?? throw new InvalidDataException("Module cache entry does not contain result.json.");
-            var result = await DeserializeResultAsync<T>(resultEntry, cancellationToken)
+            var result = await DeserializeResultAsync<T>(resultEntry, module.GetType(), cancellationToken)
                 .ConfigureAwait(false);
 
             if (result is not ModuleResult<T>.Success || result.Status != ModuleStatus.Succeeded)
@@ -434,7 +436,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 
         foreach (var contract in moduleType.GetInterfaces().OrderBy(StableTypeName.Get, StringComparer.Ordinal))
         {
-            fingerprint.Append("module-interface", StableTypeName.GetDeclarationBuildFingerprint(contract));
+            fingerprint.Append("module-interface", StableTypeName.GetInterfaceBuildFingerprint(contract));
         }
     }
 
@@ -1159,6 +1161,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
     [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Module result cache requires runtime result type metadata.")]
     private async Task<ModuleResult<T>?> DeserializeResultAsync<T>(
         ZipArchiveEntry resultEntry,
+        Type moduleType,
         CancellationToken cancellationToken)
     {
         if (resultEntry.Length > _options.MaximumResultBytes)
@@ -1197,6 +1200,10 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 FileOptions.Asynchronous | FileOptions.SequentialScan);
             return await JsonSerializer.DeserializeAsync<ModuleResult<T>>(
                     validatedResult,
+                    _deserializationOptions.GetValue(moduleType, static type => new JsonSerializerOptions
+                    {
+                        Converters = { new ModuleResultJsonConverterFactory { LoadContext = ModuleResultJsonConverterFactory.GetLoadContext(type, typeof(T)) } },
+                    }),
                     cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
         }
