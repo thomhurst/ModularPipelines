@@ -199,6 +199,23 @@ internal static class StableTypeName
             yield return (derived.DerivedType, true);
         }
 
+        foreach (var contract in type.GetInterfaces())
+        {
+            // Concrete collections can expose their serialized element type only through
+            // IEnumerable<T>. Dictionary enumeration also carries both key and value types.
+            if (type.IsInterface || (contract.IsGenericType && contract.GetGenericTypeDefinition() == typeof(IEnumerable<>)))
+            {
+                yield return (contract, true);
+            }
+        }
+
+        // Collection converters serialize elements and dictionary entries, not object
+        // properties or JsonInclude fields. Their contracts are traversed separately.
+        if (typeof(System.Collections.IEnumerable).IsAssignableFrom(type))
+        {
+            yield break;
+        }
+
         foreach (var (member, memberType) in GetSerializedMembers(type))
         {
             // Converters own the member contract, but not the declared type's build identity.
@@ -209,29 +226,12 @@ internal static class StableTypeName
                 yield return (converterType, true);
             }
         }
-
-        foreach (var contract in type.GetInterfaces())
-        {
-            // Concrete collections can expose their serialized element type only through
-            // IEnumerable<T>. Dictionary enumeration also carries both key and value types.
-            if (type.IsInterface || (contract.IsGenericType && contract.GetGenericTypeDefinition() == typeof(IEnumerable<>)))
-            {
-                yield return (contract, true);
-            }
-        }
     }
 
     [UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Runtime result serialization and its build fingerprints are explicitly unsupported in trimmed applications.")]
     [UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Runtime result serialization and its inherited build fingerprints are explicitly unsupported in trimmed applications.")]
     private static IEnumerable<(MemberInfo Member, Type Type)> GetSerializedMembers(Type type)
     {
-        // Collection converters serialize elements and dictionary entries, not object
-        // properties or JsonInclude fields. Their contracts are traversed separately.
-        if (typeof(System.Collections.IEnumerable).IsAssignableFrom(type))
-        {
-            yield break;
-        }
-
         const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
         var getters = new HashSet<MethodInfo>();
         var membersByJsonName = new Dictionary<string, MemberInfo>(StringComparer.Ordinal);
