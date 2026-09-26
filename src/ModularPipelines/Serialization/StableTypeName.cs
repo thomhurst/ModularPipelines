@@ -56,6 +56,17 @@ internal static class StableTypeName
     [UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Module interface build fingerprints require runtime type metadata.")]
     private static IEnumerable<Type> GetInterfaceMemberTypes(Type type)
     {
+        // Closed arguments do not retain the definition's constraint metadata.
+        // Constraint assemblies can supply default interface behavior independently.
+        if (type.IsGenericType)
+        {
+            foreach (var constraint in type.GetGenericTypeDefinition().GetGenericArguments()
+                         .SelectMany(argument => argument.GetGenericParameterConstraints()))
+            {
+                yield return constraint;
+            }
+        }
+
         const BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
         // Accessors include property/indexer/event signatures as well as ordinary methods.
         foreach (var method in type.GetMethods(flags))

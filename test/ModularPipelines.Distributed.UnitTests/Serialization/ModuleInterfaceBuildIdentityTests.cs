@@ -19,11 +19,13 @@ public class ModuleInterfaceBuildIdentityTests
     }
 
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task Schema_Detects_Interface_Member_Builds(bool inherited)
+    [Arguments(false, false)]
+    [Arguments(true, false)]
+    [Arguments(false, true)]
+    [Arguments(true, true)]
+    public async Task Schema_Detects_Interface_Member_Builds(bool inherited, bool typeConstraint)
     {
-        using var builds = new InterfaceMemberBuilds(typeof(InterfaceMemberModule), inherited);
+        using var builds = new InterfaceMemberBuilds(typeof(InterfaceMemberModule), inherited, typeConstraint);
         var first = new ModuleTypeRegistry();
         var second = new ModuleTypeRegistry();
         first.Register(builds.First);

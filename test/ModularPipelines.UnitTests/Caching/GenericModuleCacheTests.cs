@@ -202,13 +202,17 @@ public class GenericModuleCacheTests
     }
 
     [Test]
-    [Arguments(false, false)]
-    [Arguments(true, false)]
-    [Arguments(false, true)]
-    [Arguments(true, true)]
-    public async Task Changed_Interface_Member_Build_Invalidates_Cache(bool inherited, bool versionOverride)
+    [Arguments(false, false, false)]
+    [Arguments(true, false, false)]
+    [Arguments(false, true, false)]
+    [Arguments(true, true, false)]
+    [Arguments(false, false, true)]
+    [Arguments(true, false, true)]
+    [Arguments(false, true, true)]
+    [Arguments(true, true, true)]
+    public async Task Changed_Interface_Member_Build_Invalidates_Cache(bool inherited, bool versionOverride, bool typeConstraint)
     {
-        using var builds = new InterfaceMemberBuilds(versionOverride ? typeof(VersionOverrideInterfaceMemberCacheModule) : typeof(InterfaceMemberCacheModule), inherited);
+        using var builds = new InterfaceMemberBuilds(versionOverride ? typeof(VersionOverrideInterfaceMemberCacheModule) : typeof(InterfaceMemberCacheModule), inherited, typeConstraint);
         await Assert.That(builds.First.Module.ModuleVersionId).IsEqualTo(builds.Second.Module.ModuleVersionId);
         var directory = Directory.CreateTempSubdirectory("ModularPipelines-interface-member-cache-");
         try
