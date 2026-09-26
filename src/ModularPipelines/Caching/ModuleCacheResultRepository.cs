@@ -439,6 +439,11 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             {
                 fingerprint.Append("module-generic-argument", StableTypeName.GetBuildFingerprint(argument));
             }
+
+            foreach (var constraint in StableTypeName.GetGenericConstraintBuildFingerprints(current, hasVersionOverride ? moduleType.Assembly : null))
+            {
+                fingerprint.Append("module-generic-constraint", constraint);
+            }
         }
 
         foreach (var contract in moduleType.GetInterfaces().OrderBy(StableTypeName.Get, StringComparer.Ordinal))

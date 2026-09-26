@@ -90,6 +90,11 @@ internal class ModuleTypeRegistry
                 identity.Append(StableTypeName.GetBuildFingerprint(argument)).Append('\0');
             }
 
+            foreach (var constraint in StableTypeName.GetGenericConstraintBuildFingerprints(current))
+            {
+                identity.Append(constraint).Append('\0');
+            }
+
             identity.Append('\n');
         }
 

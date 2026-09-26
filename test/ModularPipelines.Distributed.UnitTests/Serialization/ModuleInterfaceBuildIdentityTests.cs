@@ -19,13 +19,15 @@ public class ModuleInterfaceBuildIdentityTests
     }
 
     [Test]
-    [Arguments(false, false)]
-    [Arguments(true, false)]
-    [Arguments(false, true)]
-    [Arguments(true, true)]
-    public async Task Schema_Detects_Interface_Member_Builds(bool inherited, bool typeConstraint)
+    [Arguments(false, false, false)]
+    [Arguments(true, false, false)]
+    [Arguments(false, true, false)]
+    [Arguments(true, true, false)]
+    [Arguments(false, false, true)]
+    [Arguments(true, false, true)]
+    public async Task Schema_Detects_Module_Contract_Builds(bool inherited, bool typeConstraint, bool moduleConstraint)
     {
-        using var builds = new InterfaceMemberBuilds(typeof(InterfaceMemberModule), inherited, typeConstraint);
+        using var builds = new InterfaceMemberBuilds(typeof(InterfaceMemberModule), inherited, typeConstraint, moduleConstraint);
         var first = new ModuleTypeRegistry();
         var second = new ModuleTypeRegistry();
         first.Register(builds.First);
@@ -46,6 +48,10 @@ public class ModuleInterfaceBuildIdentityTests
 
     public abstract class MarkerArgumentModule : Module<string>, IProcessor<MarkerValue>;
 
+    public class ConstraintValue : IMarker;
+
+    public abstract class ConstraintModule<T> : Module<string> where T : IMarker;
+
     public sealed class UnusedConverterFactory : JsonConverterFactory
     {
         public UnusedConverterFactory(int value) => _ = value;
@@ -59,6 +65,7 @@ public class ModuleInterfaceBuildIdentityTests
     [Test]
     [Arguments(typeof(MarkerModule))]
     [Arguments(typeof(MarkerArgumentModule))]
+    [Arguments(typeof(ConstraintModule<ConstraintValue>))]
     public async Task Schema_Does_Not_Construct_Unused_Interface_Converters(Type moduleType)
     {
         var registry = new ModuleTypeRegistry();

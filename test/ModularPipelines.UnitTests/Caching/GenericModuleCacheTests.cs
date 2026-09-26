@@ -202,17 +202,21 @@ public class GenericModuleCacheTests
     }
 
     [Test]
-    [Arguments(false, false, false)]
-    [Arguments(true, false, false)]
-    [Arguments(false, true, false)]
-    [Arguments(true, true, false)]
-    [Arguments(false, false, true)]
-    [Arguments(true, false, true)]
-    [Arguments(false, true, true)]
-    [Arguments(true, true, true)]
-    public async Task Changed_Interface_Member_Build_Invalidates_Cache(bool inherited, bool versionOverride, bool typeConstraint)
+    [Arguments(false, false, false, false)]
+    [Arguments(true, false, false, false)]
+    [Arguments(false, true, false, false)]
+    [Arguments(true, true, false, false)]
+    [Arguments(false, false, true, false)]
+    [Arguments(true, false, true, false)]
+    [Arguments(false, true, true, false)]
+    [Arguments(true, true, true, false)]
+    [Arguments(false, false, false, true)]
+    [Arguments(true, false, false, true)]
+    [Arguments(false, true, false, true)]
+    [Arguments(true, true, false, true)]
+    public async Task Changed_Module_Contract_Build_Invalidates_Cache(bool inherited, bool versionOverride, bool typeConstraint, bool moduleConstraint)
     {
-        using var builds = new InterfaceMemberBuilds(versionOverride ? typeof(VersionOverrideInterfaceMemberCacheModule) : typeof(InterfaceMemberCacheModule), inherited, typeConstraint);
+        using var builds = new InterfaceMemberBuilds(versionOverride ? typeof(VersionOverrideInterfaceMemberCacheModule) : typeof(InterfaceMemberCacheModule), inherited, typeConstraint, moduleConstraint);
         await Assert.That(builds.First.Module.ModuleVersionId).IsEqualTo(builds.Second.Module.ModuleVersionId);
         var directory = Directory.CreateTempSubdirectory("ModularPipelines-interface-member-cache-");
         try
@@ -251,6 +255,10 @@ public class GenericModuleCacheTests
 
     public class MarkerArgumentCacheModule : ConverterCacheModule, IProcessor<MarkerValue>;
 
+    public class ConstraintValue : IMarker;
+
+    public class ConstraintCacheModule<T> : ConverterCacheModule where T : IMarker;
+
     public sealed class UnusedConverterFactory : JsonConverterFactory
     {
         public UnusedConverterFactory(int value) => _ = value;
@@ -264,6 +272,7 @@ public class GenericModuleCacheTests
     [Test]
     [Arguments(typeof(MarkerCacheModule))]
     [Arguments(typeof(MarkerArgumentCacheModule))]
+    [Arguments(typeof(ConstraintCacheModule<ConstraintValue>))]
     public async Task Cache_Does_Not_Construct_Unused_Interface_Converters(Type moduleType)
     {
         var directory = Directory.CreateTempSubdirectory("ModularPipelines-unused-converter-cache-");

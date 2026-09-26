@@ -42,6 +42,21 @@ internal static class StableTypeName
     private static string ComputeInterfaceBuildFingerprint(Type type, Assembly? versionedAssembly) =>
         Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(GetInterfaceBuildIdentity(type, versionedAssembly))));
 
+    public static IEnumerable<string> GetGenericConstraintBuildFingerprints(Type type, Assembly? versionedAssembly = null)
+    {
+        foreach (var constraint in GetGenericParameterConstraints(type).Distinct().OrderBy(Get, StringComparer.Ordinal))
+        {
+            // Constraints govern execution, not serialization. Do not construct JSON converters.
+            var identity = GetBuildIdentity(constraint, [], [], expandMembers: false, versionedAssembly);
+            yield return Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(identity)));
+        }
+    }
+
+    private static IEnumerable<Type> GetGenericParameterConstraints(Type type) =>
+        type.IsGenericType
+            ? type.GetGenericTypeDefinition().GetGenericArguments().SelectMany(argument => argument.GetGenericParameterConstraints())
+            : [];
+
     private static string GetInterfaceBuildIdentity(Type type, Assembly? versionedAssembly)
     {
         var identity = GetBuildIdentity(type, [], [], expandMembers: false, versionedAssembly);
@@ -58,13 +73,9 @@ internal static class StableTypeName
     {
         // Closed arguments do not retain the definition's constraint metadata.
         // Constraint assemblies can supply default interface behavior independently.
-        if (type.IsGenericType)
+        foreach (var constraint in GetGenericParameterConstraints(type))
         {
-            foreach (var constraint in type.GetGenericTypeDefinition().GetGenericArguments()
-                         .SelectMany(argument => argument.GetGenericParameterConstraints()))
-            {
-                yield return constraint;
-            }
+            yield return constraint;
         }
 
         const BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
