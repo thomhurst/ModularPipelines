@@ -18,7 +18,13 @@ param(
 
     [Parameter(Mandatory)]
     [ValidateSet('success', 'failure', 'cancelled', 'skipped')]
-    [string]$GeneratedIntegrationResult
+    [string]$GeneratedIntegrationResult,
+
+    [AllowEmptyString()]
+    [string]$Distributed = 'false',
+
+    [ValidateSet('success', 'failure', 'cancelled', 'skipped')]
+    [string]$WorkerPipelineResult = 'skipped'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -33,6 +39,15 @@ if ($IsGeneratedIntegration -notin @('true', 'false')) {
 
 if ($RunFullPipeline -notin @('true', 'false')) {
     throw "Full pipeline routing value was '$RunFullPipeline'; required context cannot pass."
+}
+
+if ($RunFullPipeline -eq 'true' -and $Distributed -notin @('true', 'false')) {
+    throw "Distributed routing value was '$Distributed'; required context cannot pass."
+}
+
+$expectedWorkerResult = if ($RunFullPipeline -eq 'true' -and $Distributed -eq 'true') { 'success' } else { 'skipped' }
+if ($WorkerPipelineResult -ne $expectedWorkerResult) {
+    throw "Worker pipeline result was '$WorkerPipelineResult'; expected '$expectedWorkerResult'."
 }
 
 if ($IsGeneratedIntegration -eq 'true') {

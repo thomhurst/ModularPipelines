@@ -23,11 +23,13 @@ $instances = @(for ($index = 0; $index -lt $runners.Count; $index++) {
 $result = [pscustomobject]@{
     distributed = $distributed.ToString().ToLowerInvariant()
     run_identifier = "$RunId-$RunAttempt"
-    matrix = @{ include = $instances } | ConvertTo-Json -Depth 3 -Compress
+    matrix = @{ include = @($instances | Where-Object instance -eq 0) } | ConvertTo-Json -Depth 3 -Compress
+    worker_matrix = @{ include = @($instances | Where-Object instance -ne 0) } | ConvertTo-Json -Depth 3 -Compress
 }
 
 if ($GitHubOutput) {
-    @("distributed=$($result.distributed)", "run_identifier=$($result.run_identifier)", "matrix=$($result.matrix)") |
+    @("distributed=$($result.distributed)", "run_identifier=$($result.run_identifier)",
+        "matrix=$($result.matrix)", "worker_matrix=$($result.worker_matrix)") |
         Add-Content -LiteralPath $GitHubOutput -Encoding utf8
 } else {
     $result

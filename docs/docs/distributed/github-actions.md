@@ -30,7 +30,9 @@ the checkout allows Windows to rebuild the build project without locking its out
 module and serialization schema identities identical across runners. Each runner restores its
 own dependencies. The master publishes Linux build output through Redis; Linux tests restore
 that output once per process. Publishing and repository mutations require the master's
-`ci-master` capability, and publishing credentials are supplied only to instance 0.
+`ci-master` capability, and publishing credentials are supplied only to instance 0. The master
+job alone has repository-write and identity-token permissions; worker jobs have read-only
+repository access. Both jobs reuse the same execution steps.
 
 `MODULARPIPELINES_RUN_ID` combines `GITHUB_RUN_ID` and `GITHUB_RUN_ATTEMPT`. Use **Re-run all
 jobs** for a distributed retry: partial retries are rejected because they cannot recreate the

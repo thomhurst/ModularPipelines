@@ -35,6 +35,7 @@ jobs:
     outputs:
       distributed: ${{ steps.distribution.outputs.distributed }}
       matrix: ${{ steps.distribution.outputs.matrix }}
+      worker_matrix: ${{ steps.distribution.outputs.worker_matrix }}
       run_identifier: ${{ steps.distribution.outputs.run_identifier }}
       run_full_pipeline: ${{ steps.full_pipeline.outputs.run_full_pipeline }}
       is_generated_integration: ${{ steps.generated_integration.outputs.is_generated_integration }}
@@ -440,7 +441,7 @@ jobs:
       contents: write
       id-token: write
     timeout-minutes: 90
-    env:
+    env: &pipeline-env
       # Tear down MSBuild worker/compiler nodes after each build instead of keeping them
       # resident. BuildSolutionsModule builds several solutions in sequence; with node reuse
       # the persistent nodes accumulate memory across those builds, which contributed to the
@@ -452,7 +453,7 @@ jobs:
       # Markdown and OptionsGenerator tests passed in the prerequisite job.
       FAST_FAIL_VALIDATED: "true"
 
-    steps:
+    steps: &pipeline-steps
       # Keep the existing required check red when the prerequisite fails. A job skipped
       # through `needs` is considered successful by GitHub branch protection.
       - name: Require fast-fail success
@@ -610,6 +611,22 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
+  pipeline-workers:
+    name: full pipeline (${{ matrix.os }}, instance ${{ matrix.instance }})
+    needs: [fast-fail, pipeline-host]
+    if: ${{ !cancelled() && needs.fast-fail.outputs.run_full_pipeline == 'true' && needs.fast-fail.outputs.distributed == 'true' }}
+    environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
+    strategy:
+      matrix: ${{ fromJSON(needs.fast-fail.outputs.worker_matrix) }}
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    # Workers share execution steps, but cannot mint publishing tokens or write the repository.
+    permissions:
+      contents: read
+    timeout-minutes: 90
+    env: *pipeline-env
+    steps: *pipeline-steps
+
   cross-platform-build:
     name: build (${{ matrix.os }})
     needs: fast-fail
@@ -742,7 +759,7 @@ jobs:
   required-pipeline:
     # Stable branch-protection check for full, generated, or fast-fail-only validation.
     name: pipeline (ubuntu-latest)
-    needs: [fast-fail, pipeline, generated-integration]
+    needs: [fast-fail, pipeline, pipeline-workers, generated-integration]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -762,6 +779,8 @@ jobs:
             -IsGeneratedIntegration '${{ needs.fast-fail.outputs.is_generated_integration }}' `
             -FastFailResult '${{ needs.fast-fail.result }}' `
             -FullPipelineResult '${{ needs.pipeline.result }}' `
+            -Distributed '${{ needs.fast-fail.outputs.distributed }}' `
+            -WorkerPipelineResult '${{ needs.pipeline-workers.result }}' `
             -GeneratedIntegrationResult '${{ needs.generated-integration.result }}'
 
   trim-aot:
