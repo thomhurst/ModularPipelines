@@ -15,7 +15,9 @@ public class PolymorphicBuildIdentityTests
     private abstract class ResultModule<T> : Module<T>;
 
     [Test]
-    public async Task Changed_Nested_Derived_Contract_Invalidates_Schema_And_Runtime_Payload()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Nested_Polymorphism_Uses_Declared_Contract_Attributes(bool concreteContract)
     {
         var firstContext = new AssemblyLoadContext(null, isCollectible: true);
         var secondContext = new AssemblyLoadContext(null, isCollectible: true);
@@ -32,8 +34,11 @@ public class PolymorphicBuildIdentityTests
                 typeof(JsonDerivedTypeAttribute).GetConstructor([typeof(Type), typeof(string)])!, [derivedType, "derived"]));
             baseType.CreateType();
             derivedType.CreateType();
+            var fieldType = concreteContract
+                ? contractModule.DefineType("Concrete", TypeAttributes.Public, baseType).CreateType()!
+                : baseType;
             var envelope = contractModule.DefineType("Envelope", TypeAttributes.Public);
-            var field = envelope.DefineField("Value", baseType, FieldAttributes.Public);
+            var field = envelope.DefineField("Value", fieldType, FieldAttributes.Public);
             field.SetCustomAttribute(new CustomAttributeBuilder(typeof(JsonIncludeAttribute).GetConstructor(Type.EmptyTypes)!, []));
             envelope.CreateType();
             var contractImage = Save(contractAssembly);
@@ -52,17 +57,27 @@ public class PolymorphicBuildIdentityTests
             var secondRegistry = new ModuleTypeRegistry();
             firstRegistry.Register(typeof(ResultModule<>).MakeGenericType(firstEnvelope));
             secondRegistry.Register(typeof(ResultModule<>).MakeGenericType(secondEnvelope));
-            await Assert.That(firstRegistry.GetPipelineSchemaVersion()).IsNotEqualTo(secondRegistry.GetPipelineSchemaVersion());
+            await Assert.That(firstRegistry.GetPipelineSchemaVersion() != secondRegistry.GetPipelineSchemaVersion()).IsEqualTo(!concreteContract);
 
             var localEnvelope = StableTypeName.Resolve(StableTypeName.Get(firstEnvelope))!;
-            var localDerived = localEnvelope == firstEnvelope ? firstDerived : secondDerived;
+            var firstValueType = concreteContract ? firstContract.GetType("Concrete")! : firstDerived;
+            var secondValueType = concreteContract ? secondContract.GetType("Concrete")! : secondDerived;
+            var localDerived = localEnvelope == firstEnvelope ? firstValueType : secondValueType;
             var remoteEnvelope = localEnvelope == firstEnvelope ? secondEnvelope : firstEnvelope;
-            var remoteDerived = localEnvelope == firstEnvelope ? secondDerived : firstDerived;
+            var remoteDerived = localEnvelope == firstEnvelope ? secondValueType : firstValueType;
             var local = JsonSerializer.Deserialize<ModuleResult<object>>(Serialize(localEnvelope, localDerived))!.Value;
             await Assert.That(localEnvelope.GetField("Value")!.GetValue(local)!.GetType()).IsEqualTo(localDerived);
-            var error = Assert.Throws<JsonException>(() =>
-                JsonSerializer.Deserialize<ModuleResult<object>>(Serialize(remoteEnvelope, remoteDerived)));
-            await Assert.That(error!.Message).Contains("build identity");
+            if (concreteContract)
+            {
+                var remote = JsonSerializer.Deserialize<ModuleResult<object>>(Serialize(remoteEnvelope, remoteDerived))!.Value;
+                await Assert.That(localEnvelope.GetField("Value")!.GetValue(remote)!.GetType()).IsEqualTo(localDerived);
+            }
+            else
+            {
+                var error = Assert.Throws<JsonException>(() =>
+                    JsonSerializer.Deserialize<ModuleResult<object>>(Serialize(remoteEnvelope, remoteDerived)));
+                await Assert.That(error!.Message).Contains("build identity");
+            }
         }
         finally
         {

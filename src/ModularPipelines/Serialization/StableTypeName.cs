@@ -192,17 +192,11 @@ internal static class StableTypeName
             yield break;
         }
 
-        foreach (var current in GetApplicationTypeHierarchy(type))
+        // Type-level serialization attributes are selected on the actual contract,
+        // not inherited from its bases. Their visible members are handled below.
+        foreach (var derived in type.GetCustomAttributes<JsonDerivedTypeAttribute>(inherit: false))
         {
-            foreach (var derived in current.GetCustomAttributes<JsonDerivedTypeAttribute>(inherit: false))
-            {
-                yield return (derived.DerivedType, true);
-            }
-
-            foreach (var converterType in GetConverterTypes(current, current))
-            {
-                yield return (converterType, true);
-            }
+            yield return (derived.DerivedType, true);
         }
 
         foreach (var (member, memberType) in GetSerializedMembers(type))

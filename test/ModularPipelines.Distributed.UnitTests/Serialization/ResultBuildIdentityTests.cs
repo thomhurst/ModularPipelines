@@ -218,6 +218,10 @@ public class ResultBuildIdentityTests
     [Arguments("OpaqueWrappedField", null, false, "{\"Value\":{}}")]
     [Arguments("OpaqueGenericProperty", null, true, "{\"Value\":{}}")]
     [Arguments("OpaqueInheritedProperty", null, true, "{\"Value\":{}}")]
+    [Arguments("BaseTypeConverter", null, false, "{}")]
+    [Arguments("BaseTypeFactory", null, false, "{}")]
+    [Arguments("BaseTypeAttribute", null, false, "{}")]
+    [Arguments("BaseTypeFactoryAttribute", null, false, "{}")]
     public async Task Effective_Member_Build_Follows_Serialized_Contract(string memberKind, JsonIgnoreCondition? condition, bool includesDependency, string expectedJson)
     {
         using var builds = new ResultBuilds(0, memberKind, condition);
@@ -372,6 +376,12 @@ public class ResultBuildIdentityTests
 
         private static Type DefineResultType(ModuleBuilder module, string name, Type dependency, string memberKind, JsonIgnoreCondition? ignoreCondition)
         {
+            if (memberKind == "BaseTypeConverter")
+            {
+                var parent = DefineResultType(module, $"{name}Base", dependency, "TypeConverter", null);
+                return module.DefineType(name, TypeAttributes.Public, parent).CreateType()!;
+            }
+
             if (memberKind.StartsWith("Opaque", StringComparison.Ordinal))
             {
                 return DefineOpaqueConverterType(module, name, dependency, memberKind);
