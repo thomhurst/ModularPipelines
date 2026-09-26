@@ -10,6 +10,7 @@ public class GcloudEmptyValueTests
     [Arguments("To reset this field to its default, pass an empty string.", true)]
     [Arguments("Do not specify empty string to reset this value.", false)]
     [Arguments("To reset this field, do not pass an empty string.", false)]
+    [Arguments("A non-empty string means default behavior.", false)]
     [Arguments("An empty string is not allowed.", false)]
     [Arguments("An empty string means an invalid setting.", false)]
     [Arguments("The mapping rules to use.", false)]
