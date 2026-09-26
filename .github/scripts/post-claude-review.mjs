@@ -27,11 +27,15 @@ function hasExactKeys(value, keys) {
 }
 
 function parseReviewJson(rawReview) {
+  // The action can wrap its final JSON in Markdown despite the prompt. Accept
+  // only a complete envelope; never extract a JSON fragment from surrounding prose.
+  const fencedJson = typeof rawReview === 'string'
+    ? rawReview.trim().match(/^```(?:json)?[\t ]*\r?\n([\s\S]*?)\r?\n```$/i)?.[1] : undefined;
   try {
-    return JSON.parse(rawReview);
+    return JSON.parse(fencedJson ?? rawReview);
   } catch {
     if (typeof rawReview === 'string' && rawReview.trimStart().startsWith('```')) {
-      throw new Error('Claude returned Markdown-fenced output instead of a JSON review.');
+      throw new Error('Claude returned an invalid Markdown-fenced JSON review.');
     }
     if (typeof rawReview === 'string' && rawReview.trimStart().startsWith('{')) {
       throw new Error('Claude returned malformed JSON object text.');

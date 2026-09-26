@@ -100,7 +100,7 @@ test('failed, ambiguous, incomplete, and malformed executions cannot supply a re
 });
 
 test('final text must satisfy the review contract without repair or a fallback verdict', () => {
-  for (const result of ['```json\n' + rawReview + '\n```', 'Here is the review: ' + rawReview,
+  for (const result of ['Here is the review: ' + rawReview,
     JSON.stringify({ summary, findings: [], notes: [], evidence: [{ path: 'a.cs', assessment: evidence[0].assessment }] }),
     JSON.stringify({ summary, findings: [], notes: [] })]) {
     const extracted = extractReview(JSON.stringify([{ ...successResult, result }]));
@@ -108,9 +108,33 @@ test('final text must satisfy the review contract without repair or a fallback v
   }
 });
 
+test('one complete JSON fence is a transport envelope, with identical validation and rendering', t => {
+  for (const label of ['json', 'JSON', '']) {
+    const fenced = '  \r\n```' + label + '\r\n' + rawReview + '\r\n```\r\n';
+    assert.equal(buildReview(fenced, headSha, changedFiles), buildReview(rawReview, headSha, changedFiles));
+  }
+  const blocking = JSON.stringify({ summary, findings: ['src/example.cs:5 loses cancellation.'], notes: [], evidence });
+  assert.match(buildReview('```json\n' + blocking + '\n```', headSha, changedFiles), /REVIEW_VERDICT: BLOCKING/);
+  const fenced = '```json\n' + rawReview + '\n```';
+  const { result, callsFile } = runPublisher(t, JSON.stringify([{ ...successResult, result: fenced }]));
+  assert.equal(result.status, 0, result.stderr);
+  const calls = readFileSync(callsFile, 'utf8').trim().split('\n').map(line => JSON.parse(line));
+  assert.equal(calls.filter(call => call.args[0] === 'api').length, 1);
+});
+
+test('fences never permit prose, partial output, multiple payloads, or invalid review fields', () => {
+  const fenced = '```json\n' + rawReview + '\n```';
+  for (const raw of ['Introduction\n' + fenced, fenced + '\nAfterword', fenced + '\n' + fenced,
+    '```json\n' + rawReview, '```javascript\n' + rawReview + '\n```',
+    '```json\n{"summary":"partial"}\n```', '```json\n' + rawReview + ',\n```',
+    '```json\n' + JSON.stringify({ summary, findings: [], notes: [], evidence: [] }) + '\n```']) {
+    assert.throws(() => publishReview({ ...options, rawReview: raw }, () => assert.fail('Invalid envelope must not reach GitHub.')));
+  }
+});
+
 test('invalid review diagnostics classify format without revealing model text', () => {
   for (const [raw, message] of [
-    ['```json\nprivate review text\n```', 'Claude returned Markdown-fenced output instead of a JSON review.'],
+    ['```json\nprivate review text\n```', 'Claude returned an invalid Markdown-fenced JSON review.'],
     ['{private review text', 'Claude returned malformed JSON object text.'],
     ['private review text', 'Claude did not return a valid structured review.'],
   ]) {
