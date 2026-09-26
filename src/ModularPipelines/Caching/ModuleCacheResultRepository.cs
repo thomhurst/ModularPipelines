@@ -387,7 +387,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 diagnosticName: "module-version-mvid");
         }
 
-        AppendGenericArgumentFingerprints(fingerprint, module.GetType());
+        AppendModuleContractFingerprints(fingerprint, module.GetType());
 
         foreach (var pattern in configuration.CacheInputPatterns)
         {
@@ -421,7 +421,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         }
     }
 
-    private static void AppendGenericArgumentFingerprints(FingerprintBuilder fingerprint, Type moduleType)
+    [UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Module result cache and its build fingerprints require runtime type metadata.")]
+    private static void AppendModuleContractFingerprints(FingerprintBuilder fingerprint, Type moduleType)
     {
         for (var current = moduleType; current is not null; current = current.BaseType)
         {
@@ -429,6 +430,11 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             {
                 fingerprint.Append("module-generic-argument", StableTypeName.GetBuildFingerprint(argument));
             }
+        }
+
+        foreach (var contract in moduleType.GetInterfaces().OrderBy(StableTypeName.Get, StringComparer.Ordinal))
+        {
+            fingerprint.Append("module-interface", StableTypeName.GetBuildFingerprint(contract));
         }
     }
 

@@ -46,6 +46,9 @@ public class ResultBuildIdentityTests
     [Arguments("IncludedOverride", 0)]
     [Arguments("IgnoredOverrideWithBaseMember", 0)]
     [Arguments("OpaquePropertyWithVisibleMember", 0)]
+    [Arguments("OpaqueWrappedPropertyWithVisibleMember", 0)]
+    [Arguments("OpaqueForwardingProperty", 0)]
+    [Arguments("OpaqueForwardingField", 0)]
     [Arguments("Field", 0)]
     [Arguments("TypeConverter", 0)]
     [Arguments("PropertyConverter", 0)]
@@ -68,6 +71,12 @@ public class ResultBuildIdentityTests
         var second = new ModuleTypeRegistry();
         first.Register(typeof(ResultModule<>).MakeGenericType(builds.First));
         second.Register(typeof(ResultModule<>).MakeGenericType(builds.Second));
+
+        if (memberKind.Contains("Forwarding", StringComparison.Ordinal))
+        {
+            await Assert.That(JsonSerializer.Serialize(CreateValue(builds.First)))
+                .IsNotEqualTo(JsonSerializer.Serialize(CreateValue(builds.Second)));
+        }
 
         await Assert.That(builds.First.Module.ModuleVersionId).IsEqualTo(builds.Second.Module.ModuleVersionId);
         await Assert.That(first.GetPipelineSchemaVersion()).IsNotEqualTo(second.GetPipelineSchemaVersion());
@@ -203,8 +212,12 @@ public class ResultBuildIdentityTests
     [Arguments("ShadowField", null, false, "{\"Value\":null}")]
     [Arguments("ShadowBaseField", null, false, "{\"Value\":null}")]
     [Arguments("OpaqueType", null, false, "{}")]
-    [Arguments("OpaqueProperty", null, false, "{\"Value\":{}}")]
-    [Arguments("OpaqueField", null, false, "{\"Value\":{}}")]
+    [Arguments("OpaqueProperty", null, true, "{\"Value\":{}}")]
+    [Arguments("OpaqueField", null, true, "{\"Value\":{}}")]
+    [Arguments("OpaqueWrappedProperty", null, false, "{\"Value\":{}}")]
+    [Arguments("OpaqueWrappedField", null, false, "{\"Value\":{}}")]
+    [Arguments("OpaqueGenericProperty", null, true, "{\"Value\":{}}")]
+    [Arguments("OpaqueInheritedProperty", null, true, "{\"Value\":{}}")]
     public async Task Effective_Member_Build_Follows_Serialized_Contract(string memberKind, JsonIgnoreCondition? condition, bool includesDependency, string expectedJson)
     {
         using var builds = new ResultBuilds(0, memberKind, condition);
@@ -280,6 +293,12 @@ public class ResultBuildIdentityTests
     {
         [JsonConverter(typeof(UnderlyingIntFactory))]
         public int? Value { get; set; }
+    }
+
+    public sealed class ForwardingObjectConverter : ObjectConverter
+    {
+        public override void Write(Utf8JsonWriter writer, object value, JsonSerializerOptions options) =>
+            JsonSerializer.Serialize(writer, value, value.GetType(), options);
     }
 
     public sealed class UnderlyingIntFactory : JsonConverterFactory
@@ -465,10 +484,27 @@ public class ResultBuildIdentityTests
 
         private static Type DefineOpaqueConverterType(ModuleBuilder module, string name, Type dependency, string memberKind)
         {
+            if (memberKind == "OpaqueGenericProperty")
+            {
+                dependency = typeof(List<>).MakeGenericType(dependency);
+            }
+            else if (memberKind == "OpaqueInheritedProperty")
+            {
+                dependency = module.DefineType($"{name}ConvertedValue", TypeAttributes.Public, dependency).CreateType()!;
+            }
+
+            if (memberKind.StartsWith("OpaqueWrapped", StringComparison.Ordinal))
+            {
+                var wrapper = module.DefineType($"{name}ConvertedValue", TypeAttributes.Public);
+                DefineResultProperty(wrapper, dependency, null, null);
+                dependency = wrapper.CreateType()!;
+            }
+
             var type = module.DefineType(name, TypeAttributes.Public);
+            var converterType = memberKind.Contains("Forwarding", StringComparison.Ordinal) ? typeof(ForwardingObjectConverter) : typeof(ObjectConverter);
             var converter = new CustomAttributeBuilder(
-                typeof(JsonConverterAttribute).GetConstructor([typeof(Type)])!, [typeof(ObjectConverter)]);
-            if (memberKind == "OpaqueField")
+                typeof(JsonConverterAttribute).GetConstructor([typeof(Type)])!, [converterType]);
+            if (memberKind.EndsWith("Field", StringComparison.Ordinal))
             {
                 var field = type.DefineField("Value", dependency, FieldAttributes.Public);
                 field.SetCustomAttribute(new CustomAttributeBuilder(typeof(JsonIncludeAttribute).GetConstructor(Type.EmptyTypes)!, []));
@@ -494,7 +530,7 @@ public class ResultBuildIdentityTests
                 }
             }
 
-            if (memberKind == "OpaquePropertyWithVisibleMember")
+            if (memberKind.EndsWith("WithVisibleMember", StringComparison.Ordinal))
             {
                 DefineInitializedProperty(type, "Additional", dependency);
             }

@@ -29,7 +29,7 @@ internal static class StableTypeName
         BuildFingerprints.GetValue(type, static value =>
             Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(GetBuildIdentity(value, [], [])))));
 
-    private static string GetBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions)
+    private static string GetBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions, bool expandMembers = true)
     {
         var frameworkType = IsFrameworkAssembly(type.Assembly);
         var identity = GetTypeBuildIdentity(type);
@@ -39,13 +39,20 @@ internal static class StableTypeName
             return identity;
         }
 
-        identity += GetConstructionBuildIdentity(type, visitedTypes, expandedDefinitions);
+        identity += GetConstructionBuildIdentity(type, visitedTypes, expandedDefinitions, expandMembers);
 
         // Framework servicing builds do not define the application's wire contract.
         // Generic arguments still need validation, e.g. List<ApplicationResult>.
         if (frameworkType)
         {
             return identity;
+        }
+
+        // Converters replace reflected members, but can execute the declared type's code.
+        // Keep its binary, base, and generic argument builds without expanding members.
+        if (!expandMembers)
+        {
+            return identity + GetBaseBuildIdentity(type, visitedTypes, expandedDefinitions, expandMembers: false);
         }
 
         // Node<T>.Next can be Node<Node<T>>. Expand each definition once, while still
@@ -57,9 +64,14 @@ internal static class StableTypeName
 
         identity += GetBaseBuildIdentity(type, visitedTypes, expandedDefinitions);
 
-        foreach (var memberType in GetSerializationContractTypes(type).Distinct().OrderBy(Get, StringComparer.Ordinal))
+        foreach (var contract in GetSerializationContractTypes(type).Distinct()
+                     .OrderBy(contract => Get(contract.Type), StringComparer.Ordinal).ThenBy(contract => contract.ExpandMembers))
         {
-            identity += $"\0Member={GetBuildIdentity(memberType, visitedTypes, expandedDefinitions)}";
+            // A restricted visit must not prevent a later full visit through a visible member.
+            var memberIdentity = contract.ExpandMembers
+                ? GetBuildIdentity(contract.Type, visitedTypes, expandedDefinitions)
+                : GetBuildIdentity(contract.Type, [], [], expandMembers: false);
+            identity += $"\0Member={memberIdentity}";
         }
 
         return identity;
@@ -68,14 +80,14 @@ internal static class StableTypeName
     private static string GetTypeBuildIdentity(Type type) =>
         IsFrameworkAssembly(type.Assembly) ? Get(type) : $"{Get(type)}\0{type.Module.ModuleVersionId}";
 
-    private static string GetBaseBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions)
+    private static string GetBaseBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions, bool expandMembers = true)
     {
         var identity = string.Empty;
         for (var current = type.BaseType; current is not null; current = current.BaseType)
         {
             // Preserve base binary/argument checks without treating its hidden declarations
             // as a second serialization contract. Members are selected from the derived type.
-            identity += $"\0Base={GetTypeBuildIdentity(current)}{GetConstructionBuildIdentity(current, visitedTypes, expandedDefinitions)}";
+            identity += $"\0Base={GetTypeBuildIdentity(current)}{GetConstructionBuildIdentity(current, visitedTypes, expandedDefinitions, expandMembers)}";
             if (IsFrameworkAssembly(current.Assembly))
             {
                 break;
@@ -93,17 +105,17 @@ internal static class StableTypeName
         }
     }
 
-    private static string GetConstructionBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions)
+    private static string GetConstructionBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions, bool expandMembers = true)
     {
         if (type.HasElementType)
         {
-            return $"\0Element={GetBuildIdentity(type.GetElementType()!, visitedTypes, expandedDefinitions)}";
+            return $"\0Element={GetBuildIdentity(type.GetElementType()!, visitedTypes, expandedDefinitions, expandMembers)}";
         }
 
         if (type.IsGenericType)
         {
             var arguments = string.Join("\u001F", type.GetGenericArguments()
-                .Select(argument => GetBuildIdentity(argument, visitedTypes, expandedDefinitions)));
+                .Select(argument => GetBuildIdentity(argument, visitedTypes, expandedDefinitions, expandMembers)));
             return $"\0Arguments={arguments}";
         }
 
@@ -117,14 +129,14 @@ internal static class StableTypeName
             && SharedFrameworkDirectories.Contains(Path.GetDirectoryName(assembly.Location)!));
 
     [UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Runtime result serialization and its build fingerprints are explicitly unsupported in trimmed applications.")]
-    private static IEnumerable<Type> GetSerializationContractTypes(Type type)
+    private static IEnumerable<(Type Type, bool ExpandMembers)> GetSerializationContractTypes(Type type)
     {
         // A type-level converter replaces the reflected object/collection contract.
         if (type.IsDefined(typeof(JsonConverterAttribute), inherit: false))
         {
             foreach (var converterType in GetConverterTypes(type, type))
             {
-                yield return converterType;
+                yield return (converterType, true);
             }
 
             yield break;
@@ -134,27 +146,23 @@ internal static class StableTypeName
         {
             foreach (var derived in current.GetCustomAttributes<JsonDerivedTypeAttribute>(inherit: false))
             {
-                yield return derived.DerivedType;
+                yield return (derived.DerivedType, true);
             }
 
             foreach (var converterType in GetConverterTypes(current, current))
             {
-                yield return converterType;
+                yield return (converterType, true);
             }
         }
 
         foreach (var (member, memberType) in GetSerializedMembers(type))
         {
-            // Member converters own this value's wire representation, including whether
-            // any of the declared type's default members are used at all.
-            if (!member.IsDefined(typeof(JsonConverterAttribute), inherit: false))
-            {
-                yield return memberType;
-            }
+            // Converters own the member contract, but not the declared type's build identity.
+            yield return (memberType, !member.IsDefined(typeof(JsonConverterAttribute), inherit: false));
 
             foreach (var converterType in GetConverterTypes(member, memberType))
             {
-                yield return converterType;
+                yield return (converterType, true);
             }
         }
 
@@ -164,7 +172,7 @@ internal static class StableTypeName
             // IEnumerable<T>. Dictionary enumeration also carries both key and value types.
             if (type.IsInterface || (contract.IsGenericType && contract.GetGenericTypeDefinition() == typeof(IEnumerable<>)))
             {
-                yield return contract;
+                yield return (contract, true);
             }
         }
     }
