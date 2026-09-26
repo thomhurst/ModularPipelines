@@ -350,7 +350,7 @@ foreach ($step in [regex]::Matches($fastFailJob, '(?ms)^      - .*?(?=^      - |
     }
 }
 
-foreach ($jobName in @('pipeline', 'cross-platform-build', 'analyzers', 'trim-aot')) {
+foreach ($jobName in @('pipeline', 'pipeline-workers', 'cross-platform-build', 'analyzers', 'trim-aot')) {
     $job = [regex]::Match($workflow, "(?ms)^  ${jobName}:.*?(?=^  [a-z0-9-]+:|\z)").Value
     if (-not $job.Contains("needs.fast-fail.outputs.run_full_pipeline == 'true'", [StringComparison]::Ordinal)) {
         throw "Job '$jobName' must run only when core validation is required."

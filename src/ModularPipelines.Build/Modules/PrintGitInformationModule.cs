@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.Build.Helpers;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
@@ -7,6 +8,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
+[RequiresCapability("ci-master")]
 public class PrintGitInformationModule : Module<None>
 {
     protected override async Task<None> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

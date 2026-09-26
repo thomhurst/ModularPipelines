@@ -38,6 +38,7 @@
   <ItemGroup>
     <!-- Exercise build orchestration helpers without referencing the build executable. -->
     <Compile Include="../../src/ModularPipelines.Build/Helpers/BuildOutputSharing.cs" Link="Build/BuildOutputSharing.cs" />
+    <Compile Include="../../src/ModularPipelines.Build/Helpers/BuildOutputArchive.cs" Link="Build/BuildOutputArchive.cs" />
     <None Update="Data\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -3,12 +3,13 @@ using Microsoft.Build.Construction;
 using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Build.Modules;
 
+[RequiresCapability("ci-master")]
 [DependsOn<FindProjectsModule>]
 public class GenerateReadMeModule : Module<None>
 {
@@ -17,7 +18,7 @@ public class GenerateReadMeModule : Module<None>
 
     protected override async Task<None> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync().ConfigureAwait(false)
+        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync(cancellationToken).ConfigureAwait(false)
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
         var gitRootDirectory = repositoryInfo.Root;
 
@@ -56,7 +57,7 @@ public class GenerateReadMeModule : Module<None>
         return None.Value;
     }
 
-    private string GetModuleReadMeDescription(FilePath file)
+    private static string GetModuleReadMeDescription(FilePath file)
     {
         var projectRootElement = ProjectRootElement.Open(file)!;
 

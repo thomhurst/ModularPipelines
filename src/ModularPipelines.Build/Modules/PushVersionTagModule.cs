@@ -12,25 +12,21 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Build.Modules;
 
+[RequiresCapability("ci-master")]
 [ModuleCategory("VersionTag")]
 [SkipIfNoStandardGitHubToken]
 [RunOnlyOnBranch("main")]
 [RunIf<ModularPipelines.OnLinux>]
 [DependsOn<NugetVersionGeneratorModule>]
-public class PushVersionTagModule : Module<CommandResult>
+public class PushVersionTagModule(IOptions<GitHubSettings> gitHubSettings) : Module<CommandResult>
 {
-    private readonly IOptions<GitHubSettings> _gitHubSettings;
-
-    public PushVersionTagModule(IOptions<GitHubSettings> gitHubSettings)
-    {
-        _gitHubSettings = gitHubSettings;
-    }
+    private readonly IOptions<GitHubSettings> _gitHubSettings = gitHubSettings;
 
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithIgnoreFailuresWhen((ctx, ex) =>
         {
             // Use GetAwaiter().GetResult() since dependency has completed by the time this callback runs
-            var versionInformation = ((IModuleContext)ctx).GetModule<NugetVersionGeneratorModule>().GetAwaiter().GetResult();
+            var versionInformation = ((IModuleContext) ctx).GetModule<NugetVersionGeneratorModule>().GetAwaiter().GetResult();
             return ex.Message.Contains($"tag 'v{versionInformation.Value}' already exists");
         });
 

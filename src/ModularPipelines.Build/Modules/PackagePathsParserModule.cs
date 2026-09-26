@@ -6,6 +6,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
+[RequiresCapability("ci-master")]
 [DependsOn<PackProjectsModule>]
 [RunIf<ModularPipelines.OnLinux>]
 public class PackagePathsParserModule : Module<List<FilePath>>
@@ -17,11 +18,10 @@ public class PackagePathsParserModule : Module<List<FilePath>>
     {
         var packPackagesModuleResult = await context.GetModule<PackProjectsModule>();
 
-        return packPackagesModuleResult.Value
+        return [.. packPackagesModuleResult.Value
             .Select(x => x.StandardOutput)
             .Select(x => x.Split(PackageCreationSuccessPrefix)[1])
             .Select(x => x.Split(PackagePathSuffix)[0])
-            .Select(x => new FilePath(x))
-            .ToList();
+            .Select(x => new FilePath(x))];
     }
 }

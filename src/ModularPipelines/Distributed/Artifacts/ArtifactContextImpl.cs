@@ -8,19 +8,13 @@ namespace ModularPipelines.Distributed.Artifacts;
 /// Implementation of <see cref="IArtifactContext"/> wrapping <see cref="IDistributedArtifactStore"/>
 /// with convenience methods for file and directory operations.
 /// </summary>
-internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactContext
+internal class ArtifactContextImpl(
+    IDistributedArtifactStore store,
+    ArtifactOptions options) : IArtifactContext, IModuleScopedArtifactContext
 {
-    private readonly IDistributedArtifactStore _store;
-    private readonly ArtifactOptions _options;
+    private readonly IDistributedArtifactStore _store = store;
+    private readonly ArtifactOptions _options = options;
     private readonly ModuleId? _moduleId;
-
-    public ArtifactContextImpl(
-        IDistributedArtifactStore store,
-        ArtifactOptions options)
-    {
-        _store = store;
-        _options = options;
-    }
 
     private ArtifactContextImpl(
         IDistributedArtifactStore store,
@@ -119,6 +113,12 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
                 .Replace(Path.DirectorySeparatorChar, '/');
             var entry = archive.CreateEntry(entryName, compressionLevel);
             entry.LastWriteTime = File.GetLastWriteTime(file);
+            if (!OperatingSystem.IsWindows())
+            {
+                // Keep the regular-file type so mode 000 is distinct from absent Unix metadata.
+                entry.ExternalAttributes = (0x8000 | (int) File.GetUnixFileMode(file)) << 16;
+            }
+
             await using var sourceStream = new FileStream(
                 file,
                 new FileStreamOptions
@@ -185,8 +185,13 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
         {
             cancellationToken.ThrowIfCancellationRequested();
             var entryPath = Path.GetFullPath(Path.Combine(destinationDirectory, entry.FullName));
-            if (!entryPath.StartsWith(destinationPrefix, pathComparison)
-                && !string.Equals(entryPath, destinationDirectory, pathComparison))
+            // A root directory entry needs no work; every other entry must be below it.
+            if (string.IsNullOrEmpty(entry.Name) && string.Equals(entryPath, destinationDirectory, pathComparison))
+            {
+                continue;
+            }
+
+            if (!entryPath.StartsWith(destinationPrefix, pathComparison))
             {
                 throw new IOException($"Extracting '{entry.FullName}' would leave the destination directory.");
             }
@@ -205,20 +210,49 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
 
             EnsurePathContainsNoLinks(destinationDirectory, entryPath);
 
-            await using (var entryStream = entry.Open())
-            await using (var destinationStream = new FileStream(
-                             entryPath,
-                             new FileStreamOptions
-                             {
-                                 Access = FileAccess.Write,
-                                 Mode = FileMode.Create,
-                                 Options = FileOptions.Asynchronous | FileOptions.SequentialScan,
-                             }))
+            var fileOptions = new FileStreamOptions
             {
-                await entryStream.CopyToAsync(destinationStream, cancellationToken);
+                Access = FileAccess.Write,
+                Mode = FileMode.CreateNew,
+                Options = FileOptions.Asynchronous | FileOptions.SequentialScan,
+            };
+            if (!OperatingSystem.IsWindows())
+            {
+                // Apply ordinary permissions at creation so the OS enforces the umask.
+                // Never propagate setuid, setgid, or sticky bits from ZIPs.
+                var unixAttributes = (entry.ExternalAttributes >> 16) & 0xFFFF;
+                if (unixAttributes != 0)
+                {
+                    fileOptions.UnixCreateMode = (UnixFileMode)(unixAttributes & 0x1FF);
+                }
             }
 
-            File.SetLastWriteTime(entryPath, entry.LastWriteTime.DateTime);
+            // A new sibling file receives the archive mode through the OS umask even
+            // when replacing an existing destination. Cancellation leaves that file intact.
+            var temporaryPath = Path.GetFullPath(Path.Combine(entryDirectory!, $".modularpipelines-extract-{Guid.NewGuid():N}.tmp"));
+            if (!temporaryPath.StartsWith(destinationPrefix, pathComparison))
+            {
+                throw new IOException("The archive temporary file would leave the destination directory.");
+            }
+
+            var destinationStream = new FileStream(temporaryPath, fileOptions);
+            try
+            {
+                await using (destinationStream.ConfigureAwait(false))
+                await using (var entryStream = entry.Open())
+                {
+                    await entryStream.CopyToAsync(destinationStream, cancellationToken).ConfigureAwait(false);
+                }
+
+                cancellationToken.ThrowIfCancellationRequested();
+                File.SetLastWriteTime(temporaryPath, entry.LastWriteTime.DateTime);
+                EnsurePathContainsNoLinks(destinationDirectory, entryPath);
+                File.Move(temporaryPath, entryPath, overwrite: true);
+            }
+            finally
+            {
+                File.Delete(temporaryPath);
+            }
         }
     }
 

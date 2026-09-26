@@ -84,46 +84,59 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
 
     public async Task<Stream> DownloadAsync(ArtifactReference reference, CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         // Try single key first
         var dataKey = _keys.ArtifactData(reference.ArtifactId);
-        var data = await _database.StringGetAsync(dataKey);
+        var data = await _database.StringGetAsync(dataKey).WaitAsync(cancellationToken).ConfigureAwait(false);
 
         if (!data.IsNull)
         {
             return new MemoryStream((byte[]) data!);
         }
 
-        // Try chunked
-        var ms = new MemoryStream();
-        var chunkIndex = 0;
-        while (true)
+        // ZIP consumers require seeking. Disk backing bounds memory and supports
+        // artifacts larger than MemoryStream's 2 GB capacity.
+        var temporaryPath = Path.Combine(Path.GetTempPath(), $"modularpipelines-artifact-{Guid.NewGuid():N}.tmp");
+        var stream = new FileStream(temporaryPath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None,
+            64 * 1024, FileOptions.Asynchronous | FileOptions.DeleteOnClose);
+        try
         {
-            var chunkKey = _keys.ArtifactChunk(reference.ArtifactId, chunkIndex);
-            var chunk = await _database.StringGetAsync(chunkKey);
-            if (chunk.IsNull)
+            var chunkIndex = 0;
+            while (true)
             {
-                break;
+                cancellationToken.ThrowIfCancellationRequested();
+                var chunkKey = _keys.ArtifactChunk(reference.ArtifactId, chunkIndex);
+                var chunk = await _database.StringGetAsync(chunkKey).WaitAsync(cancellationToken).ConfigureAwait(false);
+                if (chunk.IsNull)
+                {
+                    break;
+                }
+
+                var bytes = (byte[]) chunk!;
+                await stream.WriteAsync(bytes, cancellationToken).ConfigureAwait(false);
+                chunkIndex++;
             }
 
-            var bytes = (byte[]) chunk!;
-            ms.Write(bytes, 0, bytes.Length);
-            chunkIndex++;
-        }
+            if (stream.Length == 0)
+            {
+                throw new InvalidOperationException($"Artifact '{reference.ArtifactId}' not found in Redis.");
+            }
 
-        if (ms.Length == 0)
+            if (stream.Length != reference.SizeBytes)
+            {
+                throw new InvalidOperationException(
+                    $"Artifact '{reference.ArtifactId}' size mismatch: expected {reference.SizeBytes} bytes but got {stream.Length} bytes. " +
+                    "One or more chunks may have expired or been evicted.");
+            }
+
+            stream.Position = 0;
+            return stream;
+        }
+        catch
         {
-            throw new InvalidOperationException($"Artifact '{reference.ArtifactId}' not found in Redis.");
+            await stream.DisposeAsync().ConfigureAwait(false);
+            throw;
         }
-
-        if (ms.Length != reference.SizeBytes)
-        {
-            throw new InvalidOperationException(
-                $"Artifact '{reference.ArtifactId}' size mismatch: expected {reference.SizeBytes} bytes but got {ms.Length} bytes. " +
-                "One or more chunks may have expired or been evicted.");
-        }
-
-        ms.Position = 0;
-        return ms;
     }
 
     public async Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(ModuleId moduleId, CancellationToken cancellationToken)

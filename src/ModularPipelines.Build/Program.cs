@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines;
 using ModularPipelines.Build;
@@ -9,13 +10,16 @@ using ModularPipelines.Build.Modules;
 using ModularPipelines.Build.Modules.LocalMachine;
 using ModularPipelines.Build.Modules.UnitTests;
 using ModularPipelines.Build.Settings;
-using ModularPipelines.Distributed;
-using ModularPipelines.Distributed.Artifacts.S3;
-using ModularPipelines.Distributed.Discovery.Redis;
-using ModularPipelines.Distributed.SignalR;
 using ModularPipelines.Extensions;
 using Octokit;
 using Octokit.Internal;
+
+if (args is ["--redis-info"])
+{
+    using var loggerFactory = LoggerFactory.Create(logging => logging.AddSimpleConsole());
+    await DistributedBuildConfiguration.PrintRedisDiagnosticsAsync(Environment.GetEnvironmentVariable, loggerFactory.CreateLogger("RedisDiagnostics")).ConfigureAwait(false);
+    return;
+}
 
 var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
 {
@@ -83,7 +87,7 @@ builder
     .AddModule<PrintGitInformationModule>()
     .AddModule<PushVersionTagModule>();
 
-if (!await BuildPipelineConfiguration.ConfigureDistributedModeAsync(builder))
+if (!DistributedBuildConfiguration.Configure(builder, Environment.GetEnvironmentVariable))
 {
     return;
 }
@@ -148,164 +152,5 @@ file static class BuildPipelineConfiguration
             builder.AddModule<UploadPackagesToNugetModule>()
                 .AddModule<CreateReleaseModule>();
         }
-    }
-
-    public static async Task<bool> ConfigureDistributedModeAsync(PipelineBuilder builder)
-    {
-        var redisRestUrl = Environment.GetEnvironmentVariable("UPSTASH_REDIS_REST_URL");
-        var redisRestToken = Environment.GetEnvironmentVariable("UPSTASH_REDIS_REST_TOKEN");
-        var instanceIndexValue = Environment.GetEnvironmentVariable("MODULARPIPELINES_INSTANCE_INDEX");
-        var totalInstancesValue = Environment.GetEnvironmentVariable("MODULARPIPELINES_TOTAL_INSTANCES");
-
-        if (string.IsNullOrWhiteSpace(instanceIndexValue)
-            && string.IsNullOrWhiteSpace(totalInstancesValue))
-        {
-            return true;
-        }
-
-        var instanceIndex = ParseDistributedInstanceValue(
-            "MODULARPIPELINES_INSTANCE_INDEX",
-            instanceIndexValue,
-            minimum: 0);
-        var totalInstances = ParseDistributedInstanceValue(
-            "MODULARPIPELINES_TOTAL_INSTANCES",
-            totalInstancesValue,
-            minimum: 1);
-        if (instanceIndex >= totalInstances)
-        {
-            throw new InvalidOperationException(
-                "MODULARPIPELINES_INSTANCE_INDEX must be less than MODULARPIPELINES_TOTAL_INSTANCES.");
-        }
-
-        if (totalInstances <= 1)
-        {
-            return true;
-        }
-
-        if (string.IsNullOrEmpty(redisRestUrl) || string.IsNullOrEmpty(redisRestToken))
-        {
-            return ShouldRunStandalone(instanceIndex, "Redis discovery credentials are unavailable");
-        }
-
-        if (!await IsRedisDiscoveryAvailableAsync(redisRestUrl, redisRestToken))
-        {
-            return ShouldRunStandalone(instanceIndex, "Redis discovery is unavailable");
-        }
-
-        builder.AddDistributedMode(o =>
-        {
-            o.InstanceIndex = instanceIndex;
-            o.TotalInstances = totalInstances;
-            var configuredRunId = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
-            var githubRunId = Environment.GetEnvironmentVariable("GITHUB_RUN_ID");
-            if (string.IsNullOrWhiteSpace(o.RunId)
-                && string.IsNullOrWhiteSpace(configuredRunId)
-                && !string.IsNullOrWhiteSpace(githubRunId))
-            {
-                o.RunId = githubRunId;
-            }
-
-            // Explicitly keep distributed CI's result wait at 45 minutes. If a worker dies or
-            // drops its connection after receiving a module, this bound converts the otherwise
-            // indefinite wait into a diagnosable failure (see #3174).
-            o.ModuleResultTimeout = TimeSpan.FromMinutes(45);
-        });
-        builder.AddSignalRDistributedCoordinator(o =>
-        {
-            o.MaxReceiveMessageSize = 64 * 1024 * 1024;
-            // Distributed CI must install cloudflared before enabling multiple instances.
-            o.EnableTunnel = true;
-        });
-        builder.AddRedisMasterDiscovery(o =>
-        {
-            o.RestUrl = redisRestUrl;
-            o.RestToken = redisRestToken;
-        });
-
-        ConfigureArtifactStore(builder);
-        return true;
-    }
-
-    private static int ParseDistributedInstanceValue(
-        string variableName,
-        string? value,
-        int minimum)
-    {
-        if (!int.TryParse(value, out var result) || result < minimum)
-        {
-            throw new InvalidOperationException(
-                $"{variableName} must be an integer greater than or equal to {minimum}.");
-        }
-
-        return result;
-    }
-
-    private static bool ShouldRunStandalone(int instanceIndex, string reason)
-    {
-        if (instanceIndex == 0)
-        {
-            WriteWarning($"{reason}; primary instance running standalone.");
-            return true;
-        }
-
-        WriteWarning($"{reason}; secondary instance {instanceIndex} exiting without running pipeline work.");
-        return false;
-    }
-
-    private static async Task<bool> IsRedisDiscoveryAvailableAsync(string restUrl, string restToken)
-    {
-        try
-        {
-            using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
-            client.DefaultRequestHeaders.Authorization = new("Bearer", restToken);
-            using var response = await client.GetAsync($"{restUrl.TrimEnd('/')}/ping");
-
-            if (response.IsSuccessStatusCode)
-            {
-                return true;
-            }
-
-            WriteWarning(
-                $"Redis discovery preflight returned HTTP {(int) response.StatusCode}; distributed mode disabled.");
-        }
-        catch (Exception exception)
-        {
-            WriteWarning(
-                $"Redis discovery preflight failed ({exception.GetType().Name}); distributed mode disabled.");
-        }
-
-        return false;
-    }
-
-    private static void WriteWarning(string message)
-    {
-#pragma warning disable MP0004 // Logging is not configured until after distributed startup succeeds.
-        Console.Error.WriteLine($"WARNING: {message}");
-
-        if (string.Equals(Environment.GetEnvironmentVariable("GITHUB_ACTIONS"), "true", StringComparison.OrdinalIgnoreCase))
-        {
-            Console.WriteLine($"::warning title=Distributed pipeline degraded::{message}");
-        }
-#pragma warning restore MP0004
-    }
-
-    private static void ConfigureArtifactStore(PipelineBuilder builder)
-    {
-        var endpointUrl = Environment.GetEnvironmentVariable("R2_ENDPOINT_URL");
-        var accessKey = Environment.GetEnvironmentVariable("R2_ACCESS_KEY");
-        var secretKey = Environment.GetEnvironmentVariable("R2_SECRET_KEY");
-        if (string.IsNullOrEmpty(endpointUrl) || string.IsNullOrEmpty(accessKey) || string.IsNullOrEmpty(secretKey))
-        {
-            return;
-        }
-
-        builder.AddS3DistributedArtifactStore(o =>
-        {
-            o.BucketName = "modular-pipelines";
-            o.ServiceUrl = endpointUrl;
-            o.AccessKey = accessKey;
-            o.SecretKey = secretKey;
-            o.ForcePathStyle = true;
-        });
     }
 }

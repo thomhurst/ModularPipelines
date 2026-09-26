@@ -739,44 +739,22 @@ public class CommandTests : TestBase
     }
 
     [Test]
-    [RequiresTool("pwsh")]
-    public async Task ExecuteCommandLineToolAsync_GracefulExit_DoesNotWaitForForcefulTimeout()
+    [RequiresTool("dotnet")]
+    [Timeout(30_000)]
+    public async Task ExecuteCommandLineToolAsync_GracefulExit_DoesNotWaitForForcefulTimeout(
+        CancellationToken cancellationToken)
     {
-        var parentExitFile = Path.Combine(
-            Path.GetTempPath(),
-            $"modular-pipelines-parent-exit-{Guid.NewGuid():N}");
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(await GetService<ICommandContext>(), "graceful-exit", TimeSpan.FromMilliseconds(50),
+            gateForcefulCancellation: true);
+        await fixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(10));
+        fixture.Cancel();
+        await fixture.TriggerAsync("parent-exit");
 
-        try
-        {
-            var command = await GetService<ICommandContext>();
-            using var cancellationTokenSource = new CancellationTokenSource();
-            var script =
-                $"while (-not (Test-Path -LiteralPath '{EscapePowerShellLiteral(parentExitFile)}')) " +
-                "{ Start-Sleep -Milliseconds 10 }";
-
-            var executionTask = command.ExecuteCommandLineToolAsync(
-                new CommandLineToolOptions("pwsh")
-                {
-                    Arguments = ["-NoProfile", "-Command", script],
-                },
-                new CommandExecutionOptions
-                {
-                    GracefulShutdownTimeout = TimeSpan.FromSeconds(10),
-                },
-                cancellationTokenSource.Token);
-
-            await Task.Delay(100);
-            var stopwatch = Stopwatch.StartNew();
-            cancellationTokenSource.Cancel();
-            await File.WriteAllTextAsync(parentExitFile, string.Empty);
-
-            await Assert.ThrowsAsync<OperationCanceledException>(async () => await executionTask);
-            await Assert.That(stopwatch.Elapsed).IsLessThan(TimeSpan.FromSeconds(5));
-        }
-        finally
-        {
-            File.Delete(parentExitFile);
-        }
+        // The forceful cancellation gate stays closed: completion must come from the process exit.
+        await Assert.ThrowsAsync<OperationCanceledException>(
+            () => fixture.Execution.WaitAsync(cancellationToken));
+        await Assert.That(fixture.Execution.IsCompleted).IsTrue();
     }
 
     [Test]

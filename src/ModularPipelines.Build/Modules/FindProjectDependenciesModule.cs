@@ -2,11 +2,12 @@ using Microsoft.Build.Construction;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Modules;
 using ModularPipelines.FileSystem;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
+[RequiresCapability("ci-master")]
 [DependsOn<FindProjectsModule>]
 public class FindProjectDependenciesModule : Module<FindProjectDependenciesModule.ProjectDependencies>
 {
@@ -36,7 +37,7 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
             }
         }
 
-        var projectDependencies = new ProjectDependencies(Dependencies: dependencies.Distinct().ToList(), Others: projects.Value.Except(dependencies).Distinct().ToList());
+        var projectDependencies = new ProjectDependencies(Dependencies: [.. dependencies.Distinct()], Others: [.. projects.Value.Except(dependencies).Distinct()]);
 
         LogProjects(context, projectDependencies);
 

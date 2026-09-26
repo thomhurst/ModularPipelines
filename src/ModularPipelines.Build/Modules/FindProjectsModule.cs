@@ -1,12 +1,14 @@
+using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Build.Modules;
 
+[RequiresCapability("ci-master")]
 public class FindProjectsModule : Module<IReadOnlyList<FilePath>>
 {
     protected override void Configure(ModuleConfigurationBuilder module) => module

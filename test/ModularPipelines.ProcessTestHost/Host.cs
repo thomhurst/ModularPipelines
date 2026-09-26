@@ -11,7 +11,7 @@ public static class Host
         var role = args[0];
         var directory = args[1];
         var runtimeConfiguration = args[2];
-        var name = role is "parent-exit" or "grace-parent" or "startup-failure" or "never-ready" or "child-failure-parent" ? "parent" : role;
+        var name = role is "parent-exit" or "graceful-exit" or "grace-parent" or "startup-failure" or "never-ready" or "child-failure-parent" ? "parent" : role;
         if (name == "parent")
         {
             using var currentProcess = Process.GetCurrentProcess();
@@ -48,6 +48,9 @@ public static class Host
         Publish(directory, name + ".ready", "ready");
         switch (role)
         {
+            case "graceful-exit":
+                await WaitForTrigger(directory, "parent-exit");
+                break;
             case "parent":
             case "parent-exit":
             case "grace-parent":
