@@ -1,8 +1,9 @@
-  # Solutions restored and built by CI and BuildSolutionsModule.
+# Solutions restored and built by CI and BuildSolutionsModule.
 ModularPipelines.Analyzers.slnx
+# Build large integrations in smaller MSBuild graphs before the aggregate solution.
+src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.slnx
+src/ModularPipelines.Google/ModularPipelines.Google.slnx
 ModularPipelines.All.slnx
 ModularPipelines.Examples.slnx
 tools/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.slnx
 src/ModularPipelines.Azure/ModularPipelines.Azure.slnx
-src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.slnx
-src/ModularPipelines.Google/ModularPipelines.Google.slnx
