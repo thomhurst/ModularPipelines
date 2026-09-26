@@ -374,13 +374,19 @@ public class HttpTests : TestBase
         bool returnEofWhenDisposed)
     {
         var timeout = TimeSpan.FromMilliseconds(100);
+        var timeProvider = new FakeTimeProvider();
         var contentStream = new BlockingReadStream(
             throwIOExceptionWhenDisposed,
             returnEofWhenDisposed: returnEofWhenDisposed);
         using var httpClient = new HttpClient(
             new ImmediateResponseHandler(new StreamContent(contentStream)));
-        var result = await GetService<IHttpContext>(_ => { });
-        using var response = await result.T.SendAsync(new HttpOptions(
+        var http = new ModularPipelines.Http.Http(
+            Mock.Of<IHttpClientFactory>(),
+            Mock.Of<IModuleLoggerAccessor>(),
+            Mock.Of<IHttpLogger>(),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
+            timeProvider);
+        using var response = await http.SendAsync(new HttpOptions(
             new HttpRequestMessage(HttpMethod.Get, "https://example.test/synchronous-read"))
         {
             HttpClient = httpClient,
@@ -402,6 +408,8 @@ public class HttpTests : TestBase
 
         try
         {
+            await contentStream.ReadStarted.WaitAsync(TestHostSettings.DefaultTestTimeout);
+            timeProvider.Advance(timeout);
             await Assert.ThrowsAsync<OperationCanceledException>(
                 async () => await readTask.WaitAsync(TestHostSettings.DefaultTestTimeout));
         }
@@ -669,9 +677,9 @@ public class HttpTests : TestBase
         var stream = await response.Content.ReadAsStreamAsync();
         timeProvider.Advance(timeout - TimeSpan.FromMilliseconds(1));
 #pragma warning disable CA2022 // Zero-byte read probes timeout cancellation without consuming replay content.
-        await Assert.That(stream.Read(Span<byte>.Empty)).IsEqualTo(0);
+        await Assert.That(stream.Read([])).IsEqualTo(0);
         timeProvider.Advance(TimeSpan.FromMilliseconds(1));
-        await Assert.That(() => stream.Read(Span<byte>.Empty)).Throws<OperationCanceledException>();
+        await Assert.That(() => stream.Read([])).Throws<OperationCanceledException>();
 #pragma warning restore CA2022
     }
 
@@ -1094,8 +1102,13 @@ public class HttpTests : TestBase
 
         private int WaitForSynchronousRead()
         {
+            _readStarted.TrySetResult();
             _synchronousRelease.Wait();
-            ThrowIfDisposed();
+            if (!returnEofWhenDisposed)
+            {
+                ThrowIfDisposed();
+            }
+
             return 0;
         }
 
