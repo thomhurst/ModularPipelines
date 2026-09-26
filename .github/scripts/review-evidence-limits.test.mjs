@@ -5,11 +5,11 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
+import { buildReview } from './post-claude-review.mjs';
 
 const script = fileURLToPath(new URL('./review-evidence-limits.mjs', import.meta.url));
-const workflow = readFileSync(new URL('../workflows/claude-code-review.yml', import.meta.url), 'utf8');
 
-function evidenceSchema(t, paths) {
+function evidenceLimits(t, paths) {
   const directory = mkdtempSync(join(tmpdir(), 'review-evidence-'));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const changedFiles = join(directory, 'changed-files.nul');
@@ -20,32 +20,29 @@ function evidenceSchema(t, paths) {
   });
   assert.equal(result.status, 0, result.stderr);
   const outputs = Object.fromEntries(readFileSync(output, 'utf8').trim().split('\n').map(line => line.split('=')));
-  const schema = workflow.match(/--json-schema '([^']+)'/)[1].replace(
-    /\$\{\{ steps\.review_context\.outputs\.(\w+) \}\}/g,
-    (_, name) => outputs[name]);
-  return JSON.parse(schema).properties.evidence;
+  return { minimum: Number(outputs.minimum_evidence_count), maximum: Number(outputs.maximum_evidence_count) };
 }
 
 test('an empty captured diff permits exactly zero evidence entries', t => {
-  const schema = evidenceSchema(t, []);
-  assert.equal(schema.minItems, 0);
-  assert.equal(schema.maxItems, 0);
+  assert.deepEqual(evidenceLimits(t, []), { minimum: 0, maximum: 0 });
 });
 
-test('the one-file duplicate-evidence failure is rejected by the generation schema', t => {
+test('the one-file duplicate-evidence failure remains rejected by the publisher', t => {
   const path = 'test/ModularPipelines.UnitTests/Context/HttpTests.cs';
-  const schema = evidenceSchema(t, [path]);
+  const limits = evidenceLimits(t, [path]);
   const rejectedEvidence = [
     { path, assessment: 'Verified the fake clock advances only after the synchronous read starts.' },
     { path, assessment: 'Verified the fake stream honors its configured EOF-on-disposal behavior.' },
   ];
-  assert.equal(schema.minItems, 1);
-  assert.equal(schema.maxItems, 1);
-  assert.ok(rejectedEvidence.length > schema.maxItems);
+  assert.deepEqual(limits, { minimum: 1, maximum: 1 });
+  assert.ok(rejectedEvidence.length > limits.maximum);
+  assert.throws(() => buildReview(JSON.stringify({
+    summary: 'Reviewed the deterministic synchronous HTTP response-body tests.',
+    findings: [], notes: [], evidence: rejectedEvidence,
+  }), 'a'.repeat(40), [path]), /distinct files/);
 });
 
 test('multiple files use distinct NUL-delimited paths, including unusual names', t => {
-  const schema = evidenceSchema(t, ['src/a.cs', 'src/line\nbreak.cs', 'src/$(command).cs', 'src/a.cs']);
-  assert.equal(schema.minItems, 1);
-  assert.equal(schema.maxItems, 3);
+  assert.deepEqual(evidenceLimits(t, ['src/a.cs', 'src/line\nbreak.cs', 'src/$(command).cs', 'src/a.cs']),
+    { minimum: 1, maximum: 3 });
 });

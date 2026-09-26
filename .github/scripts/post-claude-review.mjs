@@ -2,6 +2,30 @@ import { spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 
+export function extractReview(rawExecution) {
+  let messages;
+  try {
+    messages = JSON.parse(rawExecution);
+  } catch {
+    // Parse errors can quote sensitive transcript content. Never log that content.
+    throw new Error('Claude execution output is not valid JSON.');
+  }
+  if (!Array.isArray(messages) || messages.filter(message => message?.type === 'result').length !== 1) {
+    throw new Error('Claude execution must contain exactly one final result.');
+  }
+  const result = messages.at(-1);
+  if (result?.type !== 'result' || result.subtype !== 'success' || result.is_error !== false
+    || typeof result.result !== 'string' || result.result.trim().length === 0) {
+    throw new Error('Claude execution did not finish with a successful text result.');
+  }
+  return result.result;
+}
+
+function hasExactKeys(value, keys) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
+    && Object.keys(value).length === keys.length && keys.every(key => Object.hasOwn(value, key));
+}
+
 export function buildReview(rawReview, headSha, changedFiles) {
   if (!/^[a-f0-9]{40}$/.test(headSha ?? '')) {
     throw new Error('A captured pull request head SHA is required.');
@@ -16,7 +40,10 @@ export function buildReview(rawReview, headSha, changedFiles) {
 
   const validText = (value, minimumLength = 1) => typeof value === 'string' && value.trim().length >= minimumLength;
   const notes = review?.notes;
-  if (!review || !validText(review.summary, 40) || !Array.isArray(review.findings)
+  if (!hasExactKeys(review, ['summary', 'findings', 'notes', 'evidence'])) {
+    throw new Error('A review requires exactly summary, findings, notes, and evidence fields.');
+  }
+  if (!validText(review.summary, 40) || !Array.isArray(review.findings)
     || !review.findings.every(finding => validText(finding, 20))
     || !Array.isArray(notes) || !notes.every(note => validText(note))) {
     throw new Error('A review needs a descriptive summary (40 characters), findings (20 characters each), and nonempty notes.');
@@ -27,7 +54,8 @@ export function buildReview(rawReview, headSha, changedFiles) {
   }
   const evidence = review.evidence;
   if (!Array.isArray(evidence) || (changedFiles.length > 0 && evidence.length === 0)
-    || !evidence.every(item => item && changedFiles.includes(item.path) && validText(item.assessment, 40))
+    || !evidence.every(item => hasExactKeys(item, ['path', 'assessment'])
+      && changedFiles.includes(item.path) && validText(item.assessment, 40))
     || new Set(evidence.map(item => item.path)).size !== evidence.length) {
     throw new Error('Review evidence must describe checks against distinct files in the captured diff.');
   }
@@ -88,7 +116,7 @@ export function publishReview({ rawReview, headSha, prNumber, repository, change
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   try {
     publishReview({
-      rawReview: process.env.REVIEW_JSON,
+      rawReview: extractReview(readFileSync(process.env.REVIEW_EXECUTION_FILE, 'utf8')),
       headSha: process.env.REVIEW_HEAD_SHA,
       prNumber: process.env.PR_NUMBER,
       repository: process.env.GH_REPO,

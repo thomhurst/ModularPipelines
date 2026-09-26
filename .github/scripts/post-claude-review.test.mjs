@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { buildReview, publishReview, runGitHub } from './post-claude-review.mjs';
+import { buildReview, extractReview, publishReview, runGitHub } from './post-claude-review.mjs';
 
 const headSha = 'a'.repeat(40);
 const summary = 'Reviewed the current diff and its relevant repository guidance.';
@@ -9,6 +9,52 @@ const evidence = [{ path: changedFiles[0], assessment: 'Verified cancellation re
 const rawReview = JSON.stringify({ summary, findings: [], notes: [], evidence });
 const options = { rawReview, headSha, prNumber: '5183', repository: 'owner/repo', changedFiles };
 const currentHead = JSON.stringify({ state: 'OPEN', headRefOid: headSha });
+
+const successResult = { type: 'result', subtype: 'success', is_error: false, result: rawReview };
+
+test('extracts only the completed final result, never intermediate tool or assistant content', () => {
+  const execution = JSON.stringify([
+    { type: 'assistant', message: { content: [{ type: 'text', text: 'private intermediate content' }] } },
+    { type: 'user', message: { content: [{ type: 'tool_result', content: rawReview }] } },
+    successResult,
+  ]);
+  assert.equal(extractReview(execution), rawReview);
+  assert.match(buildReview(extractReview(execution), headSha, changedFiles), /REVIEW_VERDICT: CLEAR/);
+});
+
+test('failed, ambiguous, incomplete, and malformed executions cannot supply a review', () => {
+  for (const execution of [undefined, '', 'private invalid JSON', '{}', 'null', '[]',
+    JSON.stringify([successResult, { type: 'assistant' }]),
+    JSON.stringify([successResult, successResult]),
+    ...[
+      { subtype: 'error_max_structured_output_retries' },
+      { is_error: true }, { is_error: undefined }, { result: '' }, { result: {} },
+      { type: 'assistant' },
+    ].map(overrides => JSON.stringify([{ ...successResult, ...overrides }]))]) {
+    assert.throws(() => extractReview(execution), error => {
+      assert.doesNotMatch(error.message, /private invalid JSON/);
+      return /execution|result/i.test(error.message);
+    });
+  }
+});
+
+test('final text must satisfy the review contract without repair or a fallback verdict', () => {
+  for (const result of ['```json\n' + rawReview + '\n```', 'Here is the review: ' + rawReview,
+    JSON.stringify({ summary, findings: [], notes: [], evidence: [{ path: 'a.cs', assessment: evidence[0].assessment }] }),
+    JSON.stringify({ summary, findings: [], notes: [] })]) {
+    const extracted = extractReview(JSON.stringify([{ ...successResult, result }]));
+    assert.throws(() => publishReview({ ...options, rawReview: extracted }, () => assert.fail('Invalid final output must not reach GitHub.')));
+  }
+});
+
+test('the publisher enforces the complete object schema including additional properties', () => {
+  for (const review of [
+    { summary, findings: [], notes: [], evidence, extra: 'ignored finding' },
+    { summary, findings: [], notes: [], evidence: [{ ...evidence[0], extra: 'ignored finding' }] },
+  ]) {
+    assert.throws(() => publishReview({ ...options, rawReview: JSON.stringify(review) }, () => assert.fail('Unexpected fields must not reach GitHub.')));
+  }
+});
 
 test('a schema-shaped placeholder cannot publish a review without changed-file evidence', () => {
   const placeholder = JSON.stringify({
