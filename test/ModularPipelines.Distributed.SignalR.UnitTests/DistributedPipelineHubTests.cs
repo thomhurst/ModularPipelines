@@ -291,6 +291,24 @@ public class DistributedPipelineHubTests
     }
 
     [Test]
+    public async Task Result_From_Idle_Worker_Is_Rejected()
+    {
+        var state = new SignalRMasterState();
+        var worker = new WorkerState
+        {
+            ConnectionId = "idle-connection",
+            Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
+        };
+        state.RegisterWorker(worker);
+
+        var (accepted, workersToRelease) = await state.TryCompleteWorkerResultAsync(worker, CreateResult("UnassignedModule"));
+
+        await Assert.That(accepted).IsFalse();
+        await Assert.That(workersToRelease).IsEmpty();
+        await Assert.That(worker.IsIdle).IsTrue();
+    }
+
+    [Test]
     public async Task PublishResult_Cannot_Complete_Another_Workers_Assignment()
     {
         var state = new SignalRMasterState();
@@ -373,7 +391,7 @@ public class DistributedPipelineHubTests
         var publication = Task.CompletedTask;
         try
         {
-            using (await state.EnterAssignmentDeliveryFenceAsync(assignment.ModuleId))
+            using (await state.EnterAssignmentDeliveryFenceAsync(assignment.ModuleId, cancellationToken))
             {
                 publication = oldHub.PublishResult(result);
                 await Assert.That(publication.IsCompleted).IsFalse();

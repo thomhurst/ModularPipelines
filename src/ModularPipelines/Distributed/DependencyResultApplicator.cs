@@ -77,7 +77,10 @@ internal static class DependencyResultApplicator
 
             if (!moduleLookup.TryGetValue(reference.ModuleId, out var depModule))
             {
-                logger.LogDebug("Dependency module instance not found locally: {ModuleId}", reference.ModuleId);
+                if (logger.IsEnabled(LogLevel.Debug))
+                {
+                    logger.LogDebug("Dependency module instance not found locally: {ModuleId}", reference.ModuleId);
+                }
                 continue;
             }
 
@@ -96,20 +99,14 @@ internal static class DependencyResultApplicator
             var processingStartedAt = clock.GetTimestamp();
             try
             {
-                var result = serializer.Deserialize(serializedResult);
-                if (result is not null)
-                {
-                    var applied = ModuleCompletionSourceApplicator.TryApply(depModule, result);
-                    var internalModule = depModule.AsInternal();
-                    var acceptedResult = !applied && internalModule.ResultTask.IsCompletedSuccessfully
-                        ? internalModule.ResultTask.Result
-                        : result;
-                    resultRegistry.RegisterResult(depModule.GetType(), acceptedResult);
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.LogWarning(ex, "Failed to apply dependency result for {ModuleId}", reference.ModuleId);
+                var result = serializer.Deserialize(serializedResult) ?? throw new InvalidOperationException(
+                    $"Dependency result for '{reference.ModuleId}' is empty.");
+                var applied = ModuleCompletionSourceApplicator.TryApply(depModule, result);
+                var internalModule = depModule.AsInternal();
+                var acceptedResult = !applied && internalModule.ResultTask.IsCompletedSuccessfully
+                    ? internalModule.ResultTask.Result
+                    : result;
+                resultRegistry.RegisterResult(depModule.GetType(), acceptedResult);
             }
             finally
             {
@@ -142,9 +139,12 @@ internal static class DependencyResultApplicator
         }
         catch (Exception ex)
         {
-            logger.LogCritical(ex,
-                "Failed to publish resolution failure for {Module} — master may hang waiting for this result",
-                assignment.ModuleId);
+            if (logger.IsEnabled(LogLevel.Critical))
+            {
+                logger.LogCritical(ex,
+                    "Failed to publish resolution failure for {Module} — master may hang waiting for this result",
+                    assignment.ModuleId);
+            }
         }
     }
 }

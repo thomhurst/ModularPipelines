@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Text.Json.Nodes;
 using Moq;
 using Kevlar;
 using Microsoft.Extensions.DependencyInjection;
@@ -104,6 +105,48 @@ public class WorkerModuleExecutorTests
     }
 
     private sealed class DefaultRetryModule : RetryingModule;
+
+    private sealed class PolymorphicDependencyModule : Module<object>
+    {
+        protected internal override Task<object> ExecuteAsync(
+            IModuleContext context, CancellationToken cancellationToken) => Task.FromResult<object>("dependency");
+    }
+
+    [Test]
+    [Arguments("build")]
+    [Arguments("{")]
+    [Arguments("null")]
+    public async Task Rejected_Dependency_Publishes_Failure_Without_Executing_Consumer(
+        string invalidPayload, CancellationToken cancellationToken)
+    {
+        var registry = new ModuleTypeRegistry();
+        registry.Register(typeof(PolymorphicDependencyModule));
+        var serializer = new ModuleResultSerializer(registry);
+        var now = DateTimeOffset.UtcNow;
+        var dependency = serializer.Serialize(new ModuleResult<object>.Success("dependency")
+        {
+            Name = "dependency",
+            Status = ModuleStatus.Succeeded,
+            StartTime = now,
+            EndTime = now,
+            Duration = TimeSpan.Zero,
+        }, ModuleId.FromType(typeof(PolymorphicDependencyModule)), 0);
+        var payload = JsonNode.Parse(dependency.Payload)!;
+        payload["$valueTypeBuild"] = "different-build";
+        dependency = dependency with { Payload = invalidPayload == "build" ? payload.ToJsonString() : invalidPayload };
+
+        var (module, result) = await ExecuteWorkerModuleAsync<DeclarativeRetryModule, int>(
+            builder => builder.AddModule<PolymorphicDependencyModule>(), cancellationToken,
+            dependencyResult: dependency);
+
+        await Assert.That(module.AttemptCount).IsEqualTo(0);
+        await Assert.That(result?.Status).IsEqualTo(ModuleStatus.Failed);
+        await Assert.That(result!.ExceptionOrDefault).IsNotNull();
+        if (invalidPayload == "build")
+        {
+            await Assert.That(result.ExceptionOrDefault!.Message).Contains("build identity");
+        }
+    }
 
     private sealed class CyclicOutput
     {
@@ -373,20 +416,27 @@ public class WorkerModuleExecutorTests
         Action<PipelineBuilder>? configureBuilder,
         CancellationToken cancellationToken,
         bool rejectFirstPublication = false,
-        string? schemaVersion = null)
+        string? schemaVersion = null,
+        SerializedModuleResult? dependencyResult = null)
         where TModule : Module<TResult>
     {
         var builder = TestPipelineBuilder.Create();
         configureBuilder?.Invoke(builder);
         builder.AddModule<TModule>();
         await using var pipeline = await builder.BuildAsync();
-        var module = pipeline.Services.GetServices<IModule>()
-            .OfType<TModule>()
-            .Single();
+        var modules = pipeline.Services.GetServices<IModule>().ToArray();
+        var module = modules.OfType<TModule>().Single();
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
-        typeRegistry.Register(typeof(TModule));
+        foreach (var registeredModule in modules)
+        {
+            typeRegistry.Register(registeredModule.GetType());
+        }
         var serializer = new ModuleResultSerializer(typeRegistry);
+        if (dependencyResult is not null)
+        {
+            await coordinator.PublishResultAsync(dependencyResult, cancellationToken);
+        }
         var assignment = new ModuleAssignment(
             ModuleId.FromType(typeof(TModule)),
 
@@ -395,12 +445,15 @@ public class WorkerModuleExecutorTests
             new ModuleAssignmentOptions(null, false))
         {
             PipelineSchemaVersion = schemaVersion ?? typeRegistry.GetPipelineSchemaVersion(),
+            DependencyResultReferences = dependencyResult is null
+                ? null
+                : [new DependencyResultReference(dependencyResult.ModuleId, true)],
         };
         await coordinator.EnqueueModuleAsync(assignment, cancellationToken);
         var executor = new WorkerModuleExecutor(
             pipeline.Services.GetRequiredService<IHostApplicationLifetime>(),
             rejectFirstPublication ? new RejectFirstPublicationCoordinator(coordinator) : coordinator,
-            [module],
+            modules,
             typeRegistry,
             serializer,
             pipeline.Services.GetRequiredService<IModuleRunner>(),
@@ -417,14 +470,14 @@ public class WorkerModuleExecutorTests
             null,
             NullLogger<WorkerModuleExecutor>.Instance);
 
-        var executionTask = executor.ExecuteAsync([module]);
+        var executionTask = executor.ExecuteAsync(modules);
         try
         {
             var serializedResult = await coordinator.WaitForResultAsync(
                 ModuleId.FromType(typeof(TModule)),
                 cancellationToken).WaitAsync(TimeSpan.FromSeconds(5), cancellationToken);
             await Assert.That(serializedResult.ExecutionTelemetry).IsNotNull();
-            await Assert.That(serializedResult.ExecutionTelemetry!.ClaimedAt).IsNotEqualTo(default(DateTimeOffset));
+            await Assert.That(serializedResult.ExecutionTelemetry!.ClaimedAt).IsNotEqualTo(default);
             return (module, serializer.Deserialize(serializedResult));
         }
         finally
