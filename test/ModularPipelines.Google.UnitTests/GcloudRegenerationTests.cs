@@ -40,7 +40,7 @@ public class GcloudRegenerationTests
         var options = new GcloudDatastreamConnectionProfilesCreateOptions("display", "MYSQL", "profile")
         {
             MysqlHostname = "database",
-            MysqlPort = 3306,
+            MysqlPort = "3306",
             MysqlUsername = "user",
             MysqlPassword = "password",
             CaCertificate = certificates != "none" ? "ca" : null,
@@ -62,7 +62,7 @@ public class GcloudRegenerationTests
         {
             PostgresqlDatabase = "database",
             PostgresqlHostname = "host",
-            PostgresqlPort = 5432,
+            PostgresqlPort = "5432",
             PostgresqlUsername = "user",
             PostgresqlPassword = "password",
             PostgresqlCaCertificate = certificates != "none" ? "ca" : null,

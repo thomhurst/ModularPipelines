@@ -63,7 +63,7 @@ public class GcloudNestedSynopsisTests
     {
         var options = new GcloudComposerEnvironmentsUpdateOptions("environment")
         {
-            MaxWorkers = selection is "workers" or "combined" or "mixed" ? 2 : null,
+            MaxWorkers = selection is "workers" or "combined" or "mixed" ? "2" : null,
             SchedulerCount = selection is "scheduler" or "combined" ? 1 : null,
             NodeCount = selection is "nodes" or "mixed" ? 3 : null,
             MaintenanceWindowStart = selection is "window" or "window-only" ? "2026-09-22T01:00:00Z" : null,
@@ -90,8 +90,8 @@ public class GcloudNestedSynopsisTests
         {
             AutoprovisioningConfigFile = selection is "file" or "enable" or "mixed" ? "autoprovisioning.yaml" : null,
             EnableAutoprovisioning = selection is "enable" or "enable-only" or "enable-cpu" or "enable-memory" or "limits" ? true : null,
-            MaxCpu = selection is "cpu" or "enable-cpu" or "limits" ? 8 : null,
-            MaxMemory = selection is "memory" or "enable-memory" or "limits" ? 16 : null,
+            MaxCpu = selection is "cpu" or "enable-cpu" or "limits" ? "8" : null,
+            MaxMemory = selection is "memory" or "enable-memory" or "limits" ? "16" : null,
             AutoprovisioningMinCpuPlatform = selection == "mixed" ? "Intel Ice Lake" : null,
         };
         var errors = new List<ValidationResult>();
