@@ -103,7 +103,7 @@ jobs:
           done
 
       - name: Test trusted review publisher
-        run: node --test .github/scripts/post-claude-review.test.mjs .github/scripts/review-evidence-limits.test.mjs
+        run: node --test .github/scripts/post-claude-review.test.mjs .github/scripts/review-evidence-limits.test.mjs .github/scripts/validate-claude-review-stop.test.mjs .github/scripts/report-claude-failure.test.mjs
 
       - name: Test review merge gate
         shell: pwsh
@@ -115,6 +115,8 @@ jobs:
         env:
           PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
           GH_REPO: ${{ github.repository }}
+          REVIEW_HEAD_SHA: ${{ steps.pull_request.outputs.head_sha }}
+          REVIEW_CHANGED_FILES: ${{ github.workspace }}/review-context/changed-files.nul
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           # The actor is the PR author, who by definition has no write access on a
@@ -184,10 +186,21 @@ jobs:
 
           # Use the supported final-result transcript instead of the unreliable
           # StructuredOutput tool (#5380). The trusted publisher enforces the full contract.
+          # The trusted Stop hook allows one correction before final publication;
+          # it does not grant the model shell or write tools.
           claude_args: |
             --add-dir pr-head --tools "Read,Glob,Grep" --allowedTools "Read,Glob,Grep"
             --append-system-prompt-file .github/prompts/claude-review-system.md
+            --settings .github/claude-review-settings.json
           allowed_bots: 'dependabot[bot]'
+
+      - name: Classify failed Claude execution without exposing its transcript
+        if: failure() && steps.claude-review.outcome == 'failure'
+        env:
+          # The action writes this file before throwing on is_error:true, but
+          # does not set its execution_file output when it throws.
+          REVIEW_EXECUTION_FILE: ${{ runner.temp }}/claude-execution-output.json
+        run: node .github/scripts/report-claude-failure.mjs
 
       - name: Publish validated review
         env:

@@ -17,6 +17,54 @@ const currentHead = JSON.stringify({ state: 'OPEN', headRefOid: headSha });
 
 const successResult = { type: 'result', subtype: 'success', is_error: false, result: rawReview };
 
+test('one Stop correction reaches the command-line publisher with its findings intact', t => {
+  const directory = mkdtempSync(join(tmpdir(), 'review-correction-'));
+  t.after(() => rmSync(directory, { recursive: true, force: true }));
+  const pathsFile = join(directory, 'changed-files.nul');
+  writeFileSync(pathsFile, changedFiles.join('\0') + '\0');
+  const initialText = 'PRIVATE_SENTINEL initial non-JSON response';
+  const correctedText = JSON.stringify({ summary, evidence, notes: [],
+    findings: ['src/example.cs drops cancellation; forward the supplied token.'] });
+  const hook = (text, active) => spawnSync(process.execPath, [
+    fileURLToPath(new URL('./validate-claude-review-stop.mjs', import.meta.url)),
+  ], {
+    input: JSON.stringify({ hook_event_name: 'Stop', stop_hook_active: active, last_assistant_message: text }),
+    encoding: 'utf8', shell: false,
+    env: { ...process.env, REVIEW_HEAD_SHA: headSha, REVIEW_CHANGED_FILES: pathsFile },
+  });
+  const initial = hook(initialText, false);
+  assert.equal(initial.status, 0, initial.stderr);
+  assert.equal(JSON.parse(initial.stdout).decision, 'block');
+
+  for (const finalText of [correctedText, initialText]) {
+    const subsequent = hook(finalText, true);
+    assert.equal(subsequent.status, 0, subsequent.stderr);
+    assert.deepEqual(JSON.parse(subsequent.stdout), {});
+    // Stop continuation messages remain intermediate SDK events. Only the
+    // completed session supplies a result, which the action writes last.
+    const { result, callsFile, fixtureFile } = runPublisher(t, JSON.stringify([
+      { type: 'assistant', message: { content: [{ type: 'text', text: initialText }] } },
+      { type: 'system', subtype: 'hook_response', hook_name: 'Stop', output: initial.stdout },
+      { type: 'assistant', message: { content: [{ type: 'text', text: finalText }] } },
+      { ...successResult, result: finalText },
+    ]));
+    if (finalText === correctedText) {
+      assert.equal(result.status, 0, result.stderr);
+      const calls = readFileSync(callsFile, 'utf8').trim().split('\n').map(line => JSON.parse(line));
+      const published = JSON.parse(calls[1].input);
+      assert.equal(published.commit_id, headSha);
+      assert.match(published.body, /drops cancellation/);
+      assert.match(published.body, /REVIEW_VERDICT: BLOCKING/);
+      assert.doesNotMatch(published.body, /PRIVATE_SENTINEL/);
+      assert.deepEqual(JSON.parse(readFileSync(fixtureFile, 'utf8')), [{ ...successResult, result: correctedText }]);
+    } else {
+      assert.equal(result.status, 1);
+      assert.equal(existsSync(callsFile), false);
+      assert.equal(existsSync(fixtureFile), false);
+    }
+  }
+});
+
 function runPublisher(t, execution, paths = changedFiles, fixtureName = 'validated-review.json') {
   const directory = mkdtempSync(join(tmpdir(), 'review-publisher-'));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
