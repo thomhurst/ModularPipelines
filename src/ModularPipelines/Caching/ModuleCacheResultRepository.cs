@@ -38,7 +38,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
     private readonly ModuleLookup _moduleLookup;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry;
-    private readonly ConditionalWeakTable<Type, JsonSerializerOptions> _deserializationOptions = new();
+    private readonly ConditionalWeakTable<Type, JsonSerializerOptions> _serializationOptions = new();
     private readonly ConcurrentDictionary<IModule, ComputedFingerprint> _fingerprints =
         new(ReferenceEqualityComparer.Instance);
 
@@ -134,6 +134,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                     await JsonSerializer.SerializeAsync<ModuleResult<T>>(
                             resultStream,
                             moduleResult,
+                            GetSerializerOptions<T>(module.GetType()),
                             cancellationToken: cancellationToken)
                         .ConfigureAwait(false);
 
@@ -1214,10 +1215,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 FileOptions.Asynchronous | FileOptions.SequentialScan);
             return await JsonSerializer.DeserializeAsync<ModuleResult<T>>(
                     validatedResult,
-                    _deserializationOptions.GetValue(moduleType, static type => new JsonSerializerOptions
-                    {
-                        Converters = { new ModuleResultJsonConverterFactory { LoadContext = ModuleResultJsonConverterFactory.GetLoadContext(type, typeof(T)) } },
-                    }),
+                    GetSerializerOptions<T>(moduleType),
                     cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
         }
@@ -1226,6 +1224,12 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             File.Delete(temporaryResult);
         }
     }
+
+    private JsonSerializerOptions GetSerializerOptions<T>(Type moduleType) =>
+        _serializationOptions.GetValue(moduleType, static type => new JsonSerializerOptions
+        {
+            Converters = { new ModuleResultJsonConverterFactory { LoadContext = ModuleResultJsonConverterFactory.GetLoadContext(type, typeof(T)) } },
+        });
 
     private static async Task CopyWithLimitAsync(
         Stream input,

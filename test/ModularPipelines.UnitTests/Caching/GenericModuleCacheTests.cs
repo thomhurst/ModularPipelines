@@ -18,6 +18,91 @@ namespace ModularPipelines.UnitTests.Caching;
 
 public class GenericModuleCacheTests
 {
+    [JsonConverter(typeof(OptionsSensitiveConverterFactory))]
+    public sealed record OptionsSensitiveValue(string Value);
+
+    public sealed record OptionsSensitiveMember(
+        [property: JsonConverter(typeof(OptionsSensitiveConverterFactory))] OptionsSensitiveValue Value);
+
+    public sealed class OptionsSensitiveConverterFactory : JsonConverterFactory
+    {
+        public override bool CanConvert(Type typeToConvert) => typeToConvert == typeof(OptionsSensitiveValue);
+
+        public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options) =>
+            new OptionsSensitiveConverter(options.Converters.Count > 0);
+    }
+
+    private sealed class OptionsSensitiveConverter(bool useArray) : JsonConverter<OptionsSensitiveValue>
+    {
+        public override OptionsSensitiveValue Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            if (!useArray)
+            {
+                return new OptionsSensitiveValue(reader.GetString()!);
+            }
+
+            if (reader.TokenType != JsonTokenType.StartArray)
+            {
+                throw new JsonException("Expected the array format selected by the serializer options.");
+            }
+
+            reader.Read();
+            var value = new OptionsSensitiveValue(reader.GetString()!);
+            reader.Read();
+            return value;
+        }
+
+        public override void Write(Utf8JsonWriter writer, OptionsSensitiveValue value, JsonSerializerOptions options)
+        {
+            if (useArray)
+            {
+                writer.WriteStartArray();
+            }
+
+            writer.WriteStringValue(value.Value);
+            if (useArray)
+            {
+                writer.WriteEndArray();
+            }
+        }
+    }
+
+    public class OptionsSensitiveCacheModule : Module<OptionsSensitiveValue>
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) => module.WithCacheKeyPart("converter-options");
+
+        protected internal override Task<OptionsSensitiveValue> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+            Task.FromResult(new OptionsSensitiveValue("cached-value"));
+    }
+
+    public class OptionsSensitiveMemberCacheModule : Module<OptionsSensitiveMember>
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) => module.WithCacheKeyPart("converter-options");
+
+        protected internal override Task<OptionsSensitiveMember> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+            Task.FromResult(new OptionsSensitiveMember(new OptionsSensitiveValue("cached-value")));
+    }
+
+    [Test]
+    [Arguments(typeof(OptionsSensitiveCacheModule))]
+    [Arguments(typeof(OptionsSensitiveMemberCacheModule))]
+    public async Task Cache_Uses_Consistent_Converter_Factory_Options(Type moduleType)
+    {
+        var directory = Directory.CreateTempSubdirectory("ModularPipelines-converter-options-");
+        try
+        {
+            var first = await RunAsync(moduleType, directory.FullName);
+            var repeated = await RunAsync(moduleType, directory.FullName);
+            await Assert.That(first.Status).IsEqualTo(ModuleStatus.Succeeded);
+            await Assert.That(repeated.Status).IsEqualTo(ModuleStatus.RestoredFromCache);
+            await Assert.That(repeated.ValueOrDefault).IsEqualTo(first.ValueOrDefault);
+        }
+        finally
+        {
+            directory.Delete(recursive: true);
+        }
+    }
+
     public class VersionOverrideMarkerModule : ConverterCacheModule
     {
         protected override void Configure(ModuleConfigurationBuilder module)
