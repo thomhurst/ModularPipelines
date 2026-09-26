@@ -390,7 +390,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 diagnosticName: "module-version-mvid");
         }
 
-        AppendModuleContractFingerprints(fingerprint, module.GetType(), configuration.CacheAssemblyVersionKey is not null);
+        AppendModuleContractFingerprints(fingerprint, module.GetType(), configuration.CacheAssemblyVersionKey is not null, GetSerializerOptions<T>(module.GetType()));
 
         foreach (var pattern in configuration.CacheInputPatterns)
         {
@@ -425,7 +425,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
     }
 
     [UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Module result cache and its build fingerprints require runtime type metadata.")]
-    private static void AppendModuleContractFingerprints(FingerprintBuilder fingerprint, Type moduleType, bool hasVersionOverride)
+    private static void AppendModuleContractFingerprints(FingerprintBuilder fingerprint, Type moduleType, bool hasVersionOverride, JsonSerializerOptions options)
     {
         for (var current = moduleType; current is not null; current = current.BaseType)
         {
@@ -438,7 +438,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 
             foreach (var argument in current.GetGenericArguments())
             {
-                fingerprint.Append("module-generic-argument", StableTypeName.GetBuildFingerprint(argument));
+                fingerprint.Append("module-generic-argument", StableTypeName.GetBuildFingerprint(argument, options));
             }
 
             foreach (var constraint in StableTypeName.GetGenericConstraintBuildFingerprints(current, hasVersionOverride ? moduleType.Assembly : null))

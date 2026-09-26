@@ -18,6 +18,40 @@ namespace ModularPipelines.UnitTests.Caching;
 
 public class GenericModuleCacheTests
 {
+    public class FactoryBuildCacheModule<T> : Module<T> where T : new()
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) => module.WithCacheKeyPart("factory-build");
+
+        protected internal override Task<T> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) => Task.FromResult(new T());
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Cache_Fingerprints_Converter_Selected_By_Cache_Options(bool memberConverter)
+    {
+        using var builds = new ConverterFactoryBuilds(memberConverter);
+        await Assert.That(builds.First.Module.ModuleVersionId).IsEqualTo(builds.Second.Module.ModuleVersionId);
+        await Assert.That(JsonSerializer.Serialize(Activator.CreateInstance(builds.First), builds.First))
+            .IsNotEqualTo(JsonSerializer.Serialize(Activator.CreateInstance(builds.Second), builds.Second));
+        var firstModule = typeof(FactoryBuildCacheModule<>).MakeGenericType(builds.First);
+        var secondModule = typeof(FactoryBuildCacheModule<>).MakeGenericType(builds.Second);
+        var directory = Directory.CreateTempSubdirectory("ModularPipelines-factory-build-");
+        try
+        {
+            var first = await RunAsync(firstModule, directory.FullName);
+            var repeated = await RunAsync(firstModule, directory.FullName);
+            var changed = await RunAsync(secondModule, directory.FullName);
+            await Assert.That(first.Status).IsEqualTo(ModuleStatus.Succeeded);
+            await Assert.That(repeated.Status).IsEqualTo(ModuleStatus.RestoredFromCache);
+            await Assert.That(changed.Status).IsEqualTo(ModuleStatus.Succeeded);
+        }
+        finally
+        {
+            directory.Delete(recursive: true);
+        }
+    }
+
     [JsonConverter(typeof(OptionsSensitiveConverterFactory))]
     public sealed record OptionsSensitiveValue(string Value);
 

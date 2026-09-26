@@ -1092,7 +1092,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
 
         var valueType = valueTypeName is null
             ? typeof(T)
-            : StableTypeName.Resolve(valueTypeName, options.Converters.OfType<ModuleResultJsonConverterFactory>().FirstOrDefault()?.LoadContext, valueTypeBuild)
+            : StableTypeName.Resolve(valueTypeName, options.Converters.OfType<ModuleResultJsonConverterFactory>().FirstOrDefault()?.LoadContext, valueTypeBuild, options)
               ?? throw new JsonException($"Unknown module result value type '{valueTypeName}'.");
         if (valueTypeName is not null && !DeclaredValueType.IsAssignableFrom(valueType))
         {
@@ -1101,7 +1101,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         }
 
         if (valueTypeName is not null
-            && !string.Equals(valueTypeBuild, StableTypeName.GetBuildFingerprint(valueType), StringComparison.Ordinal))
+            && !string.Equals(valueTypeBuild, StableTypeName.GetBuildFingerprint(valueType, options), StringComparison.Ordinal))
         {
             throw new JsonException(
                 $"Module result value type '{valueTypeName}' has a missing or incompatible build identity. " +
@@ -1154,7 +1154,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                     writer.WriteString(
                         "$valueType",
                         StableTypeName.Get(runtimeValueType));
-                    writer.WriteString("$valueTypeBuild", StableTypeName.GetBuildFingerprint(runtimeValueType));
+                    writer.WriteString("$valueTypeBuild", StableTypeName.GetBuildFingerprint(runtimeValueType, options));
                 }
 
                 writer.WritePropertyName("Value");

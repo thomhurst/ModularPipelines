@@ -12,7 +12,8 @@ namespace ModularPipelines.Serialization;
 
 internal static class StableTypeName
 {
-    private static readonly ConditionalWeakTable<Type, string> BuildFingerprints = [];
+    private static readonly ConditionalWeakTable<Type, string> DefaultBuildFingerprints = [];
+    private static readonly ConditionalWeakTable<JsonSerializerOptions, ConditionalWeakTable<Type, string>> BuildFingerprints = [];
     private static readonly ConditionalWeakTable<Type, string> InterfaceBuildFingerprints = [];
     // The trusted-platform list includes application assemblies. Only shared-framework
     // dependency manifests identify directories whose implementation builds may vary.
@@ -28,9 +29,23 @@ internal static class StableTypeName
     public static string Get(Type type) =>
         $"{GetTypeSpecification(type)}, {type.Assembly.GetName().Name}";
 
-    public static string GetBuildFingerprint(Type type) =>
-        BuildFingerprints.GetValue(type, static value =>
-            Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(GetBuildIdentity(value, [], [])))));
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Runtime result build fingerprints require reflection-based serialization metadata.")]
+    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Runtime result build fingerprints are explicitly unsupported in Native AOT.")]
+    public static string GetBuildFingerprint(Type type, JsonSerializerOptions? options = null)
+    {
+        if (options is null)
+        {
+            // Keep default options local: converter factories can populate their metadata
+            // caches with collectible plugin types that must not become global roots.
+            return DefaultBuildFingerprints.GetValue(type, static value => GetBuildFingerprint(value, ModuleResultSerializer.CreateOptions()));
+        }
+
+        // Factories see immutable options during serialization. Freeze before caching
+        // their selected converter, and keep fingerprints separate for each options instance.
+        options.MakeReadOnly(populateMissingResolver: true);
+        return BuildFingerprints.GetValue(options, static _ => new()).GetValue(type, value =>
+            Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(GetBuildIdentity(value, [], [], options: options)))));
+    }
 
     // Interface signatures affect module behavior even when none of their values are
     // serialized. Inspect CLR types without constructing attributed JSON converters.
@@ -121,7 +136,7 @@ internal static class StableTypeName
         }
     }
 
-    private static string GetBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions, bool expandMembers = true, Assembly? versionedAssembly = null)
+    private static string GetBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions, bool expandMembers = true, Assembly? versionedAssembly = null, JsonSerializerOptions? options = null)
     {
         var frameworkType = IsFrameworkAssembly(type.Assembly);
         var identity = GetTypeBuildIdentity(type, versionedAssembly);
@@ -131,7 +146,7 @@ internal static class StableTypeName
             return identity;
         }
 
-        identity += GetConstructionBuildIdentity(type, visitedTypes, expandedDefinitions, expandMembers, versionedAssembly);
+        identity += GetConstructionBuildIdentity(type, visitedTypes, expandedDefinitions, expandMembers, versionedAssembly, options);
 
         // Framework servicing builds do not define the application's wire contract.
         // Generic arguments still need validation, e.g. List<ApplicationResult>.
@@ -144,7 +159,7 @@ internal static class StableTypeName
         // Keep its binary, base, and generic argument builds without expanding members.
         if (!expandMembers)
         {
-            return identity + GetBaseBuildIdentity(type, visitedTypes, expandedDefinitions, expandMembers: false, versionedAssembly);
+            return identity + GetBaseBuildIdentity(type, visitedTypes, expandedDefinitions, expandMembers: false, versionedAssembly, options);
         }
 
         // Node<T>.Next can be Node<Node<T>>. Expand each definition once, while still
@@ -154,15 +169,15 @@ internal static class StableTypeName
             return identity;
         }
 
-        identity += GetBaseBuildIdentity(type, visitedTypes, expandedDefinitions);
+        identity += GetBaseBuildIdentity(type, visitedTypes, expandedDefinitions, options: options);
 
-        foreach (var contract in GetSerializationContractTypes(type).Distinct()
+        foreach (var contract in GetSerializationContractTypes(type, options!).Distinct()
                      .OrderBy(contract => Get(contract.Type), StringComparer.Ordinal).ThenBy(contract => contract.ExpandMembers))
         {
             // A restricted visit must not prevent a later full visit through a visible member.
             var memberIdentity = contract.ExpandMembers
-                ? GetBuildIdentity(contract.Type, visitedTypes, expandedDefinitions)
-                : GetBuildIdentity(contract.Type, [], [], expandMembers: false);
+                ? GetBuildIdentity(contract.Type, visitedTypes, expandedDefinitions, options: options)
+                : GetBuildIdentity(contract.Type, [], [], expandMembers: false, options: options);
             identity += $"\0Member={memberIdentity}";
         }
 
@@ -172,14 +187,14 @@ internal static class StableTypeName
     private static string GetTypeBuildIdentity(Type type, Assembly? versionedAssembly = null) =>
         type.Assembly == versionedAssembly || IsFrameworkAssembly(type.Assembly) ? Get(type) : $"{Get(type)}\0{type.Module.ModuleVersionId}";
 
-    private static string GetBaseBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions, bool expandMembers = true, Assembly? versionedAssembly = null)
+    private static string GetBaseBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions, bool expandMembers = true, Assembly? versionedAssembly = null, JsonSerializerOptions? options = null)
     {
         var identity = string.Empty;
         for (var current = type.BaseType; current is not null; current = current.BaseType)
         {
             // Preserve base binary/argument checks without treating its hidden declarations
             // as a second serialization contract. Members are selected from the derived type.
-            identity += $"\0Base={GetTypeBuildIdentity(current, versionedAssembly)}{GetConstructionBuildIdentity(current, visitedTypes, expandedDefinitions, expandMembers, versionedAssembly)}";
+            identity += $"\0Base={GetTypeBuildIdentity(current, versionedAssembly)}{GetConstructionBuildIdentity(current, visitedTypes, expandedDefinitions, expandMembers, versionedAssembly, options)}";
             if (IsFrameworkAssembly(current.Assembly))
             {
                 break;
@@ -197,18 +212,18 @@ internal static class StableTypeName
         }
     }
 
-    private static string GetConstructionBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions, bool expandMembers = true, Assembly? versionedAssembly = null)
+    private static string GetConstructionBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions, bool expandMembers = true, Assembly? versionedAssembly = null, JsonSerializerOptions? options = null)
     {
         if (type.HasElementType)
         {
-            return $"\0Element={GetBuildIdentity(type.GetElementType()!, visitedTypes, expandedDefinitions, expandMembers, versionedAssembly)}";
+            return $"\0Element={GetBuildIdentity(type.GetElementType()!, visitedTypes, expandedDefinitions, expandMembers, versionedAssembly, options)}";
         }
 
         if (type.IsGenericType)
         {
             // A module version override never replaces generic argument build checks.
             var arguments = string.Join("\u001F", type.GetGenericArguments()
-                .Select(argument => GetBuildIdentity(argument, visitedTypes, expandedDefinitions, expandMembers)));
+                .Select(argument => GetBuildIdentity(argument, visitedTypes, expandedDefinitions, expandMembers, options: options)));
             return $"\0Arguments={arguments}";
         }
 
@@ -222,12 +237,12 @@ internal static class StableTypeName
             && SharedFrameworkDirectories.Contains(Path.GetDirectoryName(assembly.Location)!));
 
     [UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Runtime result serialization and its build fingerprints are explicitly unsupported in trimmed applications.")]
-    private static IEnumerable<(Type Type, bool ExpandMembers)> GetSerializationContractTypes(Type type)
+    private static IEnumerable<(Type Type, bool ExpandMembers)> GetSerializationContractTypes(Type type, JsonSerializerOptions options)
     {
         // A type-level converter replaces the reflected object/collection contract.
         if (type.IsDefined(typeof(JsonConverterAttribute), inherit: false))
         {
-            foreach (var converterType in GetConverterTypes(type, type))
+            foreach (var converterType in GetConverterTypes(type, type, options))
             {
                 yield return (converterType, true);
             }
@@ -264,7 +279,7 @@ internal static class StableTypeName
             // Converters own the member contract, but not the declared type's build identity.
             yield return (memberType, !member.IsDefined(typeof(JsonConverterAttribute), inherit: false));
 
-            foreach (var converterType in GetConverterTypes(member, memberType))
+            foreach (var converterType in GetConverterTypes(member, memberType, options))
             {
                 yield return (converterType, true);
             }
@@ -343,7 +358,7 @@ internal static class StableTypeName
     }
 
     [UnconditionalSuppressMessage("Trimming", "IL2067", Justification = "Runtime converter construction and its build fingerprints are explicitly unsupported in trimmed applications.")]
-    private static IEnumerable<Type> GetConverterTypes(MemberInfo member, Type typeToConvert)
+    private static IEnumerable<Type> GetConverterTypes(MemberInfo member, Type typeToConvert, JsonSerializerOptions options)
     {
         if (member.GetCustomAttribute<JsonConverterAttribute>(inherit: false) is not { } attribute)
         {
@@ -375,11 +390,11 @@ internal static class StableTypeName
         yield return converter.GetType();
         if (converter is JsonConverterFactory factory)
         {
-            yield return GetProducedConverterType(factory, typeToConvert, member.Name);
+            yield return GetProducedConverterType(factory, typeToConvert, member.Name, options);
         }
     }
 
-    private static Type GetProducedConverterType(JsonConverterFactory factory, Type typeToConvert, string memberName)
+    private static Type GetProducedConverterType(JsonConverterFactory factory, Type typeToConvert, string memberName, JsonSerializerOptions options)
     {
         // System.Text.Json forwards nullable values to an attribute's underlying-value converter.
         var targetType = !factory.CanConvert(typeToConvert)
@@ -387,7 +402,7 @@ internal static class StableTypeName
             && factory.CanConvert(underlyingType)
                 ? underlyingType
                 : typeToConvert;
-        var produced = factory.CreateConverter(targetType, ModuleResultSerializer.CreateOptions());
+        var produced = factory.CreateConverter(targetType, options);
         if (produced is null or JsonConverterFactory)
         {
             throw new InvalidOperationException($"The JSON converter factory for '{memberName}' returned no concrete converter.");
@@ -396,7 +411,7 @@ internal static class StableTypeName
         return produced.GetType();
     }
 
-    public static Type? Resolve(string typeName, AssemblyLoadContext? loadContext = null, string? buildFingerprint = null)
+    public static Type? Resolve(string typeName, AssemblyLoadContext? loadContext = null, string? buildFingerprint = null, JsonSerializerOptions? options = null)
     {
         var localType = ResolveInContext(typeName, loadContext);
         if (localType is not null || loadContext is null || buildFingerprint is null)
@@ -411,7 +426,7 @@ internal static class StableTypeName
             .Select(context => ResolveInContext(typeName, context))
             .OfType<Type>()
             .Distinct()
-            .Where(type => string.Equals(GetBuildFingerprint(type), buildFingerprint, StringComparison.Ordinal))
+            .Where(type => string.Equals(GetBuildFingerprint(type, options), buildFingerprint, StringComparison.Ordinal))
             .Take(2)
             .ToArray();
         return candidates.Length switch

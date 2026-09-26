@@ -8,11 +8,51 @@ using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Enums;
 using ModularPipelines.Modules;
 using ModularPipelines.Serialization;
+using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.Distributed.UnitTests.Serialization;
 
 public class ResultBuildIdentityTests
 {
+    [Test]
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task Factory_Fingerprints_Are_Cached_Per_Options(bool memberConverter, bool distributedFirst)
+    {
+        using var builds = new ConverterFactoryBuilds(memberConverter);
+        foreach (var caseInsensitive in new[] { distributedFirst, !distributedFirst })
+        {
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = caseInsensitive };
+            var first = StableTypeName.GetBuildFingerprint(builds.First, options);
+            var second = StableTypeName.GetBuildFingerprint(builds.Second, options);
+            await Assert.That(first == second).IsEqualTo(caseInsensitive);
+            await Assert.That(options.IsReadOnly).IsTrue();
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Runtime_Fingerprint_Uses_Actual_Converter_Options(bool memberConverter)
+    {
+        using var builds = new ConverterFactoryBuilds(memberConverter);
+        var options = new JsonSerializerOptions
+        {
+            Converters = { new ModuleResultJsonConverterFactory { LoadContext = AssemblyLoadContext.GetLoadContext(builds.Second.Assembly) } },
+        };
+        var json = SerializeValue(builds.First);
+        var exception = Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<ModuleResult<object>>(json, options));
+        await Assert.That(exception!.Message).Contains("build identity");
+        var pluginOptions = new JsonSerializerOptions
+        {
+            Converters = { new ModuleResultJsonConverterFactory { LoadContext = AssemblyLoadContext.Default } },
+        };
+        var restored = JsonSerializer.Deserialize<ModuleResult<object>>(json, pluginOptions)!;
+        await Assert.That(restored.Value.GetType()).IsEqualTo(builds.First);
+    }
+
     [ModuleId("inherited-result-build")]
     private abstract class ResultModule<T> : Module<T>;
 
