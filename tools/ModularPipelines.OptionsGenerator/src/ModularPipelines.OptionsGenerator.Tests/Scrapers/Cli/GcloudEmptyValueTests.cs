@@ -5,10 +5,15 @@ public class GcloudEmptyValueTests
     [Test]
     [Arguments("An empty string means that the default behavior is used.", true)]
     [Arguments("EMPTY STRING means default behavior.", true)]
+    [Arguments("Specify empty string to revert to default.", true)]
+    [Arguments("The suffix to use. Set empty string to clear the suffix.", true)]
+    [Arguments("To reset this field to its default, pass an empty string.", true)]
+    [Arguments("Do not specify empty string to reset this value.", false)]
+    [Arguments("To reset this field, do not pass an empty string.", false)]
     [Arguments("An empty string is not allowed.", false)]
     [Arguments("An empty string means an invalid setting.", false)]
     [Arguments("The mapping rules to use.", false)]
-    public async Task Only_Explicit_Default_Reset_Descriptions_Allow_Empty_Values(string description, bool expected)
+    public async Task Explicit_Reset_Descriptions_Allow_Empty_Values(string description, bool expected)
     {
         var help = $$"""
             NAME
