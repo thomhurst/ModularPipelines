@@ -18,6 +18,74 @@ namespace ModularPipelines.UnitTests.Caching;
 
 public class GenericModuleCacheTests
 {
+    public class PluginCacheModule(object value) : Module<object>
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) => module.WithCacheKeyPart("plugin-cache");
+
+        protected internal override Task<object> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) => Task.FromResult(value);
+    }
+
+    [Test]
+    public async Task Cached_Plugin_Value_Resolves_Outside_Module_Context()
+    {
+        using var builds = new ModuleLoadContextBuilds(typeof(Module<object>), identicalBuilds: false);
+        var value = Activator.CreateInstance(builds.Second.GetType("RuntimeValue")!)!;
+        var directory = Directory.CreateTempSubdirectory("ModularPipelines-plugin-cache-");
+        try
+        {
+            await RunAsync(typeof(PluginCacheModule), directory.FullName, value);
+            var repeated = await RunAsync(typeof(PluginCacheModule), directory.FullName, value);
+            await Assert.That(repeated.Status).IsEqualTo(ModuleStatus.RestoredFromCache);
+            await Assert.That(repeated.ValueOrDefault!.GetType()).IsEqualTo(value.GetType());
+        }
+        finally
+        {
+            directory.Delete(recursive: true);
+        }
+    }
+
+    public abstract class BaseBehaviorCacheModule : Module<string>
+    {
+        public abstract string GetLabel();
+
+        protected override void Configure(ModuleConfigurationBuilder module) => module.WithCacheKeyPart("base-behavior-cache");
+
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) => Task.FromResult(GetLabel());
+    }
+
+    public abstract class VersionOverrideBaseBehaviorCacheModule : BaseBehaviorCacheModule
+    {
+        protected override void Configure(ModuleConfigurationBuilder module)
+        {
+            base.Configure(module);
+            module.WithCacheAssemblyVersionKey("unchanged-leaf-module");
+        }
+    }
+
+    [Test]
+    [Arguments(typeof(BaseBehaviorCacheModule))]
+    [Arguments(typeof(VersionOverrideBaseBehaviorCacheModule))]
+    public async Task Changed_Base_Module_Build_Invalidates_Cache(Type moduleBase)
+    {
+        using var builds = new ModuleBaseBuilds(moduleBase);
+        await Assert.That(builds.First.Module.ModuleVersionId).IsEqualTo(builds.Second.Module.ModuleVersionId);
+        var directory = Directory.CreateTempSubdirectory("ModularPipelines-base-module-cache-");
+        try
+        {
+            var first = await RunAsync(builds.First, directory.FullName);
+            var repeated = await RunAsync(builds.First, directory.FullName);
+            var changed = await RunAsync(builds.Second, directory.FullName);
+            await Assert.That(first.ValueOrDefault).IsEqualTo("original");
+            await Assert.That(repeated.Status).IsEqualTo(ModuleStatus.RestoredFromCache);
+            await Assert.That(changed.Status).IsEqualTo(ModuleStatus.Succeeded);
+            await Assert.That(changed.ValueOrDefault).IsEqualTo("changed");
+        }
+        finally
+        {
+            directory.Delete(recursive: true);
+        }
+    }
+
     public class LoadContextCacheModule : Module<object>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module.WithCacheKeyPart("load-context-cache");
@@ -258,7 +326,7 @@ public class GenericModuleCacheTests
         .DefineType("ExternalModel", TypeAttributes.Public)
         .CreateType()!;
 
-    private static async Task<IModuleResult> RunAsync(Type moduleType, string directory)
+    private static async Task<IModuleResult> RunAsync(Type moduleType, string directory, object? value = null)
     {
         var builder = TestPipelineBuilder.Create()
             .AddModules(moduleType)
@@ -267,6 +335,11 @@ public class GenericModuleCacheTests
                 options.WorkingDirectory = directory;
                 options.CacheDirectory = Path.Combine(directory, "cache");
             });
+        if (value is not null)
+        {
+            builder.Services.AddSingleton(value);
+        }
+
         await using var pipeline = await builder.BuildAsync();
         await pipeline.RunAsync();
         return pipeline.Services.GetRequiredService<IModuleResultRegistry>().GetResult(moduleType)!;

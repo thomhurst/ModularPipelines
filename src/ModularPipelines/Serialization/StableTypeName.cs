@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using ModularPipelines.Distributed.Serialization;
 
@@ -346,9 +347,35 @@ internal static class StableTypeName
         return produced.GetType();
     }
 
+    public static Type? Resolve(string typeName, AssemblyLoadContext? loadContext = null, string? buildFingerprint = null)
+    {
+        var localType = ResolveInContext(typeName, loadContext);
+        if (localType is not null || loadContext is null || buildFingerprint is null)
+        {
+            return localType;
+        }
+
+        // A default-context module can return a plugin value. Only fall back when its
+        // own context cannot resolve the type; never replace an incompatible local build.
+        var candidates = AssemblyLoadContext.All
+            .Where(context => context != loadContext)
+            .Select(context => ResolveInContext(typeName, context))
+            .OfType<Type>()
+            .Distinct()
+            .Where(type => string.Equals(GetBuildFingerprint(type), buildFingerprint, StringComparison.Ordinal))
+            .Take(2)
+            .ToArray();
+        return candidates.Length switch
+        {
+            0 => null,
+            1 => candidates[0],
+            _ => throw new JsonException($"Module result value type '{typeName}' is ambiguous across loaded contexts."),
+        };
+    }
+
     [UnconditionalSuppressMessage("Trimming", "IL2057", Justification = "Runtime module result value types are explicitly unsupported in trimmed applications.")]
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Runtime module result value types are explicitly unsupported in trimmed applications.")]
-    public static Type? Resolve(string typeName, AssemblyLoadContext? loadContext = null) =>
+    private static Type? ResolveInContext(string typeName, AssemblyLoadContext? loadContext) =>
         Type.GetType(
             typeName,
             assemblyName => ResolveAssembly(assemblyName, loadContext),

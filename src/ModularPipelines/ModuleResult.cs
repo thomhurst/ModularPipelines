@@ -1092,7 +1092,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
 
         var valueType = valueTypeName is null
             ? typeof(T)
-            : StableTypeName.Resolve(valueTypeName, options.Converters.OfType<ModuleResultJsonConverterFactory>().FirstOrDefault()?.LoadContext)
+            : StableTypeName.Resolve(valueTypeName, options.Converters.OfType<ModuleResultJsonConverterFactory>().FirstOrDefault()?.LoadContext, valueTypeBuild)
               ?? throw new JsonException($"Unknown module result value type '{valueTypeName}'.");
         if (valueTypeName is not null && !DeclaredValueType.IsAssignableFrom(valueType))
         {

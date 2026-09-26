@@ -428,6 +428,13 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
     {
         for (var current = moduleType; current is not null; current = current.BaseType)
         {
+            // The configured module version already covers its assembly, including
+            // same-assembly bases. External inherited behavior has an independent build.
+            if (current.Assembly != moduleType.Assembly && !StableTypeName.IsFrameworkAssembly(current.Assembly))
+            {
+                fingerprint.Append("module-base-version", current.Module.ModuleVersionId.ToString("N"));
+            }
+
             foreach (var argument in current.GetGenericArguments())
             {
                 fingerprint.Append("module-generic-argument", StableTypeName.GetBuildFingerprint(argument));
