@@ -125,6 +125,45 @@ public class ResultBuildIdentityTests
     }
 
     [Test]
+    [Arguments("Property", JsonIgnoreCondition.Always, false)]
+    [Arguments("Field", JsonIgnoreCondition.Always, false)]
+    [Arguments("Property", JsonIgnoreCondition.WhenWriting, false)]
+    [Arguments("Field", JsonIgnoreCondition.WhenWriting, false)]
+    [Arguments("Property", JsonIgnoreCondition.WhenReading, true)]
+    [Arguments("Field", JsonIgnoreCondition.WhenReading, true)]
+    [Arguments("Property", JsonIgnoreCondition.Never, true)]
+    [Arguments("Field", JsonIgnoreCondition.Never, true)]
+    [Arguments("Property", JsonIgnoreCondition.WhenWritingNull, true)]
+    [Arguments("Field", JsonIgnoreCondition.WhenWritingNull, true)]
+    [Arguments("Property", JsonIgnoreCondition.WhenWritingDefault, true)]
+    [Arguments("Field", JsonIgnoreCondition.WhenWritingDefault, true)]
+    public async Task Ignore_Condition_Controls_Member_Build_Validation(string memberKind, JsonIgnoreCondition condition, bool canBeWritten)
+    {
+        using var builds = new ResultBuilds(0, memberKind, condition);
+        var first = new ModuleTypeRegistry();
+        var second = new ModuleTypeRegistry();
+        first.Register(typeof(ResultModule<>).MakeGenericType(builds.First));
+        second.Register(typeof(ResultModule<>).MakeGenericType(builds.Second));
+        await Assert.That(builds.First.Module.ModuleVersionId).IsEqualTo(builds.Second.Module.ModuleVersionId);
+        await Assert.That(first.GetPipelineSchemaVersion() != second.GetPipelineSchemaVersion()).IsEqualTo(canBeWritten);
+
+        var localType = StableTypeName.Resolve(StableTypeName.Get(builds.First))!;
+        var remoteType = localType == builds.First ? builds.Second : builds.First;
+        if (canBeWritten)
+        {
+            var exception = Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<ModuleResult<object>>(SerializeValue(remoteType)));
+            await Assert.That(exception!.Message).Contains("build identity");
+        }
+        else
+        {
+            await Assert.That(JsonSerializer.Serialize(CreateValue(builds.First))).IsEqualTo("{}");
+            await Assert.That(JsonSerializer.Serialize(CreateValue(builds.Second))).IsEqualTo("{}");
+            var result = JsonSerializer.Deserialize<ModuleResult<object>>(SerializeValue(remoteType));
+            await Assert.That(result!.Value.GetType()).IsEqualTo(localType);
+        }
+    }
+
+    [Test]
     [Arguments(0)]
     [Arguments(1)]
     public async Task Runtime_Result_Rejects_Changed_Base_With_Unchanged_Result_Binary(int intermediateLevels)
@@ -234,7 +273,7 @@ public class ResultBuildIdentityTests
 
         public Type Second { get; }
 
-        public ResultBuilds(int intermediateLevels, string memberKind = "Base")
+        public ResultBuilds(int intermediateLevels, string memberKind = "Base", JsonIgnoreCondition? ignoreCondition = null)
         {
             var baseName = $"ResultBase_{Guid.NewGuid():N}";
             var factory = memberKind.EndsWith("Factory", StringComparison.Ordinal);
@@ -262,16 +301,16 @@ public class ResultBuildIdentityTests
             var parent = firstBase;
             for (var level = 0; level < intermediateLevels; level++)
             {
-                parent = DefineResultType(module, $"Intermediate{level}", parent, memberKind);
+                parent = DefineResultType(module, $"Intermediate{level}", parent, memberKind, ignoreCondition);
             }
 
-            DefineResultType(module, "Result", parent, memberKind);
+            DefineResultType(module, "Result", parent, memberKind, ignoreCondition);
             var image = Save(derived);
             First = Load(_firstContext, image).GetType("Result")!;
             Second = Load(_secondContext, image).GetType("Result")!;
         }
 
-        private static Type DefineResultType(ModuleBuilder module, string name, Type dependency, string memberKind)
+        private static Type DefineResultType(ModuleBuilder module, string name, Type dependency, string memberKind, JsonIgnoreCondition? ignoreCondition)
         {
             if (memberKind is "IgnoredOverride" or "IncludedOverride" or "IgnoredOverrideWithBaseMember")
             {
@@ -305,6 +344,11 @@ public class ResultBuildIdentityTests
                 case "PropertyConverter":
                     var propertyType = memberKind == "PropertyConverter" ? typeof(object) : dependency;
                     var property = type.DefineProperty("Value", PropertyAttributes.None, propertyType, null);
+                    if (ignoreCondition is { } propertyCondition)
+                    {
+                        property.SetCustomAttribute(IgnoreAttribute(propertyCondition));
+                    }
+
                     if (memberKind == "PropertyConverter")
                     {
                         property.SetCustomAttribute(ConverterAttribute());
@@ -321,6 +365,11 @@ public class ResultBuildIdentityTests
                 case "FieldConverter":
                     var fieldType = memberKind == "FieldConverter" ? typeof(object) : dependency;
                     var field = type.DefineField("Value", fieldType, FieldAttributes.Public);
+                    if (ignoreCondition is { } fieldCondition)
+                    {
+                        field.SetCustomAttribute(IgnoreAttribute(fieldCondition));
+                    }
+
                     field.SetCustomAttribute(new CustomAttributeBuilder(
                         typeof(JsonIncludeAttribute).GetConstructor(Type.EmptyTypes)!, []));
                     if (memberKind == "FieldConverter")
@@ -333,6 +382,10 @@ public class ResultBuildIdentityTests
 
             return type.CreateType()!;
         }
+
+        private static CustomAttributeBuilder IgnoreAttribute(JsonIgnoreCondition condition) => new(
+            typeof(JsonIgnoreAttribute).GetConstructor(Type.EmptyTypes)!, [],
+            [typeof(JsonIgnoreAttribute).GetProperty(nameof(JsonIgnoreAttribute.Condition))!], [condition]);
 
         private static Type DefineOverriddenPropertyType(ModuleBuilder module, string name, Type dependency, string memberKind)
         {

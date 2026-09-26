@@ -166,7 +166,7 @@ internal static class StableTypeName
                 if (property.GetMethod is { } getter && getters.Add(getter.GetBaseDefinition())
                     && property.GetIndexParameters().Length == 0
                     && (getter.IsPublic || property.IsDefined(typeof(JsonIncludeAttribute)))
-                    && property.GetCustomAttribute<JsonIgnoreAttribute>()?.Condition != JsonIgnoreCondition.Always)
+                    && property.GetCustomAttribute<JsonIgnoreAttribute>()?.Condition is not (JsonIgnoreCondition.Always or JsonIgnoreCondition.WhenWriting))
                 {
                     yield return (property, property.PropertyType);
                 }
@@ -176,7 +176,7 @@ internal static class StableTypeName
             foreach (var field in current.GetFields(flags))
             {
                 if (field.IsDefined(typeof(JsonIncludeAttribute))
-                    && field.GetCustomAttribute<JsonIgnoreAttribute>()?.Condition != JsonIgnoreCondition.Always)
+                    && field.GetCustomAttribute<JsonIgnoreAttribute>()?.Condition is not (JsonIgnoreCondition.Always or JsonIgnoreCondition.WhenWriting))
                 {
                     yield return (field, field.FieldType);
                 }
