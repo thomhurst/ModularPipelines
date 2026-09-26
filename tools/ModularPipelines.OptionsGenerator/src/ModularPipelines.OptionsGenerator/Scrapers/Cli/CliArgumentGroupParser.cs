@@ -204,7 +204,7 @@ internal static partial class CliArgumentGroupParser
     private static bool SharesOptionalGroup(
         IReadOnlyList<IReadOnlySet<string>>? optionalOptionGroups,
         CliArgumentDefinition candidate,
-        IReadOnlyList<CliArgumentDefinition> groupMembers) =>
+        List<CliArgumentDefinition> groupMembers) =>
         groupMembers.Count > 0
         && optionalOptionGroups?.Any(group => group.Contains(candidate.SwitchName)
             && groupMembers.All(member => group.Contains(member.SwitchName))) == true;
@@ -519,7 +519,7 @@ internal static partial class CliArgumentGroupParser
     [GeneratedRegex(@"^(?:(?:Defines the )?configuration for|config for|parameters to support|(?:Bearer token|Basic) authentication with|(?:The )?properties of)\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex NamedBundleHeadingPattern();
 
-    [GeneratedRegex(@"^(?:(?:[\w-]+\s+)*configuration for\b|options for\b)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    [GeneratedRegex(@"^(?:(?:[\w-]+\s+)*configuration for\b|options for\b|configure\b)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex ConfigurationHeadingPattern();
 
     [GeneratedRegex(@"\s+", RegexOptions.CultureInvariant)]
