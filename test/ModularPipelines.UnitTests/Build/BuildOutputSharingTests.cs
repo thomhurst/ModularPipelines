@@ -7,7 +7,21 @@ namespace ModularPipelines.UnitTests.Build;
 
 public class BuildOutputSharingTests
 {
-    private const string RepositoryRoot = "/repository";
+    private string RepositoryRoot = null!;
+    private string ArchivePath => Path.Combine(RepositoryRoot, BuildOutputArchive.FileName);
+
+    [Before(Test)]
+    public async Task CreateArchive()
+    {
+        RepositoryRoot = Directory.CreateTempSubdirectory("build-sharing-test-").FullName;
+        await File.WriteAllTextAsync(Path.Combine(RepositoryRoot, "Test.csproj"), "<Project />");
+        var output = Directory.CreateDirectory(Path.Combine(RepositoryRoot, "bin", "Release"));
+        await File.WriteAllTextAsync(Path.Combine(output.FullName, "Test.dll"), "test output");
+        await BuildOutputArchive.CreateAsync(RepositoryRoot, ["Test.csproj"], CancellationToken.None);
+    }
+
+    [After(Test)]
+    public void DeleteRepository() => Directory.Delete(RepositoryRoot, recursive: true);
     private static readonly ModuleId Producer = new("build.application");
 
     [Test]
@@ -22,7 +36,7 @@ public class BuildOutputSharingTests
         var downloadToken = CancellationToken.None;
         Task<string>? sharedDownload = null;
         var artifacts = new Mock<IArtifactContext>(MockBehavior.Strict);
-        artifacts.Setup(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, It.IsAny<CancellationToken>()))
+        artifacts.Setup(x => x.DownloadAsync(Producer, "build-output", ArchivePath, It.IsAny<CancellationToken>()))
             .Returns((ModuleId _, string _, string _, CancellationToken token) =>
             {
                 downloadToken = token;
@@ -46,7 +60,7 @@ public class BuildOutputSharingTests
         await Assert.That(sharedDownload!.IsCanceled).IsTrue();
         await Assert.That(() => first).Throws<OperationCanceledException>();
         await Assert.That(() => second).Throws<OperationCanceledException>();
-        artifacts.Verify(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, shutdown.Token), Times.Once);
+        artifacts.Verify(x => x.DownloadAsync(Producer, "build-output", ArchivePath, shutdown.Token), Times.Once);
         artifacts.VerifyNoOtherCalls();
     }
 
@@ -84,7 +98,7 @@ public class BuildOutputSharingTests
         var download = new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
         using var cancellation = new CancellationTokenSource();
         var artifacts = new Mock<IArtifactContext>(MockBehavior.Strict);
-        artifacts.Setup(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, CancellationToken.None))
+        artifacts.Setup(x => x.DownloadAsync(Producer, "build-output", ArchivePath, CancellationToken.None))
             .Returns(download.Task);
         var sharing = CreateSharing();
 
@@ -102,7 +116,7 @@ public class BuildOutputSharingTests
         await sharing.RestoreAsync(artifacts.Object, Producer, RepositoryRoot, cancellation.Token);
 
         await Assert.That(sharing.IsEnabled).IsTrue();
-        artifacts.Verify(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, CancellationToken.None), Times.Once);
+        artifacts.Verify(x => x.DownloadAsync(Producer, "build-output", ArchivePath, CancellationToken.None), Times.Once);
         artifacts.VerifyNoOtherCalls();
     }
 
@@ -115,7 +129,7 @@ public class BuildOutputSharingTests
         using var firstCancellation = new CancellationTokenSource();
         using var secondCancellation = new CancellationTokenSource();
         var artifacts = new Mock<IArtifactContext>(MockBehavior.Strict);
-        artifacts.Setup(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, It.IsAny<CancellationToken>()))
+        artifacts.Setup(x => x.DownloadAsync(Producer, "build-output", ArchivePath, It.IsAny<CancellationToken>()))
             .Returns((ModuleId _, string _, string _, CancellationToken token) => download.Task.WaitAsync(token));
         var sharing = CreateSharing();
 
@@ -131,7 +145,7 @@ public class BuildOutputSharingTests
         download.SetResult(RepositoryRoot);
         await remaining.WaitAsync(TimeSpan.FromSeconds(10));
         await sharing.RestoreAsync(artifacts.Object, Producer, RepositoryRoot, CancellationToken.None);
-        artifacts.Verify(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, CancellationToken.None), Times.Once);
+        artifacts.Verify(x => x.DownloadAsync(Producer, "build-output", ArchivePath, CancellationToken.None), Times.Once);
         artifacts.VerifyNoOtherCalls();
     }
 
@@ -140,7 +154,7 @@ public class BuildOutputSharingTests
     {
         var failure = new IOException("Artifact download failed.");
         var artifacts = new Mock<IArtifactContext>(MockBehavior.Strict);
-        artifacts.Setup(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, CancellationToken.None))
+        artifacts.Setup(x => x.DownloadAsync(Producer, "build-output", ArchivePath, CancellationToken.None))
             .Returns(Task.FromException<string>(failure));
         var sharing = CreateSharing();
 
@@ -151,6 +165,6 @@ public class BuildOutputSharingTests
                 .Throws<IOException>();
         }
 
-        artifacts.Verify(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, CancellationToken.None), Times.Once);
+        artifacts.Verify(x => x.DownloadAsync(Producer, "build-output", ArchivePath, CancellationToken.None), Times.Once);
     }
 }

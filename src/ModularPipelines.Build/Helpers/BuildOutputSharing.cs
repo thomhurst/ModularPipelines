@@ -41,13 +41,23 @@ internal sealed class BuildOutputSharing(IOptions<DistributedOptions> options, I
         Task restoreTask;
         lock (_restoreLock)
         {
-            restoreTask = _restoreTask ??= artifacts.DownloadAsync(
-                producerModuleId,
-                "build-output",
-                repositoryRoot,
-                applicationLifetime.ApplicationStopping);
+            restoreTask = _restoreTask ??= DownloadAndRestoreAsync(artifacts, producerModuleId, repositoryRoot);
         }
 
         return restoreTask.WaitAsync(cancellationToken);
+    }
+
+    private async Task DownloadAndRestoreAsync(IArtifactContext artifacts, ModuleId producerModuleId, string repositoryRoot)
+    {
+        var archivePath = Path.Combine(repositoryRoot, BuildOutputArchive.FileName);
+        try
+        {
+            await artifacts.DownloadAsync(producerModuleId, "build-output", archivePath, applicationLifetime.ApplicationStopping).ConfigureAwait(false);
+            await BuildOutputArchive.RestoreAsync(repositoryRoot, applicationLifetime.ApplicationStopping).ConfigureAwait(false);
+        }
+        finally
+        {
+            File.Delete(archivePath);
+        }
     }
 }

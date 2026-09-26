@@ -408,6 +408,7 @@ docs/plans/
 
 # Build staging directory for distributed artifact sharing
 _build-staging/
+_build-output.tar.gz
 
 # Default local pipeline run history
 .modularpipelines/

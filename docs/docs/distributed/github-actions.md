@@ -28,8 +28,10 @@ The distributed matrix uses these indices:
 Every runner downloads the same framework-dependent pipeline host. Keeping this host outside
 the checkout allows Windows to rebuild the build project without locking its output, and keeps
 module and serialization schema identities identical across runners. Each runner restores its
-own dependencies. The master publishes Linux build output through Redis; Linux tests restore
-that output once per process. Publishing and repository mutations require the master's
+own dependencies. The master publishes the registered test projects' Linux build output through
+Redis. A compressed TAR stores duplicate dependency contents once; workers materialize independent
+files so coverage instrumentation cannot modify another test project's assemblies. Linux tests
+restore that output once per process. Publishing and repository mutations require the master's
 `ci-master` capability, and publishing credentials are supplied only to instance 0. The master
 job alone has repository-write and identity-token permissions; worker jobs have read-only
 repository access. Both jobs reuse the same execution steps.

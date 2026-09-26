@@ -40,6 +40,8 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
 
     protected abstract string TestProjectFileName { get; }
 
+    internal string BuildOutputProjectFileName => TestProjectFileName;
+
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithSkipWhen(GetSkipDecision)
         .WithShield(Shield.Retry(0));
