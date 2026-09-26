@@ -838,6 +838,7 @@ public partial class GcloudCliScraper : CliScraperBase
                 enumDefinition),
             Description = AddDelimitedListGuidance(description, isDelimitedList, isNumeric, enumDefinition),
             ValueShapeDescription = argument.Description ?? string.Empty,
+            AllowsEmptyValue = AllowsEmptyScalarValue(argument.Description, isFlag, acceptsMultipleValues),
             IsFlag = isFlag,
             IsRequired = false,
             AcceptsMultipleValues = acceptsMultipleValues,
@@ -850,6 +851,9 @@ public partial class GcloudCliScraper : CliScraperBase
             IsSecret = !isResourceReference && GeneratorUtils.IsSecretOption(propertyName, isFlag, argument.Description)
         };
     }
+
+    private static bool AllowsEmptyScalarValue(string? description, bool isFlag, bool acceptsMultipleValues) =>
+        !isFlag && !acceptsMultipleValues && EmptyStringValuePattern().IsMatch(description ?? string.Empty);
 
     private (bool AcceptsMultipleValues, bool IsDelimitedList) GetCollectionBehavior(
         CliArgumentDefinition argument,
@@ -1279,6 +1283,12 @@ public partial class GcloudCliScraper : CliScraperBase
 
     [GeneratedRegex(@"\bdurations?\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex DurationDescriptionPattern();
+
+    [GeneratedRegex(@"(?:(?<![\w-])(?:an?\s+)?empty\s+string\s+means\s+(?:that\s+)?(?:the\s+)?default(?:\s+\w+)*\s+behaviou?r(?:\s+is\s+used)?(?=\s*(?:[.!?]|$))"
+        + @"|(?:^|[.!?]\s+)(?:specify|set|pass|provide|use)\s+(?:an?\s+)?empty\s+string\s+to\s+(?:clear|reset|revert|restore)\b"
+        + @"|(?:^|[.!?]\s+)to\s+(?:clear|reset|revert|restore)\b[^.!?]*,\s*(?:specify|set|pass|provide|use)\s+(?:an?\s+)?empty\s+string\b)",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex EmptyStringValuePattern();
 
     [GeneratedRegex(
         @"(?<![A-Za-z0-9])(?:file|filename|filepath|path)(?![A-Za-z0-9])",

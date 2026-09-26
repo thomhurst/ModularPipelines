@@ -612,7 +612,10 @@ public class OptionsClassGenerator : ICodeGenerator
 
         if (csharpType.TrimEnd('?').Equals("string", StringComparison.Ordinal))
         {
-            return $"!string.IsNullOrWhiteSpace({propertyName})";
+            var nonBlank = $"!string.IsNullOrWhiteSpace({propertyName})";
+            return option?.AllowsEmptyValue == true
+                ? $"({propertyName} == string.Empty || {nonBlank})"
+                : nonBlank;
         }
 
         if (!CliOptionDefinition.IsCollectionType(csharpType, option?.IsCollection ?? positional?.IsVariadic))
