@@ -70,5 +70,4 @@ public class ModuleResultLoadContextTests
             Status = ModuleStatus.Succeeded,
         }, "ContextModule", 1);
     }
-
 }
