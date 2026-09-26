@@ -6,6 +6,7 @@ using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Events;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using ModularPipelines.UnitTests.Attributes;
 
 namespace ModularPipelines.UnitTests.Api;
 
@@ -287,6 +288,12 @@ public class ArtifactContextApiTests
             }
 
             using var archive = ZipFile.OpenRead(archivePath);
+            if (!OperatingSystem.IsWindows() && !useLifecycleArchive)
+            {
+                await Assert.That((archive.GetEntry("test-host")!.ExternalAttributes >> 16) & 0xF000)
+                    .IsEqualTo(0x8000);
+            }
+
             await ArtifactContextImpl.ExtractDirectoryArchiveAsync(archive, destination.FullName, CancellationToken.None);
             await Assert.That(await File.ReadAllTextAsync(restoredPath)).IsEqualTo("#!/bin/sh\nexit 0\n");
             if (!OperatingSystem.IsWindows())
@@ -309,6 +316,59 @@ public class ArtifactContextApiTests
         finally
         {
             source.Delete(recursive: true);
+            destination.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    [LinuxOnlyTest]
+    [Arguments(0x8000, false)]
+    [Arguments(0x8000, true)]
+    [Arguments(0x8E00, false)]
+    [Arguments(0x8E00, true)]
+    [Arguments(0, false)]
+    [Arguments(0, true)]
+    public async Task Directory_Archive_Extraction_Distinguishes_Zero_Mode_From_Missing_Metadata(
+        int unixAttributes, bool overwriteExisting)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        await using var archiveStream = new MemoryStream();
+        using (var archive = new ZipArchive(archiveStream, ZipArchiveMode.Create, leaveOpen: true))
+        {
+            var entry = archive.CreateEntry("payload.txt");
+            entry.ExternalAttributes = unixAttributes << 16;
+            await using var writer = new StreamWriter(entry.Open());
+            await writer.WriteAsync("payload");
+        }
+
+        archiveStream.Position = 0;
+        using var archiveToExtract = new ZipArchive(archiveStream, ZipArchiveMode.Read);
+        var destination = Directory.CreateTempSubdirectory("artifact-zero-mode-");
+        var restoredPath = Path.Combine(destination.FullName, "payload.txt");
+        try
+        {
+            if (overwriteExisting)
+            {
+                await File.WriteAllTextAsync(restoredPath, "stale output");
+            }
+
+            await ArtifactContextImpl.ExtractDirectoryArchiveAsync(
+                archiveToExtract, destination.FullName, CancellationToken.None);
+
+            var referencePath = Path.Combine(destination.FullName, "default-mode.txt");
+            await File.WriteAllTextAsync(referencePath, "reference");
+            var expectedMode = unixAttributes == 0 ? File.GetUnixFileMode(referencePath) : UnixFileMode.None;
+            await Assert.That(File.GetUnixFileMode(restoredPath)).IsEqualTo(expectedMode);
+
+            File.SetUnixFileMode(restoredPath, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+            await Assert.That(await File.ReadAllTextAsync(restoredPath)).IsEqualTo("payload");
+        }
+        finally
+        {
             destination.Delete(recursive: true);
         }
     }
@@ -624,7 +684,7 @@ public class ArtifactContextApiTests
             CancellationToken cancellationToken)
         {
             await WaitForReleaseAsync(cancellationToken);
-            return await inner.ReadAsync(buffer, offset, count, cancellationToken);
+            return await inner.ReadAsync(buffer.AsMemory(offset, count), cancellationToken);
         }
 
         public override async ValueTask<int> ReadAsync(

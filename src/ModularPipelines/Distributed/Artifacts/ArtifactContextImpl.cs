@@ -115,7 +115,8 @@ internal class ArtifactContextImpl(
             entry.LastWriteTime = File.GetLastWriteTime(file);
             if (!OperatingSystem.IsWindows())
             {
-                entry.ExternalAttributes = (int) File.GetUnixFileMode(file) << 16;
+                // Keep the regular-file type so mode 000 is distinct from absent Unix metadata.
+                entry.ExternalAttributes = (0x8000 | (int) File.GetUnixFileMode(file)) << 16;
             }
 
             await using var sourceStream = new FileStream(
@@ -219,10 +220,10 @@ internal class ArtifactContextImpl(
             {
                 // Apply ordinary permissions at creation so the OS enforces the umask.
                 // Never propagate setuid, setgid, or sticky bits from ZIPs.
-                var permissions = (UnixFileMode)((entry.ExternalAttributes >> 16) & 0x1FF);
-                if (permissions != 0)
+                var unixAttributes = (entry.ExternalAttributes >> 16) & 0xFFFF;
+                if (unixAttributes != 0)
                 {
-                    fileOptions.UnixCreateMode = permissions;
+                    fileOptions.UnixCreateMode = (UnixFileMode)(unixAttributes & 0x1FF);
                 }
             }
 

@@ -771,7 +771,7 @@ jobs:
   required-pipeline:
     # Stable branch-protection check for full, generated, or fast-fail-only validation.
     name: pipeline (ubuntu-latest)
-    needs: [fast-fail, pipeline, pipeline-workers, generated-integration]
+    needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -793,6 +793,7 @@ jobs:
             -FullPipelineResult '${{ needs.pipeline.result }}' `
             -Distributed '${{ needs.fast-fail.outputs.distributed }}' `
             -WorkerPipelineResult '${{ needs.pipeline-workers.result }}' `
+            -CrossPlatformBuildResult '${{ needs.cross-platform-build.result }}' `
             -GeneratedIntegrationResult '${{ needs.generated-integration.result }}'
 
   trim-aot:

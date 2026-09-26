@@ -24,7 +24,10 @@ param(
     [string]$Distributed = 'false',
 
     [ValidateSet('success', 'failure', 'cancelled', 'skipped')]
-    [string]$WorkerPipelineResult = 'skipped'
+    [string]$WorkerPipelineResult = 'skipped',
+
+    [ValidateSet('success', 'failure', 'cancelled', 'skipped')]
+    [string]$CrossPlatformBuildResult = 'skipped'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -48,6 +51,11 @@ if ($RunFullPipeline -eq 'true' -and $Distributed -notin @('true', 'false')) {
 $expectedWorkerResult = if ($RunFullPipeline -eq 'true' -and $Distributed -eq 'true') { 'success' } else { 'skipped' }
 if ($WorkerPipelineResult -ne $expectedWorkerResult) {
     throw "Worker pipeline result was '$WorkerPipelineResult'; expected '$expectedWorkerResult'."
+}
+
+$expectedCrossPlatformResult = if ($RunFullPipeline -eq 'true' -and $Distributed -eq 'false') { 'success' } else { 'skipped' }
+if ($CrossPlatformBuildResult -ne $expectedCrossPlatformResult) {
+    throw "Cross-platform build result was '$CrossPlatformBuildResult'; expected '$expectedCrossPlatformResult'."
 }
 
 if ($IsGeneratedIntegration -eq 'true') {

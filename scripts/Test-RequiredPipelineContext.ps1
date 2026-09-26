@@ -17,11 +17,12 @@ foreach ($runFull in @('true', 'false', '', 'invalid')) {
                             $fullResult -eq 'skipped' -and $generatedResult -eq 'success') -or
                         ($runFull -eq 'false' -and $generated -eq 'false' -and
                             $fullResult -eq 'skipped' -and $generatedResult -eq 'skipped'))
+                    $crossPlatformResult = if ($runFull -eq 'true') { 'success' } else { 'skipped' }
                     $passed = $true
                     try {
                         & $assertScript -RunFullPipeline $runFull -IsGeneratedIntegration $generated `
                             -FastFailResult $fastResult -FullPipelineResult $fullResult `
-                            -GeneratedIntegrationResult $generatedResult *> $null
+                            -GeneratedIntegrationResult $generatedResult -CrossPlatformBuildResult $crossPlatformResult *> $null
                     }
                     catch {
                         $passed = $false
@@ -37,31 +38,34 @@ foreach ($runFull in @('true', 'false', '', 'invalid')) {
 }
 Write-Host "Required pipeline routing: $caseCount cases passed."
 
-$workerCaseCount = 0
+$runnerCaseCount = 0
 foreach ($runFull in @('true', 'false')) {
     foreach ($distributed in @('true', 'false', '', 'invalid')) {
         foreach ($workerResult in @('success', 'failure', 'cancelled', 'skipped')) {
-            $fullResult = if ($runFull -eq 'true') { 'success' } else { 'skipped' }
-            $shouldPass = ($runFull -eq 'false' -and $workerResult -eq 'skipped') -or
-                ($runFull -eq 'true' -and $distributed -eq 'true' -and $workerResult -eq 'success') -or
-                ($runFull -eq 'true' -and $distributed -eq 'false' -and $workerResult -eq 'skipped')
-            $passed = $true
-            try {
-                & $assertScript -RunFullPipeline $runFull -IsGeneratedIntegration 'false' `
-                    -FastFailResult 'success' -FullPipelineResult $fullResult -GeneratedIntegrationResult 'skipped' `
-                    -Distributed $distributed -WorkerPipelineResult $workerResult *> $null
+            foreach ($crossPlatformResult in @('success', 'failure', 'cancelled', 'skipped')) {
+                $fullResult = if ($runFull -eq 'true') { 'success' } else { 'skipped' }
+                $shouldPass = ($runFull -eq 'false' -and $workerResult -eq 'skipped' -and $crossPlatformResult -eq 'skipped') -or
+                    ($runFull -eq 'true' -and $distributed -eq 'true' -and $workerResult -eq 'success' -and $crossPlatformResult -eq 'skipped') -or
+                    ($runFull -eq 'true' -and $distributed -eq 'false' -and $workerResult -eq 'skipped' -and $crossPlatformResult -eq 'success')
+                $passed = $true
+                try {
+                    & $assertScript -RunFullPipeline $runFull -IsGeneratedIntegration 'false' `
+                        -FastFailResult 'success' -FullPipelineResult $fullResult -GeneratedIntegrationResult 'skipped' `
+                        -Distributed $distributed -WorkerPipelineResult $workerResult `
+                        -CrossPlatformBuildResult $crossPlatformResult *> $null
+                }
+                catch {
+                    $passed = $false
+                }
+                if ($passed -ne $shouldPass) {
+                    throw "Unexpected runner route: full=$runFull distributed=$distributed workers=$workerResult crossPlatform=$crossPlatformResult"
+                }
+                $runnerCaseCount++
             }
-            catch {
-                $passed = $false
-            }
-            if ($passed -ne $shouldPass) {
-                throw "Unexpected worker route: full=$runFull distributed=$distributed workers=$workerResult"
-            }
-            $workerCaseCount++
         }
     }
 }
-Write-Host "Required worker routing: $workerCaseCount cases passed."
+Write-Host "Required runner routing: $runnerCaseCount cases passed."
 $workflow = Get-Content -LiteralPath (Join-Path $repositoryRoot '.github/workflows/dotnet.yml') -Raw
 $requiredJob = [regex]::Match(
     $workflow,
@@ -72,11 +76,12 @@ if ([string]::IsNullOrWhiteSpace($requiredJob)) {
 
 foreach ($requiredText in @(
              'name: pipeline (ubuntu-latest)',
-             'needs: [fast-fail, pipeline, pipeline-workers, generated-integration]',
+             'needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration]',
              'if: always()',
              '-RunFullPipeline ''${{ needs.fast-fail.outputs.run_full_pipeline }}''',
              '-Distributed ''${{ needs.fast-fail.outputs.distributed }}''',
              '-WorkerPipelineResult ''${{ needs.pipeline-workers.result }}''',
+             '-CrossPlatformBuildResult ''${{ needs.cross-platform-build.result }}''',
              './scripts/Assert-RequiredPipelineContext.ps1'
          )) {
     if (-not $requiredJob.Contains($requiredText, [StringComparison]::Ordinal)) {
