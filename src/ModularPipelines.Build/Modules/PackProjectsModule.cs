@@ -39,13 +39,18 @@ public class PackProjectsModule : Module<CommandResult[]>
 
     private static async Task<CommandResult> Pack(IModuleContext context, CancellationToken cancellationToken, FilePath projectFile, string packageVersion)
     {
-        var effectiveVersion = GetEffectiveVersion(projectFile, packageVersion);
+        var projectRoot = ProjectRootElement.Open(projectFile.Path);
+        var effectiveVersion = GetEffectiveVersion(projectRoot, packageVersion);
+        var includeBuildOutput = projectRoot?.Properties
+            .LastOrDefault(property => property.Name == "IncludeBuildOutput")?.Value;
 
         return await context.Tools.DotNet.PackAsync(new DotNetPackOptions
         {
             ProjectSolution = projectFile.Path,
             Configuration = "Release",
-            IncludeSource = !projectFile.Path.Contains("Analyzer"),
+            // Content-only packages have no build output for a symbols package.
+            IncludeSource = !projectFile.Path.Contains("Analyzer")
+                && !string.Equals(includeBuildOutput, bool.FalseString, StringComparison.OrdinalIgnoreCase),
             NoBuild = true,
             NoRestore = true,
             Properties =
@@ -56,9 +61,8 @@ public class PackProjectsModule : Module<CommandResult[]>
         }, cancellationToken: cancellationToken);
     }
 
-    private static string GetEffectiveVersion(FilePath projectFile, string baseVersion)
+    private static string GetEffectiveVersion(ProjectRootElement? projectRoot, string baseVersion)
     {
-        var projectRoot = ProjectRootElement.Open(projectFile.Path);
         var versionSuffix = projectRoot?.Properties
             .FirstOrDefault(p => p.Name == "VersionSuffix")?.Value;
 

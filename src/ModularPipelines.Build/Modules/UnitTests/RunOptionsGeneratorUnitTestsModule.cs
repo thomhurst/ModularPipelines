@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
@@ -10,8 +11,15 @@ public class RunOptionsGeneratorUnitTestsModule(IOptions<PipelineSettings> pipel
 {
     protected override string TestProjectFileName => "ModularPipelines.OptionsGenerator.Tests.csproj";
 
-    protected override SkipDecision GetSkipDecision(IModuleContext context) =>
-        FastFailValidation.IsComplete(context)
-            ? SkipDecision.Skip("Validated by the fast-fail CI job")
-            : SkipDecision.DoNotSkip;
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        if (FastFailValidation.IsComplete(context))
+        {
+            const string message = "Validated by the fast-fail CI job";
+            context.Logger.LogInformation(message);
+            return CommandResult.Ok(message);
+        }
+
+        return await base.ExecuteAsync(context, cancellationToken).ConfigureAwait(false);
+    }
 }

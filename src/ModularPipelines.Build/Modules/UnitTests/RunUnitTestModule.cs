@@ -43,10 +43,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
     internal string BuildOutputProjectFileName => TestProjectFileName;
 
     protected override void Configure(ModuleConfigurationBuilder module) => module
-        .WithSkipWhen(GetSkipDecision)
         .WithShield(Shield.Retry(0));
-
-    protected virtual SkipDecision GetSkipDecision(IModuleContext context) => SkipDecision.DoNotSkip;
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

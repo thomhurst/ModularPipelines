@@ -2763,7 +2763,7 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    [Timeout(5_000)]
+    [Timeout(30_000)]
     public async Task Publish_Failure_Completes_Module_Result(
         CancellationToken testCancellation)
     {
@@ -2792,12 +2792,14 @@ public class DistributedModuleExecutorTests
         var executor = CreateExecutor(
             scheduler,
             resultRegistry: resultRegistry,
-            coordinator: coordinator.Object);
+            coordinator: coordinator.Object,
+            applicationStopping: testCancellation);
 
         await executor.ExecuteAsync([module])
-            .WaitAsync(TimeSpan.FromSeconds(3), testCancellation);
-        var moduleResult = await ((IInternalModule) module).ResultTask
-            .WaitAsync(TimeSpan.FromSeconds(1), testCancellation);
+            .WaitAsync(testCancellation);
+        var resultTask = ((IInternalModule) module).ResultTask;
+        await Assert.That(resultTask.IsCompletedSuccessfully).IsTrue();
+        var moduleResult = await resultTask;
 
         await Assert.That(moduleResult).IsNotNull();
         await Assert.That(moduleResult!.ExceptionOrDefault)

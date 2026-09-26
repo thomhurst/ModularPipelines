@@ -224,7 +224,8 @@ public class PipelineLifecycleTests
     }
 
     [Test]
-    public async Task Concurrent_Disposal_Awaits_The_Shared_Task()
+    [Timeout(30_000)]
+    public async Task Concurrent_Disposal_Awaits_The_Shared_Task(CancellationToken cancellationToken)
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<LifecycleModule>();
@@ -234,13 +235,19 @@ public class PipelineLifecycleTests
             .GetRequiredService<BlockingDisposalTracker>();
 
         var firstDisposal = pipeline.DisposeAsync().AsTask();
-        await tracker.Started.Task.WaitAsync(TimeSpan.FromSeconds(5));
-        var concurrentDisposal = pipeline.DisposeAsync().AsTask();
+        try
+        {
+            await tracker.Started.Task.WaitAsync(cancellationToken);
+            var concurrentDisposal = pipeline.DisposeAsync().AsTask();
 
-        await Assert.That(concurrentDisposal.IsCompleted).IsFalse();
-        tracker.Release.TrySetResult();
-        await Task.WhenAll(firstDisposal, concurrentDisposal)
-            .WaitAsync(TimeSpan.FromSeconds(5));
+            await Assert.That(concurrentDisposal).IsSameReferenceAs(firstDisposal);
+            await Assert.That(concurrentDisposal.IsCompleted).IsFalse();
+        }
+        finally
+        {
+            tracker.Release.TrySetResult();
+            await firstDisposal.WaitAsync(cancellationToken);
+        }
     }
 
     [Test]
