@@ -3,15 +3,18 @@ using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Build.Modules;
 
 public abstract class BuildSolutionOnPlatformModule : Module<CommandResult[]>
 {
-    // The macOS baseline takes about 56 minutes. Keep compilation bounded below
-    // the coordinator's 65-minute result timeout and the 90-minute job timeout.
+    // The macOS baseline takes about 56 minutes. The same budget applies to
+    // commands and the enclosing module, below the 90-minute job timeout.
+    private static readonly TimeSpan BuildTimeout = TimeSpan.FromMinutes(60);
+
     protected override void Configure(ModuleConfigurationBuilder module) => module
-        .WithTimeout(TimeSpan.FromMinutes(60));
+        .WithTimeout(BuildTimeout);
 
     protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -30,6 +33,9 @@ public abstract class BuildSolutionOnPlatformModule : Module<CommandResult[]>
                 Configuration = "Release",
                 NoRestore = true,
                 Arguments = ["/m:1", "-p:UseSharedCompilation=false"],
+            }, new CommandExecutionOptions
+            {
+                ExecutionTimeout = BuildTimeout,
             }, cancellationToken: cancellationToken).ConfigureAwait(false));
         }
 
