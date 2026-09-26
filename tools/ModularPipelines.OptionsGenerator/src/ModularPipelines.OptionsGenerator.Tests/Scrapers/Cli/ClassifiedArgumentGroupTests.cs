@@ -168,6 +168,8 @@ public partial class NestedArgumentGroupParsingTests
     [Test]
     [Arguments("Entraid configuration for the SQL Server instance.")]
     [Arguments("Options for configuring read pool auto scale.")]
+    [Arguments("Configure parameter server machine type settings.")]
+    [Arguments("CONFIGURE worker node machine type settings.")]
     public async Task Configuration_Headings_After_Narrative_Start_Sibling_Groups(string heading)
     {
         var section = $"""
@@ -188,17 +190,19 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
-    [Arguments("At most one of these can be specified:", CliArgumentGroupKind.AtMostOne)]
-    [Arguments("Arguments for authentication:", CliArgumentGroupKind.Resource)]
+    [Arguments("At most one of these can be specified:", CliArgumentGroupKind.AtMostOne, "Options for authentication include OAuth and API tokens.")]
+    [Arguments("Arguments for authentication:", CliArgumentGroupKind.Resource, "Options for authentication include OAuth and API tokens.")]
+    [Arguments("At most one of these can be specified:", CliArgumentGroupKind.AtMostOne, "Configure authentication with OAuth or API tokens.")]
+    [Arguments("Arguments for authentication:", CliArgumentGroupKind.Resource, "Configure authentication with OAuth or API tokens.")]
     public async Task Configuration_Prose_Without_A_Heading_Break_Preserves_Group_Membership(
-        string heading, CliArgumentGroupKind kind)
+        string heading, CliArgumentGroupKind kind, string prose)
     {
         var section = $"""
             {heading}
               --token=TOKEN
                  Authenticate with a token.
 
-              Options for authentication include OAuth and API tokens.
+              {prose}
               --profile=PROFILE
                  Select a saved profile.
             """;
