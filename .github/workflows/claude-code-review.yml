@@ -123,6 +123,8 @@ jobs:
           # permissions above.
           github_token: ${{ secrets.GITHUB_TOKEN }}
           allowed_non_write_users: "*"
+          # Keep the execution transcript local; only its validated final review is published.
+          show_full_output: false
           prompt: |
             REPO: ${{ github.repository }}
             PR NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
@@ -147,13 +149,17 @@ jobs:
             are unavailable; do not try to execute commands or change files.
 
             Instructions:
-            - Review the current diff and return the required structured result, even if no issues are found.
+            - Review the current diff and return one JSON object as your final text response, even if no issues are found.
+              Use exactly four top-level fields: summary (string), findings (array of strings),
+              notes (array of strings), and evidence (array of objects with exactly path and assessment strings).
+              Return raw JSON only, with no Markdown fences, surrounding prose, or additional fields.
+              Arrays must be actual JSON arrays, not XML or text embedded in another field.
               The result must contain your actual review, never a test/example payload.
-              Never submit test values to the structured-output tool. Submit only the completed review.
+              Submit only the completed review in your final response.
               Summarize the changed behavior and what you checked in at least 40 characters.
             - Compare the current state of the PR against any previous PR comments to make sure they have been addressed.
             - Return a nonempty summary and a findings array containing every actionable concern.
-              Each finding must explain the problem, source location, and proposed correction.
+              Each finding must explain the problem, source location, and proposed correction in at least 20 characters.
               Use findings only for corrections needed in this PR. Put optional observations
               and suggestions for separate follow-up work in notes, never in findings.
               Use an empty findings array only when no actionable finding remains; optional
@@ -163,6 +169,8 @@ jobs:
               path from the captured diff and an assessment of at least 40 characters. Do not list
               unchanged files or duplicate paths. Combine checks for one file into a single assessment.
               Evidence must be nonempty unless the captured diff is empty.
+              The captured diff allows ${{ steps.review_context.outputs.minimum_evidence_count }} to
+              ${{ steps.review_context.outputs.maximum_evidence_count }} distinct evidence entries.
             - Do not post comments, invoke a review plugin, or include a REVIEW_VERDICT marker.
               A trusted workflow step validates and publishes your structured result.
             - When you find issues, ALWAYS suggest better approaches or architectural improvements, not just minor optimizations.
@@ -174,9 +182,10 @@ jobs:
             - Skip minor style/formatting issues unless they impact readability significantly.
             - Always explain WHY the suggested approach is better, not just WHAT to change.
 
+          # Use the supported final-result transcript instead of the unreliable
+          # StructuredOutput tool (#5380). The trusted publisher enforces the full contract.
           claude_args: |
             --add-dir pr-head --tools "Read,Glob,Grep" --allowedTools "Read,Glob,Grep"
-            --json-schema '{"type":"object","properties":{"summary":{"type":"string","minLength":40},"findings":{"type":"array","items":{"type":"string","minLength":20}},"notes":{"type":"array","items":{"type":"string","minLength":1}},"evidence":{"type":"array","minItems":${{ steps.review_context.outputs.minimum_evidence_count }},"maxItems":${{ steps.review_context.outputs.maximum_evidence_count }},"items":{"type":"object","properties":{"path":{"type":"string","minLength":1},"assessment":{"type":"string","minLength":40}},"required":["path","assessment"],"additionalProperties":false}}},"required":["summary","findings","notes","evidence"],"additionalProperties":false}'
           allowed_bots: 'dependabot[bot]'
 
       - name: Publish validated review
@@ -185,6 +194,17 @@ jobs:
           GH_REPO: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
           REVIEW_HEAD_SHA: ${{ steps.pull_request.outputs.head_sha }}
-          REVIEW_JSON: ${{ steps.claude-review.outputs.structured_output }}
+          REVIEW_EXECUTION_FILE: ${{ steps.claude-review.outputs.execution_file }}
           REVIEW_CHANGED_FILES: review-context/changed-files.nul
+          REVIEW_FIXTURE_OUTPUT: ${{ github.event_name == 'workflow_dispatch' && format('{0}/validated-review.json', runner.temp) || '' }}
         run: node .github/scripts/post-claude-review.mjs
+
+      - name: Retain validated review for contract testing
+        if: github.event_name == 'workflow_dispatch'
+        continue-on-error: true
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: validated-review
+          path: ${{ runner.temp }}/validated-review.json
+          if-no-files-found: error
+          retention-days: 1

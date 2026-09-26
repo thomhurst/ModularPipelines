@@ -1,6 +1,11 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import test from 'node:test';
-import { buildReview, publishReview, runGitHub } from './post-claude-review.mjs';
+import { fileURLToPath } from 'node:url';
+import { buildReview, extractReview, publishReview, runGitHub } from './post-claude-review.mjs';
 
 const headSha = 'a'.repeat(40);
 const summary = 'Reviewed the current diff and its relevant repository guidance.';
@@ -9,6 +14,170 @@ const evidence = [{ path: changedFiles[0], assessment: 'Verified cancellation re
 const rawReview = JSON.stringify({ summary, findings: [], notes: [], evidence });
 const options = { rawReview, headSha, prNumber: '5183', repository: 'owner/repo', changedFiles };
 const currentHead = JSON.stringify({ state: 'OPEN', headRefOid: headSha });
+
+const successResult = { type: 'result', subtype: 'success', is_error: false, result: rawReview };
+
+function runPublisher(t, execution, paths = changedFiles, fixtureName = 'validated-review.json') {
+  const directory = mkdtempSync(join(tmpdir(), 'review-publisher-'));
+  t.after(() => rmSync(directory, { recursive: true, force: true }));
+  const executionFile = join(directory, 'execution.json');
+  const pathsFile = join(directory, 'changed-files.nul');
+  const callsFile = join(directory, 'github-calls.jsonl');
+  const fixtureFile = join(directory, fixtureName);
+  writeFileSync(executionFile, execution);
+  writeFileSync(pathsFile, paths.join('\0') + '\0');
+  const result = spawnSync(process.execPath, [
+    '--import', new URL('./fixtures/mock-review-github.mjs', import.meta.url).href,
+    fileURLToPath(new URL('./post-claude-review.mjs', import.meta.url)),
+  ], {
+    encoding: 'utf8', shell: false,
+    env: { ...process.env, REVIEW_EXECUTION_FILE: executionFile, REVIEW_CHANGED_FILES: pathsFile,
+      REVIEW_HEAD_SHA: headSha, PR_NUMBER: '5381', GH_REPO: 'owner/repo',
+      REVIEW_TEST_GITHUB_CALLS: callsFile, REVIEW_FIXTURE_OUTPUT: fixtureFile },
+  });
+  return { result, callsFile, fixtureFile };
+}
+
+test('the recorded action result passes the real command-line publisher', t => {
+  const execution = readFileSync(new URL('./fixtures/claude-review-success.json', import.meta.url), 'utf8');
+  const recordedPaths = [
+    '.github/scripts/post-claude-review.mjs',
+    '.github/scripts/post-claude-review.test.mjs',
+    '.github/scripts/review-evidence-limits.test.mjs',
+    '.github/workflows/claude-code-review.yml',
+    '.github/scripts/fixtures/mock-review-github.mjs',
+  ];
+  const { result, callsFile, fixtureFile } = runPublisher(t, execution, recordedPaths);
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stdout, '');
+  assert.equal(result.stderr, '');
+  const calls = readFileSync(callsFile, 'utf8').trim().split('\n').map(line => JSON.parse(line));
+  assert.equal(calls.length, 3);
+  assert.deepEqual(calls[1].args, ['api', '--method', 'POST', 'repos/owner/repo/pulls/5381/reviews', '--input', '-']);
+  const published = JSON.parse(calls[1].input);
+  assert.equal(published.commit_id, headSha);
+  assert.match(published.body, /Reviewed the switch from claude-code-action's structured-output tool/);
+  assert.match(published.body, /REVIEW_VERDICT: CLEAR HEAD: a{40}/);
+  for (const path of recordedPaths) assert.ok(published.body.includes(path));
+  assert.deepEqual(JSON.parse(readFileSync(fixtureFile, 'utf8')), JSON.parse(execution));
+
+  const rejected = runPublisher(t, execution, ['src/unrelated.cs']);
+  assert.equal(rejected.result.status, 1);
+  assert.equal(existsSync(rejected.callsFile), false);
+});
+
+test('command-line publication captures only the validated final response', t => {
+  const { result, callsFile, fixtureFile } = runPublisher(t, JSON.stringify([
+    { type: 'user', message: { content: 'private intermediate transcript' } },
+    { ...successResult, session_id: 'private session identifier' },
+  ]));
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stdout, '');
+  assert.equal(result.stderr, '');
+  const calls = readFileSync(callsFile, 'utf8').trim().split('\n').map(line => JSON.parse(line));
+  assert.equal(calls.length, 3);
+  assert.equal(JSON.parse(calls[1].input).commit_id, headSha);
+  assert.match(JSON.parse(calls[1].input).body, /REVIEW_VERDICT: CLEAR/);
+  assert.deepEqual(JSON.parse(readFileSync(fixtureFile, 'utf8')), [successResult]);
+});
+
+test('an optional fixture write failure preserves successful publication', t => {
+  const { result, callsFile } = runPublisher(t, JSON.stringify([successResult]), changedFiles, '.');
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stdout, '');
+  assert.equal(result.stderr.trim(), 'Optional review fixture could not be retained.');
+  const calls = readFileSync(callsFile, 'utf8').trim().split('\n').map(line => JSON.parse(line));
+  assert.equal(calls.filter(call => call.args[0] === 'api').length, 1);
+});
+
+test('command-line failures cannot publish or retain a purported success fixture', t => {
+  const { result, callsFile, fixtureFile } = runPublisher(t, JSON.stringify([
+    { ...successResult, is_error: true, result: 'private error details' },
+  ]));
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /did not finish/);
+  assert.doesNotMatch(result.stderr, /private error details/);
+  assert.equal(existsSync(callsFile), false);
+  assert.equal(existsSync(fixtureFile), false);
+});
+
+test('extracts only the completed final result, never intermediate tool or assistant content', () => {
+  const execution = JSON.stringify([
+    { type: 'assistant', message: { content: [{ type: 'text', text: 'private intermediate content' }] } },
+    { type: 'user', message: { content: [{ type: 'tool_result', content: rawReview }] } },
+    successResult,
+  ]);
+  assert.equal(extractReview(execution), rawReview);
+  assert.match(buildReview(extractReview(execution), headSha, changedFiles), /REVIEW_VERDICT: CLEAR/);
+});
+
+test('failed, ambiguous, incomplete, and malformed executions cannot supply a review', () => {
+  for (const execution of [undefined, '', 'private invalid JSON', '{}', 'null', '[]',
+    JSON.stringify([successResult, { type: 'assistant' }]),
+    JSON.stringify([successResult, successResult]),
+    ...[
+      { subtype: 'error_max_structured_output_retries' },
+      { is_error: true }, { is_error: undefined }, { result: '' }, { result: {} },
+      { type: 'assistant' },
+    ].map(overrides => JSON.stringify([{ ...successResult, ...overrides }]))]) {
+    assert.throws(() => extractReview(execution), error => {
+      assert.doesNotMatch(error.message, /private invalid JSON/);
+      return /execution|result/i.test(error.message);
+    });
+  }
+});
+
+test('final text must satisfy the review contract without repair or a fallback verdict', () => {
+  for (const result of ['Here is the review: ' + rawReview,
+    JSON.stringify({ summary, findings: [], notes: [], evidence: [{ path: 'a.cs', assessment: evidence[0].assessment }] }),
+    JSON.stringify({ summary, findings: [], notes: [] })]) {
+    const extracted = extractReview(JSON.stringify([{ ...successResult, result }]));
+    assert.throws(() => publishReview({ ...options, rawReview: extracted }, () => assert.fail('Invalid final output must not reach GitHub.')));
+  }
+});
+
+test('one complete JSON fence is a transport envelope, with identical validation and rendering', t => {
+  for (const label of ['json', 'JSON', '']) {
+    const fenced = '  \r\n```' + label + '\r\n' + rawReview + '\r\n```\r\n';
+    assert.equal(buildReview(fenced, headSha, changedFiles), buildReview(rawReview, headSha, changedFiles));
+  }
+  const blocking = JSON.stringify({ summary, findings: ['src/example.cs:5 loses cancellation.'], notes: [], evidence });
+  assert.match(buildReview('```json\n' + blocking + '\n```', headSha, changedFiles), /REVIEW_VERDICT: BLOCKING/);
+  const fenced = '```json\n' + rawReview + '\n```';
+  const { result, callsFile } = runPublisher(t, JSON.stringify([{ ...successResult, result: fenced }]));
+  assert.equal(result.status, 0, result.stderr);
+  const calls = readFileSync(callsFile, 'utf8').trim().split('\n').map(line => JSON.parse(line));
+  assert.equal(calls.filter(call => call.args[0] === 'api').length, 1);
+});
+
+test('fences never permit prose, partial output, multiple payloads, or invalid review fields', () => {
+  const fenced = '```json\n' + rawReview + '\n```';
+  for (const raw of ['Introduction\n' + fenced, fenced + '\nAfterword', fenced + '\n' + fenced,
+    '```json\n' + rawReview, '```javascript\n' + rawReview + '\n```',
+    '```json\n{"summary":"partial"}\n```', '```json\n' + rawReview + ',\n```',
+    '```json\n' + JSON.stringify({ summary, findings: [], notes: [], evidence: [] }) + '\n```']) {
+    assert.throws(() => publishReview({ ...options, rawReview: raw }, () => assert.fail('Invalid envelope must not reach GitHub.')));
+  }
+});
+
+test('invalid review diagnostics classify format without revealing model text', () => {
+  for (const [raw, message] of [
+    ['```json\nprivate review text\n```', 'Claude returned an invalid Markdown-fenced JSON review.'],
+    ['{private review text', 'Claude returned malformed JSON object text.'],
+    ['private review text', 'Claude did not return a valid structured review.'],
+  ]) {
+    assert.throws(() => buildReview(raw, headSha, changedFiles), { message });
+  }
+});
+
+test('the publisher enforces the complete object schema including additional properties', () => {
+  for (const review of [
+    { summary, findings: [], notes: [], evidence, extra: 'ignored finding' },
+    { summary, findings: [], notes: [], evidence: [{ ...evidence[0], extra: 'ignored finding' }] },
+  ]) {
+    assert.throws(() => publishReview({ ...options, rawReview: JSON.stringify(review) }, () => assert.fail('Unexpected fields must not reach GitHub.')));
+  }
+});
 
 test('a schema-shaped placeholder cannot publish a review without changed-file evidence', () => {
   const placeholder = JSON.stringify({

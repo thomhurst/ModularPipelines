@@ -1,22 +1,57 @@
 import { spawnSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 
-export function buildReview(rawReview, headSha, changedFiles) {
-  if (!/^[a-f0-9]{40}$/.test(headSha ?? '')) {
-    throw new Error('A captured pull request head SHA is required.');
-  }
-
-  let review;
+export function extractReview(rawExecution) {
+  let messages;
   try {
-    review = JSON.parse(rawReview);
+    messages = JSON.parse(rawExecution);
   } catch {
+    // Parse errors can quote sensitive transcript content. Never log that content.
+    throw new Error('Claude execution output is not valid JSON.');
+  }
+  if (!Array.isArray(messages) || messages.filter(message => message?.type === 'result').length !== 1) {
+    throw new Error('Claude execution must contain exactly one final result.');
+  }
+  const result = messages.at(-1);
+  if (result?.type !== 'result' || result.subtype !== 'success' || result.is_error !== false
+    || typeof result.result !== 'string' || result.result.trim().length === 0) {
+    throw new Error('Claude execution did not finish with a successful text result.');
+  }
+  return result.result;
+}
+
+function hasExactKeys(value, keys) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
+    && Object.keys(value).length === keys.length && keys.every(key => Object.hasOwn(value, key));
+}
+
+function parseReviewJson(rawReview) {
+  // The action can wrap its final JSON in Markdown despite the prompt. Accept
+  // only a complete envelope; never extract a JSON fragment from surrounding prose.
+  const fencedJson = typeof rawReview === 'string'
+    ? rawReview.trim().match(/^```(?:json)?[\t ]*\r?\n([\s\S]*?)\r?\n```$/i)?.[1] : undefined;
+  try {
+    return JSON.parse(fencedJson ?? rawReview);
+  } catch {
+    if (typeof rawReview === 'string' && rawReview.trimStart().startsWith('```')) {
+      throw new Error('Claude returned an invalid Markdown-fenced JSON review.');
+    }
+    if (typeof rawReview === 'string' && rawReview.trimStart().startsWith('{')) {
+      throw new Error('Claude returned malformed JSON object text.');
+    }
     throw new Error('Claude did not return a valid structured review.');
   }
+}
 
+function parseReview(rawReview, changedFiles) {
+  const review = parseReviewJson(rawReview);
   const validText = (value, minimumLength = 1) => typeof value === 'string' && value.trim().length >= minimumLength;
   const notes = review?.notes;
-  if (!review || !validText(review.summary, 40) || !Array.isArray(review.findings)
+  if (!hasExactKeys(review, ['summary', 'findings', 'notes', 'evidence'])) {
+    throw new Error('A review requires exactly summary, findings, notes, and evidence fields.');
+  }
+  if (!validText(review.summary, 40) || !Array.isArray(review.findings)
     || !review.findings.every(finding => validText(finding, 20))
     || !Array.isArray(notes) || !notes.every(note => validText(note))) {
     throw new Error('A review needs a descriptive summary (40 characters), findings (20 characters each), and nonempty notes.');
@@ -27,10 +62,22 @@ export function buildReview(rawReview, headSha, changedFiles) {
   }
   const evidence = review.evidence;
   if (!Array.isArray(evidence) || (changedFiles.length > 0 && evidence.length === 0)
-    || !evidence.every(item => item && changedFiles.includes(item.path) && validText(item.assessment, 40))
+    || !evidence.every(item => hasExactKeys(item, ['path', 'assessment'])
+      && changedFiles.includes(item.path) && validText(item.assessment, 40))
     || new Set(evidence.map(item => item.path)).size !== evidence.length) {
     throw new Error('Review evidence must describe checks against distinct files in the captured diff.');
   }
+
+  return review;
+}
+
+export function buildReview(rawReview, headSha, changedFiles) {
+  if (!/^[a-f0-9]{40}$/.test(headSha ?? '')) {
+    throw new Error('A captured pull request head SHA is required.');
+  }
+
+  const review = parseReview(rawReview, changedFiles);
+  const { notes, evidence } = review;
 
   // Reviews may discuss the verdict format. Render model-supplied HTML comments
   // literally so only the publisher's footer can act as a machine-readable verdict.
@@ -85,15 +132,32 @@ export function publishReview({ rawReview, headSha, prNumber, repository, change
   verifyHead();
 }
 
+function retainReviewFixture(rawReview) {
+  if (!process.env.REVIEW_FIXTURE_OUTPUT) {
+    return;
+  }
+  try {
+    // Retain only the successfully published final response, never tool messages,
+    // credentials, session identifiers, or other private transcript metadata.
+    writeFileSync(process.env.REVIEW_FIXTURE_OUTPUT, JSON.stringify([
+      { type: 'result', subtype: 'success', is_error: false, result: rawReview },
+    ], null, 2));
+  } catch {
+    console.warn('Optional review fixture could not be retained.');
+  }
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   try {
+    const rawReview = extractReview(readFileSync(process.env.REVIEW_EXECUTION_FILE, 'utf8'));
     publishReview({
-      rawReview: process.env.REVIEW_JSON,
+      rawReview,
       headSha: process.env.REVIEW_HEAD_SHA,
       prNumber: process.env.PR_NUMBER,
       repository: process.env.GH_REPO,
       changedFiles: readFileSync(process.env.REVIEW_CHANGED_FILES, 'utf8').split('\0').filter(Boolean),
     });
+    retainReviewFixture(rawReview);
   } catch (error) {
     console.error(error.message);
     process.exitCode = 1;
