@@ -103,7 +103,7 @@ jobs:
           done
 
       - name: Test trusted review publisher
-        run: node --test .github/scripts/post-claude-review.test.mjs .github/scripts/review-evidence-limits.test.mjs
+        run: node --test .github/scripts/post-claude-review.test.mjs .github/scripts/review-evidence-limits.test.mjs .github/scripts/diagnose-claude-failure.test.mjs
 
       - name: Test review merge gate
         shell: pwsh
@@ -188,6 +188,12 @@ jobs:
             --add-dir pr-head --tools "Read,Glob,Grep" --allowedTools "Read,Glob,Grep"
             --append-system-prompt-file .github/prompts/claude-review-system.md
           allowed_bots: 'dependabot[bot]'
+
+      - name: Classify Claude execution failure without exposing output
+        if: ${{ failure() && steps.claude-review.outcome == 'failure' }}
+        env:
+          CLAUDE_EXECUTION_FILE: ${{ steps.claude-review.outputs.execution_file }}
+        run: node .github/scripts/diagnose-claude-failure.mjs
 
       - name: Publish validated review
         env:
