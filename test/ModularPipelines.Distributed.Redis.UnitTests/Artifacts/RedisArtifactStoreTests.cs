@@ -73,6 +73,66 @@ public class RedisArtifactStoreTests
     }
 
     [Test]
+    public async Task Download_ChunkedArtifact_UsesSeekableTemporaryStorage()
+    {
+        var data = Enumerable.Range(0, 150).Select(value => (byte) value).ToArray();
+        var reference = new ArtifactReference("chunked", "test", "Test.Module", data.Length, null, DateTimeOffset.UtcNow);
+        for (var index = 0; index < 3; index++)
+        {
+            var chunkKey = _keys.ArtifactChunk("chunked", index);
+            _mockDb.Setup(db => db.StringGetAsync(chunkKey, It.IsAny<CommandFlags>()))
+                .ReturnsAsync((RedisValue) data.Skip(index * 50).Take(50).ToArray());
+        }
+
+        string temporaryPath;
+        await using (var result = await _store.DownloadAsync(reference, CancellationToken.None))
+        {
+            // ZIP readers require seeking; disk backing avoids MemoryStream's 2 GB ceiling.
+            await Assert.That(result).IsTypeOf<FileStream>();
+            temporaryPath = ((FileStream) result).Name;
+            await Assert.That(result.Position).IsEqualTo(0);
+            result.Seek(75, SeekOrigin.Begin);
+            await Assert.That(result.ReadByte()).IsEqualTo(75);
+            result.Position = 0;
+            using var copy = new MemoryStream();
+            await result.CopyToAsync(copy);
+            await Assert.That(copy.ToArray()).IsEquivalentTo(data);
+        }
+
+        await Assert.That(File.Exists(temporaryPath)).IsFalse();
+    }
+
+    [Test]
+    public async Task Download_ObservesCancellationWhileRedisReadIsPending()
+    {
+        var pendingRead = new TaskCompletionSource<RedisValue>();
+        var reference = new ArtifactReference("pending", "test", "Test.Module", 50, null, DateTimeOffset.UtcNow);
+        using var cancellation = new CancellationTokenSource();
+        _mockDb.Setup(db => db.StringGetAsync(_keys.ArtifactChunk("pending", 0), It.IsAny<CommandFlags>()))
+            .Callback(() => cancellation.Cancel())
+            .Returns(pendingRead.Task);
+
+        var download = _store.DownloadAsync(reference, cancellation.Token);
+        try
+        {
+            await Assert.That(async () => await download.WaitAsync(TimeSpan.FromSeconds(2)))
+                .Throws<OperationCanceledException>();
+        }
+        finally
+        {
+            pendingRead.TrySetResult(RedisValue.Null);
+            try
+            {
+                await download;
+            }
+            catch (Exception)
+            {
+                // Observe the failed download even when the regression assertion fails.
+            }
+        }
+    }
+
+    [Test]
     public async Task ListArtifacts_ReturnsStoredReferences()
     {
         var ref1 = new ArtifactReference("id1", "art1", "Test.Module", 100, null, DateTimeOffset.UtcNow);
