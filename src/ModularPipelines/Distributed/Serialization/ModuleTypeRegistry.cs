@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 using System.Text;
 using ModularPipelines.Modules;
@@ -70,6 +71,7 @@ internal class ModuleTypeRegistry
         return Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(schema)));
     }
 
+    [UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Distributed module registration and build validation are explicitly unsupported in trimmed applications.")]
     private static string GetModuleBuildIdentity(Type moduleType)
     {
         // ModuleId supplies the module's identity, including explicit rename overrides.
@@ -89,6 +91,11 @@ internal class ModuleTypeRegistry
             }
 
             identity.Append('\n');
+        }
+
+        foreach (var contract in moduleType.GetInterfaces().OrderBy(StableTypeName.Get, StringComparer.Ordinal))
+        {
+            identity.Append(StableTypeName.GetBuildFingerprint(contract)).Append('\n');
         }
 
         return identity.ToString();

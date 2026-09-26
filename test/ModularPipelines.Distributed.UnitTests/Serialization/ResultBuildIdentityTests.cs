@@ -43,6 +43,8 @@ public class ResultBuildIdentityTests
     [Arguments("Property", 0)]
     [Arguments("Property", 1)]
     [Arguments("IncludedPrivateGetter", 0)]
+    [Arguments("IncludedOverride", 0)]
+    [Arguments("IgnoredOverrideWithBaseMember", 0)]
     [Arguments("Field", 0)]
     [Arguments("TypeConverter", 0)]
     [Arguments("PropertyConverter", 0)]
@@ -83,6 +85,7 @@ public class ResultBuildIdentityTests
     [Arguments("PrivateGetter")]
     [Arguments("SetterOnly")]
     [Arguments("IncludedSetterOnly")]
+    [Arguments("IgnoredOverride")]
     public async Task Unserialized_Member_Build_Does_Not_Change_Schema_Or_Reject_Result(string memberKind)
     {
         using var builds = new ResultBuilds(0, memberKind);
@@ -270,6 +273,11 @@ public class ResultBuildIdentityTests
 
         private static Type DefineResultType(ModuleBuilder module, string name, Type dependency, string memberKind)
         {
+            if (memberKind is "IgnoredOverride" or "IncludedOverride" or "IgnoredOverrideWithBaseMember")
+            {
+                return DefineOverriddenPropertyType(module, name, dependency, memberKind);
+            }
+
             if (memberKind is "Collection" or "Dictionary")
             {
                 return DefineCollectionType(module, name, dependency, memberKind == "Dictionary");
@@ -324,6 +332,40 @@ public class ResultBuildIdentityTests
             }
 
             return type.CreateType()!;
+        }
+
+        private static Type DefineOverriddenPropertyType(ModuleBuilder module, string name, Type dependency, string memberKind)
+        {
+            static (MethodBuilder Getter, PropertyBuilder Property) DefineGetter(TypeBuilder type, string propertyName, Type propertyType)
+            {
+                var property = type.DefineProperty(propertyName, PropertyAttributes.None, propertyType, null);
+                var getter = type.DefineMethod($"get_{propertyName}",
+                    MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.SpecialName | MethodAttributes.HideBySig,
+                    propertyType, Type.EmptyTypes);
+                var il = getter.GetILGenerator();
+                il.Emit(OpCodes.Ldnull);
+                il.Emit(OpCodes.Ret);
+                property.SetGetMethod(getter);
+                return (getter, property);
+            }
+
+            var baseBuilder = module.DefineType($"{name}Base", TypeAttributes.Public);
+            DefineGetter(baseBuilder, "Value", dependency);
+            var baseType = baseBuilder.CreateType()!;
+            var derived = module.DefineType(name, TypeAttributes.Public, baseType);
+            var (overridden, property) = DefineGetter(derived, "Value", dependency);
+            derived.DefineMethodOverride(overridden, baseType.GetMethod("get_Value")!);
+            if (memberKind != "IncludedOverride")
+            {
+                property.SetCustomAttribute(new CustomAttributeBuilder(typeof(JsonIgnoreAttribute).GetConstructor(Type.EmptyTypes)!, []));
+            }
+
+            if (memberKind == "IgnoredOverrideWithBaseMember")
+            {
+                DefineGetter(derived, "BaseValue", baseType);
+            }
+
+            return derived.CreateType()!;
         }
 
         private static void DefineSetterProperty(TypeBuilder type, Type propertyType, string memberKind)

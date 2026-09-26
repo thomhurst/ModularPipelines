@@ -32,7 +32,7 @@ internal static class StableTypeName
     private static string GetBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions)
     {
         var frameworkType = IsFrameworkAssembly(type.Assembly);
-        var identity = frameworkType ? Get(type) : $"{Get(type)}\0{type.Module.ModuleVersionId}";
+        var identity = GetTypeBuildIdentity(type);
         // Types can recur through base classes, generic arguments, and serialized members.
         if (!visitedTypes.Add(type))
         {
@@ -55,10 +55,7 @@ internal static class StableTypeName
             return identity;
         }
 
-        if (type.BaseType is { } baseType)
-        {
-            identity += $"\0Base={GetBuildIdentity(baseType, visitedTypes, expandedDefinitions)}";
-        }
+        identity += GetBaseBuildIdentity(type, visitedTypes, expandedDefinitions);
 
         foreach (var memberType in GetSerializationContractTypes(type).Distinct().OrderBy(Get, StringComparer.Ordinal))
         {
@@ -66,6 +63,34 @@ internal static class StableTypeName
         }
 
         return identity;
+    }
+
+    private static string GetTypeBuildIdentity(Type type) =>
+        IsFrameworkAssembly(type.Assembly) ? Get(type) : $"{Get(type)}\0{type.Module.ModuleVersionId}";
+
+    private static string GetBaseBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions)
+    {
+        var identity = string.Empty;
+        for (var current = type.BaseType; current is not null; current = current.BaseType)
+        {
+            // Preserve base binary/argument checks without treating its hidden declarations
+            // as a second serialization contract. Members are selected from the derived type.
+            identity += $"\0Base={GetTypeBuildIdentity(current)}{GetConstructionBuildIdentity(current, visitedTypes, expandedDefinitions)}";
+            if (IsFrameworkAssembly(current.Assembly))
+            {
+                break;
+            }
+        }
+
+        return identity;
+    }
+
+    private static IEnumerable<Type> GetApplicationTypeHierarchy(Type type)
+    {
+        for (var current = type; current is not null && !IsFrameworkAssembly(current.Assembly); current = current.BaseType)
+        {
+            yield return current;
+        }
     }
 
     private static string GetConstructionBuildIdentity(Type type, HashSet<Type> visitedTypes, HashSet<Type> expandedDefinitions)
@@ -94,14 +119,17 @@ internal static class StableTypeName
     [UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Runtime result serialization and its build fingerprints are explicitly unsupported in trimmed applications.")]
     private static IEnumerable<Type> GetSerializationContractTypes(Type type)
     {
-        foreach (var derived in type.GetCustomAttributes<JsonDerivedTypeAttribute>(inherit: false))
+        foreach (var current in GetApplicationTypeHierarchy(type))
         {
-            yield return derived.DerivedType;
-        }
+            foreach (var derived in current.GetCustomAttributes<JsonDerivedTypeAttribute>(inherit: false))
+            {
+                yield return derived.DerivedType;
+            }
 
-        foreach (var converterType in GetConverterTypes(type, type))
-        {
-            yield return converterType;
+            foreach (var converterType in GetConverterTypes(current, current))
+            {
+                yield return converterType;
+            }
         }
 
         foreach (var (member, memberType) in GetSerializedMembers(type))
@@ -125,27 +153,33 @@ internal static class StableTypeName
     }
 
     [UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Runtime result serialization and its build fingerprints are explicitly unsupported in trimmed applications.")]
+    [UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Runtime result serialization and its inherited build fingerprints are explicitly unsupported in trimmed applications.")]
     private static IEnumerable<(MemberInfo Member, Type Type)> GetSerializedMembers(Type type)
     {
         const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
-        foreach (var property in type.GetProperties(flags))
+        var getters = new HashSet<MethodInfo>();
+        foreach (var current in GetApplicationTypeHierarchy(type))
         {
-            if (property.GetIndexParameters().Length == 0
-                && property.GetMethod is { } getter
-                && (getter.IsPublic || property.IsDefined(typeof(JsonIncludeAttribute)))
-                && property.GetCustomAttribute<JsonIgnoreAttribute>()?.Condition != JsonIgnoreCondition.Always)
+            foreach (var property in current.GetProperties(flags))
             {
-                yield return (property, property.PropertyType);
+                // Record overrides before filtering: JsonIgnore also suppresses the base declaration.
+                if (property.GetMethod is { } getter && getters.Add(getter.GetBaseDefinition())
+                    && property.GetIndexParameters().Length == 0
+                    && (getter.IsPublic || property.IsDefined(typeof(JsonIncludeAttribute)))
+                    && property.GetCustomAttribute<JsonIgnoreAttribute>()?.Condition != JsonIgnoreCondition.Always)
+                {
+                    yield return (property, property.PropertyType);
+                }
             }
-        }
 
-        // Serializer options leave IncludeFields disabled; fields require an explicit JsonInclude.
-        foreach (var field in type.GetFields(flags))
-        {
-            if (field.IsDefined(typeof(JsonIncludeAttribute))
-                && field.GetCustomAttribute<JsonIgnoreAttribute>()?.Condition != JsonIgnoreCondition.Always)
+            // Serializer options leave IncludeFields disabled; fields require an explicit JsonInclude.
+            foreach (var field in current.GetFields(flags))
             {
-                yield return (field, field.FieldType);
+                if (field.IsDefined(typeof(JsonIncludeAttribute))
+                    && field.GetCustomAttribute<JsonIgnoreAttribute>()?.Condition != JsonIgnoreCondition.Always)
+                {
+                    yield return (field, field.FieldType);
+                }
             }
         }
     }
