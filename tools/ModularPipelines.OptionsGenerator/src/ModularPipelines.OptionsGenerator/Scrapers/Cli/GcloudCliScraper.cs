@@ -838,6 +838,8 @@ public partial class GcloudCliScraper : CliScraperBase
                 enumDefinition),
             Description = AddDelimitedListGuidance(description, isDelimitedList, isNumeric, enumDefinition),
             ValueShapeDescription = argument.Description ?? string.Empty,
+            AllowsEmptyValue = !isFlag && !acceptsMultipleValues
+                && EmptyStringDefaultPattern().IsMatch(argument.Description ?? string.Empty),
             IsFlag = isFlag,
             IsRequired = false,
             AcceptsMultipleValues = acceptsMultipleValues,
@@ -1279,6 +1281,9 @@ public partial class GcloudCliScraper : CliScraperBase
 
     [GeneratedRegex(@"\bdurations?\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex DurationDescriptionPattern();
+
+    [GeneratedRegex(@"\b(?:an?\s+)?empty\s+string\s+means\s+(?:that\s+)?(?:the\s+)?default\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex EmptyStringDefaultPattern();
 
     [GeneratedRegex(
         @"(?<![A-Za-z0-9])(?:file|filename|filepath|path)(?![A-Za-z0-9])",
