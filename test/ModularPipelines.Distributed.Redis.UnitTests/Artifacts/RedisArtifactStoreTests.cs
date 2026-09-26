@@ -35,7 +35,7 @@ public class RedisArtifactStoreTests
         var reference = await _store.UploadAsync(descriptor, stream, CancellationToken.None);
 
         await Assert.That(reference.Name).IsEqualTo("test-art");
-        await Assert.That(reference.ModuleTypeName).IsEqualTo("Test.Module");
+        await Assert.That(reference.ModuleId.Value).IsEqualTo("Test.Module");
         await Assert.That(reference.SizeBytes).IsEqualTo(5);
         await Assert.That(reference.ContentType).IsEqualTo("application/octet-stream");
         await Assert.That(reference.ArtifactId).IsNotNull();

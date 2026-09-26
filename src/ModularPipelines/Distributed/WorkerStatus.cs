@@ -19,7 +19,7 @@ public record WorkerStatus(
     /// <summary>
     /// Gets the worker's final command counts by stable module type identifier, when available.
     /// </summary>
-    public IReadOnlyDictionary<string, int>? ModuleCommandCounts { get; init; }
+    public IReadOnlyDictionary<ModuleId, int>? ModuleCommandCounts { get; init; }
 
     /// <summary>
     /// Determines whether a status or heartbeat represents a live worker.

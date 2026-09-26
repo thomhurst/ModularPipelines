@@ -80,8 +80,7 @@ public class DistributedPipelineIntegrationTests
 
         var serialized = serializer.Serialize(
             successResult,
-            typeof(ModuleA).FullName!,
-            typeof(SimpleResult).FullName!,
+            ModuleId.FromType(typeof(ModuleA)),
             1);
 
         await coordinator.PublishResultAsync(serialized, CancellationToken.None);
@@ -153,7 +152,7 @@ public class DistributedPipelineIntegrationTests
             EndTime = now.AddSeconds(1),
             Status = ModuleStatus.Succeeded
         };
-        var serializedA = serializer.Serialize(resultA, typeof(ModuleA).FullName!, typeof(SimpleResult).FullName!, 1);
+        var serializedA = serializer.Serialize(resultA, ModuleId.FromType(typeof(ModuleA)), 1);
         await coordinator.PublishResultAsync(serializedA, CancellationToken.None);
 
         var resultB = new ModuleResult<string>.Success("B")
@@ -165,7 +164,7 @@ public class DistributedPipelineIntegrationTests
             EndTime = now.AddSeconds(1),
             Status = ModuleStatus.Succeeded
         };
-        var serializedB = serializer.Serialize(resultB, typeof(ModuleB).FullName!, typeof(string).FullName!, 1);
+        var serializedB = serializer.Serialize(resultB, ModuleId.FromType(typeof(ModuleB)), 1);
         await coordinator.PublishResultAsync(serializedB, CancellationToken.None);
 
         var resultC = new ModuleResult<int>.Success(42)
@@ -177,7 +176,7 @@ public class DistributedPipelineIntegrationTests
             EndTime = now.AddSeconds(1),
             Status = ModuleStatus.Succeeded
         };
-        var serializedC = serializer.Serialize(resultC, typeof(ModuleC).FullName!, typeof(int).FullName!, 1);
+        var serializedC = serializer.Serialize(resultC, ModuleId.FromType(typeof(ModuleC)), 1);
         await coordinator.PublishResultAsync(serializedC, CancellationToken.None);
 
         // Collect all 3

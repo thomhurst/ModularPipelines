@@ -68,7 +68,7 @@ public class SignalRMasterCoordinatorTests
         });
 
         var collected = await coordinator.WaitForResultAsync("TestModule", CancellationToken.None);
-        await Assert.That(collected.ModuleTypeName).IsEqualTo("TestModule");
+        await Assert.That(collected.ModuleId).IsEqualTo("TestModule");
     }
 
     [Test]
@@ -78,9 +78,9 @@ public class SignalRMasterCoordinatorTests
         var coordinator = CreateCoordinator(state);
         var result = CreateResult("FencedModule");
         using var cancellation = new CancellationTokenSource();
-        var waiter = coordinator.WaitForResultAsync(result.ModuleTypeName, CancellationToken.None);
+        var waiter = coordinator.WaitForResultAsync(result.ModuleId, CancellationToken.None);
 
-        using (await state.EnterAssignmentDeliveryFenceAsync(result.ModuleTypeName))
+        using (await state.EnterAssignmentDeliveryFenceAsync(result.ModuleId))
         {
             var publication = coordinator.PublishResultAsync(result, cancellation.Token);
             await cancellation.CancelAsync();
@@ -117,7 +117,7 @@ public class SignalRMasterCoordinatorTests
         var state = new SignalRMasterState();
         var coordinator = CreateCoordinator(state);
         var assignment = CreateAssignment("TestModule");
-        state.ResultWaiters[assignment.ModuleTypeName] =
+        state.ResultWaiters[assignment.ModuleId] =
             new TaskCompletionSource<SerializedModuleResult>(
                 TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -137,7 +137,7 @@ public class SignalRMasterCoordinatorTests
 
         var restored = state.TryRestoreReconnect(
             worker,
-            assignment.ModuleTypeName,
+            assignment.ModuleId,
             out _);
         await coordinator.PublishResultAsync(CreateResult("TestModule"), CancellationToken.None);
 
@@ -338,7 +338,7 @@ public class SignalRMasterCoordinatorTests
 
         // Enqueue a module requiring "linux"
         var assignment = new ModuleAssignment(
-            "LinuxModule", "System.String",
+            "LinuxModule",
             ["linux"],
             DateTimeOffset.UtcNow,
             new ModuleAssignmentOptions(null, false));
@@ -359,7 +359,7 @@ public class SignalRMasterCoordinatorTests
     {
         var state = new SignalRMasterState();
         var assignment = CreateAssignment("TestModule");
-        state.ResultWaiters[assignment.ModuleTypeName] =
+        state.ResultWaiters[assignment.ModuleId] =
             new TaskCompletionSource<SerializedModuleResult>(
                 TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -410,7 +410,7 @@ public class SignalRMasterCoordinatorTests
         await deliveryStarted.Task;
 
         var publishTask = coordinator.PublishResultAsync(
-            CreateResult(assignment.ModuleTypeName),
+            CreateResult(assignment.ModuleId),
             CancellationToken.None);
         await Task.Yield();
 
@@ -441,7 +441,7 @@ public class SignalRMasterCoordinatorTests
 
         // Enqueue a module requiring "linux" — no match
         var assignment = new ModuleAssignment(
-            "LinuxModule", "System.String",
+            "LinuxModule",
             ["linux"],
             DateTimeOffset.UtcNow,
             new ModuleAssignmentOptions(null, false));
@@ -452,19 +452,19 @@ public class SignalRMasterCoordinatorTests
         await Assert.That(state.PendingAssignments.Count).IsEqualTo(1);
     }
 
-    private static ModuleAssignment CreateAssignment(string moduleTypeName)
+    private static ModuleAssignment CreateAssignment(ModuleId moduleId)
     {
         return new ModuleAssignment(
-            moduleTypeName, "System.String",
+            moduleId,
             [],
             DateTimeOffset.UtcNow,
             new ModuleAssignmentOptions(null, false));
     }
 
-    private static SerializedModuleResult CreateResult(string moduleTypeName)
+    private static SerializedModuleResult CreateResult(ModuleId moduleId)
     {
         return new SerializedModuleResult(
-            moduleTypeName, "System.String", 1,
+            moduleId, 1,
             "{}", DateTimeOffset.UtcNow);
     }
 }

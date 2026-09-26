@@ -8,7 +8,7 @@ namespace ModularPipelines.Distributed.Artifacts;
 internal sealed class FileSystemDistributedArtifactStore : IDistributedArtifactStore, IDisposable
 {
     private readonly ConcurrentDictionary<string, (ArtifactReference Reference, string Path)> _artifacts = new();
-    private readonly ConcurrentDictionary<string, List<string>> _moduleIndex = new();
+    private readonly ConcurrentDictionary<ModuleId, List<string>> _moduleIndex = new();
     private readonly Lazy<string> _root = new(
         static () => Directory.CreateTempSubdirectory("modular-pipelines-artifacts-").FullName,
         LazyThreadSafetyMode.ExecutionAndPublication);
@@ -36,13 +36,13 @@ internal sealed class FileSystemDistributedArtifactStore : IDistributedArtifactS
             var reference = new ArtifactReference(
                 ArtifactId: artifactId,
                 Name: descriptor.Name,
-                ModuleTypeName: descriptor.ModuleTypeName,
+                ModuleId: descriptor.ModuleId,
                 SizeBytes: new FileInfo(path).Length,
                 ContentType: descriptor.ContentType,
                 UploadedAt: DateTimeOffset.UtcNow);
             _artifacts[artifactId] = (reference, path);
             _moduleIndex.AddOrUpdate(
-                descriptor.ModuleTypeName,
+                descriptor.ModuleId,
                 _ => [artifactId],
                 (_, artifactIds) =>
                 {
@@ -83,11 +83,11 @@ internal sealed class FileSystemDistributedArtifactStore : IDistributedArtifactS
     }
 
     public Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(
-        string moduleTypeName,
+        ModuleId moduleId,
         CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        if (!_moduleIndex.TryGetValue(moduleTypeName, out var artifactIds))
+        if (!_moduleIndex.TryGetValue(moduleId, out var artifactIds))
         {
             return Task.FromResult<IReadOnlyList<ArtifactReference>>([]);
         }
@@ -118,7 +118,7 @@ internal sealed class FileSystemDistributedArtifactStore : IDistributedArtifactS
             File.Delete(entry.Path);
         }
 
-        if (_moduleIndex.TryGetValue(reference.ModuleTypeName, out var artifactIds))
+        if (_moduleIndex.TryGetValue(reference.ModuleId, out var artifactIds))
         {
             lock (artifactIds)
             {

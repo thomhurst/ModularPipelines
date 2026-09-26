@@ -5,6 +5,6 @@ namespace ModularPipelines.Distributed;
 /// </summary>
 public record ArtifactDescriptor(
     string Name,
-    string ModuleTypeName,
+    ModuleId ModuleId,
     string? ContentType = null,
     IReadOnlyDictionary<string, string>? Metadata = null);

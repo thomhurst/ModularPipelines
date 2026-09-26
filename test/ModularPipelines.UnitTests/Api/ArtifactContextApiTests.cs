@@ -238,8 +238,8 @@ public class ArtifactContextApiTests
 
         await pipeline.RunAsync();
 
-        await Assert.That(store.UploadedDescriptor!.ModuleTypeName)
-            .IsEqualTo(typeof(ReadyArtifactModule).FullName);
+        await Assert.That(store.UploadedDescriptor!.ModuleId)
+            .IsEqualTo(typeof(ReadyArtifactModule).FullName!);
     }
 
     [Test]
@@ -600,7 +600,7 @@ public class ArtifactContextApiTests
             return Task.FromResult(new ArtifactReference(
                 Guid.NewGuid().ToString("N"),
                 descriptor.Name,
-                descriptor.ModuleTypeName,
+                descriptor.ModuleId,
                 data.Length,
                 descriptor.ContentType,
                 DateTimeOffset.UtcNow));
@@ -612,7 +612,7 @@ public class ArtifactContextApiTests
             => throw new NotSupportedException();
 
         public Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(
-            string moduleTypeName,
+            ModuleId moduleId,
             CancellationToken cancellationToken)
             => Task.FromResult<IReadOnlyList<ArtifactReference>>([]);
 

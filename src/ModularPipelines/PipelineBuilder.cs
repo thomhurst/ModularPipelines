@@ -587,7 +587,7 @@ public sealed class PipelineBuilder
 
         public async Task PublishResultAsync(SerializedModuleResult r, CancellationToken ct) => await (await GetAsync(ct)).PublishResultAsync(r, ct);
 
-        public async Task<SerializedModuleResult> WaitForResultAsync(string m, CancellationToken ct) => await (await GetAsync(ct)).WaitForResultAsync(m, ct);
+        public async Task<SerializedModuleResult> WaitForResultAsync(ModuleId id, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).WaitForResultAsync(id, ct).ConfigureAwait(false);
 
         public async Task RegisterWorkerAsync(WorkerRegistration r, CancellationToken ct) => await (await GetAsync(ct)).RegisterWorkerAsync(r, ct);
 
@@ -644,8 +644,8 @@ public sealed class PipelineBuilder
 
         public async Task PublishResultAsync(SerializedModuleResult r, CancellationToken ct) => await (await GetAsync(ct)).PublishResultAsync(r, ct);
 
-        public async Task<SerializedModuleResult> WaitForResultAsync(string moduleTypeName, CancellationToken ct) =>
-            await (await GetAsync(ct)).WaitForResultAsync(moduleTypeName, ct);
+        public async Task<SerializedModuleResult> WaitForResultAsync(ModuleId moduleId, CancellationToken ct) =>
+            await (await GetAsync(ct).ConfigureAwait(false)).WaitForResultAsync(moduleId, ct).ConfigureAwait(false);
 
         public async Task RegisterWorkerAsync(WorkerRegistration r, CancellationToken ct) => await (await GetAsync(ct)).RegisterWorkerAsync(r, ct);
 
@@ -692,7 +692,7 @@ public sealed class PipelineBuilder
 
         public async Task<Stream> DownloadAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct)).DownloadAsync(r, ct);
 
-        public async Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(string m, CancellationToken ct) => await (await GetAsync(ct)).ListArtifactsAsync(m, ct);
+        public async Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(ModuleId id, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).ListArtifactsAsync(id, ct).ConfigureAwait(false);
 
         public async Task DeleteAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct)).DeleteAsync(r, ct);
 

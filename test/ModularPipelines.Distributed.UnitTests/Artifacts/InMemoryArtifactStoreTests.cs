@@ -12,7 +12,7 @@ public class InMemoryArtifactStoreTests
 
         var descriptor = new ArtifactDescriptor(
             Name: "test-artifact",
-            ModuleTypeName: "Test.Module",
+            ModuleId: "Test.Module",
             ContentType: "application/octet-stream");
 
         ArtifactReference reference;
@@ -23,7 +23,7 @@ public class InMemoryArtifactStoreTests
 
         await Assert.That(reference).IsNotNull();
         await Assert.That(reference.Name).IsEqualTo("test-artifact");
-        await Assert.That(reference.ModuleTypeName).IsEqualTo("Test.Module");
+        await Assert.That(reference.ModuleId).IsEqualTo("Test.Module");
         await Assert.That(reference.SizeBytes).IsEqualTo(5);
 
         await using var downloadStream = await store.DownloadAsync(reference, CancellationToken.None);
@@ -92,7 +92,7 @@ public class InMemoryArtifactStoreTests
         var fakeRef = new ArtifactReference(
             ArtifactId: "nonexistent",
             Name: "fake",
-            ModuleTypeName: "Fake.Module",
+            ModuleId: "Fake.Module",
             SizeBytes: 0,
             ContentType: null,
             UploadedAt: DateTimeOffset.UtcNow);

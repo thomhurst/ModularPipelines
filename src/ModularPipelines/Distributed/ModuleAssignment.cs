@@ -1,8 +1,7 @@
 namespace ModularPipelines.Distributed;
 
 public record ModuleAssignment(
-    string ModuleTypeName,
-    string ResultTypeName,
+    ModuleId ModuleId,
     IReadOnlyList<Capability> RequiredCapabilities,
     DateTimeOffset AssignedAt,
     ModuleAssignmentOptions Configuration,
@@ -20,6 +19,9 @@ public record ModuleAssignment(
 
     /// <summary>Gets when the assignment was enqueued for a worker.</summary>
     public DateTimeOffset EnqueuedAt { get; init; }
+
+    /// <summary>Gets the schema expected by the process that issued this assignment.</summary>
+    public string PipelineSchemaVersion { get; init; } = string.Empty;
 
     public IReadOnlyList<string> SatisfiedConditionGroups { get; init; } = [];
 }

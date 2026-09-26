@@ -9,9 +9,9 @@ namespace ModularPipelines.Distributed.SignalR.Hub;
 internal class SignalRMasterState
 {
     private readonly Lock _pendingReconnectLock = new();
-    private readonly Dictionary<string, PendingReconnect> _pendingReconnects = [];
-    private readonly Dictionary<string, int> _admittedWorkerResults = [];
-    private readonly ConcurrentDictionary<string, SemaphoreSlim> _assignmentDeliveryFences = new();
+    private readonly Dictionary<ModuleId, PendingReconnect> _pendingReconnects = [];
+    private readonly Dictionary<ModuleId, int> _admittedWorkerResults = [];
+    private readonly ConcurrentDictionary<ModuleId, SemaphoreSlim> _assignmentDeliveryFences = new();
     private readonly ConcurrentDictionary<int, object> _workerStateLocks = new();
 
     /// <summary>
@@ -52,9 +52,9 @@ internal class SignalRMasterState
     public ConcurrentQueue<ModuleAssignment> PendingAssignments { get; } = new();
 
     /// <summary>
-    /// Result waiters: module type name -> TCS that completes when the result arrives.
+    /// Result waiters: module identifier -> TCS that completes when the result arrives.
     /// </summary>
-    public ConcurrentDictionary<string, TaskCompletionSource<SerializedModuleResult>> ResultWaiters { get; } = new();
+    public ConcurrentDictionary<ModuleId, TaskCompletionSource<SerializedModuleResult>> ResultWaiters { get; } = new();
 
     /// <summary>
     /// How long to wait for a disconnected worker to reconnect before re-enqueuing its
@@ -143,12 +143,12 @@ internal class SignalRMasterState
 
         lock (_pendingReconnectLock)
         {
-            if (HasAcceptedResult(assignment.ModuleTypeName))
+            if (HasAcceptedResult(assignment.ModuleId))
             {
                 return null;
             }
 
-            _pendingReconnects.TryGetValue(assignment.ModuleTypeName, out previous);
+            _pendingReconnects.TryGetValue(assignment.ModuleId, out previous);
 
             // A late original participant is not the owner of an active redispatch.
             // Its disconnect must not replace that claim and schedule a third execution.
@@ -165,7 +165,7 @@ internal class SignalRMasterState
                 assignment);
             var trackedWorkers = previous?.Complete() ?? [];
             pending.TrackWorkers(trackedWorkers.Where(worker => worker != disconnectedWorker));
-            _pendingReconnects[assignment.ModuleTypeName] = pending;
+            _pendingReconnects[assignment.ModuleId] = pending;
         }
 
         previous?.CancelDelay();
@@ -184,7 +184,7 @@ internal class SignalRMasterState
 
     public bool TryRestoreReconnect(
         WorkerState worker,
-        string? resumingModuleTypeName,
+        ModuleId? resumingModuleId,
         out ModuleAssignment? assignment)
     {
         PendingReconnect? pending;
@@ -197,11 +197,11 @@ internal class SignalRMasterState
             pending = _pendingReconnects.Values
                 .FirstOrDefault(candidate =>
                     candidate.WorkerIndex == worker.Registration.WorkerIndex
-                    && candidate.Assignment.ModuleTypeName == resumingModuleTypeName);
+                    && candidate.Assignment.ModuleId == resumingModuleId);
 
             if (pending is not null)
             {
-                if (ResultWaiters.TryGetValue(pending.Assignment.ModuleTypeName, out var waiter)
+                if (ResultWaiters.TryGetValue(pending.Assignment.ModuleId, out var waiter)
                     && !waiter.Task.IsCompleted)
                 {
                     assignment = pending.Assignment;
@@ -215,13 +215,13 @@ internal class SignalRMasterState
                         }
                         else
                         {
-                            worker.TryCompleteAssignment(assignment.ModuleTypeName);
+                            worker.TryCompleteAssignment(assignment.ModuleId);
                             assignment = null;
                         }
                     }
                 }
                 else if (_pendingReconnects.Remove(
-                             pending.Assignment.ModuleTypeName,
+                             pending.Assignment.ModuleId,
                              out completedPending))
                 {
                     completedPending.Complete();
@@ -244,12 +244,12 @@ internal class SignalRMasterState
     {
         lock (_pendingReconnectLock)
         {
-            if (HasAcceptedResult(assignment.ModuleTypeName))
+            if (HasAcceptedResult(assignment.ModuleId))
             {
                 return false;
             }
 
-            if (!_pendingReconnects.TryGetValue(assignment.ModuleTypeName, out var pending))
+            if (!_pendingReconnects.TryGetValue(assignment.ModuleId, out var pending))
             {
                 return true;
             }
@@ -274,40 +274,40 @@ internal class SignalRMasterState
     {
         lock (_pendingReconnectLock)
         {
-            if (HasAcceptedResult(assignment.ModuleTypeName))
+            if (HasAcceptedResult(assignment.ModuleId))
             {
                 return false;
             }
 
             return !_pendingReconnects.TryGetValue(
-                       assignment.ModuleTypeName,
+                       assignment.ModuleId,
                        out var pending)
                    || pending.TryReturnToQueue(worker);
         }
     }
 
     // Called while holding _pendingReconnectLock so admission and redispatch cannot race.
-    private bool HasAcceptedResult(string moduleTypeName) =>
-        _admittedWorkerResults.ContainsKey(moduleTypeName)
-        || (ResultWaiters.TryGetValue(moduleTypeName, out var waiter) && waiter.Task.IsCompleted);
+    private bool HasAcceptedResult(ModuleId moduleId) =>
+        _admittedWorkerResults.ContainsKey(moduleId)
+        || (ResultWaiters.TryGetValue(moduleId, out var waiter) && waiter.Task.IsCompleted);
 
     public async Task<IDisposable> EnterAssignmentDeliveryFenceAsync(
-        string moduleTypeName,
+        ModuleId moduleId,
         CancellationToken cancellationToken = default)
     {
         var deliveryFence = _assignmentDeliveryFences.GetOrAdd(
-            moduleTypeName,
+            moduleId,
             _ => new SemaphoreSlim(1, 1));
         await deliveryFence.WaitAsync(cancellationToken).ConfigureAwait(false);
         return new SemaphoreReleaser(deliveryFence);
     }
 
-    public void CompletePendingReconnect(string moduleTypeName)
+    public void CompletePendingReconnect(ModuleId moduleId)
     {
         PendingReconnect? pending;
         lock (_pendingReconnectLock)
         {
-            if (!_pendingReconnects.Remove(moduleTypeName, out pending))
+            if (!_pendingReconnects.Remove(moduleId, out pending))
             {
                 return;
             }
@@ -323,7 +323,7 @@ internal class SignalRMasterState
         SerializedModuleResult result,
         CancellationToken cancellationToken = default)
     {
-        using var deliveryFence = await EnterAssignmentDeliveryFenceAsync(result.ModuleTypeName, cancellationToken)
+        using var deliveryFence = await EnterAssignmentDeliveryFenceAsync(result.ModuleId, cancellationToken)
             .ConfigureAwait(false);
         return CompleteResult(result);
     }
@@ -337,10 +337,7 @@ internal class SignalRMasterState
         lock (GetWorkerStateLock(workerIndex))
         {
             if (workerIndex != result.WorkerIndex
-                || !string.Equals(
-                    worker.CurrentAssignment?.ModuleTypeName,
-                    result.ModuleTypeName,
-                    StringComparison.Ordinal)
+                || worker.CurrentAssignment?.ModuleId != result.ModuleId
                 || !Workers.TryGetValue(worker.ConnectionId, out var currentWorker)
                 || !ReferenceEquals(currentWorker, worker)
                 || !Registrations.TryGetValue(workerIndex, out var currentRegistration)
@@ -352,14 +349,14 @@ internal class SignalRMasterState
             // Fence waits must not let reconnect recovery claim an already admitted result.
             lock (_pendingReconnectLock)
             {
-                _admittedWorkerResults.TryGetValue(result.ModuleTypeName, out var admissions);
-                _admittedWorkerResults[result.ModuleTypeName] = admissions + 1;
+                _admittedWorkerResults.TryGetValue(result.ModuleId, out var admissions);
+                _admittedWorkerResults[result.ModuleId] = admissions + 1;
             }
         }
 
         try
         {
-            using var deliveryFence = await EnterAssignmentDeliveryFenceAsync(result.ModuleTypeName)
+            using var deliveryFence = await EnterAssignmentDeliveryFenceAsync(result.ModuleId)
                 .ConfigureAwait(false);
             return (true, CompleteResult(result));
         }
@@ -369,13 +366,13 @@ internal class SignalRMasterState
             // that prevents a later publication or reconnect recovery from making progress.
             lock (_pendingReconnectLock)
             {
-                if (_admittedWorkerResults.TryGetValue(result.ModuleTypeName, out var admissions) && admissions > 1)
+                if (_admittedWorkerResults.TryGetValue(result.ModuleId, out var admissions) && admissions > 1)
                 {
-                    _admittedWorkerResults[result.ModuleTypeName] = admissions - 1;
+                    _admittedWorkerResults[result.ModuleId] = admissions - 1;
                 }
                 else
                 {
-                    _admittedWorkerResults.Remove(result.ModuleTypeName);
+                    _admittedWorkerResults.Remove(result.ModuleId);
                 }
             }
         }
@@ -389,13 +386,13 @@ internal class SignalRMasterState
         lock (_pendingReconnectLock)
         {
             var waiter = ResultWaiters.GetOrAdd(
-                result.ModuleTypeName,
+                result.ModuleId,
                 static _ => new TaskCompletionSource<SerializedModuleResult>(
                     TaskCreationOptions.RunContinuationsAsynchronously));
             waiter.TrySetResult(result);
-            _admittedWorkerResults.Remove(result.ModuleTypeName);
+            _admittedWorkerResults.Remove(result.ModuleId);
 
-            if (_pendingReconnects.Remove(result.ModuleTypeName, out pending))
+            if (_pendingReconnects.Remove(result.ModuleId, out pending))
             {
                 trackedWorkers = pending.Complete();
             }

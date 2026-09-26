@@ -24,7 +24,7 @@ public class ArtifactContextTests
             .ReturnsAsync(new ArtifactReference(
                 ArtifactId: "artifact-id",
                 Name: "output",
-                ModuleTypeName: typeof(ProducerModule).FullName!,
+                ModuleId: typeof(ProducerModule).FullName!,
                 SizeBytes: 0,
                 ContentType: "application/octet-stream",
                 UploadedAt: DateTimeOffset.UtcNow));
@@ -40,8 +40,8 @@ public class ArtifactContextTests
 
             _ = await pipeline.RunAsync();
 
-            await Assert.That(observedDescriptor!.ModuleTypeName)
-                .IsEqualTo(typeof(PipelineArtifactProducerModule).FullName);
+            await Assert.That(observedDescriptor!.ModuleId)
+                .IsEqualTo(typeof(PipelineArtifactProducerModule).FullName!);
         }
         finally
         {
@@ -55,7 +55,7 @@ public class ArtifactContextTests
         var artifact = new ArtifactReference(
             ArtifactId: "artifact-id",
             Name: "output",
-            ModuleTypeName: typeof(ProducerModule).FullName!,
+            ModuleId: typeof(ProducerModule).FullName!,
             SizeBytes: 7,
             ContentType: "application/octet-stream",
             UploadedAt: DateTimeOffset.UtcNow);
@@ -111,7 +111,7 @@ public class ArtifactContextTests
                 return new ArtifactReference(
                     ArtifactId: "artifact-id",
                     Name: descriptor.Name,
-                    ModuleTypeName: descriptor.ModuleTypeName,
+                    ModuleId: descriptor.ModuleId,
                     SizeBytes: copy.Length,
                     ContentType: descriptor.ContentType,
                     UploadedAt: DateTimeOffset.UtcNow);
@@ -145,7 +145,7 @@ public class ArtifactContextTests
         var artifact = new ArtifactReference(
             ArtifactId: "artifact-id",
             Name: "output",
-            ModuleTypeName: typeof(ProducerModule).FullName!,
+            ModuleId: typeof(ProducerModule).FullName!,
             SizeBytes: 7,
             ContentType: "application/octet-stream",
             UploadedAt: DateTimeOffset.UtcNow);
@@ -210,7 +210,7 @@ public class ArtifactContextTests
         new(
             ArtifactId: id,
             Name: "output",
-            ModuleTypeName: typeof(ProducerModule).FullName!,
+            ModuleId: typeof(ProducerModule).FullName!,
             SizeBytes: 7,
             ContentType: "application/octet-stream",
             UploadedAt: uploadedAt);

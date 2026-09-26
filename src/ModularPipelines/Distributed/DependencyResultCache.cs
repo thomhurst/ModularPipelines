@@ -6,13 +6,12 @@ internal sealed class DependencyResultCache(
     IDistributedWorkerCoordinator coordinator,
     CancellationToken cancellationToken)
 {
-    private readonly ConcurrentDictionary<string, Lazy<Task<SerializedModuleResult>>> _results =
-        new(StringComparer.Ordinal);
+    private readonly ConcurrentDictionary<ModuleId, Lazy<Task<SerializedModuleResult>>> _results = new();
 
-    public async Task<SerializedModuleResult> GetAsync(string moduleTypeName)
+    public async Task<SerializedModuleResult> GetAsync(ModuleId moduleId)
     {
         var lazyResult = _results.GetOrAdd(
-            moduleTypeName,
+            moduleId,
             name => new Lazy<Task<SerializedModuleResult>>(
                 () => coordinator.WaitForResultAsync(name, cancellationToken),
                 LazyThreadSafetyMode.ExecutionAndPublication));
@@ -24,7 +23,7 @@ internal sealed class DependencyResultCache(
         catch
         {
             _results.TryRemove(
-                new KeyValuePair<string, Lazy<Task<SerializedModuleResult>>>(moduleTypeName, lazyResult));
+                new KeyValuePair<ModuleId, Lazy<Task<SerializedModuleResult>>>(moduleId, lazyResult));
             throw;
         }
     }

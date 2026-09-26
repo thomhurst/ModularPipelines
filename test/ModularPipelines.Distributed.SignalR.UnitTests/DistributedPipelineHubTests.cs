@@ -34,7 +34,7 @@ public class DistributedPipelineHubTests
         var oldWorker = new WorkerState { ConnectionId = "old", Registration = registration };
         oldWorker.TryAssign(assignment);
         state.RegisterWorker(oldWorker);
-        state.ResultWaiters[assignment.ModuleTypeName] = new TaskCompletionSource<SerializedModuleResult>(
+        state.ResultWaiters[assignment.ModuleId] = new TaskCompletionSource<SerializedModuleResult>(
             TaskCreationOptions.RunContinuationsAsynchronously);
         using var disconnectReported = new ManualResetEventSlim();
         using var releaseDisconnect = new ManualResetEventSlim();
@@ -52,7 +52,7 @@ public class DistributedPipelineHubTests
         try
         {
             disconnectReported.Wait(cancellationToken);
-            await CreateHub(state, "new").RegisterWorker(registration, assignment.ModuleTypeName);
+            await CreateHub(state, "new").RegisterWorker(registration, assignment.ModuleId);
         }
         finally
         {
@@ -61,7 +61,7 @@ public class DistributedPipelineHubTests
         }
 
         await Assert.That(state.Workers["new"].CurrentAssignment).IsSameReferenceAs(assignment);
-        await CreateHub(state, "new").PublishResult(CreateResult(assignment.ModuleTypeName));
+        await CreateHub(state, "new").PublishResult(CreateResult(assignment.ModuleId));
         await Assert.That(state.GetPendingReconnect(1)).IsNull();
         await Assert.That(state.PendingAssignments).IsEmpty();
     }
@@ -119,7 +119,7 @@ public class DistributedPipelineHubTests
             {
                 RunId = "run-1",
             },
-            resumingModuleTypeName: null);
+            resumingModuleId: null);
 
         await Assert.That(state.WorkerStatuses[1]).IsSameReferenceAs(status);
         await Assert.That(state.Heartbeats.ContainsKey(1)).IsTrue();
@@ -140,8 +140,8 @@ public class DistributedPipelineHubTests
             RunId = "current-run",
         };
 
-        await oldHub.RegisterWorker(oldRegistration, resumingModuleTypeName: null);
-        await currentHub.RegisterWorker(currentRegistration, resumingModuleTypeName: null);
+        await oldHub.RegisterWorker(oldRegistration, resumingModuleId: null);
+        await currentHub.RegisterWorker(currentRegistration, resumingModuleId: null);
         var currentStatus = new WorkerStatus(1)
         {
             RunId = "current-run",
@@ -168,21 +168,21 @@ public class DistributedPipelineHubTests
         var currentHub = CreateHub(state, "current-connection");
         var registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow);
         var currentAssignment = CreateAssignment("CurrentModule");
-        state.ResultWaiters[currentAssignment.ModuleTypeName] =
+        state.ResultWaiters[currentAssignment.ModuleId] =
             new TaskCompletionSource<SerializedModuleResult>(
                 TaskCreationOptions.RunContinuationsAsynchronously);
 
-        await oldHub.RegisterWorker(registration, resumingModuleTypeName: null);
+        await oldHub.RegisterWorker(registration, resumingModuleId: null);
         var oldWorker = state.Workers["old-connection"];
         oldWorker.TryAssign(currentAssignment);
 
         await currentHub.RegisterWorker(
             new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
-            currentAssignment.ModuleTypeName);
+            currentAssignment.ModuleId);
 
         state.PendingAssignments.Enqueue(CreateAssignment("NextModule"));
         await oldHub.RequestWork([]);
-        await Assert.That(() => oldHub.PublishResult(CreateResult(currentAssignment.ModuleTypeName)))
+        await Assert.That(() => oldHub.PublishResult(CreateResult(currentAssignment.ModuleId)))
             .Throws<HubException>();
 
         using (Assert.Multiple())
@@ -191,7 +191,7 @@ public class DistributedPipelineHubTests
             await Assert.That(state.Workers["current-connection"].CurrentAssignment)
                 .IsSameReferenceAs(currentAssignment);
             await Assert.That(state.PendingAssignments).Count().IsEqualTo(1);
-            await Assert.That(state.ResultWaiters[currentAssignment.ModuleTypeName].Task.IsCompleted)
+            await Assert.That(state.ResultWaiters[currentAssignment.ModuleId].Task.IsCompleted)
                 .IsFalse();
         }
     }
@@ -211,7 +211,7 @@ public class DistributedPipelineHubTests
         {
             RunId = "same-run",
         };
-        await oldHub.RegisterWorker(oldRegistration, resumingModuleTypeName: null);
+        await oldHub.RegisterWorker(oldRegistration, resumingModuleId: null);
         var staleStatus = new WorkerStatus(1)
         {
             RunId = "same-run",
@@ -291,6 +291,24 @@ public class DistributedPipelineHubTests
     }
 
     [Test]
+    public async Task Result_From_Idle_Worker_Is_Rejected()
+    {
+        var state = new SignalRMasterState();
+        var worker = new WorkerState
+        {
+            ConnectionId = "idle-connection",
+            Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
+        };
+        state.RegisterWorker(worker);
+
+        var (accepted, workersToRelease) = await state.TryCompleteWorkerResultAsync(worker, CreateResult("UnassignedModule"));
+
+        await Assert.That(accepted).IsFalse();
+        await Assert.That(workersToRelease).IsEmpty();
+        await Assert.That(worker.IsIdle).IsTrue();
+    }
+
+    [Test]
     public async Task PublishResult_Cannot_Complete_Another_Workers_Assignment()
     {
         var state = new SignalRMasterState();
@@ -309,7 +327,7 @@ public class DistributedPipelineHubTests
         var otherAssignment = CreateAssignment("OtherModule");
         otherWorker.TryAssign(otherAssignment);
         state.RegisterWorker(otherWorker);
-        state.ResultWaiters[otherAssignment.ModuleTypeName] =
+        state.ResultWaiters[otherAssignment.ModuleId] =
             new TaskCompletionSource<SerializedModuleResult>(
                 TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -335,16 +353,16 @@ public class DistributedPipelineHubTests
             Clients = clients.Object,
         };
 
-        await Assert.That(() => hub.PublishResult(CreateResult(otherAssignment.ModuleTypeName)))
+        await Assert.That(() => hub.PublishResult(CreateResult(otherAssignment.ModuleId)))
             .Throws<HubException>();
 
         using (Assert.Multiple())
         {
-            await Assert.That(worker.CurrentAssignment?.ModuleTypeName)
+            await Assert.That(worker.CurrentAssignment?.ModuleId)
                 .IsEqualTo("CurrentModule");
             await Assert.That(worker.IsIdle).IsFalse();
             await Assert.That(otherWorker.CurrentAssignment).IsSameReferenceAs(otherAssignment);
-            await Assert.That(state.ResultWaiters[otherAssignment.ModuleTypeName].Task.IsCompleted)
+            await Assert.That(state.ResultWaiters[otherAssignment.ModuleId].Task.IsCompleted)
                 .IsFalse();
         }
     }
@@ -361,25 +379,25 @@ public class DistributedPipelineHubTests
         var oldHub = CreateHub(state, "old-connection");
         var currentHub = CreateHub(state, "current-connection");
         var assignment = CreateAssignment("CurrentModule");
-        var result = CreateResult(assignment.ModuleTypeName);
+        var result = CreateResult(assignment.ModuleId);
         var waiter = new TaskCompletionSource<SerializedModuleResult>(
             TaskCreationOptions.RunContinuationsAsynchronously);
-        state.ResultWaiters[assignment.ModuleTypeName] = waiter;
+        state.ResultWaiters[assignment.ModuleId] = waiter;
         await oldHub.RegisterWorker(
             new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
-            resumingModuleTypeName: null);
+            resumingModuleId: null);
         state.Workers["old-connection"].TryAssign(assignment);
 
         var publication = Task.CompletedTask;
         try
         {
-            using (await state.EnterAssignmentDeliveryFenceAsync(assignment.ModuleTypeName))
+            using (await state.EnterAssignmentDeliveryFenceAsync(assignment.ModuleId, cancellationToken))
             {
                 publication = oldHub.PublishResult(result);
                 await Assert.That(publication.IsCompleted).IsFalse();
                 await currentHub.RegisterWorker(
                     new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
-                    resumesAssignment ? assignment.ModuleTypeName : null);
+                    resumesAssignment ? assignment.ModuleId : (ModuleId?) null);
 
                 // Advance any pending reconnect as if grace elapsed while delivery remained blocked.
                 state.GetPendingReconnect(1)?.TryMakeAvailableForRedispatch();
@@ -396,26 +414,24 @@ public class DistributedPipelineHubTests
         }
         finally
         {
-            state.CompletePendingReconnect(assignment.ModuleTypeName);
+            state.CompletePendingReconnect(assignment.ModuleId);
             await publication.WaitAsync(cancellationToken);
         }
     }
 
-    private static ModuleAssignment CreateAssignment(string moduleTypeName)
+    private static ModuleAssignment CreateAssignment(ModuleId moduleId)
     {
         return new ModuleAssignment(
-            moduleTypeName,
-            "System.String",
+            moduleId,
             [],
             DateTimeOffset.UtcNow,
             new ModuleAssignmentOptions(null, false));
     }
 
-    private static SerializedModuleResult CreateResult(string moduleTypeName)
+    private static SerializedModuleResult CreateResult(ModuleId moduleId)
     {
         return new SerializedModuleResult(
-            moduleTypeName,
-            "System.String",
+            moduleId,
             1,
             "{}",
             DateTimeOffset.UtcNow);

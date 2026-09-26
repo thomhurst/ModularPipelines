@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.ExceptionServices;
+using System.Runtime.Loader;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -7,6 +8,7 @@ using ModularPipelines.Distributed;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
+using ModularPipelines.Serialization;
 
 namespace ModularPipelines;
 
@@ -631,6 +633,16 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
 /// </summary>
 internal sealed class ModuleResultJsonConverterFactory : JsonConverterFactory
 {
+    internal AssemblyLoadContext? LoadContext { get; init; }
+
+    internal static AssemblyLoadContext? GetLoadContext(Type moduleType, Type valueType)
+    {
+        var context = AssemblyLoadContext.GetLoadContext(moduleType.Assembly);
+        return context is not null && context != AssemblyLoadContext.Default
+            ? context
+            : AssemblyLoadContext.GetLoadContext(valueType.Assembly);
+    }
+
     public override bool CanConvert(Type typeToConvert)
     {
         // Handle non-generic ModuleResult and its subtypes
@@ -768,6 +780,8 @@ internal class ModuleResultReadState
 internal sealed class ModuleResultValueReadState : ModuleResultReadState
 {
     public string? ValueTypeName { get; set; }
+
+    public string? ValueTypeBuild { get; set; }
 
     public JsonElement? ValueElement { get; set; }
 }
@@ -988,7 +1002,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         }
 
         return new ModuleResult<T>.Success(
-            DeserializeSuccessValue(state.ValueElement, state.ValueTypeName, options)!)
+            DeserializeSuccessValue(state.ValueElement, state.ValueTypeName, state.ValueTypeBuild, options)!)
         {
             Name = state.Name!,
             TypeName = state.TypeName,
@@ -1053,6 +1067,9 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
             case "$valueType":
                 state.ValueTypeName = reader.GetString();
                 break;
+            case "$valueTypeBuild":
+                state.ValueTypeBuild = reader.GetString();
+                break;
             case "Value":
                 state.ValueElement = JsonElement.ParseValue(ref reader);
                 break;
@@ -1065,6 +1082,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
     private static T? DeserializeSuccessValue(
         JsonElement? valueElement,
         string? valueTypeName,
+        string? valueTypeBuild,
         JsonSerializerOptions options)
     {
         if (valueElement is null)
@@ -1074,12 +1092,20 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
 
         var valueType = valueTypeName is null
             ? typeof(T)
-            : Type.GetType(valueTypeName, throwOnError: false)
+            : StableTypeName.Resolve(valueTypeName, options.Converters.OfType<ModuleResultJsonConverterFactory>().FirstOrDefault()?.LoadContext, valueTypeBuild, options)
               ?? throw new JsonException($"Unknown module result value type '{valueTypeName}'.");
         if (valueTypeName is not null && !DeclaredValueType.IsAssignableFrom(valueType))
         {
             throw new JsonException(
                 $"Module result value type '{valueType}' is not assignable to '{typeof(T)}'.");
+        }
+
+        if (valueTypeName is not null
+            && !string.Equals(valueTypeBuild, StableTypeName.GetBuildFingerprint(valueType, options), StringComparison.Ordinal))
+        {
+            throw new JsonException(
+                $"Module result value type '{valueTypeName}' has a missing or incompatible build identity. " +
+                "Run the same pipeline binaries on every participant.");
         }
 
         return (T?) valueElement.Value.Deserialize(valueType, options);
@@ -1127,7 +1153,8 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                 {
                     writer.WriteString(
                         "$valueType",
-                        runtimeValueType.AssemblyQualifiedName);
+                        StableTypeName.Get(runtimeValueType));
+                    writer.WriteString("$valueTypeBuild", StableTypeName.GetBuildFingerprint(runtimeValueType, options));
                 }
 
                 writer.WritePropertyName("Value");

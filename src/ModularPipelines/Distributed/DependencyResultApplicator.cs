@@ -12,19 +12,40 @@ namespace ModularPipelines.Distributed;
 /// </summary>
 internal static class DependencyResultApplicator
 {
-    /// <summary>
-    /// Builds an O(1) lookup from module type name to module instance.
-    /// </summary>
-    public static Dictionary<string, IModule> BuildModuleLookup(IReadOnlyList<IModule> modules)
+    public static async Task<bool> RejectSchemaMismatchAsync(
+        ModuleAssignment assignment,
+        ModuleTypeRegistry registry,
+        ModuleResultSerializer serializer,
+        IDistributedWorkerCoordinator coordinator,
+        int workerIndex,
+        DistributedModuleExecutionTimer executionTimer)
     {
-        var lookup = new Dictionary<string, IModule>(modules.Count, StringComparer.Ordinal);
+        try
+        {
+            PipelineSchemaVersionValidator.Validate(
+                registry.GetPipelineSchemaVersion(), assignment.PipelineSchemaVersion, "master assignment");
+            return false;
+        }
+        catch (PipelineSchemaMismatchException exception)
+        {
+            var failure = serializer.SerializeFailure(assignment.ModuleId, exception, workerIndex) with
+            {
+                ExecutionTelemetry = executionTimer.CreateTelemetry(),
+            };
+            await DistributedFailurePublisher.PublishAsync(coordinator, failure).ConfigureAwait(false);
+            return true;
+        }
+    }
+
+    /// <summary>
+    /// Builds an O(1) lookup from module identifier to module instance.
+    /// </summary>
+    public static Dictionary<ModuleId, IModule> BuildModuleLookup(IReadOnlyList<IModule> modules)
+    {
+        var lookup = new Dictionary<ModuleId, IModule>(modules.Count);
         foreach (var module in modules)
         {
-            var fullName = module.GetType().FullName;
-            if (fullName is not null)
-            {
-                lookup[fullName] = module;
-            }
+            lookup[ModuleId.FromType(module.GetType())] = module;
         }
 
         return lookup;
@@ -39,7 +60,7 @@ internal static class DependencyResultApplicator
     public static async Task FetchAndApplyAsync(
         IReadOnlyList<DependencyResultReference> dependencyResultReferences,
         DependencyResultCache resultCache,
-        Dictionary<string, IModule> moduleLookup,
+        Dictionary<ModuleId, IModule> moduleLookup,
         ModuleResultSerializer serializer,
         IModuleResultRegistry resultRegistry,
         ILogger logger,
@@ -54,9 +75,12 @@ internal static class DependencyResultApplicator
                 continue;
             }
 
-            if (!moduleLookup.TryGetValue(reference.ModuleTypeName, out var depModule))
+            if (!moduleLookup.TryGetValue(reference.ModuleId, out var depModule))
             {
-                logger.LogDebug("Dependency module instance not found locally: {ModuleTypeName}", reference.ModuleTypeName);
+                if (logger.IsEnabled(LogLevel.Debug))
+                {
+                    logger.LogDebug("Dependency module instance not found locally: {ModuleId}", reference.ModuleId);
+                }
                 continue;
             }
 
@@ -64,7 +88,7 @@ internal static class DependencyResultApplicator
             SerializedModuleResult serializedResult;
             try
             {
-                serializedResult = await resultCache.GetAsync(reference.ModuleTypeName)
+                serializedResult = await resultCache.GetAsync(reference.ModuleId)
                     .ConfigureAwait(false);
             }
             finally
@@ -75,20 +99,14 @@ internal static class DependencyResultApplicator
             var processingStartedAt = clock.GetTimestamp();
             try
             {
-                var result = serializer.Deserialize(serializedResult);
-                if (result is not null)
-                {
-                    var applied = ModuleCompletionSourceApplicator.TryApply(depModule, result);
-                    var internalModule = depModule.AsInternal();
-                    var acceptedResult = !applied && internalModule.ResultTask.IsCompletedSuccessfully
-                        ? internalModule.ResultTask.Result
-                        : result;
-                    resultRegistry.RegisterResult(depModule.GetType(), acceptedResult);
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.LogWarning(ex, "Failed to apply dependency result for {ModuleTypeName}", reference.ModuleTypeName);
+                var result = serializer.Deserialize(serializedResult) ?? throw new InvalidOperationException(
+                    $"Dependency result for '{reference.ModuleId}' is empty.");
+                var applied = ModuleCompletionSourceApplicator.TryApply(depModule, result);
+                var internalModule = depModule.AsInternal();
+                var acceptedResult = !applied && internalModule.ResultTask.IsCompletedSuccessfully
+                    ? internalModule.ResultTask.Result
+                    : result;
+                resultRegistry.RegisterResult(depModule.GetType(), acceptedResult);
             }
             finally
             {
@@ -110,8 +128,7 @@ internal static class DependencyResultApplicator
         try
         {
             var failureResult = new SerializedModuleResult(
-                ModuleTypeName: assignment.ModuleTypeName,
-                ResultTypeName: assignment.ResultTypeName,
+                ModuleId: assignment.ModuleId,
                 WorkerIndex: workerIndex,
                 Payload: "null",
                 CompletedAt: DateTimeOffset.UtcNow)
@@ -122,9 +139,12 @@ internal static class DependencyResultApplicator
         }
         catch (Exception ex)
         {
-            logger.LogCritical(ex,
-                "Failed to publish resolution failure for {Module} — master may hang waiting for this result",
-                assignment.ModuleTypeName);
+            if (logger.IsEnabled(LogLevel.Critical))
+            {
+                logger.LogCritical(ex,
+                    "Failed to publish resolution failure for {Module} — master may hang waiting for this result",
+                    assignment.ModuleId);
+            }
         }
     }
 }

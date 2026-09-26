@@ -29,7 +29,7 @@ public class InMemoryDistributedCoordinatorTests
 
         await cancellation.CancelAsync();
         await Assert.That(async () => await cancelledWait).Throws<OperationCanceledException>();
-        var published = new SerializedModuleResult("Module", "System.String", 1, "{}", DateTimeOffset.UtcNow);
+        var published = new SerializedModuleResult("Module", 1, "{}", DateTimeOffset.UtcNow);
         await coordinator.PublishResultAsync(published, CancellationToken.None);
 
         await Assert.That(await survivingWait.WaitAsync(TimeSpan.FromSeconds(10))).IsSameReferenceAs(published);
@@ -45,7 +45,7 @@ public class InMemoryDistributedCoordinatorTests
 
         var registration = new WorkerRegistration(
             WorkerIndex: 1,
-            Capabilities: [ "linux" ],
+            Capabilities: ["linux"],
             RegisteredAt: DateTimeOffset.UtcNow);
 
         await coordinator.RegisterWorkerAsync(registration, CancellationToken.None);
@@ -122,9 +122,8 @@ public class InMemoryDistributedCoordinatorTests
         var coordinator = new InMemoryDistributedCoordinator();
 
         var dockerAssignment = new ModuleAssignment(
-            ModuleTypeName: "Docker.Module",
-            ResultTypeName: "System.String",
-            RequiredCapabilities: [ "docker" ],
+            ModuleId: "Docker.Module",
+            RequiredCapabilities: ["docker"],
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false));
 
@@ -153,7 +152,7 @@ public class InMemoryDistributedCoordinatorTests
             new HashSet<Capability>(),
             CancellationToken.None);
 
-        await Assert.That(result!.ModuleTypeName).IsEqualTo("Critical");
+        await Assert.That(result!.ModuleId).IsEqualTo("Critical");
     }
 
     [Test]
@@ -171,7 +170,7 @@ public class InMemoryDistributedCoordinatorTests
             new HashSet<Capability>(),
             CancellationToken.None);
 
-        await Assert.That(result!.ModuleTypeName).IsEqualTo("Long");
+        await Assert.That(result!.ModuleId).IsEqualTo("Long");
     }
 
     [Test]
@@ -195,18 +194,18 @@ public class InMemoryDistributedCoordinatorTests
             new HashSet<Capability> { Capability.Linux },
             CancellationToken.None);
 
-        await Assert.That(result!.ModuleTypeName).IsEqualTo("LinuxOnly");
+        await Assert.That(result!.ModuleId).IsEqualTo("LinuxOnly");
     }
 
     private static ModuleAssignment CreateAssignment(
-        string moduleTypeName,
+        ModuleId moduleId,
         ModulePriority priority = ModulePriority.Normal,
         TimeSpan criticalPathWeight = default,
         IReadOnlySet<Capability>? requiredCapabilities = null)
     {
         return new ModuleAssignment(
-            ModuleTypeName: moduleTypeName,
-            ResultTypeName: "System.String",
+            ModuleId: moduleId,
+
             RequiredCapabilities: requiredCapabilities?.ToArray() ?? [],
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false))

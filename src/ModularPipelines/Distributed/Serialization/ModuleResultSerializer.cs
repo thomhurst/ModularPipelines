@@ -1,4 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using System.Runtime.Loader;
 using System.Text.Json;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
@@ -6,23 +8,22 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Distributed.Serialization;
 
-internal class ModuleResultSerializer
+internal class ModuleResultSerializer(
+    ModuleTypeRegistry typeRegistry,
+    ICommandExecutionCounter? commandExecutionCounter = null)
 {
-    private readonly ModuleTypeRegistry _typeRegistry;
-    private readonly ICommandExecutionCounter? _commandExecutionCounter;
-    private readonly JsonSerializerOptions _options;
+    private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
+    private readonly ICommandExecutionCounter? _commandExecutionCounter = commandExecutionCounter;
+    private readonly JsonSerializerOptions _options = CreateOptions();
+    private readonly ConditionalWeakTable<Type, JsonSerializerOptions> _deserializationOptions = new();
 
-    public ModuleResultSerializer(
-        ModuleTypeRegistry typeRegistry,
-        ICommandExecutionCounter? commandExecutionCounter = null)
+    internal static JsonSerializerOptions CreateOptions(AssemblyLoadContext? loadContext = null)
     {
-        _typeRegistry = typeRegistry;
-        _commandExecutionCounter = commandExecutionCounter;
-        _options = new JsonSerializerOptions
+        var options = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
             WriteIndented = false,
-            Converters = { new ModuleResultJsonConverterFactory() },
+            Converters = { new ModuleResultJsonConverterFactory { LoadContext = loadContext } },
         };
 
         // Add portable path converters so FilePath/FolderPath objects serialize as git-root-relative paths.
@@ -31,9 +32,11 @@ internal class ModuleResultSerializer
 
         if (gitRoot is not null)
         {
-            _options.Converters.Add(new PortableFilePathJsonConverter(gitRoot));
-            _options.Converters.Add(new PortableFolderPathJsonConverter(gitRoot));
+            options.Converters.Add(new PortableFilePathJsonConverter(gitRoot));
+            options.Converters.Add(new PortableFolderPathJsonConverter(gitRoot));
         }
+
+        return options;
     }
 
     [UnconditionalSuppressMessage(
@@ -44,18 +47,17 @@ internal class ModuleResultSerializer
         "Trimming",
         "IL2026",
         Justification = "Distributed type-erased result serialization is explicitly unsupported in trimmed applications.")]
-    public ModularPipelines.Distributed.SerializedModuleResult Serialize(IModuleResult result, string moduleTypeName, string resultTypeName, int workerIndex)
+    public ModularPipelines.Distributed.SerializedModuleResult Serialize(IModuleResult result, ModuleId moduleId, int workerIndex)
     {
         // Serialize as the ModuleResult<T> base type so the custom converter writes the $type discriminator.
         // Using the concrete type (e.g. Success) would bypass the converter since it's registered for ModuleResult<T>.
-        var resolved = _typeRegistry.Resolve(moduleTypeName);
+        var resolved = _typeRegistry.Resolve(moduleId);
         var serializeAsType = resolved is not null
             ? typeof(ModuleResult<>).MakeGenericType(resolved.Value.ResultType)
             : result.GetType();
         var json = JsonSerializer.Serialize(result, serializeAsType, _options);
         return new ModularPipelines.Distributed.SerializedModuleResult(
-            ModuleTypeName: moduleTypeName,
-            ResultTypeName: resultTypeName,
+            ModuleId: moduleId,
             WorkerIndex: workerIndex,
             Payload: json,
             CompletedAt: DateTimeOffset.UtcNow)
@@ -76,10 +78,12 @@ internal class ModuleResultSerializer
         Justification = "Distributed type-erased result serialization is explicitly unsupported in trimmed applications.")]
     public IModuleResult? Deserialize(ModularPipelines.Distributed.SerializedModuleResult serialized)
     {
-        var resolved = _typeRegistry.Resolve(serialized.ModuleTypeName) ?? throw new InvalidOperationException(
-                $"Cannot deserialize result for module '{serialized.ModuleTypeName}': type not found in registry.");
-        var resultType = typeof(ModuleResult<>).MakeGenericType(resolved.ResultType);
-        var result = JsonSerializer.Deserialize(serialized.Payload, resultType, _options) as ModuleResult;
+        var (moduleType, valueType) = _typeRegistry.Resolve(serialized.ModuleId) ?? throw new InvalidOperationException(
+                $"Cannot deserialize result for module '{serialized.ModuleId}': type not found in registry.");
+        var resultType = typeof(ModuleResult<>).MakeGenericType(valueType);
+        var options = _deserializationOptions.GetValue(moduleType, type =>
+            CreateOptions(ModuleResultJsonConverterFactory.GetLoadContext(type, valueType)));
+        var result = JsonSerializer.Deserialize(serialized.Payload, resultType, options) as ModuleResult;
         int? workerIndex = serialized.WorkerIndex >= 0 ? serialized.WorkerIndex : null;
         if (result?.ExceptionOrDefault is RemoteModuleException remoteException)
         {
@@ -90,9 +94,27 @@ internal class ModuleResultSerializer
             ? null
             : result with
             {
-                ModuleType = resolved.ModuleType,
-                TypeName = ModuleTypeIdentifier.Get(resolved.ModuleType),
+                ModuleType = moduleType,
+                TypeName = ModuleTypeIdentifier.Get(moduleType),
                 WorkerIndex = workerIndex,
             };
+    }
+
+    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Distributed result serialization is unsupported in Native AOT.")]
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Distributed result serialization is unsupported in trimmed applications.")]
+    public SerializedModuleResult SerializeFailure(ModuleId moduleId, Exception exception, int workerIndex)
+    {
+        var now = DateTimeOffset.UtcNow;
+        ModuleResult failure = new ModuleResult.Failure(exception)
+        {
+            Name = moduleId.Value,
+            Duration = TimeSpan.Zero,
+            StartTime = now,
+            EndTime = now,
+            Status = ModuleStatus.Failed,
+        };
+        // Failure payloads contain no result value and do not require the remote module's type.
+        return new SerializedModuleResult(moduleId, workerIndex,
+            JsonSerializer.Serialize(failure, _options), now);
     }
 }

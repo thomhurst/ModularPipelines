@@ -64,7 +64,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
         var reference = new ArtifactReference(
             ArtifactId: artifactId,
             Name: descriptor.Name,
-            ModuleTypeName: descriptor.ModuleTypeName,
+            ModuleId: descriptor.ModuleId,
             SizeBytes: totalBytes,
             ContentType: descriptor.ContentType,
             UploadedAt: DateTimeOffset.UtcNow);
@@ -75,7 +75,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
         await _database.StringSetAsync(metaKey, metaJson, _keyExpiration);
 
         // Add to module artifact index
-        var indexKey = _keys.ArtifactIndex(descriptor.ModuleTypeName);
+        var indexKey = _keys.ArtifactIndex(descriptor.ModuleId);
         await _database.SetAddAsync(indexKey, artifactId);
         await _database.KeyExpireAsync(indexKey, _keyExpiration);
 
@@ -126,9 +126,9 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
         return ms;
     }
 
-    public async Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(string moduleTypeName, CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(ModuleId moduleId, CancellationToken cancellationToken)
     {
-        var indexKey = _keys.ArtifactIndex(moduleTypeName);
+        var indexKey = _keys.ArtifactIndex(moduleId);
         var members = await _database.SetMembersAsync(indexKey);
 
         if (members.Length == 0)
@@ -192,7 +192,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
         }
 
         // Remove from module index
-        var indexKey = _keys.ArtifactIndex(reference.ModuleTypeName);
+        var indexKey = _keys.ArtifactIndex(reference.ModuleId);
         await _database.SetRemoveAsync(indexKey, reference.ArtifactId);
     }
 }

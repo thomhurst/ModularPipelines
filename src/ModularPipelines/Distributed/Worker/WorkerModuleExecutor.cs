@@ -109,7 +109,7 @@ internal class WorkerModuleExecutor(
                 async (assignment, claimedAt, token) =>
                 {
                     _logger.LogInformation("Worker {Index} executing module {Module}",
-                        options.InstanceIndex, assignment.ModuleTypeName);
+                        options.InstanceIndex, assignment.ModuleId);
                     await ExecuteAssignmentAsync(
                         assignment,
                         claimedAt,
@@ -241,6 +241,7 @@ internal class WorkerModuleExecutor(
             RegisteredAt: DateTimeOffset.UtcNow)
         {
             RunId = _options.Value.RunId,
+            PipelineSchemaVersion = _typeRegistry.GetPipelineSchemaVersion(),
         };
         await _coordinator.RegisterWorkerAsync(registration, cancellationToken);
         _logger.LogInformation("Worker {Index} registered with capabilities: {Capabilities}",
@@ -250,24 +251,29 @@ internal class WorkerModuleExecutor(
     private async Task ExecuteAssignmentAsync(
         ModuleAssignment assignment,
         DateTimeOffset claimedAt,
-        Dictionary<string, IModule> moduleLookup,
+        Dictionary<ModuleId, IModule> moduleLookup,
         DependencyResultCache dependencyResultCache,
         ConcurrentQueue<IModule> executedModules,
         int instanceIndex,
         CancellationToken cancellationToken)
     {
         var executionTimer = new DistributedModuleExecutionTimer(claimedAt);
-        var resolved = _typeRegistry.Resolve(assignment.ModuleTypeName);
+        if (await DependencyResultApplicator.RejectSchemaMismatchAsync(assignment, _typeRegistry, _serializer,
+                _coordinator, instanceIndex, executionTimer).ConfigureAwait(false))
+        {
+            return;
+        }
+        var resolved = _typeRegistry.Resolve(assignment.ModuleId);
         if (resolved is null)
         {
-            _logger.LogError("Cannot resolve module type: {ModuleTypeName}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
+            _logger.LogError("Cannot resolve module type: {ModuleId}. Publishing failure to prevent master hang.", assignment.ModuleId);
             await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, instanceIndex, _coordinator, _logger, executionTimer).ConfigureAwait(false);
             return;
         }
 
-        if (!moduleLookup.TryGetValue(assignment.ModuleTypeName, out var module))
+        if (!moduleLookup.TryGetValue(assignment.ModuleId, out var module))
         {
-            _logger.LogError("Module instance not found: {ModuleTypeName}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
+            _logger.LogError("Module instance not found: {ModuleId}. Publishing failure to prevent master hang.", assignment.ModuleId);
             await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, instanceIndex, _coordinator, _logger, executionTimer).ConfigureAwait(false);
             return;
         }
@@ -292,7 +298,7 @@ internal class WorkerModuleExecutor(
         catch (Exception ex)
         {
             _logger.LogError(ex, "Module {Module} execution failed on worker {Index}",
-                assignment.ModuleTypeName, instanceIndex);
+                assignment.ModuleId, instanceIndex);
             await PublishFailureAsync(assignment, resolved.Value.ResultType, module, ex, instanceIndex, executionTimer).ConfigureAwait(false);
         }
     }
@@ -355,7 +361,7 @@ internal class WorkerModuleExecutor(
             {
                 artifactReferences = await TryUploadArtifactsAsync(
                     module,
-                    assignment.ModuleTypeName,
+                    assignment.ModuleId,
                     moduleLogger,
                     cancellationToken).ConfigureAwait(false);
             }
@@ -371,8 +377,7 @@ internal class WorkerModuleExecutor(
 
             var serialized = _serializer.Serialize(
                 result,
-                assignment.ModuleTypeName,
-                assignment.ResultTypeName,
+                assignment.ModuleId,
                 instanceIndex);
             if (artifactReferences is not null)
             {
@@ -391,7 +396,7 @@ internal class WorkerModuleExecutor(
 
     private async Task<IReadOnlyList<ArtifactReference>?> TryUploadArtifactsAsync(
         IModule module,
-        string moduleTypeName,
+        ModuleId moduleId,
         IModuleLogger moduleLogger,
         CancellationToken cancellationToken)
     {
@@ -407,7 +412,7 @@ internal class WorkerModuleExecutor(
         }
         catch (Exception ex)
         {
-            moduleLogger.LogError(ex, "Failed to upload artifacts for module {Module}", moduleTypeName);
+            moduleLogger.LogError(ex, "Failed to upload artifacts for module {Module}", moduleId);
             return null;
         }
     }
@@ -439,8 +444,7 @@ internal class WorkerModuleExecutor(
             {
                 serialized = _serializer.Serialize(
                     terminalResult,
-                    assignment.ModuleTypeName,
-                    assignment.ResultTypeName,
+                    assignment.ModuleId,
                     instanceIndex);
             }
             catch (Exception serializationException) when (resultTask.IsCompletedSuccessfully)
@@ -456,8 +460,7 @@ internal class WorkerModuleExecutor(
                     });
                 serialized = _serializer.Serialize(
                     failure,
-                    assignment.ModuleTypeName,
-                    assignment.ResultTypeName,
+                    assignment.ModuleId,
                     instanceIndex);
             }
 
@@ -468,7 +471,7 @@ internal class WorkerModuleExecutor(
         {
             _logger.LogCritical(publishException,
                 "Failed to publish failure result for module {Module} — master may hang waiting for this result",
-                assignment.ModuleTypeName);
+                assignment.ModuleId);
         }
     }
 }

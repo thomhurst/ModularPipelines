@@ -332,9 +332,80 @@ public class ModuleResultContractTests
         var deserialized = JsonSerializer.Deserialize<ModuleResult<IRuntimeValue>>(json);
 
         var value = deserialized!.Value;
+        await Assert.That(json).Contains("\"$valueType\"");
+        await Assert.That(json).DoesNotContain("Version=");
+        await Assert.That(json).DoesNotContain("PublicKeyToken=");
         await Assert.That(value).IsTypeOf<RuntimeValue>();
         await Assert.That(((RuntimeValue) value).Derived).IsEqualTo("derived");
     }
+
+    [Test]
+    [Arguments(0)]
+    [Arguments(1)]
+    [Arguments(2)]
+    public async Task Success_RuntimeValue_Rejects_Different_Assembly_Builds(int shape)
+    {
+        var assemblyName = $"RuntimeResultBuild_{Guid.NewGuid():N}";
+        Type BuildValueType()
+        {
+            var assembly = System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(
+                new System.Reflection.AssemblyName(assemblyName),
+                System.Reflection.Emit.AssemblyBuilderAccess.RunAndCollect);
+            var type = assembly.DefineDynamicModule(assemblyName)
+                .DefineType("RuntimeResult", System.Reflection.TypeAttributes.Public).CreateType()!;
+            return shape switch
+            {
+                1 => type.MakeArrayType(),
+                2 => typeof(List<>).MakeGenericType(type),
+                _ => type,
+            };
+        }
+
+        var localType = BuildValueType();
+        var remoteType = BuildValueType();
+        object CreateValue(Type type) => type.IsArray
+            ? Array.CreateInstance(type.GetElementType()!, 0)
+            : Activator.CreateInstance(type)!;
+        var localJson = JsonSerializer.Serialize(CreateRuntimeSuccess(CreateValue(localType)));
+        var localResult = JsonSerializer.Deserialize<ModuleResult<object>>(localJson);
+        await Assert.That(localResult!.Value.GetType()).IsEqualTo(localType);
+
+        var remoteJson = JsonSerializer.Serialize(CreateRuntimeSuccess(CreateValue(remoteType)));
+        var exception = Assert.Throws<JsonException>(() =>
+            JsonSerializer.Deserialize<ModuleResult<object>>(remoteJson));
+        await Assert.That(exception!.Message).Contains("build identity");
+    }
+
+    [Test]
+    [Arguments(null)]
+    [Arguments("incorrect-build")]
+    public async Task Success_RuntimeValue_Requires_Matching_Build_Identity(string? buildIdentity)
+    {
+        var json = System.Text.Json.Nodes.JsonNode.Parse(
+            JsonSerializer.Serialize(CreateRuntimeSuccess(new RuntimeValue("common", "derived"))))!;
+        if (buildIdentity is null)
+        {
+            json.AsObject().Remove("$valueTypeBuild");
+        }
+        else
+        {
+            json["$valueTypeBuild"] = buildIdentity;
+        }
+
+        var exception = Assert.Throws<JsonException>(() =>
+            JsonSerializer.Deserialize<ModuleResult<object>>(json.ToJsonString()));
+        await Assert.That(exception!.Message).Contains("build identity");
+    }
+
+    private static ModuleResult<object> CreateRuntimeSuccess(object value) =>
+        new ModuleResult<object>.Success(value)
+        {
+            Name = "RuntimeResultModule",
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.UtcNow,
+            EndTime = DateTimeOffset.UtcNow,
+            Status = ModuleStatus.Succeeded,
+        };
 
     [Test]
     public async Task Success_NullableNull_SurvivesJsonRoundTrip()

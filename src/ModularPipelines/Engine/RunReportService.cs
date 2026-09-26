@@ -356,12 +356,10 @@ internal sealed class RunReportService(
                                 UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
                                 ModuleCommandCounts = commandExecutionCounter.GetModuleCounts()
                                     .GroupBy(
-                                        static count => ModuleTypeIdentifier.Get(count.Key),
-                                        StringComparer.Ordinal)
+                                        static count => ModuleId.FromType(count.Key))
                                     .ToDictionary(
                                         static group => group.Key,
-                                        static group => group.Sum(count => count.Value),
-                                        StringComparer.Ordinal),
+                                        static group => group.Sum(count => count.Value)),
                             },
                             token)
                         .ConfigureAwait(false);
@@ -474,23 +472,21 @@ internal sealed class RunReportService(
             .Where(static worker => worker.ModuleCommandCounts is not null)
             .ToDictionary(
                 static worker => worker.WorkerIndex,
-                static worker => worker.ModuleCommandCounts!.Keys.ToHashSet(StringComparer.Ordinal));
+                static worker => worker.ModuleCommandCounts!.Keys.ToHashSet());
         var moduleTypesByIdentifier = summary.Modules
             .Select(static module => module.GetType())
             .Distinct()
-            .GroupBy(ModuleTypeIdentifier.Get, StringComparer.Ordinal)
+            .GroupBy(ModuleId.FromType)
             .ToDictionary(
                 static group => group.Key,
-                static group => group.ToArray(),
-                StringComparer.Ordinal);
+                static group => group.ToArray());
         var finalCounts = completedWorkers
             .Where(static worker => worker.ModuleCommandCounts is not null)
             .SelectMany(static worker => worker.ModuleCommandCounts!)
-            .GroupBy(static count => count.Key, StringComparer.Ordinal)
+            .GroupBy(static count => count.Key)
             .ToDictionary(
                 static group => group.Key,
-                static group => group.Sum(count => count.Value),
-                StringComparer.Ordinal);
+                static group => group.Sum(count => count.Value));
 
         var unmatchedFinalCount = 0;
         foreach (var (moduleTypeIdentifier, finalCount) in finalCounts)
@@ -522,7 +518,7 @@ internal sealed class RunReportService(
                                 count.Key.WorkerIndex,
                                 out var finalModuleIdentifiers)
                             && !finalModuleIdentifiers.Contains(
-                                ModuleTypeIdentifier.Get(count.Key.ModuleType)))
+                                ModuleId.FromType(count.Key.ModuleType)))
             .Sum(static count => count.Value);
         commandExecutionCounter.Add(
             null,
@@ -530,10 +526,10 @@ internal sealed class RunReportService(
     }
 
     private static int GetRecordedRemoteCountForCompletedWorkers(
-        string moduleTypeIdentifier,
+        ModuleId moduleId,
         IReadOnlyCollection<Type> moduleTypes,
         IReadOnlyDictionary<(int WorkerIndex, Type ModuleType), int> remoteCounts,
-        IReadOnlyDictionary<int, HashSet<string>> finalModuleIdentifiersByWorker)
+        IReadOnlyDictionary<int, HashSet<ModuleId>> finalModuleIdentifiersByWorker)
     {
         var moduleTypeSet = moduleTypes.ToHashSet();
         return remoteCounts
@@ -541,7 +537,7 @@ internal sealed class RunReportService(
                             && finalModuleIdentifiersByWorker.TryGetValue(
                                 count.Key.WorkerIndex,
                                 out var finalModuleIdentifiers)
-                            && finalModuleIdentifiers.Contains(moduleTypeIdentifier))
+                            && finalModuleIdentifiers.Contains(moduleId))
             .Sum(static count => count.Value);
     }
 

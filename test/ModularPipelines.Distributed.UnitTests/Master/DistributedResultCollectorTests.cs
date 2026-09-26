@@ -48,7 +48,7 @@ public class DistributedResultCollectorTests
         };
 
         var serialized = serializer.Serialize(
-            successResult, typeof(TestModule).FullName!, typeof(TestResult).FullName!, 1);
+            successResult, ModuleId.FromType(typeof(TestModule)), 1);
 
         var coordinatorMock = new Mock<IDistributedMasterCoordinator>();
         coordinatorMock.Setup(c => c.WaitForResultAsync(typeof(TestModule).FullName!, It.IsAny<CancellationToken>()))
@@ -67,8 +67,8 @@ public class DistributedResultCollectorTests
     public async Task WaitForResult_Propagates_Cancellation()
     {
         var coordinatorMock = new Mock<IDistributedMasterCoordinator>();
-        coordinatorMock.Setup(c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .Returns<string, CancellationToken>(async (_, ct) =>
+        coordinatorMock.Setup(c => c.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
+            .Returns<ModuleId, CancellationToken>(async (_, ct) =>
             {
                 await Task.Delay(Timeout.Infinite, ct);
                 return null!;
@@ -93,6 +93,48 @@ public class DistributedResultCollectorTests
         await Assert.That(threw).IsTrue();
     }
 
+    [ModularPipelines.Attributes.ModuleId("build.application")]
+    private sealed class CustomIdModule : TestModule;
+
+    [Test]
+    public async Task Custom_ModuleId_Preserves_Type_Name_In_Distributed_Report()
+    {
+        var registry = new ModuleTypeRegistry();
+        registry.Register(typeof(CustomIdModule));
+        var serializer = new ModuleResultSerializer(registry);
+        var now = DateTimeOffset.UtcNow;
+        var success = new ModuleResult<TestResult>.Success(new TestResult())
+        {
+            Name = nameof(CustomIdModule),
+            Duration = TimeSpan.Zero,
+            StartTime = now,
+            EndTime = now,
+            Status = ModuleStatus.Succeeded,
+        };
+        var moduleId = ModuleId.FromType(typeof(CustomIdModule));
+        var serialized = serializer.Serialize(success, moduleId, workerIndex: 1) with
+        {
+            ExecutionTelemetry = new DistributedModuleExecutionTelemetry
+            {
+                ClaimedAt = now,
+                ExecutionStartedAt = now,
+                ExecutionFinishedAt = now,
+            },
+        };
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(x => x.WaitForResultAsync(moduleId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(serialized);
+        var tracker = new DistributedTelemetryTracker();
+        var collector = new DistributedResultCollector(coordinator.Object, serializer, telemetryTracker: tracker);
+
+        var result = await collector.WaitForResultAsync(moduleId, CancellationToken.None);
+        var report = tracker.CreateReport(now, now.AddSeconds(1), configuredWorkerCount: 2)!;
+
+        await Assert.That(report.Modules.Single().ModuleTypeName)
+            .IsEqualTo(ModuleTypeIdentifier.Get(typeof(CustomIdModule)));
+        await Assert.That(report.Modules.Single().ModuleTypeName).IsEqualTo(result!.TypeName);
+    }
+
     [Test]
     public async Task WaitForRemoteResult_AggregatesCommandCount()
     {
@@ -110,8 +152,7 @@ public class DistributedResultCollectorTests
         };
         var serialized = serializer.Serialize(
             result,
-            typeof(TestModule).FullName!,
-            typeof(TestResult).FullName!,
+            ModuleId.FromType(typeof(TestModule)),
             workerIndex: 1) with
         {
             CommandCount = 4,
@@ -136,7 +177,7 @@ public class DistributedResultCollectorTests
             await Assert.That(commandExecutionCounter.GetCount(typeof(TestModule))).IsEqualTo(4);
             await Assert.That(commandExecutionCounter.GetRemoteModuleCounts()[(1, typeof(TestModule))])
                 .IsEqualTo(4);
-            await Assert.That(collected!.TypeName).IsEqualTo(ModuleTypeIdentifier.Get(typeof(TestModule)));
+            await Assert.That(collected!.TypeName).IsEqualTo(ModularPipelines.Engine.ModuleTypeIdentifier.Get(typeof(TestModule)));
         }
     }
 
@@ -157,8 +198,7 @@ public class DistributedResultCollectorTests
         };
         var serialized = serializer.Serialize(
             result,
-            typeof(TestModule).FullName!,
-            typeof(TestResult).FullName!,
+            ModuleId.FromType(typeof(TestModule)),
             workerIndex: 0) with
         {
             CommandCount = 2,

@@ -132,7 +132,7 @@ public class RedisDistributedCoordinatorTests
             new HashSet<Capability>(), CancellationToken.None);
 
         await Assert.That(result).IsNotNull();
-        await Assert.That(result!.ModuleTypeName).IsEqualTo("Test.Module");
+        await Assert.That(result!.ModuleId).IsEqualTo("Test.Module");
 
         _dbMock.Verify(db => db.ScriptEvaluateAsync(
             It.Is<string>(script =>
@@ -163,7 +163,7 @@ public class RedisDistributedCoordinatorTests
             new HashSet<Capability>(), CancellationToken.None);
 
         await Assert.That(result).IsNotNull();
-        await Assert.That(result!.ModuleTypeName).IsEqualTo("Test.Module");
+        await Assert.That(result!.ModuleId).IsEqualTo("Test.Module");
     }
 
     [Test]
@@ -182,7 +182,7 @@ public class RedisDistributedCoordinatorTests
             new HashSet<Capability>(), CancellationToken.None);
 
         await Assert.That(result).IsNotNull();
-        await Assert.That(result!.ModuleTypeName).IsEqualTo("Test|Module");
+        await Assert.That(result!.ModuleId).IsEqualTo("Test|Module");
     }
 
     [Test]
@@ -314,7 +314,7 @@ public class RedisDistributedCoordinatorTests
 
         var result = await _coordinator.WaitForResultAsync("Test.Module", CancellationToken.None);
 
-        await Assert.That(result.ModuleTypeName).IsEqualTo("Test.Module");
+        await Assert.That(result.ModuleId.Value).IsEqualTo("Test.Module");
         await Assert.That(result.WorkerIndex).IsEqualTo(1);
     }
 
@@ -472,22 +472,20 @@ public class RedisDistributedCoordinatorTests
     }
 
     private static ModuleAssignment CreateAssignment(
-        string moduleTypeName,
+        ModuleId moduleId,
         HashSet<Capability>? requiredCapabilities = null)
     {
         return new ModuleAssignment(
-            ModuleTypeName: moduleTypeName,
-            ResultTypeName: "System.String",
+            ModuleId: new ModuleId(moduleId),
             RequiredCapabilities: requiredCapabilities?.ToArray() ?? [],
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false));
     }
 
-    private static SerializedModuleResult CreateResult(string moduleTypeName)
+    private static SerializedModuleResult CreateResult(ModuleId moduleId)
     {
         return new SerializedModuleResult(
-            ModuleTypeName: moduleTypeName,
-            ResultTypeName: "System.String",
+            ModuleId: new ModuleId(moduleId),
             WorkerIndex: 1,
             Payload: "{}",
             CompletedAt: DateTimeOffset.UtcNow);

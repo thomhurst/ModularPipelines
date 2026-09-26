@@ -4909,10 +4909,13 @@ public class DependencyGraphExporterTests
         var assembly = AssemblyBuilder.DefineDynamicAssembly(
             new AssemblyName(assemblyName),
             AssemblyBuilderAccess.Run);
-        return assembly
+        var type = assembly
             .DefineDynamicModule(assemblyName)
-            .DefineType(typeName, TypeAttributes.Public, typeof(SummaryIdentityModuleBase))
-            .CreateType()!;
+            .DefineType(typeName, TypeAttributes.Public, typeof(SummaryIdentityModuleBase));
+        // Preserve ambiguous CLR names while giving each registered module its own ID.
+        type.SetCustomAttribute(new CustomAttributeBuilder(
+            typeof(ModuleIdAttribute).GetConstructor([typeof(string)])!, [$"{assemblyName}:{typeName}"]));
+        return type.CreateType()!;
     }
 
     private static PipelineBuilder CreateBuilder()

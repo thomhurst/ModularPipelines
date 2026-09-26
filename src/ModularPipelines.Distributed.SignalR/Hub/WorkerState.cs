@@ -52,16 +52,13 @@ internal class WorkerState
     /// <summary>
     /// Clears this worker only when the result belongs to its tracked assignment.
     /// </summary>
-    public bool TryCompleteAssignment(string moduleTypeName)
+    public bool TryCompleteAssignment(ModuleId moduleId)
     {
         while (true)
         {
             var assignment = CurrentAssignment;
             if (assignment is null
-                || !string.Equals(
-                    assignment.ModuleTypeName,
-                    moduleTypeName,
-                    StringComparison.Ordinal))
+                || assignment.ModuleId != moduleId)
             {
                 return false;
             }

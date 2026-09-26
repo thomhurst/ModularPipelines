@@ -24,10 +24,10 @@ internal class ArtifactLifecycleManager
         (ILogger?) AmbientModuleOutputContext.Current?.Logger ?? _logger;
 
     /// <summary>
-    /// Tracks completed and in-flight restores keyed by "{producerType}:{artifactName}:{normalizedRestorePath}".
+    /// Tracks completed and in-flight restores by module ID, artifact name, normalized path, and missing-artifact policy.
     /// Multiple modules consuming the same artifact to the same path share a single download.
     /// </summary>
-    private readonly ConcurrentDictionary<string, Lazy<Task>> _completedRestores = new();
+    private readonly ConcurrentDictionary<(ModuleId Module, string Artifact, string Path, bool FailIfMissing), Lazy<Task>> _completedRestores = new();
 
     public ArtifactLifecycleManager(
         IDistributedArtifactStore store,
@@ -126,7 +126,7 @@ internal class ArtifactLifecycleManager
 
         var descriptor = new ArtifactDescriptor(
             Name: attribute.Name,
-            ModuleTypeName: moduleType.FullName!);
+            ModuleId: ModuleId.FromType(moduleType));
         var reference = await UploadResolvedPathsAsync(
                 descriptor,
                 attribute.PathPattern,
@@ -306,10 +306,10 @@ internal class ArtifactLifecycleManager
 
         foreach (var attr in attributes)
         {
-            var producerTypeName = attr.ProducerModule.FullName!;
+            var producerModuleId = ModuleId.FromType(attr.ProducerModule);
             var restorePath = attr.RestorePath ?? _workingDirectory;
             await DownloadConsumedArtifactsForPathAsync(
-                producerTypeName,
+                producerModuleId,
                 attr.ArtifactName,
                 restorePath,
                 moduleType,
@@ -325,13 +325,13 @@ internal class ArtifactLifecycleManager
     /// this call is a no-op. Concurrent calls for the same key share a single in-flight download.
     /// </summary>
     internal Task DownloadConsumedArtifactsForPathAsync(
-        string producerTypeName,
+        ModuleId producerModuleId,
         string artifactName,
         string restorePath,
         Type consumerModuleType,
         CancellationToken cancellationToken) =>
         DownloadConsumedArtifactsForPathAsync(
-            producerTypeName,
+            producerModuleId,
             artifactName,
             restorePath,
             consumerModuleType,
@@ -340,7 +340,7 @@ internal class ArtifactLifecycleManager
             cancellationToken);
 
     internal async Task DownloadConsumedArtifactsForPathAsync(
-        string producerTypeName,
+        ModuleId producerModuleId,
         string artifactName,
         string restorePath,
         Type consumerModuleType,
@@ -349,14 +349,14 @@ internal class ArtifactLifecycleManager
         CancellationToken cancellationToken)
     {
         var normalizedPath = ResolvePath(restorePath);
-        var restoreKey = $"{producerTypeName}:{artifactName}:{normalizedPath}:{failIfMissing}";
+        var restoreKey = (producerModuleId, artifactName, normalizedPath, failIfMissing);
 
         // Use CancellationToken.None for the shared download so one caller's cancellation
         // doesn't abort the download for other modules consuming the same artifact.
         var lazyTask = _completedRestores.GetOrAdd(
             restoreKey,
             _ => new Lazy<Task>(() => RestoreArtifactAsync(
-                producerTypeName,
+                producerModuleId,
                 artifactName,
                 normalizedPath,
                 consumerModuleType,
@@ -385,7 +385,7 @@ internal class ArtifactLifecycleManager
     }
 
     private async Task RestoreArtifactAsync(
-        string producerTypeName,
+        ModuleId producerModuleId,
         string artifactName,
         string restorePath,
         Type consumerModuleType,
@@ -393,7 +393,7 @@ internal class ArtifactLifecycleManager
         Type? producerModuleType,
         CancellationToken cancellationToken)
     {
-        var artifacts = await _store.ListArtifactsAsync(producerTypeName, cancellationToken);
+        var artifacts = await _store.ListArtifactsAsync(producerModuleId, cancellationToken).ConfigureAwait(false);
         var artifact = artifacts
             .Where(a => a.Name == artifactName)
             .OrderByDescending(static a => a.UploadedAt)
@@ -401,7 +401,7 @@ internal class ArtifactLifecycleManager
 
         if (artifact is null)
         {
-            var message = $"Artifact '{artifactName}' from module '{producerTypeName}' " +
+            var message = $"Artifact '{artifactName}' from module '{producerModuleId}' " +
                           $"was not found for consumer '{consumerModuleType.Name}'.";
             if (failIfMissing)
             {
@@ -418,7 +418,7 @@ internal class ArtifactLifecycleManager
 
             Logger.LogWarning(
                 "Artifact '{Name}' from module '{Producer}' was not found for consumer {Module}",
-                artifactName, producerTypeName, consumerModuleType.Name);
+                artifactName, producerModuleId, consumerModuleType.Name);
             return;
         }
 
@@ -442,7 +442,7 @@ internal class ArtifactLifecycleManager
         {
             Logger.LogInformation(
                 "Restored artifact '{Name}' from module '{Producer}' to '{Path}'",
-                artifactName, producerTypeName, restorePath);
+                artifactName, producerModuleId, restorePath);
         }
     }
 

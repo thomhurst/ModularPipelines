@@ -3,6 +3,7 @@ using System.Buffers.Binary;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.IO.Compression;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
@@ -11,11 +12,13 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
+using ModularPipelines.Distributed;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Serialization;
 
 namespace ModularPipelines.Caching;
 
@@ -35,6 +38,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
     private readonly ModuleLookup _moduleLookup;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry;
+    private readonly ConditionalWeakTable<Type, JsonSerializerOptions> _serializationOptions = new();
     private readonly ConcurrentDictionary<IModule, ComputedFingerprint> _fingerprints =
         new(ReferenceEqualityComparer.Instance);
 
@@ -104,9 +108,13 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 
             if (!_fingerprints.TryGetValue(module, out var computedFingerprint))
             {
-                _logger.LogDebug(
-                    "Skipping module cache save for {Module} because no pre-execution fingerprint was captured",
-                    module.GetType().Name);
+                if (_logger.IsEnabled(LogLevel.Debug))
+                {
+                    _logger.LogDebug(
+                        "Skipping module cache save for {Module} because no pre-execution fingerprint was captured",
+                        module.GetType().Name);
+                }
+
                 return;
             }
 
@@ -126,15 +134,20 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                     await JsonSerializer.SerializeAsync<ModuleResult<T>>(
                             resultStream,
                             moduleResult,
+                            GetSerializerOptions<T>(module.GetType()),
                             cancellationToken: cancellationToken)
                         .ConfigureAwait(false);
 
                     if (resultStream.Length > _options.MaximumResultBytes)
                     {
-                        _logger.LogDebug(
-                            "Skipping module cache save for {Module} because its serialized result exceeded the configured limit of {MaximumResultBytes} bytes",
-                            module.GetType().Name,
-                            _options.MaximumResultBytes);
+                        if (_logger.IsEnabled(LogLevel.Debug))
+                        {
+                            _logger.LogDebug(
+                                "Skipping module cache save for {Module} because its serialized result exceeded the configured limit of {MaximumResultBytes} bytes",
+                                module.GetType().Name,
+                                _options.MaximumResultBytes);
+                        }
+
                         return;
                     }
 
@@ -160,10 +173,13 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                     }
                 }
 
-                _logger.LogDebug(
-                    "Saved module cache entry {Fingerprint} for {Module}",
-                    fingerprint,
-                    module.GetType().Name);
+                if (_logger.IsEnabled(LogLevel.Debug))
+                {
+                    _logger.LogDebug(
+                        "Saved module cache entry {Fingerprint} for {Module}",
+                        fingerprint,
+                        module.GetType().Name);
+                }
             }
             finally
             {
@@ -200,11 +216,15 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             .ConfigureAwait(false);
         if (cachedStream is null)
         {
-            _logger.LogDebug(
-                "Module cache miss {Fingerprint} for {Module}. Fingerprint components: {FingerprintComponents}",
-                fingerprint,
-                module.GetType().Name,
-                computedFingerprint.Diagnostics);
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug(
+                    "Module cache miss {Fingerprint} for {Module}. Fingerprint components: {FingerprintComponents}",
+                    fingerprint,
+                    module.GetType().Name,
+                    computedFingerprint.Diagnostics);
+            }
+
             return null;
         }
 
@@ -227,7 +247,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             using var archive = ZipFile.OpenRead(temporary);
             var resultEntry = archive.GetEntry(ResultEntryName)
                               ?? throw new InvalidDataException("Module cache entry does not contain result.json.");
-            var result = await DeserializeResultAsync<T>(resultEntry, cancellationToken)
+            var result = await DeserializeResultAsync<T>(resultEntry, module.GetType(), cancellationToken)
                 .ConfigureAwait(false);
 
             if (result is not ModuleResult<T>.Success || result.Status != ModuleStatus.Succeeded)
@@ -238,10 +258,14 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             await RestoreArtifactsAsync(archive, module.GetType(), cancellationToken)
                 .ConfigureAwait(false);
             DiscardFingerprint(module);
-            _logger.LogInformation(
-                "Module cache hit {Fingerprint} for {Module}",
-                fingerprint,
-                module.GetType().Name);
+            if (_logger.IsEnabled(LogLevel.Information))
+            {
+                _logger.LogInformation(
+                    "Module cache hit {Fingerprint} for {Module}",
+                    fingerprint,
+                    module.GetType().Name);
+            }
+
             return result;
         }
         finally
@@ -287,10 +311,14 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         }
         catch (MaximumLengthExceededException)
         {
-            _logger.LogDebug(
-                "Skipping module cache save for {Module} because its archive exceeded the configured limit of {MaximumCacheEntryBytes} bytes",
-                moduleType.Name,
-                _options.MaximumCacheEntryBytes);
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug(
+                    "Skipping module cache save for {Module} because its archive exceeded the configured limit of {MaximumCacheEntryBytes} bytes",
+                    moduleType.Name,
+                    _options.MaximumCacheEntryBytes);
+            }
+
             return false;
         }
 
@@ -344,8 +372,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         IReadOnlyList<string> inputFiles,
         IReadOnlyDictionary<string, string> hashes)
     {
-        fingerprint.Append("format", "2");
-        fingerprint.Append("module", module.GetType().AssemblyQualifiedName ?? module.GetType().FullName!);
+        fingerprint.Append("format", "3");
+        fingerprint.Append("module", ModuleId.FromType(module.GetType()).Value);
         if (configuration.CacheAssemblyVersionKey is { } assemblyVersionKey)
         {
             fingerprint.Append(
@@ -361,6 +389,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 module.GetType().Assembly.ManifestModule.ModuleVersionId.ToString("N"),
                 diagnosticName: "module-version-mvid");
         }
+
+        AppendModuleContractFingerprints(fingerprint, module.GetType(), configuration.CacheAssemblyVersionKey is not null, GetSerializerOptions<T>(module.GetType()));
 
         foreach (var pattern in configuration.CacheInputPatterns)
         {
@@ -394,18 +424,48 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         }
     }
 
+    [UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Module result cache and its build fingerprints require runtime type metadata.")]
+    private static void AppendModuleContractFingerprints(FingerprintBuilder fingerprint, Type moduleType, bool hasVersionOverride, JsonSerializerOptions options)
+    {
+        for (var current = moduleType; current is not null; current = current.BaseType)
+        {
+            // The configured module version already covers its assembly, including
+            // same-assembly bases. External inherited behavior has an independent build.
+            if (current.Assembly != moduleType.Assembly && !StableTypeName.IsFrameworkAssembly(current.Assembly))
+            {
+                fingerprint.Append("module-base-version", current.Module.ModuleVersionId.ToString("N"));
+            }
+
+            foreach (var argument in current.GetGenericArguments())
+            {
+                fingerprint.Append("module-generic-argument", StableTypeName.GetBuildFingerprint(argument, options));
+            }
+
+            foreach (var constraint in StableTypeName.GetGenericConstraintBuildFingerprints(current, hasVersionOverride ? moduleType.Assembly : null))
+            {
+                fingerprint.Append("module-generic-constraint", constraint);
+            }
+        }
+
+        foreach (var contract in moduleType.GetInterfaces().OrderBy(StableTypeName.Get, StringComparer.Ordinal))
+        {
+            // The module-version component already includes the configured replacement
+            // for this assembly's MVID. External builds and generic arguments stay checked.
+            fingerprint.Append("module-interface", StableTypeName.GetInterfaceBuildFingerprint(contract, hasVersionOverride ? moduleType.Assembly : null));
+        }
+    }
+
     private Type[] GetDependencyTypes<T>(Module<T> module)
     {
         var availableModuleTypes = _moduleLookup.Modules
             .Select(registeredModule => registeredModule.GetType())
             .Distinct()
             .ToArray();
-        return ModuleDependencyResolver
+        return [.. ModuleDependencyResolver
             .GetAllDependencies(module, availableModuleTypes, _dependencyRegistry, _metadataRegistry)
             .Select(dependency => dependency.DependencyType)
             .Distinct()
-            .OrderBy(dependencyType => dependencyType.FullName, StringComparer.Ordinal)
-            .ToArray();
+            .OrderBy(dependencyType => ModuleId.FromType(dependencyType).Value, StringComparer.Ordinal)];
     }
 
     private static async Task AppendDependencyFingerprintsAsync(
@@ -420,7 +480,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             var dependencyModule = internalContext.GetModule(dependencyType);
             if (dependencyModule is null)
             {
-                fingerprint.Append("dependency-missing", dependencyType.AssemblyQualifiedName!);
+                fingerprint.Append("dependency-missing", ModuleId.FromType(dependencyType).Value);
                 continue;
             }
 
@@ -438,7 +498,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         Type dependencyType,
         IModuleResult dependencyResult)
     {
-        fingerprint.Append("dependency", dependencyType.AssemblyQualifiedName!);
+        fingerprint.Append("dependency", ModuleId.FromType(dependencyType).Value);
         fingerprint.Append(
             "dependency-status",
             dependencyResult.Status is ModuleStatus.RestoredFromHistory or ModuleStatus.RestoredFromCache
@@ -1116,6 +1176,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
     [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Module result cache requires runtime result type metadata.")]
     private async Task<ModuleResult<T>?> DeserializeResultAsync<T>(
         ZipArchiveEntry resultEntry,
+        Type moduleType,
         CancellationToken cancellationToken)
     {
         if (resultEntry.Length > _options.MaximumResultBytes)
@@ -1154,6 +1215,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 FileOptions.Asynchronous | FileOptions.SequentialScan);
             return await JsonSerializer.DeserializeAsync<ModuleResult<T>>(
                     validatedResult,
+                    GetSerializerOptions<T>(moduleType),
                     cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
         }
@@ -1162,6 +1224,12 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             File.Delete(temporaryResult);
         }
     }
+
+    private JsonSerializerOptions GetSerializerOptions<T>(Type moduleType) =>
+        _serializationOptions.GetValue(moduleType, static type => new JsonSerializerOptions
+        {
+            Converters = { new ModuleResultJsonConverterFactory { LoadContext = ModuleResultJsonConverterFactory.GetLoadContext(type, typeof(T)) } },
+        });
 
     private static async Task CopyWithLimitAsync(
         Stream input,
@@ -1299,16 +1367,11 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         }
     }
 
-    private sealed class ArtifactByteBudget
+    private sealed class ArtifactByteBudget(long maximumBytes)
     {
         private const int BufferSize = 64 * 1024;
         private const int MaximumSymbolicLinkTargetBytes = 64 * 1024;
-        private long _remainingBytes;
-
-        public ArtifactByteBudget(long maximumBytes)
-        {
-            _remainingBytes = maximumBytes;
-        }
+        private long _remainingBytes = maximumBytes;
 
         public void Consume(int byteCount)
         {

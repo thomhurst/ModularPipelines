@@ -47,7 +47,7 @@ internal class DistributedWorkPublisher(
         TimeSpan criticalPathWeight = default)
     {
         var moduleType = module.GetType();
-        var resultTypeName = ModuleTypeRegistry.GetResultTypeName(moduleType) ?? "System.Object";
+        var moduleId = ModuleId.FromType(moduleType);
 
         var requiredCapabilities = moduleType
             .GetCustomAttributes(typeof(RequiresCapabilityAttribute), true)
@@ -66,8 +66,7 @@ internal class DistributedWorkPublisher(
         var dependencyResultReferences = GatherDependencyResultReferences(module);
 
         return new ModuleAssignment(
-            ModuleTypeName: moduleType.FullName!,
-            ResultTypeName: resultTypeName,
+            ModuleId: moduleId,
             RequiredCapabilities: [.. requiredCapabilities],
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(
@@ -81,6 +80,7 @@ internal class DistributedWorkPublisher(
                        ?? moduleType.GetCustomAttribute<PriorityAttribute>(inherit: true)?.Priority
                        ?? ModulePriority.Normal,
             CriticalPathWeight = criticalPathWeight,
+            PipelineSchemaVersion = _typeRegistry.GetPipelineSchemaVersion(),
             SatisfiedConditionGroups = _executionLocationContext?.GetSatisfiedConditionGroupNames(module) ?? [],
         };
     }
@@ -221,7 +221,7 @@ internal class DistributedWorkPublisher(
         foreach (var (depType, _) in dependencies)
         {
             references.Add(new DependencyResultReference(
-                depType.FullName!,
+                ModuleId.FromType(depType),
                 _resultRegistry.GetResult(depType) is not null));
         }
 

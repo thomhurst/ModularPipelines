@@ -111,7 +111,7 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
         }
 
         var assignment = Volatile.Read(ref _inFlightAssignment);
-        if (assignment?.ModuleTypeName == result.ModuleTypeName)
+        if (assignment?.ModuleId == result.ModuleId)
         {
             Interlocked.CompareExchange(ref _inFlightAssignment, null, assignment);
         }
@@ -145,7 +145,7 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
             || HasReconnectSince(connectionGeneration));
 
     public async Task<SerializedModuleResult> WaitForResultAsync(
-        string moduleTypeName,
+        ModuleId moduleId,
         CancellationToken cancellationToken)
     {
         while (true)
@@ -155,7 +155,7 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
             {
                 return await _connection.InvokeAsync<SerializedModuleResult>(
                         HubMethodNames.WaitForResult,
-                        moduleTypeName,
+                        moduleId,
                         cancellationToken)
                     .ConfigureAwait(false);
             }
@@ -176,7 +176,7 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
         await _connection.InvokeAsync(
             HubMethodNames.RegisterWorker,
             registration,
-            Volatile.Read(ref _inFlightAssignment)?.ModuleTypeName,
+            Volatile.Read(ref _inFlightAssignment)?.ModuleId,
             cancellationToken).ConfigureAwait(false);
         if (_logger.IsEnabled(LogLevel.Information))
         {
@@ -230,7 +230,7 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
             await _connection.InvokeAsync(
                 HubMethodNames.RegisterWorker,
                 registration,
-                Volatile.Read(ref _inFlightAssignment)?.ModuleTypeName).ConfigureAwait(false);
+                Volatile.Read(ref _inFlightAssignment)?.ModuleId).ConfigureAwait(false);
 
             // Only re-request work if we're idle and waiting for an assignment. If we're
             // mid-execution, the master restored our in-flight module on re-registration;
@@ -304,7 +304,7 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
     {
         if (_logger.IsEnabled(LogLevel.Debug))
         {
-            _logger.LogDebug("Received assignment: {Module}", assignment.ModuleTypeName);
+            _logger.LogDebug("Received assignment: {Module}", assignment.ModuleId);
         }
         Volatile.Write(ref _inFlightAssignment, assignment);
         _assignmentChannel.Writer.TryWrite(assignment);

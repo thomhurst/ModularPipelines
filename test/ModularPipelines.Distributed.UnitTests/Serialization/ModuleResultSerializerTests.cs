@@ -1,4 +1,5 @@
 using System.Text.Json;
+using ModularPipelines.Attributes;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
@@ -26,6 +27,11 @@ public class ModuleResultSerializerTests
         }
     }
 
+    [ModuleId("stable.simple")]
+    private sealed class CustomIdModule : SimpleModule
+    {
+    }
+
     [Test]
     public async Task Serialize_And_Deserialize_Success_Result()
     {
@@ -45,9 +51,9 @@ public class ModuleResultSerializerTests
             Status = ModuleStatus.Succeeded
         };
 
-        var serialized = serializer.Serialize(result, typeof(SimpleModule).FullName!, typeof(SimpleResult).FullName!, 1);
+        var serialized = serializer.Serialize(result, ModuleId.FromType(typeof(SimpleModule)), 1);
 
-        await Assert.That(serialized.ModuleTypeName).IsEqualTo(typeof(SimpleModule).FullName);
+        await Assert.That(serialized.ModuleId).IsEqualTo(typeof(SimpleModule).FullName!);
         await Assert.That(serialized.WorkerIndex).IsEqualTo(1);
         await Assert.That(serialized.CommandCount).IsEqualTo(3);
         await Assert.That(serialized.Payload).IsNotNull();
@@ -65,13 +71,34 @@ public class ModuleResultSerializerTests
         var serializer = new ModuleResultSerializer(registry);
 
         var serialized = new SerializedModuleResult(
-            ModuleTypeName: "Unknown.Module",
-            ResultTypeName: "Unknown.Result",
+            ModuleId: "Unknown.Module",
             WorkerIndex: 1,
             Payload: "{}",
             CompletedAt: DateTimeOffset.UtcNow);
 
         Assert.Throws<InvalidOperationException>(() => serializer.Deserialize(serialized));
+    }
+
+    [Test]
+    public async Task Deserialize_Custom_Module_Id_Preserves_Runtime_Type_Name()
+    {
+        var registry = new ModuleTypeRegistry();
+        registry.Register(typeof(CustomIdModule));
+        var serializer = new ModuleResultSerializer(registry);
+        var now = DateTimeOffset.UtcNow;
+        var result = new ModuleResult<SimpleResult>.Success(new SimpleResult())
+        {
+            Name = nameof(CustomIdModule),
+            Duration = TimeSpan.Zero,
+            StartTime = now,
+            EndTime = now,
+            Status = ModuleStatus.Succeeded,
+        };
+
+        var deserialized = serializer.Deserialize(serializer.Serialize(result, "stable.simple", workerIndex: 1));
+
+        await Assert.That(deserialized!.TypeName)
+            .IsEqualTo(ModuleTypeIdentifier.Get(typeof(CustomIdModule)));
     }
 
     [Test]
@@ -93,8 +120,7 @@ public class ModuleResultSerializerTests
 
         var serialized = serializer.Serialize(
             result,
-            typeof(SimpleModule).FullName!,
-            typeof(SimpleResult).FullName!,
+            ModuleId.FromType(typeof(SimpleModule)),
             workerIndex: 7);
 
         var deserialized = serializer.Deserialize(serialized);
@@ -136,8 +162,7 @@ public class ModuleResultSerializerTests
 
         var serialized = serializer.Serialize(
             result,
-            typeof(SimpleModule).FullName!,
-            typeof(SimpleResult).FullName!,
+            ModuleId.FromType(typeof(SimpleModule)),
             workerIndex: 7);
 
         var deserialized = serializer.Deserialize(serialized);
@@ -152,12 +177,11 @@ public class ModuleResultSerializerTests
     }
 
     [Test]
-    public async Task Serialized_Result_Preserves_Six_Parameter_Constructor()
+    public async Task Serialized_Result_Preserves_Five_Parameter_Constructor()
     {
         var constructor = typeof(SerializedModuleResult).GetConstructor(
         [
-            typeof(string),
-            typeof(string),
+            typeof(ModuleId),
             typeof(int),
             typeof(string),
             typeof(DateTimeOffset),

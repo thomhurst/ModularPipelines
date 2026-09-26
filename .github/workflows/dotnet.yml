@@ -581,6 +581,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     env:
+      MSBUILDDISABLENODEREUSE: "1"
       DOTNET_gcServer: "0"
 
     # Compile only: running ModularPipelines.Build while it builds the listed solutions
@@ -615,14 +616,15 @@ jobs:
 
           foreach ($solution in $solutions) {
             Write-Output "::group::Restore $solution"
-            dotnet restore $solution
+            dotnet restore $solution /m:1
             if ($LASTEXITCODE -ne 0) {
               exit $LASTEXITCODE
             }
             Write-Output "::endgroup::"
 
             Write-Output "::group::Build $solution"
-            dotnet build $solution -c Release --no-restore
+            # Bound compiler memory while compiling large generated integrations.
+            dotnet build $solution -c Release --no-restore /m:1 -p:UseSharedCompilation=false
             if ($LASTEXITCODE -ne 0) {
               exit $LASTEXITCODE
             }

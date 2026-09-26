@@ -9,7 +9,7 @@ namespace ModularPipelines.Distributed.Artifacts;
 internal class InMemoryDistributedArtifactStore : IDistributedArtifactStore
 {
     private readonly ConcurrentDictionary<string, (ArtifactReference Reference, byte[] Data)> _artifacts = new();
-    private readonly ConcurrentDictionary<string, List<string>> _moduleIndex = new();
+    private readonly ConcurrentDictionary<ModuleId, List<string>> _moduleIndex = new();
 
     public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor descriptor, Stream data, CancellationToken cancellationToken)
     {
@@ -21,7 +21,7 @@ internal class InMemoryDistributedArtifactStore : IDistributedArtifactStore
         var reference = new ArtifactReference(
             ArtifactId: artifactId,
             Name: descriptor.Name,
-            ModuleTypeName: descriptor.ModuleTypeName,
+            ModuleId: descriptor.ModuleId,
             SizeBytes: bytes.Length,
             ContentType: descriptor.ContentType,
             UploadedAt: DateTimeOffset.UtcNow);
@@ -29,7 +29,7 @@ internal class InMemoryDistributedArtifactStore : IDistributedArtifactStore
         _artifacts[artifactId] = (reference, bytes);
 
         _moduleIndex.AddOrUpdate(
-            descriptor.ModuleTypeName,
+            descriptor.ModuleId,
             _ => [artifactId],
             (_, list) =>
             {
@@ -55,9 +55,9 @@ internal class InMemoryDistributedArtifactStore : IDistributedArtifactStore
         return Task.FromResult(stream);
     }
 
-    public Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(string moduleTypeName, CancellationToken cancellationToken)
+    public Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(ModuleId moduleId, CancellationToken cancellationToken)
     {
-        if (!_moduleIndex.TryGetValue(moduleTypeName, out var artifactIds))
+        if (!_moduleIndex.TryGetValue(moduleId, out var artifactIds))
         {
             return Task.FromResult<IReadOnlyList<ArtifactReference>>([]);
         }
@@ -78,7 +78,7 @@ internal class InMemoryDistributedArtifactStore : IDistributedArtifactStore
     {
         _artifacts.TryRemove(reference.ArtifactId, out _);
 
-        if (_moduleIndex.TryGetValue(reference.ModuleTypeName, out var artifactIds))
+        if (_moduleIndex.TryGetValue(reference.ModuleId, out var artifactIds))
         {
             lock (artifactIds)
             {

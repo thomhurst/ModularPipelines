@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
+using ModularPipelines.Distributed;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Executors;
@@ -68,10 +69,12 @@ internal sealed class PipelineImpl : IPipeline
             }
 
             services.GetService<IStartupValidator>()?.Validate();
+            var modules = services.GetServices<IModule>().ToArray();
+            ValidateModuleIds(modules);
 
             try
             {
-                ValidateModuleDependencies(services, services.GetServices<IModule>());
+                ValidateModuleDependencies(services, modules);
             }
             catch (Exception exception) when (exception is ModuleNotRegisteredException
                 or ModuleSelfDependencyException
@@ -303,6 +306,24 @@ internal sealed class PipelineImpl : IPipeline
         public bool IsActive => Volatile.Read(ref _isActive) == 1;
 
         public void Deactivate() => Interlocked.Exchange(ref _isActive, 0);
+    }
+
+    private static void ValidateModuleIds(IEnumerable<IModule> modules)
+    {
+        var moduleTypes = new Dictionary<ModuleId, Type>();
+        foreach (var module in modules)
+        {
+            var moduleType = module.GetType();
+            var moduleId = ModuleId.FromType(moduleType);
+            if (moduleTypes.TryGetValue(moduleId, out var existingType) && existingType != moduleType)
+            {
+                throw new InvalidOperationException(
+                    $"Module identifier '{moduleId}' is already registered for '{existingType}'. " +
+                    $"It cannot also identify '{moduleType}'.");
+            }
+
+            moduleTypes[moduleId] = moduleType;
+        }
     }
 
     private static void ValidateModuleDependencies(

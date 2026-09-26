@@ -21,7 +21,7 @@ public interface IDistributedWorkerCoordinator
     /// Waits for a stored module result to become available.
     /// </summary>
     Task<SerializedModuleResult> WaitForResultAsync(
-        string moduleTypeName,
+        ModuleId moduleId,
         CancellationToken cancellationToken);
 
     /// <summary>

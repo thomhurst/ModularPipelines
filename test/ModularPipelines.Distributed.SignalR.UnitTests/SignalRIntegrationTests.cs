@@ -178,8 +178,7 @@ public class SignalRIntegrationTests
 
             // Act — publish a result
             var result = new SerializedModuleResult(
-                ModuleTypeName: "TestModule",
-                ResultTypeName: "System.String",
+                ModuleId: "TestModule",
                 WorkerIndex: 1,
                 Payload: "{\"Value\":\"hello\"}",
                 CompletedAt: DateTimeOffset.UtcNow);
@@ -189,7 +188,7 @@ public class SignalRIntegrationTests
             // Assert — the TCS should be completed
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
             var collected = await tcs.Task.WaitAsync(cts.Token);
-            await Assert.That(collected.ModuleTypeName).IsEqualTo("TestModule");
+            await Assert.That(collected.ModuleId).IsEqualTo("TestModule");
             await Assert.That(collected.Payload).IsEqualTo("{\"Value\":\"hello\"}");
 
             await connection.DisposeAsync();
@@ -234,8 +233,7 @@ public class SignalRIntegrationTests
 
             // Enqueue work via master state (simulating master coordinator)
             var moduleAssignment = new ModuleAssignment(
-                ModuleTypeName: "MyModule",
-                ResultTypeName: "System.Int32",
+                ModuleId: "MyModule",
                 RequiredCapabilities: [],
                 AssignedAt: DateTimeOffset.UtcNow,
                 Configuration: new ModuleAssignmentOptions(null, false));
@@ -252,8 +250,7 @@ public class SignalRIntegrationTests
 
             // Assert
             await Assert.That(receivedAssignment).IsNotNull();
-            await Assert.That(receivedAssignment!.ModuleTypeName).IsEqualTo("MyModule");
-            await Assert.That(receivedAssignment.ResultTypeName).IsEqualTo("System.Int32");
+            await Assert.That(receivedAssignment!.ModuleId).IsEqualTo("MyModule");
 
             await connection.DisposeAsync();
         }
@@ -324,19 +321,19 @@ public class SignalRIntegrationTests
 
             // Enqueue 3 modules with different capability requirements
             var windowsModule = new ModuleAssignment(
-                "WindowsBuildModule", "System.String",
+                "WindowsBuildModule",
                 ["windows"],
                 DateTimeOffset.UtcNow,
                 new ModuleAssignmentOptions(null, false));
 
             var dockerModule = new ModuleAssignment(
-                "DockerBuildModule", "System.String",
+                "DockerBuildModule",
                 ["linux", "docker"],
                 DateTimeOffset.UtcNow,
                 new ModuleAssignmentOptions(null, false));
 
             var genericModule = new ModuleAssignment(
-                "GenericModule", "System.String",
+                "GenericModule",
                 [],
                 DateTimeOffset.UtcNow,
                 new ModuleAssignmentOptions(null, false));
@@ -354,13 +351,13 @@ public class SignalRIntegrationTests
             allAssigned.Wait(TimeSpan.FromSeconds(5));
 
             // Assert: windows module went to worker 2 (only one with "windows")
-            await Assert.That(worker2Assignments.Any(a => a.ModuleTypeName == "WindowsBuildModule")).IsTrue();
+            await Assert.That(worker2Assignments.Any(a => a.ModuleId == "WindowsBuildModule")).IsTrue();
 
             // Assert: docker module went to worker 3 (only one with "linux" + "docker")
-            await Assert.That(worker3Assignments.Any(a => a.ModuleTypeName == "DockerBuildModule")).IsTrue();
+            await Assert.That(worker3Assignments.Any(a => a.ModuleId == "DockerBuildModule")).IsTrue();
 
             // Assert: generic module (no requirements) went to worker 1 (first idle worker to request)
-            await Assert.That(worker1Assignments.Any(a => a.ModuleTypeName == "GenericModule")).IsTrue();
+            await Assert.That(worker1Assignments.Any(a => a.ModuleId == "GenericModule")).IsTrue();
 
             await Task.WhenAll(
                 worker1.DisposeAsync().AsTask(),
@@ -409,16 +406,16 @@ public class SignalRIntegrationTests
                 cts.Token);
 
             var result = new SerializedModuleResult(
-                "BuildModule", "System.String", 1, "{\"Output\":\"build.zip\"}", DateTimeOffset.UtcNow);
+                "BuildModule", 1, "{\"Output\":\"build.zip\"}", DateTimeOffset.UtcNow);
             await worker1.InvokeAsync(HubMethodNames.PublishResult, result);
 
             var fetchedResult = await resultTask;
-            await Assert.That(fetchedResult.ModuleTypeName).IsEqualTo("BuildModule");
+            await Assert.That(fetchedResult.ModuleId).IsEqualTo("BuildModule");
             await Assert.That(fetchedResult.Payload).IsEqualTo("{\"Output\":\"build.zip\"}");
 
             // Master should also have the result
             var masterResult = await masterState.ResultWaiters["BuildModule"].Task;
-            await Assert.That(masterResult.ModuleTypeName).IsEqualTo("BuildModule");
+            await Assert.That(masterResult.ModuleId).IsEqualTo("BuildModule");
 
             await Task.WhenAll(
                 worker1.DisposeAsync().AsTask(),
@@ -450,22 +447,22 @@ public class SignalRIntegrationTests
             firstDelivery.TrySetResult();
         });
         var registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow);
-        var assignment = new ModuleAssignment("CompletedModule", "System.String", [],
+        var assignment = new ModuleAssignment("CompletedModule", [],
             DateTimeOffset.UtcNow, new ModuleAssignmentOptions(null, false));
         var waiter = new TaskCompletionSource<SerializedModuleResult>(TaskCreationOptions.RunContinuationsAsynchronously);
-        state.ResultWaiters[assignment.ModuleTypeName] = waiter;
+        state.ResultWaiters[assignment.ModuleId] = waiter;
         state.PendingAssignments.Enqueue(assignment);
 
         await original.StartAsync(cancellationToken);
         await coordinator.RegisterWorkerAsync(registration, cancellationToken);
         var received = await coordinator.DequeueModuleAsync(new HashSet<Capability>(), cancellationToken);
         await firstDelivery.Task.WaitAsync(cancellationToken);
-        await Assert.That(received!.ModuleTypeName).IsEqualTo(assignment.ModuleTypeName);
+        await Assert.That(received!.ModuleId).IsEqualTo(assignment.ModuleId);
         await replacement.StartAsync(cancellationToken);
         await replacement.InvokeAsync(HubMethodNames.RegisterWorker, registration,
-            assignment.ModuleTypeName, cancellationToken);
+            assignment.ModuleId, cancellationToken);
 
-        var result = new SerializedModuleResult(assignment.ModuleTypeName, assignment.ResultTypeName,
+        var result = new SerializedModuleResult(assignment.ModuleId,
             1, "{}", DateTimeOffset.UtcNow);
         await Assert.That(() => coordinator.PublishResultAsync(result, cancellationToken))
             .Throws<Microsoft.AspNetCore.SignalR.HubException>();
@@ -505,10 +502,10 @@ public class SignalRIntegrationTests
             var deliveries = 0;
             using var subscription = connection.On<ModuleAssignment>(HubMethodNames.ReceiveAssignment,
                 _ => Interlocked.Increment(ref deliveries));
-            var assignment = new ModuleAssignment("CompletedModule", "System.String", [],
+            var assignment = new ModuleAssignment("CompletedModule", [],
                 DateTimeOffset.UtcNow, new ModuleAssignmentOptions(null, false));
             var waiter = new TaskCompletionSource<SerializedModuleResult>(TaskCreationOptions.RunContinuationsAsynchronously);
-            state.ResultWaiters[assignment.ModuleTypeName] = waiter;
+            state.ResultWaiters[assignment.ModuleId] = waiter;
             state.PendingAssignments.Enqueue(assignment);
             await connection.StartAsync(cancellationToken);
             await coordinator.RegisterWorkerAsync(new WorkerRegistration(1, [], DateTimeOffset.UtcNow), cancellationToken);
@@ -518,7 +515,7 @@ public class SignalRIntegrationTests
             serverHost = null;
             reconnectAllowed.Set();
             await reconnecting.Task.WaitAsync(cancellationToken);
-            var expected = new SerializedModuleResult(assignment.ModuleTypeName, assignment.ResultTypeName,
+            var expected = new SerializedModuleResult(assignment.ModuleId,
                 1, "{\"Output\":\"completed-successfully\"}", DateTimeOffset.UtcNow);
             var publication = coordinator.PublishResultAsync(expected, cancellationToken);
 
@@ -603,7 +600,7 @@ public class SignalRIntegrationTests
 
             var expected = new SerializedModuleResult(
                 "BuildModule",
-                "System.String",
+
                 2,
                 "{\"Output\":\"build.zip\"}",
                 DateTimeOffset.UtcNow);
@@ -644,10 +641,9 @@ public class SignalRIntegrationTests
             {
                 // Simulate module execution by publishing a result
                 var result = new SerializedModuleResult(
-                    assignment.ModuleTypeName,
-                    assignment.ResultTypeName,
+                    assignment.ModuleId,
                     1,
-                    $"{{\"Result\":\"executed-{assignment.ModuleTypeName}\"}}",
+                    $"{{\"Result\":\"executed-{assignment.ModuleId}\"}}",
                     DateTimeOffset.UtcNow);
                 await worker.InvokeAsync(HubMethodNames.PublishResult, result);
             });
@@ -669,7 +665,7 @@ public class SignalRIntegrationTests
                 resultTasks[moduleName] = tcs;
 
                 masterState.PendingAssignments.Enqueue(new ModuleAssignment(
-                    moduleName, "System.String", [],
+                    moduleName, [],
                     DateTimeOffset.UtcNow, new ModuleAssignmentOptions(null, false)));
             }
 
@@ -685,9 +681,9 @@ public class SignalRIntegrationTests
 
             // Assert all results received
             await Assert.That(results.Length).IsEqualTo(3);
-            await Assert.That(results.Any(r => r.ModuleTypeName == "ModuleA")).IsTrue();
-            await Assert.That(results.Any(r => r.ModuleTypeName == "ModuleB")).IsTrue();
-            await Assert.That(results.Any(r => r.ModuleTypeName == "ModuleC")).IsTrue();
+            await Assert.That(results.Any(r => r.ModuleId == "ModuleA")).IsTrue();
+            await Assert.That(results.Any(r => r.ModuleId == "ModuleB")).IsTrue();
+            await Assert.That(results.Any(r => r.ModuleId == "ModuleC")).IsTrue();
 
             // Signal completion and verify worker receives it
             await serverHost.HubContext.Clients.All.SendCoreAsync(HubMethodNames.SignalCompletion, [], cts.Token);
@@ -704,13 +700,13 @@ public class SignalRIntegrationTests
     private static void AssignWorker(
         SignalRMasterState state,
         int workerIndex,
-        string moduleTypeName)
+        ModuleId moduleId)
     {
         var worker = state.Workers.Values.Single(instance =>
             instance.Registration.WorkerIndex == workerIndex);
         if (!worker.TryAssign(new ModuleAssignment(
-                moduleTypeName,
-                "System.String",
+                moduleId,
+
                 [],
                 DateTimeOffset.UtcNow,
                 new ModuleAssignmentOptions(null, false))))
