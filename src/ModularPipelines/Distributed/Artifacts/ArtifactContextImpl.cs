@@ -8,19 +8,13 @@ namespace ModularPipelines.Distributed.Artifacts;
 /// Implementation of <see cref="IArtifactContext"/> wrapping <see cref="IDistributedArtifactStore"/>
 /// with convenience methods for file and directory operations.
 /// </summary>
-internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactContext
+internal class ArtifactContextImpl(
+    IDistributedArtifactStore store,
+    ArtifactOptions options) : IArtifactContext, IModuleScopedArtifactContext
 {
-    private readonly IDistributedArtifactStore _store;
-    private readonly ArtifactOptions _options;
+    private readonly IDistributedArtifactStore _store = store;
+    private readonly ArtifactOptions _options = options;
     private readonly ModuleId? _moduleId;
-
-    public ArtifactContextImpl(
-        IDistributedArtifactStore store,
-        ArtifactOptions options)
-    {
-        _store = store;
-        _options = options;
-    }
 
     private ArtifactContextImpl(
         IDistributedArtifactStore store,
@@ -210,30 +204,30 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
 
             EnsurePathContainsNoLinks(destinationDirectory, entryPath);
 
-            await using (var entryStream = entry.Open())
-            await using (var destinationStream = new FileStream(
-                             entryPath,
-                             new FileStreamOptions
-                             {
-                                 Access = FileAccess.Write,
-                                 Mode = FileMode.Create,
-                                 Options = FileOptions.Asynchronous | FileOptions.SequentialScan,
-                             }))
+            var fileOptions = new FileStreamOptions
             {
-                await entryStream.CopyToAsync(destinationStream, cancellationToken);
-            }
-
-            File.SetLastWriteTime(entryPath, entry.LastWriteTime.DateTime);
+                Access = FileAccess.Write,
+                Mode = FileMode.Create,
+                Options = FileOptions.Asynchronous | FileOptions.SequentialScan,
+            };
             if (!OperatingSystem.IsWindows())
             {
-                // Restore ordinary permissions, including executable bits needed by shared
-                // build output. Do not propagate setuid, setgid, or sticky bits from ZIPs.
+                // Apply ordinary permissions at creation so the OS enforces the umask.
+                // Never propagate setuid, setgid, or sticky bits from ZIPs.
                 var permissions = (UnixFileMode)((entry.ExternalAttributes >> 16) & 0x1FF);
                 if (permissions != 0)
                 {
-                    File.SetUnixFileMode(entryPath, permissions);
+                    fileOptions.UnixCreateMode = permissions;
                 }
             }
+
+            await using (var entryStream = entry.Open())
+            await using (var destinationStream = new FileStream(entryPath, fileOptions))
+            {
+                await entryStream.CopyToAsync(destinationStream, cancellationToken).ConfigureAwait(false);
+            }
+
+            File.SetLastWriteTime(entryPath, entry.LastWriteTime.DateTime);
         }
     }
 

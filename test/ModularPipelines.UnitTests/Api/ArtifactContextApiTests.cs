@@ -243,16 +243,17 @@ public class ArtifactContextApiTests
     }
 
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task Directory_Archive_RoundTrip_Preserves_Executable_Permissions(bool useLifecycleArchive)
+    [Arguments(false, 0x1E8)]
+    [Arguments(true, 0x1E8)]
+    [Arguments(false, 0x1FF)]
+    [Arguments(true, 0x1FF)]
+    public async Task Directory_Archive_RoundTrip_Preserves_Executable_Permissions(bool useLifecycleArchive, int mode)
     {
         var source = Directory.CreateTempSubdirectory("artifact-permissions-source-");
         var destination = Directory.CreateTempSubdirectory("artifact-permissions-destination-");
         var archivePath = Path.Combine(destination.FullName, "artifact.zip");
         var sourcePath = Path.Combine(source.FullName, "test-host");
-        const UnixFileMode permissions = UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute
-                                         | UnixFileMode.GroupRead | UnixFileMode.GroupExecute;
+        var permissions = (UnixFileMode) mode;
         try
         {
             await File.WriteAllTextAsync(sourcePath, "#!/bin/sh\nexit 0\n");
@@ -277,7 +278,19 @@ public class ArtifactContextApiTests
             await Assert.That(await File.ReadAllTextAsync(restoredPath)).IsEqualTo("#!/bin/sh\nexit 0\n");
             if (!OperatingSystem.IsWindows())
             {
-                await Assert.That(File.GetUnixFileMode(restoredPath)).IsEqualTo(permissions);
+                // A separate OS-created file captures the runner's umask without changing
+                // process-global state. chmod after extraction would bypass this mask.
+                var referencePath = Path.Combine(destination.FullName, "permissions-reference");
+                using (var reference = new FileStream(referencePath, new FileStreamOptions
+                {
+                    Access = FileAccess.Write,
+                    Mode = FileMode.CreateNew,
+                    UnixCreateMode = permissions,
+                }))
+                {
+                }
+
+                await Assert.That(File.GetUnixFileMode(restoredPath)).IsEqualTo(File.GetUnixFileMode(referencePath));
             }
         }
         finally
