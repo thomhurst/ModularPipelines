@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firebase", "test", "ios", "versions", "describe")]
-public record GcloudFirebaseTestIosVersionsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string VersionId
-) : GcloudOptions
+public record GcloudFirebaseTestIosVersionsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an iOS operating     system version
+    /// </summary>
+    /// <param name="VersionId">The version ID to describe, found using $ gcloud firebase test ios versions list.</param>
+    public GcloudFirebaseTestIosVersionsDescribeOptions(
+        string VersionId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(VersionId);
+        this.VersionId = VersionId;
+    }
+
+    public void Deconstruct(out string VersionId)
+    {
+        VersionId = this.VersionId;
+    }
+
+    /// <summary>
+    /// The version ID to describe, found using $ gcloud firebase test ios versions list.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string VersionId { get; private init; }
+
 }

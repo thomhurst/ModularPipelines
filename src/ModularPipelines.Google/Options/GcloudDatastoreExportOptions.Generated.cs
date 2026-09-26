@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datastore", "export")]
-public record GcloudDatastoreExportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OutputUrlPrefix
-) : GcloudOptions
+public record GcloudDatastoreExportOptions : GcloudOptions
 {
+    /// <summary>
+    /// export Cloud Datastore entities to Google Cloud     Storage
+    /// </summary>
+    /// <param name="OutputUrlPrefix">Location for the export metadata and data files. Must be a valid Google Cloud Storage bucket with an optional path prefix. For example: $ gcloud datastore export gs://mybucket/my/path Will place the export in the mybucket bucket in objects prefixed with my/path.</param>
+    public GcloudDatastoreExportOptions(
+        string OutputUrlPrefix
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutputUrlPrefix);
+        this.OutputUrlPrefix = OutputUrlPrefix;
+    }
+
+    public void Deconstruct(out string OutputUrlPrefix)
+    {
+        OutputUrlPrefix = this.OutputUrlPrefix;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -30,21 +45,27 @@ public record GcloudDatastoreExportOptions(
     public bool? Async { get; set; }
 
     /// <summary>
-    /// A list specifying what kinds will be included in the operation. When omitted, all Kinds are included. For example, to operate on only the 'Customer' and 'Order' Kinds: $ gcloud datastore export --kinds='Customer','Order'
+    /// A list specifying what kinds will be included in the operation. When omitted, all Kinds are included. For example, to operate on only the 'Customer' and 'Order' Kinds: $ gcloud datastore export --kinds='Customer','Order' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--kinds", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--kinds", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Kinds { get; set; }
 
     /// <summary>
-    /// A list specifying what namespaces will be included in the operation. When omitted, all namespaces are included in the operation, including the default namespace. To specify that only the default namespace should be operated on, use the special symbol '(default)'. For example, to operate on entities from both the 'customers' and default namespaces: $ gcloud datastore export --namespaces='(default)','customers'
+    /// A list specifying what namespaces will be included in the operation. When omitted, all namespaces are included in the operation, including the default namespace. To specify that only the default namespace should be operated on, use the special symbol '(default)'. For example, to operate on entities from both the 'customers' and default namespaces: $ gcloud datastore export --namespaces='(default)','customers' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--namespaces", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--namespaces", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Namespaces { get; set; }
 
     /// <summary>
-    /// A string:string map of custom labels to associate with this operation. For example: $ gcloud datastore export \ --operation-labels=comment='customer orders','sales rep'=pending
+    /// A string:string map of custom labels to associate with this operation. For example: $ gcloud datastore export \ --operation-labels=comment='customer orders','sales rep'=pending Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--operation-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--operation-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? OperationLabels { get; set; }
+
+    /// <summary>
+    /// Location for the export metadata and data files. Must be a valid Google Cloud Storage bucket with an optional path prefix. For example: $ gcloud datastore export gs://mybucket/my/path Will place the export in the mybucket bucket in objects prefixed with my/path.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OutputUrlPrefix { get; private init; }
 
 }

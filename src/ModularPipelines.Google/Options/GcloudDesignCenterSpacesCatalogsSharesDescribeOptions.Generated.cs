@@ -21,4 +21,45 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("design-center", "spaces", "catalogs", "shares", "describe")]
 public record GcloudDesignCenterSpacesCatalogsSharesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a share
+    /// </summary>
+    /// <param name="Share">Share resource - The share name in the following format: projects/$project/locations/$location/spaces/$space/catalogs/$catalog/shares/$share The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument share on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the share or fully qualified identifier for the share. To set the share attribute: ▸ provide the argument share on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDesignCenterSpacesCatalogsSharesDescribeOptions(
+        string Share
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Share);
+        this.Share = Share;
+    }
+
+    public void Deconstruct(out string Share)
+    {
+        Share = this.Share;
+    }
+
+    /// <summary>
+    /// Share resource - The share name in the following format: projects/$project/locations/$location/spaces/$space/catalogs/$catalog/shares/$share The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument share on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The catalog id of the share resource. To set the catalog attribute: ▸ provide the argument share on the command line with a fully specified name; ▸ provide the argument --catalog on the command line.
+    /// </summary>
+    [CliOption("--catalog", Format = OptionFormat.EqualsSeparated)]
+    public string? Catalog { get; set; }
+
+    /// <summary>
+    /// Share resource - The share name in the following format: projects/$project/locations/$location/spaces/$space/catalogs/$catalog/shares/$share The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument share on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the share resource. To set the location attribute: ▸ provide the argument share on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Share resource - The share name in the following format: projects/$project/locations/$location/spaces/$space/catalogs/$catalog/shares/$share The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument share on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The space id of the share resource. To set the space attribute: ▸ provide the argument share on the command line with a fully specified name; ▸ provide the argument --space on the command line.
+    /// </summary>
+    [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
+    public string? Space { get; set; }
+
+    /// <summary>
+    /// Share resource - The share name in the following format: projects/$project/locations/$location/spaces/$space/catalogs/$catalog/shares/$share The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument share on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the share or fully qualified identifier for the share. To set the share attribute: ▸ provide the argument share on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Share { get; private init; }
+
 }

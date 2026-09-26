@@ -22,9 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamWorkforcePoolsSubjectsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a workforce pool     subject
+    /// </summary>
+    /// <param name="Subject">Workforce pool subject resource - The workforce pool subject to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workforce pool subject or fully qualified identifier for the workforce pool subject. To set the subject attribute: ▸ provide the argument subject on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamWorkforcePoolsSubjectsDeleteOptions(
+        string Subject
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Subject);
+        this.Subject = Subject;
+    }
+
+    public void Deconstruct(out string Subject)
+    {
+        Subject = this.Subject;
+    }
+
+    /// <summary>
+    /// Workforce pool subject resource - The workforce pool subject to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location for the workforce pool. To set the location attribute: ▸ provide the argument subject on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Workforce pool subject resource - The workforce pool subject to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The ID to use for the workforce pool, which becomes the final component of the resource name. This value must be a globally unique string of 6 to 63 lowercase letters, digits, or hyphens. It must start with a letter, and cannot have a trailing hyphen. The prefix gcp- is reserved for use by Google, and may not be specified. To set the workforce-pool attribute: ▸ provide the argument subject on the command line with a fully specified name; ▸ provide the argument --workforce-pool on the command line.
+    /// </summary>
+    [CliOption("--workforce-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkforcePool { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Workforce pool subject resource - The workforce pool subject to delete. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workforce pool subject or fully qualified identifier for the workforce pool subject. To set the subject attribute: ▸ provide the argument subject on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Subject { get; private init; }
 
 }

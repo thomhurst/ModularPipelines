@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,101 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "indexes", "fields", "update")]
-public record GcloudFirestoreIndexesFieldsUpdateOptions : GcloudOptions
+public record GcloudFirestoreIndexesFieldsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update the index configuration of     the given field
+    /// </summary>
+    /// <param name="Field">Field resource - Field to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the field or fully qualified identifier for the field. To set the field attribute: ▸ provide the argument field on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudFirestoreIndexesFieldsUpdateOptions(
+        string Field
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Field);
+        this.Field = Field;
+    }
+
+    public void Deconstruct(out string Field)
+    {
+        Field = this.Field;
+    }
+
+    /// <summary>
+    /// Field resource - Field to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Collection group of the field. To set the collection-group attribute: ▸ provide the argument field on the command line with a fully specified name; ▸ provide the argument --collection-group on the command line.
+    /// </summary>
+    [CliOption("--collection-group", Format = OptionFormat.EqualsSeparated)]
+    public string? CollectionGroup { get; set; }
+
+    /// <summary>
+    /// Field resource - Field to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Database of the field. To set the database attribute: ▸ provide the argument field on the command line with a fully specified name; ▸ provide the argument --database on the command line; ▸ the default value of argument [--database] is (default).
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string? Database { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: If provided, the field's current index configuration will be reverted to inherit from its ancestor index configurations.
+    /// </summary>
+    [CliFlag("--clear-exemption")]
+    public bool? ClearExemption { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: If provided, the field will no longer be indexed at all.
+    /// </summary>
+    [CliFlag("--disable-indexes")]
+    public bool? DisableIndexes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: An index for the field. This flag can be repeated to provide multiple indexes. Any existing indexes will be overwritten with the ones provided. Any omitted indexes will be deleted if they currently exist. The following keys are allowed: order Specifies the order. Valid options are: 'ascending', 'descending'. Exactly one of 'order' or 'array-config' must be specified. array-config Specifies the configuration for an array field. The only valid option is 'contains'. Exactly one of 'order' or 'array-config' must be specified.
+    /// </summary>
+    [CliOption("--index", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Index
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __IndexSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    private sealed class __IndexSnapshotCliValuePair(
+        IReadOnlyList<KeyValue> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IReadOnlyList<KeyValue>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+
+        public int Count => source.Count;
+
+        public KeyValue this[int index] => source[index];
+    }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Field resource - Field to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the field or fully qualified identifier for the field. To set the field attribute: ▸ provide the argument field on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Field { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearExemption == true ? 1 : 0) + (DisableIndexes == true ? 1 : 0) + (((object?)Index is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Index, static item => item is not null) : ((object?)Index is global::System.Collections.Generic.IEnumerable<char> ? (object?)Index is not string || !string.IsNullOrWhiteSpace(Index?.ToString()) : ((object?)Index is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Index, static item => item is not null) : (Index is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Index), static item => item is not null))))) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ClearExemption, DisableIndexes, or Index must be specified.", [nameof(ClearExemption), nameof(DisableIndexes), nameof(Index)]);
+        }
+        yield break;
+    }
+
 }

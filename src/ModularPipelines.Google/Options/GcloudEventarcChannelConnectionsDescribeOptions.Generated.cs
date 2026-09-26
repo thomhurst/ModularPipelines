@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("eventarc", "channel-connections", "describe")]
 public record GcloudEventarcChannelConnectionsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an Eventarc channel     connection
+    /// </summary>
+    /// <param name="ChannelConnection">Channel connection resource - Channel connection to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument channel_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the channel connection or fully qualified identifier for the channel connection. To set the channel-connection attribute: ▸ provide the argument channel_connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEventarcChannelConnectionsDescribeOptions(
+        string ChannelConnection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ChannelConnection);
+        this.ChannelConnection = ChannelConnection;
+    }
+
+    public void Deconstruct(out string ChannelConnection)
+    {
+        ChannelConnection = this.ChannelConnection;
+    }
+
+    /// <summary>
+    /// Channel connection resource - Channel connection to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument channel_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location for the Eventarc channel connection, which should be either global or one of the supported regions. Alternatively, set the [eventarc/location] property. To set the location attribute: ▸ provide the argument channel_connection on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property eventarc/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Channel connection resource - Channel connection to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument channel_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the channel connection or fully qualified identifier for the channel connection. To set the channel-connection attribute: ▸ provide the argument channel_connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ChannelConnection { get; private init; }
+
 }

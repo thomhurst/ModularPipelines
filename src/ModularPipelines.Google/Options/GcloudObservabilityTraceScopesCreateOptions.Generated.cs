@@ -21,4 +21,61 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("observability", "trace-scopes", "create")]
 public record GcloudObservabilityTraceScopesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create traceScopes
+    /// </summary>
+    /// <param name="ResourceNames">Names of the projects that are included in this trace scope. ◆ projects/[PROJECT_ID] A trace scope can include a maximum of 20 projects. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="TraceScope">TraceScope resource - Identifier. The resource name of the trace scope. For example: projects/my-project/locations/global/traceScopes/my-trace-scope The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument trace_scope on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the traceScope or fully qualified identifier for the traceScope. To set the trace_scope attribute: ▸ provide the argument trace_scope on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudObservabilityTraceScopesCreateOptions(
+        IEnumerable<string> ResourceNames,
+        string TraceScope
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ResourceNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ResourceNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ResourceNames));
+            }
+
+            ResourceNames = materialized;
+        }
+        this.ResourceNames = ResourceNames;
+        global::System.ArgumentNullException.ThrowIfNull(TraceScope);
+        this.TraceScope = TraceScope;
+    }
+
+    public void Deconstruct(out IEnumerable<string> ResourceNames, out string TraceScope)
+    {
+        ResourceNames = this.ResourceNames;
+        TraceScope = this.TraceScope;
+    }
+
+    /// <summary>
+    /// Names of the projects that are included in this trace scope. ◆ projects/[PROJECT_ID] A trace scope can include a maximum of 20 projects. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--resource-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> ResourceNames { get; private init; }
+
+    /// <summary>
+    /// TraceScope resource - Identifier. The resource name of the trace scope. For example: projects/my-project/locations/global/traceScopes/my-trace-scope The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument trace_scope on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the traceScope resource. To set the location attribute: ▸ provide the argument trace_scope on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Describes this trace scope. The maximum length of the description is 8000 characters.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// TraceScope resource - Identifier. The resource name of the trace scope. For example: projects/my-project/locations/global/traceScopes/my-trace-scope The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument trace_scope on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the traceScope or fully qualified identifier for the traceScope. To set the trace_scope attribute: ▸ provide the argument trace_scope on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string TraceScope { get; private init; }
+
 }

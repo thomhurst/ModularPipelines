@@ -21,4 +21,80 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("notebooks", "instances", "diagnose")]
 public record GcloudNotebooksInstancesDiagnoseOptions : GcloudOptions
 {
+    /// <summary>
+    /// request for diagnose instances
+    /// </summary>
+    /// <param name="GcsBucket">The Cloud Storage bucket where the log files generated from the diagnose command will be stored. storage.buckets.writer permissions must be given to project's service account or user credential. Format: gs://{gcs_bucket}</param>
+    /// <param name="Instance">Instance resource - User-defined unique name of this instance. The instance name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNotebooksInstancesDiagnoseOptions(
+        string GcsBucket,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GcsBucket);
+        this.GcsBucket = GcsBucket;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string GcsBucket, out string Instance)
+    {
+        GcsBucket = this.GcsBucket;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// The Cloud Storage bucket where the log files generated from the diagnose command will be stored. storage.buckets.writer permissions must be given to project's service account or user credential. Format: gs://{gcs_bucket}
+    /// </summary>
+    [CliOption("--gcs-bucket", Format = OptionFormat.EqualsSeparated)]
+    public string GcsBucket { get; private init; }
+
+    /// <summary>
+    /// Instance resource - User-defined unique name of this instance. The instance name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location of this environment https://cloud.google.com/compute/docs/regions-zones/#locations. To set the location attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property notebooks/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Enables flag to copy all /home/jupyter folder contents
+    /// </summary>
+    [CliFlag("--enable-copy-home-files")]
+    public bool? EnableCopyHomeFiles { get; set; }
+
+    /// <summary>
+    /// Enables flag to capture packets from the instance for 30 seconds
+    /// </summary>
+    [CliFlag("--enable-packet-capture")]
+    public bool? EnablePacketCapture { get; set; }
+
+    /// <summary>
+    /// Enables flag to repair service for instance
+    /// </summary>
+    [CliFlag("--enable-repair")]
+    public bool? EnableRepair { get; set; }
+
+    /// <summary>
+    /// Defines the relative storage path in the Cloud Storage bucket where the diagnostic logs will be written. Default path will be the root directory of the Cloud Storage bucketFormat of full path: gs://{gcs_bucket}/{relative_path}/
+    /// </summary>
+    [CliOption("--relative-path", Format = OptionFormat.EqualsSeparated)]
+    public string? RelativePath { get; set; }
+
+    /// <summary>
+    /// Maximum amount of time in minutes before the operation times out
+    /// </summary>
+    [CliOption("--timeout-minutes", Format = OptionFormat.EqualsSeparated)]
+    public int? TimeoutMinutes { get; set; }
+
+    /// <summary>
+    /// Instance resource - User-defined unique name of this instance. The instance name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
 }

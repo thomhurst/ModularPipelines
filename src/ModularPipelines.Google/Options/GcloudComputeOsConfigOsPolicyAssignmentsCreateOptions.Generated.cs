@@ -19,8 +19,58 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "os-config", "os-policy-assignments", "create")]
-public record GcloudComputeOsConfigOsPolicyAssignmentsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Os
-) : GcloudOptions
+public record GcloudComputeOsConfigOsPolicyAssignmentsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create an OS policy     assignment
+    /// </summary>
+    /// <param name="File">Absolute path to the OS policy assignment file on your local client. File must be in either JSON or YAML format. This file defines the OS policies that you want to apply to your VMs, the target VMs that you want to apply the policies to, and the rollout rate at which to apply the OS policies. For more information about this resource and sample OS policy assignment files, see https://cloud.google.com/compute/docs/os-configuration-management/working-with-os-policies#os-policy-assignment.</param>
+    /// <param name="OsPolicyAssignment">OS policy assignment resource - Location to create the OS policy assignment in. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument os_policy_assignment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the OS policy assignment or fully qualified identifier for the OS policy assignment. To set the os_policy_assignment attribute: ▸ provide the argument os_policy_assignment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeOsConfigOsPolicyAssignmentsCreateOptions(
+        string File,
+        string OsPolicyAssignment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+        global::System.ArgumentNullException.ThrowIfNull(OsPolicyAssignment);
+        this.OsPolicyAssignment = OsPolicyAssignment;
+    }
+
+    public void Deconstruct(out string File, out string OsPolicyAssignment)
+    {
+        File = this.File;
+        OsPolicyAssignment = this.OsPolicyAssignment;
+    }
+
+    /// <summary>
+    /// Absolute path to the OS policy assignment file on your local client. File must be in either JSON or YAML format. This file defines the OS policies that you want to apply to your VMs, the target VMs that you want to apply the policies to, and the rollout rate at which to apply the OS policies. For more information about this resource and sample OS policy assignment files, see https://cloud.google.com/compute/docs/os-configuration-management/working-with-os-policies#os-policy-assignment.
+    /// </summary>
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public string File { get; private init; }
+
+    /// <summary>
+    /// OS policy assignment resource - Location to create the OS policy assignment in. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument os_policy_assignment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the OS policy assignment. To set the location attribute: ▸ provide the argument os_policy_assignment on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/zone.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// OS policy assignment resource - Location to create the OS policy assignment in. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument os_policy_assignment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the OS policy assignment or fully qualified identifier for the OS policy assignment. To set the os_policy_assignment attribute: ▸ provide the argument os_policy_assignment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OsPolicyAssignment { get; private init; }
+
 }

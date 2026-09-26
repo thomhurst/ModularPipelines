@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "target-tcp-proxies", "update")]
-public record GcloudPreviewComputeTargetTcpProxiesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeTargetTcpProxiesUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a target TCP     proxy
+    /// </summary>
+    /// <param name="Name">Name of the target TCP proxy to update.</param>
+    public GcloudPreviewComputeTargetTcpProxiesUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// A backend service that will be used for connections to the target TCP proxy.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudPreviewComputeTargetTcpProxiesUpdateOptions(
     /// </summary>
     [CliOption("--proxy-header", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyHeader { get; set; }
+
+    /// <summary>
+    /// Name of the target TCP proxy to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

@@ -20,10 +20,36 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment-manager", "deployments", "delete")]
-public record GcloudDeploymentManagerDeploymentsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> DeploymentName
-) : GcloudOptions
+public record GcloudDeploymentManagerDeploymentsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a deployment
+    /// </summary>
+    /// <param name="DeploymentName">Deployment name.</param>
+    public GcloudDeploymentManagerDeploymentsDeleteOptions(
+        IEnumerable<string> DeploymentName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DeploymentName);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DeploymentName));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DeploymentName));
+            }
+
+            DeploymentName = materialized;
+        }
+        this.DeploymentName = DeploymentName;
+    }
+
+    public void Deconstruct(out IEnumerable<string> DeploymentName)
+    {
+        DeploymentName = this.DeploymentName;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -34,6 +60,12 @@ public record GcloudDeploymentManagerDeploymentsDeleteOptions(
     /// Delete policy for resources that will change as part of an update or delete. delete deletes the resource while abandon just removes the resource reference from the deployment. DELETE_POLICY must be one of: abandon, delete.
     /// </summary>
     [CliOption("--delete-policy", Format = OptionFormat.EqualsSeparated)]
-    public GcloudDeletePolicy? DeletePolicy { get; set; }
+    public GcloudDeploymentManagerDeploymentsDeleteDeletePolicy? DeletePolicy { get; set; }
+
+    /// <summary>
+    /// Deployment name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> DeploymentName { get; private init; }
 
 }

@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dns", "managed-zones", "set-iam-policy")]
 public record GcloudDnsManagedZonesSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the IAM policy for a Cloud     DNS managed-zone
+    /// </summary>
+    /// <param name="PolicyFile">JSON or YAML file with the IAM policy</param>
+    /// <param name="Zone">Zone resource - The name of the managed-zone to set the IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the zone or fully qualified identifier for the zone. To set the zone attribute: ▸ provide the argument zone on the command line.</param>
+    public GcloudDnsManagedZonesSetIamPolicyOptions(
+        string PolicyFile,
+        string Zone
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+    }
+
+    public void Deconstruct(out string PolicyFile, out string Zone)
+    {
+        PolicyFile = this.PolicyFile;
+        Zone = this.Zone;
+    }
+
+    /// <summary>
+    /// JSON or YAML file with the IAM policy
+    /// </summary>
+    [CliOption("--policy-file", Format = OptionFormat.EqualsSeparated)]
+    public string PolicyFile { get; private init; }
+
+    /// <summary>
+    /// Zone resource - The name of the managed-zone to set the IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the zone or fully qualified identifier for the zone. To set the zone attribute: ▸ provide the argument zone on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Zone { get; private init; }
+
 }

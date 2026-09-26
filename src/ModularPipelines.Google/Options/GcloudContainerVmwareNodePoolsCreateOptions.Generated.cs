@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,150 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "vmware", "node-pools", "create")]
-public record GcloudContainerVmwareNodePoolsCreateOptions : GcloudOptions
+public record GcloudContainerVmwareNodePoolsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a node pool in an Anthos     cluster on VMware
+    /// </summary>
+    /// <param name="ImageType">Configuration of the node pool This must be specified. OS image type to use on node pool instances. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="NodePool">Node pool resource - node pool to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the node_pool or fully qualified identifier for the node_pool. To set the node_pool attribute: ▸ provide the argument node_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerVmwareNodePoolsCreateOptions(
+        string ImageType,
+        string NodePool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageType);
+        this.ImageType = ImageType;
+        global::System.ArgumentNullException.ThrowIfNull(NodePool);
+        this.NodePool = NodePool;
+    }
+
+    public void Deconstruct(out string ImageType, out string NodePool)
+    {
+        ImageType = this.ImageType;
+        NodePool = this.NodePool;
+    }
+
+    /// <summary>
+    /// Configuration of the node pool This must be specified. OS image type to use on node pool instances. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--image-type", Format = OptionFormat.EqualsSeparated)]
+    public string ImageType { get; private init; }
+
+    /// <summary>
+    /// Node pool resource - node pool to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. cluster of the node_pool. To set the cluster attribute: ▸ provide the argument node_pool on the command line with a fully specified name; ▸ provide the argument --cluster on the command line.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Node pool resource - node pool to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the node_pool. To set the location attribute: ▸ provide the argument node_pool on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_vmware/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Configuration of the node pool This must be specified. Size of VMware disk to be used during creation in GB.
+    /// </summary>
+    [CliOption("--boot-disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? BootDiskSize { get; set; }
+
+    /// <summary>
+    /// Configuration of the node pool This must be specified. Number of CPUs for each node in the node pool.
+    /// </summary>
+    [CliOption("--cpus", Format = OptionFormat.EqualsSeparated)]
+    public string? Cpus { get; set; }
+
+    /// <summary>
+    /// Configuration of the node pool This must be specified. If set, enable the use of load balancer on the node pool instances.
+    /// </summary>
+    [CliFlag("--enable-load-balancer")]
+    public bool? EnableLoadBalancer { get; set; }
+
+    /// <summary>
+    /// Configuration of the node pool This must be specified. OS image name in vCenter.
+    /// </summary>
+    [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
+    public string? Image { get; set; }
+
+    /// <summary>
+    /// Configuration of the node pool This must be specified. Size of memory for each node in the node pool in MB.
+    /// </summary>
+    [CliOption("--memory", Format = OptionFormat.EqualsSeparated)]
+    public string? Memory { get; set; }
+
+    /// <summary>
+    /// Configuration of the node pool This must be specified. Kubernetes labels (key/value pairs) to be applied to each node. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? NodeLabels { get; set; }
+
+    /// <summary>
+    /// Configuration of the node pool This must be specified. Applies the given kubernetes taints on all nodes in the new node pool, which can be used with tolerations for pod scheduling. Taint effect must be one of the following: NoSchedule, PreferNoSchedule, or NoExecute. Examples: $ gcloud container vmware node-pools create node-pool-1 \ --cluster=example-cluster \ --node-taints=key1=val1:NoSchedule,key2=val2:PreferNoSchedule Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? NodeTaints { get; set; }
+
+    /// <summary>
+    /// Configuration of the node pool This must be specified. Number of replicas to use on node pool instances.
+    /// </summary>
+    [CliOption("--replicas", Format = OptionFormat.EqualsSeparated)]
+    public string? Replicas { get; set; }
+
+    /// <summary>
+    /// Annotations on the node pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Display name for the resource.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// If set, only validate the request, but do not actually perform the operation.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Maximum number of replicas in the node pool. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--max-replicas", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxReplicas { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Minimum number of replicas in the node pool. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--min-replicas", Format = OptionFormat.EqualsSeparated)]
+    public string? MinReplicas { get; set; }
+
+    /// <summary>
+    /// Node pool resource - node pool to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the node_pool or fully qualified identifier for the node_pool. To set the node_pool attribute: ▸ provide the argument node_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NodePool { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(MaxReplicas) || !string.IsNullOrWhiteSpace(MinReplicas)) && (!(!string.IsNullOrWhiteSpace(MaxReplicas))))
+        {
+            yield return new ValidationResult("MaxReplicas must be specified when other arguments in this group are specified.", [nameof(MaxReplicas)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MaxReplicas) || !string.IsNullOrWhiteSpace(MinReplicas)) && (!(!string.IsNullOrWhiteSpace(MinReplicas))))
+        {
+            yield return new ValidationResult("MinReplicas must be specified when other arguments in this group are specified.", [nameof(MinReplicas)]);
+        }
+        yield break;
+    }
+
 }

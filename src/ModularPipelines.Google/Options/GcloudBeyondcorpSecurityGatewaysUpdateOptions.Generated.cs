@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("beyondcorp", "security-gateways", "update")]
-public record GcloudBeyondcorpSecurityGatewaysUpdateOptions : GcloudOptions
+public record GcloudBeyondcorpSecurityGatewaysUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update securityGateways
+    /// </summary>
+    /// <param name="SecurityGateway">SecurityGateway resource - Identifier. Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the securityGateway or fully qualified identifier for the securityGateway. To set the security_gateway attribute: ▸ provide the argument security_gateway on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBeyondcorpSecurityGatewaysUpdateOptions(
+        string SecurityGateway
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityGateway);
+        this.SecurityGateway = SecurityGateway;
+    }
+
+    public void Deconstruct(out string SecurityGateway)
+    {
+        SecurityGateway = this.SecurityGateway;
+    }
+
+    /// <summary>
+    /// SecurityGateway resource - Identifier. Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the securityGateway resource. We support only global location. To set the location attribute: ▸ provide the argument security_gateway on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -46,19 +70,19 @@ public record GcloudBeyondcorpSecurityGatewaysUpdateOptions : GcloudOptions
     public bool? ClearProxyProtocolConfig { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Client IP configuration. The client IP address is included if true. Use --proxy-protocol-config-client-ip to enable and --no-proxy-protocol-config-client-ip to disable.
+    /// Client IP configuration. The client IP address is included if true. Use --proxy-protocol-config-client-ip to enable and --no-proxy-protocol-config-client-ip to disable.
     /// </summary>
     [CliFlag("--proxy-protocol-config-client-ip")]
     public bool? ProxyProtocolConfigClientIp { get; set; }
 
     /// <summary>
-    /// Negates --proxy-protocol-config-client-ip. The configuration for the proxy. Client IP configuration. The client IP address is included if true. Use --proxy-protocol-config-client-ip to enable and --no-proxy-protocol-config-client-ip to disable.
+    /// Negates --proxy-protocol-config-client-ip. Client IP configuration. The client IP address is included if true. Use --proxy-protocol-config-client-ip to enable and --no-proxy-protocol-config-client-ip to disable.
     /// </summary>
     [CliFlag("--no-proxy-protocol-config-client-ip")]
     public bool? NoProxyProtocolConfigClientIp { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. The security gateway identity configuration. PROXY_PROTOCOL_CONFIG_GATEWAY_IDENTITY must be (only one value is supported): resource-name Resource name for gateway identity, in the format: projects/{project_id}/locations/{location_id}/securityGateways/{security_gateway_id}
+    /// The security gateway identity configuration. PROXY_PROTOCOL_CONFIG_GATEWAY_IDENTITY must be (only one value is supported): resource-name Resource name for gateway identity, in the format: projects/{project_id}/locations/{location_id}/securityGateways/{security_gateway_id}
     /// </summary>
     [CliOption("--proxy-protocol-config-gateway-identity", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyProtocolConfigGatewayIdentity { get; set; }
@@ -88,93 +112,359 @@ public record GcloudBeyondcorpSecurityGatewaysUpdateOptions : GcloudOptions
     public string? UserInfoOutputType { get; set; }
 
     /// <summary>
-    /// The configuration information for the delegated user. Update proxy_protocol_config_allowed_client_headers. At most one of these can be specified: Set proxy_protocol_config_allowed_client_headers to new value.
+    /// Update proxy_protocol_config_allowed_client_headers. At most one of these can be specified: Set proxy_protocol_config_allowed_client_headers to new value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ProxyProtocolConfigAllowedClientHeaders { get; set; }
+    [CliOption("--proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ProxyProtocolConfigAllowedClientHeaders
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ProxyProtocolConfigAllowedClientHeadersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ProxyProtocolConfigAllowedClientHeadersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// The configuration information for the delegated user. Update proxy_protocol_config_allowed_client_headers. At most one of these can be specified: Or at least one of these can be specified: Add new value to proxy_protocol_config_allowed_client_headers list.
+    /// Update proxy_protocol_config_allowed_client_headers. At most one of these can be specified: Or at least one of these can be specified: Add new value to proxy_protocol_config_allowed_client_headers list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddProxyProtocolConfigAllowedClientHeaders { get; set; }
+    [CliOption("--add-proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddProxyProtocolConfigAllowedClientHeaders
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddProxyProtocolConfigAllowedClientHeadersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddProxyProtocolConfigAllowedClientHeadersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// The configuration information for the delegated user. Update proxy_protocol_config_allowed_client_headers. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear proxy_protocol_config_allowed_client_headers value and set to empty list.
+    /// Update proxy_protocol_config_allowed_client_headers. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear proxy_protocol_config_allowed_client_headers value and set to empty list.
     /// </summary>
     [CliFlag("--clear-proxy-protocol-config-allowed-client-headers")]
     public bool? ClearProxyProtocolConfigAllowedClientHeaders { get; set; }
 
     /// <summary>
-    /// The configuration information for the delegated user. Update proxy_protocol_config_allowed_client_headers. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from proxy_protocol_config_allowed_client_headers list.
+    /// Update proxy_protocol_config_allowed_client_headers. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from proxy_protocol_config_allowed_client_headers list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveProxyProtocolConfigAllowedClientHeaders { get; set; }
+    [CliOption("--remove-proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveProxyProtocolConfigAllowedClientHeaders
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveProxyProtocolConfigAllowedClientHeadersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveProxyProtocolConfigAllowedClientHeadersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// The configuration information for the delegated user. Update proxy_protocol_config_metadata_headers. At most one of these can be specified: Set proxy_protocol_config_metadata_headers to new value. Custom resource specific headers along with the values. The names should conform to RFC 9110: &gt;Field names can contain alphanumeric characters, hyphens, and periods, can contain only ASCII-printable characters and tabs, and must start with a letter. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --proxy-protocol-config-metadata-headers=string=string JSON Example: --proxy-protocol-config-metadata-headers='{"string": "string"}' File Example: --proxy-protocol-config-metadata-headers=path_to_file.(yaml|json)
+    /// Update proxy_protocol_config_metadata_headers. At most one of these can be specified: Set proxy_protocol_config_metadata_headers to new value. Custom resource specific headers along with the values. The names should conform to RFC 9110: &gt;Field names can contain alphanumeric characters, hyphens, and periods, can contain only ASCII-printable characters and tabs, and must start with a letter. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --proxy-protocol-config-metadata-headers=string=string JSON Example: --proxy-protocol-config-metadata-headers='{"string": "string"}' File Example: --proxy-protocol-config-metadata-headers=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--proxy-protocol-config-metadata-headers", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ProxyProtocolConfigMetadataHeaders { get; set; }
+    public IEnumerable<string>? ProxyProtocolConfigMetadataHeaders
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __ProxyProtocolConfigMetadataHeadersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ProxyProtocolConfigMetadataHeadersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ProxyProtocolConfigMetadataHeadersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __ProxyProtocolConfigMetadataHeadersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// The configuration information for the delegated user. Update proxy_protocol_config_metadata_headers. At most one of these can be specified: Or at least one of these can be specified: Update proxy_protocol_config_metadata_headers value or add key value pair. Custom resource specific headers along with the values. The names should conform to RFC 9110: &gt;Field names can contain alphanumeric characters, hyphens, and periods, can contain only ASCII-printable characters and tabs, and must start with a letter. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-proxy-protocol-config-metadata-headers=string=string JSON Example: --update-proxy-protocol-config-metadata-headers='{"string": "string"}' File Example: --update-proxy-protocol-config-metadata-headers=path_to_file.(yaml|json)
+    /// Update proxy_protocol_config_metadata_headers. At most one of these can be specified: Or at least one of these can be specified: Update proxy_protocol_config_metadata_headers value or add key value pair. Custom resource specific headers along with the values. The names should conform to RFC 9110: &gt;Field names can contain alphanumeric characters, hyphens, and periods, can contain only ASCII-printable characters and tabs, and must start with a letter. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-proxy-protocol-config-metadata-headers=string=string JSON Example: --update-proxy-protocol-config-metadata-headers='{"string": "string"}' File Example: --update-proxy-protocol-config-metadata-headers=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-proxy-protocol-config-metadata-headers", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? UpdateProxyProtocolConfigMetadataHeaders { get; set; }
+    public IEnumerable<string>? UpdateProxyProtocolConfigMetadataHeaders
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __UpdateProxyProtocolConfigMetadataHeadersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateProxyProtocolConfigMetadataHeadersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UpdateProxyProtocolConfigMetadataHeadersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __UpdateProxyProtocolConfigMetadataHeadersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// The configuration information for the delegated user. Update proxy_protocol_config_metadata_headers. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear proxy_protocol_config_metadata_headers value and set to empty map.
+    /// Update proxy_protocol_config_metadata_headers. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear proxy_protocol_config_metadata_headers value and set to empty map.
     /// </summary>
     [CliFlag("--clear-proxy-protocol-config-metadata-headers")]
     public bool? ClearProxyProtocolConfigMetadataHeaders { get; set; }
 
     /// <summary>
-    /// The configuration information for the delegated user. Update proxy_protocol_config_metadata_headers. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map proxy_protocol_config_metadata_headers. Sets remove_proxy_protocol_config_metadata_headers value. Shorthand Example: --remove-proxy-protocol-config-metadata-headers=string,string JSON Example: --remove-proxy-protocol-config-metadata-headers=["string"] File Example: --remove-proxy-protocol-config-metadata-headers=path_to_file.(yaml|json)
+    /// Update proxy_protocol_config_metadata_headers. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map proxy_protocol_config_metadata_headers. Sets remove_proxy_protocol_config_metadata_headers value. Shorthand Example: --remove-proxy-protocol-config-metadata-headers=string,string JSON Example: --remove-proxy-protocol-config-metadata-headers=["string"] File Example: --remove-proxy-protocol-config-metadata-headers=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-proxy-protocol-config-metadata-headers", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveProxyProtocolConfigMetadataHeaders { get; set; }
 
     /// <summary>
-    /// The configuration information for the delegated user. Update hubs. At most one of these can be specified: Set hubs to new value. Map of Hubs that represents regional data path deployment with Google Cloud Platform region as a key. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --hubs=string JSON Example: --hubs='{"string": {}}' File Example: --hubs=path_to_file.(yaml|json)
+    /// Update hubs. At most one of these can be specified: Set hubs to new value. Map of Hubs that represents regional data path deployment with Google Cloud Platform region as a key. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --hubs=string JSON Example: --hubs='{"string": {}}' File Example: --hubs=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--hubs", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Hubs { get; set; }
+    public IEnumerable<string>? Hubs
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __HubsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __HubsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __HubsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __HubsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// The configuration information for the delegated user. Update hubs. At most one of these can be specified: Or at least one of these can be specified: Update hubs value or add key value pair. Map of Hubs that represents regional data path deployment with Google Cloud Platform region as a key. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-hubs=string JSON Example: --update-hubs='{"string": {}}' File Example: --update-hubs=path_to_file.(yaml|json)
+    /// Update hubs. At most one of these can be specified: Or at least one of these can be specified: Update hubs value or add key value pair. Map of Hubs that represents regional data path deployment with Google Cloud Platform region as a key. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-hubs=string JSON Example: --update-hubs='{"string": {}}' File Example: --update-hubs=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-hubs", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? UpdateHubs { get; set; }
+    public IEnumerable<string>? UpdateHubs
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __UpdateHubsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateHubsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UpdateHubsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __UpdateHubsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// The configuration information for the delegated user. Update hubs. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear hubs value and set to empty map.
+    /// Update hubs. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear hubs value and set to empty map.
     /// </summary>
     [CliFlag("--clear-hubs")]
     public bool? ClearHubs { get; set; }
 
     /// <summary>
-    /// The configuration information for the delegated user. Update hubs. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map hubs. Sets remove_hubs value. Shorthand Example: --remove-hubs=string,string JSON Example: --remove-hubs=["string"] File Example: --remove-hubs=path_to_file.(yaml|json)
+    /// Update hubs. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map hubs. Sets remove_hubs value. Shorthand Example: --remove-hubs=string,string JSON Example: --remove-hubs=["string"] File Example: --remove-hubs=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-hubs", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveHubs { get; set; }
 
     /// <summary>
-    /// The configuration information for the delegated user. Set the value of googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery by using flag [service-discovery] or flags []. At most one of these can be specified: Settings related to the Service Discovery. Shorthand Example: --service-discovery=apiGateway={resourceOverride={path=string}} JSON Example: --service-discovery='{"apiGateway": {"resourceOverride": {"path": "string"}}}' File Example: --service-discovery=path_to_file.(yaml|json)
+    /// Set the value of googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery by using flag [service-discovery] or flags []. At most one of these can be specified: Settings related to the Service Discovery. Shorthand Example: --service-discovery=apiGateway={resourceOverride={path=string}} JSON Example: --service-discovery='{"apiGateway": {"resourceOverride": {"path": "string"}}}' File Example: --service-discovery=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--service-discovery", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceDiscovery { get; set; }
 
     /// <summary>
-    /// The configuration information for the delegated user. Set the value of googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery by using flag [service-discovery] or flags []. At most one of these can be specified: Or at least one of these can be specified: Settings related to the Service Discovery. Set googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery back to default value.
+    /// Set the value of googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery by using flag [service-discovery] or flags []. At most one of these can be specified: Or at least one of these can be specified: Settings related to the Service Discovery. Set googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery back to default value.
     /// </summary>
     [CliFlag("--clear-service-discovery")]
     public bool? ClearServiceDiscovery { get; set; }
 
     /// <summary>
-    /// The configuration information for the delegated user. Set the value of googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery by using flag [service-discovery] or flags []. At most one of these can be specified: If Service Discovery is done through API, defines its settings. API operation descriptor. Contains the URI path fragment where HTTP request is sent.
+    /// Set the value of googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery by using flag [service-discovery] or flags []. At most one of these can be specified: Or at least one of these can be specified: If Service Discovery is done through API, defines its settings. API operation descriptor. Contains the URI path fragment where HTTP request is sent.
     /// </summary>
     [CliOption("--resource-override-path", Format = OptionFormat.EqualsSeparated)]
     public string? ResourceOverridePath { get; set; }
+
+    /// <summary>
+    /// SecurityGateway resource - Identifier. Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the securityGateway or fully qualified identifier for the securityGateway. To set the security_gateway attribute: ▸ provide the argument security_gateway on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SecurityGateway { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)ProxyProtocolConfigAllowedClientHeaders is global::System.Collections.Generic.IEnumerable<char> ? (object?)ProxyProtocolConfigAllowedClientHeaders is not string || !string.IsNullOrWhiteSpace(ProxyProtocolConfigAllowedClientHeaders?.ToString()) : ((object?)ProxyProtocolConfigAllowedClientHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ProxyProtocolConfigAllowedClientHeaders, static item => item is not null) : (ProxyProtocolConfigAllowedClientHeaders is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ProxyProtocolConfigAllowedClientHeaders), static item => item is not null)))) ? 1 : 0) + ((((object?)AddProxyProtocolConfigAllowedClientHeaders is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddProxyProtocolConfigAllowedClientHeaders is not string || !string.IsNullOrWhiteSpace(AddProxyProtocolConfigAllowedClientHeaders?.ToString()) : ((object?)AddProxyProtocolConfigAllowedClientHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddProxyProtocolConfigAllowedClientHeaders, static item => item is not null) : (AddProxyProtocolConfigAllowedClientHeaders is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddProxyProtocolConfigAllowedClientHeaders), static item => item is not null)))) || ClearProxyProtocolConfigAllowedClientHeaders == true || ((object?)RemoveProxyProtocolConfigAllowedClientHeaders is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveProxyProtocolConfigAllowedClientHeaders is not string || !string.IsNullOrWhiteSpace(RemoveProxyProtocolConfigAllowedClientHeaders?.ToString()) : ((object?)RemoveProxyProtocolConfigAllowedClientHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveProxyProtocolConfigAllowedClientHeaders, static item => item is not null) : (RemoveProxyProtocolConfigAllowedClientHeaders is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveProxyProtocolConfigAllowedClientHeaders), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ProxyProtocolConfigAllowedClientHeaders or (AddProxyProtocolConfigAllowedClientHeaders, ClearProxyProtocolConfigAllowedClientHeaders, or RemoveProxyProtocolConfigAllowedClientHeaders) may be specified.", [nameof(ProxyProtocolConfigAllowedClientHeaders), nameof(AddProxyProtocolConfigAllowedClientHeaders), nameof(ClearProxyProtocolConfigAllowedClientHeaders), nameof(RemoveProxyProtocolConfigAllowedClientHeaders)]);
+        }
+        if ((((object?)ProxyProtocolConfigAllowedClientHeaders is global::System.Collections.Generic.IEnumerable<char> ? (object?)ProxyProtocolConfigAllowedClientHeaders is not string || !string.IsNullOrWhiteSpace(ProxyProtocolConfigAllowedClientHeaders?.ToString()) : ((object?)ProxyProtocolConfigAllowedClientHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ProxyProtocolConfigAllowedClientHeaders, static item => item is not null) : (ProxyProtocolConfigAllowedClientHeaders is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ProxyProtocolConfigAllowedClientHeaders), static item => item is not null)))) || ((object?)AddProxyProtocolConfigAllowedClientHeaders is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddProxyProtocolConfigAllowedClientHeaders is not string || !string.IsNullOrWhiteSpace(AddProxyProtocolConfigAllowedClientHeaders?.ToString()) : ((object?)AddProxyProtocolConfigAllowedClientHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddProxyProtocolConfigAllowedClientHeaders, static item => item is not null) : (AddProxyProtocolConfigAllowedClientHeaders is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddProxyProtocolConfigAllowedClientHeaders), static item => item is not null)))) || ClearProxyProtocolConfigAllowedClientHeaders == true || ((object?)RemoveProxyProtocolConfigAllowedClientHeaders is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveProxyProtocolConfigAllowedClientHeaders is not string || !string.IsNullOrWhiteSpace(RemoveProxyProtocolConfigAllowedClientHeaders?.ToString()) : ((object?)RemoveProxyProtocolConfigAllowedClientHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveProxyProtocolConfigAllowedClientHeaders, static item => item is not null) : (RemoveProxyProtocolConfigAllowedClientHeaders is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveProxyProtocolConfigAllowedClientHeaders), static item => item is not null))))) && (((object?)AddProxyProtocolConfigAllowedClientHeaders is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddProxyProtocolConfigAllowedClientHeaders is not string || !string.IsNullOrWhiteSpace(AddProxyProtocolConfigAllowedClientHeaders?.ToString()) : ((object?)AddProxyProtocolConfigAllowedClientHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddProxyProtocolConfigAllowedClientHeaders, static item => item is not null) : (AddProxyProtocolConfigAllowedClientHeaders is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddProxyProtocolConfigAllowedClientHeaders), static item => item is not null)))) || ClearProxyProtocolConfigAllowedClientHeaders == true || ((object?)RemoveProxyProtocolConfigAllowedClientHeaders is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveProxyProtocolConfigAllowedClientHeaders is not string || !string.IsNullOrWhiteSpace(RemoveProxyProtocolConfigAllowedClientHeaders?.ToString()) : ((object?)RemoveProxyProtocolConfigAllowedClientHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveProxyProtocolConfigAllowedClientHeaders, static item => item is not null) : (RemoveProxyProtocolConfigAllowedClientHeaders is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveProxyProtocolConfigAllowedClientHeaders), static item => item is not null))))) && ((ClearProxyProtocolConfigAllowedClientHeaders == true ? 1 : 0) + (((object?)RemoveProxyProtocolConfigAllowedClientHeaders is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveProxyProtocolConfigAllowedClientHeaders is not string || !string.IsNullOrWhiteSpace(RemoveProxyProtocolConfigAllowedClientHeaders?.ToString()) : ((object?)RemoveProxyProtocolConfigAllowedClientHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveProxyProtocolConfigAllowedClientHeaders, static item => item is not null) : (RemoveProxyProtocolConfigAllowedClientHeaders is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveProxyProtocolConfigAllowedClientHeaders), static item => item is not null)))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearProxyProtocolConfigAllowedClientHeaders or RemoveProxyProtocolConfigAllowedClientHeaders may be specified.", [nameof(ClearProxyProtocolConfigAllowedClientHeaders), nameof(RemoveProxyProtocolConfigAllowedClientHeaders)]);
+        }
+        if ((((object?)ProxyProtocolConfigMetadataHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)ProxyProtocolConfigMetadataHeaders, static item => item is not null) : ((object?)ProxyProtocolConfigMetadataHeaders is global::System.Collections.Generic.IEnumerable<char> ? (object?)ProxyProtocolConfigMetadataHeaders is not string || !string.IsNullOrWhiteSpace(ProxyProtocolConfigMetadataHeaders?.ToString()) : ((object?)ProxyProtocolConfigMetadataHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ProxyProtocolConfigMetadataHeaders, static item => item is not null) : (ProxyProtocolConfigMetadataHeaders is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ProxyProtocolConfigMetadataHeaders), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateProxyProtocolConfigMetadataHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateProxyProtocolConfigMetadataHeaders, static item => item is not null) : ((object?)UpdateProxyProtocolConfigMetadataHeaders is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateProxyProtocolConfigMetadataHeaders is not string || !string.IsNullOrWhiteSpace(UpdateProxyProtocolConfigMetadataHeaders?.ToString()) : ((object?)UpdateProxyProtocolConfigMetadataHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateProxyProtocolConfigMetadataHeaders, static item => item is not null) : (UpdateProxyProtocolConfigMetadataHeaders is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateProxyProtocolConfigMetadataHeaders), static item => item is not null))))) || ClearProxyProtocolConfigMetadataHeaders == true || !string.IsNullOrWhiteSpace(RemoveProxyProtocolConfigMetadataHeaders)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ProxyProtocolConfigMetadataHeaders or (UpdateProxyProtocolConfigMetadataHeaders, ClearProxyProtocolConfigMetadataHeaders, or RemoveProxyProtocolConfigMetadataHeaders) may be specified.", [nameof(ProxyProtocolConfigMetadataHeaders), nameof(UpdateProxyProtocolConfigMetadataHeaders), nameof(ClearProxyProtocolConfigMetadataHeaders), nameof(RemoveProxyProtocolConfigMetadataHeaders)]);
+        }
+        if ((((object?)ProxyProtocolConfigMetadataHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)ProxyProtocolConfigMetadataHeaders, static item => item is not null) : ((object?)ProxyProtocolConfigMetadataHeaders is global::System.Collections.Generic.IEnumerable<char> ? (object?)ProxyProtocolConfigMetadataHeaders is not string || !string.IsNullOrWhiteSpace(ProxyProtocolConfigMetadataHeaders?.ToString()) : ((object?)ProxyProtocolConfigMetadataHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ProxyProtocolConfigMetadataHeaders, static item => item is not null) : (ProxyProtocolConfigMetadataHeaders is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ProxyProtocolConfigMetadataHeaders), static item => item is not null))))) || ((object?)UpdateProxyProtocolConfigMetadataHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateProxyProtocolConfigMetadataHeaders, static item => item is not null) : ((object?)UpdateProxyProtocolConfigMetadataHeaders is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateProxyProtocolConfigMetadataHeaders is not string || !string.IsNullOrWhiteSpace(UpdateProxyProtocolConfigMetadataHeaders?.ToString()) : ((object?)UpdateProxyProtocolConfigMetadataHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateProxyProtocolConfigMetadataHeaders, static item => item is not null) : (UpdateProxyProtocolConfigMetadataHeaders is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateProxyProtocolConfigMetadataHeaders), static item => item is not null))))) || ClearProxyProtocolConfigMetadataHeaders == true || !string.IsNullOrWhiteSpace(RemoveProxyProtocolConfigMetadataHeaders)) && (((object?)UpdateProxyProtocolConfigMetadataHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateProxyProtocolConfigMetadataHeaders, static item => item is not null) : ((object?)UpdateProxyProtocolConfigMetadataHeaders is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateProxyProtocolConfigMetadataHeaders is not string || !string.IsNullOrWhiteSpace(UpdateProxyProtocolConfigMetadataHeaders?.ToString()) : ((object?)UpdateProxyProtocolConfigMetadataHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateProxyProtocolConfigMetadataHeaders, static item => item is not null) : (UpdateProxyProtocolConfigMetadataHeaders is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateProxyProtocolConfigMetadataHeaders), static item => item is not null))))) || ClearProxyProtocolConfigMetadataHeaders == true || !string.IsNullOrWhiteSpace(RemoveProxyProtocolConfigMetadataHeaders)) && ((ClearProxyProtocolConfigMetadataHeaders == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveProxyProtocolConfigMetadataHeaders) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearProxyProtocolConfigMetadataHeaders or RemoveProxyProtocolConfigMetadataHeaders may be specified.", [nameof(ClearProxyProtocolConfigMetadataHeaders), nameof(RemoveProxyProtocolConfigMetadataHeaders)]);
+        }
+        if ((((object?)Hubs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Hubs, static item => item is not null) : ((object?)Hubs is global::System.Collections.Generic.IEnumerable<char> ? (object?)Hubs is not string || !string.IsNullOrWhiteSpace(Hubs?.ToString()) : ((object?)Hubs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Hubs, static item => item is not null) : (Hubs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Hubs), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateHubs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateHubs, static item => item is not null) : ((object?)UpdateHubs is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateHubs is not string || !string.IsNullOrWhiteSpace(UpdateHubs?.ToString()) : ((object?)UpdateHubs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateHubs, static item => item is not null) : (UpdateHubs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateHubs), static item => item is not null))))) || ClearHubs == true || !string.IsNullOrWhiteSpace(RemoveHubs)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Hubs or (UpdateHubs, ClearHubs, or RemoveHubs) may be specified.", [nameof(Hubs), nameof(UpdateHubs), nameof(ClearHubs), nameof(RemoveHubs)]);
+        }
+        if ((((object?)Hubs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Hubs, static item => item is not null) : ((object?)Hubs is global::System.Collections.Generic.IEnumerable<char> ? (object?)Hubs is not string || !string.IsNullOrWhiteSpace(Hubs?.ToString()) : ((object?)Hubs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Hubs, static item => item is not null) : (Hubs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Hubs), static item => item is not null))))) || ((object?)UpdateHubs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateHubs, static item => item is not null) : ((object?)UpdateHubs is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateHubs is not string || !string.IsNullOrWhiteSpace(UpdateHubs?.ToString()) : ((object?)UpdateHubs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateHubs, static item => item is not null) : (UpdateHubs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateHubs), static item => item is not null))))) || ClearHubs == true || !string.IsNullOrWhiteSpace(RemoveHubs)) && (((object?)UpdateHubs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateHubs, static item => item is not null) : ((object?)UpdateHubs is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateHubs is not string || !string.IsNullOrWhiteSpace(UpdateHubs?.ToString()) : ((object?)UpdateHubs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateHubs, static item => item is not null) : (UpdateHubs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateHubs), static item => item is not null))))) || ClearHubs == true || !string.IsNullOrWhiteSpace(RemoveHubs)) && ((ClearHubs == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveHubs) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearHubs or RemoveHubs may be specified.", [nameof(ClearHubs), nameof(RemoveHubs)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ServiceDiscovery) ? 1 : 0) + ((ClearServiceDiscovery == true || !string.IsNullOrWhiteSpace(ResourceOverridePath)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ServiceDiscovery or (ClearServiceDiscovery or ResourceOverridePath) may be specified.", [nameof(ServiceDiscovery), nameof(ClearServiceDiscovery), nameof(ResourceOverridePath)]);
+        }
+        yield break;
+    }
 
 }

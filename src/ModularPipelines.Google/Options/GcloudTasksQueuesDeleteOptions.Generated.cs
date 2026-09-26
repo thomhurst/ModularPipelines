@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tasks", "queues", "delete")]
-public record GcloudTasksQueuesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Queue
-) : GcloudOptions
+public record GcloudTasksQueuesDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a queue
+    /// </summary>
+    /// <param name="Queue">The queue to delete.</param>
+    public GcloudTasksQueuesDeleteOptions(
+        string Queue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Queue);
+        this.Queue = Queue;
+    }
+
+    public void Deconstruct(out string Queue)
+    {
+        Queue = this.Queue;
+    }
+
     /// <summary>
     /// The location where we want to manage the queue or task. If not specified, uses the location of the current project's App Engine app if there is an associated app.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// The queue to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Queue { get; private init; }
 
 }

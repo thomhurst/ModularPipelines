@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,111 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "bare-metal", "node-pools", "create")]
-public record GcloudContainerBareMetalNodePoolsCreateOptions : GcloudOptions
+public record GcloudContainerBareMetalNodePoolsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a node pool in an     Anthos cluster on bare metal
+    /// </summary>
+    /// <param name="NodePool">Node pool resource - node pool to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the node_pool or fully qualified identifier for the node_pool. To set the node_pool attribute: ▸ provide the argument node_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerBareMetalNodePoolsCreateOptions(
+        string NodePool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NodePool);
+        this.NodePool = NodePool;
+    }
+
+    public void Deconstruct(out string NodePool)
+    {
+        NodePool = this.NodePool;
+    }
+
+    /// <summary>
+    /// Node pool resource - node pool to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. cluster of the node_pool. To set the cluster attribute: ▸ provide the argument node_pool on the command line with a fully specified name; ▸ provide the argument --cluster on the command line.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Node pool resource - node pool to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the node_pool. To set the location attribute: ▸ provide the argument node_pool on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_bare_metal/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Anthos on bare metal node pool configuration. This must be specified. Populate Bare Metal Node Pool node config. Exactly one of these must be specified: Bare Metal Node Pool node configuration.
+    /// </summary>
+    [CliOption("--node-configs", Format = OptionFormat.EqualsSeparated)]
+    public string? NodeConfigs { get; set; }
+
+    /// <summary>
+    /// Labels assigned to nodes of a node pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? NodeLabels { get; set; }
+
+    /// <summary>
+    /// Node taint applied to every Kubernetes node in a node pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? NodeTaints { get; set; }
+
+    /// <summary>
+    /// Modifiable kubelet configurations for bare metal machines. If set, prevent the Kubelet from pulling multiple images at a time.
+    /// </summary>
+    [CliFlag("--disable-serialize-image-pulls")]
+    public bool? DisableSerializeImagePulls { get; set; }
+
+    /// <summary>
+    /// Maximum size of bursty pulls, temporarily allow pulls to burst to this number, while still not exceeding registry_pull_qps.
+    /// </summary>
+    [CliOption("--registry-burst", Format = OptionFormat.EqualsSeparated)]
+    public string? RegistryBurst { get; set; }
+
+    /// <summary>
+    /// Limit of registry pulls per second.
+    /// </summary>
+    [CliOption("--registry-pull-qps", Format = OptionFormat.EqualsSeparated)]
+    public string? RegistryPullQps { get; set; }
+
+    /// <summary>
+    /// Annotations on the node pool. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Display name for the resource.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// If set, only validate the request, but do not actually perform the operation.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Node pool resource - node pool to create The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the node_pool or fully qualified identifier for the node_pool. To set the node_pool attribute: ▸ provide the argument node_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NodePool { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(NodeConfigs) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of NodeConfigs must be specified.", [nameof(NodeConfigs)]);
+        }
+        yield break;
+    }
+
 }

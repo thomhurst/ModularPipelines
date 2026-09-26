@@ -21,4 +21,49 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("asset", "get-effective-iam-policy")]
 public record GcloudAssetGetEffectiveIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get effective IAM policies for a     specified list of resources within accessible scope, such as a project,     folder or organization
+    /// </summary>
+    /// <param name="Names">Names refer to a list of full resource names (https://cloud.google.com/asset-inventory/docs/resource-name-format) of searchable asset types (https://cloud.google.com/asset-inventory/docs/supported-asset-types). For each batch call, total number of names provided is between 1 and 20. The example value is: ◆ //cloudsql.googleapis.com/projects/{PROJECT_ID}/instances/{INSTANCE} (e.g. //cloudsql.googleapis.com/projects/probe-per-rt-project/instances/instance1) Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Scope">Scope can be a project, a folder, or an organization. The search is limited to the IAM policies within this scope. The caller must be granted the cloudasset.assets.analyzeIamPolicy, cloudasset.assets.searchAllResources, cloudasset.assets.searchAllIamPolicies permissions on the desired scope. The allowed values are: ◆ projects/{PROJECT_ID} (e.g. projects/foo-bar) ◆ projects/{PROJECT_NUMBER} (e.g. projects/12345678) ◆ folders/{FOLDER_NUMBER} (e.g. folders/1234567) ◆ organizations/{ORGANIZATION_NUMBER} (e.g. organizations/123456)</param>
+    public GcloudAssetGetEffectiveIamPolicyOptions(
+        IEnumerable<string> Names,
+        string Scope
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Names);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Names));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Names));
+            }
+
+            Names = materialized;
+        }
+        this.Names = Names;
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Names, out string Scope)
+    {
+        Names = this.Names;
+        Scope = this.Scope;
+    }
+
+    /// <summary>
+    /// Names refer to a list of full resource names (https://cloud.google.com/asset-inventory/docs/resource-name-format) of searchable asset types (https://cloud.google.com/asset-inventory/docs/supported-asset-types). For each batch call, total number of names provided is between 1 and 20. The example value is: ◆ //cloudsql.googleapis.com/projects/{PROJECT_ID}/instances/{INSTANCE} (e.g. //cloudsql.googleapis.com/projects/probe-per-rt-project/instances/instance1) Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Names { get; private init; }
+
+    /// <summary>
+    /// Scope can be a project, a folder, or an organization. The search is limited to the IAM policies within this scope. The caller must be granted the cloudasset.assets.analyzeIamPolicy, cloudasset.assets.searchAllResources, cloudasset.assets.searchAllIamPolicies permissions on the desired scope. The allowed values are: ◆ projects/{PROJECT_ID} (e.g. projects/foo-bar) ◆ projects/{PROJECT_NUMBER} (e.g. projects/12345678) ◆ folders/{FOLDER_NUMBER} (e.g. folders/1234567) ◆ organizations/{ORGANIZATION_NUMBER} (e.g. organizations/123456)
+    /// </summary>
+    [CliOption("--scope", Format = OptionFormat.EqualsSeparated)]
+    public string Scope { get; private init; }
+
 }

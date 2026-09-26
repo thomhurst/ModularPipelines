@@ -6,11 +6,11 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tasks", "queues", "update")]
-public record GcloudTasksQueuesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Queue
-) : GcloudOptions
+public record GcloudTasksQueuesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Cloud Tasks queue
+    /// </summary>
+    /// <param name="Queue">The queue to update.</param>
+    public GcloudTasksQueuesUpdateOptions(
+        string Queue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Queue);
+        this.Queue = Queue;
+    }
+
+    public void Deconstruct(out string Queue)
+    {
+        Queue = this.Queue;
+    }
+
     /// <summary>
     /// The location where we want to manage the queue or task. If not specified, uses the location of the current project's App Engine app if there is an associated app.
     /// </summary>
@@ -40,7 +55,47 @@ public record GcloudTasksQueuesUpdateOptions(
     /// At most one of these can be specified: If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden.
     /// </summary>
     [CliOption("--http-header-override", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? HttpHeaderOverride { get; set; }
+    public IEnumerable<string>? HttpHeaderOverride
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __HttpHeaderOverrideSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __HttpHeaderOverrideSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __HttpHeaderOverrideSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __HttpHeaderOverrideSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Clear the field corresponding to --http-method-override.
@@ -75,7 +130,6 @@ public record GcloudTasksQueuesUpdateOptions(
     /// <summary>
     /// At most one of these can be specified: The scope to be used when generating an OAuth2 access token to be included in the request sent to the target when executing the task. If not specified, 'https://www.googleapis.com/auth/cloud-platform' will be used.
     /// </summary>
-    [SecretValue]
     [CliOption("--http-oauth-token-scope-override", Format = OptionFormat.EqualsSeparated)]
     public string? HttpOauthTokenScopeOverride { get; set; }
 
@@ -100,7 +154,6 @@ public record GcloudTasksQueuesUpdateOptions(
     /// <summary>
     /// At most one of these can be specified: The audience to be used when generating an OpenID Connect token to be included in the request sent to the target when executing the task. If not specified, the URI specified in the target will be used.
     /// </summary>
-    [SecretValue]
     [CliOption("--http-oidc-token-audience-override", Format = OptionFormat.EqualsSeparated)]
     public string? HttpOidcTokenAudienceOverride { get; set; }
 
@@ -111,10 +164,32 @@ public record GcloudTasksQueuesUpdateOptions(
     public bool? ClearHttpUriOverride { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: If provided, the specified HTTP target URI override is used for all tasks in the queue depending on what is set as the mode. Allowed values for mode are: ALWAYS, IF_NOT_EXISTS. If not set, mode defaults to ALWAYS. KEY must be at least one of: [scheme, host, port, path, query, mode]. Any missing keys will use the default.
+    /// At most one of these can be specified: If provided, the specified HTTP target URI override is used for all tasks in the queue depending on what is set as the mode. Allowed values for mode are: ALWAYS, IF_NOT_EXISTS. If not set, mode defaults to ALWAYS. KEY must be at least one of: [scheme, host, port, path, query, mode]. Any missing keys will use the default. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--http-uri-override", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? HttpUriOverride { get; set; }
+    [CliOption("--http-uri-override", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? HttpUriOverride
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __HttpUriOverrideSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __HttpUriOverrideSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Clear the field corresponding to --log-sampling-ratio.
@@ -219,9 +294,107 @@ public record GcloudTasksQueuesUpdateOptions(
     public bool? ClearRoutingOverride { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: If provided, the specified App Engine route is used for all tasks in the queue, no matter what is set is at the task-level. KEY must be at least one of: [service, version, instance]. Any missing keys will use the default.
+    /// At most one of these can be specified: If provided, the specified App Engine route is used for all tasks in the queue, no matter what is set is at the task-level. KEY must be at least one of: [service, version, instance]. Any missing keys will use the default. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--routing-override", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RoutingOverride { get; set; }
+    [CliOption("--routing-override", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RoutingOverride
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RoutingOverrideSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RoutingOverrideSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// The queue to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Queue { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearHttpHeaderOverride == true ? 1 : 0) + (((object?)HttpHeaderOverride is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)HttpHeaderOverride, static item => item is not null) : ((object?)HttpHeaderOverride is global::System.Collections.Generic.IEnumerable<char> ? (object?)HttpHeaderOverride is not string || !string.IsNullOrWhiteSpace(HttpHeaderOverride?.ToString()) : ((object?)HttpHeaderOverride is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)HttpHeaderOverride, static item => item is not null) : (HttpHeaderOverride is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)HttpHeaderOverride), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearHttpHeaderOverride or HttpHeaderOverride may be specified.", [nameof(ClearHttpHeaderOverride), nameof(HttpHeaderOverride)]);
+        }
+        if ((ClearHttpMethodOverride == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(HttpMethodOverride) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearHttpMethodOverride or HttpMethodOverride may be specified.", [nameof(ClearHttpMethodOverride), nameof(HttpMethodOverride)]);
+        }
+        if ((ClearHttpOauthServiceAccountEmailOverride == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(HttpOauthServiceAccountEmailOverride) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearHttpOauthServiceAccountEmailOverride or HttpOauthServiceAccountEmailOverride may be specified.", [nameof(ClearHttpOauthServiceAccountEmailOverride), nameof(HttpOauthServiceAccountEmailOverride)]);
+        }
+        if ((ClearHttpOauthTokenScopeOverride == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(HttpOauthTokenScopeOverride) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearHttpOauthTokenScopeOverride or HttpOauthTokenScopeOverride may be specified.", [nameof(ClearHttpOauthTokenScopeOverride), nameof(HttpOauthTokenScopeOverride)]);
+        }
+        if ((ClearHttpOidcServiceAccountEmailOverride == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(HttpOidcServiceAccountEmailOverride) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearHttpOidcServiceAccountEmailOverride or HttpOidcServiceAccountEmailOverride may be specified.", [nameof(ClearHttpOidcServiceAccountEmailOverride), nameof(HttpOidcServiceAccountEmailOverride)]);
+        }
+        if ((ClearHttpOidcTokenAudienceOverride == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(HttpOidcTokenAudienceOverride) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearHttpOidcTokenAudienceOverride or HttpOidcTokenAudienceOverride may be specified.", [nameof(ClearHttpOidcTokenAudienceOverride), nameof(HttpOidcTokenAudienceOverride)]);
+        }
+        if ((ClearHttpUriOverride == true ? 1 : 0) + (((object?)HttpUriOverride is global::System.Collections.Generic.IEnumerable<char> ? (object?)HttpUriOverride is not string || !string.IsNullOrWhiteSpace(HttpUriOverride?.ToString()) : ((object?)HttpUriOverride is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)HttpUriOverride, static item => item is not null) : (HttpUriOverride is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)HttpUriOverride), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearHttpUriOverride or HttpUriOverride may be specified.", [nameof(ClearHttpUriOverride), nameof(HttpUriOverride)]);
+        }
+        if ((ClearLogSamplingRatio == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(LogSamplingRatio) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLogSamplingRatio or LogSamplingRatio may be specified.", [nameof(ClearLogSamplingRatio), nameof(LogSamplingRatio)]);
+        }
+        if ((ClearMaxAttempts == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxAttempts) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearMaxAttempts or MaxAttempts may be specified.", [nameof(ClearMaxAttempts), nameof(MaxAttempts)]);
+        }
+        if ((ClearMaxBackoff == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxBackoff) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearMaxBackoff or MaxBackoff may be specified.", [nameof(ClearMaxBackoff), nameof(MaxBackoff)]);
+        }
+        if ((ClearMaxConcurrentDispatches == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxConcurrentDispatches) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearMaxConcurrentDispatches or MaxConcurrentDispatches may be specified.", [nameof(ClearMaxConcurrentDispatches), nameof(MaxConcurrentDispatches)]);
+        }
+        if ((ClearMaxDispatchesPerSecond == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxDispatchesPerSecond) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearMaxDispatchesPerSecond or MaxDispatchesPerSecond may be specified.", [nameof(ClearMaxDispatchesPerSecond), nameof(MaxDispatchesPerSecond)]);
+        }
+        if ((ClearMaxDoublings == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxDoublings) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearMaxDoublings or MaxDoublings may be specified.", [nameof(ClearMaxDoublings), nameof(MaxDoublings)]);
+        }
+        if ((ClearMaxRetryDuration == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxRetryDuration) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearMaxRetryDuration or MaxRetryDuration may be specified.", [nameof(ClearMaxRetryDuration), nameof(MaxRetryDuration)]);
+        }
+        if ((ClearMinBackoff == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(MinBackoff) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearMinBackoff or MinBackoff may be specified.", [nameof(ClearMinBackoff), nameof(MinBackoff)]);
+        }
+        if ((ClearRoutingOverride == true ? 1 : 0) + (((object?)RoutingOverride is global::System.Collections.Generic.IEnumerable<char> ? (object?)RoutingOverride is not string || !string.IsNullOrWhiteSpace(RoutingOverride?.ToString()) : ((object?)RoutingOverride is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RoutingOverride, static item => item is not null) : (RoutingOverride is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RoutingOverride), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearRoutingOverride or RoutingOverride may be specified.", [nameof(ClearRoutingOverride), nameof(RoutingOverride)]);
+        }
+        yield break;
+    }
 
 }

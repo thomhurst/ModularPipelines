@@ -21,4 +21,44 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bms", "networks", "rename")]
 public record GcloudBmsNetworksRenameOptions : GcloudOptions
 {
+    /// <summary>
+    /// rename a Bare Metal Solution network
+    /// </summary>
+    /// <param name="NewName">New network name for renaming an already existing network.</param>
+    /// <param name="Network">Network resource - network. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the network or fully qualified identifier for the network. To set the network attribute: ▸ provide the argument network on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBmsNetworksRenameOptions(
+        string NewName,
+        string Network
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NewName);
+        this.NewName = NewName;
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+    }
+
+    public void Deconstruct(out string NewName, out string Network)
+    {
+        NewName = this.NewName;
+        Network = this.Network;
+    }
+
+    /// <summary>
+    /// New network name for renaming an already existing network.
+    /// </summary>
+    [CliOption("--new-name", Format = OptionFormat.EqualsSeparated)]
+    public string NewName { get; private init; }
+
+    /// <summary>
+    /// Network resource - network. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Region of the resource. To set the region attribute: ▸ provide the argument network on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Network resource - network. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the network or fully qualified identifier for the network. To set the network attribute: ▸ provide the argument network on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Network { get; private init; }
+
 }

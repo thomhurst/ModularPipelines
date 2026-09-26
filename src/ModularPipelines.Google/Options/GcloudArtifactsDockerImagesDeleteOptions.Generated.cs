@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "docker", "images", "delete")]
-public record GcloudArtifactsDockerImagesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
-) : GcloudOptions
+public record GcloudArtifactsDockerImagesDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete an Artifact Registry     container image
+    /// </summary>
+    /// <param name="Image">A container image. A valid container image has the format of LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE A valid container image that can be referenced by tag or digest, has the format of LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE:tag LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE@sha256:digest</param>
+    public GcloudArtifactsDockerImagesDeleteOptions(
+        string Image
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out string Image)
+    {
+        Image = this.Image;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudArtifactsDockerImagesDeleteOptions(
     /// </summary>
     [CliFlag("--delete-tags")]
     public bool? DeleteTags { get; set; }
+
+    /// <summary>
+    /// A container image. A valid container image has the format of LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE A valid container image that can be referenced by tag or digest, has the format of LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE:tag LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE@sha256:digest
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Image { get; private init; }
 
 }

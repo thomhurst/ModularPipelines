@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "folders", "delete")]
-public record GcloudResourceManagerFoldersDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FolderId
-) : GcloudOptions
+public record GcloudResourceManagerFoldersDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a folder
+    /// </summary>
+    /// <param name="FolderId">ID for the folder you want to delete.</param>
+    public GcloudResourceManagerFoldersDeleteOptions(
+        string FolderId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FolderId);
+        this.FolderId = FolderId;
+    }
+
+    public void Deconstruct(out string FolderId)
+    {
+        FolderId = this.FolderId;
+    }
+
+    /// <summary>
+    /// ID for the folder you want to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FolderId { get; private init; }
+
 }

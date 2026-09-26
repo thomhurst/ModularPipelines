@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudVmwareAnnouncementsListOptions : GcloudOptions
 {
     /// <summary>
+    /// list announcements in a Google Cloud     VMware Engine
+    /// </summary>
+    /// <param name="Type">The type of announcement to list. TYPE must be (only one value is supported): maintenance.</param>
+    public GcloudVmwareAnnouncementsListOptions(
+        string Type
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+    }
+
+    public void Deconstruct(out string Type)
+    {
+        Type = this.Type;
+    }
+
+    /// <summary>
+    /// The type of announcement to list. TYPE must be (only one value is supported): maintenance.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string Type { get; private init; }
+
+    /// <summary>
     /// Location resource - location. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property compute/zone with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line; ◆ set the property compute/zone.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]

@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAnthosConfigControllerCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// create Anthos Config Controller     instances
+    /// </summary>
+    /// <param name="Name">Instance resource - The identifier for a Config Controller instance. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the name attribute: ▸ provide the argument name on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAnthosConfigControllerCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Instance resource - The identifier for a Config Controller instance. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Config Controller instance location. Currently, only us-central1, us-east1, us-east4, us-east5, us-west2, northamerica-northeast1, northamerica-northeast2, europe-north1, europe-west1, europe-west3, europe-west6, australia-southeast1, australia-southeast2, asia-northeast1, asia-northeast2 and asia-southeast1 are supported. To set the location attribute: ▸ provide the argument name on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -52,9 +75,9 @@ public record GcloudAnthosConfigControllerCreateOptions : GcloudOptions
     public string? ManBlock { get; set; }
 
     /// <summary>
-    /// Master Authorized Network. Allows users to specify multiple blocks to access the Kubernetescontrol plane from this block. Defaults to 0.0.0.0/0 if flag is not provided.
+    /// Master Authorized Network. Allows users to specify multiple blocks to access the Kubernetescontrol plane from this block. Defaults to 0.0.0.0/0 if flag is not provided. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--man-blocks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--man-blocks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ManBlocks { get; set; }
 
     /// <summary>
@@ -92,5 +115,11 @@ public record GcloudAnthosConfigControllerCreateOptions : GcloudOptions
     /// </summary>
     [CliFlag("--use-private-endpoint")]
     public bool? UsePrivateEndpoint { get; set; }
+
+    /// <summary>
+    /// Instance resource - The identifier for a Config Controller instance. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the name attribute: ▸ provide the argument name on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lustre", "instances", "update")]
-public record GcloudLustreInstancesUpdateOptions : GcloudOptions
+public record GcloudLustreInstancesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// updates the parameters of a single Managed     Lustre instance
+    /// </summary>
+    /// <param name="Instance">Instance resource - Identifier. The name of the instance. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudLustreInstancesUpdateOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Instance resource - Identifier. The name of the instance. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the instance resource. To set the location attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -76,46 +100,166 @@ public record GcloudLustreInstancesUpdateOptions : GcloudOptions
     public bool? Clear { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The user squash GID for the default access rule. This user squash GID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no GID squash).
+    /// The user squash GID for the default access rule. This user squash GID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no GID squash).
     /// </summary>
     [CliOption("--default-squash-gid", Format = OptionFormat.EqualsSeparated)]
     public string? DefaultSquashGid { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The squash mode for the default access rule. DEFAULT_SQUASH_MODE must be one of: no-squash Squash is disabled. If set inside an [AccessRule][google.cloud.lustre.v1.AccessRulesOptions.AccessRule], root users matching the [ip_ranges][AccessRule.ip_ranges] are not squashed. If set as the [default_squash_mode][google.cloud.lustre.v1.AccessRulesOptions.default_squash_mode], root squash is disabled for this instance. If the default squash mode is NO_SQUASH, do not set the [default_squash_uid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_uid] or [default_squash_gid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_gid], or an invalid argument error is returned. root-squash Root user squash is enabled. Not supported inside an [AccessRule][google.cloud.lustre.v1.AccessRulesOptions.AccessRule]. If set as the [default_squash_mode][google.cloud.lustre.v1.AccessRulesOptions.default_squash_mode], root users not matching any of the [access_rules][google.cloud.lustre.v1.AccessRulesOptions.access_rules] are squashed to the [default_squash_uid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_uid] and [default_squash_gid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_gid].
+    /// The squash mode for the default access rule. DEFAULT_SQUASH_MODE must be one of: no-squash Squash is disabled. If set inside an [AccessRule][google.cloud.lustre.v1.AccessRulesOptions.AccessRule], root users matching the [ip_ranges][AccessRule.ip_ranges] are not squashed. If set as the [default_squash_mode][google.cloud.lustre.v1.AccessRulesOptions.default_squash_mode], root squash is disabled for this instance. If the default squash mode is NO_SQUASH, do not set the [default_squash_uid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_uid] or [default_squash_gid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_gid], or an invalid argument error is returned. root-squash Root user squash is enabled. Not supported inside an [AccessRule][google.cloud.lustre.v1.AccessRulesOptions.AccessRule]. If set as the [default_squash_mode][google.cloud.lustre.v1.AccessRulesOptions.default_squash_mode], root users not matching any of the [access_rules][google.cloud.lustre.v1.AccessRulesOptions.access_rules] are squashed to the [default_squash_uid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_uid] and [default_squash_gid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_gid].
     /// </summary>
     [CliOption("--default-squash-mode", Format = OptionFormat.EqualsSeparated)]
     public string? DefaultSquashMode { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The user squash UID for the default access rule. This user squash UID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no UID squash).
+    /// The user squash UID for the default access rule. This user squash UID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no UID squash).
     /// </summary>
     [CliOption("--default-squash-uid", Format = OptionFormat.EqualsSeparated)]
     public string? DefaultSquashUid { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Update access_rules. At most one of these can be specified: Set access_rules to new value. The access rules for the instance. ipAddressRanges The IP address ranges to which to apply this access rule. Accepts non-overlapping CIDR ranges (e.g., 192.168.1.0/24) and IP addresses (e.g., 192.168.1.0). name The name of the access rule policy group. Must be 16 characters or less and include only alphanumeric characters or ''. squashMode Squash mode for the access rule. Shorthand Example: --access-rules=ipAddressRanges=[string],name=string,squashMode=string --access-rules=ipAddressRanges=[string],name=string,squashMode=string JSON Example: --access-rules='[{"ipAddressRanges": ["string"], "name": "string", "squashMode": "string"}]' File Example: --access-rules=path_to_file.(yaml|json)
+    /// Update access_rules. At most one of these can be specified: Set access_rules to new value. The access rules for the instance. ipAddressRanges The IP address ranges to which to apply this access rule. Accepts non-overlapping CIDR ranges (e.g., 192.168.1.0/24) and IP addresses (e.g., 192.168.1.0). name The name of the access rule policy group. Must be 16 characters or less and include only alphanumeric characters or ''. squashMode Squash mode for the access rule. Shorthand Example: --access-rules=ipAddressRanges=[string],name=string,squashMode=string --access-rules=ipAddressRanges=[string],name=string,squashMode=string JSON Example: --access-rules='[{"ipAddressRanges": ["string"], "name": "string", "squashMode": "string"}]' File Example: --access-rules=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--access-rules", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AccessRules { get; set; }
+    public IEnumerable<string>? AccessRules
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AccessRulesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AccessRulesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AccessRulesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AccessRulesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Update access_rules. At most one of these can be specified: Or at least one of these can be specified: Add new value to access_rules list. The access rules for the instance. ipAddressRanges The IP address ranges to which to apply this access rule. Accepts non-overlapping CIDR ranges (e.g., 192.168.1.0/24) and IP addresses (e.g., 192.168.1.0). name The name of the access rule policy group. Must be 16 characters or less and include only alphanumeric characters or ''. squashMode Squash mode for the access rule. Shorthand Example: --add-access-rules=ipAddressRanges=[string],name=string,squashMode=string --add-access-rules=ipAddressRanges=[string],name=string,squashMode=string JSON Example: --add-access-rules='[{"ipAddressRanges": ["string"], "name": "string", "squashMode": "string"}]' File Example: --add-access-rules=path_to_file.(yaml|json)
+    /// Update access_rules. At most one of these can be specified: Or at least one of these can be specified: Add new value to access_rules list. The access rules for the instance. ipAddressRanges The IP address ranges to which to apply this access rule. Accepts non-overlapping CIDR ranges (e.g., 192.168.1.0/24) and IP addresses (e.g., 192.168.1.0). name The name of the access rule policy group. Must be 16 characters or less and include only alphanumeric characters or ''. squashMode Squash mode for the access rule. Shorthand Example: --add-access-rules=ipAddressRanges=[string],name=string,squashMode=string --add-access-rules=ipAddressRanges=[string],name=string,squashMode=string JSON Example: --add-access-rules='[{"ipAddressRanges": ["string"], "name": "string", "squashMode": "string"}]' File Example: --add-access-rules=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-access-rules", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddAccessRules { get; set; }
+    public IEnumerable<string>? AddAccessRules
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddAccessRulesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddAccessRulesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddAccessRulesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddAccessRulesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Update access_rules. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear access_rules value and set to empty list.
+    /// Update access_rules. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear access_rules value and set to empty list.
     /// </summary>
     [CliFlag("--clear-access-rules")]
     public bool? ClearAccessRules { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Update access_rules. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from access_rules list. The access rules for the instance. ipAddressRanges The IP address ranges to which to apply this access rule. Accepts non-overlapping CIDR ranges (e.g., 192.168.1.0/24) and IP addresses (e.g., 192.168.1.0). name The name of the access rule policy group. Must be 16 characters or less and include only alphanumeric characters or ''. squashMode Squash mode for the access rule. Shorthand Example: --remove-access-rules=ipAddressRanges=[string],name=string,squashMode=string --remove-access-rules=ipAddressRanges=[string],name=string,squashMode=string JSON Example: --remove-access-rules='[{"ipAddressRanges": ["string"], "name": "string", "squashMode": "string"}]' File Example: --remove-access-rules=path_to_file.(yaml|json)
+    /// Update access_rules. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from access_rules list. The access rules for the instance. ipAddressRanges The IP address ranges to which to apply this access rule. Accepts non-overlapping CIDR ranges (e.g., 192.168.1.0/24) and IP addresses (e.g., 192.168.1.0). name The name of the access rule policy group. Must be 16 characters or less and include only alphanumeric characters or ''. squashMode Squash mode for the access rule. Shorthand Example: --remove-access-rules=ipAddressRanges=[string],name=string,squashMode=string --remove-access-rules=ipAddressRanges=[string],name=string,squashMode=string JSON Example: --remove-access-rules='[{"ipAddressRanges": ["string"], "name": "string", "squashMode": "string"}]' File Example: --remove-access-rules=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-access-rules", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveAccessRules { get; set; }
+    public IEnumerable<string>? RemoveAccessRules
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveAccessRulesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveAccessRulesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveAccessRulesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveAccessRulesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Defines a maintenance policy for a resource. Set instance.maintenancePolicy back to default value.
@@ -124,75 +268,439 @@ public record GcloudLustreInstancesUpdateOptions : GcloudOptions
     public bool? ClearMaintenancePolicy { get; set; }
 
     /// <summary>
-    /// Defines a maintenance policy for a resource. Update maintenance_policy_exclusion_window. At most one of these can be specified: Set maintenance_policy_exclusion_window to new value. The exclusion windows for the instance. Currently limited to 1 window. endDate End date of the exclusion period in UTC time zone. This date is inclusive. day Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. month Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. year Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. startDate Start date of the exclusion period in UTC time zone. This date is inclusive. day Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. month Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. year Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. time Time in UTC when the exclusion window starts on start_date and ends on end_date. This can be: ▫ Full time OR ▫ All zeros for 00:00:00 UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --maintenance-policy-exclusion-window=endDate={day=int,month=int,year=int},startDate={day=int,month=int,year=int},time={hours=int,minutes=int,nanos=int,seconds=int} --maintenance-policy-exclusion-window=endDate={day=int,month=int,year=int},startDate={day=int,month=int,year=int},time={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --maintenance-policy-exclusion-window='[{"endDate": {"day": int, "month": int, "year": int}, "startDate": {"day": int, "month": int, "year": int}, "time": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --maintenance-policy-exclusion-window=path_to_file.(yaml|json)
+    /// Update maintenance_policy_exclusion_window. At most one of these can be specified: Set maintenance_policy_exclusion_window to new value. The exclusion windows for the instance. Currently limited to 1 window. endDate End date of the exclusion period in UTC time zone. This date is inclusive. day Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. month Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. year Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. startDate Start date of the exclusion period in UTC time zone. This date is inclusive. day Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. month Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. year Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. time Time in UTC when the exclusion window starts on start_date and ends on end_date. This can be: ▫ Full time OR ▫ All zeros for 00:00:00 UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --maintenance-policy-exclusion-window=endDate={day=int,month=int,year=int},startDate={day=int,month=int,year=int},time={hours=int,minutes=int,nanos=int,seconds=int} --maintenance-policy-exclusion-window=endDate={day=int,month=int,year=int},startDate={day=int,month=int,year=int},time={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --maintenance-policy-exclusion-window='[{"endDate": {"day": int, "month": int, "year": int}, "startDate": {"day": int, "month": int, "year": int}, "time": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --maintenance-policy-exclusion-window=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--maintenance-policy-exclusion-window", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MaintenancePolicyExclusionWindow { get; set; }
+    public IEnumerable<string>? MaintenancePolicyExclusionWindow
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __MaintenancePolicyExclusionWindowSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __MaintenancePolicyExclusionWindowSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __MaintenancePolicyExclusionWindowSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __MaintenancePolicyExclusionWindowSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Defines a maintenance policy for a resource. Update maintenance_policy_exclusion_window. At most one of these can be specified: Or at least one of these can be specified: Add new value to maintenance_policy_exclusion_window list. The exclusion windows for the instance. Currently limited to 1 window. endDate End date of the exclusion period in UTC time zone. This date is inclusive. day Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. month Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. year Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. startDate Start date of the exclusion period in UTC time zone. This date is inclusive. day Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. month Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. year Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. time Time in UTC when the exclusion window starts on start_date and ends on end_date. This can be: ◇ Full time OR ◇ All zeros for 00:00:00 UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --add-maintenance-policy-exclusion-window=endDate={day=int,month=int,year=int},startDate={day=int,month=int,year=int},time={hours=int,minutes=int,nanos=int,seconds=int} --add-maintenance-policy-exclusion-window=endDate={day=int,month=int,year=int},startDate={day=int,month=int,year=int},time={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --add-maintenance-policy-exclusion-window='[{"endDate": {"day": int, "month": int, "year": int}, "startDate": {"day": int, "month": int, "year": int}, "time": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --add-maintenance-policy-exclusion-window=path_to_file.(yaml|json)
+    /// Update maintenance_policy_exclusion_window. At most one of these can be specified: Or at least one of these can be specified: Add new value to maintenance_policy_exclusion_window list. The exclusion windows for the instance. Currently limited to 1 window. endDate End date of the exclusion period in UTC time zone. This date is inclusive. day Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. month Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. year Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. startDate Start date of the exclusion period in UTC time zone. This date is inclusive. day Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. month Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. year Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. time Time in UTC when the exclusion window starts on start_date and ends on end_date. This can be: ◇ Full time OR ◇ All zeros for 00:00:00 UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --add-maintenance-policy-exclusion-window=endDate={day=int,month=int,year=int},startDate={day=int,month=int,year=int},time={hours=int,minutes=int,nanos=int,seconds=int} --add-maintenance-policy-exclusion-window=endDate={day=int,month=int,year=int},startDate={day=int,month=int,year=int},time={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --add-maintenance-policy-exclusion-window='[{"endDate": {"day": int, "month": int, "year": int}, "startDate": {"day": int, "month": int, "year": int}, "time": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --add-maintenance-policy-exclusion-window=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-maintenance-policy-exclusion-window", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddMaintenancePolicyExclusionWindow { get; set; }
+    public IEnumerable<string>? AddMaintenancePolicyExclusionWindow
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddMaintenancePolicyExclusionWindowSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddMaintenancePolicyExclusionWindowSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddMaintenancePolicyExclusionWindowSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddMaintenancePolicyExclusionWindowSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Defines a maintenance policy for a resource. Update maintenance_policy_exclusion_window. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear maintenance_policy_exclusion_window value and set to empty list.
+    /// Update maintenance_policy_exclusion_window. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear maintenance_policy_exclusion_window value and set to empty list.
     /// </summary>
     [CliFlag("--clear-maintenance-policy-exclusion-window")]
     public bool? ClearMaintenancePolicyExclusionWindow { get; set; }
 
     /// <summary>
-    /// Defines a maintenance policy for a resource. Update maintenance_policy_exclusion_window. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from maintenance_policy_exclusion_window list. The exclusion windows for the instance. Currently limited to 1 window. endDate End date of the exclusion period in UTC time zone. This date is inclusive. day Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. month Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. year Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. startDate Start date of the exclusion period in UTC time zone. This date is inclusive. day Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. month Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. year Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. time Time in UTC when the exclusion window starts on start_date and ends on end_date. This can be: ▹ Full time OR ▹ All zeros for 00:00:00 UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --remove-maintenance-policy-exclusion-window=endDate={day=int,month=int,year=int},startDate={day=int,month=int,year=int},time={hours=int,minutes=int,nanos=int,seconds=int} --remove-maintenance-policy-exclusion-window=endDate={day=int,month=int,year=int},startDate={day=int,month=int,year=int},time={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --remove-maintenance-policy-exclusion-window='[{"endDate": {"day": int, "month": int, "year": int}, "startDate": {"day": int, "month": int, "year": int}, "time": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --remove-maintenance-policy-exclusion-window=path_to_file.(yaml|json)
+    /// Update maintenance_policy_exclusion_window. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from maintenance_policy_exclusion_window list. The exclusion windows for the instance. Currently limited to 1 window. endDate End date of the exclusion period in UTC time zone. This date is inclusive. day Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. month Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. year Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. startDate Start date of the exclusion period in UTC time zone. This date is inclusive. day Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. month Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. year Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. time Time in UTC when the exclusion window starts on start_date and ends on end_date. This can be: ▹ Full time OR ▹ All zeros for 00:00:00 UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --remove-maintenance-policy-exclusion-window=endDate={day=int,month=int,year=int},startDate={day=int,month=int,year=int},time={hours=int,minutes=int,nanos=int,seconds=int} --remove-maintenance-policy-exclusion-window=endDate={day=int,month=int,year=int},startDate={day=int,month=int,year=int},time={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --remove-maintenance-policy-exclusion-window='[{"endDate": {"day": int, "month": int, "year": int}, "startDate": {"day": int, "month": int, "year": int}, "time": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --remove-maintenance-policy-exclusion-window=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-maintenance-policy-exclusion-window", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveMaintenancePolicyExclusionWindow { get; set; }
+    public IEnumerable<string>? RemoveMaintenancePolicyExclusionWindow
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveMaintenancePolicyExclusionWindowSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveMaintenancePolicyExclusionWindowSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveMaintenancePolicyExclusionWindowSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveMaintenancePolicyExclusionWindowSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Defines a maintenance policy for a resource. Update maintenance_policy_weekly_windows. At most one of these can be specified: Set maintenance_policy_weekly_windows to new value. The weekly maintenance windows for the instance. Currently limited to 1 window. dayOfWeek Day of the week for the maintenance window. startTime Start time of the maintenance window in UTC time zone. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --maintenance-policy-weekly-windows=dayOfWeek=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --maintenance-policy-weekly-windows=dayOfWeek=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --maintenance-policy-weekly-windows='[{"dayOfWeek": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --maintenance-policy-weekly-windows=path_to_file.(yaml|json)
+    /// Update maintenance_policy_weekly_windows. At most one of these can be specified: Set maintenance_policy_weekly_windows to new value. The weekly maintenance windows for the instance. Currently limited to 1 window. dayOfWeek Day of the week for the maintenance window. startTime Start time of the maintenance window in UTC time zone. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --maintenance-policy-weekly-windows=dayOfWeek=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --maintenance-policy-weekly-windows=dayOfWeek=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --maintenance-policy-weekly-windows='[{"dayOfWeek": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --maintenance-policy-weekly-windows=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--maintenance-policy-weekly-windows", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MaintenancePolicyWeeklyWindows { get; set; }
+    public IEnumerable<string>? MaintenancePolicyWeeklyWindows
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __MaintenancePolicyWeeklyWindowsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __MaintenancePolicyWeeklyWindowsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __MaintenancePolicyWeeklyWindowsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __MaintenancePolicyWeeklyWindowsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Defines a maintenance policy for a resource. Update maintenance_policy_weekly_windows. At most one of these can be specified: Or at least one of these can be specified: Add new value to maintenance_policy_weekly_windows list. The weekly maintenance windows for the instance. Currently limited to 1 window. dayOfWeek Day of the week for the maintenance window. startTime Start time of the maintenance window in UTC time zone. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --add-maintenance-policy-weekly-windows=dayOfWeek=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --add-maintenance-policy-weekly-windows=dayOfWeek=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --add-maintenance-policy-weekly-windows='[{"dayOfWeek": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --add-maintenance-policy-weekly-windows=path_to_file.(yaml|json)
+    /// Update maintenance_policy_weekly_windows. At most one of these can be specified: Or at least one of these can be specified: Add new value to maintenance_policy_weekly_windows list. The weekly maintenance windows for the instance. Currently limited to 1 window. dayOfWeek Day of the week for the maintenance window. startTime Start time of the maintenance window in UTC time zone. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --add-maintenance-policy-weekly-windows=dayOfWeek=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --add-maintenance-policy-weekly-windows=dayOfWeek=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --add-maintenance-policy-weekly-windows='[{"dayOfWeek": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --add-maintenance-policy-weekly-windows=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-maintenance-policy-weekly-windows", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddMaintenancePolicyWeeklyWindows { get; set; }
+    public IEnumerable<string>? AddMaintenancePolicyWeeklyWindows
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddMaintenancePolicyWeeklyWindowsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddMaintenancePolicyWeeklyWindowsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddMaintenancePolicyWeeklyWindowsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddMaintenancePolicyWeeklyWindowsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Defines a maintenance policy for a resource. Update maintenance_policy_weekly_windows. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear maintenance_policy_weekly_windows value and set to empty list.
+    /// Update maintenance_policy_weekly_windows. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear maintenance_policy_weekly_windows value and set to empty list.
     /// </summary>
     [CliFlag("--clear-maintenance-policy-weekly-windows")]
     public bool? ClearMaintenancePolicyWeeklyWindows { get; set; }
 
     /// <summary>
-    /// Defines a maintenance policy for a resource. Update maintenance_policy_weekly_windows. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from maintenance_policy_weekly_windows list. The weekly maintenance windows for the instance. Currently limited to 1 window. dayOfWeek Day of the week for the maintenance window. startTime Start time of the maintenance window in UTC time zone. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --remove-maintenance-policy-weekly-windows=dayOfWeek=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --remove-maintenance-policy-weekly-windows=dayOfWeek=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --remove-maintenance-policy-weekly-windows='[{"dayOfWeek": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --remove-maintenance-policy-weekly-windows=path_to_file.(yaml|json)
+    /// Update maintenance_policy_weekly_windows. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from maintenance_policy_weekly_windows list. The weekly maintenance windows for the instance. Currently limited to 1 window. dayOfWeek Day of the week for the maintenance window. startTime Start time of the maintenance window in UTC time zone. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --remove-maintenance-policy-weekly-windows=dayOfWeek=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --remove-maintenance-policy-weekly-windows=dayOfWeek=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --remove-maintenance-policy-weekly-windows='[{"dayOfWeek": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --remove-maintenance-policy-weekly-windows=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-maintenance-policy-weekly-windows", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveMaintenancePolicyWeeklyWindows { get; set; }
+    public IEnumerable<string>? RemoveMaintenancePolicyWeeklyWindows
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveMaintenancePolicyWeeklyWindowsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveMaintenancePolicyWeeklyWindowsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveMaintenancePolicyWeeklyWindowsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveMaintenancePolicyWeeklyWindowsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Defines a maintenance policy for a resource. Update labels. At most one of these can be specified: Set labels to new value. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// Update labels. At most one of these can be specified: Set labels to new value. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Labels { get; set; }
+    public IEnumerable<string>? Labels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __LabelsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __LabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __LabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __LabelsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Defines a maintenance policy for a resource. Update labels. At most one of these can be specified: Or at least one of these can be specified: Update labels value or add key value pair. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
+    /// Update labels. At most one of these can be specified: Or at least one of these can be specified: Update labels value or add key value pair. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? UpdateLabels { get; set; }
+    public IEnumerable<string>? UpdateLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __UpdateLabelsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UpdateLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __UpdateLabelsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Defines a maintenance policy for a resource. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
+    /// Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Defines a maintenance policy for a resource. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
+    /// Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// Instance resource - Identifier. The name of the instance. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)AccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AccessRules, static item => item is not null) : ((object?)AccessRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)AccessRules is not string || !string.IsNullOrWhiteSpace(AccessRules?.ToString()) : ((object?)AccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AccessRules, static item => item is not null) : (AccessRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AccessRules), static item => item is not null))))) ? 1 : 0) + ((((object?)AddAccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddAccessRules, static item => item is not null) : ((object?)AddAccessRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAccessRules is not string || !string.IsNullOrWhiteSpace(AddAccessRules?.ToString()) : ((object?)AddAccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAccessRules, static item => item is not null) : (AddAccessRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAccessRules), static item => item is not null))))) || ClearAccessRules == true || ((object?)RemoveAccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAccessRules, static item => item is not null) : ((object?)RemoveAccessRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAccessRules is not string || !string.IsNullOrWhiteSpace(RemoveAccessRules?.ToString()) : ((object?)RemoveAccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAccessRules, static item => item is not null) : (RemoveAccessRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAccessRules), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AccessRules or (AddAccessRules, ClearAccessRules, or RemoveAccessRules) may be specified.", [nameof(AccessRules), nameof(AddAccessRules), nameof(ClearAccessRules), nameof(RemoveAccessRules)]);
+        }
+        if ((((object?)AccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AccessRules, static item => item is not null) : ((object?)AccessRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)AccessRules is not string || !string.IsNullOrWhiteSpace(AccessRules?.ToString()) : ((object?)AccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AccessRules, static item => item is not null) : (AccessRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AccessRules), static item => item is not null))))) || ((object?)AddAccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddAccessRules, static item => item is not null) : ((object?)AddAccessRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAccessRules is not string || !string.IsNullOrWhiteSpace(AddAccessRules?.ToString()) : ((object?)AddAccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAccessRules, static item => item is not null) : (AddAccessRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAccessRules), static item => item is not null))))) || ClearAccessRules == true || ((object?)RemoveAccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAccessRules, static item => item is not null) : ((object?)RemoveAccessRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAccessRules is not string || !string.IsNullOrWhiteSpace(RemoveAccessRules?.ToString()) : ((object?)RemoveAccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAccessRules, static item => item is not null) : (RemoveAccessRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAccessRules), static item => item is not null)))))) && (((object?)AddAccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddAccessRules, static item => item is not null) : ((object?)AddAccessRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAccessRules is not string || !string.IsNullOrWhiteSpace(AddAccessRules?.ToString()) : ((object?)AddAccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAccessRules, static item => item is not null) : (AddAccessRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAccessRules), static item => item is not null))))) || ClearAccessRules == true || ((object?)RemoveAccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAccessRules, static item => item is not null) : ((object?)RemoveAccessRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAccessRules is not string || !string.IsNullOrWhiteSpace(RemoveAccessRules?.ToString()) : ((object?)RemoveAccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAccessRules, static item => item is not null) : (RemoveAccessRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAccessRules), static item => item is not null)))))) && ((ClearAccessRules == true ? 1 : 0) + (((object?)RemoveAccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAccessRules, static item => item is not null) : ((object?)RemoveAccessRules is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAccessRules is not string || !string.IsNullOrWhiteSpace(RemoveAccessRules?.ToString()) : ((object?)RemoveAccessRules is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAccessRules, static item => item is not null) : (RemoveAccessRules is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAccessRules), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearAccessRules or RemoveAccessRules may be specified.", [nameof(ClearAccessRules), nameof(RemoveAccessRules)]);
+        }
+        if ((((object?)MaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)MaintenancePolicyExclusionWindow, static item => item is not null) : ((object?)MaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<char> ? (object?)MaintenancePolicyExclusionWindow is not string || !string.IsNullOrWhiteSpace(MaintenancePolicyExclusionWindow?.ToString()) : ((object?)MaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MaintenancePolicyExclusionWindow, static item => item is not null) : (MaintenancePolicyExclusionWindow is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MaintenancePolicyExclusionWindow), static item => item is not null))))) ? 1 : 0) + ((((object?)AddMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddMaintenancePolicyExclusionWindow, static item => item is not null) : ((object?)AddMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddMaintenancePolicyExclusionWindow is not string || !string.IsNullOrWhiteSpace(AddMaintenancePolicyExclusionWindow?.ToString()) : ((object?)AddMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddMaintenancePolicyExclusionWindow, static item => item is not null) : (AddMaintenancePolicyExclusionWindow is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddMaintenancePolicyExclusionWindow), static item => item is not null))))) || ClearMaintenancePolicyExclusionWindow == true || ((object?)RemoveMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveMaintenancePolicyExclusionWindow, static item => item is not null) : ((object?)RemoveMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveMaintenancePolicyExclusionWindow is not string || !string.IsNullOrWhiteSpace(RemoveMaintenancePolicyExclusionWindow?.ToString()) : ((object?)RemoveMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveMaintenancePolicyExclusionWindow, static item => item is not null) : (RemoveMaintenancePolicyExclusionWindow is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveMaintenancePolicyExclusionWindow), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of MaintenancePolicyExclusionWindow or (AddMaintenancePolicyExclusionWindow, ClearMaintenancePolicyExclusionWindow, or RemoveMaintenancePolicyExclusionWindow) may be specified.", [nameof(MaintenancePolicyExclusionWindow), nameof(AddMaintenancePolicyExclusionWindow), nameof(ClearMaintenancePolicyExclusionWindow), nameof(RemoveMaintenancePolicyExclusionWindow)]);
+        }
+        if ((((object?)MaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)MaintenancePolicyExclusionWindow, static item => item is not null) : ((object?)MaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<char> ? (object?)MaintenancePolicyExclusionWindow is not string || !string.IsNullOrWhiteSpace(MaintenancePolicyExclusionWindow?.ToString()) : ((object?)MaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MaintenancePolicyExclusionWindow, static item => item is not null) : (MaintenancePolicyExclusionWindow is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MaintenancePolicyExclusionWindow), static item => item is not null))))) || ((object?)AddMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddMaintenancePolicyExclusionWindow, static item => item is not null) : ((object?)AddMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddMaintenancePolicyExclusionWindow is not string || !string.IsNullOrWhiteSpace(AddMaintenancePolicyExclusionWindow?.ToString()) : ((object?)AddMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddMaintenancePolicyExclusionWindow, static item => item is not null) : (AddMaintenancePolicyExclusionWindow is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddMaintenancePolicyExclusionWindow), static item => item is not null))))) || ClearMaintenancePolicyExclusionWindow == true || ((object?)RemoveMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveMaintenancePolicyExclusionWindow, static item => item is not null) : ((object?)RemoveMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveMaintenancePolicyExclusionWindow is not string || !string.IsNullOrWhiteSpace(RemoveMaintenancePolicyExclusionWindow?.ToString()) : ((object?)RemoveMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveMaintenancePolicyExclusionWindow, static item => item is not null) : (RemoveMaintenancePolicyExclusionWindow is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveMaintenancePolicyExclusionWindow), static item => item is not null)))))) && (((object?)AddMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddMaintenancePolicyExclusionWindow, static item => item is not null) : ((object?)AddMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddMaintenancePolicyExclusionWindow is not string || !string.IsNullOrWhiteSpace(AddMaintenancePolicyExclusionWindow?.ToString()) : ((object?)AddMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddMaintenancePolicyExclusionWindow, static item => item is not null) : (AddMaintenancePolicyExclusionWindow is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddMaintenancePolicyExclusionWindow), static item => item is not null))))) || ClearMaintenancePolicyExclusionWindow == true || ((object?)RemoveMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveMaintenancePolicyExclusionWindow, static item => item is not null) : ((object?)RemoveMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveMaintenancePolicyExclusionWindow is not string || !string.IsNullOrWhiteSpace(RemoveMaintenancePolicyExclusionWindow?.ToString()) : ((object?)RemoveMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveMaintenancePolicyExclusionWindow, static item => item is not null) : (RemoveMaintenancePolicyExclusionWindow is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveMaintenancePolicyExclusionWindow), static item => item is not null)))))) && ((ClearMaintenancePolicyExclusionWindow == true ? 1 : 0) + (((object?)RemoveMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveMaintenancePolicyExclusionWindow, static item => item is not null) : ((object?)RemoveMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveMaintenancePolicyExclusionWindow is not string || !string.IsNullOrWhiteSpace(RemoveMaintenancePolicyExclusionWindow?.ToString()) : ((object?)RemoveMaintenancePolicyExclusionWindow is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveMaintenancePolicyExclusionWindow, static item => item is not null) : (RemoveMaintenancePolicyExclusionWindow is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveMaintenancePolicyExclusionWindow), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearMaintenancePolicyExclusionWindow or RemoveMaintenancePolicyExclusionWindow may be specified.", [nameof(ClearMaintenancePolicyExclusionWindow), nameof(RemoveMaintenancePolicyExclusionWindow)]);
+        }
+        if ((((object?)MaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)MaintenancePolicyWeeklyWindows, static item => item is not null) : ((object?)MaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<char> ? (object?)MaintenancePolicyWeeklyWindows is not string || !string.IsNullOrWhiteSpace(MaintenancePolicyWeeklyWindows?.ToString()) : ((object?)MaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MaintenancePolicyWeeklyWindows, static item => item is not null) : (MaintenancePolicyWeeklyWindows is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MaintenancePolicyWeeklyWindows), static item => item is not null))))) ? 1 : 0) + ((((object?)AddMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddMaintenancePolicyWeeklyWindows, static item => item is not null) : ((object?)AddMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddMaintenancePolicyWeeklyWindows is not string || !string.IsNullOrWhiteSpace(AddMaintenancePolicyWeeklyWindows?.ToString()) : ((object?)AddMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddMaintenancePolicyWeeklyWindows, static item => item is not null) : (AddMaintenancePolicyWeeklyWindows is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddMaintenancePolicyWeeklyWindows), static item => item is not null))))) || ClearMaintenancePolicyWeeklyWindows == true || ((object?)RemoveMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveMaintenancePolicyWeeklyWindows, static item => item is not null) : ((object?)RemoveMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveMaintenancePolicyWeeklyWindows is not string || !string.IsNullOrWhiteSpace(RemoveMaintenancePolicyWeeklyWindows?.ToString()) : ((object?)RemoveMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveMaintenancePolicyWeeklyWindows, static item => item is not null) : (RemoveMaintenancePolicyWeeklyWindows is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveMaintenancePolicyWeeklyWindows), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of MaintenancePolicyWeeklyWindows or (AddMaintenancePolicyWeeklyWindows, ClearMaintenancePolicyWeeklyWindows, or RemoveMaintenancePolicyWeeklyWindows) may be specified.", [nameof(MaintenancePolicyWeeklyWindows), nameof(AddMaintenancePolicyWeeklyWindows), nameof(ClearMaintenancePolicyWeeklyWindows), nameof(RemoveMaintenancePolicyWeeklyWindows)]);
+        }
+        if ((((object?)MaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)MaintenancePolicyWeeklyWindows, static item => item is not null) : ((object?)MaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<char> ? (object?)MaintenancePolicyWeeklyWindows is not string || !string.IsNullOrWhiteSpace(MaintenancePolicyWeeklyWindows?.ToString()) : ((object?)MaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MaintenancePolicyWeeklyWindows, static item => item is not null) : (MaintenancePolicyWeeklyWindows is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MaintenancePolicyWeeklyWindows), static item => item is not null))))) || ((object?)AddMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddMaintenancePolicyWeeklyWindows, static item => item is not null) : ((object?)AddMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddMaintenancePolicyWeeklyWindows is not string || !string.IsNullOrWhiteSpace(AddMaintenancePolicyWeeklyWindows?.ToString()) : ((object?)AddMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddMaintenancePolicyWeeklyWindows, static item => item is not null) : (AddMaintenancePolicyWeeklyWindows is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddMaintenancePolicyWeeklyWindows), static item => item is not null))))) || ClearMaintenancePolicyWeeklyWindows == true || ((object?)RemoveMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveMaintenancePolicyWeeklyWindows, static item => item is not null) : ((object?)RemoveMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveMaintenancePolicyWeeklyWindows is not string || !string.IsNullOrWhiteSpace(RemoveMaintenancePolicyWeeklyWindows?.ToString()) : ((object?)RemoveMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveMaintenancePolicyWeeklyWindows, static item => item is not null) : (RemoveMaintenancePolicyWeeklyWindows is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveMaintenancePolicyWeeklyWindows), static item => item is not null)))))) && (((object?)AddMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddMaintenancePolicyWeeklyWindows, static item => item is not null) : ((object?)AddMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddMaintenancePolicyWeeklyWindows is not string || !string.IsNullOrWhiteSpace(AddMaintenancePolicyWeeklyWindows?.ToString()) : ((object?)AddMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddMaintenancePolicyWeeklyWindows, static item => item is not null) : (AddMaintenancePolicyWeeklyWindows is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddMaintenancePolicyWeeklyWindows), static item => item is not null))))) || ClearMaintenancePolicyWeeklyWindows == true || ((object?)RemoveMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveMaintenancePolicyWeeklyWindows, static item => item is not null) : ((object?)RemoveMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveMaintenancePolicyWeeklyWindows is not string || !string.IsNullOrWhiteSpace(RemoveMaintenancePolicyWeeklyWindows?.ToString()) : ((object?)RemoveMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveMaintenancePolicyWeeklyWindows, static item => item is not null) : (RemoveMaintenancePolicyWeeklyWindows is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveMaintenancePolicyWeeklyWindows), static item => item is not null)))))) && ((ClearMaintenancePolicyWeeklyWindows == true ? 1 : 0) + (((object?)RemoveMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveMaintenancePolicyWeeklyWindows, static item => item is not null) : ((object?)RemoveMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveMaintenancePolicyWeeklyWindows is not string || !string.IsNullOrWhiteSpace(RemoveMaintenancePolicyWeeklyWindows?.ToString()) : ((object?)RemoveMaintenancePolicyWeeklyWindows is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveMaintenancePolicyWeeklyWindows, static item => item is not null) : (RemoveMaintenancePolicyWeeklyWindows is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveMaintenancePolicyWeeklyWindows), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearMaintenancePolicyWeeklyWindows or RemoveMaintenancePolicyWeeklyWindows may be specified.", [nameof(ClearMaintenancePolicyWeeklyWindows), nameof(RemoveMaintenancePolicyWeeklyWindows)]);
+        }
+        if ((((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Labels, static item => item is not null) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Labels or (UpdateLabels, ClearLabels, or RemoveLabels) may be specified.", [nameof(Labels), nameof(UpdateLabels), nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Labels, static item => item is not null) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null))))) || ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) && (((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) && ((ClearLabels == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveLabels) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        yield break;
+    }
 
 }

@@ -93,4 +93,10 @@ public record GcloudAppDeployOptions : GcloudOptions
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 
+    /// <summary>
+    /// The yaml files for the services or configurations you want to deploy. If not given, defaults to app.yaml in the current directory. If that is not found, attempts to automatically generate necessary configuration files (such as app.yaml) in the current directory.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Deployables { get; set; }
+
 }

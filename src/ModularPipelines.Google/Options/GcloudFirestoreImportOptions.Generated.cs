@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "import")]
-public record GcloudFirestoreImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InputUriPrefix
-) : GcloudOptions
+public record GcloudFirestoreImportOptions : GcloudOptions
 {
+    /// <summary>
+    /// import Cloud Firestore documents from Google     Cloud Storage
+    /// </summary>
+    /// <param name="InputUriPrefix">Location of the import files. This location is the 'output_uri_prefix' field of a previous export, and can be found via the 'gcloud firestore operations describe' command.</param>
+    public GcloudFirestoreImportOptions(
+        string InputUriPrefix
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InputUriPrefix);
+        this.InputUriPrefix = InputUriPrefix;
+    }
+
+    public void Deconstruct(out string InputUriPrefix)
+    {
+        InputUriPrefix = this.InputUriPrefix;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -30,9 +45,9 @@ public record GcloudFirestoreImportOptions(
     public bool? Async { get; set; }
 
     /// <summary>
-    /// List specifying which collection groups will be included in the operation. When omitted, all collection groups are included. For example, to operate on only the customers and orders collections groups: $ gcloud firestore import --collection-ids='customers','orders'
+    /// List specifying which collection groups will be included in the operation. When omitted, all collection groups are included. For example, to operate on only the customers and orders collections groups: $ gcloud firestore import --collection-ids='customers','orders' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--collection-ids", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--collection-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? CollectionIds { get; set; }
 
     /// <summary>
@@ -42,9 +57,15 @@ public record GcloudFirestoreImportOptions(
     public string? Database { get; set; }
 
     /// <summary>
-    /// List specifying which namespaces will be included in the operation. When omitted, all namespaces are included. This is only supported for Datastore Mode databases. For example, to operate on only the customers and orders namespaces: $ gcloud firestore import --namespaces-ids='customers','orders'
+    /// List specifying which namespaces will be included in the operation. When omitted, all namespaces are included. This is only supported for Datastore Mode databases. For example, to operate on only the customers and orders namespaces: $ gcloud firestore import --namespaces-ids='customers','orders' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--namespace-ids", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--namespace-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NamespaceIds { get; set; }
+
+    /// <summary>
+    /// Location of the import files. This location is the 'output_uri_prefix' field of a previous export, and can be found via the 'gcloud firestore operations describe' command.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InputUriPrefix { get; private init; }
 
 }

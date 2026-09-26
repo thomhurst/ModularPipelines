@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,228 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "repositories", "create")]
-public record GcloudArtifactsRepositoriesCreateOptions : GcloudOptions
+public record GcloudArtifactsRepositoriesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create an Artifact Registry     repository
+    /// </summary>
+    /// <param name="RepositoryFormat">Format of the repository. REPOSITORY_FORMAT must be one of: apt APT package format. conda Conda package format. docker Docker image format. go Go module format. kfp KFP package format. maven Maven package format. npm NPM package format. python Python package format. yum YUM package format.</param>
+    /// <param name="Repository">Repository resource - The Artifact Registry repository to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the repository or fully qualified identifier for the repository. To set the repository attribute: ▸ provide the argument repository on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudArtifactsRepositoriesCreateOptions(
+        string RepositoryFormat,
+        string Repository
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RepositoryFormat);
+        this.RepositoryFormat = RepositoryFormat;
+        global::System.ArgumentNullException.ThrowIfNull(Repository);
+        this.Repository = Repository;
+    }
+
+    public void Deconstruct(out string RepositoryFormat, out string Repository)
+    {
+        RepositoryFormat = this.RepositoryFormat;
+        Repository = this.Repository;
+    }
+
+    /// <summary>
+    /// Format of the repository. REPOSITORY_FORMAT must be one of: apt APT package format. conda Conda package format. docker Docker image format. go Go module format. kfp KFP package format. maven Maven package format. npm NPM package format. python Python package format. yum YUM package format.
+    /// </summary>
+    [CliOption("--repository-format", Format = OptionFormat.EqualsSeparated)]
+    public string RepositoryFormat { get; private init; }
+
+    /// <summary>
+    /// Repository resource - The Artifact Registry repository to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the repository. Overrides the default artifacts/location property value for this command invocation. To configure the default location, use the command: gcloud config set artifacts/location. To set the location attribute: ▸ provide the argument repository on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// (Maven only) Allow repository users to publish a snapshot that overwrites the same snapshot version in the repository.
+    /// </summary>
+    [CliFlag("--allow-snapshot-overwrites")]
+    public bool? AllowSnapshotOverwrites { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description for the repository.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Do not make an HTTP request to validate the remote upstream. Not recommended when setting a custom remote upstream unless you are absolutely sure your upstream URI and any auth is valid.
+    /// </summary>
+    [CliFlag("--disable-remote-validation")]
+    public bool? DisableRemoteValidation { get; set; }
+
+    /// <summary>
+    /// (Docker only) Prevent changes to tagged images in the repository. Tags cannot be deleted or moved to a different image digest, and tagged images cannot be deleted.
+    /// </summary>
+    [CliFlag("--immutable-tags")]
+    public bool? ImmutableTags { get; set; }
+
+    /// <summary>
+    /// Name of the encryption key that's used for encrypting the contents of the repository.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Mode is the type of the repository - Standard, Virtual or Remote. MODE must be one of: connector-repository Connector repository mode - fetches data from upstream without caching. none Repository mode not specified. remote-repository Remote repository mode - fetches data from upstream and caches it. standard-repository Standard repository mode - should be possible to write/read data to this repo. virtual-repository Virtual repository mode - aggregates data from several upstreams.
+    /// </summary>
+    [CliOption("--mode", Format = OptionFormat.EqualsSeparated)]
+    public string? Mode { get; set; }
+
+    /// <summary>
+    /// (Apt only) Repository base for apt remote repository. REMOTE_APT_REPO must be one of: [debian, debian-snapshot, ubuntu].
+    /// </summary>
+    [CliOption("--remote-apt-repo", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoteAptRepo { get; set; }
+
+    /// <summary>
+    /// (Apt only) Remaining URL path to apt remote repository.
+    /// </summary>
+    [CliOption("--remote-apt-repo-path", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoteAptRepoPath { get; set; }
+
+    /// <summary>
+    /// (Docker only) Repo upstream for docker remote repository. REMOTE_DOCKER_REPO can be either: ◆ one of the following enums: [docker-hub]. ◆ an http/https custom registry uri (ex: https://my.docker.registry)
+    /// </summary>
+    [CliOption("--remote-docker-repo", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoteDockerRepo { get; set; }
+
+    /// <summary>
+    /// (Go only) Repo upstream for Go remote repository. "https://proxy.golang.org/" is the only valid value.
+    /// </summary>
+    [CliOption("--remote-go-repo", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoteGoRepo { get; set; }
+
+    /// <summary>
+    /// (Maven only) Repo upstream for maven remote repository. REMOTE_MVN_REPO can be either: ◆ one of the following enums: [maven-central]. ◆ an http/https custom registry uri (ex: https://my.maven.registry)
+    /// </summary>
+    [CliOption("--remote-mvn-repo", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoteMvnRepo { get; set; }
+
+    /// <summary>
+    /// (Npm only) Repo upstream for npm remote repository. REMOTE_NPM_REPO can be either: ◆ one of the following enums: [npmjs]. ◆ an http/https custom registry uri (ex: https://my.npm.registry)
+    /// </summary>
+    [CliOption("--remote-npm-repo", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoteNpmRepo { get; set; }
+
+    /// <summary>
+    /// Secret Manager secret version that contains password for the remote repository upstream.
+    /// </summary>
+    [CliOption("--remote-password-secret-version", Format = OptionFormat.EqualsSeparated)]
+    public string? RemotePasswordSecretVersion { get; set; }
+
+    /// <summary>
+    /// (Python only) Repo upstream for python remote repository. REMOTE_PYTHON_REPO can be either: ◆ one of the following enums: [pypi]. ◆ an http/https custom registry uri (ex: https://my.python.registry)
+    /// </summary>
+    [CliOption("--remote-python-repo", Format = OptionFormat.EqualsSeparated)]
+    public string? RemotePythonRepo { get; set; }
+
+    /// <summary>
+    /// The description for the remote repository config.
+    /// </summary>
+    [CliOption("--remote-repo-config-desc", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoteRepoConfigDesc { get; set; }
+
+    /// <summary>
+    /// Remote Repository upstream registry username.
+    /// </summary>
+    [CliOption("--remote-username", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoteUsername { get; set; }
+
+    /// <summary>
+    /// (Yum only) Repository base for yum remote repository. REMOTE_YUM_REPO must be one of: [centos, centos-debug, centos-stream, centos-vault, epel, rocky].
+    /// </summary>
+    [CliOption("--remote-yum-repo", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoteYumRepo { get; set; }
+
+    /// <summary>
+    /// (Yum only) Remaining URL path to yum remote repository.
+    /// </summary>
+    [CliOption("--remote-yum-repo-path", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoteYumRepoPath { get; set; }
+
+    /// <summary>
+    /// The minimum severity level of logs to generate. This flag is only applicable when using --enable-platform-logs. SEVERITY must be one of: error Log events with severity ERROR or higher. info Log events with severity INFO or higher.
+    /// </summary>
+    [CliOption("--severity", Format = OptionFormat.EqualsSeparated)]
+    public string? Severity { get; set; }
+
+    /// <summary>
+    /// (Virtual Repositories only) is the upstreams for the Virtual Repository. Example of the file contents: [ { "id": "test1", "repository": "projects/p1/locations/us-central1/repositories/repo1", "priority": 1 }, { "id": "test2", "repository": "projects/p2/locations/us-west2/repositories/repo2", "priority": 2 } ]
+    /// </summary>
+    [CliOption("--upstream-policy-file", Format = OptionFormat.EqualsSeparated)]
+    public string? UpstreamPolicyFile { get; set; }
+
+    /// <summary>
+    /// (Maven only) The package versions that the repository will store. VERSION_POLICY must be one of: none (Maven only) The repository doesn't validate the version type. release (Maven only) The repository accepts release versions only. snapshot (Maven only) The repository accepts snapshot versions only.
+    /// </summary>
+    [CliOption("--version-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? VersionPolicy { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Allow vulnerability scanning on the repository.
+    /// </summary>
+    [CliFlag("--allow-vulnerability-scanning")]
+    public bool? AllowVulnerabilityScanning { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Disable vulnerability scanning on the repository.
+    /// </summary>
+    [CliFlag("--disable-vulnerability-scanning")]
+    public bool? DisableVulnerabilityScanning { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear platform logging settings for the repository to fall back to project settings.
+    /// </summary>
+    [CliFlag("--clear-platform-logs")]
+    public bool? ClearPlatformLogs { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Disable platform logging for the repository.
+    /// </summary>
+    [CliFlag("--disable-platform-logs")]
+    public bool? DisablePlatformLogs { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Enable platform logging for the repository.
+    /// </summary>
+    [CliFlag("--enable-platform-logs")]
+    public bool? EnablePlatformLogs { get; set; }
+
+    /// <summary>
+    /// Repository resource - The Artifact Registry repository to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument repository on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the repository or fully qualified identifier for the repository. To set the repository attribute: ▸ provide the argument repository on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Repository { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((AllowVulnerabilityScanning == true ? 1 : 0) + (DisableVulnerabilityScanning == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AllowVulnerabilityScanning or DisableVulnerabilityScanning may be specified.", [nameof(AllowVulnerabilityScanning), nameof(DisableVulnerabilityScanning)]);
+        }
+        if ((ClearPlatformLogs == true ? 1 : 0) + (DisablePlatformLogs == true ? 1 : 0) + (EnablePlatformLogs == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearPlatformLogs, DisablePlatformLogs, or EnablePlatformLogs may be specified.", [nameof(ClearPlatformLogs), nameof(DisablePlatformLogs), nameof(EnablePlatformLogs)]);
+        }
+        yield break;
+    }
+
 }

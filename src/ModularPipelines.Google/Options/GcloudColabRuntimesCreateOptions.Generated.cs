@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,74 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("colab", "runtimes", "create")]
 public record GcloudColabRuntimesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a notebook runtime
+    /// </summary>
+    /// <param name="DisplayName">The display name of the runtime to create.</param>
+    /// <param name="RuntimeTemplate">Runtime template resource - Unique name of the runtime template to configure the runtime with. This was optionally provided by setting --runtime-template-id in the create runtime-template command, or was system-generated if unspecified. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --runtime-template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --runtime-template on the command line with a fully specified name; ◆ provide the argument --region on the command line; ◆ set the property colab/region. This must be specified. ID of the runtime template or fully qualified identifier for the runtime template. To set the name attribute: ▸ provide the argument --runtime-template on the command line.</param>
+    public GcloudColabRuntimesCreateOptions(
+        string DisplayName,
+        string RuntimeTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(RuntimeTemplate);
+        this.RuntimeTemplate = RuntimeTemplate;
+    }
+
+    public void Deconstruct(out string DisplayName, out string RuntimeTemplate)
+    {
+        DisplayName = this.DisplayName;
+        RuntimeTemplate = this.RuntimeTemplate;
+    }
+
+    /// <summary>
+    /// The display name of the runtime to create.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Runtime template resource - Unique name of the runtime template to configure the runtime with. This was optionally provided by setting --runtime-template-id in the create runtime-template command, or was system-generated if unspecified. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --runtime-template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --runtime-template on the command line with a fully specified name; ◆ provide the argument --region on the command line; ◆ set the property colab/region. This must be specified. ID of the runtime template or fully qualified identifier for the runtime template. To set the name attribute: ▸ provide the argument --runtime-template on the command line.
+    /// </summary>
+    [CliOption("--runtime-template", Format = OptionFormat.EqualsSeparated)]
+    public string RuntimeTemplate { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The description
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Add labels to identify and group the runtime template. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create runtime. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the region or fully qualified identifier for the region. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property colab/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create runtime. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The id of the runtime to create. If not specified, a random id will be generated.
+    /// </summary>
+    [CliOption("--runtime-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RuntimeId { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create runtime. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. User email for the runtime owner. Runtimes can only be used by the owner. If a user is not provided, the gcloud user will be assumed to be the owner. The user cannot be a service account.
+    /// </summary>
+    [CliOption("--runtime-user", Format = OptionFormat.EqualsSeparated)]
+    public string? RuntimeUser { get; set; }
+
 }

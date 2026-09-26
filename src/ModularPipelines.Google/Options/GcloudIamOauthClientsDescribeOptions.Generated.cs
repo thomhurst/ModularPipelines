@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("iam", "oauth-clients", "describe")]
 public record GcloudIamOauthClientsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an OAuth client
+    /// </summary>
+    /// <param name="OauthClient">Oauth client resource - The OAuth client you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument oauth_client on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the oauth client or fully qualified identifier for the oauth client. To set the oauth_client attribute: ▸ provide the argument oauth_client on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamOauthClientsDescribeOptions(
+        string OauthClient
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OauthClient);
+        this.OauthClient = OauthClient;
+    }
+
+    public void Deconstruct(out string OauthClient)
+    {
+        OauthClient = this.OauthClient;
+    }
+
+    /// <summary>
+    /// Oauth client resource - The OAuth client you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument oauth_client on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location name. To set the location attribute: ▸ provide the argument oauth_client on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Oauth client resource - The OAuth client you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument oauth_client on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the oauth client or fully qualified identifier for the oauth client. To set the oauth_client attribute: ▸ provide the argument oauth_client on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OauthClient { get; private init; }
+
 }

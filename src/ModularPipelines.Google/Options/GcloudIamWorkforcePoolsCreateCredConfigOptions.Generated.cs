@@ -6,10 +6,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,138 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workforce-pools", "create-cred-config")]
-public record GcloudIamWorkforcePoolsCreateCredConfigOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Audience
-) : GcloudOptions
+public record GcloudIamWorkforcePoolsCreateCredConfigOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a configuration file     for generated credentials
+    /// </summary>
+    /// <param name="OutputFile">Location to store the generated credential configuration file.</param>
+    /// <param name="WorkforcePoolUserProject">The client project number used to identify the application (client project) to the server when calling Google APIs. The user principal must have serviceusage.services.use IAM permission to use the specified project.</param>
+    /// <param name="Audience">The workforce pool provider resource name in the format "&lt;pool&gt;/&lt;provider&gt;" or "locations/&lt;location&gt;/workforcePools/&lt;pool&gt;/providers/&lt;provider&gt;".</param>
+    public GcloudIamWorkforcePoolsCreateCredConfigOptions(
+        string OutputFile,
+        string WorkforcePoolUserProject,
+        string Audience
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutputFile);
+        this.OutputFile = OutputFile;
+        global::System.ArgumentNullException.ThrowIfNull(WorkforcePoolUserProject);
+        this.WorkforcePoolUserProject = WorkforcePoolUserProject;
+        global::System.ArgumentNullException.ThrowIfNull(Audience);
+        this.Audience = Audience;
+    }
+
+    public void Deconstruct(out string OutputFile, out string WorkforcePoolUserProject, out string Audience)
+    {
+        OutputFile = this.OutputFile;
+        WorkforcePoolUserProject = this.WorkforcePoolUserProject;
+        Audience = this.Audience;
+    }
+
+    /// <summary>
+    /// Location to store the generated credential configuration file.
+    /// </summary>
+    [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
+    public string OutputFile { get; private init; }
+
+    /// <summary>
+    /// The client project number used to identify the application (client project) to the server when calling Google APIs. The user principal must have serviceusage.services.use IAM permission to use the specified project.
+    /// </summary>
+    [CliOption("--workforce-pool-user-project", Format = OptionFormat.EqualsSeparated)]
+    public string WorkforcePoolUserProject { get; private init; }
+
+    /// <summary>
+    /// Credential types. Exactly one of these must be specified: The location of the file which stores the credential.
+    /// </summary>
+    [CliOption("--credential-source-file", Format = OptionFormat.EqualsSeparated)]
+    public string? CredentialSourceFile { get; set; }
+
+    /// <summary>
+    /// Credential types. Exactly one of these must be specified: The URL to obtain the credential from.
+    /// </summary>
+    [CliOption("--credential-source-url", Format = OptionFormat.EqualsSeparated)]
+    public string? CredentialSourceUrl { get; set; }
+
+    /// <summary>
+    /// Credential types. Exactly one of these must be specified: The full command to run to retrieve the credential. Must be an absolute path for the program including arguments.
+    /// </summary>
+    [CliOption("--executable-command", Format = OptionFormat.EqualsSeparated)]
+    public string? ExecutableCommand { get; set; }
+
+    /// <summary>
+    /// Subject token field name (key) in a JSON credential source.
+    /// </summary>
+    [CliOption("--credential-source-field-name", Format = OptionFormat.EqualsSeparated)]
+    public string? CredentialSourceFieldName { get; set; }
+
+    /// <summary>
+    /// Headers to use when querying the credential-source-url.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--credential-source-headers", Format = OptionFormat.EqualsSeparated)]
+    public string? CredentialSourceHeaders { get; set; }
+
+    /// <summary>
+    /// Format of the credential source (JSON or text).
+    /// </summary>
+    [CliOption("--credential-source-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CredentialSourceType { get; set; }
+
+    /// <summary>
+    /// The type of token being used for authorization. This defaults to urn:ietf:params:oauth:token-type:id_token.
+    /// </summary>
+    [CliOption("--subject-token-type", Format = OptionFormat.EqualsSeparated)]
+    public string? SubjectTokenType { get; set; }
+
+    /// <summary>
+    /// Arguments for an executable type credential source. Service account impersonation options. Timeout duration, in milliseconds, to wait for the executable to finish when the command is running in interactive mode.
+    /// </summary>
+    [CliOption("--executable-interactive-timeout-millis", Format = OptionFormat.EqualsSeparated)]
+    public string? ExecutableInteractiveTimeoutMillis { get; set; }
+
+    /// <summary>
+    /// Arguments for an executable type credential source. Service account impersonation options. Absolute path to the file storing the executable response.
+    /// </summary>
+    [CliOption("--executable-output-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ExecutableOutputFile { get; set; }
+
+    /// <summary>
+    /// Arguments for an executable type credential source. Service account impersonation options. Timeout duration, in milliseconds, to wait for the executable to finish.
+    /// </summary>
+    [CliOption("--executable-timeout-millis", Format = OptionFormat.EqualsSeparated)]
+    public string? ExecutableTimeoutMillis { get; set; }
+
+    /// <summary>
+    /// Arguments for an executable type credential source. Service account impersonation options. Email of the service account to impersonate. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Arguments for an executable type credential source. Service account impersonation options. Lifetime duration of the service account access token in seconds. Defaults to one hour if not specified. If a lifetime greater than one hour is required, the service account must be added as an allowed value in an Organization Policy that enforces the constraints/iam.allowServiceAccountCredentialLifetimeExtension constraint.
+    /// </summary>
+    [CliOption("--service-account-token-lifetime-seconds", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccountTokenLifetimeSeconds { get; set; }
+
+    /// <summary>
+    /// The workforce pool provider resource name in the format "&lt;pool&gt;/&lt;provider&gt;" or "locations/&lt;location&gt;/workforcePools/&lt;pool&gt;/providers/&lt;provider&gt;".
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Audience { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(CredentialSourceFile) ? 1 : 0) + (!string.IsNullOrWhiteSpace(CredentialSourceUrl) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ExecutableCommand) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of CredentialSourceFile, CredentialSourceUrl, or ExecutableCommand must be specified.", [nameof(CredentialSourceFile), nameof(CredentialSourceUrl), nameof(ExecutableCommand)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ExecutableInteractiveTimeoutMillis) || !string.IsNullOrWhiteSpace(ExecutableOutputFile) || !string.IsNullOrWhiteSpace(ExecutableTimeoutMillis) || !string.IsNullOrWhiteSpace(ServiceAccount) || !string.IsNullOrWhiteSpace(ServiceAccountTokenLifetimeSeconds)) && (!(!string.IsNullOrWhiteSpace(ServiceAccount))))
+        {
+            yield return new ValidationResult("ServiceAccount must be specified when other arguments in this group are specified.", [nameof(ServiceAccount)]);
+        }
+        yield break;
+    }
+
 }

@@ -27,6 +27,11 @@ public interface IGcloudAuditManager
     GcloudAuditManagerAuditReports AuditReports => throw new System.NotSupportedException();
 
     /// <summary>
+    /// gcloud audit-schedules sub-commands.
+    /// </summary>
+    GcloudAuditManagerAuditSchedules AuditSchedules => throw new System.NotSupportedException();
+
+    /// <summary>
     /// gcloud audit-scopes sub-commands.
     /// </summary>
     GcloudAuditManagerAuditScopes AuditScopes => throw new System.NotSupportedException();

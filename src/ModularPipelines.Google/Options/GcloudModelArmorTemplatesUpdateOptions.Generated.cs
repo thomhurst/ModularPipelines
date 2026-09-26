@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("model-armor", "templates", "update")]
-public record GcloudModelArmorTemplatesUpdateOptions : GcloudOptions
+public record GcloudModelArmorTemplatesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update Model Armor Template
+    /// </summary>
+    /// <param name="Template">Template resource - Identifier. name of resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudModelArmorTemplatesUpdateOptions(
+        string Template
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+    }
+
+    public void Deconstruct(out string Template)
+    {
+        Template = this.Template;
+    }
+
+    /// <summary>
+    /// Template resource - Identifier. name of resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the template resource. To set the location attribute: ▸ provide the argument template on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server stores the request ID for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
     /// </summary>
@@ -40,19 +64,19 @@ public record GcloudModelArmorTemplatesUpdateOptions : GcloudOptions
     public string? MaliciousUriFilterSettingsEnforcement { get; set; }
 
     /// <summary>
-    /// Malicious URI filter settings. Sensitive Data Protection settings. Arguments for the sdp configuration. At most one of these can be specified: Sensitive Data Protection basic configuration. Tells whether the Sensitive Data Protection basic config is enabled or disabled. BASIC_CONFIG_FILTER_ENFORCEMENT must be one of: disabled Disabled enabled Enabled
+    /// Sensitive Data Protection settings. Arguments for the sdp configuration. At most one of these can be specified: Sensitive Data Protection basic configuration. Tells whether the Sensitive Data Protection basic config is enabled or disabled. BASIC_CONFIG_FILTER_ENFORCEMENT must be one of: disabled Disabled enabled Enabled
     /// </summary>
     [CliOption("--basic-config-filter-enforcement", Format = OptionFormat.EqualsSeparated)]
     public string? BasicConfigFilterEnforcement { get; set; }
 
     /// <summary>
-    /// Malicious URI filter settings. Sensitive Data Protection Advanced configuration. Optional Sensitive Data Protection Deidentify template resource name. If provided then DeidentifyContent action is performed during Sanitization using this template and inspect template. The De-identified data will be returned in SdpDeidentifyResult. Note that all info-types present in the deidentify template must be present in inspect template. e.g. organizations/{organization}/deidentifyTemplates/{deidentify_template}, projects/{project}/deidentifyTemplates/{deidentify_template} organizations/{organization}/locations/{location}/deidentifyTemplates/{deidentify_template} projects/{project}/locations/{location}/deidentifyTemplates/{deidentify_template}
+    /// Sensitive Data Protection settings. Arguments for the sdp configuration. At most one of these can be specified: Sensitive Data Protection Advanced configuration. Optional Sensitive Data Protection Deidentify template resource name. If provided then DeidentifyContent action is performed during Sanitization using this template and inspect template. The De-identified data will be returned in SdpDeidentifyResult. Note that all info-types present in the deidentify template must be present in inspect template. e.g. organizations/{organization}/deidentifyTemplates/{deidentify_template}, projects/{project}/deidentifyTemplates/{deidentify_template} organizations/{organization}/locations/{location}/deidentifyTemplates/{deidentify_template} projects/{project}/locations/{location}/deidentifyTemplates/{deidentify_template}
     /// </summary>
     [CliOption("--advanced-config-deidentify-template", Format = OptionFormat.EqualsSeparated)]
     public string? AdvancedConfigDeidentifyTemplate { get; set; }
 
     /// <summary>
-    /// Malicious URI filter settings. Sensitive Data Protection Advanced configuration. Sensitive Data Protection inspect template resource name If only inspect template is provided (de-identify template not provided), then Sensitive Data Protection InspectContent action is performed during Sanitization. All Sensitive Data Protection findings identified during inspection will be returned as SdpFinding in SdpInsepctionResult e.g. organizations/{organization}/inspectTemplates/{inspect_template}, projects/{project}/inspectTemplates/{inspect_template} organizations/{organization}/locations/{location}/inspectTemplates/{inspect_template} projects/{project}/locations/{location}/inspectTemplates/{inspect_template}
+    /// Sensitive Data Protection settings. Arguments for the sdp configuration. At most one of these can be specified: Sensitive Data Protection Advanced configuration. Sensitive Data Protection inspect template resource name If only inspect template is provided (de-identify template not provided), then Sensitive Data Protection InspectContent action is performed during Sanitization. All Sensitive Data Protection findings identified during inspection will be returned as SdpFinding in SdpInsepctionResult e.g. organizations/{organization}/inspectTemplates/{inspect_template}, projects/{project}/inspectTemplates/{inspect_template} organizations/{organization}/locations/{location}/inspectTemplates/{inspect_template} projects/{project}/locations/{location}/inspectTemplates/{inspect_template}
     /// </summary>
     [CliOption("--advanced-config-inspect-template", Format = OptionFormat.EqualsSeparated)]
     public string? AdvancedConfigInspectTemplate { get; set; }
@@ -64,34 +88,154 @@ public record GcloudModelArmorTemplatesUpdateOptions : GcloudOptions
     public string? PiAndJailbreakFilterSettingsConfidenceLevel { get; set; }
 
     /// <summary>
-    /// Prompt injection and Jailbreak Filter settings. Tells whether Prompt injection and Jailbreak filter is enabled or disabled. PI_AND_JAILBREAK_FILTER_SETTINGS_ENFORCEMENT must be one of: disabled Enabled enabled Enabled
+    /// Tells whether Prompt injection and Jailbreak filter is enabled or disabled. PI_AND_JAILBREAK_FILTER_SETTINGS_ENFORCEMENT must be one of: disabled Enabled enabled Enabled
     /// </summary>
     [CliOption("--pi-and-jailbreak-filter-settings-enforcement", Format = OptionFormat.EqualsSeparated)]
     public string? PiAndJailbreakFilterSettingsEnforcement { get; set; }
 
     /// <summary>
-    /// Prompt injection and Jailbreak Filter settings. Responsible AI Filter settings. Update rai_settings_filters. At most one of these can be specified: Set rai_settings_filters to new value. List of Responsible AI filters enabled for template. confidenceLevel Confidence level for this RAI filter. During data sanitization, if data is classified under this filter with a confidence level equal to or greater than the specified level, a positive match is reported. If the confidence level is unspecified (i.e., 0), the system will use a reasonable default level based on the filter_type. filterType Type of responsible AI filter. Shorthand Example: --rai-settings-filters=confidenceLevel=string,filterType=string --rai-settings-filters=confidenceLevel=string,filterType=string JSON Example: --rai-settings-filters='[{"confidenceLevel": "string", "filterType": "string"}]' File Example: --rai-settings-filters=path_to_file.(yaml|json)
+    /// Responsible AI Filter settings. Update rai_settings_filters. At most one of these can be specified: Set rai_settings_filters to new value. List of Responsible AI filters enabled for template. confidenceLevel Confidence level for this RAI filter. During data sanitization, if data is classified under this filter with a confidence level equal to or greater than the specified level, a positive match is reported. If the confidence level is unspecified (i.e., 0), the system will use a reasonable default level based on the filter_type. filterType Type of responsible AI filter. Shorthand Example: --rai-settings-filters=confidenceLevel=string,filterType=string --rai-settings-filters=confidenceLevel=string,filterType=string JSON Example: --rai-settings-filters='[{"confidenceLevel": "string", "filterType": "string"}]' File Example: --rai-settings-filters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--rai-settings-filters", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RaiSettingsFilters { get; set; }
+    public IEnumerable<string>? RaiSettingsFilters
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RaiSettingsFiltersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RaiSettingsFiltersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RaiSettingsFiltersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RaiSettingsFiltersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Prompt injection and Jailbreak Filter settings. Responsible AI Filter settings. Update rai_settings_filters. At most one of these can be specified: Or at least one of these can be specified: Add new value to rai_settings_filters list. List of Responsible AI filters enabled for template. confidenceLevel Confidence level for this RAI filter. During data sanitization, if data is classified under this filter with a confidence level equal to or greater than the specified level, a positive match is reported. If the confidence level is unspecified (i.e., 0), the system will use a reasonable default level based on the filter_type. filterType Type of responsible AI filter. Shorthand Example: --add-rai-settings-filters=confidenceLevel=string,filterType=string --add-rai-settings-filters=confidenceLevel=string,filterType=string JSON Example: --add-rai-settings-filters='[{"confidenceLevel": "string", "filterType": "string"}]' File Example: --add-rai-settings-filters=path_to_file.(yaml|json)
+    /// Responsible AI Filter settings. Update rai_settings_filters. At most one of these can be specified: Or at least one of these can be specified: Add new value to rai_settings_filters list. List of Responsible AI filters enabled for template. confidenceLevel Confidence level for this RAI filter. During data sanitization, if data is classified under this filter with a confidence level equal to or greater than the specified level, a positive match is reported. If the confidence level is unspecified (i.e., 0), the system will use a reasonable default level based on the filter_type. filterType Type of responsible AI filter. Shorthand Example: --add-rai-settings-filters=confidenceLevel=string,filterType=string --add-rai-settings-filters=confidenceLevel=string,filterType=string JSON Example: --add-rai-settings-filters='[{"confidenceLevel": "string", "filterType": "string"}]' File Example: --add-rai-settings-filters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-rai-settings-filters", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddRaiSettingsFilters { get; set; }
+    public IEnumerable<string>? AddRaiSettingsFilters
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddRaiSettingsFiltersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddRaiSettingsFiltersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddRaiSettingsFiltersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddRaiSettingsFiltersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Prompt injection and Jailbreak Filter settings. Responsible AI Filter settings. Update rai_settings_filters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear rai_settings_filters value and set to empty list.
+    /// Responsible AI Filter settings. Update rai_settings_filters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear rai_settings_filters value and set to empty list.
     /// </summary>
     [CliFlag("--clear-rai-settings-filters")]
     public bool? ClearRaiSettingsFilters { get; set; }
 
     /// <summary>
-    /// Prompt injection and Jailbreak Filter settings. Responsible AI Filter settings. Update rai_settings_filters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from rai_settings_filters list. List of Responsible AI filters enabled for template. confidenceLevel Confidence level for this RAI filter. During data sanitization, if data is classified under this filter with a confidence level equal to or greater than the specified level, a positive match is reported. If the confidence level is unspecified (i.e., 0), the system will use a reasonable default level based on the filter_type. filterType Type of responsible AI filter. Shorthand Example: --remove-rai-settings-filters=confidenceLevel=string,filterType=string --remove-rai-settings-filters=confidenceLevel=string,filterType=string JSON Example: --remove-rai-settings-filters='[{"confidenceLevel": "string", "filterType": "string"}]' File Example: --remove-rai-settings-filters=path_to_file.(yaml|json)
+    /// Responsible AI Filter settings. Update rai_settings_filters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from rai_settings_filters list. List of Responsible AI filters enabled for template. confidenceLevel Confidence level for this RAI filter. During data sanitization, if data is classified under this filter with a confidence level equal to or greater than the specified level, a positive match is reported. If the confidence level is unspecified (i.e., 0), the system will use a reasonable default level based on the filter_type. filterType Type of responsible AI filter. Shorthand Example: --remove-rai-settings-filters=confidenceLevel=string,filterType=string --remove-rai-settings-filters=confidenceLevel=string,filterType=string JSON Example: --remove-rai-settings-filters='[{"confidenceLevel": "string", "filterType": "string"}]' File Example: --remove-rai-settings-filters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-rai-settings-filters", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveRaiSettingsFilters { get; set; }
+    public IEnumerable<string>? RemoveRaiSettingsFilters
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveRaiSettingsFiltersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveRaiSettingsFiltersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveRaiSettingsFiltersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveRaiSettingsFiltersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Message describing TemplateMetadata Set template.templateMetadata back to default value.
@@ -124,63 +268,175 @@ public record GcloudModelArmorTemplatesUpdateOptions : GcloudOptions
     public string? TemplateMetadataCustomPromptSafetyErrorMessage { get; set; }
 
     /// <summary>
-    /// Message describing TemplateMetadata If true, partial detector failures should be ignored. Use --template-metadata-ignore-partial-invocation-failures to enable and --no-template-metadata-ignore-partial-invocation-failures to disable.
+    /// If true, partial detector failures should be ignored. Use --template-metadata-ignore-partial-invocation-failures to enable and --no-template-metadata-ignore-partial-invocation-failures to disable.
     /// </summary>
     [CliFlag("--template-metadata-ignore-partial-invocation-failures")]
     public bool? TemplateMetadataIgnorePartialInvocationFailures { get; set; }
 
     /// <summary>
-    /// Negates --template-metadata-ignore-partial-invocation-failures. Message describing TemplateMetadata If true, partial detector failures should be ignored. Use --template-metadata-ignore-partial-invocation-failures to enable and --no-template-metadata-ignore-partial-invocation-failures to disable.
+    /// Negates --template-metadata-ignore-partial-invocation-failures. If true, partial detector failures should be ignored. Use --template-metadata-ignore-partial-invocation-failures to enable and --no-template-metadata-ignore-partial-invocation-failures to disable.
     /// </summary>
     [CliFlag("--no-template-metadata-ignore-partial-invocation-failures")]
     public bool? NoTemplateMetadataIgnorePartialInvocationFailures { get; set; }
 
     /// <summary>
-    /// Message describing TemplateMetadata If true, log template crud operations. Use --template-metadata-log-operations to enable and --no-template-metadata-log-operations to disable.
+    /// If true, log template crud operations. Use --template-metadata-log-operations to enable and --no-template-metadata-log-operations to disable.
     /// </summary>
     [CliFlag("--template-metadata-log-operations")]
     public bool? TemplateMetadataLogOperations { get; set; }
 
     /// <summary>
-    /// Negates --template-metadata-log-operations. Message describing TemplateMetadata If true, log template crud operations. Use --template-metadata-log-operations to enable and --no-template-metadata-log-operations to disable.
+    /// Negates --template-metadata-log-operations. If true, log template crud operations. Use --template-metadata-log-operations to enable and --no-template-metadata-log-operations to disable.
     /// </summary>
     [CliFlag("--no-template-metadata-log-operations")]
     public bool? NoTemplateMetadataLogOperations { get; set; }
 
     /// <summary>
-    /// Message describing TemplateMetadata If true, log sanitize operations. Use --template-metadata-log-sanitize-operations to enable and --no-template-metadata-log-sanitize-operations to disable.
+    /// If true, log sanitize operations. Use --template-metadata-log-sanitize-operations to enable and --no-template-metadata-log-sanitize-operations to disable.
     /// </summary>
     [CliFlag("--template-metadata-log-sanitize-operations")]
     public bool? TemplateMetadataLogSanitizeOperations { get; set; }
 
     /// <summary>
-    /// Negates --template-metadata-log-sanitize-operations. Message describing TemplateMetadata If true, log sanitize operations. Use --template-metadata-log-sanitize-operations to enable and --no-template-metadata-log-sanitize-operations to disable.
+    /// Negates --template-metadata-log-sanitize-operations. If true, log sanitize operations. Use --template-metadata-log-sanitize-operations to enable and --no-template-metadata-log-sanitize-operations to disable.
     /// </summary>
     [CliFlag("--no-template-metadata-log-sanitize-operations")]
     public bool? NoTemplateMetadataLogSanitizeOperations { get; set; }
 
     /// <summary>
-    /// Message describing TemplateMetadata Update labels. At most one of these can be specified: Set labels to new value. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// Update labels. At most one of these can be specified: Set labels to new value. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Labels { get; set; }
+    public IEnumerable<string>? Labels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __LabelsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __LabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __LabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __LabelsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Message describing TemplateMetadata Update labels. At most one of these can be specified: Or at least one of these can be specified: Update labels value or add key value pair. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
+    /// Update labels. At most one of these can be specified: Or at least one of these can be specified: Update labels value or add key value pair. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? UpdateLabels { get; set; }
+    public IEnumerable<string>? UpdateLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __UpdateLabelsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UpdateLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __UpdateLabelsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Message describing TemplateMetadata Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
+    /// Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Message describing TemplateMetadata Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
+    /// Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// Template resource - Identifier. name of resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Template { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(BasicConfigFilterEnforcement)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AdvancedConfigDeidentifyTemplate) || !string.IsNullOrWhiteSpace(AdvancedConfigInspectTemplate)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (BasicConfigFilterEnforcement) or (AdvancedConfigDeidentifyTemplate or AdvancedConfigInspectTemplate) may be specified.", [nameof(BasicConfigFilterEnforcement), nameof(AdvancedConfigDeidentifyTemplate), nameof(AdvancedConfigInspectTemplate)]);
+        }
+        if ((((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RaiSettingsFilters, static item => item is not null) : ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RaiSettingsFilters is not string || !string.IsNullOrWhiteSpace(RaiSettingsFilters?.ToString()) : ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RaiSettingsFilters, static item => item is not null) : (RaiSettingsFilters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RaiSettingsFilters), static item => item is not null))))) ? 1 : 0) + ((((object?)AddRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddRaiSettingsFilters, static item => item is not null) : ((object?)AddRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddRaiSettingsFilters is not string || !string.IsNullOrWhiteSpace(AddRaiSettingsFilters?.ToString()) : ((object?)AddRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddRaiSettingsFilters, static item => item is not null) : (AddRaiSettingsFilters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddRaiSettingsFilters), static item => item is not null))))) || ClearRaiSettingsFilters == true || ((object?)RemoveRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveRaiSettingsFilters, static item => item is not null) : ((object?)RemoveRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveRaiSettingsFilters is not string || !string.IsNullOrWhiteSpace(RemoveRaiSettingsFilters?.ToString()) : ((object?)RemoveRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveRaiSettingsFilters, static item => item is not null) : (RemoveRaiSettingsFilters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveRaiSettingsFilters), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of RaiSettingsFilters or (AddRaiSettingsFilters, ClearRaiSettingsFilters, or RemoveRaiSettingsFilters) may be specified.", [nameof(RaiSettingsFilters), nameof(AddRaiSettingsFilters), nameof(ClearRaiSettingsFilters), nameof(RemoveRaiSettingsFilters)]);
+        }
+        if ((((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RaiSettingsFilters, static item => item is not null) : ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RaiSettingsFilters is not string || !string.IsNullOrWhiteSpace(RaiSettingsFilters?.ToString()) : ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RaiSettingsFilters, static item => item is not null) : (RaiSettingsFilters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RaiSettingsFilters), static item => item is not null))))) || ((object?)AddRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddRaiSettingsFilters, static item => item is not null) : ((object?)AddRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddRaiSettingsFilters is not string || !string.IsNullOrWhiteSpace(AddRaiSettingsFilters?.ToString()) : ((object?)AddRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddRaiSettingsFilters, static item => item is not null) : (AddRaiSettingsFilters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddRaiSettingsFilters), static item => item is not null))))) || ClearRaiSettingsFilters == true || ((object?)RemoveRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveRaiSettingsFilters, static item => item is not null) : ((object?)RemoveRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveRaiSettingsFilters is not string || !string.IsNullOrWhiteSpace(RemoveRaiSettingsFilters?.ToString()) : ((object?)RemoveRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveRaiSettingsFilters, static item => item is not null) : (RemoveRaiSettingsFilters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveRaiSettingsFilters), static item => item is not null)))))) && (((object?)AddRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddRaiSettingsFilters, static item => item is not null) : ((object?)AddRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddRaiSettingsFilters is not string || !string.IsNullOrWhiteSpace(AddRaiSettingsFilters?.ToString()) : ((object?)AddRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddRaiSettingsFilters, static item => item is not null) : (AddRaiSettingsFilters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddRaiSettingsFilters), static item => item is not null))))) || ClearRaiSettingsFilters == true || ((object?)RemoveRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveRaiSettingsFilters, static item => item is not null) : ((object?)RemoveRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveRaiSettingsFilters is not string || !string.IsNullOrWhiteSpace(RemoveRaiSettingsFilters?.ToString()) : ((object?)RemoveRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveRaiSettingsFilters, static item => item is not null) : (RemoveRaiSettingsFilters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveRaiSettingsFilters), static item => item is not null)))))) && ((ClearRaiSettingsFilters == true ? 1 : 0) + (((object?)RemoveRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveRaiSettingsFilters, static item => item is not null) : ((object?)RemoveRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveRaiSettingsFilters is not string || !string.IsNullOrWhiteSpace(RemoveRaiSettingsFilters?.ToString()) : ((object?)RemoveRaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveRaiSettingsFilters, static item => item is not null) : (RemoveRaiSettingsFilters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveRaiSettingsFilters), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearRaiSettingsFilters or RemoveRaiSettingsFilters may be specified.", [nameof(ClearRaiSettingsFilters), nameof(RemoveRaiSettingsFilters)]);
+        }
+        if ((((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Labels, static item => item is not null) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Labels or (UpdateLabels, ClearLabels, or RemoveLabels) may be specified.", [nameof(Labels), nameof(UpdateLabels), nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Labels, static item => item is not null) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null))))) || ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) && (((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) && ((ClearLabels == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveLabels) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        yield break;
+    }
 
 }

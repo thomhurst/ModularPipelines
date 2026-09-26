@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("identity", "groups", "memberships", "delete")]
 public record GcloudIdentityGroupsMembershipsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a membership from an     existing group
+    /// </summary>
+    /// <param name="GroupEmail">The email address of the group the new membership is being removed from.</param>
+    /// <param name="MemberEmail">The email address of the group or user being removed from the group identified by group-email.</param>
+    public GcloudIdentityGroupsMembershipsDeleteOptions(
+        string GroupEmail,
+        string MemberEmail
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GroupEmail);
+        this.GroupEmail = GroupEmail;
+        global::System.ArgumentNullException.ThrowIfNull(MemberEmail);
+        this.MemberEmail = MemberEmail;
+    }
+
+    public void Deconstruct(out string GroupEmail, out string MemberEmail)
+    {
+        GroupEmail = this.GroupEmail;
+        MemberEmail = this.MemberEmail;
+    }
+
+    /// <summary>
+    /// The email address of the group the new membership is being removed from.
+    /// </summary>
+    [CliOption("--group-email", Format = OptionFormat.EqualsSeparated)]
+    public string GroupEmail { get; private init; }
+
+    /// <summary>
+    /// The email address of the group or user being removed from the group identified by group-email.
+    /// </summary>
+    [CliOption("--member-email", Format = OptionFormat.EqualsSeparated)]
+    public string MemberEmail { get; private init; }
+
 }

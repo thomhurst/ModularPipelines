@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("deployment-manager", "manifests", "describe")]
 public record GcloudDeploymentManagerManifestsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// provide information about a     manifest
+    /// </summary>
+    /// <param name="Deployment">Deployment name.</param>
+    public GcloudDeploymentManagerManifestsDescribeOptions(
+        string Deployment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Deployment);
+        this.Deployment = Deployment;
+    }
+
+    public void Deconstruct(out string Deployment)
+    {
+        Deployment = this.Deployment;
+    }
+
+    /// <summary>
+    /// Deployment name.
+    /// </summary>
+    [CliOption("--deployment", Format = OptionFormat.EqualsSeparated)]
+    public string Deployment { get; private init; }
+
+    /// <summary>
+    /// Manifest name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Manifest { get; set; }
+
 }

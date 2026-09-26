@@ -20,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "global-vm-extension-policies", "delete")]
-public record GcloudComputeGlobalVmExtensionPoliciesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeGlobalVmExtensionPoliciesDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a Compute     Engine global VM extension policy
+    /// </summary>
+    /// <param name="Name">Name of the global vm extension policy to delete.</param>
+    public GcloudComputeGlobalVmExtensionPoliciesDeleteOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Provide the name of a custom rollout plan to be used for the rollout. One of either --rollout-predefined-plan or --rollout-custom-plan must be specified, but not both.
     /// </summary>
@@ -34,12 +49,18 @@ public record GcloudComputeGlobalVmExtensionPoliciesDeleteOptions(
     /// Provide the name of a predefined rollout plan from [fast_rollout, slow_rollout] to be used for the rollout. One of either --rollout-predefined-plan or --rollout-custom-plan must be specified, but not both. ROLLOUT_PREDEFINED_PLAN must be one of: fast_rollout, slow_rollout.
     /// </summary>
     [CliOption("--rollout-predefined-plan", Format = OptionFormat.EqualsSeparated)]
-    public GcloudRolloutPredefinedPlan? RolloutPredefinedPlan { get; set; }
+    public GcloudComputeGlobalVmExtensionPoliciesDeleteRolloutPredefinedPlan? RolloutPredefinedPlan { get; set; }
 
     /// <summary>
     /// The UUID of the rollout retry action. Only set it if this is a retry for an existing resource.
     /// </summary>
     [CliOption("--rollout-retry-uuid", Format = OptionFormat.EqualsSeparated)]
     public string? RolloutRetryUuid { get; set; }
+
+    /// <summary>
+    /// Name of the global vm extension policy to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

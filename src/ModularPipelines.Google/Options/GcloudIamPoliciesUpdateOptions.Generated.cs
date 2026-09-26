@@ -19,8 +19,68 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "policies", "update")]
-public record GcloudIamPoliciesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyId
-) : GcloudOptions
+public record GcloudIamPoliciesUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update the policy on the given attachment     point with the given name
+    /// </summary>
+    /// <param name="AttachmentPoint">Resource to which the policy is attached. For valid formats, see https://cloud.google.com/iam/help/deny/attachment-point.</param>
+    /// <param name="Kind">Policy type. Use denypolicies for deny policies.</param>
+    /// <param name="PolicyFile">Path to the file that contains the policy, in JSON or YAML format. For valid syntax, see https://cloud.google.com/iam/help/deny/policy-syntax.</param>
+    /// <param name="PolicyId">Policy ID that is unique for the resource to which the policy is attached.</param>
+    public GcloudIamPoliciesUpdateOptions(
+        string AttachmentPoint,
+        string Kind,
+        string PolicyFile,
+        string PolicyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AttachmentPoint);
+        this.AttachmentPoint = AttachmentPoint;
+        global::System.ArgumentNullException.ThrowIfNull(Kind);
+        this.Kind = Kind;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyId);
+        this.PolicyId = PolicyId;
+    }
+
+    public void Deconstruct(out string AttachmentPoint, out string Kind, out string PolicyFile, out string PolicyId)
+    {
+        AttachmentPoint = this.AttachmentPoint;
+        Kind = this.Kind;
+        PolicyFile = this.PolicyFile;
+        PolicyId = this.PolicyId;
+    }
+
+    /// <summary>
+    /// Resource to which the policy is attached. For valid formats, see https://cloud.google.com/iam/help/deny/attachment-point.
+    /// </summary>
+    [CliOption("--attachment-point", Format = OptionFormat.EqualsSeparated)]
+    public string AttachmentPoint { get; private init; }
+
+    /// <summary>
+    /// Policy type. Use denypolicies for deny policies.
+    /// </summary>
+    [CliOption("--kind", Format = OptionFormat.EqualsSeparated)]
+    public string Kind { get; private init; }
+
+    /// <summary>
+    /// Path to the file that contains the policy, in JSON or YAML format. For valid syntax, see https://cloud.google.com/iam/help/deny/policy-syntax.
+    /// </summary>
+    [CliOption("--policy-file", Format = OptionFormat.EqualsSeparated)]
+    public string PolicyFile { get; private init; }
+
+    /// <summary>
+    /// Etag that identifies the version of the existing policy. It can be obtained by running gcloud iam policies get. When deleting a policy, if the etag is omitted, the policy is deleted regardless of its current etag. When updating a policy, if the etag is omitted, the update uses the etag provided in the policy file.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string? Etag { get; set; }
+
+    /// <summary>
+    /// Policy ID that is unique for the resource to which the policy is attached.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyId { get; private init; }
+
 }

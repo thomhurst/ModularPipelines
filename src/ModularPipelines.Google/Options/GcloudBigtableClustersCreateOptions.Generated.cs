@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,138 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "clusters", "create")]
-public record GcloudBigtableClustersCreateOptions : GcloudOptions
+public record GcloudBigtableClustersCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a bigtable cluster
+    /// </summary>
+    /// <param name="Zone">ID of the zone where the cluster is located. Supported zones are listed at https://cloud.google.com/bigtable/docs/locations.</param>
+    /// <param name="Cluster">Cluster resource - The cluster to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBigtableClustersCreateOptions(
+        string Zone,
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Zone, out string Cluster)
+    {
+        Zone = this.Zone;
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// ID of the zone where the cluster is located. Supported zones are listed at https://cloud.google.com/bigtable/docs/locations.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
+    /// <summary>
+    /// Cluster resource - The cluster to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Bigtable instance for the cluster. To set the instance attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Node scaling factor for the cluster. NODE_SCALING_FACTOR must be one of: node-scaling-factor-1x, node-scaling-factor-2x.
+    /// </summary>
+    [CliOption("--node-scaling-factor", Format = OptionFormat.EqualsSeparated)]
+    public GcloudBigtableClustersCreateNodeScalingFactor? NodeScalingFactor { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring id of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The arguments in this group can be used to specify the attributes of this resource. The Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The arguments in this group can be used to specify the attributes of this resource. The Cloud project id for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Manual Scaling Number of nodes to serve.
+    /// </summary>
+    [CliOption("--num-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? NumNodes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Autoscaling The target CPU utilization percentage for autoscaling. Accepted values are from 10 to 80. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-cpu-target", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingCpuTarget { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Autoscaling The maximum number of nodes for autoscaling. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-max-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMaxNodes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Autoscaling The minimum number of nodes for autoscaling. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-min-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMinNodes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Autoscaling The target storage utilization gibibytes per node for autoscaling. Accepted values are from 2560 to 5120 for SSD clusters and 8192 to 16384 for HDD clusters.
+    /// </summary>
+    [CliOption("--autoscaling-storage-target", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingStorageTarget { get; set; }
+
+    /// <summary>
+    /// Cluster resource - The cluster to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        if (((!string.IsNullOrWhiteSpace(NumNodes)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AutoscalingCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (NumNodes) or (AutoscalingCpuTarget, AutoscalingMaxNodes, AutoscalingMinNodes, or AutoscalingStorageTarget) may be specified.", [nameof(NumNodes), nameof(AutoscalingCpuTarget), nameof(AutoscalingMaxNodes), nameof(AutoscalingMinNodes), nameof(AutoscalingStorageTarget)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(NumNodes) || !string.IsNullOrWhiteSpace(AutoscalingCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget)) && (!string.IsNullOrWhiteSpace(AutoscalingCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget)) && (!(!string.IsNullOrWhiteSpace(AutoscalingCpuTarget))))
+        {
+            yield return new ValidationResult("AutoscalingCpuTarget must be specified when other arguments in this group are specified.", [nameof(AutoscalingCpuTarget)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(NumNodes) || !string.IsNullOrWhiteSpace(AutoscalingCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget)) && (!string.IsNullOrWhiteSpace(AutoscalingCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget)) && (!(!string.IsNullOrWhiteSpace(AutoscalingMaxNodes))))
+        {
+            yield return new ValidationResult("AutoscalingMaxNodes must be specified when other arguments in this group are specified.", [nameof(AutoscalingMaxNodes)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(NumNodes) || !string.IsNullOrWhiteSpace(AutoscalingCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget)) && (!string.IsNullOrWhiteSpace(AutoscalingCpuTarget) || !string.IsNullOrWhiteSpace(AutoscalingMaxNodes) || !string.IsNullOrWhiteSpace(AutoscalingMinNodes) || !string.IsNullOrWhiteSpace(AutoscalingStorageTarget)) && (!(!string.IsNullOrWhiteSpace(AutoscalingMinNodes))))
+        {
+            yield return new ValidationResult("AutoscalingMinNodes must be specified when other arguments in this group are specified.", [nameof(AutoscalingMinNodes)]);
+        }
+        yield break;
+    }
+
 }

@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firebase", "test", "network-profiles", "describe")]
-public record GcloudFirebaseTestNetworkProfilesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ProfileId
-) : GcloudOptions
+public record GcloudFirebaseTestNetworkProfilesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a network profile
+    /// </summary>
+    /// <param name="ProfileId">The network profile to describe, found using $ gcloud firebase test network-profiles list.</param>
+    public GcloudFirebaseTestNetworkProfilesDescribeOptions(
+        string ProfileId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProfileId);
+        this.ProfileId = ProfileId;
+    }
+
+    public void Deconstruct(out string ProfileId)
+    {
+        ProfileId = this.ProfileId;
+    }
+
+    /// <summary>
+    /// The network profile to describe, found using $ gcloud firebase test network-profiles list.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ProfileId { get; private init; }
+
 }

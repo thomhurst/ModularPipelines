@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("beyondcorp", "security-gateways", "set-iam-policy")]
-public record GcloudBeyondcorpSecurityGatewaysSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudBeyondcorpSecurityGatewaysSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the IAM policy for     a security gateway
+    /// </summary>
+    /// <param name="SecurityGateway">SecurityGateway resource - The security gateway for which to set the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the securityGateway or fully qualified identifier for the securityGateway. To set the security_gateway attribute: ▸ provide the argument security_gateway on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudBeyondcorpSecurityGatewaysSetIamPolicyOptions(
+        string SecurityGateway,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityGateway);
+        this.SecurityGateway = SecurityGateway;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string SecurityGateway, out string PolicyFile)
+    {
+        SecurityGateway = this.SecurityGateway;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// SecurityGateway resource - The security gateway for which to set the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the securityGateway resource. We support only global location. To set the location attribute: ▸ provide the argument security_gateway on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// SecurityGateway resource - The security gateway for which to set the IAM policy. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the securityGateway or fully qualified identifier for the securityGateway. To set the security_gateway attribute: ▸ provide the argument security_gateway on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SecurityGateway { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

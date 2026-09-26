@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -67,14 +66,12 @@ public record GcloudContainerAiProfilesListOptions : GcloudOptions
     /// <summary>
     /// The target cost per million input tokens to filter profiles by, unit is 1 USD up to 5 decimal places.
     /// </summary>
-    [SecretValue]
     [CliOption("--target-cost-per-million-input-tokens", Format = OptionFormat.EqualsSeparated)]
     public string? TargetCostPerMillionInputTokens { get; set; }
 
     /// <summary>
     /// The target cost per million output tokens to filter profiles by, unit is 1 USD up to 5 decimal places.
     /// </summary>
-    [SecretValue]
     [CliOption("--target-cost-per-million-output-tokens", Format = OptionFormat.EqualsSeparated)]
     public string? TargetCostPerMillionOutputTokens { get; set; }
 

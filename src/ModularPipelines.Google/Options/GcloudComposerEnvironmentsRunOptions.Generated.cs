@@ -19,8 +19,58 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("composer", "environments", "run")]
-public record GcloudComposerEnvironmentsRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Subcommand
-) : GcloudOptions
+public record GcloudComposerEnvironmentsRunOptions : GcloudOptions
 {
+    /// <summary>
+    /// command remotely in a     Cloud Composer environment
+    /// </summary>
+    /// <param name="Environment">Environment resource - The environment in which to run an Airflow command. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: ▸ provide the argument environment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="Subcommand">The Airflow CLI subcommand to run. Available subcommands include (listed with Airflow versions that support): backfill [**, 3.4.0), clear [**, 2.0.0), config [2.11.0, 3.4.0), connections [**, 3.4.0), dag_state [**, 2.0.0), dags [1.10.14, 3.4.0), db [2.3.0, 3.4.0), delete_dag [1.10.1, 2.0.0), kerberos [**, 3.4.0), kubernetes [2.1.4, 3.4.0), list-import-errors [**, 3.0.0), list_dag_runs [1.10.2, 2.0.0), list_dags [**, 2.0.0), list_tasks [**, 2.0.0), next_execution [1.10.2, 2.0.0), pause [**, 2.0.0), pool [**, 2.0.0), pools [1.10.14, 3.4.0), render [**, 2.0.0), roles [2.0.0, 3.4.0), run [**, 2.0.0), sync-perm [1.10.14, 3.4.0), sync_perm [1.10.2, 2.0.0), task_failed_deps [**, 2.0.0), task_state [**, 2.0.0), tasks [1.10.14, 3.4.0), test [**, 2.0.0), trigger_dag [**, 2.0.0), unpause [**, 2.0.0), upgrade_check [1.10.15, 2.0.0), users [1.10.14, 3.4.0), variables [**, 3.4.0), version [**, 3.4.0) (see https://airflow.apache.org/docs/apache-airflow/stable/cli-and-env-variables-ref.html for more info).</param>
+    public GcloudComposerEnvironmentsRunOptions(
+        string Environment,
+        string Subcommand
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Environment);
+        this.Environment = Environment;
+        global::System.ArgumentNullException.ThrowIfNull(Subcommand);
+        this.Subcommand = Subcommand;
+    }
+
+    public void Deconstruct(out string Environment, out string Subcommand)
+    {
+        Environment = this.Environment;
+        Subcommand = this.Subcommand;
+    }
+
+    /// <summary>
+    /// Environment resource - The environment in which to run an Airflow command. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Region where Composer environment runs or in which to create the environment. To set the location attribute: ▸ provide the argument environment on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property composer/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Environment resource - The environment in which to run an Airflow command. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument environment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the environment or fully qualified identifier for the environment. To set the environment attribute: ▸ provide the argument environment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Environment { get; private init; }
+
+    /// <summary>
+    /// Command line arguments to the subcommand. The '--' argument must be specified between gcloud specific args on the left and CMD_ARGS on the right. Example: gcloud composer environments run myenv trigger_dag -- some_dag --run_id=foo
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
+    public IEnumerable<string>? CmdArgs { get; set; }
+
+    /// <summary>
+    /// The Airflow CLI subcommand to run. Available subcommands include (listed with Airflow versions that support): backfill [**, 3.4.0), clear [**, 2.0.0), config [2.11.0, 3.4.0), connections [**, 3.4.0), dag_state [**, 2.0.0), dags [1.10.14, 3.4.0), db [2.3.0, 3.4.0), delete_dag [1.10.1, 2.0.0), kerberos [**, 3.4.0), kubernetes [2.1.4, 3.4.0), list-import-errors [**, 3.0.0), list_dag_runs [1.10.2, 2.0.0), list_dags [**, 2.0.0), list_tasks [**, 2.0.0), next_execution [1.10.2, 2.0.0), pause [**, 2.0.0), pool [**, 2.0.0), pools [1.10.14, 3.4.0), render [**, 2.0.0), roles [2.0.0, 3.4.0), run [**, 2.0.0), sync-perm [1.10.14, 3.4.0), sync_perm [1.10.2, 2.0.0), task_failed_deps [**, 2.0.0), task_state [**, 2.0.0), tasks [1.10.14, 3.4.0), test [**, 2.0.0), trigger_dag [**, 2.0.0), unpause [**, 2.0.0), upgrade_check [1.10.15, 2.0.0), users [1.10.14, 3.4.0), variables [**, 3.4.0), version [**, 3.4.0) (see https://airflow.apache.org/docs/apache-airflow/stable/cli-and-env-variables-ref.html for more info).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Subcommand { get; private init; }
+
+    /// <summary>
+    /// Additional subcommand in case it is nested. The following is a list of allowed nested subcommands: ◆ config: lint ◆ db: check, trim ◆ all other subcommands: all nested subcommands are allowed
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand)]
+    public string? SubcommandNested { get; set; }
+
 }

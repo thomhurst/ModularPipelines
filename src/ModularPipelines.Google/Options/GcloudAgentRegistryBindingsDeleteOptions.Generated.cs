@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAgentRegistryBindingsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a binding connection
+    /// </summary>
+    /// <param name="Binding">Binding resource - The name of the Binding. Format: projects/{project}/locations/{location}/bindings/{binding}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the binding or fully qualified identifier for the binding. To set the binding attribute: ▸ provide the argument binding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAgentRegistryBindingsDeleteOptions(
+        string Binding
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Binding);
+        this.Binding = Binding;
+    }
+
+    public void Deconstruct(out string Binding)
+    {
+        Binding = this.Binding;
+    }
+
+    /// <summary>
+    /// Binding resource - The name of the Binding. Format: projects/{project}/locations/{location}/bindings/{binding}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the binding resource. To set the location attribute: ▸ provide the argument binding on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -32,5 +55,11 @@ public record GcloudAgentRegistryBindingsDeleteOptions : GcloudOptions
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Binding resource - The name of the Binding. Format: projects/{project}/locations/{location}/bindings/{binding}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the binding or fully qualified identifier for the binding. To set the binding attribute: ▸ provide the argument binding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Binding { get; private init; }
 
 }

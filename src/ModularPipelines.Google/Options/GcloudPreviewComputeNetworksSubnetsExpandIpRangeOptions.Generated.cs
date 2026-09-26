@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "networks", "subnets", "expand-ip-range")]
-public record GcloudPreviewComputeNetworksSubnetsExpandIpRangeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeNetworksSubnetsExpandIpRangeOptions : GcloudOptions
 {
+    /// <summary>
+    /// expand the IP     range of a Compute Engine subnetwork
+    /// </summary>
+    /// <param name="PrefixLength">The new prefix length of the subnet. It must be smaller than the original and in the private address space 10.0.0.0/8, 172.16.0.0/12 or 192.168.0.0/16 defined in RFC 1918.</param>
+    /// <param name="Name">Name of the subnetwork to operate on.</param>
+    public GcloudPreviewComputeNetworksSubnetsExpandIpRangeOptions(
+        string PrefixLength,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PrefixLength);
+        this.PrefixLength = PrefixLength;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string PrefixLength, out string Name)
+    {
+        PrefixLength = this.PrefixLength;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The new prefix length of the subnet. It must be smaller than the original and in the private address space 10.0.0.0/8, 172.16.0.0/12 or 192.168.0.0/16 defined in RFC 1918.
+    /// </summary>
+    [CliOption("--prefix-length", Format = OptionFormat.EqualsSeparated)]
+    public string PrefixLength { get; private init; }
+
+    /// <summary>
+    /// Region of the subnetwork to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the subnetwork to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

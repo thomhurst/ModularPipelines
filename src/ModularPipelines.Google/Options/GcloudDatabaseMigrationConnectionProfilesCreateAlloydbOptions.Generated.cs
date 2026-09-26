@@ -6,10 +6,14 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +23,174 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "connection-profiles", "create", "alloydb")]
-public record GcloudDatabaseMigrationConnectionProfilesCreateAlloydbOptions : GcloudOptions
+public record GcloudDatabaseMigrationConnectionProfilesCreateAlloydbOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a     Database Migration Service connection profile for AlloyDB
+    /// </summary>
+    /// <param name="CpuCount">Whole number value indicating how many vCPUs the machine should contain. Each vCPU count corresponds to a N2 high-mem machine: (https://cloud.google.com/compute/docs/general-purpose-machines#n2_machines). CPU_COUNT must be one of: 2, 4, 8, 16, 32, 64.</param>
+    /// <param name="Password">Initial password for the 'postgres' user.</param>
+    /// <param name="PrimaryId">The ID of the primary instance for this AlloyDB cluster.</param>
+    /// <param name="ConnectionProfile">Connection profile resource - The connection profile to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ▸ provide the argument connection_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatabaseMigrationConnectionProfilesCreateAlloydbOptions(
+        int CpuCount,
+        string Password,
+        string PrimaryId,
+        string ConnectionProfile
+    )
+    {
+        this.CpuCount = CpuCount;
+        global::System.ArgumentNullException.ThrowIfNull(Password);
+        this.Password = Password;
+        global::System.ArgumentNullException.ThrowIfNull(PrimaryId);
+        this.PrimaryId = PrimaryId;
+        global::System.ArgumentNullException.ThrowIfNull(ConnectionProfile);
+        this.ConnectionProfile = ConnectionProfile;
+    }
+
+    public void Deconstruct(out int CpuCount, out string Password, out string PrimaryId, out string ConnectionProfile)
+    {
+        CpuCount = this.CpuCount;
+        Password = this.Password;
+        PrimaryId = this.PrimaryId;
+        ConnectionProfile = this.ConnectionProfile;
+    }
+
+    /// <summary>
+    /// Whole number value indicating how many vCPUs the machine should contain. Each vCPU count corresponds to a N2 high-mem machine: (https://cloud.google.com/compute/docs/general-purpose-machines#n2_machines). CPU_COUNT must be one of: 2, 4, 8, 16, 32, 64.
+    /// </summary>
+    [CliOption("--cpu-count", Format = OptionFormat.EqualsSeparated)]
+    public int CpuCount { get; private init; }
+
+    /// <summary>
+    /// Initial password for the 'postgres' user.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
+    public string Password { get; private init; }
+
+    /// <summary>
+    /// The ID of the primary instance for this AlloyDB cluster.
+    /// </summary>
+    [CliOption("--primary-id", Format = OptionFormat.EqualsSeparated)]
+    public string PrimaryId { get; private init; }
+
+    /// <summary>
+    /// Connection profile resource - The connection profile to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the connection_profile. To set the region attribute: ▸ provide the argument connection_profile on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Waits for the operation in progress to complete before returning.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of CIDR ranges that can connect to the AlloyDB instance. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--authorized-network-cidr-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AuthorizedNetworkCidrRanges { get; set; }
+
+    /// <summary>
+    /// The resource labels for an AlloyDB cluster. An object containing a list of "key": "value" pairs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--cluster-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ClusterLabels { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of database flags to set on the AlloyDB primary instance. Use an equals sign to separate the flag name and value. Flags without values, like skip_grant_tables, can be written out without a value, e.g., skip_grant_tables=. Use on/off values for booleans. View AlloyDB's documentation for allowed flags (e.g., --database-flags max_allowed_packet=55555,skip_grant_tables=,log_output=1). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--database-flags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? DatabaseFlags { get; set; }
+
+    /// <summary>
+    /// Database engine major version. DATABASE_VERSION must be one of: POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17.
+    /// </summary>
+    [CliOption("--database-version", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDatabaseMigrationConnectionProfilesCreateAlloydbDatabaseVersion? DatabaseVersion { get; set; }
+
+    /// <summary>
+    /// A user-friendly name for the connection profile. The display name can include letters, numbers, spaces, and hyphens, and must start with a letter.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// If true, Enables an outbound public IP address to support a database server sending requests out into the internet.
+    /// </summary>
+    [CliFlag("--enable-outbound-public-ip")]
+    public bool? EnableOutboundPublicIp { get; set; }
+
+    /// <summary>
+    /// If true, the AlloyDB instance will be accessible via public IP.
+    /// </summary>
+    [CliFlag("--enable-public-ip")]
+    public bool? EnablePublicIp { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The VPC network from which the AlloyDB instance is accessible via private IP. For example, projects/myProject/global/networks/default. This setting cannot be updated after it is set.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// The resource labels for an AlloyDB primary instance. An object containing a list of "key": "value" pairs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--primary-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? PrimaryLabels { get; set; }
+
+    /// <summary>
+    /// The role of the connection profile. ROLE must be one of: SOURCE, DESTINATION.
+    /// </summary>
+    [CliOption("--role", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDatabaseMigrationConnectionProfilesCreateAlloydbRole? Role { get; set; }
+
+    /// <summary>
+    /// Kms key resource - Name of the CMEK (customer-managed encryption key) used for this AlloyDB cluster. For example, projects/myProject/locations/us-central1/keyRings/myKeyRing/cryptoKeys/myKey. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. ID of the kms-key or fully qualified identifier for the kms-key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Kms key resource - Name of the CMEK (customer-managed encryption key) used for this AlloyDB cluster. For example, projects/myProject/locations/us-central1/keyRings/myKeyRing/cryptoKeys/myKey. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The CMEK keyring id of the kms-key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Kms key resource - Name of the CMEK (customer-managed encryption key) used for this AlloyDB cluster. For example, projects/myProject/locations/us-central1/keyRings/myKeyRing/cryptoKeys/myKey. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The Cloud project id for the kms-key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <summary>
+    /// Connection profile resource - The connection profile to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ▸ provide the argument connection_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConnectionProfile { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsProject)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        yield break;
+    }
+
 }

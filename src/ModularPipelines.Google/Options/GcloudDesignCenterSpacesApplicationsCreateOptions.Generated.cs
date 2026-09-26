@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,237 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "applications", "create")]
-public record GcloudDesignCenterSpacesApplicationsCreateOptions : GcloudOptions
+public record GcloudDesignCenterSpacesApplicationsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create an application
+    /// </summary>
+    /// <param name="Application">Application resource - Identifier. The name of the application. Format: projects/{project}/locations/{location}/spaces/{space}/applications/{application} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the application or fully qualified identifier for the application. To set the application attribute: ▸ provide the argument application on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDesignCenterSpacesApplicationsCreateOptions(
+        string Application
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Application);
+        this.Application = Application;
+    }
+
+    public void Deconstruct(out string Application)
+    {
+        Application = this.Application;
+    }
+
+    /// <summary>
+    /// Application resource - Identifier. The name of the application. Format: projects/{project}/locations/{location}/spaces/{space}/applications/{application} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the application resource. To set the location attribute: ▸ provide the argument application on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Application resource - Identifier. The name of the application. Format: projects/{project}/locations/{location}/spaces/{space}/applications/{application} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The space id of the application resource. To set the space attribute: ▸ provide the argument application on the command line with a fully specified name; ▸ provide the argument --space on the command line.
+    /// </summary>
+    [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
+    public string? Space { get; set; }
+
+    /// <summary>
+    /// Scope of an application. This must be specified. Scope Type. SCOPE_TYPE must be one of: global Global type. regional Regional type.
+    /// </summary>
+    [CliOption("--scope-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ScopeType { get; set; }
+
+    /// <summary>
+    /// Source template information for the deployment. This must be specified. Arguments for the source. At most one of these can be specified: Application template revision URI.
+    /// </summary>
+    [CliOption("--source-application-template-revision", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceApplicationTemplateRevision { get; set; }
+
+    /// <summary>
+    /// Source template information for the deployment. This must be specified. Arguments for the source. At most one of these can be specified: Shared template revision URI.
+    /// </summary>
+    [CliOption("--source-shared-template-revision-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceSharedTemplateRevisionUri { get; set; }
+
+    /// <summary>
+    /// A list of parameters to attach to the deployment source object, which is a catalog entry or application template snapshot. key The key of the parameter. value The value of the parameter. Shorthand Example: --app-parameters=key=string,value={...} --app-parameters=key=string,value={...} JSON Example: --app-parameters='[{"key": "string", "value": {...}}]' File Example: --app-parameters=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--app-parameters", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AppParameters { get; set; }
+
+    /// <summary>
+    /// A list of component parameters to associate with the application. applicationInfo The application associated with the component. apphubApplicationId The application ID of the apphub application. The ID must be 1-63 characters long and should match the regular expression ^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$. attributes Attributes of apphub application. businessOwners Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. criticality User-defined criticality information. level Criticality level. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead. missionCritical Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead. type Criticality Type. developerOwners Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. environment User-defined environment information. environment Environment name. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead. type Environment Type. operatorOwners Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. deploymentRegion Deployment region for the component. If the scope is set to REGIONAL, then the apphub application is created in this region, e.g. us-central1. displayName Display name for the application. The number of characters should be less than 64 characters. scope Scope of apphub application. type Scope Type. component The name of the component parameter. parameters A list of parameters associated with the component. key The key of the parameter. value The value of the parameter. Shorthand Example: --component-parameters=applicationInfo={apphubApplicationId=string,attributes={businessOwners=[{channel={uri=string},displayName=string,email=string}],criticality={level=string,missionCritical=boolean,type=string},developerOwners=[{channel={uri=string},displayName=string,email=string}],environment={environment=string,type=string},operatorOwners=[{channel={uri=string},displayName=string,email=string}]},deploymentRegion=string,displayName=string,scope={type=string}},component=string,parameters=[{key=string,value={...}}] --component-parameters=applicationInfo={apphubApplicationId=string,attributes={businessOwners=[{channel={uri=string},displayName=string,email=string}],criticality={level=string,missionCritical=boolean,type=string},developerOwners=[{channel={uri=string},displayName=string,email=string}],environment={environment=string,type=string},operatorOwners=[{channel={uri=string},displayName=string,email=string}]},deploymentRegion=string,displayName=string,scope={type=string}},component=string,parameters=[{key=string,value={...}}] JSON Example: --component-parameters='[{"applicationInfo": {"apphubApplicationId": "string", "attributes": {"businessOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}], "criticality": {"level": "string", "missionCritical": boolean, "type": "string"}, "developerOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}], "environment": {"environment": "string", "type": "string"}, "operatorOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]}, "deploymentRegion": "string", "displayName": "string", "scope": {"type": "string"}}, "component": "string", "parameters": [{"key": "string", "value": {...}}]}]' File Example: --component-parameters=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--component-parameters", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ComponentParameters { get; set; }
+
+    /// <summary>
+    /// Holds parameters that are specific to composite applications. A map from a component's URI to the deployment service account for composite application. key format: projects/{project}/locations/{location}/spaces/{space}/applicationTemplates/{application_template}/components/{component} value format: projects/{project}/serviceAccounts/{email_address}. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --composite-application-parameters-service-account-map=string=string JSON Example: --composite-application-parameters-service-account-map='{"string": "string"}' File Example: --composite-application-parameters-service-account-map=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--composite-application-parameters-service-account-map", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? CompositeApplicationParametersServiceAccountMap { get; set; }
+
+    /// <summary>
+    /// Connection configuration for the application. connectionUri The connection URI. destinationComponentParameters The parameters of the connection associated with the destination component. key The key of the parameter. value The value of the parameter. sourceComponentParameters The parameters of the connection associated with the source component. key The key of the parameter. value The value of the parameter. Shorthand Example: --connection-configs=connectionUri=string,destinationComponentParameters=[{key=string,value={...}}],sourceComponentParameters=[{key=string,value={...}}] --connection-configs=connectionUri=string,destinationComponentParameters=[{key=string,value={...}}],sourceComponentParameters=[{key=string,value={...}}] JSON Example: --connection-configs='[{"connectionUri": "string", "destinationComponentParameters": [{"key": "string", "value": {...}}], "sourceComponentParameters": [{"key": "string", "value": {...}}]}]' File Example: --connection-configs=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--connection-configs", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ConnectionConfigs { get; set; }
+
+    /// <summary>
+    /// Deployment project of the application.
+    /// </summary>
+    [CliOption("--deployment-project", Format = OptionFormat.EqualsSeparated)]
+    public string? DeploymentProject { get; set; }
+
+    /// <summary>
+    /// The region where the application is deployed.
+    /// </summary>
+    [CliOption("--deployment-region", Format = OptionFormat.EqualsSeparated)]
+    public string? DeploymentRegion { get; set; }
+
+    /// <summary>
+    /// Description of the application.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Display name of the application.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Import existing resources into the application.
+    /// </summary>
+    [CliFlag("--import-existing-resources")]
+    public bool? ImportExistingResources { get; set; }
+
+    /// <summary>
+    /// Specifies the strategy to use when updating the application parameters while updating the application template revision. PARAMS_UPDATE_STRATEGY must be (only one value is supported): replace Replaces the existing field values with the provided ones.
+    /// </summary>
+    [CliOption("--params-update-strategy", Format = OptionFormat.EqualsSeparated)]
+    public string? ParamsUpdateStrategy { get; set; }
+
+    /// <summary>
+    /// Your own service account that you use to deploy an application.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// The type of the application. TYPE must be one of: helm-app Application type is helm application. terraform-app Application type is terraform application.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string? Type { get; set; }
+
+    /// <summary>
+    /// Consumer provided attributes. Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-business-owners=channel={uri=string},displayName=string,email=string --attributes-business-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-business-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-business-owners=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--attributes-business-owners", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AttributesBusinessOwners { get; set; }
+
+    /// <summary>
+    /// Consumer provided attributes. Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-developer-owners=channel={uri=string},displayName=string,email=string --attributes-developer-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-developer-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-developer-owners=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--attributes-developer-owners", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AttributesDeveloperOwners { get; set; }
+
+    /// <summary>
+    /// Consumer provided attributes. Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-operator-owners=channel={uri=string},displayName=string,email=string --attributes-operator-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-operator-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-operator-owners=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--attributes-operator-owners", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AttributesOperatorOwners { get; set; }
+
+    /// <summary>
+    /// Criticality of the Application, Service, or Workload Criticality Type. CRITICALITY_TYPE must be one of: high High impact. low Low impact. medium Medium impact. mission-critical Mission critical service, application or workload. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--criticality-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CriticalityType { get; set; }
+
+    /// <summary>
+    /// Criticality of the Application, Service, or Workload Criticality level. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead.
+    /// </summary>
+    [CliOption("--criticality-level", Format = OptionFormat.EqualsSeparated)]
+    public string? CriticalityLevel { get; set; }
+
+    /// <summary>
+    /// Criticality of the Application, Service, or Workload Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead.
+    /// </summary>
+    [CliFlag("--criticality-mission-critical")]
+    public bool? CriticalityMissionCritical { get; set; }
+
+    /// <summary>
+    /// Environment of the Application, Service, or Workload Environment Type. ENVIRONMENT_TYPE must be one of: development Development environment. production Production environment. staging Staging environment. test Test environment. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--environment-type", Format = OptionFormat.EqualsSeparated)]
+    public string? EnvironmentType { get; set; }
+
+    /// <summary>
+    /// Environment of the Application, Service, or Workload Environment name. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead.
+    /// </summary>
+    [CliOption("--environment", Format = OptionFormat.EqualsSeparated)]
+    public string? Environment { get; set; }
+
+    /// <summary>
+    /// The deployment target of the application. Arguments for the target. The GKE deployment target. The self link of the cluster where GKE based application is deployed. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--gke-deployment-target-cluster-self-link", Format = OptionFormat.EqualsSeparated)]
+    public string? GkeDeploymentTargetClusterSelfLink { get; set; }
+
+    /// <summary>
+    /// The deployment target of the application. Arguments for the target. The GKE deployment target. The kubernetes service account that is created within the namespace provided above. Example: default or node-sa This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--gke-deployment-target-kubernetes-service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? GkeDeploymentTargetKubernetesServiceAccount { get; set; }
+
+    /// <summary>
+    /// The deployment target of the application. Arguments for the target. The GKE deployment target. The namespace where the application is deployed. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--gke-deployment-target-namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? GkeDeploymentTargetNamespace { get; set; }
+
+    /// <summary>
+    /// The deployment target of the application. Arguments for the target. The GKE deployment target. Whether to create the provided KSA. If true, the KSA will be created in the namespace provided above. If false, the KSA is expected to already exist in the namespace provided above.
+    /// </summary>
+    [CliFlag("--gke-deployment-target-kubernetes-service-account-creation")]
+    public bool? GkeDeploymentTargetKubernetesServiceAccountCreation { get; set; }
+
+    /// <summary>
+    /// Application resource - Identifier. The name of the application. Format: projects/{project}/locations/{location}/spaces/{space}/applications/{application} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the application or fully qualified identifier for the application. To set the application attribute: ▸ provide the argument application on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Application { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(ScopeType)))
+        {
+            yield return new ValidationResult("At least one of ScopeType must be specified.", [nameof(ScopeType)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SourceApplicationTemplateRevision) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceSharedTemplateRevisionUri) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of SourceApplicationTemplateRevision or SourceSharedTemplateRevisionUri must be specified.", [nameof(SourceApplicationTemplateRevision), nameof(SourceSharedTemplateRevisionUri)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CriticalityType) || !string.IsNullOrWhiteSpace(CriticalityLevel) || CriticalityMissionCritical == true) && (!(!string.IsNullOrWhiteSpace(CriticalityType))))
+        {
+            yield return new ValidationResult("CriticalityType must be specified when other arguments in this group are specified.", [nameof(CriticalityType)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(EnvironmentType) || !string.IsNullOrWhiteSpace(Environment)) && (!(!string.IsNullOrWhiteSpace(EnvironmentType))))
+        {
+            yield return new ValidationResult("EnvironmentType must be specified when other arguments in this group are specified.", [nameof(EnvironmentType)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(GkeDeploymentTargetClusterSelfLink) || !string.IsNullOrWhiteSpace(GkeDeploymentTargetKubernetesServiceAccount) || !string.IsNullOrWhiteSpace(GkeDeploymentTargetNamespace) || GkeDeploymentTargetKubernetesServiceAccountCreation == true) && (!(!string.IsNullOrWhiteSpace(GkeDeploymentTargetClusterSelfLink))))
+        {
+            yield return new ValidationResult("GkeDeploymentTargetClusterSelfLink must be specified when other arguments in this group are specified.", [nameof(GkeDeploymentTargetClusterSelfLink)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(GkeDeploymentTargetClusterSelfLink) || !string.IsNullOrWhiteSpace(GkeDeploymentTargetKubernetesServiceAccount) || !string.IsNullOrWhiteSpace(GkeDeploymentTargetNamespace) || GkeDeploymentTargetKubernetesServiceAccountCreation == true) && (!(!string.IsNullOrWhiteSpace(GkeDeploymentTargetKubernetesServiceAccount))))
+        {
+            yield return new ValidationResult("GkeDeploymentTargetKubernetesServiceAccount must be specified when other arguments in this group are specified.", [nameof(GkeDeploymentTargetKubernetesServiceAccount)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(GkeDeploymentTargetClusterSelfLink) || !string.IsNullOrWhiteSpace(GkeDeploymentTargetKubernetesServiceAccount) || !string.IsNullOrWhiteSpace(GkeDeploymentTargetNamespace) || GkeDeploymentTargetKubernetesServiceAccountCreation == true) && (!(!string.IsNullOrWhiteSpace(GkeDeploymentTargetNamespace))))
+        {
+            yield return new ValidationResult("GkeDeploymentTargetNamespace must be specified when other arguments in this group are specified.", [nameof(GkeDeploymentTargetNamespace)]);
+        }
+        yield break;
+    }
+
 }

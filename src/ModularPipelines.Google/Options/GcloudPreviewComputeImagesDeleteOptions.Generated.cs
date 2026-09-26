@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "images", "delete")]
-public record GcloudPreviewComputeImagesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> ImageName
-) : GcloudOptions
+public record GcloudPreviewComputeImagesDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete Compute Engine images
+    /// </summary>
+    /// <param name="ImageName">Names of the disk images to delete.</param>
+    public GcloudPreviewComputeImagesDeleteOptions(
+        IEnumerable<string> ImageName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ImageName);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ImageName));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ImageName));
+            }
+
+            ImageName = materialized;
+        }
+        this.ImageName = ImageName;
+    }
+
+    public void Deconstruct(out IEnumerable<string> ImageName)
+    {
+        ImageName = this.ImageName;
+    }
+
+    /// <summary>
+    /// Names of the disk images to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> ImageName { get; private init; }
+
 }

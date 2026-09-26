@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "hosts", "get-version")]
-public record GcloudComputeHostsGetVersionOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string HostName
-) : GcloudOptions
+public record GcloudComputeHostsGetVersionOptions : GcloudOptions
 {
+    /// <summary>
+    /// get software versions for a Compute     Engine host
+    /// </summary>
+    /// <param name="HostName">Name of the host to get version setting for.</param>
+    public GcloudComputeHostsGetVersionOptions(
+        string HostName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HostName);
+        this.HostName = HostName;
+    }
+
+    public void Deconstruct(out string HostName)
+    {
+        HostName = this.HostName;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -58,5 +73,11 @@ public record GcloudComputeHostsGetVersionOptions(
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the host to get version setting for.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string HostName { get; private init; }
 
 }

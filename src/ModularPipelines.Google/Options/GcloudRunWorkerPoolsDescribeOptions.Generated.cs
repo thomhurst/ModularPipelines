@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunWorkerPoolsDescribeOptions : GcloudOptions
 {
     /// <summary>
+    /// pool
+    /// </summary>
+    /// <param name="WorkerPool">WorkerPool resource - WorkerPool to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument WORKER_POOL on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the WorkerPool or fully qualified identifier for the WorkerPool. To set the worker-pool attribute: ▸ provide the argument WORKER_POOL on the command line.</param>
+    public GcloudRunWorkerPoolsDescribeOptions(
+        string WorkerPool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkerPool);
+        this.WorkerPool = WorkerPool;
+    }
+
+    public void Deconstruct(out string WorkerPool)
+    {
+        WorkerPool = this.WorkerPool;
+    }
+
+    /// <summary>
     /// Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// WorkerPool resource - WorkerPool to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument WORKER_POOL on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the WorkerPool or fully qualified identifier for the WorkerPool. To set the worker-pool attribute: ▸ provide the argument WORKER_POOL on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WorkerPool { get; private init; }
 
 }

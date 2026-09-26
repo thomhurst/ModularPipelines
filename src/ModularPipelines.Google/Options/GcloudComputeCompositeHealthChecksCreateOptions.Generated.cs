@@ -21,4 +21,78 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "composite-health-checks", "create")]
 public record GcloudComputeCompositeHealthChecksCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a composite health     check
+    /// </summary>
+    /// <param name="HealthDestination">URL to the destination resource. Must be set. Must be a ForwardingRule. The ForwardingRule must have load balancing scheme INTERNAL or INTERNAL_MANAGED and must be regional and in the same region as the CompositeHealthCheck (cross-region deployment for INTERNAL_MANAGED is not supported). Can be mutated.</param>
+    /// <param name="HealthSources">URLs to the HealthSource resources whose results are AND'ed. I.e. the aggregated result is HEALTHY only if all sources are HEALTHY. Must have at least 1. Must not have more than 10. Must be regional and in the same region as the CompositeHealthCheck. Can be mutated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="CompositeHealthCheck">Composite health check resource - The name of the composite health check you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument composite_health_check on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the composite health check or fully qualified identifier for the composite health check. To set the composite_health_check attribute: ▸ provide the argument composite_health_check on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeCompositeHealthChecksCreateOptions(
+        string HealthDestination,
+        IEnumerable<string> HealthSources,
+        string CompositeHealthCheck
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HealthDestination);
+        this.HealthDestination = HealthDestination;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(HealthSources);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(HealthSources));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(HealthSources));
+            }
+
+            HealthSources = materialized;
+        }
+        this.HealthSources = HealthSources;
+        global::System.ArgumentNullException.ThrowIfNull(CompositeHealthCheck);
+        this.CompositeHealthCheck = CompositeHealthCheck;
+    }
+
+    public void Deconstruct(out string HealthDestination, out IEnumerable<string> HealthSources, out string CompositeHealthCheck)
+    {
+        HealthDestination = this.HealthDestination;
+        HealthSources = this.HealthSources;
+        CompositeHealthCheck = this.CompositeHealthCheck;
+    }
+
+    /// <summary>
+    /// URL to the destination resource. Must be set. Must be a ForwardingRule. The ForwardingRule must have load balancing scheme INTERNAL or INTERNAL_MANAGED and must be regional and in the same region as the CompositeHealthCheck (cross-region deployment for INTERNAL_MANAGED is not supported). Can be mutated.
+    /// </summary>
+    [CliOption("--health-destination", Format = OptionFormat.EqualsSeparated)]
+    public string HealthDestination { get; private init; }
+
+    /// <summary>
+    /// URLs to the HealthSource resources whose results are AND'ed. I.e. the aggregated result is HEALTHY only if all sources are HEALTHY. Must have at least 1. Must not have more than 10. Must be regional and in the same region as the CompositeHealthCheck. Can be mutated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--health-sources", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> HealthSources { get; private init; }
+
+    /// <summary>
+    /// Composite health check resource - The name of the composite health check you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument composite_health_check on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Google Compute Engine region. To set the region attribute: ▸ provide the argument composite_health_check on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property compute/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A textual description of this resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Composite health check resource - The name of the composite health check you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument composite_health_check on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the composite health check or fully qualified identifier for the composite health check. To set the composite_health_check attribute: ▸ provide the argument composite_health_check on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CompositeHealthCheck { get; private init; }
+
 }

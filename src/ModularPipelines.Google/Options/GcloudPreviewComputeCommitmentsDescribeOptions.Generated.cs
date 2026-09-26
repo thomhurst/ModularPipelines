@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "commitments", "describe")]
-public record GcloudPreviewComputeCommitmentsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Commitment
-) : GcloudOptions
+public record GcloudPreviewComputeCommitmentsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Compute Engine     commitment
+    /// </summary>
+    /// <param name="Commitment">Name of the commitment to describe.</param>
+    public GcloudPreviewComputeCommitmentsDescribeOptions(
+        string Commitment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Commitment);
+        this.Commitment = Commitment;
+    }
+
+    public void Deconstruct(out string Commitment)
+    {
+        Commitment = this.Commitment;
+    }
+
     /// <summary>
     /// Region of the commitment to describe. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the commitment to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Commitment { get; private init; }
 
 }

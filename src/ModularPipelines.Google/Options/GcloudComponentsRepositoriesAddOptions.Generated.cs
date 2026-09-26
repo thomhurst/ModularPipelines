@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("components", "repositories", "add")]
-public record GcloudComponentsRepositoriesAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Url
-) : GcloudOptions
+public record GcloudComponentsRepositoriesAddOptions : GcloudOptions
 {
+    /// <summary>
+    /// add a new Trusted Tester component     repository
+    /// </summary>
+    /// <param name="Url">One or more URLs for the component repositories you want to add.</param>
+    public GcloudComponentsRepositoriesAddOptions(
+        IEnumerable<string> Url
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Url);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Url));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Url));
+            }
+
+            Url = materialized;
+        }
+        this.Url = Url;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Url)
+    {
+        Url = this.Url;
+    }
+
+    /// <summary>
+    /// One or more URLs for the component repositories you want to add.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Url { get; private init; }
+
 }

@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bms", "os-images", "describe")]
 public record GcloudBmsOsImagesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe Bare Metal Solution OS images in a     project
+    /// </summary>
+    /// <param name="OsImage">Os image resource - os_image. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument os_image on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the os_image or fully qualified identifier for the os_image. To set the os_image attribute: ▸ provide the argument os_image on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBmsOsImagesDescribeOptions(
+        string OsImage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OsImage);
+        this.OsImage = OsImage;
+    }
+
+    public void Deconstruct(out string OsImage)
+    {
+        OsImage = this.OsImage;
+    }
+
+    /// <summary>
+    /// Os image resource - os_image. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument os_image on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Region of the resource. To set the region attribute: ▸ provide the argument os_image on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ global is the only supported location.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Os image resource - os_image. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument os_image on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the os_image or fully qualified identifier for the os_image. To set the os_image attribute: ▸ provide the argument os_image on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OsImage { get; private init; }
+
 }

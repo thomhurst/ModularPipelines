@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("edge-cloud", "container", "zones", "describe")]
 public record GcloudEdgeCloudContainerZonesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an Edge Container     zone
+    /// </summary>
+    /// <param name="Zone">Zone resource - The zone name. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the zone or fully qualified identifier for the zone. To set the zone attribute: ▸ provide the argument zone on the command line.</param>
+    public GcloudEdgeCloudContainerZonesDescribeOptions(
+        string Zone
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+    }
+
+    public void Deconstruct(out string Zone)
+    {
+        Zone = this.Zone;
+    }
+
+    /// <summary>
+    /// Zone resource - The zone name. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the zone or fully qualified identifier for the zone. To set the zone attribute: ▸ provide the argument zone on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Zone { get; private init; }
+
 }

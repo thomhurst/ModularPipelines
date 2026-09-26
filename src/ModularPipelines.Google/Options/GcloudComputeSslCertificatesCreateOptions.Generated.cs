@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,109 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "ssl-certificates", "create")]
-public record GcloudComputeSslCertificatesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeSslCertificatesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Compute Engine SSL     certificate
+    /// </summary>
+    /// <param name="Name">Name of the SSL certificate to create.</param>
+    public GcloudComputeSslCertificatesCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Flags for managed or self-managed certificate. Exactly one of these must be specified: List of domains to create a managed certificate for. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--domains", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Domains
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __DomainsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __DomainsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Flags for managed or self-managed certificate. Exactly one of these must be specified: Or at least one of these can be specified: Flags for self-managed certificate Path to a local certificate file to create a self-managed certificate. The certificate must be in PEM format. The certificate chain must be no greater than 5 certs long. The chain must include at least one intermediate cert. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--certificate", Format = OptionFormat.EqualsSeparated)]
+    public string? Certificate { get; set; }
+
+    /// <summary>
+    /// Flags for managed or self-managed certificate. Exactly one of these must be specified: Or at least one of these can be specified: Flags for self-managed certificate Path to a local private key file. The private key must be in PEM format and must use RSA or ECDSA encryption. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--private-key", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateKey { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the SSL certificate.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the SSL certificate is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the SSL certificate to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the SSL certificate to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)Domains is global::System.Collections.Generic.IEnumerable<char> ? (object?)Domains is not string || !string.IsNullOrWhiteSpace(Domains?.ToString()) : ((object?)Domains is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Domains, static item => item is not null) : (Domains is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Domains), static item => item is not null)))) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Certificate) || !string.IsNullOrWhiteSpace(PrivateKey)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Domains or (Certificate or PrivateKey) must be specified.", [nameof(Domains), nameof(Certificate), nameof(PrivateKey)]);
+        }
+        if ((((object?)Domains is global::System.Collections.Generic.IEnumerable<char> ? (object?)Domains is not string || !string.IsNullOrWhiteSpace(Domains?.ToString()) : ((object?)Domains is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Domains, static item => item is not null) : (Domains is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Domains), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Certificate) || !string.IsNullOrWhiteSpace(PrivateKey)) && (!string.IsNullOrWhiteSpace(Certificate) || !string.IsNullOrWhiteSpace(PrivateKey)) && (!string.IsNullOrWhiteSpace(Certificate) || !string.IsNullOrWhiteSpace(PrivateKey)) && (!(!string.IsNullOrWhiteSpace(Certificate))))
+        {
+            yield return new ValidationResult("Certificate must be specified when other arguments in this group are specified.", [nameof(Certificate)]);
+        }
+        if ((((object?)Domains is global::System.Collections.Generic.IEnumerable<char> ? (object?)Domains is not string || !string.IsNullOrWhiteSpace(Domains?.ToString()) : ((object?)Domains is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Domains, static item => item is not null) : (Domains is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Domains), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Certificate) || !string.IsNullOrWhiteSpace(PrivateKey)) && (!string.IsNullOrWhiteSpace(Certificate) || !string.IsNullOrWhiteSpace(PrivateKey)) && (!string.IsNullOrWhiteSpace(Certificate) || !string.IsNullOrWhiteSpace(PrivateKey)) && (!(!string.IsNullOrWhiteSpace(PrivateKey))))
+        {
+            yield return new ValidationResult("PrivateKey must be specified when other arguments in this group are specified.", [nameof(PrivateKey)]);
+        }
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
+
 }

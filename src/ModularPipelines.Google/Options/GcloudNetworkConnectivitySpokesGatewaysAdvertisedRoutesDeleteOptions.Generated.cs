@@ -22,9 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a gateway advertised route
+    /// </summary>
+    /// <param name="GatewayAdvertisedRoute">GatewayAdvertisedRoute resource - Name of the advertised route to be deleted. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gateway_advertised_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gatewayAdvertisedRoute or fully qualified identifier for the gatewayAdvertisedRoute. To set the gateway_advertised_route attribute: ▸ provide the argument gateway_advertised_route on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesDeleteOptions(
+        string GatewayAdvertisedRoute
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GatewayAdvertisedRoute);
+        this.GatewayAdvertisedRoute = GatewayAdvertisedRoute;
+    }
+
+    public void Deconstruct(out string GatewayAdvertisedRoute)
+    {
+        GatewayAdvertisedRoute = this.GatewayAdvertisedRoute;
+    }
+
+    /// <summary>
+    /// GatewayAdvertisedRoute resource - Name of the advertised route to be deleted. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gateway_advertised_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the region attribute: ▸ provide the argument gateway_advertised_route on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// GatewayAdvertisedRoute resource - Name of the advertised route to be deleted. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gateway_advertised_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Id of the spoke. To set the spoke attribute: ▸ provide the argument gateway_advertised_route on the command line with a fully specified name; ▸ provide the argument --spoke on the command line.
+    /// </summary>
+    [CliOption("--spoke", Format = OptionFormat.EqualsSeparated)]
+    public string? Spoke { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// GatewayAdvertisedRoute resource - Name of the advertised route to be deleted. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gateway_advertised_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gatewayAdvertisedRoute or fully qualified identifier for the gatewayAdvertisedRoute. To set the gateway_advertised_route attribute: ▸ provide the argument gateway_advertised_route on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GatewayAdvertisedRoute { get; private init; }
 
 }

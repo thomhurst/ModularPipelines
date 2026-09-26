@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,63 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "external-vpn-gateways", "create")]
-public record GcloudComputeExternalVpnGatewaysCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeExternalVpnGatewaysCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new Compute Engine     external VPN gateway
+    /// </summary>
+    /// <param name="Interfaces">Map of interfaces from interface ID to interface IP address for the External VPN Gateway. There can be one, two, or four interfaces in the map. For example, to create an external VPN gateway with one interface: $ gcloud compute external-vpn-gateways create MY-EXTERNAL-GATEWAY \ --interfaces 0=192.0.2.0 To create an external VPN gateway with two interfaces: $ gcloud compute external-vpn-gateways create MY-EXTERNAL-GATEWAY \ --interfaces 0=192.0.2.0,1=192.0.2.1 To create an external VPN gateway with four interfaces: $ gcloud compute external-vpn-gateways create MY-EXTERNAL-GATEWAY \ --interfaces 0=192.0.2.0,1=192.0.2.1,2=192.0.2.3,3=192.0.2.4 To create an external VPN gateway with IPv6 addresses on four interfaces: $ gcloud compute external-vpn-gateways create MY-EXTERNAL-GATEWAY \ --interfaces \ 0=2001:db8::1,1=2001:db8::2,2=2001:db8::3,3=2001:db8::4 Note that the redundancy type of the gateway will be automatically inferred based on the number of interfaces provided: 1 interface: `SINGLE_IP_INTERNALLY_REDUNDANT` 2 interfaces: `TWO_IPS_REDUNDANCY` 4 interfaces: `FOUR_IPS_REDUNDANCY` Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Name">Name of the external VPN gateway to create.</param>
+    public GcloudComputeExternalVpnGatewaysCreateOptions(
+        IEnumerable<string> Interfaces,
+        string Name
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Interfaces);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Interfaces));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Interfaces));
+            }
+
+            Interfaces = materialized;
+        }
+        this.Interfaces = Interfaces;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Interfaces, out string Name)
+    {
+        Interfaces = this.Interfaces;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Map of interfaces from interface ID to interface IP address for the External VPN Gateway. There can be one, two, or four interfaces in the map. For example, to create an external VPN gateway with one interface: $ gcloud compute external-vpn-gateways create MY-EXTERNAL-GATEWAY \ --interfaces 0=192.0.2.0 To create an external VPN gateway with two interfaces: $ gcloud compute external-vpn-gateways create MY-EXTERNAL-GATEWAY \ --interfaces 0=192.0.2.0,1=192.0.2.1 To create an external VPN gateway with four interfaces: $ gcloud compute external-vpn-gateways create MY-EXTERNAL-GATEWAY \ --interfaces 0=192.0.2.0,1=192.0.2.1,2=192.0.2.3,3=192.0.2.4 To create an external VPN gateway with IPv6 addresses on four interfaces: $ gcloud compute external-vpn-gateways create MY-EXTERNAL-GATEWAY \ --interfaces \ 0=2001:db8::1,1=2001:db8::2,2=2001:db8::3,3=2001:db8::4 Note that the redundancy type of the gateway will be automatically inferred based on the number of interfaces provided: 1 interface: `SINGLE_IP_INTERNALLY_REDUNDANT` 2 interfaces: `TWO_IPS_REDUNDANCY` 4 interfaces: `FOUR_IPS_REDUNDANCY` Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--interfaces", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Interfaces { get; private init; }
+
+    /// <summary>
+    /// Textual description of the External VPN Gateway.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of Resource Manager tags to apply to the external VPN gateway. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
+
+    /// <summary>
+    /// Name of the external VPN gateway to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

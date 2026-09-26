@@ -21,4 +21,74 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("design-center", "spaces", "catalogs", "templates", "create")]
 public record GcloudDesignCenterSpacesCatalogsTemplatesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a catalog     template
+    /// </summary>
+    /// <param name="TemplateCategory">The category of the Application Design Center application template. TEMPLATE_CATEGORY must be one of: application-template Application template. component-template Component template. composite-solution-template Imported as a single, complex unit without disassembling into components. instance-template Instance template.</param>
+    /// <param name="Template">Template resource - Identifier. The catalog template name in following format: projects/$project/locations/$location/spaces/$space/catalogs/$catalog/templates/$template The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDesignCenterSpacesCatalogsTemplatesCreateOptions(
+        string TemplateCategory,
+        string Template
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TemplateCategory);
+        this.TemplateCategory = TemplateCategory;
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+    }
+
+    public void Deconstruct(out string TemplateCategory, out string Template)
+    {
+        TemplateCategory = this.TemplateCategory;
+        Template = this.Template;
+    }
+
+    /// <summary>
+    /// The category of the Application Design Center application template. TEMPLATE_CATEGORY must be one of: application-template Application template. component-template Component template. composite-solution-template Imported as a single, complex unit without disassembling into components. instance-template Instance template.
+    /// </summary>
+    [CliOption("--template-category", Format = OptionFormat.EqualsSeparated)]
+    public string TemplateCategory { get; private init; }
+
+    /// <summary>
+    /// Template resource - Identifier. The catalog template name in following format: projects/$project/locations/$location/spaces/$space/catalogs/$catalog/templates/$template The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The catalog id of the template resource. To set the catalog attribute: ▸ provide the argument template on the command line with a fully specified name; ▸ provide the argument --catalog on the command line.
+    /// </summary>
+    [CliOption("--catalog", Format = OptionFormat.EqualsSeparated)]
+    public string? Catalog { get; set; }
+
+    /// <summary>
+    /// Template resource - Identifier. The catalog template name in following format: projects/$project/locations/$location/spaces/$space/catalogs/$catalog/templates/$template The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the template resource. To set the location attribute: ▸ provide the argument template on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Template resource - Identifier. The catalog template name in following format: projects/$project/locations/$location/spaces/$space/catalogs/$catalog/templates/$template The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The space id of the template resource. To set the space attribute: ▸ provide the argument template on the command line with a fully specified name; ▸ provide the argument --space on the command line.
+    /// </summary>
+    [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
+    public string? Space { get; set; }
+
+    /// <summary>
+    /// The catalog template description.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The display name of a catalog template.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// The Application Design Center application template type. TYPE must be one of: application An application template is a composition of workload/service/asset templates. asset An asset template can be used to provision resources that are not services or workloads. composite-application-template A composite application template. helm-application A helm chart based template. helm-chart A helm chart based template. jss-solution A Jumpstart Solution template. service A service template is an App Hub service. service-data-source A service data source template. standard-application-template A standard application template. workload A workload template is an App Hub workload.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string? Type { get; set; }
+
+    /// <summary>
+    /// Template resource - Identifier. The catalog template name in following format: projects/$project/locations/$location/spaces/$space/catalogs/$catalog/templates/$template The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Template { get; private init; }
+
 }

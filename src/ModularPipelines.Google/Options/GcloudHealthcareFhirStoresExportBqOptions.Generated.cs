@@ -21,4 +21,91 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("healthcare", "fhir-stores", "export", "bq")]
 public record GcloudHealthcareFhirStoresExportBqOptions : GcloudOptions
 {
+    /// <summary>
+    /// export Cloud Healthcare API FHIR     resources to BigQuery
+    /// </summary>
+    /// <param name="BqDataSet">BigQuery dataset that houses the BigQuery tables.</param>
+    /// <param name="SchemaType">Specifies the output schema type. SCHEMA_TYPE must be one of: analytics Analytics schema defined by the FHIR community. See https://github.com/rbrush/sql-on-fhir/blob/master/sql-on-fhir.md. analytics_v2 Analytics V2, similar to Analytics schema type, with added support for extensions with one or more occurrences and contained resources to be represented in stringified JSON.</param>
+    /// <param name="FhirStore">FhirStore resource - Cloud Healthcare API FHIR store to export resources from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument fhir_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the fhirStore or fully qualified identifier for the fhirStore. To set the fhir_store attribute: ▸ provide the argument fhir_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudHealthcareFhirStoresExportBqOptions(
+        string BqDataSet,
+        string SchemaType,
+        string FhirStore
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BqDataSet);
+        this.BqDataSet = BqDataSet;
+        global::System.ArgumentNullException.ThrowIfNull(SchemaType);
+        this.SchemaType = SchemaType;
+        global::System.ArgumentNullException.ThrowIfNull(FhirStore);
+        this.FhirStore = FhirStore;
+    }
+
+    public void Deconstruct(out string BqDataSet, out string SchemaType, out string FhirStore)
+    {
+        BqDataSet = this.BqDataSet;
+        SchemaType = this.SchemaType;
+        FhirStore = this.FhirStore;
+    }
+
+    /// <summary>
+    /// BigQuery dataset that houses the BigQuery tables.
+    /// </summary>
+    [CliOption("--bq-dataset", Format = OptionFormat.EqualsSeparated)]
+    public string BqDataSet { get; private init; }
+
+    /// <summary>
+    /// Specifies the output schema type. SCHEMA_TYPE must be one of: analytics Analytics schema defined by the FHIR community. See https://github.com/rbrush/sql-on-fhir/blob/master/sql-on-fhir.md. analytics_v2 Analytics V2, similar to Analytics schema type, with added support for extensions with one or more occurrences and contained resources to be represented in stringified JSON.
+    /// </summary>
+    [CliOption("--schema-type", Format = OptionFormat.EqualsSeparated)]
+    public string SchemaType { get; private init; }
+
+    /// <summary>
+    /// FhirStore resource - Cloud Healthcare API FHIR store to export resources from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument fhir_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud Healthcare dataset. To set the dataset attribute: ▸ provide the argument fhir_store on the command line with a fully specified name; ▸ provide the argument --dataset on the command line.
+    /// </summary>
+    [CliOption("--dataset", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSet { get; set; }
+
+    /// <summary>
+    /// FhirStore resource - Cloud Healthcare API FHIR store to export resources from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument fhir_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location. To set the location attribute: ▸ provide the argument fhir_store on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property healthcare/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The depth for all recursive structures in the output analytics schema. For example, concept in the CodeSystem resource is a recursive structure; when the depth is 2, the CodeSystem table will have a column called concept.concept but not concept.concept.concept. If not specified or set to 0, the server will use the default value 2.
+    /// </summary>
+    [CliOption("--recursive-depth", Format = OptionFormat.EqualsSeparated)]
+    public string? RecursiveDepth { get; set; }
+
+    /// <summary>
+    /// String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are exported.
+    /// </summary>
+    [CliOption("--resource-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ResourceType { get; set; }
+
+    /// <summary>
+    /// If provided, only resources updated after this time are exported. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, 2015-02-07T13:28:17.239+02:00 or 2017-01-01T00:00:00Z. The time must be specified to the second and include a time zone.
+    /// </summary>
+    [CliOption("--since", Format = OptionFormat.EqualsSeparated)]
+    public string? Since { get; set; }
+
+    /// <summary>
+    /// Determines whether existing tables in the destination dataset are overwritten or appended to. WRITE_DISPOSITION must be one of: write-append Append data to the existing tables. write-empty Only export data if the destination tables are empty. write-truncate Erase all existing data in the tables before writing the instances.
+    /// </summary>
+    [CliOption("--write-disposition", Format = OptionFormat.EqualsSeparated)]
+    public string? WriteDisposition { get; set; }
+
+    /// <summary>
+    /// FhirStore resource - Cloud Healthcare API FHIR store to export resources from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument fhir_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the fhirStore or fully qualified identifier for the fhirStore. To set the fhir_store attribute: ▸ provide the argument fhir_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FhirStore { get; private init; }
+
 }

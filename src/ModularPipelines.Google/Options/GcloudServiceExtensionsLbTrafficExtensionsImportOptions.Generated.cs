@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudServiceExtensionsLbTrafficExtensionsImportOptions : GcloudOptions
 {
     /// <summary>
+    /// import an     LbTrafficExtension resource
+    /// </summary>
+    /// <param name="LbTrafficExtension">LbTrafficExtension resource - The ID of the new or updated LbTrafficExtension resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lb_traffic_extension on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the LbTrafficExtension or fully qualified identifier for the LbTrafficExtension. To set the lb_traffic_extension attribute: ▸ provide the argument lb_traffic_extension on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudServiceExtensionsLbTrafficExtensionsImportOptions(
+        string LbTrafficExtension
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LbTrafficExtension);
+        this.LbTrafficExtension = LbTrafficExtension;
+    }
+
+    public void Deconstruct(out string LbTrafficExtension)
+    {
+        LbTrafficExtension = this.LbTrafficExtension;
+    }
+
+    /// <summary>
+    /// LbTrafficExtension resource - The ID of the new or updated LbTrafficExtension resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lb_traffic_extension on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud region in which the resource is located. To set the location attribute: ▸ provide the argument lb_traffic_extension on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -32,5 +55,11 @@ public record GcloudServiceExtensionsLbTrafficExtensionsImportOptions : GcloudOp
     /// </summary>
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }
+
+    /// <summary>
+    /// LbTrafficExtension resource - The ID of the new or updated LbTrafficExtension resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument lb_traffic_extension on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the LbTrafficExtension or fully qualified identifier for the LbTrafficExtension. To set the lb_traffic_extension attribute: ▸ provide the argument lb_traffic_extension on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string LbTrafficExtension { get; private init; }
 
 }

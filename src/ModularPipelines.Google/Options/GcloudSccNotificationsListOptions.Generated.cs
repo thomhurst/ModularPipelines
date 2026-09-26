@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "notifications", "list")]
-public record GcloudSccNotificationsListOptions : GcloudOptions
+public record GcloudSccNotificationsListOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// Required if either data residency is enabled or the notificationConfig resources were created by using the API v2. If data residency is enabled, specify the Security Command Center location in which the notifications are stored. If data residency is not enabled, including /locations/``LOCATION'' in the name or the --location flag in the command lists only the notificationConfig resources that were created by using the Security Command Center API v2 and the only valid location is global.
@@ -44,5 +45,21 @@ public record GcloudSccNotificationsListOptions : GcloudOptions
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
+
+    /// <summary>
+    /// Parent resource - parent organization, folder, or project in the Google Cloud resource hierarchy to be used for the gcloud scc command. Specify the argument as either [RESOURCE_TYPE/RESOURCE_ID] or [RESOURCE_ID], as shown in the preceding examples. This represents a Cloud resource. ID of the parent or fully qualified identifier for the parent. To set the parent attribute: ◆ provide the argument parent on the command line; ◆ Set the parent property in configuration using gcloud config set scc/parent if it is not specified in command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Parent { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Folder, Organization, or Project may be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
 
 }

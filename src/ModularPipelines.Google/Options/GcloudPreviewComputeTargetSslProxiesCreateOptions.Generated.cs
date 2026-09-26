@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,118 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "target-ssl-proxies", "create")]
-public record GcloudPreviewComputeTargetSslProxiesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeTargetSslProxiesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a target SSL     proxy
+    /// </summary>
+    /// <param name="BackendService">A backend service that will be used for connections to the target SSL proxy.</param>
+    /// <param name="Name">Name of the target SSL proxy to create.</param>
+    public GcloudPreviewComputeTargetSslProxiesCreateOptions(
+        string BackendService,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackendService);
+        this.BackendService = BackendService;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string BackendService, out string Name)
+    {
+        BackendService = this.BackendService;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// A backend service that will be used for connections to the target SSL proxy.
+    /// </summary>
+    [CliOption("--backend-service", Format = OptionFormat.EqualsSeparated)]
+    public string BackendService { get; private init; }
+
+    /// <summary>
+    /// At least one of these must be specified: Certificate map resource - The certificate map to attach. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --certificate-map on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --certificate-map on the command line with a fully specified name; ▸ default value of location is [global]. ID of the certificate map or fully qualified identifier for the certificate map. To set the map attribute: ▸ provide the argument --certificate-map on the command line.
+    /// </summary>
+    [CliOption("--certificate-map", Format = OptionFormat.EqualsSeparated)]
+    public string? CertificateMap { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Certificate map resource - The certificate map to attach. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --certificate-map on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --certificate-map on the command line with a fully specified name; ▸ default value of location is [global]. References to at most 15 SSL certificate resources that are used for server-side authentication. The first SSL certificate in this list is considered the primary SSL certificate associated with the load balancer. The SSL certificates must exist and cannot be deleted while referenced by a target SSL proxy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--ssl-certificates", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SslCertificates
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SslCertificatesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SslCertificatesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// An optional, textual description for the target SSL proxy.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The type of proxy protocol header to be sent to the backend. PROXY_HEADER must be one of: NONE No proxy header is added. PROXY_V1 Enables PROXY protocol (version 1) for passing client connection information.
+    /// </summary>
+    [CliOption("--proxy-header", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxyHeader { get; set; }
+
+    /// <summary>
+    /// A reference to an SSL policy resource that defines the server-side support for SSL features and affects the connections between clients and load balancers that are using the SSL proxy. The SSL policy must exist and cannot be deleted while referenced by a target SSL proxy.
+    /// </summary>
+    [CliOption("--ssl-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? SslPolicy { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the SSL policy is global.
+    /// </summary>
+    [CliFlag("--global-ssl-policy")]
+    public bool? GlobalSslPolicy { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the SSL policy to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--ssl-policy-region", Format = OptionFormat.EqualsSeparated)]
+    public string? SslPolicyRegion { get; set; }
+
+    /// <summary>
+    /// Name of the target SSL proxy to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(CertificateMap) || ((object?)SslCertificates is global::System.Collections.Generic.IEnumerable<char> ? (object?)SslCertificates is not string || !string.IsNullOrWhiteSpace(SslCertificates?.ToString()) : ((object?)SslCertificates is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SslCertificates, static item => item is not null) : (SslCertificates is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SslCertificates), static item => item is not null))))))
+        {
+            yield return new ValidationResult("At least one of CertificateMap or SslCertificates must be specified.", [nameof(CertificateMap), nameof(SslCertificates)]);
+        }
+        if ((GlobalSslPolicy == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SslPolicyRegion) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GlobalSslPolicy or SslPolicyRegion may be specified.", [nameof(GlobalSslPolicy), nameof(SslPolicyRegion)]);
+        }
+        yield break;
+    }
+
 }

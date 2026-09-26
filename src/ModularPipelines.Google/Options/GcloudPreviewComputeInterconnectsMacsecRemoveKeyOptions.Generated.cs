@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "macsec", "remove-key")]
-public record GcloudPreviewComputeInterconnectsMacsecRemoveKeyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInterconnectsMacsecRemoveKeyOptions : GcloudOptions
 {
+    /// <summary>
+    /// shared     key from a Compute Engine interconnect MACsec configuration
+    /// </summary>
+    /// <param name="KeyName">The name of pre-shared key being removed from MACsec configuration of the interconnect.</param>
+    /// <param name="Name">Name of the interconnect to update.</param>
+    public GcloudPreviewComputeInterconnectsMacsecRemoveKeyOptions(
+        string KeyName,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyName);
+        this.KeyName = KeyName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string KeyName, out string Name)
+    {
+        KeyName = this.KeyName;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of pre-shared key being removed from MACsec configuration of the interconnect.
+    /// </summary>
+    [CliOption("--key-name", Format = OptionFormat.EqualsSeparated)]
+    public string KeyName { get; private init; }
+
+    /// <summary>
+    /// Name of the interconnect to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

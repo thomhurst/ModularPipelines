@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,48 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigee", "deployments", "describe")]
-public record GcloudApigeeDeploymentsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Revision
-) : GcloudOptions
+public record GcloudApigeeDeploymentsDescribeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Revision resource - API proxy revision and environment of the deployment to be described. To get a list of deployed proxies and their environments, run: $ gcloud apigee deployments list REVISION can either be a positive revision number, or the special value auto, which will choose whichever revision of API is currently deployed in ENVIRONMENT, or return an error if more than one revision is deployed. If REVISION is unspecified, the default is auto. The arguments in this group can be used to specify the attributes of this resource. Deployed API proxy. To set the api attribute: ◆ provide the argument REVISION on the command line with a fully specified name; ◆ leave the argument unspecified for it to be chosen automatically with a fully specified name; ◆ provide the argument --api on the command line.
+    /// </summary>
+    [CliOption("--api", Format = OptionFormat.EqualsSeparated)]
+    public string? Api { get; set; }
+
+    /// <summary>
+    /// Revision resource - API proxy revision and environment of the deployment to be described. To get a list of deployed proxies and their environments, run: $ gcloud apigee deployments list REVISION can either be a positive revision number, or the special value auto, which will choose whichever revision of API is currently deployed in ENVIRONMENT, or return an error if more than one revision is deployed. If REVISION is unspecified, the default is auto. The arguments in this group can be used to specify the attributes of this resource. Environment in which the proxy was deployed. To set the environment attribute: ◆ provide the argument REVISION on the command line with a fully specified name; ◆ leave the argument unspecified for it to be chosen automatically with a fully specified name; ◆ provide the argument --environment on the command line.
+    /// </summary>
+    [CliOption("--environment", Format = OptionFormat.EqualsSeparated)]
+    public string? Environment { get; set; }
+
+    /// <summary>
+    /// Revision resource - API proxy revision and environment of the deployment to be described. To get a list of deployed proxies and their environments, run: $ gcloud apigee deployments list REVISION can either be a positive revision number, or the special value auto, which will choose whichever revision of API is currently deployed in ENVIRONMENT, or return an error if more than one revision is deployed. If REVISION is unspecified, the default is auto. The arguments in this group can be used to specify the attributes of this resource. Apigee Organization of the proxy and environment. If unspecified, the Cloud Platform project's associated organization will be used. To set the organization attribute: ◆ provide the argument REVISION on the command line with a fully specified name; ◆ leave the argument unspecified for it to be chosen automatically with a fully specified name; ◆ provide the argument --organization on the command line; ◆ set the property [project] or provide the argument [--project] on the command line, using a Cloud Platform project with an associated Apigee organization.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Revision resource - API proxy revision and environment of the deployment to be described. To get a list of deployed proxies and their environments, run: $ gcloud apigee deployments list REVISION can either be a positive revision number, or the special value auto, which will choose whichever revision of API is currently deployed in ENVIRONMENT, or return an error if more than one revision is deployed. If REVISION is unspecified, the default is auto. The arguments in this group can be used to specify the attributes of this resource. ID of the revision or fully qualified identifier for the revision. To set the revision attribute: ◆ provide the argument REVISION on the command line; ◆ leave the argument unspecified for it to be chosen automatically.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Revision { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Revision) || !string.IsNullOrWhiteSpace(Api) || !string.IsNullOrWhiteSpace(Environment) || !string.IsNullOrWhiteSpace(Organization)) && (!(!string.IsNullOrWhiteSpace(Api))))
+        {
+            yield return new ValidationResult("Api must be specified when other arguments in this group are specified.", [nameof(Api)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Revision) || !string.IsNullOrWhiteSpace(Api) || !string.IsNullOrWhiteSpace(Environment) || !string.IsNullOrWhiteSpace(Organization)) && (!(!string.IsNullOrWhiteSpace(Environment))))
+        {
+            yield return new ValidationResult("Environment must be specified when other arguments in this group are specified.", [nameof(Environment)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Revision) || !string.IsNullOrWhiteSpace(Api) || !string.IsNullOrWhiteSpace(Environment) || !string.IsNullOrWhiteSpace(Organization)) && (!(!string.IsNullOrWhiteSpace(Organization))))
+        {
+            yield return new ValidationResult("Organization must be specified when other arguments in this group are specified.", [nameof(Organization)]);
+        }
+        yield break;
+    }
+
 }

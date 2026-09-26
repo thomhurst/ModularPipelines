@@ -21,4 +21,79 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("vector-search", "collections", "data-objects", "batch-search")]
 public record GcloudVectorSearchCollectionsDataObjectsBatchSearchOptions : GcloudOptions
 {
+    /// <summary>
+    /// batch search     data objects from a Vector Search collection
+    /// </summary>
+    /// <param name="Collection">The collection to batch search data objects from.</param>
+    /// <param name="Location">Location of the collection.</param>
+    /// <param name="SearchesFromFile">Path to a JSON file containing a list of searches. Each element in list should be a JSON object representing a Search message, e.g., {"semanticSearch": {"searchText": "...", "searchField": "..."}}. Keys must be camelCase as in API definition. Example file content: [ { "vectorSearch": { "vector": { "values": [ 1, 2, 3, 4 ] }, "searchField": "genre_embedding", "topK": 10, "outputFields": { "dataFields": [ "director", "genre", "title", "year" ] } } }, { "semanticSearch": { "searchText": "sci-fi movie", "searchField": "plot_embedding", "taskType": "SEMANTIC_SIMILARITY", "topK": 10 } }, { "textSearch": { "searchText": "movie 1", "dataFieldNames": ["title"], "topK": 10 } } ]</param>
+    public GcloudVectorSearchCollectionsDataObjectsBatchSearchOptions(
+        string Collection,
+        string Location,
+        string SearchesFromFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Collection);
+        this.Collection = Collection;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(SearchesFromFile);
+        this.SearchesFromFile = SearchesFromFile;
+    }
+
+    public void Deconstruct(out string Collection, out string Location, out string SearchesFromFile)
+    {
+        Collection = this.Collection;
+        Location = this.Location;
+        SearchesFromFile = this.SearchesFromFile;
+    }
+
+    /// <summary>
+    /// The collection to batch search data objects from.
+    /// </summary>
+    [CliOption("--collection", Format = OptionFormat.EqualsSeparated)]
+    public string Collection { get; private init; }
+
+    /// <summary>
+    /// Location of the collection.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// Path to a JSON file containing a list of searches. Each element in list should be a JSON object representing a Search message, e.g., {"semanticSearch": {"searchText": "...", "searchField": "..."}}. Keys must be camelCase as in API definition. Example file content: [ { "vectorSearch": { "vector": { "values": [ 1, 2, 3, 4 ] }, "searchField": "genre_embedding", "topK": 10, "outputFields": { "dataFields": [ "director", "genre", "title", "year" ] } } }, { "semanticSearch": { "searchText": "sci-fi movie", "searchField": "plot_embedding", "taskType": "SEMANTIC_SIMILARITY", "topK": 10 } }, { "textSearch": { "searchText": "movie 1", "dataFieldNames": ["title"], "topK": 10 } } ]
+    /// </summary>
+    [CliOption("--searches-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string SearchesFromFile { get; private init; }
+
+    /// <summary>
+    /// Combine Results Options Ranker This must be specified. RRF Ranker RRF weights for combining results. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--rrf-weights", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RrfWeights { get; set; }
+
+    /// <summary>
+    /// List of data fields to include in combined output. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--combine-output-data-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CombineOutputDataFields { get; set; }
+
+    /// <summary>
+    /// List of metadata fields to include in combined output. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--combine-output-metadata-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CombineOutputMetadataFields { get; set; }
+
+    /// <summary>
+    /// List of vector fields to include in combined output. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--combine-output-vector-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CombineOutputVectorFields { get; set; }
+
+    /// <summary>
+    /// Top K results to return when combining results.
+    /// </summary>
+    [CliOption("--combine-top-k", Format = OptionFormat.EqualsSeparated)]
+    public string? CombineTopK { get; set; }
+
 }

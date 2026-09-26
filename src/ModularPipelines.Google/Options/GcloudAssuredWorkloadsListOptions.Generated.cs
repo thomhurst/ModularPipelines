@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("assured", "workloads", "list")]
 public record GcloudAssuredWorkloadsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list all Assured Workloads environments     that belong to a given parent organization
+    /// </summary>
+    /// <param name="Location">The location of the Assured Workloads environments. For a current list of supported LOCATION values, see Assured Workloads locations (https://cloud.google.com/assured-workloads/docs/locations).</param>
+    /// <param name="Organization">The parent organization of the Assured Workloads environments, provided as an organization ID.</param>
+    public GcloudAssuredWorkloadsListOptions(
+        string Location,
+        string Organization
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Organization);
+        this.Organization = Organization;
+    }
+
+    public void Deconstruct(out string Location, out string Organization)
+    {
+        Location = this.Location;
+        Organization = this.Organization;
+    }
+
+    /// <summary>
+    /// The location of the Assured Workloads environments. For a current list of supported LOCATION values, see Assured Workloads locations (https://cloud.google.com/assured-workloads/docs/locations).
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The parent organization of the Assured Workloads environments, provided as an organization ID.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string Organization { get; private init; }
+
 }

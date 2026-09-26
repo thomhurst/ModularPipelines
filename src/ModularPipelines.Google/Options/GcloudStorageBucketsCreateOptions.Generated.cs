@@ -20,15 +20,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "buckets", "create")]
-public record GcloudStorageBucketsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Url
-) : GcloudOptions
+public record GcloudStorageBucketsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
+    /// create buckets for storing objects
     /// </summary>
-    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
-    public string? AdditionalHeaders { get; set; }
+    /// <param name="Url">The URLs of the buckets to create.</param>
+    public GcloudStorageBucketsCreateOptions(
+        IEnumerable<string> Url
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Url);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Url));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Url));
+            }
+
+            Url = materialized;
+        }
+        this.Url = Url;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Url)
+    {
+        Url = this.Url;
+    }
+
+    /// <summary>
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdditionalHeaders { get; set; }
 
     /// <summary>
     /// Set the default KMS key using the full path to the key, which has the following form: projects/[project-id]/locations/[location]/keyRings/[key-ring]/cryptoKeys/[my-key].
@@ -79,39 +105,45 @@ public record GcloudStorageBucketsCreateOptions(
     public string? Location { get; set; }
 
     /// <summary>
-    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. A comma-separated list of regions that form the custom dual-region (https://cloud.google.com/storage/docs/locations#location-dr). Only regions within the same continent are or will ever be valid. Invalid location pairs (such as mixed-continent, or with unsupported regions) will return an error.
+    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. A comma-separated list of regions that form the custom dual-region (https://cloud.google.com/storage/docs/locations#location-dr). Only regions within the same continent are or will ever be valid. Invalid location pairs (such as mixed-continent, or with unsupported regions) will return an error. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--placement", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--placement", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Placement { get; set; }
 
     /// <summary>
-    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. Sets the recovery point objective (https://cloud.google.com/architecture/dr-scenarios-planning-guide#basics_of_dr_planning) of a bucket. This flag can only be used with multi-region and dual-region buckets. DEFAULT option is valid for multi-region and dual-regions buckets. ASYNC_TURBO option is only valid for dual-region buckets. If unspecified when the bucket is created, it defaults to DEFAULT for dual-region and multi-region buckets. For more information, see replication in Cloud Storage (https://cloud.google.com/storage/docs/availability-durability#cross-region-redundancy). SETTING must be one of: ASYNC_TURBO, DEFAULT.
+    /// Sets the recovery point objective (https://cloud.google.com/architecture/dr-scenarios-planning-guide#basics_of_dr_planning) of a bucket. This flag can only be used with multi-region and dual-region buckets. DEFAULT option is valid for multi-region and dual-regions buckets. ASYNC_TURBO option is only valid for dual-region buckets. If unspecified when the bucket is created, it defaults to DEFAULT for dual-region and multi-region buckets. For more information, see replication in Cloud Storage (https://cloud.google.com/storage/docs/availability-durability#cross-region-redundancy). SETTING must be one of: ASYNC_TURBO, DEFAULT.
     /// </summary>
     [CliOption("--recovery-point-objective", Format = OptionFormat.EqualsSeparated)]
-    public GcloudRecoveryPointObjective? RecoveryPointObjective { get; set; }
+    public GcloudStorageBucketsCreateRecoveryPointObjective? RecoveryPointObjective { get; set; }
 
     /// <summary>
-    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. Minimum retention period (https://cloud.google.com/storage/docs/bucket-lock#retention-periods) for objects stored in the bucket, for example --retention-period=P1Y1M1DT5S. Objects added to the bucket cannot be deleted until they've been stored for the specified length of time. Default is no retention period. Only available for Cloud Storage using the JSON API.
+    /// Minimum retention period (https://cloud.google.com/storage/docs/bucket-lock#retention-periods) for objects stored in the bucket, for example --retention-period=P1Y1M1DT5S. Objects added to the bucket cannot be deleted until they've been stored for the specified length of time. Default is no retention period. Only available for Cloud Storage using the JSON API.
     /// </summary>
     [CliOption("--retention-period", Format = OptionFormat.EqualsSeparated)]
     public string? RetentionPeriod { get; set; }
 
     /// <summary>
-    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. Duration to retain soft-deleted objects. For example, "2w1d" is two weeks and one day. See gcloud topic datetimes for more information on the duration format. Setting 0 will disable soft delete policy on the bucket. Default is 7 days.
+    /// Duration to retain soft-deleted objects. For example, "2w1d" is two weeks and one day. See gcloud topic datetimes for more information on the duration format. Setting 0 will disable soft delete policy on the bucket. Default is 7 days.
     /// </summary>
     [CliOption("--soft-delete-duration", Format = OptionFormat.EqualsSeparated)]
     public string? SoftDeleteDuration { get; set; }
 
     /// <summary>
-    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. Turns on uniform bucket-level access setting. Default is False. Use --uniform-bucket-level-access to enable and --no-uniform-bucket-level-access to disable.
+    /// Turns on uniform bucket-level access setting. Default is False. Use --uniform-bucket-level-access to enable and --no-uniform-bucket-level-access to disable.
     /// </summary>
     [CliFlag("--uniform-bucket-level-access")]
     public bool? UniformBucketLevelAccess { get; set; }
 
     /// <summary>
-    /// Negates --uniform-bucket-level-access. --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. Turns on uniform bucket-level access setting. Default is False. Use --uniform-bucket-level-access to enable and --no-uniform-bucket-level-access to disable.
+    /// Negates --uniform-bucket-level-access. Turns on uniform bucket-level access setting. Default is False. Use --uniform-bucket-level-access to enable and --no-uniform-bucket-level-access to disable.
     /// </summary>
     [CliFlag("--no-uniform-bucket-level-access")]
     public bool? NoUniformBucketLevelAccess { get; set; }
+
+    /// <summary>
+    /// The URLs of the buckets to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Url { get; private init; }
 
 }

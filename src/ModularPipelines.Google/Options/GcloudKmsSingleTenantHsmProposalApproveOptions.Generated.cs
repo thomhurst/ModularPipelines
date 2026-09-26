@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,63 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "single-tenant-hsm", "proposal", "approve")]
-public record GcloudKmsSingleTenantHsmProposalApproveOptions : GcloudOptions
+public record GcloudKmsSingleTenantHsmProposalApproveOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// approve a single tenant HSM     instance proposal
+    /// </summary>
+    /// <param name="SingleTenantHsmInstanceProposal">SingleTenantHsmInstanceProposal resource - The KMS single tenant HSM instance proposal resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument single_tenant_hsm_instance_proposal on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the singleTenantHsmInstanceProposal or fully qualified identifier for the singleTenantHsmInstanceProposal. To set the proposal attribute: ▸ provide the argument single_tenant_hsm_instance_proposal on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudKmsSingleTenantHsmProposalApproveOptions(
+        string SingleTenantHsmInstanceProposal
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SingleTenantHsmInstanceProposal);
+        this.SingleTenantHsmInstanceProposal = SingleTenantHsmInstanceProposal;
+    }
+
+    public void Deconstruct(out string SingleTenantHsmInstanceProposal)
+    {
+        SingleTenantHsmInstanceProposal = this.SingleTenantHsmInstanceProposal;
+    }
+
+    /// <summary>
+    /// SingleTenantHsmInstanceProposal resource - The KMS single tenant HSM instance proposal resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument single_tenant_hsm_instance_proposal on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The Google Cloud location for the singleTenantHsmInstanceProposal. To set the location attribute: ▸ provide the argument single_tenant_hsm_instance_proposal on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// SingleTenantHsmInstanceProposal resource - The KMS single tenant HSM instance proposal resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument single_tenant_hsm_instance_proposal on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The KMS single tenant HSM instance of the singleTenantHsmInstanceProposal. To set the single_tenant_hsm_instance attribute: ▸ provide the argument single_tenant_hsm_instance_proposal on the command line with a fully specified name; ▸ provide the argument --single_tenant_hsm_instance on the command line.
+    /// </summary>
+    [CliOption("--single_tenant_hsm_instance", Format = OptionFormat.EqualsSeparated)]
+    public string? SingleTenantHsmInstance { get; set; }
+
+    /// <summary>
+    /// Approval payload for the proposal. At least one of these must be specified: The challenge replies to approve the proposal. Challenge replies can be sent across multiple requests. Each tuple should be ("signed_challenge_file", "public_key_file").
+    /// </summary>
+    [CliOption("--quorum-challenge-replies", Format = OptionFormat.EqualsSeparated)]
+    public string? QuorumChallengeReplies { get; set; }
+
+    /// <summary>
+    /// Approval payload for the proposal. At least one of these must be specified: A list of tuples, each containing the file paths for a required challenge reply. Each tuple should be ("signed_challenge_file", "public_key_file").
+    /// </summary>
+    [CliOption("--required-challenge-replies", Format = OptionFormat.EqualsSeparated)]
+    public string? RequiredChallengeReplies { get; set; }
+
+    /// <summary>
+    /// SingleTenantHsmInstanceProposal resource - The KMS single tenant HSM instance proposal resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument single_tenant_hsm_instance_proposal on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the singleTenantHsmInstanceProposal or fully qualified identifier for the singleTenantHsmInstanceProposal. To set the proposal attribute: ▸ provide the argument single_tenant_hsm_instance_proposal on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SingleTenantHsmInstanceProposal { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(QuorumChallengeReplies) || !string.IsNullOrWhiteSpace(RequiredChallengeReplies)))
+        {
+            yield return new ValidationResult("At least one of QuorumChallengeReplies or RequiredChallengeReplies must be specified.", [nameof(QuorumChallengeReplies), nameof(RequiredChallengeReplies)]);
+        }
+        yield break;
+    }
+
 }

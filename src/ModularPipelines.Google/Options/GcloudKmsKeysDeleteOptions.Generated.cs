@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "keys", "delete")]
-public record GcloudKmsKeysDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Key
-) : GcloudOptions
+public record GcloudKmsKeysDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a key
+    /// </summary>
+    /// <param name="Key">Name of the key to delete.</param>
+    public GcloudKmsKeysDeleteOptions(
+        string Key
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Key);
+        this.Key = Key;
+    }
+
+    public void Deconstruct(out string Key)
+    {
+        Key = this.Key;
+    }
+
     /// <summary>
     /// Key ring of the key.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudKmsKeysDeleteOptions(
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// Name of the key to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Key { get; private init; }
 
 }

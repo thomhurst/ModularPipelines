@@ -19,8 +19,12 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "instances", "get-iam-policy")]
-public record GcloudSpannerInstancesGetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Iam
-) : GcloudOptions
+public record GcloudSpannerInstancesGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// Instance resource - The Cloud Spanner instance for which to display the IAM policy. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ set the property spanner/instance with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ◆ provide the argument instance on the command line; ◆ set the property spanner/instance.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Instance { get; set; }
+
 }

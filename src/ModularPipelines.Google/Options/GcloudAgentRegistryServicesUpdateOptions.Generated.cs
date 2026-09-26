@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("agent-registry", "services", "update")]
-public record GcloudAgentRegistryServicesUpdateOptions : GcloudOptions
+public record GcloudAgentRegistryServicesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// modify service parameters
+    /// </summary>
+    /// <param name="Service">Service resource - Identifier. The resource name of the Service. Format: projects/{project}/locations/{location}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAgentRegistryServicesUpdateOptions(
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string Service)
+    {
+        Service = this.Service;
+    }
+
+    /// <summary>
+    /// Service resource - Identifier. The resource name of the Service. Format: projects/{project}/locations/{location}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the service resource. To set the location attribute: ▸ provide the argument service on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -64,37 +88,37 @@ public record GcloudAgentRegistryServicesUpdateOptions : GcloudOptions
     public bool? ClearAgentSpec { get; set; }
 
     /// <summary>
-    /// The spec of the endpoint. Set service.endpointSpec back to default value.
+    /// Arguments for the spec. At most one of these can be specified: The spec of the endpoint. Set service.endpointSpec back to default value.
     /// </summary>
     [CliFlag("--clear-endpoint-spec")]
     public bool? ClearEndpointSpec { get; set; }
 
     /// <summary>
-    /// The spec of the endpoint. The content of the endpoint spec. Reserved for future use.
+    /// Arguments for the spec. At most one of these can be specified: The spec of the endpoint. The content of the endpoint spec. Reserved for future use.
     /// </summary>
     [CliOption("--endpoint-spec-content", Format = OptionFormat.EqualsSeparated)]
     public string? EndpointSpecContent { get; set; }
 
     /// <summary>
-    /// The spec of the endpoint. The type of the endpoint spec content. ENDPOINT_SPEC_TYPE must be (only one value is supported): no-spec There is no spec for the Endpoint. The content field must be empty.
+    /// Arguments for the spec. At most one of these can be specified: The spec of the endpoint. The type of the endpoint spec content. ENDPOINT_SPEC_TYPE must be (only one value is supported): no-spec There is no spec for the Endpoint. The content field must be empty.
     /// </summary>
     [CliOption("--endpoint-spec-type", Format = OptionFormat.EqualsSeparated)]
     public string? EndpointSpecType { get; set; }
 
     /// <summary>
-    /// The spec of the MCP Server. Set service.mcpServerSpec back to default value.
+    /// Arguments for the spec. At most one of these can be specified: The spec of the MCP Server. Set service.mcpServerSpec back to default value.
     /// </summary>
     [CliFlag("--clear-mcp-server-spec")]
     public bool? ClearMcpServerSpec { get; set; }
 
     /// <summary>
-    /// The spec of the MCP Server. The content of the MCP Server spec. This payload is validated against the schema for the specified type. The content size is limited to 10KB.
+    /// Arguments for the spec. At most one of these can be specified: The spec of the MCP Server. The content of the MCP Server spec. This payload is validated against the schema for the specified type. The content size is limited to 10KB.
     /// </summary>
     [CliOption("--mcp-server-spec-content", Format = OptionFormat.EqualsSeparated)]
     public string? McpServerSpecContent { get; set; }
 
     /// <summary>
-    /// The spec of the MCP Server. The type of the MCP Server spec content. MCP_SERVER_SPEC_TYPE must be one of: no-spec There is no spec for the MCP Server. The content field must be empty. tool-spec The content is a MCP Tool Spec following the One MCP specification. The payload is the same as the tools/list response.
+    /// Arguments for the spec. At most one of these can be specified: The spec of the MCP Server. The type of the MCP Server spec content. MCP_SERVER_SPEC_TYPE must be one of: no-spec There is no spec for the MCP Server. The content field must be empty. tool-spec The content is a MCP Tool Spec following the One MCP specification. The payload is the same as the tools/list response.
     /// </summary>
     [CliOption("--mcp-server-spec-type", Format = OptionFormat.EqualsSeparated)]
     public string? McpServerSpecType { get; set; }
@@ -103,13 +127,93 @@ public record GcloudAgentRegistryServicesUpdateOptions : GcloudOptions
     /// Update interfaces. At most one of these can be specified: Set interfaces to new value. The connection details for the Service. protocolBinding The protocol binding of the interface. url The destination URL. Shorthand Example: --interfaces=protocolBinding=string,url=string --interfaces=protocolBinding=string,url=string JSON Example: --interfaces='[{"protocolBinding": "string", "url": "string"}]' File Example: --interfaces=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--interfaces", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Interfaces { get; set; }
+    public IEnumerable<string>? Interfaces
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __InterfacesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __InterfacesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __InterfacesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __InterfacesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update interfaces. At most one of these can be specified: Or at least one of these can be specified: Add new value to interfaces list. The connection details for the Service. protocolBinding The protocol binding of the interface. url The destination URL. Shorthand Example: --add-interfaces=protocolBinding=string,url=string --add-interfaces=protocolBinding=string,url=string JSON Example: --add-interfaces='[{"protocolBinding": "string", "url": "string"}]' File Example: --add-interfaces=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-interfaces", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddInterfaces { get; set; }
+    public IEnumerable<string>? AddInterfaces
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddInterfacesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddInterfacesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddInterfacesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddInterfacesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update interfaces. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear interfaces value and set to empty list.
@@ -121,6 +225,70 @@ public record GcloudAgentRegistryServicesUpdateOptions : GcloudOptions
     /// Update interfaces. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from interfaces list. The connection details for the Service. protocolBinding The protocol binding of the interface. url The destination URL. Shorthand Example: --remove-interfaces=protocolBinding=string,url=string --remove-interfaces=protocolBinding=string,url=string JSON Example: --remove-interfaces='[{"protocolBinding": "string", "url": "string"}]' File Example: --remove-interfaces=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-interfaces", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveInterfaces { get; set; }
+    public IEnumerable<string>? RemoveInterfaces
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveInterfacesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveInterfacesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveInterfacesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveInterfacesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Service resource - Identifier. The resource name of the Service. Format: projects/{project}/locations/{location}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Service { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(AgentSpecContent) || !string.IsNullOrWhiteSpace(AgentSpecType) || ClearAgentSpec == true) ? 1 : 0) + ((ClearEndpointSpec == true || !string.IsNullOrWhiteSpace(EndpointSpecContent) || !string.IsNullOrWhiteSpace(EndpointSpecType)) ? 1 : 0) + ((ClearMcpServerSpec == true || !string.IsNullOrWhiteSpace(McpServerSpecContent) || !string.IsNullOrWhiteSpace(McpServerSpecType)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (AgentSpecContent, AgentSpecType, or ClearAgentSpec), (ClearEndpointSpec, EndpointSpecContent, or EndpointSpecType), or (ClearMcpServerSpec, McpServerSpecContent, or McpServerSpecType) may be specified.", [nameof(AgentSpecContent), nameof(AgentSpecType), nameof(ClearAgentSpec), nameof(ClearEndpointSpec), nameof(EndpointSpecContent), nameof(EndpointSpecType), nameof(ClearMcpServerSpec), nameof(McpServerSpecContent), nameof(McpServerSpecType)]);
+        }
+        if ((((object?)Interfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Interfaces, static item => item is not null) : ((object?)Interfaces is global::System.Collections.Generic.IEnumerable<char> ? (object?)Interfaces is not string || !string.IsNullOrWhiteSpace(Interfaces?.ToString()) : ((object?)Interfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Interfaces, static item => item is not null) : (Interfaces is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Interfaces), static item => item is not null))))) ? 1 : 0) + ((((object?)AddInterfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddInterfaces, static item => item is not null) : ((object?)AddInterfaces is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddInterfaces is not string || !string.IsNullOrWhiteSpace(AddInterfaces?.ToString()) : ((object?)AddInterfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddInterfaces, static item => item is not null) : (AddInterfaces is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddInterfaces), static item => item is not null))))) || ClearInterfaces == true || ((object?)RemoveInterfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveInterfaces, static item => item is not null) : ((object?)RemoveInterfaces is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveInterfaces is not string || !string.IsNullOrWhiteSpace(RemoveInterfaces?.ToString()) : ((object?)RemoveInterfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveInterfaces, static item => item is not null) : (RemoveInterfaces is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveInterfaces), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Interfaces or (AddInterfaces, ClearInterfaces, or RemoveInterfaces) may be specified.", [nameof(Interfaces), nameof(AddInterfaces), nameof(ClearInterfaces), nameof(RemoveInterfaces)]);
+        }
+        if ((((object?)Interfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Interfaces, static item => item is not null) : ((object?)Interfaces is global::System.Collections.Generic.IEnumerable<char> ? (object?)Interfaces is not string || !string.IsNullOrWhiteSpace(Interfaces?.ToString()) : ((object?)Interfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Interfaces, static item => item is not null) : (Interfaces is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Interfaces), static item => item is not null))))) || ((object?)AddInterfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddInterfaces, static item => item is not null) : ((object?)AddInterfaces is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddInterfaces is not string || !string.IsNullOrWhiteSpace(AddInterfaces?.ToString()) : ((object?)AddInterfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddInterfaces, static item => item is not null) : (AddInterfaces is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddInterfaces), static item => item is not null))))) || ClearInterfaces == true || ((object?)RemoveInterfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveInterfaces, static item => item is not null) : ((object?)RemoveInterfaces is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveInterfaces is not string || !string.IsNullOrWhiteSpace(RemoveInterfaces?.ToString()) : ((object?)RemoveInterfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveInterfaces, static item => item is not null) : (RemoveInterfaces is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveInterfaces), static item => item is not null)))))) && (((object?)AddInterfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddInterfaces, static item => item is not null) : ((object?)AddInterfaces is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddInterfaces is not string || !string.IsNullOrWhiteSpace(AddInterfaces?.ToString()) : ((object?)AddInterfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddInterfaces, static item => item is not null) : (AddInterfaces is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddInterfaces), static item => item is not null))))) || ClearInterfaces == true || ((object?)RemoveInterfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveInterfaces, static item => item is not null) : ((object?)RemoveInterfaces is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveInterfaces is not string || !string.IsNullOrWhiteSpace(RemoveInterfaces?.ToString()) : ((object?)RemoveInterfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveInterfaces, static item => item is not null) : (RemoveInterfaces is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveInterfaces), static item => item is not null)))))) && ((ClearInterfaces == true ? 1 : 0) + (((object?)RemoveInterfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveInterfaces, static item => item is not null) : ((object?)RemoveInterfaces is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveInterfaces is not string || !string.IsNullOrWhiteSpace(RemoveInterfaces?.ToString()) : ((object?)RemoveInterfaces is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveInterfaces, static item => item is not null) : (RemoveInterfaces is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveInterfaces), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearInterfaces or RemoveInterfaces may be specified.", [nameof(ClearInterfaces), nameof(RemoveInterfaces)]);
+        }
+        yield break;
+    }
 
 }

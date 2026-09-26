@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-services", "delete-signed-url-key")]
-public record GcloudComputeBackendServicesDeleteSignedUrlKeyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendServiceName
-) : GcloudOptions
+public record GcloudComputeBackendServicesDeleteSignedUrlKeyOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete Cloud CDN     Signed URL key from a backend service
+    /// </summary>
+    /// <param name="KeyName">Name of the Cloud CDN Signed URL key.</param>
+    /// <param name="BackendServiceName">Name of the backend service to operate on.</param>
+    public GcloudComputeBackendServicesDeleteSignedUrlKeyOptions(
+        string KeyName,
+        string BackendServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeyName);
+        this.KeyName = KeyName;
+        global::System.ArgumentNullException.ThrowIfNull(BackendServiceName);
+        this.BackendServiceName = BackendServiceName;
+    }
+
+    public void Deconstruct(out string KeyName, out string BackendServiceName)
+    {
+        KeyName = this.KeyName;
+        BackendServiceName = this.BackendServiceName;
+    }
+
+    /// <summary>
+    /// Name of the Cloud CDN Signed URL key.
+    /// </summary>
+    [CliOption("--key-name", Format = OptionFormat.EqualsSeparated)]
+    public string KeyName { get; private init; }
+
+    /// <summary>
+    /// Name of the backend service to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackendServiceName { get; private init; }
+
 }

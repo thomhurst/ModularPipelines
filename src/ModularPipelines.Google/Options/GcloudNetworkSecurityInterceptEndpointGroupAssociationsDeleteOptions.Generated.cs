@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkSecurityInterceptEndpointGroupAssociationsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete an Intercept Endpoint Group Association
+    /// </summary>
+    /// <param name="InterceptEndpointGroupAssociation">Intercept endpoint group association resource - Intercept Endpoint Group Association. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument INTERCEPT_ENDPOINT_GROUP_ASSOCIATION on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the intercept endpoint group association or fully qualified identifier for the intercept endpoint group association. To set the endpoint-group-association-id attribute: ▸ provide the argument INTERCEPT_ENDPOINT_GROUP_ASSOCIATION on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecurityInterceptEndpointGroupAssociationsDeleteOptions(
+        string InterceptEndpointGroupAssociation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InterceptEndpointGroupAssociation);
+        this.InterceptEndpointGroupAssociation = InterceptEndpointGroupAssociation;
+    }
+
+    public void Deconstruct(out string InterceptEndpointGroupAssociation)
+    {
+        InterceptEndpointGroupAssociation = this.InterceptEndpointGroupAssociation;
+    }
+
+    /// <summary>
+    /// Intercept endpoint group association resource - Intercept Endpoint Group Association. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument INTERCEPT_ENDPOINT_GROUP_ASSOCIATION on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the intercept endpoint group association. To set the location attribute: ▸ provide the argument INTERCEPT_ENDPOINT_GROUP_ASSOCIATION on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
@@ -38,5 +61,11 @@ public record GcloudNetworkSecurityInterceptEndpointGroupAssociationsDeleteOptio
     /// </summary>
     [CliOption("--max-wait", Format = OptionFormat.EqualsSeparated)]
     public string? MaxWait { get; set; }
+
+    /// <summary>
+    /// Intercept endpoint group association resource - Intercept Endpoint Group Association. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument INTERCEPT_ENDPOINT_GROUP_ASSOCIATION on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the intercept endpoint group association or fully qualified identifier for the intercept endpoint group association. To set the endpoint-group-association-id attribute: ▸ provide the argument INTERCEPT_ENDPOINT_GROUP_ASSOCIATION on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InterceptEndpointGroupAssociation { get; private init; }
 
 }

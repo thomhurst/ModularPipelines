@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSecretsVersionsDescribeOptions : GcloudOptions
 {
     /// <summary>
+    /// describe metadata about the secret     version
+    /// </summary>
+    /// <param name="Version">Version resource - Numeric secret version to describe or a configured alias (including 'latest' to use the latest version). The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument VERSION on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the version or fully qualified identifier for the version. To set the version attribute: ▸ provide the argument VERSION on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSecretsVersionsDescribeOptions(
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string Version)
+    {
+        Version = this.Version;
+    }
+
+    /// <summary>
+    /// Version resource - Numeric secret version to describe or a configured alias (including 'latest' to use the latest version). The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument VERSION on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The secret of the version. To set the secret attribute: ▸ provide the argument VERSION on the command line with a fully specified name; ▸ provide the argument --secret on the command line.
+    /// </summary>
+    [CliOption("--secret", Format = OptionFormat.EqualsSeparated)]
+    public string? Secret { get; set; }
+
+    /// <summary>
     /// Location resource - The location to describe secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// Version resource - Numeric secret version to describe or a configured alias (including 'latest' to use the latest version). The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument VERSION on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the version or fully qualified identifier for the version. To set the version attribute: ▸ provide the argument VERSION on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Version { get; private init; }
 
 }

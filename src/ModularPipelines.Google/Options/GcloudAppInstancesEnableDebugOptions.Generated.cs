@@ -33,4 +33,10 @@ public record GcloudAppInstancesEnableDebugOptions : GcloudOptions
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 
+    /// <summary>
+    /// Instance ID to enable debug mode on. If not specified, select instance interactively. Must uniquely specify (with other flags) exactly one instance
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Instance { get; set; }
+
 }

@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "config", "configurations", "describe")]
-public record GcloudPreviewConfigConfigurationsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ConfigurationName
-) : GcloudOptions
+public record GcloudPreviewConfigConfigurationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describes a named     configuration by listing its properties
+    /// </summary>
+    /// <param name="ConfigurationName">Name of the configuration to describe</param>
+    public GcloudPreviewConfigConfigurationsDescribeOptions(
+        string ConfigurationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigurationName);
+        this.ConfigurationName = ConfigurationName;
+    }
+
+    public void Deconstruct(out string ConfigurationName)
+    {
+        ConfigurationName = this.ConfigurationName;
+    }
+
     /// <summary>
     /// Include unset properties in output.
     /// </summary>
     [CliFlag("--all")]
     public bool? All { get; set; }
+
+    /// <summary>
+    /// Name of the configuration to describe
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConfigurationName { get; private init; }
 
 }

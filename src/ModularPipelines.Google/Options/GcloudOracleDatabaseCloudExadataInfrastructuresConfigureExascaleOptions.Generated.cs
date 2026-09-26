@@ -21,4 +21,61 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("oracle-database", "cloud-exadata-infrastructures", "configure-exascale")]
 public record GcloudOracleDatabaseCloudExadataInfrastructuresConfigureExascaleOptions : GcloudOptions
 {
+    /// <summary>
+    /// configure Exascale Storage for a Cloud Exadata Infrastructure
+    /// </summary>
+    /// <param name="TotalStorageSizeGb">The total storage to be allocated to Exascale in GBs.</param>
+    /// <param name="CloudExadataInfrastructure">CloudExadataInfrastructure resource - The name of the Cloud Exadata Infrastructure in the following format: projects/{project}/locations/{location}/cloudExadataInfrastructures/{cloud_exadata_infrastructure}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_exadata_infrastructure on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cloudExadataInfrastructure or fully qualified identifier for the cloudExadataInfrastructure. To set the cloud_exadata_infrastructure attribute: ▸ provide the argument cloud_exadata_infrastructure on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudOracleDatabaseCloudExadataInfrastructuresConfigureExascaleOptions(
+        int TotalStorageSizeGb,
+        string CloudExadataInfrastructure
+    )
+    {
+        this.TotalStorageSizeGb = TotalStorageSizeGb;
+        global::System.ArgumentNullException.ThrowIfNull(CloudExadataInfrastructure);
+        this.CloudExadataInfrastructure = CloudExadataInfrastructure;
+    }
+
+    public void Deconstruct(out int TotalStorageSizeGb, out string CloudExadataInfrastructure)
+    {
+        TotalStorageSizeGb = this.TotalStorageSizeGb;
+        CloudExadataInfrastructure = this.CloudExadataInfrastructure;
+    }
+
+    /// <summary>
+    /// The total storage to be allocated to Exascale in GBs.
+    /// </summary>
+    [CliOption("--total-storage-size-gb", Format = OptionFormat.EqualsSeparated)]
+    public int TotalStorageSizeGb { get; private init; }
+
+    /// <summary>
+    /// CloudExadataInfrastructure resource - The name of the Cloud Exadata Infrastructure in the following format: projects/{project}/locations/{location}/cloudExadataInfrastructures/{cloud_exadata_infrastructure}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_exadata_infrastructure on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the cloudExadataInfrastructure resource. To set the location attribute: ▸ provide the argument cloud_exadata_infrastructure on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// An optional ID to identify the request.
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Storage size needed for VM storage on Exascale in GBs.
+    /// </summary>
+    [CliOption("--total-vm-storage-size-gb", Format = OptionFormat.EqualsSeparated)]
+    public int? TotalVmStorageSizeGb { get; set; }
+
+    /// <summary>
+    /// CloudExadataInfrastructure resource - The name of the Cloud Exadata Infrastructure in the following format: projects/{project}/locations/{location}/cloudExadataInfrastructures/{cloud_exadata_infrastructure}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_exadata_infrastructure on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cloudExadataInfrastructure or fully qualified identifier for the cloudExadataInfrastructure. To set the cloud_exadata_infrastructure attribute: ▸ provide the argument cloud_exadata_infrastructure on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CloudExadataInfrastructure { get; private init; }
+
 }

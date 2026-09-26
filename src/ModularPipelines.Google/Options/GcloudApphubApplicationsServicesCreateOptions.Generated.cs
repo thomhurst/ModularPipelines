@@ -21,4 +21,98 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apphub", "applications", "services", "create")]
 public record GcloudApphubApplicationsServicesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create an Apphub application     service
+    /// </summary>
+    /// <param name="DiscoveredService">DiscoveredService resource - The discovered service resource. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --discovered-service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --discovered-service on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the discoveredService or fully qualified identifier for the discoveredService. To set the discovered_service attribute: ▸ provide the argument --discovered-service on the command line.</param>
+    /// <param name="Service">Service resource - The Service resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument SERVICE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument SERVICE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApphubApplicationsServicesCreateOptions(
+        string DiscoveredService,
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DiscoveredService);
+        this.DiscoveredService = DiscoveredService;
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string DiscoveredService, out string Service)
+    {
+        DiscoveredService = this.DiscoveredService;
+        Service = this.Service;
+    }
+
+    /// <summary>
+    /// DiscoveredService resource - The discovered service resource. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --discovered-service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --discovered-service on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the discoveredService or fully qualified identifier for the discoveredService. To set the discovered_service attribute: ▸ provide the argument --discovered-service on the command line.
+    /// </summary>
+    [CliOption("--discovered-service", Format = OptionFormat.EqualsSeparated)]
+    public string DiscoveredService { get; private init; }
+
+    /// <summary>
+    /// Service resource - The Service resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument SERVICE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name for the application To set the application attribute: ▸ provide the argument SERVICE on the command line with a fully specified name; ▸ provide the argument --application on the command line.
+    /// </summary>
+    [CliOption("--application", Format = OptionFormat.EqualsSeparated)]
+    public string? Application { get; set; }
+
+    /// <summary>
+    /// Service resource - The Service resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument SERVICE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the service. To set the location attribute: ▸ provide the argument SERVICE on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Business owners of the service
+    /// </summary>
+    [CliOption("--business-owners", Format = OptionFormat.EqualsSeparated)]
+    public string? BusinessOwners { get; set; }
+
+    /// <summary>
+    /// Criticality Type of the service. CRITICALITY_TYPE must be one of: HIGH High impact LOW Low impact MEDIUM Medium impact MISSION_CRITICAL Mission critical service, application or workload TYPE_UNSPECIFIED Unspecified criticality type
+    /// </summary>
+    [CliOption("--criticality-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CriticalityType { get; set; }
+
+    /// <summary>
+    /// Description of the service
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Developer owners of the service
+    /// </summary>
+    [CliOption("--developer-owners", Format = OptionFormat.EqualsSeparated)]
+    public string? DeveloperOwners { get; set; }
+
+    /// <summary>
+    /// Human-friendly display name
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Environment Type of the service. ENVIRONMENT_TYPE must be one of: DEVELOPMENT Development environment PRODUCTION Production environment STAGING Staging environment TEST Test environment TYPE_UNSPECIFIED Unspecified environment type
+    /// </summary>
+    [CliOption("--environment-type", Format = OptionFormat.EqualsSeparated)]
+    public string? EnvironmentType { get; set; }
+
+    /// <summary>
+    /// Operator owners of the service
+    /// </summary>
+    [CliOption("--operator-owners", Format = OptionFormat.EqualsSeparated)]
+    public string? OperatorOwners { get; set; }
+
+    /// <summary>
+    /// Service resource - The Service resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument SERVICE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument SERVICE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Service { get; private init; }
+
 }

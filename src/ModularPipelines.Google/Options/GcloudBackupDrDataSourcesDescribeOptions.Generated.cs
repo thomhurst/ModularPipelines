@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("backup-dr", "data-sources", "describe")]
 public record GcloudBackupDrDataSourcesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details of the data source
+    /// </summary>
+    /// <param name="DataSource">Data source resource - Name of the data source to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument data_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the data_source or fully qualified identifier for the data_source. To set the data_source attribute: ▸ provide the argument data_source on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBackupDrDataSourcesDescribeOptions(
+        string DataSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSource);
+        this.DataSource = DataSource;
+    }
+
+    public void Deconstruct(out string DataSource)
+    {
+        DataSource = this.DataSource;
+    }
+
+    /// <summary>
+    /// Data source resource - Name of the data source to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument data_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The ID of the Backup Vault. To set the backup-vault attribute: ▸ provide the argument data_source on the command line with a fully specified name; ▸ provide the argument --backup-vault on the command line.
+    /// </summary>
+    [CliOption("--backup-vault", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupVault { get; set; }
+
+    /// <summary>
+    /// Data source resource - Name of the data source to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument data_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location ID of the resource. To set the location attribute: ▸ provide the argument data_source on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Data source resource - Name of the data source to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument data_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the data_source or fully qualified identifier for the data_source. To set the data_source attribute: ▸ provide the argument data_source on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DataSource { get; private init; }
+
 }

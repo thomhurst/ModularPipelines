@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("storage", "intelligence-findings", "revisions", "list")]
 public record GcloudStorageIntelligenceFindingsRevisionsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// historical revisions     list of a finding
+    /// </summary>
+    /// <param name="FindingId">The ID of the intelligence finding to list revisions for.</param>
+    public GcloudStorageIntelligenceFindingsRevisionsListOptions(
+        string FindingId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FindingId);
+        this.FindingId = FindingId;
+    }
+
+    public void Deconstruct(out string FindingId)
+    {
+        FindingId = this.FindingId;
+    }
+
+    /// <summary>
+    /// The ID of the intelligence finding to list revisions for.
+    /// </summary>
+    [CliOption("--finding-id", Format = OptionFormat.EqualsSeparated)]
+    public string FindingId { get; private init; }
+
 }

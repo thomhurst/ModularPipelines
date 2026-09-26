@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,13 +21,13 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "url-maps", "validate")]
-public record GcloudPreviewComputeUrlMapsValidateOptions : GcloudOptions
+public record GcloudPreviewComputeUrlMapsValidateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// Specifies the load balancer type this validation request is for. Use EXTERNAL_MANAGED for global external Application Load Balancer. Use EXTERNAL for classic Application Load Balancer. Other load balancer types are not supported. For more information, refer to Choosing a load balancer (https://cloud.google.com/load-balancing/docs/choosing-load-balancer/). If unspecified, the load balancing scheme will be inferred from the backend service resources this URL map references. If that can not be inferred (for example, this URL map only references backend buckets, or this URL map is for rewrites and redirects only and doesn't reference any backends), EXTERNAL will be used as the default type. If specified, the scheme must not conflict with the load balancing scheme of the backend service resources this URL map references. LOAD_BALANCING_SCHEME must be one of: EXTERNAL, EXTERNAL_MANAGED.
     /// </summary>
     [CliOption("--load-balancing-scheme", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLoadBalancingScheme? LoadBalancingScheme { get; set; }
+    public GcloudPreviewComputeUrlMapsValidateLoadBalancingScheme? LoadBalancingScheme { get; set; }
 
     /// <summary>
     /// Path to a YAML file containing configuration export data. The YAML file must not contain any output-only fields. Alternatively, you may omit this flag to read from standard input. For a schema describing the export/import format, see: $CLOUDSDKROOT/lib/googlecloudsdk/schemas/compute/v1/UrlMap.yaml.
@@ -45,5 +46,15 @@ public record GcloudPreviewComputeUrlMapsValidateOptions : GcloudOptions
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
 
 }

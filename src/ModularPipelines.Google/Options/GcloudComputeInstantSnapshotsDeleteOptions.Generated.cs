@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,36 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instant-snapshots", "delete")]
-public record GcloudComputeInstantSnapshotsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> InstantSnapshotName
-) : GcloudOptions
+public record GcloudComputeInstantSnapshotsDeleteOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// delete a Compute Engine instant     snapshot
+    /// </summary>
+    /// <param name="InstantSnapshotName">Names of the instant snapshots to delete.</param>
+    public GcloudComputeInstantSnapshotsDeleteOptions(
+        IEnumerable<string> InstantSnapshotName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstantSnapshotName);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstantSnapshotName));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstantSnapshotName));
+            }
+
+            InstantSnapshotName = materialized;
+        }
+        this.InstantSnapshotName = InstantSnapshotName;
+    }
+
+    public void Deconstruct(out IEnumerable<string> InstantSnapshotName)
+    {
+        InstantSnapshotName = this.InstantSnapshotName;
+    }
+
     /// <summary>
     /// At most one of these can be specified: Region of the instant snapshots to delete. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
     /// </summary>
@@ -34,5 +61,21 @@ public record GcloudComputeInstantSnapshotsDeleteOptions(
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Names of the instant snapshots to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> InstantSnapshotName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Region or Zone may be specified.", [nameof(Region), nameof(Zone)]);
+        }
+        yield break;
+    }
 
 }

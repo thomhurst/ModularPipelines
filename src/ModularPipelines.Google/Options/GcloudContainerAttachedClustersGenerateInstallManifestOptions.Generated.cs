@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,78 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "attached", "clusters", "generate-install-manifest")]
-public record GcloudContainerAttachedClustersGenerateInstallManifestOptions : GcloudOptions
+public record GcloudContainerAttachedClustersGenerateInstallManifestOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// generate     Install Manifest for an Attached cluster
+    /// </summary>
+    /// <param name="PlatformVersion">Platform version to use for the cluster. To retrieve a list of valid versions, run: $ gcloud alpha container attached get-server-config \ --location=LOCATION Replace LOCATION with the target Google Cloud location for the cluster.</param>
+    /// <param name="Cluster">Cluster resource - cluster to generate install manifest. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerAttachedClustersGenerateInstallManifestOptions(
+        string PlatformVersion,
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PlatformVersion);
+        this.PlatformVersion = PlatformVersion;
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string PlatformVersion, out string Cluster)
+    {
+        PlatformVersion = this.PlatformVersion;
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Platform version to use for the cluster. To retrieve a list of valid versions, run: $ gcloud alpha container attached get-server-config \ --location=LOCATION Replace LOCATION with the target Google Cloud location for the cluster.
+    /// </summary>
+    [CliOption("--platform-version", Format = OptionFormat.EqualsSeparated)]
+    public string PlatformVersion { get; private init; }
+
+    /// <summary>
+    /// Cluster resource - cluster to generate install manifest. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the cluster. To set the location attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_attached/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Path to the output file to store manifest.
+    /// </summary>
+    [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
+    public string? OutputFile { get; set; }
+
+    /// <summary>
+    /// Proxy config Name of the Kubernetes secret that contains the HTTP/HTTPS proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--proxy-secret-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretName { get; set; }
+
+    /// <summary>
+    /// Proxy config Namespace of the Kubernetes secret that contains the HTTP/HTTPS proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--proxy-secret-namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretNamespace { get; set; }
+
+    /// <summary>
+    /// Cluster resource - cluster to generate install manifest. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ProxySecretName) || !string.IsNullOrWhiteSpace(ProxySecretNamespace)) && (!(!string.IsNullOrWhiteSpace(ProxySecretName))))
+        {
+            yield return new ValidationResult("ProxySecretName must be specified when other arguments in this group are specified.", [nameof(ProxySecretName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ProxySecretName) || !string.IsNullOrWhiteSpace(ProxySecretNamespace)) && (!(!string.IsNullOrWhiteSpace(ProxySecretNamespace))))
+        {
+            yield return new ValidationResult("ProxySecretNamespace must be specified when other arguments in this group are specified.", [nameof(ProxySecretNamespace)]);
+        }
+        yield break;
+    }
+
 }

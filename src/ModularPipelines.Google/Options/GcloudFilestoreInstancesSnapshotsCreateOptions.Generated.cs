@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,80 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("filestore", "instances", "snapshots", "create")]
-public record GcloudFilestoreInstancesSnapshotsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Snapshot
-) : GcloudOptions
+public record GcloudFilestoreInstancesSnapshotsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Filestore snapshot
+    /// </summary>
+    /// <param name="Instance">Name of the Filestore instance that you want to create a snapshot of.</param>
+    /// <param name="Snapshot">Name of the Filestore snapshot to be created.</param>
+    public GcloudFilestoreInstancesSnapshotsCreateOptions(
+        string Instance,
+        string Snapshot
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+        global::System.ArgumentNullException.ThrowIfNull(Snapshot);
+        this.Snapshot = Snapshot;
+    }
+
+    public void Deconstruct(out string Instance, out string Snapshot)
+    {
+        Instance = this.Instance;
+        Snapshot = this.Snapshot;
+    }
+
+    /// <summary>
+    /// Name of the Filestore instance that you want to create a snapshot of.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string Instance { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Location of the Filestore instance.
+    /// </summary>
+    [CliOption("--instance-location", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceLocation { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Region of the Filestore instance.
+    /// </summary>
+    [CliOption("--instance-region", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceRegion { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the snapshot. Limit: 2048 characters.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Name of the Filestore snapshot to be created.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Snapshot { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(InstanceLocation) ? 1 : 0) + (!string.IsNullOrWhiteSpace(InstanceRegion) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of InstanceLocation or InstanceRegion must be specified.", [nameof(InstanceLocation), nameof(InstanceRegion)]);
+        }
+        yield break;
+    }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataflow", "jobs", "update-options")]
-public record GcloudDataflowJobsUpdateOptionsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string JobId
-) : GcloudOptions
+public record GcloudDataflowJobsUpdateOptionsOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// fly     for running Dataflow jobs
+    /// </summary>
+    /// <param name="JobId">Job ID to operate on.</param>
+    public GcloudDataflowJobsUpdateOptionsOptions(
+        string JobId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobId);
+        this.JobId = JobId;
+    }
+
+    public void Deconstruct(out string JobId)
+    {
+        JobId = this.JobId;
+    }
+
     /// <summary>
     /// Upper-bound for autoscaling, between 1-1000. Only supported for streaming-engine jobs.
     /// </summary>
@@ -52,5 +68,21 @@ public record GcloudDataflowJobsUpdateOptionsOptions(
     /// </summary>
     [CliOption("--worker-utilization-hint", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerUtilizationHint { get; set; }
+
+    /// <summary>
+    /// Job ID to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string JobId { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((UnsetWorkerUtilizationHint == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(WorkerUtilizationHint) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of UnsetWorkerUtilizationHint or WorkerUtilizationHint may be specified.", [nameof(UnsetWorkerUtilizationHint), nameof(WorkerUtilizationHint)]);
+        }
+        yield break;
+    }
 
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,92 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "spokes", "gateways", "advertised-routes", "create")]
-public record GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesCreateOptions : GcloudOptions
+public record GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new gateway advertised route
+    /// </summary>
+    /// <param name="IpRange">Advertise this IP range.</param>
+    /// <param name="GatewayAdvertisedRoute">GatewayAdvertisedRoute resource - Name of the gateway advertised route to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gateway_advertised_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gatewayAdvertisedRoute or fully qualified identifier for the gatewayAdvertisedRoute. To set the gateway_advertised_route attribute: ▸ provide the argument gateway_advertised_route on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkConnectivitySpokesGatewaysAdvertisedRoutesCreateOptions(
+        string IpRange,
+        string GatewayAdvertisedRoute
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpRange);
+        this.IpRange = IpRange;
+        global::System.ArgumentNullException.ThrowIfNull(GatewayAdvertisedRoute);
+        this.GatewayAdvertisedRoute = GatewayAdvertisedRoute;
+    }
+
+    public void Deconstruct(out string IpRange, out string GatewayAdvertisedRoute)
+    {
+        IpRange = this.IpRange;
+        GatewayAdvertisedRoute = this.GatewayAdvertisedRoute;
+    }
+
+    /// <summary>
+    /// Advertise this IP range.
+    /// </summary>
+    [CliOption("--ip-range", Format = OptionFormat.EqualsSeparated)]
+    public string IpRange { get; private init; }
+
+    /// <summary>
+    /// GatewayAdvertisedRoute resource - Name of the gateway advertised route to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gateway_advertised_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the region attribute: ▸ provide the argument gateway_advertised_route on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// GatewayAdvertisedRoute resource - Name of the gateway advertised route to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gateway_advertised_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Id of the spoke. To set the spoke attribute: ▸ provide the argument gateway_advertised_route on the command line with a fully specified name; ▸ provide the argument --spoke on the command line.
+    /// </summary>
+    [CliOption("--spoke", Format = OptionFormat.EqualsSeparated)]
+    public string? Spoke { get; set; }
+
+    /// <summary>
+    /// The gateway should advertise this route toward the hub.
+    /// </summary>
+    [CliFlag("--advertise-to-hub")]
+    public bool? AdvertiseToHub { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the advertised route to be created.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// This route's priority. Must be between 0 and 65335.
+    /// </summary>
+    [CliOption("--priority", Format = OptionFormat.EqualsSeparated)]
+    public string? Priority { get; set; }
+
+    /// <summary>
+    /// GatewayAdvertisedRoute resource - Name of the gateway advertised route to be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gateway_advertised_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gatewayAdvertisedRoute or fully qualified identifier for the gatewayAdvertisedRoute. To set the gateway_advertised_route attribute: ▸ provide the argument gateway_advertised_route on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GatewayAdvertisedRoute { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(AdvertiseToHub == true))
+        {
+            yield return new ValidationResult("At least one of AdvertiseToHub must be specified.", [nameof(AdvertiseToHub)]);
+        }
+        yield break;
+    }
+
 }

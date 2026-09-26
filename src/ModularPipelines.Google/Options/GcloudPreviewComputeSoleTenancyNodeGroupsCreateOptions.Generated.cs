@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,146 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "sole-tenancy", "node-groups", "create")]
-public record GcloudPreviewComputeSoleTenancyNodeGroupsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeSoleTenancyNodeGroupsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Compute     Engine node group
+    /// </summary>
+    /// <param name="NodeTemplate">The name of the node template resource to be set for this node group.</param>
+    /// <param name="TargetSize">The target initial number of nodes in the node group.</param>
+    /// <param name="Name">Name of the node group to operate on.</param>
+    public GcloudPreviewComputeSoleTenancyNodeGroupsCreateOptions(
+        string NodeTemplate,
+        int TargetSize,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NodeTemplate);
+        this.NodeTemplate = NodeTemplate;
+        this.TargetSize = TargetSize;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string NodeTemplate, out int TargetSize, out string Name)
+    {
+        NodeTemplate = this.NodeTemplate;
+        TargetSize = this.TargetSize;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the node template resource to be set for this node group.
+    /// </summary>
+    [CliOption("--node-template", Format = OptionFormat.EqualsSeparated)]
+    public string NodeTemplate { get; private init; }
+
+    /// <summary>
+    /// The target initial number of nodes in the node group.
+    /// </summary>
+    [CliOption("--target-size", Format = OptionFormat.EqualsSeparated)]
+    public int TargetSize { get; private init; }
+
+    /// <summary>
+    /// An optional description of this resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Specifies the frequency of planned maintenance events. MAINTENANCE_INTERVAL must be one of: as-needed hosts are eligible to receive infrastructure and hypervisor updates as they become available. recurrent hosts receive planned infrastructure and hypervisor updates on a periodic basis, but not more frequently than every 28 days. This minimizes the number of planned maintenance operations on individual hosts and reduces the frequency of disruptions, both live migrations and terminations, on individual VMs.
+    /// </summary>
+    [CliOption("--maintenance-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceInterval { get; set; }
+
+    /// <summary>
+    /// Determines the maintenance behavior during host maintenance events. For more information, see https://cloud.google.com/compute/docs/nodes#maintenance_policies. MAINTENANCE_POLICY must be one of: default VM instances on the host are live migrated to a new physical server. This is the default setting. migrate-within-node-group VM instances on the host are live migrated to another node within the same node group. restart-in-place VM instances on the host are terminated and then restarted on the same physical server after the maintenance event has completed.
+    /// </summary>
+    [CliOption("--maintenance-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenancePolicy { get; set; }
+
+    /// <summary>
+    /// The time (in GMT) when planned maintenance operations window begins. The possible values are 00:00, 04:00, 08:00, 12:00, 16:00, 20:00.
+    /// </summary>
+    [CliOption("--maintenance-window-start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowStartTime { get; set; }
+
+    /// <summary>
+    /// Zone of the node group to operate on. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Autoscaling policy for node groups. Set the mode of an autoscaler for a node group. AUTOSCALER_MODE must be one of: off to turn off autoscaling. on to permit autoscaling to scale in and out. only-scale-out to permit autoscaling to scale only out and not in. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaler-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalerMode { get; set; }
+
+    /// <summary>
+    /// Autoscaling policy for node groups. The maximum size of the node group. Must be smaller or equal to 100 and larger than or equal to --min-nodes. Must be specified if --autoscaler-mode is not off.
+    /// </summary>
+    [CliOption("--max-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxNodes { get; set; }
+
+    /// <summary>
+    /// Autoscaling policy for node groups. The minimum size of the node group. Default is 0 and must be an integer value smaller than or equal to --max-nodes.
+    /// </summary>
+    [CliOption("--min-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? MinNodes { get; set; }
+
+    /// <summary>
+    /// Manage the properties of a shared setting Specify if this node group is shared; and if so, the type of sharing: share with specific projects or folders. SHARE_SETTING must be one of: projects, organization, local. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--share-setting", Format = OptionFormat.EqualsSeparated)]
+    public GcloudPreviewComputeSoleTenancyNodeGroupsCreateShareSetting? ShareSetting { get; set; }
+
+    /// <summary>
+    /// Manage the properties of a shared setting A list of specific projects this node group should be shared with. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--share-with", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ShareWith
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ShareWithSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ShareWithSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Name of the node group to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(AutoscalerMode) || !string.IsNullOrWhiteSpace(MaxNodes) || !string.IsNullOrWhiteSpace(MinNodes)) && (!(!string.IsNullOrWhiteSpace(AutoscalerMode))))
+        {
+            yield return new ValidationResult("AutoscalerMode must be specified when other arguments in this group are specified.", [nameof(AutoscalerMode)]);
+        }
+        if (((object?)ShareSetting is not null || ((object?)ShareWith is global::System.Collections.Generic.IEnumerable<char> ? (object?)ShareWith is not string || !string.IsNullOrWhiteSpace(ShareWith?.ToString()) : ((object?)ShareWith is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ShareWith, static item => item is not null) : (ShareWith is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ShareWith), static item => item is not null))))) && (!((object?)ShareSetting is not null)))
+        {
+            yield return new ValidationResult("ShareSetting must be specified when other arguments in this group are specified.", [nameof(ShareSetting)]);
+        }
+        yield break;
+    }
+
 }

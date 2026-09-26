@@ -21,4 +21,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("artifacts", "docker", "tags", "list")]
 public record GcloudArtifactsDockerTagsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// An Artifact Registry repository or a container image. If not specified, default config values are used. A valid docker repository has the format of LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID A valid image has the format of LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE_PATH
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? ImagePath { get; set; }
+
 }

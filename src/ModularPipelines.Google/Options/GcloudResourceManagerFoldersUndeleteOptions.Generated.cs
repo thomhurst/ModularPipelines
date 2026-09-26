@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "folders", "undelete")]
-public record GcloudResourceManagerFoldersUndeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FolderId
-) : GcloudOptions
+public record GcloudResourceManagerFoldersUndeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// undelete a folder
+    /// </summary>
+    /// <param name="FolderId">ID for the folder you want to undelete.</param>
+    public GcloudResourceManagerFoldersUndeleteOptions(
+        string FolderId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FolderId);
+        this.FolderId = FolderId;
+    }
+
+    public void Deconstruct(out string FolderId)
+    {
+        FolderId = this.FolderId;
+    }
+
+    /// <summary>
+    /// ID for the folder you want to undelete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FolderId { get; private init; }
+
 }

@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instance-groups", "managed", "rolling-action", "start-update")]
-public record GcloudComputeInstanceGroupsManagedRollingActionStartUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeInstanceGroupsManagedRollingActionStartUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// updates instances in a managed instance group
+    /// </summary>
+    /// <param name="Version">Original instance template resource to be used. Each version has the following format: template=TEMPLATE,[name=NAME]</param>
+    /// <param name="Name">Name of the managed instance group to operate on.</param>
+    public GcloudComputeInstanceGroupsManagedRollingActionStartUpdateOptions(
+        string Version,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Version, out string Name)
+    {
+        Version = this.Version;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Original instance template resource to be used. Each version has the following format: template=TEMPLATE,[name=NAME]
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string Version { get; private init; }
+
+    /// <summary>
+    /// Name of the managed instance group to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

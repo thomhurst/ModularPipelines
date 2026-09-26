@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "resource-policies", "create", "group-placement")]
-public record GcloudPreviewComputeResourcePoliciesCreateGroupPlacementOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeResourcePoliciesCreateGroupPlacementOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a     Compute Engine group placement resource policy
+    /// </summary>
+    /// <param name="Name">Name of the resource policy to operate on.</param>
+    public GcloudPreviewComputeResourcePoliciesCreateGroupPlacementOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Defines the accelerator connection strategy for accelerator machine types like TPUs. ACCELERATOR_TOPOLOGY_MODE must be one of: AUTO_CONNECT This creates a static, pre-formed accelerator topology. PROVISION_ONLY The interconnected chips are connected on demand. At the time of VM creation, the chips are not connected.
     /// </summary>
@@ -64,5 +79,11 @@ public record GcloudPreviewComputeResourcePoliciesCreateGroupPlacementOptions(
     /// </summary>
     [CliOption("--vm-count", Format = OptionFormat.EqualsSeparated)]
     public int? VmCount { get; set; }
+
+    /// <summary>
+    /// Name of the resource policy to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

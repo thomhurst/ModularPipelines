@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("storage", "insights", "inventory-reports", "details", "list")]
 public record GcloudStorageInsightsInventoryReportsDetailsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list inventory     report details
+    /// </summary>
+    /// <param name="ReportConfig">Report config resource - The Report config for which the report details should be listed. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument report_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the report-config or fully qualified identifier for the report-config. To set the report-config attribute: ▸ provide the argument report_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudStorageInsightsInventoryReportsDetailsListOptions(
+        string ReportConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ReportConfig);
+        this.ReportConfig = ReportConfig;
+    }
+
+    public void Deconstruct(out string ReportConfig)
+    {
+        ReportConfig = this.ReportConfig;
+    }
+
+    /// <summary>
+    /// Report config resource - The Report config for which the report details should be listed. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument report_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the report-config. To set the location attribute: ▸ provide the argument report_config on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Report config resource - The Report config for which the report details should be listed. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument report_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the report-config or fully qualified identifier for the report-config. To set the report-config attribute: ▸ provide the argument report_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ReportConfig { get; private init; }
+
 }

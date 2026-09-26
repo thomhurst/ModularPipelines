@@ -6,10 +6,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,144 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("agent-identity", "auth-providers", "create")]
-public record GcloudAgentIdentityAuthProvidersCreateOptions : GcloudOptions
+public record GcloudAgentIdentityAuthProvidersCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create an auth provider
+    /// </summary>
+    /// <param name="AuthProvider">AuthProvider resource - Identifier. The full resource name of the auth_provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument auth_provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the authProvider or fully qualified identifier for the authProvider. To set the auth_provider attribute: ▸ provide the argument auth_provider on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAgentIdentityAuthProvidersCreateOptions(
+        string AuthProvider
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AuthProvider);
+        this.AuthProvider = AuthProvider;
+    }
+
+    public void Deconstruct(out string AuthProvider)
+    {
+        AuthProvider = this.AuthProvider;
+    }
+
+    /// <summary>
+    /// AuthProvider resource - Identifier. The full resource name of the auth_provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument auth_provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the authProvider resource. To set the location attribute: ▸ provide the argument auth_provider on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. The API key for this auth_provider.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--api-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ApiKey { get; set; }
+
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing ThreeLeggedOAuth object. The authorization endpoint to send users to for consenting to delegate to the agent. eg. "https://auth.atlassian.com/authorize"
+    /// </summary>
+    [CliOption("--three-legged-oauth-authorization-url", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreeLeggedOauthAuthorizationUrl { get; set; }
+
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing ThreeLeggedOAuth object. The client ID of the OAuth client.
+    /// </summary>
+    [CliOption("--three-legged-oauth-client-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreeLeggedOauthClientId { get; set; }
+
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing ThreeLeggedOAuth object. The client secret of the OAuth client.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--three-legged-oauth-client-secret", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreeLeggedOauthClientSecret { get; set; }
+
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing ThreeLeggedOAuth object. The default continue URI for 3LO flow to redirect end users after consent.
+    /// </summary>
+    [CliOption("--three-legged-oauth-default-continue-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreeLeggedOauthDefaultContinueUri { get; set; }
+
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing ThreeLeggedOAuth object. Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks.
+    /// </summary>
+    [CliFlag("--three-legged-oauth-enable-pkce")]
+    public bool? ThreeLeggedOauthEnablePkce { get; set; }
+
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing ThreeLeggedOAuth object. The token endpoint for requesting tokens on behalf of an end user. eg. "https://auth.atlassian.com/oauth/token"
+    /// </summary>
+    [CliOption("--three-legged-oauth-token-url", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreeLeggedOauthTokenUrl { get; set; }
+
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing TwoLeggedOAuth object. The client ID of the OAuth client.
+    /// </summary>
+    [CliOption("--two-legged-oauth-client-id", Format = OptionFormat.EqualsSeparated)]
+    public string? TwoLeggedOauthClientId { get; set; }
+
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing TwoLeggedOAuth object. The client secret of the OAuth client.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--two-legged-oauth-client-secret", Format = OptionFormat.EqualsSeparated)]
+    public string? TwoLeggedOauthClientSecret { get; set; }
+
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing TwoLeggedOAuth object. The token endpoint of the OAuth client.
+    /// </summary>
+    [CliOption("--two-legged-oauth-token-url", Format = OptionFormat.EqualsSeparated)]
+    public string? TwoLeggedOauthTokenUrl { get; set; }
+
+    /// <summary>
+    /// List of scopes that are allowed to be requested for this auth_provider. If this list is non-empty, only scopes within this list may be requested. If this list is empty, all scopes may be requested. Scopes appearing in blocked_scopes are disallowed even if they appear in allowed_scopes. The number of allowed scopes is limited to 200. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--allowed-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AllowedScopes { get; set; }
+
+    /// <summary>
+    /// List of scopes that are blocked from being requested for this auth_provider. If a scope appears in this list, it will not be requested, even if it also appears in allowed_scopes. blocked_scopes takes precedence over allowed_scopes. The number of blocked scopes is limited to 200. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--blocked-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? BlockedScopes { get; set; }
+
+    /// <summary>
+    /// Description of the resource. Must be less than 256 characters.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Represents the workload identity in IAM principal:// format of the agent(s) that will use this AuthProvider. Example: principal://agents.global.org-${ORG_ID}.system.id.goog/resources/aiplatform/projects/{PROJECT_ID}/locations/{LOCATIONS}/reasoningEngines/{ID} Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--workload-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? WorkloadIds { get; set; }
+
+    /// <summary>
+    /// AuthProvider resource - Identifier. The full resource name of the auth_provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument auth_provider on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the authProvider or fully qualified identifier for the authProvider. To set the auth_provider attribute: ▸ provide the argument auth_provider on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AuthProvider { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ApiKey) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(ThreeLeggedOauthAuthorizationUrl) || !string.IsNullOrWhiteSpace(ThreeLeggedOauthClientId) || !string.IsNullOrWhiteSpace(ThreeLeggedOauthClientSecret) || !string.IsNullOrWhiteSpace(ThreeLeggedOauthDefaultContinueUri) || ThreeLeggedOauthEnablePkce == true || !string.IsNullOrWhiteSpace(ThreeLeggedOauthTokenUrl)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(TwoLeggedOauthClientId) || !string.IsNullOrWhiteSpace(TwoLeggedOauthClientSecret) || !string.IsNullOrWhiteSpace(TwoLeggedOauthTokenUrl)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ApiKey, (ThreeLeggedOauthAuthorizationUrl, ThreeLeggedOauthClientId, ThreeLeggedOauthClientSecret, ThreeLeggedOauthDefaultContinueUri, ThreeLeggedOauthEnablePkce, or ThreeLeggedOauthTokenUrl), or (TwoLeggedOauthClientId, TwoLeggedOauthClientSecret, or TwoLeggedOauthTokenUrl) must be specified.", [nameof(ApiKey), nameof(ThreeLeggedOauthAuthorizationUrl), nameof(ThreeLeggedOauthClientId), nameof(ThreeLeggedOauthClientSecret), nameof(ThreeLeggedOauthDefaultContinueUri), nameof(ThreeLeggedOauthEnablePkce), nameof(ThreeLeggedOauthTokenUrl), nameof(TwoLeggedOauthClientId), nameof(TwoLeggedOauthClientSecret), nameof(TwoLeggedOauthTokenUrl)]);
+        }
+        yield break;
+    }
+
 }

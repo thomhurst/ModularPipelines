@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,137 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "instances", "tables", "create")]
-public record GcloudBigtableInstancesTablesCreateOptions : GcloudOptions
+public record GcloudBigtableInstancesTablesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new Cloud Bigtable table
+    /// </summary>
+    /// <param name="ColumnFamilies">A double-quote (") wrapped list of family name and corresponding garbage collection rules concatenated by :, where the rules are optional. For example: "family_1,family_2:maxage=5d&amp;&amp;maxversions=2,family_3:maxage=10d||maxversions=5" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Table">Table resource - Cloud Bigtable table to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument table on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the table or fully qualified identifier for the table. To set the table attribute: ▸ provide the argument table on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBigtableInstancesTablesCreateOptions(
+        IEnumerable<string> ColumnFamilies,
+        string Table
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ColumnFamilies);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ColumnFamilies));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ColumnFamilies));
+            }
+
+            ColumnFamilies = materialized;
+        }
+        this.ColumnFamilies = ColumnFamilies;
+        global::System.ArgumentNullException.ThrowIfNull(Table);
+        this.Table = Table;
+    }
+
+    public void Deconstruct(out IEnumerable<string> ColumnFamilies, out string Table)
+    {
+        ColumnFamilies = this.ColumnFamilies;
+        Table = this.Table;
+    }
+
+    /// <summary>
+    /// A double-quote (") wrapped list of family name and corresponding garbage collection rules concatenated by :, where the rules are optional. For example: "family_1,family_2:maxage=5d&amp;&amp;maxversions=2,family_3:maxage=10d||maxversions=5" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--column-families", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> ColumnFamilies { get; private init; }
+
+    /// <summary>
+    /// Table resource - Cloud Bigtable table to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument table on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable instance. To set the instance attribute: ▸ provide the argument table on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// The length of time to retain change stream data for the table, in the range of [1 day, 7 days]. Acceptable units are days (d), hours (h), minutes (m), and seconds (s). Passing in a value for this option enables a change stream for the table. Examples: 5d or 48h.
+    /// </summary>
+    [CliOption("--change-stream-retention-period", Format = OptionFormat.EqualsSeparated)]
+    public string? ChangeStreamRetentionPeriod { get; set; }
+
+    /// <summary>
+    /// Once specified, the table is deletion protected.
+    /// </summary>
+    [CliFlag("--deletion-protection")]
+    public bool? DeletionProtection { get; set; }
+
+    /// <summary>
+    /// The row key schema for the table. The schema is defined in a YAML or JSON file, equivalent to the StructType protobuf message. Example YAML: encoding: delimitedBytes: delimiter: '#' fields: - fieldName: field1 type: bytesType: encoding: raw: {} - fieldName: field2 type: bytesType: encoding: raw: {}
+    /// </summary>
+    [CliOption("--row-key-schema-definition-file", Format = OptionFormat.EqualsSeparated)]
+    public string? RowKeySchemaDefinitionFile { get; set; }
+
+    /// <summary>
+    /// By default, Base64 encoding is applied to all binary fields in the YAML/JSON file (for example, encoding.delimitedBytes.delimiter). Use this to indicate that all binary fields are already encoded in the YAML/JSON file and should not be encoded again.
+    /// </summary>
+    [CliFlag("--row-key-schema-pre-encoded-bytes")]
+    public bool? RowKeySchemaPreEncodedBytes { get; set; }
+
+    /// <summary>
+    /// Row keys where the table should initially be split. For example: car,key Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--splits", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Splits { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Once set, enables the default automated backup policy (retention_period=7d, frequency=1d) for the table. Defaults to no automated backup policy if omitted.
+    /// </summary>
+    [CliFlag("--enable-automated-backup")]
+    public bool? EnableAutomatedBackup { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Group for automated backup policy parameters. List of Cloud Bigtable zones where you can create automated backups. If empty, automated backups will be created in all zones of the instance. Locations are in the format projects/{project}/locations/{zone}. Setting this flag enables automated backup for the table. If automated backup retention period is not specified, it defaults to 7 days. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--automated-backup-locations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AutomatedBackupLocations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AutomatedBackupLocationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AutomatedBackupLocationsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Group for automated backup policy parameters. The retention period of automated backup in the format of 30d for 30 days. Min retention period is 3d and max is 90d. Setting this flag enables automated backup for the table. If automated backup retention period is not specified, it defaults to 7 days.
+    /// </summary>
+    [CliOption("--automated-backup-retention-period", Format = OptionFormat.EqualsSeparated)]
+    public string? AutomatedBackupRetentionPeriod { get; set; }
+
+    /// <summary>
+    /// Table resource - Cloud Bigtable table to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument table on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the table or fully qualified identifier for the table. To set the table attribute: ▸ provide the argument table on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Table { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((EnableAutomatedBackup == true ? 1 : 0) + ((((object?)AutomatedBackupLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutomatedBackupLocations is not string || !string.IsNullOrWhiteSpace(AutomatedBackupLocations?.ToString()) : ((object?)AutomatedBackupLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutomatedBackupLocations, static item => item is not null) : (AutomatedBackupLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutomatedBackupLocations), static item => item is not null)))) || !string.IsNullOrWhiteSpace(AutomatedBackupRetentionPeriod)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of EnableAutomatedBackup or (AutomatedBackupLocations or AutomatedBackupRetentionPeriod) may be specified.", [nameof(EnableAutomatedBackup), nameof(AutomatedBackupLocations), nameof(AutomatedBackupRetentionPeriod)]);
+        }
+        yield break;
+    }
+
 }

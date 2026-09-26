@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("ai", "tuning-jobs", "cancel")]
 public record GcloudAiTuningJobsCancelOptions : GcloudOptions
 {
+    /// <summary>
+    /// cancel a running tuning job
+    /// </summary>
+    /// <param name="TuningJob">Tuning job resource - The tuning job to cancel. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tuning_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tuning job or fully qualified identifier for the tuning job. To set the name attribute: ▸ provide the argument tuning_job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAiTuningJobsCancelOptions(
+        string TuningJob
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TuningJob);
+        this.TuningJob = TuningJob;
+    }
+
+    public void Deconstruct(out string TuningJob)
+    {
+        TuningJob = this.TuningJob;
+    }
+
+    /// <summary>
+    /// Tuning job resource - The tuning job to cancel. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tuning_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud region for the tuning job. To set the region attribute: ▸ provide the argument tuning_job on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property ai/region; ▸ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Tuning job resource - The tuning job to cancel. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tuning_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tuning job or fully qualified identifier for the tuning job. To set the name attribute: ▸ provide the argument tuning_job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string TuningJob { get; private init; }
+
 }

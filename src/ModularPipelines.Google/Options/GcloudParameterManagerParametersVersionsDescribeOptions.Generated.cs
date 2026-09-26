@@ -22,9 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudParameterManagerParametersVersionsDescribeOptions : GcloudOptions
 {
     /// <summary>
+    /// gets a single     Parameter Manager parameter version
+    /// </summary>
+    /// <param name="ParameterVersion">ParameterVersion resource - Name of the resource in the format projects/*/locations/*/parameters/*/versions/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument parameter_version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the parameterVersion or fully qualified identifier for the parameterVersion. To set the parameter_version attribute: ▸ provide the argument parameter_version on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudParameterManagerParametersVersionsDescribeOptions(
+        string ParameterVersion
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ParameterVersion);
+        this.ParameterVersion = ParameterVersion;
+    }
+
+    public void Deconstruct(out string ParameterVersion)
+    {
+        ParameterVersion = this.ParameterVersion;
+    }
+
+    /// <summary>
+    /// ParameterVersion resource - Name of the resource in the format projects/*/locations/*/parameters/*/versions/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument parameter_version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the parameterVersion resource. To set the location attribute: ▸ provide the argument parameter_version on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// ParameterVersion resource - Name of the resource in the format projects/*/locations/*/parameters/*/versions/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument parameter_version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The parameter id of the parameterVersion resource. To set the parameter attribute: ▸ provide the argument parameter_version on the command line with a fully specified name; ▸ provide the argument --parameter on the command line.
+    /// </summary>
+    [CliOption("--parameter", Format = OptionFormat.EqualsSeparated)]
+    public string? Parameter { get; set; }
+
+    /// <summary>
     /// View of the ParameterVersion. In the default FULL view, all metadata &amp; payload associated with the ParameterVersion will be returned. VIEW must be one of: basic Include only the metadata for the resource. full Include metadata &amp; other relevant payload data as well. This is the default view.
     /// </summary>
     [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
     public string? View { get; set; }
+
+    /// <summary>
+    /// ParameterVersion resource - Name of the resource in the format projects/*/locations/*/parameters/*/versions/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument parameter_version on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the parameterVersion or fully qualified identifier for the parameterVersion. To set the parameter_version attribute: ▸ provide the argument parameter_version on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ParameterVersion { get; private init; }
 
 }

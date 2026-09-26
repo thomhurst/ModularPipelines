@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functions", "call")]
-public record GcloudFunctionsCallOptions : GcloudOptions
+public record GcloudFunctionsCallOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// triggers execution of a Google Cloud Function
+    /// </summary>
+    /// <param name="Name">Function resource - The Cloud Function name to execute. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the function or fully qualified identifier for the function. To set the function attribute: ▸ provide the argument NAME on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudFunctionsCallOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Function resource - The Cloud Function name to execute. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the function. Overrides the default functions/region property value for this command invocation. To set the region attribute: ▸ provide the argument NAME on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property functions/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// At most one of these can be specified: JSON encoded string with a CloudEvent in structured content mode. Mutually exclusive with --data flag. Use for Cloud Functions 2nd Gen CloudEvent functions. The CloudEvent object will be sent to your function as a binary content mode message with the top-level 'data' field set as the HTTP body and all other JSON fields sent as HTTP headers.
     /// </summary>
@@ -32,5 +56,21 @@ public record GcloudFunctionsCallOptions : GcloudOptions
     /// </summary>
     [CliOption("--data", Format = OptionFormat.EqualsSeparated)]
     public string? Data { get; set; }
+
+    /// <summary>
+    /// Function resource - The Cloud Function name to execute. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the function or fully qualified identifier for the function. To set the function attribute: ▸ provide the argument NAME on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(CloudEvent) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Data) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of CloudEvent or Data may be specified.", [nameof(CloudEvent), nameof(Data)]);
+        }
+        yield break;
+    }
 
 }

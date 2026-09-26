@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-connectivity", "policy-based-routes", "describe")]
 public record GcloudNetworkConnectivityPolicyBasedRoutesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a     policy-based route
+    /// </summary>
+    /// <param name="PolicyBasedRoute">Policy based route resource - Name of the policy-based route to be described. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_based_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the policy based route or fully qualified identifier for the policy based route. To set the policy_based_route attribute: ▸ provide the argument policy_based_route on the command line.</param>
+    public GcloudNetworkConnectivityPolicyBasedRoutesDescribeOptions(
+        string PolicyBasedRoute
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyBasedRoute);
+        this.PolicyBasedRoute = PolicyBasedRoute;
+    }
+
+    public void Deconstruct(out string PolicyBasedRoute)
+    {
+        PolicyBasedRoute = this.PolicyBasedRoute;
+    }
+
+    /// <summary>
+    /// Policy based route resource - Name of the policy-based route to be described. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_based_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the policy based route or fully qualified identifier for the policy based route. To set the policy_based_route attribute: ▸ provide the argument policy_based_route on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyBasedRoute { get; private init; }
+
 }

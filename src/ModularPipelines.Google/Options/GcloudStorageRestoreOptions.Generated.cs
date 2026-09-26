@@ -28,25 +28,25 @@ public record GcloudStorageRestoreOptions : GcloudOptions
     public bool? AllVersions { get; set; }
 
     /// <summary>
-    /// SYNCHRONOUS RESTORE OPTIONS Initiates an asynchronous bulk restore operation on the specified bucket.
+    /// Initiates an asynchronous bulk restore operation on the specified bucket.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// SYNCHRONOUS RESTORE OPTIONS Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
+    /// Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
     /// </summary>
     [CliFlag("--preserve-acl")]
     public bool? PreserveAcl { get; set; }
 
     /// <summary>
-    /// Negates --preserve-acl. SYNCHRONOUS RESTORE OPTIONS Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
+    /// Negates --preserve-acl. Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
     /// </summary>
     [CliFlag("--no-preserve-acl")]
     public bool? NoPreserveAcl { get; set; }
 
     /// <summary>
-    /// SYNCHRONOUS RESTORE OPTIONS Read the list of URLs from stdin.
+    /// Read the list of URLs from stdin.
     /// </summary>
     [CliFlag("--read-paths-from-stdin")]
     public bool? ReadPathsFromStdin { get; set; }
@@ -80,5 +80,11 @@ public record GcloudStorageRestoreOptions : GcloudOptions
     /// </summary>
     [CliOption("--deleted-before-time", Format = OptionFormat.EqualsSeparated)]
     public string? DeletedBeforeTime { get; set; }
+
+    /// <summary>
+    /// The url of objects to list.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Urls { get; set; }
 
 }

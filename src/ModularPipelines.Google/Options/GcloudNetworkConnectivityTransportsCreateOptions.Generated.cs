@@ -10,6 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +22,143 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "transports", "create")]
-public record GcloudNetworkConnectivityTransportsCreateOptions : GcloudOptions
+public record GcloudNetworkConnectivityTransportsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a transport
+    /// </summary>
+    /// <param name="Transport">Transport resource - Name of the Transport to be created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument transport on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument transport on the command line with a fully specified name; ◆ provide the argument --region on the command line. This must be specified. ID of the transport or fully qualified identifier for the transport. To set the transport attribute: ▸ provide the argument transport on the command line.</param>
+    public GcloudNetworkConnectivityTransportsCreateOptions(
+        string Transport
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Transport);
+        this.Transport = Transport;
+    }
+
+    public void Deconstruct(out string Transport)
+    {
+        Transport = this.Transport;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Key from the remote provider to establish a connection over the Transport.
+    /// </summary>
+    [CliOption("--activation-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ActivationKey { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: These values must all be specified if Google is expected to generate the key. Bandwidth of the transport to create. Must be a supported bandwidth on the remote profile. BANDWIDTH must be one of: 100g, 100m, 10g, 1g, 200m, 20g, 2g, 300m, 400m, 500m, 50g, 50m, 5g. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--bandwidth", Format = OptionFormat.EqualsSeparated)]
+    public string? Bandwidth { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: These values must all be specified if Google is expected to generate the key. Account ID in the remote provider to associate with the generated key. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--remote-account-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoteAccountId { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: These values must all be specified if Google is expected to generate the key. RemoteTransportProfile resource - Remote transport profile representing the provider and their location. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --remote-profile on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. To set the region attribute: ▫ provide the argument --remote-profile on the command line with a fully specified name; ▫ provide the argument --region on the command line. This must be specified. ID of the remoteTransportProfile or fully qualified identifier for the remoteTransportProfile. To set the remote_transport_profile attribute: ◇ provide the argument --remote-profile on the command line.
+    /// </summary>
+    [CliOption("--remote-profile", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoteProfile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Network resource - VPC that will be peered to the provider via the Transport. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --network on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. ID of the network or fully qualified identifier for the network. To set the network attribute: ▸ provide the argument --network on the command line.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Network resource - VPC that will be peered to the provider via the Transport. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --network on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. Parameters for creating a transport with an NCC hub. Hub resource - Hub that the transport will be attached to. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --hub on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. This must be specified. ID of the hub or fully qualified identifier for the hub. To set the hub attribute: ▫ provide the argument --hub on the command line.
+    /// </summary>
+    [CliOption("--hub", Format = OptionFormat.EqualsSeparated)]
+    public string? Hub { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Network resource - VPC that will be peered to the provider via the Transport. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --network on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. Whether to auto-accept spoke proposals for this transport.
+    /// </summary>
+    [CliFlag("--auto-accept")]
+    public bool? AutoAccept { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Network resource - VPC that will be peered to the provider via the Transport. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --network on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. Whether a VPC spoke is created for PSC routing over the transport.
+    /// </summary>
+    [CliFlag("--psc-routing-enabled")]
+    public bool? PscRoutingEnabled { get; set; }
+
+    /// <summary>
+    /// List of routes to advertise from the VPC network toward the provider. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--advertised-routes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdvertisedRoutes { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the transport.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Google Cloud region for the transport. Applicable regions are those where Partner Interconnect is available. For a list of supported regions, see https://docs.cloud.google.com/network-connectivity/docs/interconnect/how-to/partner-cci-for-aws/paired-locations.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// IP version of the routes to be exchanged. STACK_TYPE must be one of: ipv4-ipv6, ipv4-only.
+    /// </summary>
+    [CliOption("--stack-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudNetworkConnectivityTransportsCreateStackType? StackType { get; set; }
+
+    /// <summary>
+    /// Transport resource - Name of the Transport to be created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument transport on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument transport on the command line with a fully specified name; ◆ provide the argument --region on the command line. This must be specified. ID of the transport or fully qualified identifier for the transport. To set the transport attribute: ▸ provide the argument transport on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Transport { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ActivationKey) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Bandwidth) || !string.IsNullOrWhiteSpace(RemoteAccountId) || !string.IsNullOrWhiteSpace(RemoteProfile)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ActivationKey or (Bandwidth, RemoteAccountId, or RemoteProfile) must be specified.", [nameof(ActivationKey), nameof(Bandwidth), nameof(RemoteAccountId), nameof(RemoteProfile)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ActivationKey) || !string.IsNullOrWhiteSpace(Bandwidth) || !string.IsNullOrWhiteSpace(RemoteAccountId) || !string.IsNullOrWhiteSpace(RemoteProfile)) && (!string.IsNullOrWhiteSpace(Bandwidth) || !string.IsNullOrWhiteSpace(RemoteAccountId) || !string.IsNullOrWhiteSpace(RemoteProfile)) && (!string.IsNullOrWhiteSpace(Bandwidth) || !string.IsNullOrWhiteSpace(RemoteAccountId) || !string.IsNullOrWhiteSpace(RemoteProfile)) && (!(!string.IsNullOrWhiteSpace(Bandwidth))))
+        {
+            yield return new ValidationResult("Bandwidth must be specified when other arguments in this group are specified.", [nameof(Bandwidth)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ActivationKey) || !string.IsNullOrWhiteSpace(Bandwidth) || !string.IsNullOrWhiteSpace(RemoteAccountId) || !string.IsNullOrWhiteSpace(RemoteProfile)) && (!string.IsNullOrWhiteSpace(Bandwidth) || !string.IsNullOrWhiteSpace(RemoteAccountId) || !string.IsNullOrWhiteSpace(RemoteProfile)) && (!string.IsNullOrWhiteSpace(Bandwidth) || !string.IsNullOrWhiteSpace(RemoteAccountId) || !string.IsNullOrWhiteSpace(RemoteProfile)) && (!(!string.IsNullOrWhiteSpace(RemoteAccountId))))
+        {
+            yield return new ValidationResult("RemoteAccountId must be specified when other arguments in this group are specified.", [nameof(RemoteAccountId)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ActivationKey) || !string.IsNullOrWhiteSpace(Bandwidth) || !string.IsNullOrWhiteSpace(RemoteAccountId) || !string.IsNullOrWhiteSpace(RemoteProfile)) && (!string.IsNullOrWhiteSpace(Bandwidth) || !string.IsNullOrWhiteSpace(RemoteAccountId) || !string.IsNullOrWhiteSpace(RemoteProfile)) && (!string.IsNullOrWhiteSpace(Bandwidth) || !string.IsNullOrWhiteSpace(RemoteAccountId) || !string.IsNullOrWhiteSpace(RemoteProfile)) && (!(!string.IsNullOrWhiteSpace(RemoteProfile))))
+        {
+            yield return new ValidationResult("At least one of RemoteProfile must be specified.", [nameof(RemoteProfile)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Network) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Hub) || AutoAccept == true || PscRoutingEnabled == true) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Network or (Hub, AutoAccept, or PscRoutingEnabled) must be specified.", [nameof(Network), nameof(Hub), nameof(AutoAccept), nameof(PscRoutingEnabled)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Network) || !string.IsNullOrWhiteSpace(Hub) || AutoAccept == true || PscRoutingEnabled == true) && (!string.IsNullOrWhiteSpace(Hub) || AutoAccept == true || PscRoutingEnabled == true) && (!(!string.IsNullOrWhiteSpace(Hub))))
+        {
+            yield return new ValidationResult("Hub must be specified when other arguments in this group are specified.", [nameof(Hub)]);
+        }
+        yield break;
+    }
+
 }

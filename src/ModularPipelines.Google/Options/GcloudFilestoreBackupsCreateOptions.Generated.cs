@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,114 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("filestore", "backups", "create")]
-public record GcloudFilestoreBackupsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Backup
-) : GcloudOptions
+public record GcloudFilestoreBackupsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Filestore backup
+    /// </summary>
+    /// <param name="FileShare">File share name on the Filestore instance to backup.</param>
+    /// <param name="Instance">Share name of the Filestore instance you want to backup.</param>
+    /// <param name="Region">Region (e.g. us-central1) for the backup.</param>
+    /// <param name="Backup">Arguments and flags that specify the Filestore backup you want to create.</param>
+    public GcloudFilestoreBackupsCreateOptions(
+        string FileShare,
+        string Instance,
+        string Region,
+        string Backup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileShare);
+        this.FileShare = FileShare;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(Backup);
+        this.Backup = Backup;
+    }
+
+    public void Deconstruct(out string FileShare, out string Instance, out string Region, out string Backup)
+    {
+        FileShare = this.FileShare;
+        Instance = this.Instance;
+        Region = this.Region;
+        Backup = this.Backup;
+    }
+
+    /// <summary>
+    /// File share name on the Filestore instance to backup.
+    /// </summary>
+    [CliOption("--file-share", Format = OptionFormat.EqualsSeparated)]
+    public string FileShare { get; private init; }
+
+    /// <summary>
+    /// Share name of the Filestore instance you want to backup.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string Instance { get; private init; }
+
+    /// <summary>
+    /// Region (e.g. us-central1) for the backup.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Region of the Filestore instance.
+    /// </summary>
+    [CliOption("--instance-location", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceLocation { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Zone of the Filestore instance.
+    /// </summary>
+    [CliOption("--instance-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceZone { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description for the backup. Limit: 2048 characters.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// CMEK for backup in the form of projects/{project}/locations/{location}/keyRings/{key-ring}/cryptoKeys/{crypto-key}
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// List of tag KEY=VALUE pairs to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
+
+    /// <summary>
+    /// Arguments and flags that specify the Filestore backup you want to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Backup { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(InstanceLocation) ? 1 : 0) + (!string.IsNullOrWhiteSpace(InstanceZone) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of InstanceLocation or InstanceZone must be specified.", [nameof(InstanceLocation), nameof(InstanceZone)]);
+        }
+        yield break;
+    }
+
 }

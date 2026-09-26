@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,133 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "memberships", "register")]
-public record GcloudContainerFleetMembershipsRegisterOptions : GcloudOptions
+public record GcloudContainerFleetMembershipsRegisterOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// register a cluster with a     fleet
+    /// </summary>
+    /// <param name="MembershipName">Membership resource - The group of arguments defining a membership. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument MEMBERSHIP_NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the membership or fully qualified identifier for the membership. To set the membership attribute: ▸ provide the argument MEMBERSHIP_NAME on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerFleetMembershipsRegisterOptions(
+        string MembershipName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MembershipName);
+        this.MembershipName = MembershipName;
+    }
+
+    public void Deconstruct(out string MembershipName)
+    {
+        MembershipName = this.MembershipName;
+    }
+
+    /// <summary>
+    /// Membership resource - The group of arguments defining a membership. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument MEMBERSHIP_NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location for the membership resource, e.g. us-central1. If not specified, defaults to global. Not supported for GKE clusters, whose membership location will be the location of the cluster. To set the location attribute: ▸ provide the argument MEMBERSHIP_NAME on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property gkehub/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Cluster identifier. Exactly one of these must be specified: The location/name of the GKE cluster. The location can be a zone or a region for e.g us-central1-a/my-cluster.
+    /// </summary>
+    [CliOption("--gke-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? GkeCluster { get; set; }
+
+    /// <summary>
+    /// Cluster identifier. Exactly one of these must be specified: The URI of a GKE cluster that you want to register to Hub; for example, 'https://container.googleapis.com/v1/projects/my-project/locations/us-central1-a/clusters/my-cluster'. To obtain the URI, you can run 'gcloud container clusters list --uri'. Note that this should only be provided if the cluster being registered is a GKE cluster. The service will validate the provided URI to confirm that it maps to a valid GKE cluster."
+    /// </summary>
+    [CliOption("--gke-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? GkeUri { get; set; }
+
+    /// <summary>
+    /// Cluster identifier. Exactly one of these must be specified: Or at least one of these can be specified: Non-GKE cluster identifier. The cluster context as it appears in the kubeconfig file. You can get this value from the command line by running command: kubectl config current-context. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--context", Format = OptionFormat.EqualsSeparated)]
+    public string? Context { get; set; }
+
+    /// <summary>
+    /// Cluster identifier. Exactly one of these must be specified: Or at least one of these can be specified: Non-GKE cluster identifier. The kubeconfig file containing an entry for the cluster. Defaults to $KUBECONFIG if it is set in the environment, otherwise defaults to $HOME/.kube/config.
+    /// </summary>
+    [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
+    public string? KubeConfig { get; set; }
+
+    /// <summary>
+    /// If set to True for a GKE cluster, Connect agent will be installed in the cluster. No-op for Non-GKE clusters, where Connect agent will always be installed.
+    /// </summary>
+    [CliFlag("--install-connect-agent")]
+    public bool? InstallConnectAgent { get; set; }
+
+    /// <summary>
+    /// Whether to use the internal IP address of the cluster endpoint.
+    /// </summary>
+    [CliFlag("--internal-ip")]
+    public bool? InternalIp { get; set; }
+
+    /// <summary>
+    /// The full path of the file into which the Connect agent installation manifest should be stored. If this option is provided, then the manifest will be written to this file and will not be deployed into the cluster by gcloud, and it will need to be deployed manually.
+    /// </summary>
+    [CliOption("--manifest-output-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ManifestOutputFile { get; set; }
+
+    /// <summary>
+    /// The proxy address in the format of http[s]://{hostname}. The proxy must support the HTTP CONNECT method in order for this connection to succeed.
+    /// </summary>
+    [CliOption("--proxy", Format = OptionFormat.EqualsSeparated)]
+    public string? Proxy { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The JSON file of a Google Cloud service account private key. This service account key is stored as a secret named creds-gcp in gke-connect namespace. To update the creds-gcp secret in gke-connect namespace with a new service account key file, run the following command: kubectl delete secret creds-gcp -n gke-connect kubectl create secret generic creds-gcp -n gke-connect --from-file=creds-gcp.json=/path/to/file
+    /// </summary>
+    [CliOption("--service-account-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccountKeyFile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Workload Identity Enable Workload Identity when registering the cluster with a fleet. Ensure that GKE Workload Identity is enabled on your GKE cluster, it is a requirement for using Workload Identity with memberships. Refer to the Enable GKE Workload Identity section in https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#enable --service_account_key_file flag should not be set if this is set. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--enable-workload-identity")]
+    public bool? EnableWorkloadIdentity { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Workload Identity At most one of these can be specified: Set to true for clusters where no publicly-routable OIDC discovery endpoint for the Kubernetes service account token issuer exists. When set to true, the gcloud command-line tool will read the private issuer URL and JSON Web Key Set (JWKS) (public keys) for validating service account tokens from the cluster's API server and upload both when creating the Membership. Google Cloud Platform will then use the JWKS, instead of a public OIDC endpoint, to validate service account tokens issued by this cluster. Note the JWKS establishes the uniqueness of issuers in this configuration, but issuer claims in tokens are still compared to the issuer URL associated with the Membership when validating tokens. Note the cluster's OIDC discovery endpoints (KUBE-API-ADDRESS (https://)/.well-known/openid-configuration and KUBE-API-ADDRESS (https://)/openid/v1/jwks) must still be network-accessible to the gcloud client running this command.
+    /// </summary>
+    [CliFlag("--has-private-issuer")]
+    public bool? HasPrivateIssuer { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Workload Identity At most one of these can be specified: Skip auto-discovery and register the cluster with this issuer URL. Use this option when the OpenID Provider Configuration and associated JSON Web Key Set for validating the cluster's service account JWTs are served at a public endpoint different from the cluster API server. Requires --enable-workload-identity.
+    /// </summary>
+    [CliOption("--public-issuer-url", Format = OptionFormat.EqualsSeparated)]
+    public string? PublicIssuerUrl { get; set; }
+
+    /// <summary>
+    /// Membership resource - The group of arguments defining a membership. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument MEMBERSHIP_NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the membership or fully qualified identifier for the membership. To set the membership attribute: ▸ provide the argument MEMBERSHIP_NAME on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MembershipName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(GkeCluster) ? 1 : 0) + (!string.IsNullOrWhiteSpace(GkeUri) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Context) || !string.IsNullOrWhiteSpace(KubeConfig)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of GkeCluster, GkeUri, or (Context or KubeConfig) must be specified.", [nameof(GkeCluster), nameof(GkeUri), nameof(Context), nameof(KubeConfig)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(GkeCluster) || !string.IsNullOrWhiteSpace(GkeUri) || !string.IsNullOrWhiteSpace(Context) || !string.IsNullOrWhiteSpace(KubeConfig)) && (!string.IsNullOrWhiteSpace(Context) || !string.IsNullOrWhiteSpace(KubeConfig)) && (!string.IsNullOrWhiteSpace(Context) || !string.IsNullOrWhiteSpace(KubeConfig)) && (!(!string.IsNullOrWhiteSpace(Context))))
+        {
+            yield return new ValidationResult("Context must be specified when other arguments in this group are specified.", [nameof(Context)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ServiceAccountKeyFile) ? 1 : 0) + ((EnableWorkloadIdentity == true || HasPrivateIssuer == true || !string.IsNullOrWhiteSpace(PublicIssuerUrl)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ServiceAccountKeyFile or (EnableWorkloadIdentity, HasPrivateIssuer, or PublicIssuerUrl) may be specified.", [nameof(ServiceAccountKeyFile), nameof(EnableWorkloadIdentity), nameof(HasPrivateIssuer), nameof(PublicIssuerUrl)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ServiceAccountKeyFile) || EnableWorkloadIdentity == true || HasPrivateIssuer == true || !string.IsNullOrWhiteSpace(PublicIssuerUrl)) && (EnableWorkloadIdentity == true || HasPrivateIssuer == true || !string.IsNullOrWhiteSpace(PublicIssuerUrl)) && (EnableWorkloadIdentity == true || HasPrivateIssuer == true || !string.IsNullOrWhiteSpace(PublicIssuerUrl)) && (!(EnableWorkloadIdentity == true)))
+        {
+            yield return new ValidationResult("EnableWorkloadIdentity must be specified when other arguments in this group are specified.", [nameof(EnableWorkloadIdentity)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ServiceAccountKeyFile) || EnableWorkloadIdentity == true || HasPrivateIssuer == true || !string.IsNullOrWhiteSpace(PublicIssuerUrl)) && (EnableWorkloadIdentity == true || HasPrivateIssuer == true || !string.IsNullOrWhiteSpace(PublicIssuerUrl)) && (EnableWorkloadIdentity == true || HasPrivateIssuer == true || !string.IsNullOrWhiteSpace(PublicIssuerUrl)) && ((HasPrivateIssuer == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(PublicIssuerUrl) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of HasPrivateIssuer or PublicIssuerUrl may be specified.", [nameof(HasPrivateIssuer), nameof(PublicIssuerUrl)]);
+        }
+        yield break;
+    }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "instances", "list")]
-public record GcloudAlloydbInstancesListOptions : GcloudOptions
+public record GcloudAlloydbInstancesListOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// Cluster AlloyDB cluster ID This flag argument must be specified if any of the other arguments in this group are specified.
@@ -32,5 +33,19 @@ public record GcloudAlloydbInstancesListOptions : GcloudOptions
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Cluster) || !string.IsNullOrWhiteSpace(Region)) && (!(!string.IsNullOrWhiteSpace(Cluster))))
+        {
+            yield return new ValidationResult("Cluster must be specified when other arguments in this group are specified.", [nameof(Cluster)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Cluster) || !string.IsNullOrWhiteSpace(Region)) && (!(!string.IsNullOrWhiteSpace(Region))))
+        {
+            yield return new ValidationResult("Region must be specified when other arguments in this group are specified.", [nameof(Region)]);
+        }
+        yield break;
+    }
 
 }

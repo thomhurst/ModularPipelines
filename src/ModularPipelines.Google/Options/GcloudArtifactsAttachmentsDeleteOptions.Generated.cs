@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("artifacts", "attachments", "delete")]
 public record GcloudArtifactsAttachmentsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete an Artifact Registry     attachment
+    /// </summary>
+    /// <param name="Attachment">Attachment resource - The Artifact Registry attachment to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the attachment or fully qualified identifier for the attachment. To set the attachment attribute: ▸ provide the argument attachment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudArtifactsAttachmentsDeleteOptions(
+        string Attachment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Attachment);
+        this.Attachment = Attachment;
+    }
+
+    public void Deconstruct(out string Attachment)
+    {
+        Attachment = this.Attachment;
+    }
+
+    /// <summary>
+    /// Attachment resource - The Artifact Registry attachment to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the attachment. Overrides the default artifacts/location property value for this command invocation. To configure the default location, use the command: gcloud config set artifacts/location. To set the location attribute: ▸ provide the argument attachment on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Attachment resource - The Artifact Registry attachment to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The repository associated with the attachment. Overrides the default artifacts/repository property value for this command invocation. To configure the default repository, use the command: gcloud config set artifacts/repository. To set the repository attribute: ▸ provide the argument attachment on the command line with a fully specified name; ▸ provide the argument --repository on the command line; ▸ set the property artifacts/repository.
+    /// </summary>
+    [CliOption("--repository", Format = OptionFormat.EqualsSeparated)]
+    public string? Repository { get; set; }
+
+    /// <summary>
+    /// Attachment resource - The Artifact Registry attachment to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the attachment or fully qualified identifier for the attachment. To set the attachment attribute: ▸ provide the argument attachment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Attachment { get; private init; }
+
 }

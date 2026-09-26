@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNotebooksRuntimesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// request for deleting runtimes
+    /// </summary>
+    /// <param name="Runtime">Runtime resource - User-defined unique name of this runtime. The runtime name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the runtime or fully qualified identifier for the runtime. To set the runtime attribute: ▸ provide the argument runtime on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNotebooksRuntimesDeleteOptions(
+        string Runtime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Runtime);
+        this.Runtime = Runtime;
+    }
+
+    public void Deconstruct(out string Runtime)
+    {
+        Runtime = this.Runtime;
+    }
+
+    /// <summary>
+    /// Runtime resource - User-defined unique name of this runtime. The runtime name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location of this runtime https://cloud.google.com/compute/docs/regions-zones/#locations. To set the location attribute: ▸ provide the argument runtime on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property notebooks/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Runtime resource - User-defined unique name of this runtime. The runtime name must be 1 to 63 characters long and contain only lowercase letters, numeric characters, and dashes. The first character must be a lowercase letter and the last character cannot be a dash. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the runtime or fully qualified identifier for the runtime. To set the runtime attribute: ▸ provide the argument runtime on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Runtime { get; private init; }
 
 }

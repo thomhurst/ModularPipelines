@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("beyondcorp", "security-gateways", "create")]
-public record GcloudBeyondcorpSecurityGatewaysCreateOptions : GcloudOptions
+public record GcloudBeyondcorpSecurityGatewaysCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create securityGateways
+    /// </summary>
+    /// <param name="SecurityGateway">SecurityGateway resource - Identifier. Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the securityGateway or fully qualified identifier for the securityGateway. To set the security_gateway attribute: ▸ provide the argument security_gateway on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBeyondcorpSecurityGatewaysCreateOptions(
+        string SecurityGateway
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityGateway);
+        this.SecurityGateway = SecurityGateway;
+    }
+
+    public void Deconstruct(out string SecurityGateway)
+    {
+        SecurityGateway = this.SecurityGateway;
+    }
+
+    /// <summary>
+    /// SecurityGateway resource - Identifier. Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the securityGateway resource. We support only global location. To set the location attribute: ▸ provide the argument security_gateway on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -46,9 +70,9 @@ public record GcloudBeyondcorpSecurityGatewaysCreateOptions : GcloudOptions
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. List of the allowed client header names.
+    /// The configuration for the proxy. List of the allowed client header names. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ProxyProtocolConfigAllowedClientHeaders { get; set; }
 
     /// <summary>
@@ -94,15 +118,31 @@ public record GcloudBeyondcorpSecurityGatewaysCreateOptions : GcloudOptions
     public string? UserInfoOutputType { get; set; }
 
     /// <summary>
-    /// The configuration information for the delegated user. Set the value of googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery by using flag [service-discovery] or flags []. At most one of these can be specified: Settings related to the Service Discovery. If Service Discovery is done through API, defines its settings. API operation descriptor. Contains the URI path fragment where HTTP request is sent.
+    /// Set the value of googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery by using flag [service-discovery] or flags []. At most one of these can be specified: Settings related to the Service Discovery. If Service Discovery is done through API, defines its settings. API operation descriptor. Contains the URI path fragment where HTTP request is sent.
     /// </summary>
     [CliOption("--resource-override-path", Format = OptionFormat.EqualsSeparated)]
     public string? ResourceOverridePath { get; set; }
 
     /// <summary>
-    /// The configuration information for the delegated user. Settings related to the Service Discovery. Shorthand Example: --service-discovery=apiGateway={resourceOverride={path=string}} JSON Example: --service-discovery='{"apiGateway": {"resourceOverride": {"path": "string"}}}' File Example: --service-discovery=path_to_file.(yaml|json)
+    /// Set the value of googleCloudBeyondcorpSecuritygatewaysV1SecurityGateway.serviceDiscovery by using flag [service-discovery] or flags []. At most one of these can be specified: Settings related to the Service Discovery. Shorthand Example: --service-discovery=apiGateway={resourceOverride={path=string}} JSON Example: --service-discovery='{"apiGateway": {"resourceOverride": {"path": "string"}}}' File Example: --service-discovery=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--service-discovery", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceDiscovery { get; set; }
+
+    /// <summary>
+    /// SecurityGateway resource - Identifier. Name of the resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the securityGateway or fully qualified identifier for the securityGateway. To set the security_gateway attribute: ▸ provide the argument security_gateway on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SecurityGateway { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(ResourceOverridePath)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(ServiceDiscovery)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (ResourceOverridePath) or (ServiceDiscovery) may be specified.", [nameof(ResourceOverridePath), nameof(ServiceDiscovery)]);
+        }
+        yield break;
+    }
 
 }

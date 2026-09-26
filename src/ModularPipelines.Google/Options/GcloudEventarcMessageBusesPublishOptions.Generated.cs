@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,143 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventarc", "message-buses", "publish")]
-public record GcloudEventarcMessageBusesPublishOptions : GcloudOptions
+public record GcloudEventarcMessageBusesPublishOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// publish to an Eventarc message bus
+    /// </summary>
+    /// <param name="MessageBus">Message bus resource - Message bus to publish to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument message_bus on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the message bus or fully qualified identifier for the message bus. To set the message-bus attribute: ▸ provide the argument message_bus on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEventarcMessageBusesPublishOptions(
+        string MessageBus
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MessageBus);
+        this.MessageBus = MessageBus;
+    }
+
+    public void Deconstruct(out string MessageBus)
+    {
+        MessageBus = this.MessageBus;
+    }
+
+    /// <summary>
+    /// Message bus resource - Message bus to publish to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument message_bus on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location for the Eventarc message bus, which should be one of the supported regions. Alternatively, set the [eventarc/location] property. To set the location attribute: ▸ provide the argument message_bus on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property eventarc/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: An Avro message to publish to the message bus.
+    /// </summary>
+    [CliOption("--avro-message", Format = OptionFormat.EqualsSeparated)]
+    public string? AvroMessage { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: A JSON message to publish to the message bus.
+    /// </summary>
+    [CliOption("--json-message", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonMessage { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: An event data. The event data of a published event. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--event-data", Format = OptionFormat.EqualsSeparated)]
+    public string? EventData { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: An event id. The id of a published event. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--event-id", Format = OptionFormat.EqualsSeparated)]
+    public string? EventId { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: An event source. The event source of a published event. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--event-source", Format = OptionFormat.EqualsSeparated)]
+    public string? EventSource { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: An event type. The event type of a published event. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--event-type", Format = OptionFormat.EqualsSeparated)]
+    public string? EventType { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Event attributes. The event attributes of a published event.This flag can be repeated to add more attributes.
+    /// </summary>
+    [CliOption("--event-attributes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? EventAttributes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __EventAttributesSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __EventAttributesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __EventAttributesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __EventAttributesSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Message bus resource - Message bus to publish to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument message_bus on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the message bus or fully qualified identifier for the message bus. To set the message-bus attribute: ▸ provide the argument message_bus on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MessageBus { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(AvroMessage) ? 1 : 0) + (!string.IsNullOrWhiteSpace(JsonMessage) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(EventData) || !string.IsNullOrWhiteSpace(EventId) || !string.IsNullOrWhiteSpace(EventSource) || !string.IsNullOrWhiteSpace(EventType) || ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)EventAttributes, static item => item is not null) : ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<char> ? (object?)EventAttributes is not string || !string.IsNullOrWhiteSpace(EventAttributes?.ToString()) : ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EventAttributes, static item => item is not null) : (EventAttributes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EventAttributes), static item => item is not null)))))) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of AvroMessage, JsonMessage, or (EventData, EventId, EventSource, EventType, or EventAttributes) must be specified.", [nameof(AvroMessage), nameof(JsonMessage), nameof(EventData), nameof(EventId), nameof(EventSource), nameof(EventType), nameof(EventAttributes)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AvroMessage) || !string.IsNullOrWhiteSpace(JsonMessage) || !string.IsNullOrWhiteSpace(EventData) || !string.IsNullOrWhiteSpace(EventId) || !string.IsNullOrWhiteSpace(EventSource) || !string.IsNullOrWhiteSpace(EventType) || ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)EventAttributes, static item => item is not null) : ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<char> ? (object?)EventAttributes is not string || !string.IsNullOrWhiteSpace(EventAttributes?.ToString()) : ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EventAttributes, static item => item is not null) : (EventAttributes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EventAttributes), static item => item is not null)))))) && (!string.IsNullOrWhiteSpace(EventData) || !string.IsNullOrWhiteSpace(EventId) || !string.IsNullOrWhiteSpace(EventSource) || !string.IsNullOrWhiteSpace(EventType) || ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)EventAttributes, static item => item is not null) : ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<char> ? (object?)EventAttributes is not string || !string.IsNullOrWhiteSpace(EventAttributes?.ToString()) : ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EventAttributes, static item => item is not null) : (EventAttributes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EventAttributes), static item => item is not null)))))) && (!(!string.IsNullOrWhiteSpace(EventData))))
+        {
+            yield return new ValidationResult("EventData must be specified when other arguments in this group are specified.", [nameof(EventData)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AvroMessage) || !string.IsNullOrWhiteSpace(JsonMessage) || !string.IsNullOrWhiteSpace(EventData) || !string.IsNullOrWhiteSpace(EventId) || !string.IsNullOrWhiteSpace(EventSource) || !string.IsNullOrWhiteSpace(EventType) || ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)EventAttributes, static item => item is not null) : ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<char> ? (object?)EventAttributes is not string || !string.IsNullOrWhiteSpace(EventAttributes?.ToString()) : ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EventAttributes, static item => item is not null) : (EventAttributes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EventAttributes), static item => item is not null)))))) && (!string.IsNullOrWhiteSpace(EventData) || !string.IsNullOrWhiteSpace(EventId) || !string.IsNullOrWhiteSpace(EventSource) || !string.IsNullOrWhiteSpace(EventType) || ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)EventAttributes, static item => item is not null) : ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<char> ? (object?)EventAttributes is not string || !string.IsNullOrWhiteSpace(EventAttributes?.ToString()) : ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EventAttributes, static item => item is not null) : (EventAttributes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EventAttributes), static item => item is not null)))))) && (!(!string.IsNullOrWhiteSpace(EventId))))
+        {
+            yield return new ValidationResult("EventId must be specified when other arguments in this group are specified.", [nameof(EventId)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AvroMessage) || !string.IsNullOrWhiteSpace(JsonMessage) || !string.IsNullOrWhiteSpace(EventData) || !string.IsNullOrWhiteSpace(EventId) || !string.IsNullOrWhiteSpace(EventSource) || !string.IsNullOrWhiteSpace(EventType) || ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)EventAttributes, static item => item is not null) : ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<char> ? (object?)EventAttributes is not string || !string.IsNullOrWhiteSpace(EventAttributes?.ToString()) : ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EventAttributes, static item => item is not null) : (EventAttributes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EventAttributes), static item => item is not null)))))) && (!string.IsNullOrWhiteSpace(EventData) || !string.IsNullOrWhiteSpace(EventId) || !string.IsNullOrWhiteSpace(EventSource) || !string.IsNullOrWhiteSpace(EventType) || ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)EventAttributes, static item => item is not null) : ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<char> ? (object?)EventAttributes is not string || !string.IsNullOrWhiteSpace(EventAttributes?.ToString()) : ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EventAttributes, static item => item is not null) : (EventAttributes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EventAttributes), static item => item is not null)))))) && (!(!string.IsNullOrWhiteSpace(EventSource))))
+        {
+            yield return new ValidationResult("EventSource must be specified when other arguments in this group are specified.", [nameof(EventSource)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AvroMessage) || !string.IsNullOrWhiteSpace(JsonMessage) || !string.IsNullOrWhiteSpace(EventData) || !string.IsNullOrWhiteSpace(EventId) || !string.IsNullOrWhiteSpace(EventSource) || !string.IsNullOrWhiteSpace(EventType) || ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)EventAttributes, static item => item is not null) : ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<char> ? (object?)EventAttributes is not string || !string.IsNullOrWhiteSpace(EventAttributes?.ToString()) : ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EventAttributes, static item => item is not null) : (EventAttributes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EventAttributes), static item => item is not null)))))) && (!string.IsNullOrWhiteSpace(EventData) || !string.IsNullOrWhiteSpace(EventId) || !string.IsNullOrWhiteSpace(EventSource) || !string.IsNullOrWhiteSpace(EventType) || ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)EventAttributes, static item => item is not null) : ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<char> ? (object?)EventAttributes is not string || !string.IsNullOrWhiteSpace(EventAttributes?.ToString()) : ((object?)EventAttributes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)EventAttributes, static item => item is not null) : (EventAttributes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)EventAttributes), static item => item is not null)))))) && (!(!string.IsNullOrWhiteSpace(EventType))))
+        {
+            yield return new ValidationResult("EventType must be specified when other arguments in this group are specified.", [nameof(EventType)]);
+        }
+        yield break;
+    }
+
 }

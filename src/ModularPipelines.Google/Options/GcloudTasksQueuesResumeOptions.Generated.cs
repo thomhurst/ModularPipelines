@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tasks", "queues", "resume")]
-public record GcloudTasksQueuesResumeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Queue
-) : GcloudOptions
+public record GcloudTasksQueuesResumeOptions : GcloudOptions
 {
+    /// <summary>
+    /// request to resume a paused or disabled queue
+    /// </summary>
+    /// <param name="Queue">The queue to resume.</param>
+    public GcloudTasksQueuesResumeOptions(
+        string Queue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Queue);
+        this.Queue = Queue;
+    }
+
+    public void Deconstruct(out string Queue)
+    {
+        Queue = this.Queue;
+    }
+
     /// <summary>
     /// The location where we want to manage the queue or task. If not specified, uses the location of the current project's App Engine app if there is an associated app.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// The queue to resume.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Queue { get; private init; }
 
 }

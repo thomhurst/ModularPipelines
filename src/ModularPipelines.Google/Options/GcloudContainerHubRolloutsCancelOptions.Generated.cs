@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerHubRolloutsCancelOptions : GcloudOptions
 {
     /// <summary>
+    /// cancel a rollout
+    /// </summary>
+    /// <param name="Rollout">Rollout resource - The group of arguments defining a Fleet Rollout. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rollout on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument rollout on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the rollout or fully qualified identifier for the rollout. To set the rollout attribute: ▸ provide the argument rollout on the command line.</param>
+    public GcloudContainerHubRolloutsCancelOptions(
+        string Rollout
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Rollout);
+        this.Rollout = Rollout;
+    }
+
+    public void Deconstruct(out string Rollout)
+    {
+        Rollout = this.Rollout;
+    }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Rollout resource - The group of arguments defining a Fleet Rollout. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rollout on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument rollout on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the rollout or fully qualified identifier for the rollout. To set the rollout attribute: ▸ provide the argument rollout on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Rollout { get; private init; }
 
 }

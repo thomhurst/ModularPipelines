@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,142 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "analyze-iam-policy-longrunning")]
-public record GcloudAssetAnalyzeIamPolicyLongrunningOptions : GcloudOptions
+public record GcloudAssetAnalyzeIamPolicyLongrunningOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Folder ID on which to perform the analysis. Only policies defined at or below this folder will be targeted in the analysis.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization ID on which to perform the analysis. Only policies defined at or below this organization will be targeted in the analysis.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Project ID or number on which to perform the analysis. Only policies defined at or below this project will be targeted in the analysis.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// The destination path for writing IAM policy analysis results. Exactly one of these must be specified: Google Cloud Storage URI where the results will be written. URI must start with "gs://". For example, "gs://bucket_name/object_name".
+    /// </summary>
+    [CliOption("--gcs-output-path", Format = OptionFormat.EqualsSeparated)]
+    public string? GcsOutputPath { get; set; }
+
+    /// <summary>
+    /// The destination path for writing IAM policy analysis results. Exactly one of these must be specified: Or at least one of these can be specified: BigQuery destination where the results will go. BigQuery dataset where the results will be written. Must be a dataset relative name starting with "projects/". For example, "projects/project_id/datasets/dataset_id". This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--bigquery-dataset", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryDataSet { get; set; }
+
+    /// <summary>
+    /// The destination path for writing IAM policy analysis results. Exactly one of these must be specified: Or at least one of these can be specified: BigQuery destination where the results will go. The prefix of the BigQuery tables to which the analysis results will be written. A table name consists of letters, numbers and underscores". This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--bigquery-table-prefix", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryTablePrefix { get; set; }
+
+    /// <summary>
+    /// The destination path for writing IAM policy analysis results. Exactly one of these must be specified: Or at least one of these can be specified: BigQuery destination where the results will go. This enum determines the partition key column for the bigquery tables. Partitioning can improve query performance and reduce query cost by filtering partitions. Refer to https://cloud.google.com/bigquery/docs/partitioned-tables for details. BIGQUERY_PARTITION_KEY must be one of: PARTITION_KEY_UNSPECIFIED, REQUEST_TIME.
+    /// </summary>
+    [CliOption("--bigquery-partition-key", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryPartitionKey { get; set; }
+
+    /// <summary>
+    /// The destination path for writing IAM policy analysis results. Exactly one of these must be specified: Or at least one of these can be specified: BigQuery destination where the results will go. Specifies the action that occurs if the destination table or partition already exists. The following values are supported: WRITE_TRUNCATE, WRITE_APPEND and WRITE_EMPTY. The default value is WRITE_APPEND.
+    /// </summary>
+    [CliOption("--bigquery-write-disposition", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryWriteDisposition { get; set; }
+
+    /// <summary>
+    /// The hypothetical context to evaluate IAM conditions. The hypothetical access timestamp to evaluate IAM conditions.
+    /// </summary>
+    [CliOption("--access-time", Format = OptionFormat.EqualsSeparated)]
+    public string? AccessTime { get; set; }
+
+    /// <summary>
+    /// Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. The full resource name.
+    /// </summary>
+    [CliOption("--full-resource-name", Format = OptionFormat.EqualsSeparated)]
+    public string? FullResourceName { get; set; }
+
+    /// <summary>
+    /// Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. The identity appearing in the form of principals in the IAM policy binding.
+    /// </summary>
+    [CliOption("--identity", Format = OptionFormat.EqualsSeparated)]
+    public string? Identity { get; set; }
+
+    /// <summary>
+    /// Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. If true, the response will include access analysis from identities to resources via service account impersonation. This is a very expensive operation, because many derived queries will be executed. We highly recommend you use AnalyzeIamPolicyLongrunning rpc instead. Default is false.
+    /// </summary>
+    [CliFlag("--analyze-service-account-impersonation")]
+    public bool? AnalyzeServiceAccountImpersonation { get; set; }
+
+    /// <summary>
+    /// Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. If true, the identities section of the result will expand any Google groups appearing in an IAM policy binding. Default is false.
+    /// </summary>
+    [CliFlag("--expand-groups")]
+    public bool? ExpandGroups { get; set; }
+
+    /// <summary>
+    /// Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. If true, the resource section of the result will expand any resource attached to an IAM policy to include resources lower in the resource hierarchy. Default is false.
+    /// </summary>
+    [CliFlag("--expand-resources")]
+    public bool? ExpandResources { get; set; }
+
+    /// <summary>
+    /// Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. If true, the access section of result will expand any roles appearing in IAM policy bindings to include their permissions. Default is false.
+    /// </summary>
+    [CliFlag("--expand-roles")]
+    public bool? ExpandRoles { get; set; }
+
+    /// <summary>
+    /// Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. If true, the result will output the relevant membership relationships between groups. Default is false.
+    /// </summary>
+    [CliFlag("--output-group-edges")]
+    public bool? OutputGroupEdges { get; set; }
+
+    /// <summary>
+    /// Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. If true, the result will output the relevant parent/child relationships between resources. Default is false.
+    /// </summary>
+    [CliFlag("--output-resource-edges")]
+    public bool? OutputResourceEdges { get; set; }
+
+    /// <summary>
+    /// Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. The permissions to appear in the result. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--permissions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Permissions { get; set; }
+
+    /// <summary>
+    /// Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. The roles to appear in the result. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--roles", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Roles { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder, Organization, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(GcsOutputPath) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(BigqueryDataSet) || !string.IsNullOrWhiteSpace(BigqueryTablePrefix) || !string.IsNullOrWhiteSpace(BigqueryPartitionKey) || !string.IsNullOrWhiteSpace(BigqueryWriteDisposition)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of GcsOutputPath or (BigqueryDataSet, BigqueryTablePrefix, BigqueryPartitionKey, or BigqueryWriteDisposition) must be specified.", [nameof(GcsOutputPath), nameof(BigqueryDataSet), nameof(BigqueryTablePrefix), nameof(BigqueryPartitionKey), nameof(BigqueryWriteDisposition)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(GcsOutputPath) || !string.IsNullOrWhiteSpace(BigqueryDataSet) || !string.IsNullOrWhiteSpace(BigqueryTablePrefix) || !string.IsNullOrWhiteSpace(BigqueryPartitionKey) || !string.IsNullOrWhiteSpace(BigqueryWriteDisposition)) && (!string.IsNullOrWhiteSpace(BigqueryDataSet) || !string.IsNullOrWhiteSpace(BigqueryTablePrefix) || !string.IsNullOrWhiteSpace(BigqueryPartitionKey) || !string.IsNullOrWhiteSpace(BigqueryWriteDisposition)) && (!string.IsNullOrWhiteSpace(BigqueryDataSet) || !string.IsNullOrWhiteSpace(BigqueryTablePrefix) || !string.IsNullOrWhiteSpace(BigqueryPartitionKey) || !string.IsNullOrWhiteSpace(BigqueryWriteDisposition)) && (!(!string.IsNullOrWhiteSpace(BigqueryDataSet))))
+        {
+            yield return new ValidationResult("BigqueryDataSet must be specified when other arguments in this group are specified.", [nameof(BigqueryDataSet)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(GcsOutputPath) || !string.IsNullOrWhiteSpace(BigqueryDataSet) || !string.IsNullOrWhiteSpace(BigqueryTablePrefix) || !string.IsNullOrWhiteSpace(BigqueryPartitionKey) || !string.IsNullOrWhiteSpace(BigqueryWriteDisposition)) && (!string.IsNullOrWhiteSpace(BigqueryDataSet) || !string.IsNullOrWhiteSpace(BigqueryTablePrefix) || !string.IsNullOrWhiteSpace(BigqueryPartitionKey) || !string.IsNullOrWhiteSpace(BigqueryWriteDisposition)) && (!string.IsNullOrWhiteSpace(BigqueryDataSet) || !string.IsNullOrWhiteSpace(BigqueryTablePrefix) || !string.IsNullOrWhiteSpace(BigqueryPartitionKey) || !string.IsNullOrWhiteSpace(BigqueryWriteDisposition)) && (!(!string.IsNullOrWhiteSpace(BigqueryTablePrefix))))
+        {
+            yield return new ValidationResult("BigqueryTablePrefix must be specified when other arguments in this group are specified.", [nameof(BigqueryTablePrefix)]);
+        }
+        yield break;
+    }
+
 }

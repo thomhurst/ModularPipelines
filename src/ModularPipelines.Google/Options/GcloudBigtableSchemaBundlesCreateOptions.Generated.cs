@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,63 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "schema-bundles", "create")]
-public record GcloudBigtableSchemaBundlesCreateOptions : GcloudOptions
+public record GcloudBigtableSchemaBundlesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new Bigtable schema bundle
+    /// </summary>
+    /// <param name="SchemaBundle">Schema bundle resource - Bigtable schema bundle to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema_bundle on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the schema-bundle or fully qualified identifier for the schema-bundle. To set the schema_bundle attribute: ▸ provide the argument schema_bundle on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBigtableSchemaBundlesCreateOptions(
+        string SchemaBundle
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SchemaBundle);
+        this.SchemaBundle = SchemaBundle;
+    }
+
+    public void Deconstruct(out string SchemaBundle)
+    {
+        SchemaBundle = this.SchemaBundle;
+    }
+
+    /// <summary>
+    /// Schema bundle resource - Bigtable schema bundle to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema_bundle on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable instance. To set the instance attribute: ▸ provide the argument schema_bundle on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Schema bundle resource - Bigtable schema bundle to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema_bundle on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable table. To set the table attribute: ▸ provide the argument schema_bundle on the command line with a fully specified name; ▸ provide the argument --table on the command line.
+    /// </summary>
+    [CliOption("--table", Format = OptionFormat.EqualsSeparated)]
+    public string? Table { get; set; }
+
+    /// <summary>
+    /// The schema to include in the bundle. Exactly one of these must be specified: Path of a file that contains a protobuf-serialized google.protobuf.FileDescriptorSet message. If specified, the schema bundle contains the protobuf schema. To generate the file, install and run protoc with the following command: protoc --proto_path=IMPORT_PATH --include_imports --descriptor_set_out=DESCRIPTOR_OUTPUT_LOCATION path/to/file.proto where the --proto_path option specifies where to look for .proto files when resolving import directives (the current directory is used if you do not provide a value), and the --descriptor_set_out option specifies where you want the generated FileDescriptorSet to be written.
+    /// </summary>
+    [CliOption("--proto-descriptors-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ProtoDescriptorsFile { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Schema bundle resource - Bigtable schema bundle to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema_bundle on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the schema-bundle or fully qualified identifier for the schema-bundle. To set the schema_bundle attribute: ▸ provide the argument schema_bundle on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SchemaBundle { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ProtoDescriptorsFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ProtoDescriptorsFile must be specified.", [nameof(ProtoDescriptorsFile)]);
+        }
+        yield break;
+    }
+
 }

@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "update")]
-public record GcloudPreviewComputeInterconnectsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInterconnectsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a Compute Engine     interconnect
+    /// </summary>
+    /// <param name="Name">Name of the interconnect to update.</param>
+    public GcloudPreviewComputeInterconnectsUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Administrative status of the interconnect. When this is enabled, the interconnect is operational and will carry traffic across any functioning linked interconnect attachments. Use --no-admin-enabled to disable it.
     /// </summary>
@@ -58,5 +73,11 @@ public record GcloudPreviewComputeInterconnectsUpdateOptions(
     /// </summary>
     [CliOption("--requested-link-count", Format = OptionFormat.EqualsSeparated)]
     public int? RequestedLinkCount { get; set; }
+
+    /// <summary>
+    /// Name of the interconnect to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

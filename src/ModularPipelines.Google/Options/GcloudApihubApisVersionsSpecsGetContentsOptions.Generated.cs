@@ -19,8 +19,62 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "apis", "versions", "specs", "get-contents")]
-public record GcloudApihubApisVersionsSpecsGetContentsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Spec
-) : GcloudOptions
+public record GcloudApihubApisVersionsSpecsGetContentsOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the contents of a spec
+    /// </summary>
+    /// <param name="Api">The API ID.</param>
+    /// <param name="Location">The location ID.</param>
+    /// <param name="Version">The version ID.</param>
+    /// <param name="Spec">The spec ID.</param>
+    public GcloudApihubApisVersionsSpecsGetContentsOptions(
+        string Api,
+        string Location,
+        string Version,
+        string Spec
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Api);
+        this.Api = Api;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+        global::System.ArgumentNullException.ThrowIfNull(Spec);
+        this.Spec = Spec;
+    }
+
+    public void Deconstruct(out string Api, out string Location, out string Version, out string Spec)
+    {
+        Api = this.Api;
+        Location = this.Location;
+        Version = this.Version;
+        Spec = this.Spec;
+    }
+
+    /// <summary>
+    /// The API ID.
+    /// </summary>
+    [CliOption("--api", Format = OptionFormat.EqualsSeparated)]
+    public string Api { get; private init; }
+
+    /// <summary>
+    /// The location ID.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The version ID.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string Version { get; private init; }
+
+    /// <summary>
+    /// The spec ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Spec { get; private init; }
+
 }

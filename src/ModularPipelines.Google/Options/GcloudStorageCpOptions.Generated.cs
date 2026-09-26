@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,15 +20,30 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "cp")]
-public record GcloudStorageCpOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Destination
-) : GcloudOptions
+public record GcloudStorageCpOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
+    /// upload, download, and copy Cloud Storage objects
     /// </summary>
-    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
-    public string? AdditionalHeaders { get; set; }
+    /// <param name="Destination">The destination path.</param>
+    public GcloudStorageCpOptions(
+        string Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    public void Deconstruct(out string Destination)
+    {
+        Destination = this.Destination;
+    }
+
+    /// <summary>
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdditionalHeaders { get; set; }
 
     /// <summary>
     /// Copy all source versions from a source bucket or folder. If not set, only the live version of each source object is copied. Note: This option is only useful when the destination bucket has Object Versioning enabled. Additionally, the generation numbers of copied versions do not necessarily match the order of the original generation numbers.
@@ -102,63 +118,133 @@ public record GcloudStorageCpOptions(
     public bool? SkipUnsupported { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Specify the storage class of the destination object. If not specified, the default storage class of the destination bucket is used. This option is not valid for copying to non-cloud destinations.
+    /// Specify the storage class of the destination object. If not specified, the default storage class of the destination bucket is used. This option is not valid for copying to non-cloud destinations.
     /// </summary>
     [CliOption("--storage-class", Format = OptionFormat.EqualsSeparated)]
     public string? StorageClass { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl
+    /// Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl
     /// </summary>
     [CliOption("--canned-acl", Format = OptionFormat.EqualsSeparated)]
     public string? CannedAcl { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
+    /// Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
     /// </summary>
     [CliFlag("--preserve-acl")]
     public bool? PreserveAcl { get; set; }
 
     /// <summary>
-    /// Negates --preserve-acl. --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
+    /// Negates --preserve-acl. Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
     /// </summary>
     [CliFlag("--no-preserve-acl")]
     public bool? NoPreserveAcl { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. At most one of these can be specified: Applies gzip transport encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This also saves network bandwidth while leaving the data uncompressed in Cloud Storage. When you specify the --gzip-in-flight option, files being uploaded are compressed in-memory and on-the-wire only. Both the local files and Cloud Storage objects remain uncompressed. The uploaded objects retain the Content-Type and name of the original files.
+    /// At most one of these can be specified: Applies gzip transport encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This also saves network bandwidth while leaving the data uncompressed in Cloud Storage. When you specify the --gzip-in-flight option, files being uploaded are compressed in-memory and on-the-wire only. Both the local files and Cloud Storage objects remain uncompressed. The uploaded objects retain the Content-Type and name of the original files. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--gzip-in-flight", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? GzipInFlight { get; set; }
+    [CliOption("--gzip-in-flight", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? GzipInFlight
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __GzipInFlightSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __GzipInFlightSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. At most one of these can be specified: Applies gzip transport encoding to file uploads. This option works like the --gzip-in-flight option described above, but it applies to all uploaded files, regardless of extension. CAUTION: If some of the source files don't compress well, such as binary data, using this option may result in longer uploads.
+    /// At most one of these can be specified: Applies gzip transport encoding to file uploads. This option works like the --gzip-in-flight option described above, but it applies to all uploaded files, regardless of extension. CAUTION: If some of the source files don't compress well, such as binary data, using this option may result in longer uploads.
     /// </summary>
     [CliFlag("--gzip-in-flight-all")]
     public bool? GzipInFlightAll { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. At most one of these can be specified: Applies gzip content encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This saves network bandwidth and space in Cloud Storage. When you specify the --gzip-local option, the data from files is compressed before it is uploaded, but the original files are left uncompressed on the local disk. The uploaded objects retain the Content-Type and name of the original files. However, the Content-Encoding metadata is set to gzip and the Cache-Control metadata set to no-transform. The data remains compressed on Cloud Storage servers and will not be decompressed on download by gcloud storage because of the no-transform field. Since the local gzip option compresses data prior to upload, it is not subject to the same compression buffer bottleneck of the in-flight gzip option.
+    /// At most one of these can be specified: Applies gzip content encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This saves network bandwidth and space in Cloud Storage. When you specify the --gzip-local option, the data from files is compressed before it is uploaded, but the original files are left uncompressed on the local disk. The uploaded objects retain the Content-Type and name of the original files. However, the Content-Encoding metadata is set to gzip and the Cache-Control metadata set to no-transform. The data remains compressed on Cloud Storage servers and will not be decompressed on download by gcloud storage because of the no-transform field. Since the local gzip option compresses data prior to upload, it is not subject to the same compression buffer bottleneck of the in-flight gzip option. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--gzip-local", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? GzipLocal { get; set; }
+    [CliOption("--gzip-local", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? GzipLocal
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __GzipLocalSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __GzipLocalSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. At most one of these can be specified: Applies gzip content encoding to file uploads. This option works like the --gzip-local option described above, but it applies to all uploaded files, regardless of extension. CAUTION: If some of the source files don't compress well, such as binary data, using this option may result in files taking up more space in the cloud than they would if left uncompressed.
+    /// At most one of these can be specified: Applies gzip content encoding to file uploads. This option works like the --gzip-local option described above, but it applies to all uploaded files, regardless of extension. CAUTION: If some of the source files don't compress well, such as binary data, using this option may result in files taking up more space in the cloud than they would if left uncompressed.
     /// </summary>
     [CliFlag("--gzip-local-all")]
     public bool? GzipLocalAll { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Flags to influence behavior when handling symlinks. Only one value may be set. At most one of these can be specified: Ignore file symlinks instead of copying what they point to.
+    /// Flags to influence behavior when handling symlinks. Only one value may be set. At most one of these can be specified: Ignore file symlinks instead of copying what they point to.
     /// </summary>
     [CliFlag("--ignore-symlinks")]
     public bool? IgnoreSymlinks { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Flags to influence behavior when handling symlinks. Only one value may be set. At most one of these can be specified: Preserve symlinks instead of copying what they point to. With this feature enabled, uploaded symlinks will be represented as placeholders in the cloud whose content consists of the linked path. Inversely, such placeholders will be converted to symlinks when downloaded while this feature is enabled, as described at https://cloud.google.com/storage-transfer/docs/metadata-preservation#posix_to. Directory symlinks are only followed if this flag is specified. CAUTION: No validation is applied to the symlink target paths. Once downloaded, preserved symlinks will point to whatever path was specified by the placeholder, regardless of the location or permissions of the path, or whether it actually exists. This feature is not supported on Windows.
+    /// Flags to influence behavior when handling symlinks. Only one value may be set. At most one of these can be specified: Preserve symlinks instead of copying what they point to. With this feature enabled, uploaded symlinks will be represented as placeholders in the cloud whose content consists of the linked path. Inversely, such placeholders will be converted to symlinks when downloaded while this feature is enabled, as described at https://cloud.google.com/storage-transfer/docs/metadata-preservation#posix_to. Directory symlinks are only followed if this flag is specified. CAUTION: No validation is applied to the symlink target paths. Once downloaded, preserved symlinks will point to whatever path was specified by the placeholder, regardless of the location or permissions of the path, or whether it actually exists. This feature is not supported on Windows.
     /// </summary>
     [CliFlag("--preserve-symlinks")]
     public bool? PreserveSymlinks { get; set; }
+
+    /// <summary>
+    /// The source path(s) to copy.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Source { get; set; }
+
+    /// <summary>
+    /// The destination path.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Destination { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)GzipInFlight is global::System.Collections.Generic.IEnumerable<char> ? (object?)GzipInFlight is not string || !string.IsNullOrWhiteSpace(GzipInFlight?.ToString()) : ((object?)GzipInFlight is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)GzipInFlight, static item => item is not null) : (GzipInFlight is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GzipInFlight), static item => item is not null)))) ? 1 : 0) + (GzipInFlightAll == true ? 1 : 0) + (((object?)GzipLocal is global::System.Collections.Generic.IEnumerable<char> ? (object?)GzipLocal is not string || !string.IsNullOrWhiteSpace(GzipLocal?.ToString()) : ((object?)GzipLocal is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)GzipLocal, static item => item is not null) : (GzipLocal is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GzipLocal), static item => item is not null)))) ? 1 : 0) + (GzipLocalAll == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GzipInFlight, GzipInFlightAll, GzipLocal, or GzipLocalAll may be specified.", [nameof(GzipInFlight), nameof(GzipInFlightAll), nameof(GzipLocal), nameof(GzipLocalAll)]);
+        }
+        if ((IgnoreSymlinks == true ? 1 : 0) + (PreserveSymlinks == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of IgnoreSymlinks or PreserveSymlinks may be specified.", [nameof(IgnoreSymlinks), nameof(PreserveSymlinks)]);
+        }
+        yield break;
+    }
 
 }

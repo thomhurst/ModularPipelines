@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compliance-manager", "cloud-control-deployments", "describe")]
 public record GcloudComplianceManagerCloudControlDeploymentsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get a cloud     control deployment
+    /// </summary>
+    /// <param name="CloudControlDeployment">CloudControlDeployment resource - The name for the cloud control deployment, in the format organizations/{organization}/locations/{location}/cloudControlDeployments/{cloud_control_deployment} or projects/{project}/locations/{location}/cloudControlDeployments/{cloud_control_deployment}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_control_deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.cloudControlDeployments, cloudsecuritycompliance.projects.locations.cloudControlDeployments]. This must be specified. ID of the cloudControlDeployment or fully qualified identifier for the cloudControlDeployment. To set the cloud_control_deployment attribute: ▸ provide the argument cloud_control_deployment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComplianceManagerCloudControlDeploymentsDescribeOptions(
+        string CloudControlDeployment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CloudControlDeployment);
+        this.CloudControlDeployment = CloudControlDeployment;
+    }
+
+    public void Deconstruct(out string CloudControlDeployment)
+    {
+        CloudControlDeployment = this.CloudControlDeployment;
+    }
+
+    /// <summary>
+    /// CloudControlDeployment resource - The name for the cloud control deployment, in the format organizations/{organization}/locations/{location}/cloudControlDeployments/{cloud_control_deployment} or projects/{project}/locations/{location}/cloudControlDeployments/{cloud_control_deployment}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_control_deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.cloudControlDeployments, cloudsecuritycompliance.projects.locations.cloudControlDeployments]. This must be specified. The location id of the cloudControlDeployment resource. To set the location attribute: ▸ provide the argument cloud_control_deployment on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// CloudControlDeployment resource - The name for the cloud control deployment, in the format organizations/{organization}/locations/{location}/cloudControlDeployments/{cloud_control_deployment} or projects/{project}/locations/{location}/cloudControlDeployments/{cloud_control_deployment}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_control_deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.cloudControlDeployments, cloudsecuritycompliance.projects.locations.cloudControlDeployments]. This must be specified. The organization id of the cloudControlDeployment resource. To set the organization attribute: ▸ provide the argument cloud_control_deployment on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [cloudsecuritycompliance.organizations.locations.cloudControlDeployments].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// CloudControlDeployment resource - The name for the cloud control deployment, in the format organizations/{organization}/locations/{location}/cloudControlDeployments/{cloud_control_deployment} or projects/{project}/locations/{location}/cloudControlDeployments/{cloud_control_deployment}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_control_deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.cloudControlDeployments, cloudsecuritycompliance.projects.locations.cloudControlDeployments]. This must be specified. ID of the cloudControlDeployment or fully qualified identifier for the cloudControlDeployment. To set the cloud_control_deployment attribute: ▸ provide the argument cloud_control_deployment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CloudControlDeployment { get; private init; }
+
 }
