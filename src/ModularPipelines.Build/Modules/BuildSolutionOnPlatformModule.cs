@@ -8,6 +8,11 @@ namespace ModularPipelines.Build.Modules;
 
 public abstract class BuildSolutionOnPlatformModule : Module<CommandResult[]>
 {
+    // The macOS baseline takes about 56 minutes. Keep compilation bounded below
+    // the coordinator's 65-minute result timeout and the 90-minute job timeout.
+    protected override void Configure(ModuleConfigurationBuilder module) => module
+        .WithTimeout(TimeSpan.FromMinutes(60));
+
     protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync(cancellationToken).ConfigureAwait(false)
