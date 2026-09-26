@@ -41,7 +41,9 @@ cooperating matrix. Worker capability discovery is bounded to 10 minutes, module
 after two hours. A failed or lost worker fails the run within these limits; it does not silently
 rerun publishing or test work on another runner.
 
-The master uploads `pipeline-report-0-ubuntu-latest`, containing `artifacts/run-report.json`.
+The master uploads `pipeline-report-0-ubuntu-latest-<run_attempt>`, containing `artifacts/run-report.json`.
+All workflow artifacts include the attempt number, so full retries preserve earlier evidence
+without upload conflicts or downloads from a previous attempt.
 Its job summary reports pipeline wall-clock duration, per-worker busy/idle time and utilization,
 and total/maximum queue wait. The JSON also retains module-level timings and artifact overhead.
 For a before/after comparison, run the same commit with `distributed: true` and `false`, with

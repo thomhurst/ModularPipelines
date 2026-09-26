@@ -53,6 +53,7 @@ $corePaths = @(
     'scripts/Test-RequiredPipelineContext.ps1',
     'scripts/Resolve-DistributedBuildMatrix.ps1',
     'scripts/Test-DistributedBuildMatrix.ps1',
+    'scripts/Test-DistributedBuildArtifacts.ps1',
     'scripts/Write-DistributedBuildSummary.ps1',
     'scripts/Test-DistributedBuildSummary.ps1',
     'src/ModularPipelines.Distributed.Redis/*',

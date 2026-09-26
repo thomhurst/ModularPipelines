@@ -100,6 +100,7 @@ jobs:
         shell: pwsh
         run: |
           ./scripts/Test-DistributedBuildMatrix.ps1
+          ./scripts/Test-DistributedBuildArtifacts.ps1
           ./scripts/Test-DistributedBuildSummary.ps1
           ./scripts/Test-FullPipelineValidation.ps1
           ./scripts/Test-RequiredPipelineContext.ps1
@@ -263,7 +264,7 @@ jobs:
         if: always() && steps.generated_integration.outputs.is_generated_integration != 'true'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: options-generator-test-results
+          name: options-generator-test-results-${{ github.run_attempt }}
           path: ${{ runner.temp }}/options-generator-test-results
           if-no-files-found: error
           retention-days: 1
@@ -422,7 +423,7 @@ jobs:
         run: dotnet publish src/ModularPipelines.Build/ModularPipelines.Build.csproj -c Release --framework net10.0 --no-self-contained -p:UseAppHost=false -o "$RUNNER_TEMP/pipeline-host"
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: pipeline-host
+          name: pipeline-host-${{ github.run_attempt }}
           path: ${{ runner.temp }}/pipeline-host
           retention-days: 1
 
@@ -479,12 +480,12 @@ jobs:
       - name: Download portable pipeline host
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
-          name: pipeline-host
+          name: pipeline-host-${{ github.run_attempt }}
           path: ${{ runner.temp }}/pipeline-host
       - name: Restore OptionsGenerator test results
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
-          name: options-generator-test-results
+          name: options-generator-test-results-${{ github.run_attempt }}
           path: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/bin/Release/net10.0/TestResults
       - name: Increase swap space
         if: runner.os == 'Linux'
@@ -585,7 +586,7 @@ jobs:
         if: always() && matrix.instance == 0
         uses: actions/upload-artifact@v7
         with:
-          name: pipeline-report-${{ matrix.instance }}-${{ matrix.os }}
+          name: pipeline-report-${{ matrix.instance }}-${{ matrix.os }}-${{ github.run_attempt }}
           path: artifacts/run-report.json
           if-no-files-found: warn
           retention-days: 14
@@ -594,7 +595,7 @@ jobs:
         if: always() && needs.fast-fail.result == 'success'
         uses: actions/upload-artifact@v7
         with:
-          name: hang-dumps-${{ matrix.instance }}-${{ matrix.os }}
+          name: hang-dumps-${{ matrix.instance }}-${{ matrix.os }}-${{ github.run_attempt }}
           path: |
             **/*.dmp
           if-no-files-found: ignore
@@ -604,7 +605,7 @@ jobs:
         if: always() && needs.fast-fail.result == 'success'
         uses: actions/upload-artifact@v7
         with:
-          name: unit-test-results-${{ matrix.instance }}-${{ matrix.os }}
+          name: unit-test-results-${{ matrix.instance }}-${{ matrix.os }}-${{ github.run_attempt }}
           path: |
             **/TestResults/*.trx
             **/TestResults/Diagnostics/*.diag
