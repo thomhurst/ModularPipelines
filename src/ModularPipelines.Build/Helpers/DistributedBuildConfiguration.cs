@@ -18,6 +18,8 @@ internal static class DistributedBuildConfiguration
         connectionOptions.Password = getEnvironmentVariable("REDIS_KEY");
         connectionOptions.Ssl = true;
         connectionOptions.AbortOnConnectFail = true;
+        // StackExchange.Redis gates the read-only INFO command behind this client flag.
+        connectionOptions.AllowAdmin = true;
         connectionOptions.ConnectRetry = 0;
         connectionOptions.ConnectTimeout = 5000;
         connectionOptions.AsyncTimeout = 5000;
@@ -39,7 +41,7 @@ internal static class DistributedBuildConfiguration
                 }
             }
         }
-        catch (Exception exception) when (exception is RedisException or TimeoutException)
+        catch (Exception exception) when (exception is RedisException or RedisCommandException or TimeoutException)
         {
             logger.LogWarning("Redis capacity diagnostics unavailable; the service may restrict INFO.");
         }
