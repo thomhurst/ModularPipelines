@@ -652,7 +652,8 @@ jobs:
           - macos-latest
       fail-fast: false
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 60
+    # Full macOS compilation can exceed an hour; match the cooperating runner budget.
+    timeout-minutes: 90
     env:
       MSBUILDDISABLENODEREUSE: "1"
       DOTNET_gcServer: "0"
