@@ -2,6 +2,12 @@
 name: .NET
 on:
   workflow_dispatch:
+    inputs:
+      run-ids:
+        description: Comma-separated workflow run and attempt identifiers
+        type: string
+        required: true
+        default: "36266097739-1"
 permissions:
   contents: read
 jobs:
@@ -15,6 +21,7 @@ jobs:
           persist-credentials: false
       - name: Inspect exact CI run namespaces
         env:
+          CI_RUN_IDS: ${{ inputs.run-ids }}
           REDIS_ENDPOINT: ${{ secrets.REDIS_ENDPOINT }}
           REDIS_KEY: ${{ secrets.REDIS_KEY }}
         run: python3 scripts/Inspect-CiRedisState.py

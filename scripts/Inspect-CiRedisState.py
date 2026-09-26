@@ -8,8 +8,16 @@ import ssl
 import sys
 from urllib.parse import urlsplit
 
-RUN_IDS = ("36261128504-1", "36261681268-1", "36263882962-1")
 ALLOWED_COMMANDS = {"AUTH", "INFO", "HKEYS", "HGET", "ZCARD", "EXISTS", "PTTL"}
+
+
+def requested_runs():
+    run_ids = tuple(value.strip() for value in os.environ["CI_RUN_IDS"].split(","))
+    if not 1 <= len(run_ids) <= 5 or any(
+        not re.fullmatch(r"[1-9][0-9]{0,19}-[1-9][0-9]{0,5}", value) for value in run_ids
+    ):
+        raise ValueError("Expected up to five numeric workflow run-attempt identifiers")
+    return run_ids
 
 
 def read_response(stream):
@@ -42,6 +50,7 @@ def read_response(stream):
 
 
 def inspect():
+    run_ids = requested_runs()
     endpoint = urlsplit("//" + os.environ["REDIS_ENDPOINT"].split(",", 1)[0])
     context = ssl.create_default_context()
     with socket.create_connection((endpoint.hostname, endpoint.port or 6380), timeout=10) as raw:
@@ -63,7 +72,7 @@ def inspect():
                         field, separator, value = line.partition(":")
                         if separator and field in {"used_memory", "maxmemory", "evicted_keys"} and value.isdigit():
                             print(field, int(value))
-                for run_id in RUN_IDS:
+                for run_id in run_ids:
                     prefix = "modularpipelines-ci:{" + run_id + "}"
                     results = command("HKEYS", prefix + ":results")
                     if any(not re.fullmatch(r"[A-Za-z0-9_.+`]+", name) for name in results):
