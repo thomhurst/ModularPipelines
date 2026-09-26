@@ -1,5 +1,10 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import test from 'node:test';
+import { fileURLToPath } from 'node:url';
 import { buildReview, extractReview, publishReview, runGitHub } from './post-claude-review.mjs';
 
 const headSha = 'a'.repeat(40);
@@ -11,6 +16,53 @@ const options = { rawReview, headSha, prNumber: '5183', repository: 'owner/repo'
 const currentHead = JSON.stringify({ state: 'OPEN', headRefOid: headSha });
 
 const successResult = { type: 'result', subtype: 'success', is_error: false, result: rawReview };
+
+function runPublisher(t, execution, paths = changedFiles) {
+  const directory = mkdtempSync(join(tmpdir(), 'review-publisher-'));
+  t.after(() => rmSync(directory, { recursive: true, force: true }));
+  const executionFile = join(directory, 'execution.json');
+  const pathsFile = join(directory, 'changed-files.nul');
+  const callsFile = join(directory, 'github-calls.jsonl');
+  const fixtureFile = join(directory, 'validated-review.json');
+  writeFileSync(executionFile, execution);
+  writeFileSync(pathsFile, paths.join('\0') + '\0');
+  const result = spawnSync(process.execPath, [
+    '--import', new URL('./fixtures/mock-review-github.mjs', import.meta.url).href,
+    fileURLToPath(new URL('./post-claude-review.mjs', import.meta.url)),
+  ], {
+    encoding: 'utf8', shell: false,
+    env: { ...process.env, REVIEW_EXECUTION_FILE: executionFile, REVIEW_CHANGED_FILES: pathsFile,
+      REVIEW_HEAD_SHA: headSha, PR_NUMBER: '5381', GH_REPO: 'owner/repo',
+      REVIEW_TEST_GITHUB_CALLS: callsFile, REVIEW_FIXTURE_OUTPUT: fixtureFile },
+  });
+  return { result, callsFile, fixtureFile };
+}
+
+test('command-line publication captures only the validated final response', t => {
+  const { result, callsFile, fixtureFile } = runPublisher(t, JSON.stringify([
+    { type: 'user', message: { content: 'private intermediate transcript' } },
+    { ...successResult, session_id: 'private session identifier' },
+  ]));
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stdout, '');
+  assert.equal(result.stderr, '');
+  const calls = readFileSync(callsFile, 'utf8').trim().split('\n').map(line => JSON.parse(line));
+  assert.equal(calls.length, 3);
+  assert.equal(JSON.parse(calls[1].input).commit_id, headSha);
+  assert.match(JSON.parse(calls[1].input).body, /REVIEW_VERDICT: CLEAR/);
+  assert.deepEqual(JSON.parse(readFileSync(fixtureFile, 'utf8')), [successResult]);
+});
+
+test('command-line failures cannot publish or retain a purported success fixture', t => {
+  const { result, callsFile, fixtureFile } = runPublisher(t, JSON.stringify([
+    { ...successResult, is_error: true, result: 'private error details' },
+  ]));
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /did not finish/);
+  assert.doesNotMatch(result.stderr, /private error details/);
+  assert.equal(existsSync(callsFile), false);
+  assert.equal(existsSync(fixtureFile), false);
+});
 
 test('extracts only the completed final result, never intermediate tool or assistant content', () => {
   const execution = JSON.stringify([

@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 
 export function extractReview(rawExecution) {
@@ -122,13 +122,21 @@ export function publishReview({ rawReview, headSha, prNumber, repository, change
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   try {
+    const rawReview = extractReview(readFileSync(process.env.REVIEW_EXECUTION_FILE, 'utf8'));
     publishReview({
-      rawReview: extractReview(readFileSync(process.env.REVIEW_EXECUTION_FILE, 'utf8')),
+      rawReview,
       headSha: process.env.REVIEW_HEAD_SHA,
       prNumber: process.env.PR_NUMBER,
       repository: process.env.GH_REPO,
       changedFiles: readFileSync(process.env.REVIEW_CHANGED_FILES, 'utf8').split('\0').filter(Boolean),
     });
+    if (process.env.REVIEW_FIXTURE_OUTPUT) {
+      // Retain only the successfully published final response, never tool messages,
+      // credentials, session identifiers, or other private transcript metadata.
+      writeFileSync(process.env.REVIEW_FIXTURE_OUTPUT, JSON.stringify([
+        { type: 'result', subtype: 'success', is_error: false, result: rawReview },
+      ], null, 2));
+    }
   } catch (error) {
     console.error(error.message);
     process.exitCode = 1;
