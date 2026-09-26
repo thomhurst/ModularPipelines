@@ -297,7 +297,7 @@ public sealed class MyCustomCoordinator : IDistributedMasterCoordinator
 
     public Task<SerializedModuleResult> WaitForResultAsync(
 
-        string moduleTypeName,
+        ModuleId moduleId,
 
         CancellationToken cancellationToken) =>
 
