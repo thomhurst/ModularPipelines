@@ -119,6 +119,17 @@ internal static class StableTypeName
     [UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Runtime result serialization and its build fingerprints are explicitly unsupported in trimmed applications.")]
     private static IEnumerable<Type> GetSerializationContractTypes(Type type)
     {
+        // A type-level converter replaces the reflected object/collection contract.
+        if (type.IsDefined(typeof(JsonConverterAttribute), inherit: false))
+        {
+            foreach (var converterType in GetConverterTypes(type, type))
+            {
+                yield return converterType;
+            }
+
+            yield break;
+        }
+
         foreach (var current in GetApplicationTypeHierarchy(type))
         {
             foreach (var derived in current.GetCustomAttributes<JsonDerivedTypeAttribute>(inherit: false))
@@ -134,7 +145,13 @@ internal static class StableTypeName
 
         foreach (var (member, memberType) in GetSerializedMembers(type))
         {
-            yield return memberType;
+            // Member converters own this value's wire representation, including whether
+            // any of the declared type's default members are used at all.
+            if (!member.IsDefined(typeof(JsonConverterAttribute), inherit: false))
+            {
+                yield return memberType;
+            }
+
             foreach (var converterType in GetConverterTypes(member, memberType))
             {
                 yield return converterType;
@@ -158,15 +175,27 @@ internal static class StableTypeName
     {
         const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
         var getters = new HashSet<MethodInfo>();
+        var membersByJsonName = new Dictionary<string, MemberInfo>(StringComparer.Ordinal);
         foreach (var current in GetApplicationTypeHierarchy(type))
         {
             foreach (var property in current.GetProperties(flags))
             {
-                // Record overrides before filtering: JsonIgnore also suppresses the base declaration.
-                if (property.GetMethod is { } getter && getters.Add(getter.GetBaseDefinition())
-                    && property.GetIndexParameters().Length == 0
-                    && (getter.IsPublic || property.IsDefined(typeof(JsonIncludeAttribute)))
-                    && property.GetCustomAttribute<JsonIgnoreAttribute>()?.Condition is not (JsonIgnoreCondition.Always or JsonIgnoreCondition.WhenWriting))
+                if (!IsJsonProperty(property))
+                {
+                    continue;
+                }
+
+                // Record overrides and JSON name collisions before checking readability:
+                // setter-only and WhenWriting members still shadow base declarations.
+                if (property.GetMethod is { } getter && !getters.Add(getter.GetBaseDefinition()))
+                {
+                    continue;
+                }
+
+                if (IsEffectiveJsonMember(property, membersByJsonName)
+                    && property.GetMethod is { } readableGetter
+                    && (readableGetter.IsPublic || property.IsDefined(typeof(JsonIncludeAttribute)))
+                    && property.GetCustomAttribute<JsonIgnoreAttribute>()?.Condition != JsonIgnoreCondition.WhenWriting)
                 {
                     yield return (property, property.PropertyType);
                 }
@@ -176,12 +205,39 @@ internal static class StableTypeName
             foreach (var field in current.GetFields(flags))
             {
                 if (field.IsDefined(typeof(JsonIncludeAttribute))
-                    && field.GetCustomAttribute<JsonIgnoreAttribute>()?.Condition is not (JsonIgnoreCondition.Always or JsonIgnoreCondition.WhenWriting))
+                    && IsEffectiveJsonMember(field, membersByJsonName)
+                    && field.GetCustomAttribute<JsonIgnoreAttribute>()?.Condition != JsonIgnoreCondition.WhenWriting)
                 {
                     yield return (field, field.FieldType);
                 }
             }
         }
+    }
+
+    private static bool IsJsonProperty(PropertyInfo property) =>
+        property.GetIndexParameters().Length == 0
+        && (property.GetMethod?.IsPublic == true || property.SetMethod?.IsPublic == true
+            || property.IsDefined(typeof(JsonIncludeAttribute)));
+
+    private static bool IsEffectiveJsonMember(MemberInfo member, Dictionary<string, MemberInfo> membersByJsonName)
+    {
+        // An always-ignored new member allows the base declaration to supply its JSON name.
+        // Ignored virtual overrides have already suppressed their base getter above.
+        if (member.GetCustomAttribute<JsonIgnoreAttribute>()?.Condition == JsonIgnoreCondition.Always)
+        {
+            return false;
+        }
+
+        var jsonName = member.GetCustomAttribute<JsonPropertyNameAttribute>()?.Name ?? member.Name;
+        if (membersByJsonName.TryGetValue(jsonName, out var derivedMember)
+            && member.Name == derivedMember.Name
+            && member.DeclaringType!.IsAssignableFrom(derivedMember.DeclaringType))
+        {
+            return false;
+        }
+
+        membersByJsonName.TryAdd(jsonName, member);
+        return true;
     }
 
     [UnconditionalSuppressMessage("Trimming", "IL2067", Justification = "Runtime converter construction and its build fingerprints are explicitly unsupported in trimmed applications.")]

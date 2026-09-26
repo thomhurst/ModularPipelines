@@ -45,6 +45,7 @@ public class ResultBuildIdentityTests
     [Arguments("IncludedPrivateGetter", 0)]
     [Arguments("IncludedOverride", 0)]
     [Arguments("IgnoredOverrideWithBaseMember", 0)]
+    [Arguments("OpaquePropertyWithVisibleMember", 0)]
     [Arguments("Field", 0)]
     [Arguments("TypeConverter", 0)]
     [Arguments("PropertyConverter", 0)]
@@ -191,6 +192,46 @@ public class ResultBuildIdentityTests
         await Assert.That(result!.Value.GetType()).IsEqualTo(type);
     }
 
+    [Test]
+    [Arguments("ShadowProperty", null, false, "{\"Value\":null}")]
+    [Arguments("ShadowProperty", JsonIgnoreCondition.Always, true, "{\"Value\":null}")]
+    [Arguments("ShadowProperty", JsonIgnoreCondition.WhenWriting, false, "{}")]
+    [Arguments("ShadowRenamed", null, true, "{\"Renamed\":null,\"Value\":null}")]
+    [Arguments("ShadowSetterOnly", null, false, "{}")]
+    [Arguments("ShadowPrivateGetter", null, false, "{}")]
+    [Arguments("ShadowIncludedPrivateGetter", null, false, "{\"Value\":null}")]
+    [Arguments("ShadowField", null, false, "{\"Value\":null}")]
+    [Arguments("ShadowBaseField", null, false, "{\"Value\":null}")]
+    [Arguments("OpaqueType", null, false, "{}")]
+    [Arguments("OpaqueProperty", null, false, "{\"Value\":{}}")]
+    [Arguments("OpaqueField", null, false, "{\"Value\":{}}")]
+    public async Task Effective_Member_Build_Follows_Serialized_Contract(string memberKind, JsonIgnoreCondition? condition, bool includesDependency, string expectedJson)
+    {
+        using var builds = new ResultBuilds(0, memberKind, condition);
+        var first = new ModuleTypeRegistry();
+        var second = new ModuleTypeRegistry();
+        first.Register(typeof(ResultModule<>).MakeGenericType(builds.First));
+        second.Register(typeof(ResultModule<>).MakeGenericType(builds.Second));
+
+        await Assert.That(builds.First.Module.ModuleVersionId).IsEqualTo(builds.Second.Module.ModuleVersionId);
+        await Assert.That(JsonSerializer.Serialize(CreateValue(builds.First))).IsEqualTo(expectedJson);
+        await Assert.That(JsonSerializer.Serialize(CreateValue(builds.Second))).IsEqualTo(expectedJson);
+        await Assert.That(first.GetPipelineSchemaVersion() != second.GetPipelineSchemaVersion()).IsEqualTo(includesDependency);
+
+        var localType = StableTypeName.Resolve(StableTypeName.Get(builds.First))!;
+        var remoteType = localType == builds.First ? builds.Second : builds.First;
+        if (includesDependency)
+        {
+            var exception = Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<ModuleResult<object>>(SerializeValue(remoteType)));
+            await Assert.That(exception!.Message).Contains("build identity");
+        }
+        else
+        {
+            var result = JsonSerializer.Deserialize<ModuleResult<object>>(SerializeValue(remoteType));
+            await Assert.That(result!.Value.GetType()).IsEqualTo(localType);
+        }
+    }
+
     private static string SerializeValue(Type type) => JsonSerializer.Serialize(
         new ModuleResult<object>.Success(CreateValue(type))
         {
@@ -312,6 +353,16 @@ public class ResultBuildIdentityTests
 
         private static Type DefineResultType(ModuleBuilder module, string name, Type dependency, string memberKind, JsonIgnoreCondition? ignoreCondition)
         {
+            if (memberKind.StartsWith("Opaque", StringComparison.Ordinal))
+            {
+                return DefineOpaqueConverterType(module, name, dependency, memberKind);
+            }
+
+            if (memberKind.StartsWith("Shadow", StringComparison.Ordinal))
+            {
+                return DefineShadowedMemberType(module, name, dependency, memberKind, ignoreCondition);
+            }
+
             if (memberKind is "IgnoredOverride" or "IncludedOverride" or "IgnoredOverrideWithBaseMember")
             {
                 return DefineOverriddenPropertyType(module, name, dependency, memberKind);
@@ -353,7 +404,7 @@ public class ResultBuildIdentityTests
             return type.CreateType()!;
         }
 
-        private static void DefineResultProperty(TypeBuilder type, Type dependency, CustomAttributeBuilder? converterAttribute, JsonIgnoreCondition? ignoreCondition)
+        private static PropertyBuilder DefineResultProperty(TypeBuilder type, Type dependency, CustomAttributeBuilder? converterAttribute, JsonIgnoreCondition? ignoreCondition)
         {
             var propertyType = converterAttribute is null ? dependency : typeof(object);
             var property = type.DefineProperty("Value", PropertyAttributes.None, propertyType, null);
@@ -373,6 +424,94 @@ public class ResultBuildIdentityTests
             il.Emit(OpCodes.Ldnull);
             il.Emit(OpCodes.Ret);
             property.SetGetMethod(getter);
+            return property;
+        }
+
+        private static Type DefineShadowedMemberType(ModuleBuilder module, string name, Type dependency, string memberKind, JsonIgnoreCondition? ignoreCondition)
+        {
+            var baseBuilder = module.DefineType($"{name}Base", TypeAttributes.Public);
+            if (memberKind == "ShadowBaseField")
+            {
+                DefineResultField(baseBuilder, dependency, null, null);
+            }
+            else
+            {
+                DefineResultProperty(baseBuilder, dependency, null, null);
+            }
+
+            var derived = module.DefineType(name, TypeAttributes.Public, baseBuilder.CreateType()!);
+            switch (memberKind)
+            {
+                case "ShadowSetterOnly":
+                case "ShadowPrivateGetter":
+                case "ShadowIncludedPrivateGetter":
+                    DefineSetterProperty(derived, typeof(string), memberKind["Shadow".Length..]);
+                    break;
+                case "ShadowField":
+                    DefineResultField(derived, typeof(string), null, ignoreCondition);
+                    break;
+                default:
+                    var property = DefineResultProperty(derived, typeof(string), null, ignoreCondition);
+                    if (memberKind == "ShadowRenamed")
+                    {
+                        property.SetCustomAttribute(new CustomAttributeBuilder(
+                            typeof(JsonPropertyNameAttribute).GetConstructor([typeof(string)])!, ["Renamed"]));
+                    }
+                    break;
+            }
+
+            return derived.CreateType()!;
+        }
+
+        private static Type DefineOpaqueConverterType(ModuleBuilder module, string name, Type dependency, string memberKind)
+        {
+            var type = module.DefineType(name, TypeAttributes.Public);
+            var converter = new CustomAttributeBuilder(
+                typeof(JsonConverterAttribute).GetConstructor([typeof(Type)])!, [typeof(ObjectConverter)]);
+            if (memberKind == "OpaqueField")
+            {
+                var field = type.DefineField("Value", dependency, FieldAttributes.Public);
+                field.SetCustomAttribute(new CustomAttributeBuilder(typeof(JsonIncludeAttribute).GetConstructor(Type.EmptyTypes)!, []));
+                field.SetCustomAttribute(converter);
+                var constructor = type.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, Type.EmptyTypes).GetILGenerator();
+                constructor.Emit(OpCodes.Ldarg_0);
+                constructor.Emit(OpCodes.Call, typeof(object).GetConstructor(Type.EmptyTypes)!);
+                constructor.Emit(OpCodes.Ldarg_0);
+                constructor.Emit(OpCodes.Newobj, dependency.GetConstructor(Type.EmptyTypes)!);
+                constructor.Emit(OpCodes.Stfld, field);
+                constructor.Emit(OpCodes.Ret);
+            }
+            else
+            {
+                var property = DefineInitializedProperty(type, "Value", dependency);
+                if (memberKind == "OpaqueType")
+                {
+                    type.SetCustomAttribute(converter);
+                }
+                else
+                {
+                    property.SetCustomAttribute(converter);
+                }
+            }
+
+            if (memberKind == "OpaquePropertyWithVisibleMember")
+            {
+                DefineInitializedProperty(type, "Additional", dependency);
+            }
+
+            return type.CreateType()!;
+        }
+
+        private static PropertyBuilder DefineInitializedProperty(TypeBuilder type, string name, Type propertyType)
+        {
+            var property = type.DefineProperty(name, PropertyAttributes.None, propertyType, null);
+            var getter = type.DefineMethod($"get_{name}", MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig,
+                propertyType, Type.EmptyTypes);
+            var il = getter.GetILGenerator();
+            il.Emit(OpCodes.Newobj, propertyType.GetConstructor(Type.EmptyTypes)!);
+            il.Emit(OpCodes.Ret);
+            property.SetGetMethod(getter);
+            return property;
         }
 
         private static void DefineResultField(TypeBuilder type, Type dependency, CustomAttributeBuilder? converterAttribute, JsonIgnoreCondition? ignoreCondition)
