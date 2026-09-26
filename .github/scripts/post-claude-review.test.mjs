@@ -17,13 +17,13 @@ const currentHead = JSON.stringify({ state: 'OPEN', headRefOid: headSha });
 
 const successResult = { type: 'result', subtype: 'success', is_error: false, result: rawReview };
 
-function runPublisher(t, execution, paths = changedFiles) {
+function runPublisher(t, execution, paths = changedFiles, fixtureName = 'validated-review.json') {
   const directory = mkdtempSync(join(tmpdir(), 'review-publisher-'));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const executionFile = join(directory, 'execution.json');
   const pathsFile = join(directory, 'changed-files.nul');
   const callsFile = join(directory, 'github-calls.jsonl');
-  const fixtureFile = join(directory, 'validated-review.json');
+  const fixtureFile = join(directory, fixtureName);
   writeFileSync(executionFile, execution);
   writeFileSync(pathsFile, paths.join('\0') + '\0');
   const result = spawnSync(process.execPath, [
@@ -51,6 +51,15 @@ test('command-line publication captures only the validated final response', t =>
   assert.equal(JSON.parse(calls[1].input).commit_id, headSha);
   assert.match(JSON.parse(calls[1].input).body, /REVIEW_VERDICT: CLEAR/);
   assert.deepEqual(JSON.parse(readFileSync(fixtureFile, 'utf8')), [successResult]);
+});
+
+test('an optional fixture write failure preserves successful publication', t => {
+  const { result, callsFile } = runPublisher(t, JSON.stringify([successResult]), changedFiles, '.');
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stdout, '');
+  assert.equal(result.stderr.trim(), 'Optional review fixture could not be retained.');
+  const calls = readFileSync(callsFile, 'utf8').trim().split('\n').map(line => JSON.parse(line));
+  assert.equal(calls.filter(call => call.args[0] === 'api').length, 1);
 });
 
 test('command-line failures cannot publish or retain a purported success fixture', t => {
@@ -96,6 +105,16 @@ test('final text must satisfy the review contract without repair or a fallback v
     JSON.stringify({ summary, findings: [], notes: [] })]) {
     const extracted = extractReview(JSON.stringify([{ ...successResult, result }]));
     assert.throws(() => publishReview({ ...options, rawReview: extracted }, () => assert.fail('Invalid final output must not reach GitHub.')));
+  }
+});
+
+test('invalid review diagnostics classify format without revealing model text', () => {
+  for (const [raw, message] of [
+    ['```json\nprivate review text\n```', 'Claude returned Markdown-fenced output instead of a JSON review.'],
+    ['{private review text', 'Claude returned malformed JSON object text.'],
+    ['private review text', 'Claude did not return a valid structured review.'],
+  ]) {
+    assert.throws(() => buildReview(raw, headSha, changedFiles), { message });
   }
 });
 

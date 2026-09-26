@@ -26,14 +26,22 @@ function hasExactKeys(value, keys) {
     && Object.keys(value).length === keys.length && keys.every(key => Object.hasOwn(value, key));
 }
 
-function parseReview(rawReview, changedFiles) {
-  let review;
+function parseReviewJson(rawReview) {
   try {
-    review = JSON.parse(rawReview);
+    return JSON.parse(rawReview);
   } catch {
+    if (typeof rawReview === 'string' && rawReview.trimStart().startsWith('```')) {
+      throw new Error('Claude returned Markdown-fenced output instead of a JSON review.');
+    }
+    if (typeof rawReview === 'string' && rawReview.trimStart().startsWith('{')) {
+      throw new Error('Claude returned malformed JSON object text.');
+    }
     throw new Error('Claude did not return a valid structured review.');
   }
+}
 
+function parseReview(rawReview, changedFiles) {
+  const review = parseReviewJson(rawReview);
   const validText = (value, minimumLength = 1) => typeof value === 'string' && value.trim().length >= minimumLength;
   const notes = review?.notes;
   if (!hasExactKeys(review, ['summary', 'findings', 'notes', 'evidence'])) {
@@ -120,6 +128,21 @@ export function publishReview({ rawReview, headSha, prNumber, repository, change
   verifyHead();
 }
 
+function retainReviewFixture(rawReview) {
+  if (!process.env.REVIEW_FIXTURE_OUTPUT) {
+    return;
+  }
+  try {
+    // Retain only the successfully published final response, never tool messages,
+    // credentials, session identifiers, or other private transcript metadata.
+    writeFileSync(process.env.REVIEW_FIXTURE_OUTPUT, JSON.stringify([
+      { type: 'result', subtype: 'success', is_error: false, result: rawReview },
+    ], null, 2));
+  } catch {
+    console.warn('Optional review fixture could not be retained.');
+  }
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   try {
     const rawReview = extractReview(readFileSync(process.env.REVIEW_EXECUTION_FILE, 'utf8'));
@@ -130,13 +153,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
       repository: process.env.GH_REPO,
       changedFiles: readFileSync(process.env.REVIEW_CHANGED_FILES, 'utf8').split('\0').filter(Boolean),
     });
-    if (process.env.REVIEW_FIXTURE_OUTPUT) {
-      // Retain only the successfully published final response, never tool messages,
-      // credentials, session identifiers, or other private transcript metadata.
-      writeFileSync(process.env.REVIEW_FIXTURE_OUTPUT, JSON.stringify([
-        { type: 'result', subtype: 'success', is_error: false, result: rawReview },
-      ], null, 2));
-    }
+    retainReviewFixture(rawReview);
   } catch (error) {
     console.error(error.message);
     process.exitCode = 1;
