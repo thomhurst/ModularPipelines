@@ -287,7 +287,7 @@ public static class UsageSynopsisParser
         // option-only choices retain their existing option-specific reconciliation.
         if (branches.Any(IsConjunctiveBranch)
             && GetBundledOperandBranch(alternatives) is null
-            && !HasOptionConjunctionsBesideOperand(alternatives, branches))
+            && !HasOptionConjunctionsBesideOperand(branches))
         {
             return null;
         }
@@ -333,10 +333,10 @@ public static class UsageSynopsisParser
         branch.Members.Count > 1 || branch.Groups.Count > 0;
 
     private static bool HasOptionConjunctionsBesideOperand(
-        IReadOnlyList<string> alternatives,
         UsageRequiredAlternativeGroup[] branches)
     {
-        var isOptionOnly = alternatives.Select(static alternative => ContainsOnlyInlineOptions(TokenizeNestedGroup(alternative))).ToArray();
+        var isOptionOnly = branches.Select(static branch =>
+            branch.EnumerateMembers().All(static member => member.OptionSwitch is not null)).ToArray();
         return isOptionOnly.Contains(false)
             && isOptionOnly.Select((optionOnly, index) => optionOnly || !IsConjunctiveBranch(branches[index])).All(static supported => supported);
     }
@@ -2277,6 +2277,11 @@ public static class UsageSynopsisParser
 
     private static bool HasMixedOptionOperandAlternatives(string content)
     {
+        if (ContainsOnlyInlineOptions(TokenizeNestedGroup(content)))
+        {
+            return false;
+        }
+
         var alternatives = GetAlternatives(content);
         return !HasOptionValueAlternatives(content)
                && alternatives.Length > 1
@@ -2290,12 +2295,7 @@ public static class UsageSynopsisParser
         var alternatives = SplitTopLevelAlternatives(normalized);
         if (alternatives.Count > 1
             && (GetBundledOperandBranch(alternatives) is not null
-                || alternatives.Any(static alternative =>
-                {
-                    // Every branch matters: an earlier assignment cannot own a later conjunction.
-                    var tokens = TokenizeNestedGroup(TrimControlWrappers(alternative));
-                    return tokens.Count > 1 && !tokens.Contains("|") && ContainsOnlyInlineOptions(tokens);
-                })))
+                || HasOptionConjunctionAndOperand(alternatives)))
         {
             return false;
         }
@@ -2313,6 +2313,17 @@ public static class UsageSynopsisParser
                && normalized[valueStartIndex] != '|'
                && !StartsWithOptionSwitch(normalized, valueStartIndex)
                && normalized.IndexOf('|', valueStartIndex + 1) >= 0;
+    }
+
+    private static bool HasOptionConjunctionAndOperand(IReadOnlyList<string> alternatives)
+    {
+        var branches = alternatives.Select(static alternative => GetRequiredAlternativeMembers(
+            ParseOperandTokens(TokenizeNestedGroup(TrimControlWrappers(alternative)), CommandLinePhase.EarlyOperand))).ToArray();
+
+        // Pure option groups keep their option-specific reconciliation, including nested choices.
+        return branches.Any(static members => members.Any(static member => member.PositionalPropertyName is not null))
+               && branches.Any(static members =>
+                   members.Count > 1 && members.All(static member => member.OptionSwitch is not null));
     }
 
     // A following switch starts a conjunction; a lone dash can still be a value such as stdin.
@@ -2372,20 +2383,8 @@ public static class UsageSynopsisParser
             branchStartIndex++;
         }
 
-        // Whitespace before the assignment means it belongs to a later switch in a conjunction.
-        if (branchStartIndex + 1 >= assignmentIndex
-            || content[branchStartIndex] != '-'
-            || content.AsSpan(branchStartIndex, assignmentIndex - branchStartIndex).IndexOfAny(' ', '\t') >= 0)
-        {
-            return false;
-        }
-
-        // A switch after the assigned value also starts a conjunction rather than value alternatives.
-        var branchEndIndex = content.IndexOf('|', assignmentIndex);
-        var value = content[(assignmentIndex + 1)..(branchEndIndex < 0 ? content.Length : branchEndIndex)];
-        return !value.Split([' ', '\t'], StringSplitOptions.RemoveEmptyEntries)
-            .Skip(1)
-            .Any(static token => StartsWithOptionSwitch(token, 0));
+        return branchStartIndex + 1 < assignmentIndex
+               && content[branchStartIndex] == '-';
     }
 
     private static bool HasLoneDashOperandAlternatives(string content)
@@ -2400,12 +2399,12 @@ public static class UsageSynopsisParser
 
     private static bool HasOnlyOptionControlAlternatives(string content)
     {
-        var alternatives = GetAlternatives(content);
-        return alternatives.Length > 1
+        var alternatives = SplitTopLevelAlternatives(content);
+        return alternatives.Count > 1
                && alternatives.All(static alternative =>
                {
                    var normalized = TrimControlWrappers(alternative);
-                   return IsOptionAlternative(normalized)
+                   return ContainsOnlyInlineOptions(TokenizeNestedGroup(normalized))
                           || IsOptionControlLabel(normalized);
                });
     }

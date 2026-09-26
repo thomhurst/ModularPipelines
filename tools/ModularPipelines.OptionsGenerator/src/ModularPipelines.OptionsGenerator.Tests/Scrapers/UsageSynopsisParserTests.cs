@@ -1639,6 +1639,9 @@ public class UsageSynopsisParserTests
     [Arguments("{--force --all=ALL | TARGET}", "--force")]
     [Arguments("(--force=MODE --all | TARGET)", "--force")]
     [Arguments("(TARGET | --force=MODE --all)", "--force")]
+    [Arguments("(TARGET | --force --all ALL)", "--force")]
+    [Arguments("(--force --all ALL | TARGET)", "--force")]
+    [Arguments("(--force MODE --all | TARGET)", "--force")]
     public async Task Preserves_Option_Only_Conjunctions_Beside_An_Operand(string group, string firstSwitch)
     {
         var result = UsageSynopsisParser.Parse($"Usage: tool clean {group}", ["tool", "clean"]);
@@ -1665,6 +1668,8 @@ public class UsageSynopsisParserTests
     [Arguments("(TARGET | --mode=MODE | --global --region=REGION)")]
     [Arguments("(--mode=MODE | (--global --region=REGION) | TARGET)")]
     [Arguments("{--mode=MODE | --global --region=REGION | TARGET}")]
+    [Arguments("(--mode=MODE | --global --region REGION | TARGET)")]
+    [Arguments("(--mode=MODE | TARGET | --global --region REGION)")]
     public async Task Preserves_Operand_After_Assigned_Option_And_Later_Conjunction(string group)
     {
         var result = UsageSynopsisParser.Parse($"Usage: tool clean {group}", ["tool", "clean"]);
@@ -1691,6 +1696,18 @@ public class UsageSynopsisParserTests
     {
         var result = UsageSynopsisParser.Parse($"Usage: tool clean {group}", ["tool", "clean"]);
 
+        await Assert.That(result.RequiredAlternativeGroups).IsEmpty();
+    }
+
+    [Test]
+    [Arguments("(--config=PATH | [(--branch=REGEX | --tag=REGEX) (--build=PATH | --inline=PATH) : --name=NAME])")]
+    [Arguments("([(--branch=REGEX | --tag=REGEX) (--build=PATH | --inline=PATH) : --name=NAME] | --config=PATH)")]
+    public async Task Nested_Option_Only_Conjunctions_Do_Not_Declare_Operands(string group)
+    {
+        var result = UsageSynopsisParser.Parse($"Usage: tool create {group}", ["tool", "create"]);
+
+        await Assert.That(result.HasOperandTokens).IsFalse();
+        await Assert.That(result.PositionalArguments).IsEmpty();
         await Assert.That(result.RequiredAlternativeGroups).IsEmpty();
     }
 
