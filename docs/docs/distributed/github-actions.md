@@ -42,8 +42,9 @@ after two hours. A failed or lost worker fails the run within these limits; it d
 rerun publishing or test work on another runner.
 
 The master uploads `pipeline-report-0-ubuntu-latest-<run_attempt>`, containing `artifacts/run-report.json`.
-All workflow artifacts include the attempt number, so full retries preserve earlier evidence
-without upload conflicts or downloads from a previous attempt.
+All workflow uploads include the attempt number, so full retries preserve earlier evidence
+without upload conflicts. Downloads use artifact names published by their prerequisite jobs;
+standalone partial retries can therefore reuse artifacts from successful prerequisites.
 Its job summary reports pipeline wall-clock duration, per-worker busy/idle time and utilization,
 and total/maximum queue wait. The JSON also retains module-level timings and artifact overhead.
 For a before/after comparison, run the same commit with `distributed: true` and `false`, with

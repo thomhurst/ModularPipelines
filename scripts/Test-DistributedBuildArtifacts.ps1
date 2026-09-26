@@ -8,16 +8,28 @@ $uploads = @()
 $downloads = @()
 foreach ($step in $artifactSteps) {
     $name = [regex]::Match($step.Value, '(?m)^          name: (.+)$').Groups[1].Value.Trim()
-    if (-not $name.Contains('${{ github.run_attempt }}', [StringComparison]::Ordinal)) {
-        throw "Artifact '$name' must be attempt-scoped so full retries cannot collide with earlier uploads."
+    if ($step.Value -match 'uses: actions/upload-artifact@') {
+        if (-not $name.Contains('${{ github.run_attempt }}', [StringComparison]::Ordinal)) {
+            throw "Artifact '$name' must be attempt-scoped so full retries cannot collide with earlier uploads."
+        }
+        $uploads += $name
     }
-    if ($step.Value -match 'uses: actions/upload-artifact@') { $uploads += $name }
     else { $downloads += $name }
 }
 if ($uploads.Count -ne 5 -or $downloads.Count -ne 2) {
     throw 'Expected the host, prerequisite results, and three pipeline output artifacts with two matching downloads.'
 }
-foreach ($download in $downloads) {
-    if ($download -cnotin $uploads) { throw "Download '$download' has no matching upload in the same attempt." }
+$producers = @(
+    @{ Job = 'fast-fail'; Output = 'test_results_artifact' },
+    @{ Job = 'pipeline-host'; Output = 'artifact_name' }
+)
+foreach ($producer in $producers) {
+    $reference = '${{ needs.' + $producer.Job + '.outputs.' + $producer.Output + ' }}'
+    if ($reference -cnotin $downloads) {
+        throw "Downloads must use '$reference' so standalone partial retries retain the successful producer's artifact."
+    }
+    $job = [regex]::Match($workflow, '(?ms)^  ' + $producer.Job + ':.*?(?=^  [a-z0-9-]+:|\z)').Value
+    $name = [regex]::Match($job, '(?m)^      ' + $producer.Output + ': (.+)$').Groups[1].Value.Trim()
+    if ($name -cnotin $uploads) { throw "Producer output '$name' does not match an attempt-scoped upload." }
 }
-Write-Output 'Distributed artifacts: five retry-safe uploads and two matching downloads passed.'
+Write-Output 'Distributed artifacts: five retry-safe uploads and two producer-bound downloads passed.'

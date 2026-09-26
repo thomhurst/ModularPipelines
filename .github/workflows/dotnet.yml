@@ -33,6 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     outputs:
+      test_results_artifact: options-generator-test-results-${{ github.run_attempt }}
       distributed: ${{ steps.distribution.outputs.distributed }}
       matrix: ${{ steps.distribution.outputs.matrix }}
       worker_matrix: ${{ steps.distribution.outputs.worker_matrix }}
@@ -403,6 +404,8 @@ jobs:
 
   pipeline-host:
     name: Build portable pipeline host
+    outputs:
+      artifact_name: pipeline-host-${{ github.run_attempt }}
     needs: fast-fail
     if: needs.fast-fail.outputs.run_full_pipeline == 'true'
     runs-on: ubuntu-latest
@@ -480,12 +483,12 @@ jobs:
       - name: Download portable pipeline host
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
-          name: pipeline-host-${{ github.run_attempt }}
+          name: ${{ needs.pipeline-host.outputs.artifact_name }}
           path: ${{ runner.temp }}/pipeline-host
       - name: Restore OptionsGenerator test results
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
-          name: options-generator-test-results-${{ github.run_attempt }}
+          name: ${{ needs.fast-fail.outputs.test_results_artifact }}
           path: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/bin/Release/net10.0/TestResults
       - name: Increase swap space
         if: runner.os == 'Linux'
