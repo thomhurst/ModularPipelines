@@ -71,7 +71,9 @@ public class ModuleSchedulerDynamicCycleTests
     }
 
     [Test]
-    public async Task RunSchedulerAsync_WhenOnlyModuleIsDeferred_DoesNotReportDeadlock()
+    [Timeout(30_000)]
+    public async Task RunSchedulerAsync_WhenOnlyModuleIsDeferred_DoesNotReportDeadlock(
+        CancellationToken cancellationToken)
     {
         var constraintEvaluator = new Mock<IModuleConstraintEvaluator>();
         constraintEvaluator
@@ -87,16 +89,16 @@ public class ModuleSchedulerDynamicCycleTests
         using var scheduler = CreateScheduler(constraintEvaluator.Object);
         scheduler.InitializeModules([new DeferredConstraintModule()]);
 
-        var schedulerTask = scheduler.RunSchedulerAsync(CancellationToken.None);
-        var firstAttempt = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
+        var schedulerTask = scheduler.RunSchedulerAsync(cancellationToken);
+        var firstAttempt = await scheduler.ReadyModules.ReadAsync(cancellationToken);
 
         await Assert.That(scheduler.MarkModuleStarted(firstAttempt.ModuleType)).IsFalse();
 
-        var secondAttempt = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
+        var secondAttempt = await scheduler.ReadyModules.ReadAsync(cancellationToken);
         await Assert.That(scheduler.MarkModuleStarted(secondAttempt.ModuleType)).IsTrue();
 
         scheduler.MarkModuleCompleted(secondAttempt.ModuleType, success: true);
-        await schedulerTask.WaitAsync(TimeSpan.FromSeconds(5));
+        await schedulerTask.WaitAsync(cancellationToken);
     }
 
     [Test]
