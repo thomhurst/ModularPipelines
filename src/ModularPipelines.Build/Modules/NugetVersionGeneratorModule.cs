@@ -7,15 +7,11 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
+[RequiresCapability("ci-master")]
 [ModuleCategory("VersionTag")]
-public class NugetVersionGeneratorModule : Module<string>
+public class NugetVersionGeneratorModule(IOptions<PublishSettings> publishSettings) : Module<string>
 {
-    private readonly IOptions<PublishSettings> _publishSettings;
-
-    public NugetVersionGeneratorModule(IOptions<PublishSettings> publishSettings)
-    {
-        _publishSettings = publishSettings;
-    }
+    private readonly IOptions<PublishSettings> _publishSettings = publishSettings;
 
     protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

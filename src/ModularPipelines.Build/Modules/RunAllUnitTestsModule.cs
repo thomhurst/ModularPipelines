@@ -5,6 +5,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
+[RequiresCapability("ci-master")]
 #pragma warning disable MPG0016 // The build pipeline is JIT-only.
 [DependsOnAllModulesInheritingFrom<RunUnitTestModule>]
 #pragma warning restore MPG0016

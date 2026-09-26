@@ -119,6 +119,11 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
                 .Replace(Path.DirectorySeparatorChar, '/');
             var entry = archive.CreateEntry(entryName, compressionLevel);
             entry.LastWriteTime = File.GetLastWriteTime(file);
+            if (!OperatingSystem.IsWindows())
+            {
+                entry.ExternalAttributes = (int) File.GetUnixFileMode(file) << 16;
+            }
+
             await using var sourceStream = new FileStream(
                 file,
                 new FileStreamOptions
@@ -219,6 +224,16 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
             }
 
             File.SetLastWriteTime(entryPath, entry.LastWriteTime.DateTime);
+            if (!OperatingSystem.IsWindows())
+            {
+                // Restore ordinary permissions, including executable bits needed by shared
+                // build output. Do not propagate setuid, setgid, or sticky bits from ZIPs.
+                var permissions = (UnixFileMode)((entry.ExternalAttributes >> 16) & 0x1FF);
+                if (permissions != 0)
+                {
+                    File.SetUnixFileMode(entryPath, permissions);
+                }
+            }
         }
     }
 

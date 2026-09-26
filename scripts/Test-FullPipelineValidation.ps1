@@ -30,7 +30,13 @@ $corePaths = @(
     'NuGet.config',
     '.github/workflows/dotnet.yml',
     'src/ModularPipelines.Build/Modules/BuildSolutionsModule.cs',
-    'scripts/Resolve-FullPipelineValidation.ps1'
+    'scripts/Resolve-FullPipelineValidation.ps1',
+    'scripts/Resolve-DistributedBuildMatrix.ps1',
+    'scripts/Test-DistributedBuildMatrix.ps1',
+    'scripts/Write-DistributedBuildSummary.ps1',
+    'scripts/Test-DistributedBuildSummary.ps1',
+    'src/ModularPipelines.Distributed.Redis/RedisDistributedExtensions.cs',
+    'test/ModularPipelines.Distributed.Redis.UnitTests/DistributedBuildConfigurationTests.cs'
 )
 $unrelatedPaths = @(
     'src/ModularPipelines.Docker/Options/DockerBuildOptions.Generated.cs',

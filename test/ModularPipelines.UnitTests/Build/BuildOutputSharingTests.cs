@@ -50,9 +50,21 @@ public class BuildOutputSharingTests
         artifacts.VerifyNoOtherCalls();
     }
 
-    private static BuildOutputSharing CreateSharing(int totalInstances = 2, CancellationToken shutdownToken = default) =>
-        new(Microsoft.Extensions.Options.Options.Create(new DistributedOptions { TotalInstances = totalInstances }),
+    private static BuildOutputSharing CreateSharing(int totalInstances = 2, int instanceIndex = 1, CancellationToken shutdownToken = default) =>
+        new(Microsoft.Extensions.Options.Options.Create(new DistributedOptions { TotalInstances = totalInstances, InstanceIndex = instanceIndex }),
             Mock.Of<IHostApplicationLifetime>(lifetime => lifetime.ApplicationStopping == shutdownToken));
+
+    [Test]
+    public async Task Master_Uses_Its_Existing_Output_Without_Downloading()
+    {
+        var artifacts = new Mock<IArtifactContext>(MockBehavior.Strict);
+        var sharing = CreateSharing(instanceIndex: 0);
+
+        await sharing.RestoreAsync(artifacts.Object, Producer, RepositoryRoot, CancellationToken.None);
+
+        await Assert.That(sharing.IsEnabled).IsTrue();
+        artifacts.VerifyNoOtherCalls();
+    }
 
     [Test]
     public async Task Standalone_Uses_Existing_Output_Without_Downloading()

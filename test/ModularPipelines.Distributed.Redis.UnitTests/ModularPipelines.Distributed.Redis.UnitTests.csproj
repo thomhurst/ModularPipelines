@@ -21,4 +21,8 @@
     <ProjectReference Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="../../src/ModularPipelines.Build/Helpers/DistributedBuildConfiguration.cs" Link="Build/DistributedBuildConfiguration.cs" />
+  </ItemGroup>
+
 </Project>

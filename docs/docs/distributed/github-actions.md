@@ -7,6 +7,47 @@ sidebar_position: 5
 
 This is a complete example of running a distributed pipeline across GitHub Actions matrix runners using Redis for coordination.
 
+## This repository's CI
+
+The [.NET workflow](https://github.com/thomhurst/ModularPipelines/blob/main/.github/workflows/dotnet.yml)
+runs the actual `ModularPipelines.Build` pipeline using the Redis coordinator and Redis artifact
+store. It selects distributed execution only when both `REDIS_ENDPOINT` and `REDIS_KEY` secrets
+are available and the event is trusted. Fork and Dependabot pull requests use a standalone Linux
+pipeline, with separate Windows and macOS compilation jobs. Manual dispatch can also select
+`distributed: false` to exercise this fallback without removing secrets.
+
+The distributed matrix uses these indices:
+
+| Index | Runner | Responsibility |
+| --- | --- | --- |
+| 0 | Ubuntu | Master, Linux build, packaging, publishing, and eligible tests |
+| 1 | Ubuntu | Linux test worker |
+| 2 | Windows | Windows compilation of every solution in `BuildSolutions.txt` |
+| 3 | macOS | macOS compilation of every solution in `BuildSolutions.txt` |
+
+Every runner downloads the same framework-dependent pipeline host. Keeping this host outside
+the checkout allows Windows to rebuild the build project without locking its output, and keeps
+module and serialization schema identities identical across runners. Each runner restores its
+own dependencies. The master publishes Linux build output through Redis; Linux tests restore
+that output once per process. Publishing and repository mutations require the master's
+`ci-master` capability, and publishing credentials are supplied only to instance 0.
+
+`MODULARPIPELINES_RUN_ID` combines `GITHUB_RUN_ID` and `GITHUB_RUN_ATTEMPT`. Use **Re-run all
+jobs** for a distributed retry: partial retries are rejected because they cannot recreate the
+cooperating matrix. Worker capability discovery is bounded to 10 minutes, module results to
+65 minutes, and each matrix job to 90 minutes. Redis coordination keys and artifacts expire
+after two hours. A failed or lost worker fails the run within these limits; it does not silently
+rerun publishing or test work on another runner.
+
+The master uploads `pipeline-report-0-ubuntu-latest`, containing `artifacts/run-report.json`.
+Its job summary reports pipeline wall-clock duration, per-worker busy/idle time and utilization,
+and total/maximum queue wait. The JSON also retains module-level timings and artifact overhead.
+For a before/after comparison, run the same commit with `distributed: true` and `false`, with
+package publishing disabled. Record total workflow and individual job durations from GitHub as
+well: the pipeline report excludes restore and host preparation, and the standalone report also
+excludes its native prebuild. CI acceptance requires successful trusted PR, main, and secretless
+runs; configuration tests alone do not establish those results.
+
 ## Generate the Workflow
 
 The `ModularPipelines.GitHub` package can generate the matrix from the operating-system

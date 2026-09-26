@@ -10,22 +10,17 @@ using Octokit;
 
 namespace ModularPipelines.Build.Modules;
 
+[RequiresCapability("ci-master")]
 [SkipIfNoGitHubToken]
 [RunOnlyOnBranch("main")]
 [RunIf<ModularPipelines.OnLinux>]
 [DependsOn<NugetVersionGeneratorModule>]
 [DependsOn<UploadPackagesToNugetModule>]
-public class CreateReleaseModule : Module<Release>
+public class CreateReleaseModule(IOptions<GitHubSettings> githubSettings,
+    IOptions<PublishSettings> publishSettings) : Module<Release>
 {
-    private readonly IOptions<GitHubSettings> _githubSettings;
-    private readonly IOptions<PublishSettings> _publishSettings;
-
-    public CreateReleaseModule(IOptions<GitHubSettings> githubSettings,
-        IOptions<PublishSettings> publishSettings)
-    {
-        _githubSettings = githubSettings;
-        _publishSettings = publishSettings;
-    }
+    private readonly IOptions<GitHubSettings> _githubSettings = githubSettings;
+    private readonly IOptions<PublishSettings> _publishSettings = publishSettings;
 
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithSkipWhen(_ => !_publishSettings.Value.ShouldPublish, "The 'ShouldPublish' flag is false")

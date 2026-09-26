@@ -3,12 +3,13 @@ using Microsoft.Build.Construction;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Build.Modules;
 
+[RequiresCapability("ci-master")]
 [DependsOn<BuildSolutionsModule>(Optional = true)]
 [DependsOn<NugetVersionGeneratorModule>]
 [DependsOn<PackageFilesRemovalModule>]
@@ -23,7 +24,6 @@ public class PackProjectsModule : Module<CommandResult[]>
 
         var projectFiles = await context.GetModule<FindProjectDependenciesModule>();
 
-
         var dependencies = await projectFiles.Value.Dependencies
             .ToAsyncProcessorBuilder()
             .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion.Value))
@@ -34,7 +34,7 @@ public class PackProjectsModule : Module<CommandResult[]>
             .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion.Value))
             .ProcessInParallel();
 
-        return dependencies.Concat(others).ToArray();
+        return [.. dependencies, .. others];
     }
 
     private static async Task<CommandResult> Pack(IModuleContext context, CancellationToken cancellationToken, FilePath projectFile, string packageVersion)
@@ -48,11 +48,11 @@ public class PackProjectsModule : Module<CommandResult[]>
             IncludeSource = !projectFile.Path.Contains("Analyzer"),
             NoBuild = true,
             NoRestore = true,
-            Properties = new List<KeyValue>
-            {
+            Properties =
+            [
                 ("PackageVersion", effectiveVersion),
                 ("Version", effectiveVersion),
-            },
+            ],
         }, cancellationToken: cancellationToken);
     }
 

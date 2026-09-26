@@ -48,7 +48,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync().ConfigureAwait(false)
+        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync(cancellationToken).ConfigureAwait(false)
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
         await context.Services.GetRequiredService<BuildOutputSharing>().RestoreAsync(
             context.Artifacts,
@@ -112,11 +112,10 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
                     // from inheriting coordinator/artifact store connections
                     ["MODULARPIPELINES_INSTANCE_INDEX"] = null,
                     ["MODULARPIPELINES_TOTAL_INSTANCES"] = null,
-                    ["UPSTASH_REDIS_REST_URL"] = null,
-                    ["UPSTASH_REDIS_REST_TOKEN"] = null,
-                    ["R2_ENDPOINT_URL"] = null,
-                    ["R2_ACCESS_KEY"] = null,
-                    ["R2_SECRET_KEY"] = null,
+                    ["REDIS_ENDPOINT"] = null,
+                    ["REDIS_KEY"] = null,
+                    ["MODULARPIPELINES_RUN_ID"] = null,
+                    ["MODULAR_PIPELINES_DIRECTORY"] = null,
                 },
                 OutputLoggingManipulator = RemoveSkippedTestOutput,
             },

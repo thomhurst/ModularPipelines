@@ -32,7 +32,8 @@ internal sealed class BuildOutputSharing(IOptions<DistributedOptions> options, I
         string repositoryRoot,
         CancellationToken cancellationToken)
     {
-        if (!IsEnabled)
+        // Instance 0 produces these files locally; only workers need to restore them.
+        if (!IsEnabled || options.Value.InstanceIndex == 0)
         {
             return Task.CompletedTask;
         }

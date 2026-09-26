@@ -12,6 +12,11 @@ on:
         type: boolean
         required: true
         default: false
+      distributed:
+        description: Use Redis workers when credentials are available?
+        type: boolean
+        required: true
+        default: true
       is-alpha:
         description: Alpha version?
         type: boolean
@@ -28,6 +33,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     outputs:
+      distributed: ${{ steps.distribution.outputs.distributed }}
+      matrix: ${{ steps.distribution.outputs.matrix }}
+      run_identifier: ${{ steps.distribution.outputs.run_identifier }}
       run_full_pipeline: ${{ steps.full_pipeline.outputs.run_full_pipeline }}
       is_generated_integration: ${{ steps.generated_integration.outputs.is_generated_integration }}
       integration_tool: ${{ steps.generated_integration.outputs.tool }}
@@ -42,6 +50,14 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Resolve distributed matrix
+        id: distribution
+        shell: pwsh
+        env:
+          REDIS_ENDPOINT: ${{ secrets.REDIS_ENDPOINT }}
+          REDIS_KEY: ${{ secrets.REDIS_KEY }}
+          ALLOW_DISTRIBUTED: ${{ github.actor != 'dependabot[bot]' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) && (github.event_name != 'workflow_dispatch' || inputs.distributed) }}
+        run: ./scripts/Resolve-DistributedBuildMatrix.ps1 -GitHubOutput $env:GITHUB_OUTPUT
       - name: Detect generated integration pull request
         id: generated_integration
         uses: ./.github/actions/detect-generated-integration
@@ -81,6 +97,8 @@ jobs:
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh
         run: |
+          ./scripts/Test-DistributedBuildMatrix.ps1
+          ./scripts/Test-DistributedBuildSummary.ps1
           ./scripts/Test-FullPipelineValidation.ps1
           ./scripts/Test-RequiredPipelineContext.ps1
       - name: Test generated options provenance
@@ -380,34 +398,47 @@ jobs:
 
           Write-Output 'Only pre-existing diagnostics outside changed C# files were found.'
 
-  pipeline:
-    name: full pipeline (${{ matrix.os }})
+  pipeline-host:
+    name: Build portable pipeline host
     needs: fast-fail
+    if: needs.fast-fail.outputs.run_full_pipeline == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v6.0.0
+        with:
+          dotnet-version: 10.0.x
+      # Identical assemblies give every worker the same module/schema identity.
+      # Run these files outside the checkout so Windows can rebuild the Build project.
+      - name: Publish portable host
+        shell: bash
+        run: dotnet publish src/ModularPipelines.Build/ModularPipelines.Build.csproj -c Release --no-self-contained -p:UseAppHost=false -o "$RUNNER_TEMP/pipeline-host"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: pipeline-host
+          path: ${{ runner.temp }}/pipeline-host
+          retention-days: 1
+
+  pipeline:
+    name: full pipeline (${{ matrix.os }}, instance ${{ matrix.instance }})
+    needs: [fast-fail, pipeline-host]
     # Only core-related changes need the full suite, on both PRs and main pushes.
     # Manual dispatch always runs the suite, including package publishing.
     if: ${{ always() && needs.fast-fail.outputs.run_full_pipeline == 'true' }}
     environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
     strategy:
-      # Single standalone (non-distributed) Linux job. Distributed mode relied on Redis
-      # (Upstash) discovery + a SignalR/cloudflared mesh; with Redis unavailable it fell back
-      # to one overloaded instance doing the whole build+test load, which the runner kept
-      # reclaiming (see #3179). Windows/macOS can't run this standalone either: their
-      # BuildSolutionOn*Module builds ModularPipelines.All.slnx, which includes the running
-      # ModularPipelines.Build executable, so the build fails to overwrite its own locked
-      # binary (MSB3027, see #3084). The unit tests are Linux-only, so a single ubuntu job
-      # covers the real work; cross-platform build coverage can be reintroduced separately.
-      matrix:
-        include:
-          - os: ubuntu-latest
+      matrix: ${{ fromJSON(needs.fast-fail.outputs.matrix) }}
       fail-fast: false
     runs-on: ${{ matrix.os }}
     permissions:
       contents: write
       id-token: write
-    # Most healthy runs finish in 20-25 minutes, but a known successful run took 55 minutes.
-    # Keep margin above that variance while bounding starvation well below GitHub's six-hour
-    # default; hang diagnostics still upload from the always-run artifact step.
-    timeout-minutes: 75
+    timeout-minutes: 90
     env:
       # Tear down MSBuild worker/compiler nodes after each build instead of keeping them
       # resident. BuildSolutionsModule builds several solutions in sequence; with node reuse
@@ -424,30 +455,29 @@ jobs:
       # Keep the existing required check red when the prerequisite fails. A job skipped
       # through `needs` is considered successful by GitHub branch protection.
       - name: Require fast-fail success
-        if: needs.fast-fail.result != 'success'
+        if: needs.fast-fail.result != 'success' || needs.pipeline-host.result != 'success'
         run: |
-          echo "::error::The fast-fail lane did not pass."
+          echo "::error::The fast-fail lane or portable host build did not pass."
           exit 1
-      - name: Add mask
+      - name: Validate retry scope
+        if: needs.fast-fail.outputs.distributed == 'true'
         shell: bash
         env:
-          DOTNET_FORMAT_PUSH_TOKEN: ${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}
-          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
-          CODACY_API_KEY: ${{ secrets.CODACY_APIKEY }}
+          EXPECTED_RUN_ID: ${{ needs.fast-fail.outputs.run_identifier }}
         run: |
-          for secret in \
-            "$DOTNET_FORMAT_PUSH_TOKEN" \
-            "$ADMIN_TOKEN" \
-            "$CODACY_API_KEY"
-          do
-            if [[ -n "$secret" ]]; then
-              echo "::add-mask::$secret"
-            fi
-          done
+          if [[ "$EXPECTED_RUN_ID" != "${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" ]]; then
+            echo "::error::Distributed workflows require Re-run all jobs; partial retries cannot recreate the worker matrix."
+            exit 1
+          fi
       - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Download portable pipeline host
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: pipeline-host
+          path: ${{ runner.temp }}/pipeline-host
       - name: Restore OptionsGenerator test results
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
@@ -487,6 +517,7 @@ jobs:
           done < <(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' BuildSolutions.txt)
 
       - name: Build solutions
+        if: needs.fast-fail.outputs.distributed != 'true'
         shell: bash
         # Compile every solution here, in a native build step, BEFORE the pipeline runs.
         # The pipeline reuses these outputs through Pipeline__BuildAlreadyCompleted rather
@@ -505,7 +536,7 @@ jobs:
           done < <(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' BuildSolutions.txt)
 
       - name: NuGet login
-        if: ${{ github.ref == 'refs/heads/main' && github.event.inputs.publish-packages == 'true' && matrix.os == 'ubuntu-latest' }}
+        if: ${{ github.ref == 'refs/heads/main' && github.event.inputs.publish-packages == 'true' && matrix.instance == 0 }}
         uses: NuGet/login@v1
         id: login
         with:
@@ -520,35 +551,47 @@ jobs:
             unset GitHub__StandardToken
           fi
 
-          dotnet run -c Release --framework net10.0 --no-build
+          dotnet "$RUNNER_TEMP/pipeline-host/ModularPipelines.Build.dll"
         working-directory: "src/ModularPipelines.Build"
         env:
-          # This step runs only after every Release solution build succeeds above.
-          Pipeline__BuildAlreadyCompleted: "true"
+          Pipeline__BuildAlreadyCompleted: ${{ needs.fast-fail.outputs.distributed != 'true' }}
+          MODULAR_PIPELINES_DIRECTORY: ${{ github.workspace }}/src/ModularPipelines.Build
           GITHUB_TOKEN: ${{ github.token }}
           DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
           NuGet__ApiKey: ${{ steps.login.outputs.NUGET_API_KEY }}
           GitHub__Actor: ${{ github.actor }}
           GitHub__Repository__Id: ${{ github.repository_id }}
-          GitHub__StandardToken: ${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}
-          GitHub__AdminToken: ${{ secrets.ADMIN_TOKEN }}
-          Publish__ShouldPublish: ${{ (github.event.inputs.publish-packages || false) && matrix.os == 'ubuntu-latest' }}
+          GitHub__StandardToken: ${{ matrix.instance == 0 && secrets.DOTNET_FORMAT_PUSH_TOKEN || '' }}
+          GitHub__AdminToken: ${{ matrix.instance == 0 && secrets.ADMIN_TOKEN || '' }}
+          Publish__ShouldPublish: ${{ github.ref == 'refs/heads/main' && inputs.publish-packages == true && matrix.instance == 0 }}
           Publish__IsAlpha: ${{ github.event.inputs.is-alpha || true }}
-          Codacy__ApiKey: ${{ secrets.CODACY_APIKEY }}
-          CodeCov__Token: ${{ secrets.CODECOV_TOKEN }}
-          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-          # Standalone (non-distributed): one instance makes the pipeline skip the
-          # Redis/SignalR discovery path entirely and run everything on this single runner.
-          # Re-enabling distribution also requires restoring Redis/R2 credentials and the
-          # cloudflared install because Program.cs configures EnableTunnel=true.
-          MODULARPIPELINES_INSTANCE_INDEX: 0
-          MODULARPIPELINES_TOTAL_INSTANCES: 1
+          Codacy__ApiKey: ${{ matrix.instance == 0 && secrets.CODACY_APIKEY || '' }}
+          CodeCov__Token: ${{ matrix.instance == 0 && secrets.CODECOV_TOKEN || '' }}
+          EMAIL_PASSWORD: ${{ matrix.instance == 0 && secrets.EMAIL_PASSWORD || '' }}
+          MODULARPIPELINES_INSTANCE_INDEX: ${{ matrix.instance }}
+          MODULARPIPELINES_TOTAL_INSTANCES: ${{ matrix.total }}
+          MODULARPIPELINES_RUN_ID: ${{ needs.fast-fail.outputs.run_identifier }}
+          REDIS_ENDPOINT: ${{ needs.fast-fail.outputs.distributed == 'true' && secrets.REDIS_ENDPOINT || '' }}
+          REDIS_KEY: ${{ needs.fast-fail.outputs.distributed == 'true' && secrets.REDIS_KEY || '' }}
+
+      - name: Summarize pipeline efficiency
+        if: always() && matrix.instance == 0
+        shell: pwsh
+        run: ./scripts/Write-DistributedBuildSummary.ps1 -ReportPath artifacts/run-report.json -SummaryPath $env:GITHUB_STEP_SUMMARY
+      - name: Upload pipeline report
+        if: always() && matrix.instance == 0
+        uses: actions/upload-artifact@v7
+        with:
+          name: pipeline-report-${{ matrix.instance }}-${{ matrix.os }}
+          path: artifacts/run-report.json
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Upload Hang Dumps
         if: always() && needs.fast-fail.result == 'success'
         uses: actions/upload-artifact@v7
         with:
-          name: hang-dumps-${{ matrix.os }}
+          name: hang-dumps-${{ matrix.instance }}-${{ matrix.os }}
           path: |
             **/*.dmp
           if-no-files-found: ignore
@@ -558,7 +601,7 @@ jobs:
         if: always() && needs.fast-fail.result == 'success'
         uses: actions/upload-artifact@v7
         with:
-          name: unit-test-results-${{ matrix.os }}
+          name: unit-test-results-${{ matrix.instance }}-${{ matrix.os }}
           path: |
             **/TestResults/*.trx
             **/TestResults/Diagnostics/*.diag
@@ -568,8 +611,8 @@ jobs:
   cross-platform-build:
     name: build (${{ matrix.os }})
     needs: fast-fail
-    # Compile every integration on Windows and macOS only for core-related changes.
-    if: ${{ always() && needs.fast-fail.outputs.run_full_pipeline == 'true' }}
+    # Secretless builds retain Windows/macOS compilation outside the standalone host.
+    if: ${{ always() && needs.fast-fail.outputs.run_full_pipeline == 'true' && needs.fast-fail.outputs.distributed != 'true' }}
     permissions:
       contents: read
     strategy:

@@ -9,6 +9,7 @@ using ModularPipelines.Node.Models;
 
 namespace ModularPipelines.Build.Modules;
 
+[RequiresCapability("ci-master")]
 [RunIf<ModularPipelines.OnLinux>]
 [DependsOn<GenerateReadMeModule>]
 public class FormatMarkdownModule : Module<None>
@@ -44,7 +45,7 @@ public class FormatMarkdownModule : Module<None>
             SaveDev = true,
         }, cancellationToken);
 
-        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync().ConfigureAwait(false)
+        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync(cancellationToken).ConfigureAwait(false)
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
         var filesToFormat = new List<string>
         {

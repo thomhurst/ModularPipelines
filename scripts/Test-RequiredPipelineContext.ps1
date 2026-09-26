@@ -60,7 +60,7 @@ $fullPipelineJob = [regex]::Match(
     $workflow,
     '(?ms)^  pipeline:.*?(?=^  [a-z0-9-]+:)').Value
 if (-not $fullPipelineJob.Contains(
-        'name: full pipeline (${{ matrix.os }})',
+        'name: full pipeline (${{ matrix.os }}, instance ${{ matrix.instance }})',
         [StringComparison]::Ordinal)) {
     throw 'The full pipeline job must not emit the required aggregate context directly.'
 }

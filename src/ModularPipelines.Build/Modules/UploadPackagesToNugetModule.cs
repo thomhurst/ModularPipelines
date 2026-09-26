@@ -4,29 +4,24 @@ using ModularPipelines.Build.Helpers;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Attributes;
 using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Build.Modules;
 
+[RequiresCapability("ci-master")]
 [DependsOn<RunAllUnitTestsModule>]
 [DependsOn<PackagePathsParserModule>]
 [RunIf<ModularPipelines.OnLinux>]
 [SkipIfNoGitHubToken]
 [RunOnlyOnBranch("main")]
-public class UploadPackagesToNugetModule : Module<CommandResult[]>
+public class UploadPackagesToNugetModule(IOptions<NuGetSettings> nugetSettings, IOptions<PublishSettings> publishSettings) : Module<CommandResult[]>
 {
-    private readonly IOptions<NuGetSettings> _nugetSettings;
-    private readonly IOptions<PublishSettings> _publishSettings;
-
-    public UploadPackagesToNugetModule(IOptions<NuGetSettings> nugetSettings, IOptions<PublishSettings> publishSettings)
-    {
-        _nugetSettings = nugetSettings;
-        _publishSettings = publishSettings;
-    }
+    private readonly IOptions<NuGetSettings> _nugetSettings = nugetSettings;
+    private readonly IOptions<PublishSettings> _publishSettings = publishSettings;
 
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithSkipWhen(_ => !_publishSettings.Value.ShouldPublish, "The 'ShouldPublish' flag is false");

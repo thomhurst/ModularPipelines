@@ -243,6 +243,51 @@ public class ArtifactContextApiTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Directory_Archive_RoundTrip_Preserves_Executable_Permissions(bool useLifecycleArchive)
+    {
+        var source = Directory.CreateTempSubdirectory("artifact-permissions-source-");
+        var destination = Directory.CreateTempSubdirectory("artifact-permissions-destination-");
+        var archivePath = Path.Combine(destination.FullName, "artifact.zip");
+        var sourcePath = Path.Combine(source.FullName, "test-host");
+        const UnixFileMode permissions = UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute
+                                         | UnixFileMode.GroupRead | UnixFileMode.GroupExecute;
+        try
+        {
+            await File.WriteAllTextAsync(sourcePath, "#!/bin/sh\nexit 0\n");
+            if (!OperatingSystem.IsWindows())
+            {
+                File.SetUnixFileMode(sourcePath, permissions);
+            }
+
+            if (useLifecycleArchive)
+            {
+                ZipFile.CreateFromDirectory(source.FullName, archivePath);
+            }
+            else
+            {
+                await ArtifactContextImpl.CreateDirectoryArchiveAsync(
+                    source.FullName, archivePath, CompressionLevel.Fastest, CancellationToken.None);
+            }
+
+            using var archive = ZipFile.OpenRead(archivePath);
+            await ArtifactContextImpl.ExtractDirectoryArchiveAsync(archive, destination.FullName, CancellationToken.None);
+            var restoredPath = Path.Combine(destination.FullName, "test-host");
+            await Assert.That(await File.ReadAllTextAsync(restoredPath)).IsEqualTo("#!/bin/sh\nexit 0\n");
+            if (!OperatingSystem.IsWindows())
+            {
+                await Assert.That(File.GetUnixFileMode(restoredPath)).IsEqualTo(permissions);
+            }
+        }
+        finally
+        {
+            source.Delete(recursive: true);
+            destination.Delete(recursive: true);
+        }
+    }
+
+    [Test]
     public async Task Directory_Archive_Excludes_Destination_Inside_Source()
     {
         var sourceDirectory = Directory.CreateTempSubdirectory("artifact-archive-").FullName;

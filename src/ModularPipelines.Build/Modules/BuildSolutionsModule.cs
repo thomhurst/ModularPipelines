@@ -10,17 +10,18 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
+[RequiresCapability("ci-master")]
 [RunIf<ModularPipelines.OnLinux>]
 [ProducesArtifact("build-output", "../../_build-staging")]
 public class BuildSolutionsModule(IOptions<PipelineSettings> pipelineSettings) : Module<CommandResult[]>
 {
     protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync().ConfigureAwait(false)
+        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync(cancellationToken).ConfigureAwait(false)
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
         var gitRoot = repositoryInfo.Root.Path;
-        // CI builds before starting this executable. Even an incremental pass evaluates
-        // every project again, so reuse that build while still completing this dependency.
+        // Standalone CI prebuilds solutions before starting the host. Distributed CI
+        // builds here so dependent workers can consume the published outputs.
         CommandResult[] results = [];
         if (!pipelineSettings.Value.BuildAlreadyCompleted)
         {
@@ -61,7 +62,7 @@ public class BuildSolutionsModule(IOptions<PipelineSettings> pipelineSettings) :
                 continue;
             }
 
-            // Skip the pipeline app's own output (already built by dotnet run)
+            // The pipeline host is already deployed separately on every runner.
             if (binDir.Contains(Path.Combine("ModularPipelines.Build", "bin"), StringComparison.OrdinalIgnoreCase))
             {
                 continue;
