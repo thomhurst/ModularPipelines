@@ -37,6 +37,25 @@ test('successful reviews and intermediate messages cannot classify an action fai
   assert.equal(classifyFailure('PRIVATE_SENTINEL malformed JSON'), 'unavailable execution');
 });
 
+test('numeric SDK statuses and legacy API prefixes map only to fixed categories', () => {
+  for (const [status, category] of [[400, 'invalid API request'], [401, 'authentication failure'],
+    [402, 'billing failure'], [403, 'permission failure'], [404, 'API resource not found'],
+    [409, 'API resource conflict'], [413, 'request too large'], [429, 'rate or usage limit'],
+    [500, 'service or connection failure'], [502, 'service or connection failure'],
+    [503, 'service or connection failure'], [504, 'service or connection failure'],
+    [529, 'service or connection failure']]) {
+    for (const details of [{ api_error_status: status, result: 'PRIVATE_SENTINEL' },
+      { result: `API Error: ${status} PRIVATE_SENTINEL` }]) {
+      assert.equal(classifyFailure(JSON.stringify([{ type: 'result', is_error: true, ...details }])), category);
+    }
+  }
+  for (const api_error_status of ['PRIVATE_SENTINEL', '401', 999]) {
+    assert.equal(classifyFailure(JSON.stringify([
+      { type: 'result', is_error: true, api_error_status, result: 'PRIVATE_SENTINEL' },
+    ])), 'unclassified model error');
+  }
+});
+
 test('command-line diagnostics never print result content or filesystem errors', t => {
   const directory = mkdtempSync(join(tmpdir(), 'review-failure-'));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
