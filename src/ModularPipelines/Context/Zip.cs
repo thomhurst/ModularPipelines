@@ -159,8 +159,11 @@ internal class Zip(
     {
         var destinationPath = Path.GetFullPath(
             Path.Combine(destinationDirectory, entry.FullName));
+        var destinationPrefix = Path.EndsInDirectorySeparator(destinationDirectory)
+            ? destinationDirectory
+            : destinationDirectory + Path.DirectorySeparatorChar;
         if (!destinationPath.StartsWith(
-                destinationDirectory + Path.DirectorySeparatorChar,
+                destinationPrefix,
                 StringComparison.Ordinal)
             && !destinationPath.Equals(destinationDirectory, StringComparison.Ordinal))
         {
