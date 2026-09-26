@@ -363,6 +363,12 @@ public class ResultBuildIdentityTests
             var derived = new PersistedAssemblyBuilder(new AssemblyName($"Derived_{Guid.NewGuid():N}"), typeof(object).Assembly);
             var module = derived.DefineDynamicModule("Derived");
             var parent = firstBase;
+            if (memberKind == "BaseTypeConverter")
+            {
+                parent = DefineResultType(module, "ConvertedBase", parent, "TypeConverter", null);
+                memberKind = "Base";
+            }
+
             for (var level = 0; level < intermediateLevels; level++)
             {
                 parent = DefineResultType(module, $"Intermediate{level}", parent, memberKind, ignoreCondition);
@@ -376,12 +382,6 @@ public class ResultBuildIdentityTests
 
         private static Type DefineResultType(ModuleBuilder module, string name, Type dependency, string memberKind, JsonIgnoreCondition? ignoreCondition)
         {
-            if (memberKind == "BaseTypeConverter")
-            {
-                var parent = DefineResultType(module, $"{name}Base", dependency, "TypeConverter", null);
-                return module.DefineType(name, TypeAttributes.Public, parent).CreateType()!;
-            }
-
             if (memberKind.StartsWith("Opaque", StringComparison.Ordinal))
             {
                 return DefineOpaqueConverterType(module, name, dependency, memberKind);
