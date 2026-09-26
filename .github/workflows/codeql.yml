@@ -59,7 +59,8 @@ jobs:
     # Generated snapshots receive focused compilation in .NET; main and scheduled scans remain complete.
     if: needs.classify.outputs.is_generated_integration != 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # Full C# scans need time for database packaging and SARIF upload after analysis.
+    timeout-minutes: ${{ matrix.language == 'csharp' && 45 || 30 }}
     permissions:
       actions: read
       contents: read
