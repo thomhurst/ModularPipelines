@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "import-jobs", "describe")]
-public record GcloudKmsImportJobsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImportJob
-) : GcloudOptions
+public record GcloudKmsImportJobsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get metadata for a given import job
+    /// </summary>
+    /// <param name="ImportJob">Name of the import job to describe.</param>
+    public GcloudKmsImportJobsDescribeOptions(
+        string ImportJob
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImportJob);
+        this.ImportJob = ImportJob;
+    }
+
+    public void Deconstruct(out string ImportJob)
+    {
+        ImportJob = this.ImportJob;
+    }
+
     /// <summary>
     /// Path to the output attestation file.
     /// </summary>
@@ -40,5 +55,11 @@ public record GcloudKmsImportJobsDescribeOptions(
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// Name of the import job to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ImportJob { get; private init; }
 
 }

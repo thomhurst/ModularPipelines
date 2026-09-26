@@ -22,6 +22,35 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamPrincipalAccessBoundaryPoliciesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete     PrincipalAccessBoundaryPolicy instance
+    /// </summary>
+    /// <param name="PrincipalAccessBoundaryPolicy">PrincipalAccessBoundaryPolicy resource - The name of the principal access boundary policy to delete. Format: organizations/{organization_id}/locations/{location}/principalAccessBoundaryPolicies/{principal_access_boundary_policy_id} The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the principalAccessBoundaryPolicy or fully qualified identifier for the principalAccessBoundaryPolicy. To set the principal_access_boundary_policy attribute: ▸ provide the argument principal_access_boundary_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamPrincipalAccessBoundaryPoliciesDeleteOptions(
+        string PrincipalAccessBoundaryPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PrincipalAccessBoundaryPolicy);
+        this.PrincipalAccessBoundaryPolicy = PrincipalAccessBoundaryPolicy;
+    }
+
+    public void Deconstruct(out string PrincipalAccessBoundaryPolicy)
+    {
+        PrincipalAccessBoundaryPolicy = this.PrincipalAccessBoundaryPolicy;
+    }
+
+    /// <summary>
+    /// PrincipalAccessBoundaryPolicy resource - The name of the principal access boundary policy to delete. Format: organizations/{organization_id}/locations/{location}/principalAccessBoundaryPolicies/{principal_access_boundary_policy_id} The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location id of the principalAccessBoundaryPolicy resource. To set the location attribute: ▸ provide the argument principal_access_boundary_policy on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// PrincipalAccessBoundaryPolicy resource - The name of the principal access boundary policy to delete. Format: organizations/{organization_id}/locations/{location}/principalAccessBoundaryPolicies/{principal_access_boundary_policy_id} The arguments in this group can be used to specify the attributes of this resource. This must be specified. The organization id of the principalAccessBoundaryPolicy resource. To set the organization attribute: ▸ provide the argument principal_access_boundary_policy on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -38,5 +67,11 @@ public record GcloudIamPrincipalAccessBoundaryPoliciesDeleteOptions : GcloudOpti
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// PrincipalAccessBoundaryPolicy resource - The name of the principal access boundary policy to delete. Format: organizations/{organization_id}/locations/{location}/principalAccessBoundaryPolicies/{principal_access_boundary_policy_id} The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the principalAccessBoundaryPolicy or fully qualified identifier for the principalAccessBoundaryPolicy. To set the principal_access_boundary_policy attribute: ▸ provide the argument principal_access_boundary_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PrincipalAccessBoundaryPolicy { get; private init; }
 
 }

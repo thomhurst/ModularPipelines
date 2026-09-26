@@ -21,7 +21,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudObservability : IGcloudObservability
 {
     private readonly ICommandContext _command;
+    private GcloudObservabilityBuckets? _buckets;
     private GcloudObservabilityScopes? _scopes;
+    private GcloudObservabilitySettings? _settings;
     private GcloudObservabilityTraceScopes? _traceScopes;
 
     /// <summary>
@@ -35,9 +37,19 @@ public class GcloudObservability : IGcloudObservability
     #region Sub-command Groups
 
     /// <summary>
+    /// gcloud buckets sub-commands.
+    /// </summary>
+    public GcloudObservabilityBuckets Buckets => _buckets ??= new GcloudObservabilityBuckets(_command);
+
+    /// <summary>
     /// gcloud scopes sub-commands.
     /// </summary>
     public GcloudObservabilityScopes Scopes => _scopes ??= new GcloudObservabilityScopes(_command);
+
+    /// <summary>
+    /// gcloud settings sub-commands.
+    /// </summary>
+    public GcloudObservabilitySettings Settings => _settings ??= new GcloudObservabilitySettings(_command);
 
     /// <summary>
     /// gcloud trace-scopes sub-commands.

@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("backup-dr", "data-source-references", "describe")]
 public record GcloudBackupDrDataSourceReferencesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details of the data     source reference
+    /// </summary>
+    /// <param name="DataSourceReference">Data source reference resource - Name of the data source reference to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument data_source_reference on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the data_source_reference or fully qualified identifier for the data_source_reference. To set the data_source_reference attribute: ▸ provide the argument data_source_reference on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBackupDrDataSourceReferencesDescribeOptions(
+        string DataSourceReference
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataSourceReference);
+        this.DataSourceReference = DataSourceReference;
+    }
+
+    public void Deconstruct(out string DataSourceReference)
+    {
+        DataSourceReference = this.DataSourceReference;
+    }
+
+    /// <summary>
+    /// Data source reference resource - Name of the data source reference to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument data_source_reference on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location ID of the resource. To set the location attribute: ▸ provide the argument data_source_reference on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Data source reference resource - Name of the data source reference to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument data_source_reference on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the data_source_reference or fully qualified identifier for the data_source_reference. To set the data_source_reference attribute: ▸ provide the argument data_source_reference on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DataSourceReference { get; private init; }
+
 }

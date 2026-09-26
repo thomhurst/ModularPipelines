@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-security", "security-profiles", "custom-intercept", "describe")]
 public record GcloudNetworkSecuritySecurityProfilesCustomInterceptDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Custom Intercept Profile
+    /// </summary>
+    /// <param name="SecurityProfile">Security profile resource - Security Profile Name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_profile on the command line with a fully specified name; ◆ set the property core/project. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. This must be specified. ID of the security_profile or fully qualified identifier for the security_profile. To set the security_profile attribute: ▸ provide the argument security_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecuritySecurityProfilesCustomInterceptDescribeOptions(
+        string SecurityProfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SecurityProfile);
+        this.SecurityProfile = SecurityProfile;
+    }
+
+    public void Deconstruct(out string SecurityProfile)
+    {
+        SecurityProfile = this.SecurityProfile;
+    }
+
+    /// <summary>
+    /// Security profile resource - Security Profile Name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_profile on the command line with a fully specified name; ◆ set the property core/project. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. This must be specified. Location of the security profile. To set the location attribute: ▸ provide the argument security_profile on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Security profile resource - Security Profile Name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_profile on the command line with a fully specified name; ◆ set the property core/project. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. This must be specified. Organization ID to which the changes should apply. To set the organization attribute: ▸ provide the argument security_profile on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [networksecurity.organizations.locations.securityProfiles].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Security profile resource - Security Profile Name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument security_profile on the command line with a fully specified name; ◆ set the property core/project. This resource can be one of the following types: [networksecurity.organizations.locations.securityProfiles, networksecurity.projects.locations.securityProfiles]. This must be specified. ID of the security_profile or fully qualified identifier for the security_profile. To set the security_profile attribute: ▸ provide the argument security_profile on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SecurityProfile { get; private init; }
+
 }

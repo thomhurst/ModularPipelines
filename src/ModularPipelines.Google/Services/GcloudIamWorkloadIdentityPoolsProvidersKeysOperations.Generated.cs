@@ -55,11 +55,11 @@ public class GcloudIamWorkloadIdentityPoolsProvidersKeysOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAsync(
-        GcloudIamWorkloadIdentityPoolsProvidersKeysOperationsDescribeOptions? options = null,
+        GcloudIamWorkloadIdentityPoolsProvidersKeysOperationsDescribeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudIamWorkloadIdentityPoolsProvidersKeysOperationsDescribeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

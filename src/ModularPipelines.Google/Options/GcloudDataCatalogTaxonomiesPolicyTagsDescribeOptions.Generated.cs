@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("data-catalog", "taxonomies", "policy-tags", "describe")]
 public record GcloudDataCatalogTaxonomiesPolicyTagsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Policy Tag     Manager Policy tag
+    /// </summary>
+    /// <param name="PolicyTag">Policy tag resource - Policy tag to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_tag on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the policy tag or fully qualified identifier for the policy tag. To set the policy_tag attribute: ▸ provide the argument policy_tag on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataCatalogTaxonomiesPolicyTagsDescribeOptions(
+        string PolicyTag
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyTag);
+        this.PolicyTag = PolicyTag;
+    }
+
+    public void Deconstruct(out string PolicyTag)
+    {
+        PolicyTag = this.PolicyTag;
+    }
+
+    /// <summary>
+    /// Policy tag resource - Policy tag to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_tag on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the policy tag. To set the location attribute: ▸ provide the argument policy_tag on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Policy tag resource - Policy tag to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_tag on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Taxonomy of the policy tag. To set the taxonomy attribute: ▸ provide the argument policy_tag on the command line with a fully specified name; ▸ provide the argument --taxonomy on the command line.
+    /// </summary>
+    [CliOption("--taxonomy", Format = OptionFormat.EqualsSeparated)]
+    public string? Taxonomy { get; set; }
+
+    /// <summary>
+    /// Policy tag resource - Policy tag to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_tag on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the policy tag or fully qualified identifier for the policy tag. To set the policy_tag attribute: ▸ provide the argument policy_tag on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyTag { get; private init; }
+
 }

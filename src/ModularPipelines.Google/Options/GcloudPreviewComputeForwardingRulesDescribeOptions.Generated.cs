@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,15 +21,30 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "forwarding-rules", "describe")]
-public record GcloudPreviewComputeForwardingRulesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeForwardingRulesDescribeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// display detailed     information about a forwarding rule
+    /// </summary>
+    /// <param name="Name">Name of the forwarding rule to describe.</param>
+    public GcloudPreviewComputeForwardingRulesDescribeOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// The view of the forwarding rule to return. BASIC includes the standard fields. FULL includes standard fields plus any extensions attached to the forwarding rule. VIEW must be one of: BASIC, FULL.
     /// </summary>
     [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
-    public GcloudView? View { get; set; }
+    public GcloudPreviewComputeForwardingRulesDescribeView? View { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: If set, the forwarding rule is global.
@@ -41,5 +57,21 @@ public record GcloudPreviewComputeForwardingRulesDescribeOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the forwarding rule to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
 
 }

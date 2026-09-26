@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "posture-operations", "describe")]
-public record GcloudSccPostureOperationsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OperationName
-) : GcloudOptions
+public record GcloudSccPostureOperationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Cloud Security Command     Center posture long running operation
+    /// </summary>
+    /// <param name="OperationName">Relative resource name of the operation, of the format: organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/operations/&lt;operationID&gt;.</param>
+    public GcloudSccPostureOperationsDescribeOptions(
+        string OperationName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OperationName);
+        this.OperationName = OperationName;
+    }
+
+    public void Deconstruct(out string OperationName)
+    {
+        OperationName = this.OperationName;
+    }
+
+    /// <summary>
+    /// Relative resource name of the operation, of the format: organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/operations/&lt;operationID&gt;.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OperationName { get; private init; }
+
 }

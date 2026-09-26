@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,10 +22,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-services", "update")]
-public record GcloudComputeBackendServicesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendServiceName
-) : GcloudOptions
+public record GcloudComputeBackendServicesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a backend service
+    /// </summary>
+    /// <param name="BackendServiceName">Name of the backend service to update.</param>
+    public GcloudComputeBackendServicesUpdateOptions(
+        string BackendServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackendServiceName);
+        this.BackendServiceName = BackendServiceName;
+    }
+
+    public void Deconstruct(out string BackendServiceName)
+    {
+        BackendServiceName = this.BackendServiceName;
+    }
+
     /// <summary>
     /// If --session-affinity is set to HTTP_COOKIE or STRONG_COOKIE_AFFINITY, this flag sets the name of the cookie.
     /// </summary>
@@ -50,15 +66,15 @@ public record GcloudComputeBackendServicesUpdateOptions(
     public bool? CacheKeyIncludeHost { get; set; }
 
     /// <summary>
-    /// Specifies a comma-separated list of HTTP headers, by field name, to include in cache keys. Only the request URL is included in the cache key by default.
+    /// Specifies a comma-separated list of HTTP headers, by field name, to include in cache keys. Only the request URL is included in the cache key by default. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--cache-key-include-http-header", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--cache-key-include-http-header", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? CacheKeyIncludeHttpHeader { get; set; }
 
     /// <summary>
-    /// Specifies a comma-separated list of HTTP cookie names to include in cache keys. The name=value pair are used in the cache key Cloud CDN generates. Cookies are not included in cache keys by default.
+    /// Specifies a comma-separated list of HTTP cookie names to include in cache keys. The name=value pair are used in the cache key Cloud CDN generates. Cookies are not included in cache keys by default. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--cache-key-include-named-cookie", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--cache-key-include-named-cookie", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? CacheKeyIncludeNamedCookie { get; set; }
 
     /// <summary>
@@ -89,7 +105,7 @@ public record GcloudComputeBackendServicesUpdateOptions(
     /// Compress text responses using Brotli or gzip compression, based on the client's Accept-Encoding header. Two modes are supported: AUTOMATIC (recommended) - automatically uses the best compression based on the Accept-Encoding header sent by the client. In most cases, this will result in Brotli compression being favored. DISABLED - disables compression. Existing compressed responses cached by Cloud CDN will not be served to clients. COMPRESSION_MODE must be one of: DISABLED, AUTOMATIC.
     /// </summary>
     [CliOption("--compression-mode", Format = OptionFormat.EqualsSeparated)]
-    public GcloudCompressionMode? CompressionMode { get; set; }
+    public GcloudComputeBackendServicesUpdateCompressionMode? CompressionMode { get; set; }
 
     /// <summary>
     /// Applicable only for backend service-based external and internal passthrough Network Load Balancers as part of a connection tracking policy. Only applicable when the backend service protocol is TCP. Not applicable to any other load balancer. Enabled by default, this option instructs the load balancer to allow established TCP connections to persist for up to 300 seconds on instances or endpoints in primary backends during failover, and on instances or endpoints in failover backends during failback. For details, see: Connection draining on failover and failback for internal passthrough Network Load Balancers (https://cloud.google.com/load-balancing/docs/internal/failover-overview#connection_draining) and Connection draining on failover and failback for external passthrough Network Load Balancers (https://cloud.google.com/load-balancing/docs/network/networklb-failover-overview#connection_draining).
@@ -101,13 +117,13 @@ public record GcloudComputeBackendServicesUpdateOptions(
     /// Connection draining timeout to be used during removal of VMs from instance groups. This guarantees that for the specified time all existing connections to a VM will remain untouched, but no new connections will be accepted. Set timeout to zero to disable connection draining. Enable feature by specifying a timeout of up to one hour. If the flag is omitted API default value (0s) will be used. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--connection-draining-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? ConnectionDrainingTimeout { get; set; }
+    public string? ConnectionDrainingTimeout { get; set; }
 
     /// <summary>
     /// Specifies connection persistence when backends are unhealthy. The default value is DEFAULT_FOR_PROTOCOL. CONNECTION_PERSISTENCE_ON_UNHEALTHY_BACKENDS must be one of: DEFAULT_FOR_PROTOCOL, NEVER_PERSIST, ALWAYS_PERSIST.
     /// </summary>
     [CliOption("--connection-persistence-on-unhealthy-backends", Format = OptionFormat.EqualsSeparated)]
-    public GcloudConnectionPersistenceOnUnhealthyBackends? ConnectionPersistenceOnUnhealthyBackends { get; set; }
+    public GcloudComputeBackendServicesUpdateConnectionPersistenceOnUnhealthyBackends? ConnectionPersistenceOnUnhealthyBackends { get; set; }
 
     /// <summary>
     /// The HTTP header name to use for the hash key when session affinity is set to HEADER_FIELD.
@@ -200,9 +216,9 @@ public record GcloudComputeBackendServicesUpdateOptions(
     public string? HaPolicyLeaderInstance { get; set; }
 
     /// <summary>
-    /// Specifies a list of health check objects for checking the health of the backend service. Currently at most one health check can be specified. Health checks need not be for the same protocol as that of the backend service.
+    /// Specifies a list of health check objects for checking the health of the backend service. Currently at most one health check can be specified. Health checks need not be for the same protocol as that of the backend service. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--health-checks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--health-checks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? HealthChecks { get; set; }
 
     /// <summary>
@@ -212,15 +228,15 @@ public record GcloudComputeBackendServicesUpdateOptions(
     public bool? NoHealthChecks { get; set; }
 
     /// <summary>
-    /// Specifies a list of legacy HTTP health check objects for checking the health of the backend service. Legacy health checks are not recommended for backend services. It is possible to use a legacy health check on a backend service for an Application Load Balancer if that backend service uses instance groups. For more information, refer to this guide: https://cloud.google.com/load-balancing/docs/health-check-concepts#lb_guide.
+    /// Specifies a list of legacy HTTP health check objects for checking the health of the backend service. Legacy health checks are not recommended for backend services. It is possible to use a legacy health check on a backend service for an Application Load Balancer if that backend service uses instance groups. For more information, refer to this guide: https://cloud.google.com/load-balancing/docs/health-check-concepts#lb_guide. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--http-health-checks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--http-health-checks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? HttpHealthChecks { get; set; }
 
     /// <summary>
-    /// Specifies a list of legacy HTTPS health check objects for checking the health of the backend service. Legacy health checks are not recommended for backend services. It is possible to use a legacy health check on a backend service for an Application Load Balancer if that backend service uses instance groups. For more information, refer to this guide: https://cloud.google.com/load-balancing/docs/health-check-concepts#lb_guide.
+    /// Specifies a list of legacy HTTPS health check objects for checking the health of the backend service. Legacy health checks are not recommended for backend services. It is possible to use a legacy health check on a backend service for an Application Load Balancer if that backend service uses instance groups. For more information, refer to this guide: https://cloud.google.com/load-balancing/docs/health-check-concepts#lb_guide. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--https-health-checks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--https-health-checks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? HttpsHealthChecks { get; set; }
 
     /// <summary>
@@ -239,24 +255,24 @@ public record GcloudComputeBackendServicesUpdateOptions(
     /// Specifies a preference for traffic sent from the proxy to the backend (or from the client to the backend for proxyless gRPC). Can only be set if load balancing scheme is INTERNAL_SELF_MANAGED, INTERNAL_MANAGED or EXTERNAL_MANAGED. The possible values are: IPV4_ONLY Only send IPv4 traffic to the backends of the backend service, regardless of traffic from the client to the proxy. Only IPv4 health checks are used to check the health of the backends. PREFER_IPV6 Prioritize the connection to the endpoint's IPv6 address over its IPv4 address (provided there is a healthy IPv6 address). IPV6_ONLY Only send IPv6 traffic to the backends of the backend service, regardless of traffic from the client to the proxy. Only IPv6 health checks are used to check the health of the backends. IP_ADDRESS_SELECTION_POLICY must be one of: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
     /// </summary>
     [CliOption("--ip-address-selection-policy", Format = OptionFormat.EqualsSeparated)]
-    public GcloudIpAddressSelectionPolicy? IpAddressSelectionPolicy { get; set; }
+    public GcloudComputeBackendServicesUpdateIpAddressSelectionPolicy? IpAddressSelectionPolicy { get; set; }
 
     /// <summary>
     /// Specifies the load balancer type. Choose EXTERNAL for the classic Application Load Balancers. Choose EXTERNAL_MANAGED for the Envoy-based global external Application Load Balancers For more information, refer to this guide: https://cloud.google.com/load-balancing/docs/choosing-load-balancer. This field should only be used for migration from the Classic Application Load Balancer to the global external Application Load Balancer. The --load-balancing-scheme is immutable for all other use cases. The value of this field must be EXTERNAL or EXTERNAL_MANAGED. LOAD_BALANCING_SCHEME must be one of: EXTERNAL, EXTERNAL_MANAGED.
     /// </summary>
     [CliOption("--load-balancing-scheme", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLoadBalancingScheme? LoadBalancingScheme { get; set; }
+    public GcloudComputeBackendServicesUpdateLoadBalancingScheme? LoadBalancingScheme { get; set; }
 
     /// <summary>
     /// This field can only be specified if logging is enabled for the backend service. Configures whether all, none, or a subset of optional fields should be added to the reported logs. Default is EXCLUDE_ALL_OPTIONAL. This field can only be specified for internal and external passthrough Network Load Balancers. LOGGING_OPTIONAL must be one of: EXCLUDE_ALL_OPTIONAL, INCLUDE_ALL_OPTIONAL, CUSTOM.
     /// </summary>
     [CliOption("--logging-optional", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLoggingOptional? LoggingOptional { get; set; }
+    public GcloudComputeBackendServicesUpdateLoggingOptional? LoggingOptional { get; set; }
 
     /// <summary>
-    /// This field can only be specified if logging is enabled for the backend service and "--logging-optional" was set to CUSTOM. Contains a comma-separated list of optional fields you want to include in the logs. For example: serverInstance, serverGkeDetails.cluster, serverGkeDetails.pod.podNamespace. This can only be specified for internal and external passthrough Network Load Balancers.
+    /// This field can only be specified if logging is enabled for the backend service and "--logging-optional" was set to CUSTOM. Contains a comma-separated list of optional fields you want to include in the logs. For example: serverInstance, serverGkeDetails.cluster, serverGkeDetails.pod.podNamespace. This can only be specified for internal and external passthrough Network Load Balancers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--logging-optional-fields", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--logging-optional-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? LoggingOptionalFields { get; set; }
 
     /// <summary>
@@ -281,7 +297,7 @@ public record GcloudComputeBackendServicesUpdateOptions(
     /// Protocol for incoming requests. If the load-balancing-scheme is INTERNAL (Internal passthrough Network Load Balancer), the protocol must be one of: TCP, UDP, UNSPECIFIED. If the load-balancing-scheme is INTERNAL_SELF_MANAGED (Traffic Director), the protocol must be one of: HTTP, HTTPS, HTTP2, GRPC, H2C. If the load-balancing-scheme is INTERNAL_MANAGED (Internal Application Load Balancer), the protocol must be one of: HTTP, HTTPS, HTTP2, H2C. If the load-balancing-scheme is INTERNAL_MANAGED (Internal proxy Network Load Balancer), the protocol must be only TCP. If the load-balancing-scheme is EXTERNAL and region is not set (Classic Application Load Balancer and Classic proxy Network Load Balancer), the protocol must be one of: HTTP, HTTPS, HTTP2, TCP, SSL. If the load-balancing-scheme is EXTERNAL and region is set (External passthrough Network Load Balancer), the protocol must be one of: TCP, UDP, UNSPECIFIED. If the load-balancing-scheme is EXTERNAL_MANAGED (Global external Application Load Balancer and regional external Application Load Balancer), the protocol must be one of: HTTP, HTTPS, HTTP2, H2C. If the load-balancing-scheme is EXTERNAL_MANAGED (Global external proxy Network Load Balancer), the protocol must be one of: TCP, SSL. If the load-balancing-scheme is EXTERNAL_MANAGED (Regional external proxy Network Load Balancer), the protocol must be only TCP.
     /// </summary>
     [CliOption("--protocol", Format = OptionFormat.EqualsSeparated)]
-    public GcloudProtocol? Protocol { get; set; }
+    public GcloudComputeBackendServicesUpdateProtocol? Protocol { get; set; }
 
     /// <summary>
     /// Enables request coalescing to the backend (recommended). Request coalescing (or collapsing) combines multiple concurrent cache fill requests into a small number of requests to the origin. This can improve performance by putting less load on the origin and backend infrastructure. However, coalescing adds a small amount of latency when multiple requests to the same URL are processed, so for latency-critical applications it may not be desirable. Defaults to true. Use --request-coalescing to enable and --no-request-coalescing to disable.
@@ -335,7 +351,7 @@ public record GcloudComputeBackendServicesUpdateOptions(
     /// Specifies the connection key used for connection tracking. The default value is PER_CONNECTION. Applicable only for backend service-based external and internal passthrough Network Load Balancers as part of a connection tracking policy. For details, see: Connection tracking mode for internal passthrough Network Load Balancers balancing (https://cloud.google.com/load-balancing/docs/internal#tracking-mode) and Connection tracking mode for external passthrough Network Load Balancers (https://cloud.google.com/load-balancing/docs/network/networklb-backend-service#tracking-mode). TRACKING_MODE must be one of: PER_CONNECTION, PER_SESSION.
     /// </summary>
     [CliOption("--tracking-mode", Format = OptionFormat.EqualsSeparated)]
-    public GcloudTrackingMode? TrackingMode { get; set; }
+    public GcloudComputeBackendServicesUpdateTrackingMode? TrackingMode { get; set; }
 
     /// <summary>
     /// Specifies whether zonal affinity is enabled or not. For further details, refer to Zonal affinity options (https://cloud.google.com/load-balancing/docs/internal/zonal-affinity#zonal_affinity_options). Can only be set if load balancing scheme is INTERNAL, The possible values are: ZONAL_AFFINITY_DISABLED Default Value. Zonal Affinity is disabled. The load balancer distributes new connections to all healthy backend VMs across all zones. ZONAL_AFFINITY_STAY_WITHIN_ZONE Zonal Affinity is enabled. The load balancer distributes new connections to all healthy backend VMs in the client VM's zone only. If there are no healthy backend VMs in the client VM's zone, the load balancer distributes new connections to all backend VMs in the client VM's zone. ZONAL_AFFINITY_SPILL_CROSS_ZONE Zonal Affinity is enabled. The load balancer distributes new connections to all healthy backend VMs in the client VM's zone only. If there aren't enough healthy backend VMs in the client VM's zone, the load balancer distributes some new connections to backend VMs in zones other than the client VM's zone. This distribution depends on a configurable spillover ratio that determines when traffic starts spilling over to backend VMs in other zones. ZONAL_AFFINITY_SPILLOVER must be one of: ZONAL_AFFINITY_DISABLED, ZONAL_AFFINITY_STAY_WITHIN_ZONE, ZONAL_AFFINITY_SPILL_CROSS_ZONE.
@@ -362,16 +378,60 @@ public record GcloudComputeBackendServicesUpdateOptions(
     public bool? NoBypassCacheOnRequestHeaders { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Specifies a comma separated list of query string parameters to exclude in cache keys. All other parameters will be included. Either specify --cache-key-query-string-whitelist or --cache-key-query-string-blacklist, not both. '&amp;' and '=' will be percent encoded and not treated as delimiters. Can only be applied for global resources.
+    /// At most one of these can be specified: Specifies a comma separated list of query string parameters to exclude in cache keys. All other parameters will be included. Either specify --cache-key-query-string-whitelist or --cache-key-query-string-blacklist, not both. '&amp;' and '=' will be percent encoded and not treated as delimiters. Can only be applied for global resources. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--cache-key-query-string-blacklist", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? CacheKeyQueryStringBlacklist { get; set; }
+    [CliOption("--cache-key-query-string-blacklist", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CacheKeyQueryStringBlacklist
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __CacheKeyQueryStringBlacklistSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __CacheKeyQueryStringBlacklistSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// At most one of these can be specified: Specifies a comma separated list of query string parameters to include in cache keys. All other parameters will be excluded. Either specify --cache-key-query-string-whitelist or --cache-key-query-string-blacklist, not both. '&amp;' and '=' will be percent encoded and not treated as delimiters. Can only be applied for global resources.
+    /// At most one of these can be specified: Specifies a comma separated list of query string parameters to include in cache keys. All other parameters will be excluded. Either specify --cache-key-query-string-whitelist or --cache-key-query-string-blacklist, not both. '&amp;' and '=' will be percent encoded and not treated as delimiters. Can only be applied for global resources. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--cache-key-query-string-whitelist", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? CacheKeyQueryStringWhitelist { get; set; }
+    [CliOption("--cache-key-query-string-whitelist", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CacheKeyQueryStringWhitelist
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __CacheKeyQueryStringWhitelistSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __CacheKeyQueryStringWhitelistSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Clears current list of CUSTOM_METRICS.
@@ -383,13 +443,93 @@ public record GcloudComputeBackendServicesUpdateOptions(
     /// At most one of these can be specified: List of custom metrics that are used for WEIGHTED_ROUND_ROBIN locality load balancing policy. Example: $ gcloud compute backend-services update \ --custom-metrics='name=my-signal,dryRun=true' $ gcloud compute backend-services update \ --custom-metrics='name=my-signal,dryRun=true' \ --custom-metrics='name=my-signal2' $ gcloud compute backend-services update \ --custom-metrics='[{"name" : "my-signal", "dryRun" : true}, {"name" : "my-signal2"}]' Sets custom_metrics value. dryRun Sets dryRun value. name Required, sets name value. Shorthand Example: --custom-metrics=dryRun=boolean,name=string --custom-metrics=dryRun=boolean,name=string JSON Example: --custom-metrics='[{"dryRun": boolean, "name": "string"}]' File Example: --custom-metrics=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--custom-metrics", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? CustomMetrics { get; set; }
+    public IEnumerable<string>? CustomMetrics
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __CustomMetricsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __CustomMetricsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __CustomMetricsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __CustomMetricsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: File path to json file with custom metrics that are used for WEIGHTED_ROUND_ROBIN locality load balancing policy. Example: $ gcloud compute backend-services update \ --custom-metrics-file='customMetric.json' Sets custom_metrics_file value. dryRun Sets dryRun value. name Required, sets name value. Shorthand Example: --custom-metrics-file=dryRun=boolean,name=string --custom-metrics-file=dryRun=boolean,name=string JSON Example: --custom-metrics-file='[{"dryRun": boolean, "name": "string"}]' File Example: --custom-metrics-file=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--custom-metrics-file", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? CustomMetricsFile { get; set; }
+    public IEnumerable<string>? CustomMetricsFile
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __CustomMetricsFileSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __CustomMetricsFileSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __CustomMetricsFileSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __CustomMetricsFileSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Clears current state of external managed migration.
@@ -401,7 +541,7 @@ public record GcloudComputeBackendServicesUpdateOptions(
     /// At most one of these can be specified: Specifies the migration state. Possible values are PREPARE, TEST_BY_PERCENTAGE, and TEST_ALL_TRAFFIC. To begin the migration from EXTERNAL to EXTERNAL_MANAGED, the state must be changed to PREPARE. The state must be changed to TEST_ALL_TRAFFIC before the loadBalancingScheme can be changed to EXTERNAL_MANAGED. Optionally, the TEST_BY_PERCENTAGE state can be used to migrate traffic by percentage using the --external-managed-migration-testing-percentage flag. EXTERNAL_MANAGED_MIGRATION_STATE must be one of: PREPARE, TEST_BY_PERCENTAGE, TEST_ALL_TRAFFIC.
     /// </summary>
     [CliOption("--external-managed-migration-state", Format = OptionFormat.EqualsSeparated)]
-    public GcloudExternalManagedMigrationState? ExternalManagedMigrationState { get; set; }
+    public GcloudComputeBackendServicesUpdateExternalManagedMigrationState? ExternalManagedMigrationState { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Specifies a separate client (for example, browser client) TTL, separate from the TTL for Cloud CDN's edge caches. This allows you to set a shorter TTL for browsers/clients, and to have those clients revalidate content against Cloud CDN on a more regular basis, without requiring revalidation at the origin. The value of clientTtl cannot be set to a value greater than that of maxTtl, but can be equal. Any cacheable response has its max-age/s-maxage directives adjusted down to the client TTL value if necessary; an Expires header will be replaced with a suitable max-age directive. The maximum allowed value is 31,622,400s (1 year). When creating a new backend with CACHE_ALL_STATIC and the field is unset, or when switching to that mode and the field is unset, a default value of 3600 is used. When the cache mode is set to "USE_ORIGIN_HEADERS", you must omit this field.
@@ -419,7 +559,47 @@ public record GcloudComputeBackendServicesUpdateOptions(
     /// At most one of these can be specified: Specifies a HTTP Header to be added by your load balancer. This flag can be repeated to specify multiple headers. For example: $ gcloud compute backend-services update NAME \ --custom-request-header "header-name: value" \ --custom-request-header "another-header:"
     /// </summary>
     [CliOption("--custom-request-header", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? CustomRequestHeader { get; set; }
+    public IEnumerable<string>? CustomRequestHeader
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __CustomRequestHeaderSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __CustomRequestHeaderSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __CustomRequestHeaderSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __CustomRequestHeaderSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Remove all custom request headers for the backend service.
@@ -479,7 +659,7 @@ public record GcloudComputeBackendServicesUpdateOptions(
     /// At most one of these can be specified: The load balancing algorithm used within the scope of the locality. LOCALITY_LB_POLICY must be one of: INVALID_LB_POLICY, ROUND_ROBIN, LEAST_REQUEST, RING_HASH, RANDOM, ORIGINAL_DESTINATION, MAGLEV, WEIGHTED_MAGLEV, WEIGHTED_ROUND_ROBIN, WEIGHTED_GCP_RENDEZVOUS.
     /// </summary>
     [CliOption("--locality-lb-policy", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLocalityLbPolicy? LocalityLbPolicy { get; set; }
+    public GcloudComputeBackendServicesUpdateLocalityLbPolicy? LocalityLbPolicy { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Removes the locality load balancing policy from the backend service.
@@ -488,10 +668,32 @@ public record GcloudComputeBackendServicesUpdateOptions(
     public bool? NoLocalityLbPolicy { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: This field can only be specified if logging is enabled for the backend service. Contains a comma-separated list of HTTP request headers you want to include in the logs.
+    /// At most one of these can be specified: This field can only be specified if logging is enabled for the backend service. Contains a comma-separated list of HTTP request headers you want to include in the logs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--logging-http-request-headers", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? LoggingHttpRequestHeaders { get; set; }
+    [CliOption("--logging-http-request-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? LoggingHttpRequestHeaders
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __LoggingHttpRequestHeadersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __LoggingHttpRequestHeadersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Remove all logging HTTP request headers for the backend service.
@@ -500,10 +702,32 @@ public record GcloudComputeBackendServicesUpdateOptions(
     public bool? NoLoggingHttpRequestHeaders { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: This field can only be specified if logging is enabled for the backend service. Contains a comma-separated list of HTTP response headers you want to include in the logs.
+    /// At most one of these can be specified: This field can only be specified if logging is enabled for the backend service. Contains a comma-separated list of HTTP response headers you want to include in the logs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--logging-http-response-headers", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? LoggingHttpResponseHeaders { get; set; }
+    [CliOption("--logging-http-response-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? LoggingHttpResponseHeaders
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __LoggingHttpResponseHeadersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __LoggingHttpResponseHeadersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Remove all logging HTTP response headers for the backend service.
@@ -641,7 +865,6 @@ public record GcloudComputeBackendServicesUpdateOptions(
     /// <summary>
     /// Settings for private AWS S3 bucket Signature Version 4 authentication. The optional version identifier for the AWS Signature Version 4 access key.
     /// </summary>
-    [SecretValue]
     [CliOption("--security-settings-aws-v4-access-key-version", Format = OptionFormat.EqualsSeparated)]
     public string? SecuritySettingsAwsV4AccessKeyVersion { get; set; }
 
@@ -658,57 +881,175 @@ public record GcloudComputeBackendServicesUpdateOptions(
     public string? SecuritySettingsClientTlsPolicy { get; set; }
 
     /// <summary>
-    /// Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Comma-separated list of Subject Alternative Names (SANs) verified by the client during mutual TLS handshake with a server/endpoint for this backend service.
+    /// Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Comma-separated list of Subject Alternative Names (SANs) verified by the client during mutual TLS handshake with a server/endpoint for this backend service. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--security-settings-subject-alt-names", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--security-settings-subject-alt-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SecuritySettingsSubjectAltNames { get; set; }
 
     /// <summary>
-    /// Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: Serve existing content from the cache (if available) when revalidating content with the origin; this allows content to be served more quickly, and also allows content to continue to be served if the backend is down or reporting errors. This setting defines the default serve-stale duration for any cached responses that do not specify a stale-while-revalidate directive. Stale responses that exceed the TTL configured here will not be served without first being revalidated with the origin. The default limit is 86400s (1 day), which will allow stale content to be served up to this limit beyond the max-age (or s-max-age) of a cached response. The maximum allowed value is 604800 (1 week). Set this to zero (0) to disable serve-while-stale.
+    /// At most one of these can be specified: Serve existing content from the cache (if available) when revalidating content with the origin; this allows content to be served more quickly, and also allows content to continue to be served if the backend is down or reporting errors. This setting defines the default serve-stale duration for any cached responses that do not specify a stale-while-revalidate directive. Stale responses that exceed the TTL configured here will not be served without first being revalidated with the origin. The default limit is 86400s (1 day), which will allow stale content to be served up to this limit beyond the max-age (or s-max-age) of a cached response. The maximum allowed value is 604800 (1 week). Set this to zero (0) to disable serve-while-stale.
     /// </summary>
     [CliOption("--serve-while-stale", Format = OptionFormat.EqualsSeparated)]
     public string? ServeWhileStale { get; set; }
 
     /// <summary>
-    /// Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: (DEPRECATED) Clears serve while stale value. The --no-serve-while-stale option is deprecated and will be removed in an upcoming release. If you're currently using this argument, you should remove it from your workflows.
+    /// At most one of these can be specified: (DEPRECATED) Clears serve while stale value. The --no-serve-while-stale option is deprecated and will be removed in an upcoming release. If you're currently using this argument, you should remove it from your workflows.
     /// </summary>
     [CliFlag("--no-serve-while-stale")]
     public bool? NoServeWhileStale { get; set; }
 
     /// <summary>
-    /// Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: List of service bindings to be attached to this backend service. Can only be set if load balancing scheme is INTERNAL_SELF_MANAGED. If set, lists of backends and health checks must be both empty.
+    /// At most one of these can be specified: List of service bindings to be attached to this backend service. Can only be set if load balancing scheme is INTERNAL_SELF_MANAGED. If set, lists of backends and health checks must be both empty. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--service-bindings", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ServiceBindings { get; set; }
+    [CliOption("--service-bindings", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ServiceBindings
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ServiceBindingsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ServiceBindingsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: No service bindings should be attached to the backend service.
+    /// At most one of these can be specified: No service bindings should be attached to the backend service.
     /// </summary>
     [CliFlag("--no-service-bindings")]
     public bool? NoServiceBindings { get; set; }
 
     /// <summary>
-    /// Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: Service load balancing policy to be applied to this backend service. Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED, or INTERNAL_SELF_MANAGED. Only available for global backend services.
+    /// At most one of these can be specified: Service load balancing policy to be applied to this backend service. Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED, or INTERNAL_SELF_MANAGED. Only available for global backend services.
     /// </summary>
     [CliOption("--service-lb-policy", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceLbPolicy { get; set; }
 
     /// <summary>
-    /// Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: No service load balancing policies should be attached to the backend service.
+    /// At most one of these can be specified: No service load balancing policies should be attached to the backend service.
     /// </summary>
     [CliFlag("--no-service-lb-policy")]
     public bool? NoServiceLbPolicy { get; set; }
 
     /// <summary>
-    /// Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: Configuration for Backend Authenticated TLS and mTLS. May only be specified when the backend protocol is SSL, HTTPS or HTTP2. Example: $ gcloud compute backend-services update \ --tls-settings='sni=example.com,authenticationConfig=${AUTH_CONF\ IG_NAME}'
+    /// At most one of these can be specified: Configuration for Backend Authenticated TLS and mTLS. May only be specified when the backend protocol is SSL, HTTPS or HTTP2. Example: $ gcloud compute backend-services update \ --tls-settings='sni=example.com,authenticationConfig=${AUTH_CONF\ IG_NAME}'
     /// </summary>
     [CliOption("--tls-settings", Format = OptionFormat.EqualsSeparated)]
     public string? TlsSettings { get; set; }
 
     /// <summary>
-    /// Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: Clears currently set backend service TLS settings.
+    /// At most one of these can be specified: Clears currently set backend service TLS settings.
     /// </summary>
     [CliFlag("--no-tls-settings")]
     public bool? NoTlsSettings { get; set; }
+
+    /// <summary>
+    /// Name of the backend service to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackendServiceName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BypassCacheOnRequestHeaders) ? 1 : 0) + (NoBypassCacheOnRequestHeaders == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of BypassCacheOnRequestHeaders or NoBypassCacheOnRequestHeaders may be specified.", [nameof(BypassCacheOnRequestHeaders), nameof(NoBypassCacheOnRequestHeaders)]);
+        }
+        if ((((object?)CacheKeyQueryStringBlacklist is global::System.Collections.Generic.IEnumerable<char> ? (object?)CacheKeyQueryStringBlacklist is not string || !string.IsNullOrWhiteSpace(CacheKeyQueryStringBlacklist?.ToString()) : ((object?)CacheKeyQueryStringBlacklist is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CacheKeyQueryStringBlacklist, static item => item is not null) : (CacheKeyQueryStringBlacklist is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CacheKeyQueryStringBlacklist), static item => item is not null)))) ? 1 : 0) + (((object?)CacheKeyQueryStringWhitelist is global::System.Collections.Generic.IEnumerable<char> ? (object?)CacheKeyQueryStringWhitelist is not string || !string.IsNullOrWhiteSpace(CacheKeyQueryStringWhitelist?.ToString()) : ((object?)CacheKeyQueryStringWhitelist is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CacheKeyQueryStringWhitelist, static item => item is not null) : (CacheKeyQueryStringWhitelist is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CacheKeyQueryStringWhitelist), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of CacheKeyQueryStringBlacklist or CacheKeyQueryStringWhitelist may be specified.", [nameof(CacheKeyQueryStringBlacklist), nameof(CacheKeyQueryStringWhitelist)]);
+        }
+        if ((ClearCustomMetrics == true ? 1 : 0) + (((object?)CustomMetrics is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)CustomMetrics, static item => item is not null) : ((object?)CustomMetrics is global::System.Collections.Generic.IEnumerable<char> ? (object?)CustomMetrics is not string || !string.IsNullOrWhiteSpace(CustomMetrics?.ToString()) : ((object?)CustomMetrics is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CustomMetrics, static item => item is not null) : (CustomMetrics is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CustomMetrics), static item => item is not null))))) ? 1 : 0) + (((object?)CustomMetricsFile is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)CustomMetricsFile, static item => item is not null) : ((object?)CustomMetricsFile is global::System.Collections.Generic.IEnumerable<char> ? (object?)CustomMetricsFile is not string || !string.IsNullOrWhiteSpace(CustomMetricsFile?.ToString()) : ((object?)CustomMetricsFile is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CustomMetricsFile, static item => item is not null) : (CustomMetricsFile is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CustomMetricsFile), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearCustomMetrics, CustomMetrics, or CustomMetricsFile may be specified.", [nameof(ClearCustomMetrics), nameof(CustomMetrics), nameof(CustomMetricsFile)]);
+        }
+        if ((ClearExternalManagedMigrationState == true ? 1 : 0) + ((object?)ExternalManagedMigrationState is not null ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearExternalManagedMigrationState or ExternalManagedMigrationState may be specified.", [nameof(ClearExternalManagedMigrationState), nameof(ExternalManagedMigrationState)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ClientTtl) ? 1 : 0) + (NoClientTtl == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClientTtl or NoClientTtl may be specified.", [nameof(ClientTtl), nameof(NoClientTtl)]);
+        }
+        if ((((object?)CustomRequestHeader is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)CustomRequestHeader, static item => item is not null) : ((object?)CustomRequestHeader is global::System.Collections.Generic.IEnumerable<char> ? (object?)CustomRequestHeader is not string || !string.IsNullOrWhiteSpace(CustomRequestHeader?.ToString()) : ((object?)CustomRequestHeader is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CustomRequestHeader, static item => item is not null) : (CustomRequestHeader is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CustomRequestHeader), static item => item is not null))))) ? 1 : 0) + (NoCustomRequestHeaders == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of CustomRequestHeader or NoCustomRequestHeaders may be specified.", [nameof(CustomRequestHeader), nameof(NoCustomRequestHeaders)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CustomResponseHeader) ? 1 : 0) + (NoCustomResponseHeaders == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of CustomResponseHeader or NoCustomResponseHeaders may be specified.", [nameof(CustomResponseHeader), nameof(NoCustomResponseHeaders)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DefaultTtl) ? 1 : 0) + (NoDefaultTtl == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DefaultTtl or NoDefaultTtl may be specified.", [nameof(DefaultTtl), nameof(NoDefaultTtl)]);
+        }
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        if ((GlobalHealthChecks == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(HealthChecksRegion) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GlobalHealthChecks or HealthChecksRegion may be specified.", [nameof(GlobalHealthChecks), nameof(HealthChecksRegion)]);
+        }
+        if (((object?)LocalityLbPolicy is not null ? 1 : 0) + (NoLocalityLbPolicy == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of LocalityLbPolicy or NoLocalityLbPolicy may be specified.", [nameof(LocalityLbPolicy), nameof(NoLocalityLbPolicy)]);
+        }
+        if ((((object?)LoggingHttpRequestHeaders is global::System.Collections.Generic.IEnumerable<char> ? (object?)LoggingHttpRequestHeaders is not string || !string.IsNullOrWhiteSpace(LoggingHttpRequestHeaders?.ToString()) : ((object?)LoggingHttpRequestHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LoggingHttpRequestHeaders, static item => item is not null) : (LoggingHttpRequestHeaders is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LoggingHttpRequestHeaders), static item => item is not null)))) ? 1 : 0) + (NoLoggingHttpRequestHeaders == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of LoggingHttpRequestHeaders or NoLoggingHttpRequestHeaders may be specified.", [nameof(LoggingHttpRequestHeaders), nameof(NoLoggingHttpRequestHeaders)]);
+        }
+        if ((((object?)LoggingHttpResponseHeaders is global::System.Collections.Generic.IEnumerable<char> ? (object?)LoggingHttpResponseHeaders is not string || !string.IsNullOrWhiteSpace(LoggingHttpResponseHeaders?.ToString()) : ((object?)LoggingHttpResponseHeaders is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LoggingHttpResponseHeaders, static item => item is not null) : (LoggingHttpResponseHeaders is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LoggingHttpResponseHeaders), static item => item is not null)))) ? 1 : 0) + (NoLoggingHttpResponseHeaders == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of LoggingHttpResponseHeaders or NoLoggingHttpResponseHeaders may be specified.", [nameof(LoggingHttpResponseHeaders), nameof(NoLoggingHttpResponseHeaders)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MaxStreamDuration) ? 1 : 0) + (NoMaxStreamDuration == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of MaxStreamDuration or NoMaxStreamDuration may be specified.", [nameof(MaxStreamDuration), nameof(NoMaxStreamDuration)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MaxTtl) ? 1 : 0) + (NoMaxTtl == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of MaxTtl or NoMaxTtl may be specified.", [nameof(MaxTtl), nameof(NoMaxTtl)]);
+        }
+        if ((NoNegativeCachingPolicies == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(NegativeCachingPolicy) ? 1 : 0) + ((NegativeCaching == true || NoNegativeCaching == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of NoNegativeCachingPolicies, NegativeCachingPolicy, or (NegativeCaching or NoNegativeCaching) may be specified.", [nameof(NoNegativeCachingPolicies), nameof(NegativeCachingPolicy), nameof(NegativeCaching), nameof(NoNegativeCaching)]);
+        }
+        if ((NoNegativeCachingPolicies == true || !string.IsNullOrWhiteSpace(NegativeCachingPolicy) || NegativeCaching == true || NoNegativeCaching == true) && ((NegativeCaching == true ? 1 : 0) + (NoNegativeCaching == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of NegativeCaching or NoNegativeCaching may be specified.", [nameof(NegativeCaching), nameof(NoNegativeCaching)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ServeWhileStale) ? 1 : 0) + (NoServeWhileStale == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ServeWhileStale or NoServeWhileStale may be specified.", [nameof(ServeWhileStale), nameof(NoServeWhileStale)]);
+        }
+        if ((((object?)ServiceBindings is global::System.Collections.Generic.IEnumerable<char> ? (object?)ServiceBindings is not string || !string.IsNullOrWhiteSpace(ServiceBindings?.ToString()) : ((object?)ServiceBindings is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ServiceBindings, static item => item is not null) : (ServiceBindings is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ServiceBindings), static item => item is not null)))) ? 1 : 0) + (NoServiceBindings == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ServiceBindings or NoServiceBindings may be specified.", [nameof(ServiceBindings), nameof(NoServiceBindings)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ServiceLbPolicy) ? 1 : 0) + (NoServiceLbPolicy == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ServiceLbPolicy or NoServiceLbPolicy may be specified.", [nameof(ServiceLbPolicy), nameof(NoServiceLbPolicy)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(TlsSettings) ? 1 : 0) + (NoTlsSettings == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of TlsSettings or NoTlsSettings may be specified.", [nameof(TlsSettings), nameof(NoTlsSettings)]);
+        }
+        yield break;
+    }
 
 }

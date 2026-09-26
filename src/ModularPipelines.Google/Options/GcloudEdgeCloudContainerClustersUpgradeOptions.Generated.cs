@@ -21,4 +21,55 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("edge-cloud", "container", "clusters", "upgrade")]
 public record GcloudEdgeCloudContainerClustersUpgradeOptions : GcloudOptions
 {
+    /// <summary>
+    /// upgrade an Edge Container     cluster
+    /// </summary>
+    /// <param name="Schedule">Schedule to upgrade a cluster after the request is acknowledged by Google. Support values: IMMEDIATELY.</param>
+    /// <param name="Version">Target cluster version to upgrade to. For example: "1.5.1".</param>
+    /// <param name="Cluster">Cluster resource - Edge Container cluster to upgrade. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEdgeCloudContainerClustersUpgradeOptions(
+        string Schedule,
+        string Version,
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Schedule);
+        this.Schedule = Schedule;
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Schedule, out string Version, out string Cluster)
+    {
+        Schedule = this.Schedule;
+        Version = this.Version;
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Schedule to upgrade a cluster after the request is acknowledged by Google. Support values: IMMEDIATELY.
+    /// </summary>
+    [CliOption("--schedule", Format = OptionFormat.EqualsSeparated)]
+    public string Schedule { get; private init; }
+
+    /// <summary>
+    /// Target cluster version to upgrade to. For example: "1.5.1".
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string Version { get; private init; }
+
+    /// <summary>
+    /// Cluster resource - Edge Container cluster to upgrade. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the cluster. To set the location attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Cluster resource - Edge Container cluster to upgrade. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
 }

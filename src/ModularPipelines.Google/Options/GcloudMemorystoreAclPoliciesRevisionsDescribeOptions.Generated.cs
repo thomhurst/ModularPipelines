@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("memorystore", "acl-policies", "revisions", "describe")]
 public record GcloudMemorystoreAclPoliciesRevisionsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe     aclPolicyRevisions
+    /// </summary>
+    /// <param name="Revision">Revision resource - Memorystore ACL policy revision resource name using the form: projects/{project}/locations/{location}/aclPolicies/{acl_policy}/revisions/{revision} where location refers to a Google Cloud region. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the revision or fully qualified identifier for the revision. To set the revision attribute: ▸ provide the argument revision on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMemorystoreAclPoliciesRevisionsDescribeOptions(
+        string Revision
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Revision);
+        this.Revision = Revision;
+    }
+
+    public void Deconstruct(out string Revision)
+    {
+        Revision = this.Revision;
+    }
+
+    /// <summary>
+    /// Revision resource - Memorystore ACL policy revision resource name using the form: projects/{project}/locations/{location}/aclPolicies/{acl_policy}/revisions/{revision} where location refers to a Google Cloud region. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The aclPolicy id of the revision resource. To set the acl-policy attribute: ▸ provide the argument revision on the command line with a fully specified name; ▸ provide the argument --acl-policy on the command line.
+    /// </summary>
+    [CliOption("--acl-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? AclPolicy { get; set; }
+
+    /// <summary>
+    /// Revision resource - Memorystore ACL policy revision resource name using the form: projects/{project}/locations/{location}/aclPolicies/{acl_policy}/revisions/{revision} where location refers to a Google Cloud region. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the revision resource. To set the location attribute: ▸ provide the argument revision on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Revision resource - Memorystore ACL policy revision resource name using the form: projects/{project}/locations/{location}/aclPolicies/{acl_policy}/revisions/{revision} where location refers to a Google Cloud region. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the revision or fully qualified identifier for the revision. To set the revision attribute: ▸ provide the argument revision on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Revision { get; private init; }
+
 }

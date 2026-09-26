@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("service-directory", "locations", "describe")]
 public record GcloudServiceDirectoryLocationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describes a location
+    /// </summary>
+    /// <param name="Location">Location resource - The Service Directory location to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument location on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument location on the command line.</param>
+    public GcloudServiceDirectoryLocationsDescribeOptions(
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Location)
+    {
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// Location resource - The Service Directory location to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument location on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument location on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Location { get; private init; }
+
 }

@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "keys", "delete")]
-public record GcloudIamServiceAccountsKeysDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Key
-) : GcloudOptions
+public record GcloudIamServiceAccountsKeysDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a service account key
+    /// </summary>
+    /// <param name="IamAccount">The service account from which to delete a key. To list all service accounts in the project, run: $ gcloud iam service-accounts list</param>
+    /// <param name="KeyId">The key to delete.</param>
+    public GcloudIamServiceAccountsKeysDeleteOptions(
+        string IamAccount,
+        string KeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IamAccount);
+        this.IamAccount = IamAccount;
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+    }
+
+    public void Deconstruct(out string IamAccount, out string KeyId)
+    {
+        IamAccount = this.IamAccount;
+        KeyId = this.KeyId;
+    }
+
+    /// <summary>
+    /// The service account from which to delete a key. To list all service accounts in the project, run: $ gcloud iam service-accounts list
+    /// </summary>
+    [CliOption("--iam-account", Format = OptionFormat.EqualsSeparated)]
+    public string IamAccount { get; private init; }
+
+    /// <summary>
+    /// The key to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string KeyId { get; private init; }
+
 }

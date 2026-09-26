@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "unset")]
-public record GcloudConfigUnsetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Section
-) : GcloudOptions
+public record GcloudConfigUnsetOptions : GcloudOptions
 {
+    /// <summary>
+    /// unset a Google Cloud CLI property
+    /// </summary>
+    /// <param name="SectionOrProperty">The property to be unset. Note that SECTION/ is optional while referring to properties in the core section.</param>
+    public GcloudConfigUnsetOptions(
+        string SectionOrProperty
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SectionOrProperty);
+        this.SectionOrProperty = SectionOrProperty;
+    }
+
+    public void Deconstruct(out string SectionOrProperty)
+    {
+        SectionOrProperty = this.SectionOrProperty;
+    }
+
     /// <summary>
     /// If set, the property is updated for the entire Google Cloud CLI installation. Otherwise, by default, the property is updated only in the currently active configuration.
     /// </summary>
     [CliFlag("--installation")]
     public bool? Installation { get; set; }
+
+    /// <summary>
+    /// The property to be unset. Note that SECTION/ is optional while referring to properties in the core section.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SectionOrProperty { get; private init; }
 
 }

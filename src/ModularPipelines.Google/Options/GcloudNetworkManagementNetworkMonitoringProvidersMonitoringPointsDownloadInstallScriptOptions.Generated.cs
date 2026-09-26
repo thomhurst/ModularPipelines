@@ -6,10 +6,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +23,137 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-management", "network-monitoring-providers", "monitoring-points", "download-install-script")]
 public record GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadInstallScriptOptions : GcloudOptions
 {
+    /// <summary>
+    /// points     download-install-script - download an installation script for a     Monitoring Point
+    /// </summary>
+    /// <param name="Hostname">The hostname of the Monitoring Point (example: test-vm).</param>
+    /// <param name="Location">The location of the Network Monitoring Provider (example:, global).</param>
+    /// <param name="MonitoringPointType">The type of the Monitoring Point. MONITORING_POINT_TYPE must be one of: aws-ec2, azure-vm, container, gce-vm, helm, kvm, vmware.</param>
+    /// <param name="NetworkMonitoringProvider">The ID of the Network Monitoring Provider.</param>
+    /// <param name="OutputFile">The path to save the downloaded install script.</param>
+    public GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadInstallScriptOptions(
+        string Hostname,
+        string Location,
+        GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadInstallScriptMonitoringPointType MonitoringPointType,
+        string NetworkMonitoringProvider,
+        string OutputFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Hostname);
+        this.Hostname = Hostname;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        this.MonitoringPointType = MonitoringPointType;
+        global::System.ArgumentNullException.ThrowIfNull(NetworkMonitoringProvider);
+        this.NetworkMonitoringProvider = NetworkMonitoringProvider;
+        global::System.ArgumentNullException.ThrowIfNull(OutputFile);
+        this.OutputFile = OutputFile;
+    }
+
+    public void Deconstruct(out string Hostname, out string Location, out GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadInstallScriptMonitoringPointType MonitoringPointType, out string NetworkMonitoringProvider, out string OutputFile)
+    {
+        Hostname = this.Hostname;
+        Location = this.Location;
+        MonitoringPointType = this.MonitoringPointType;
+        NetworkMonitoringProvider = this.NetworkMonitoringProvider;
+        OutputFile = this.OutputFile;
+    }
+
+    /// <summary>
+    /// The hostname of the Monitoring Point (example: test-vm).
+    /// </summary>
+    [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]
+    public string Hostname { get; private init; }
+
+    /// <summary>
+    /// The location of the Network Monitoring Provider (example:, global).
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The type of the Monitoring Point. MONITORING_POINT_TYPE must be one of: aws-ec2, azure-vm, container, gce-vm, helm, kvm, vmware.
+    /// </summary>
+    [CliOption("--monitoring-point-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPointsDownloadInstallScriptMonitoringPointType MonitoringPointType { get; private init; }
+
+    /// <summary>
+    /// The ID of the Network Monitoring Provider.
+    /// </summary>
+    [CliOption("--network-monitoring-provider", Format = OptionFormat.EqualsSeparated)]
+    public string NetworkMonitoringProvider { get; private init; }
+
+    /// <summary>
+    /// The path to save the downloaded install script.
+    /// </summary>
+    [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
+    public string OutputFile { get; private init; }
+
+    /// <summary>
+    /// Primary NTP server address (IP address or FQDN). Allowed for types KVM and VMWARE only.
+    /// </summary>
+    [CliOption("--ntp-server-address", Format = OptionFormat.EqualsSeparated)]
+    public string? NtpServerAddress { get; set; }
+
+    /// <summary>
+    /// Secondary NTP server address (IP address or FQDN). Allowed for types KVM and VMWARE only.
+    /// </summary>
+    [CliOption("--ntp-server-secondary-address", Format = OptionFormat.EqualsSeparated)]
+    public string? NtpServerSecondaryAddress { get; set; }
+
+    /// <summary>
+    /// Password for logging into the Monitoring Point. Required for types KVM and VMWARE, not allowed for CONTAINER.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
+    public string? Password { get; set; }
+
+    /// <summary>
+    /// Time zone ID for the Monitoring Point (example: America/Los_Angeles). Required for types KVM and VMWARE, not allowed for CONTAINER.
+    /// </summary>
+    [CliOption("--time-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? TimeZone { get; set; }
+
+    /// <summary>
+    /// Whether to use DHCP for IP address configuration. Allowed for types KVM and VMWARE only.
+    /// </summary>
+    [CliFlag("--use-dhcp")]
+    public bool? UseDhcp { get; set; }
+
+    /// <summary>
+    /// Static IP address configuration. Allowed for types KVM and VMWARE only. Primary DNS server address. Required if --static-ip-address is specified.
+    /// </summary>
+    [CliOption("--dns-server-address", Format = OptionFormat.EqualsSeparated)]
+    public string? DnsServerAddress { get; set; }
+
+    /// <summary>
+    /// Static IP address configuration. Allowed for types KVM and VMWARE only. Secondary DNS server address. Used with --static-ip-address.
+    /// </summary>
+    [CliOption("--dns-server-secondary-address", Format = OptionFormat.EqualsSeparated)]
+    public string? DnsServerSecondaryAddress { get; set; }
+
+    /// <summary>
+    /// Static IP address configuration. Allowed for types KVM and VMWARE only. Domain name of the Monitoring Point. Used with --static-ip-address.
+    /// </summary>
+    [CliOption("--domain", Format = OptionFormat.EqualsSeparated)]
+    public string? Domain { get; set; }
+
+    /// <summary>
+    /// Static IP address configuration. Allowed for types KVM and VMWARE only. Gateway IP address. Required if --static-ip-address is specified.
+    /// </summary>
+    [CliOption("--gateway-address", Format = OptionFormat.EqualsSeparated)]
+    public string? GatewayAddress { get; set; }
+
+    /// <summary>
+    /// Static IP address configuration. Allowed for types KVM and VMWARE only. Network mask (example: "255.255.255.0"). Used with --static-ip-address.
+    /// </summary>
+    [CliOption("--netmask", Format = OptionFormat.EqualsSeparated)]
+    public string? Netmask { get; set; }
+
+    /// <summary>
+    /// Static IP address configuration. Allowed for types KVM and VMWARE only. Static IP address of the Monitoring Point. If specified, --gateway-address and --dns-server-address are required.
+    /// </summary>
+    [CliOption("--static-ip-address", Format = OptionFormat.EqualsSeparated)]
+    public string? StaticIpAddress { get; set; }
+
 }

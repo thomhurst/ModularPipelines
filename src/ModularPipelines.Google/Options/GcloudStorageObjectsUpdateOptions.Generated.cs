@@ -22,10 +22,10 @@ namespace ModularPipelines.Google.Options;
 public record GcloudStorageObjectsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
-    public string? AdditionalHeaders { get; set; }
+    [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdditionalHeaders { get; set; }
 
     /// <summary>
     /// Perform the operation on all object versions.
@@ -64,51 +64,57 @@ public record GcloudStorageObjectsUpdateOptions : GcloudOptions
     public string? StorageClass { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. Enables or disables a temporary hold on objects. Use --temporary-hold to enable and --no-temporary-hold to disable.
+    /// Enables or disables a temporary hold on objects. Use --temporary-hold to enable and --no-temporary-hold to disable.
     /// </summary>
     [CliFlag("--temporary-hold")]
     public bool? TemporaryHold { get; set; }
 
     /// <summary>
-    /// Negates --temporary-hold. --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. Enables or disables a temporary hold on objects. Use --temporary-hold to enable and --no-temporary-hold to disable.
+    /// Negates --temporary-hold. Enables or disables a temporary hold on objects. Use --temporary-hold to enable and --no-temporary-hold to disable.
     /// </summary>
     [CliFlag("--no-temporary-hold")]
     public bool? NoTemporaryHold { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. Path to a local JSON or YAML formatted file containing a valid policy. See the ObjectAccessControls resource (https://cloud.google.com/storage/docs/json_api/v1/objectAccessControls) for a representation of JSON formatted files. The output of gcloud storage [buckets|objects] describe --format="multi(acl:format=json)" is a valid file and can be edited for more fine-grained control.
+    /// Path to a local JSON or YAML formatted file containing a valid policy. See the ObjectAccessControls resource (https://cloud.google.com/storage/docs/json_api/v1/objectAccessControls) for a representation of JSON formatted files. The output of gcloud storage [buckets|objects] describe --format="multi(acl:format=json)" is a valid file and can be edited for more fine-grained control.
     /// </summary>
     [CliOption("--acl-file", Format = OptionFormat.EqualsSeparated)]
     public string? AclFile { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. Key-value pairs mirroring the JSON accepted by your cloud provider. For example, for Cloud Storage,--add-acl-grant=entity=user-tim@gmail.com,role=OWNER
+    /// Key-value pairs mirroring the JSON accepted by your cloud provider. For example, for Cloud Storage,--add-acl-grant=entity=user-tim@gmail.com,role=OWNER Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-acl-grant", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-acl-grant", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddAclGrant { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl
+    /// Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl
     /// </summary>
     [CliOption("--canned-acl", Format = OptionFormat.EqualsSeparated)]
     public string? CannedAcl { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
+    /// Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
     /// </summary>
     [CliFlag("--preserve-acl")]
     public bool? PreserveAcl { get; set; }
 
     /// <summary>
-    /// Negates --preserve-acl. --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
+    /// Negates --preserve-acl. Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
     /// </summary>
     [CliFlag("--no-preserve-acl")]
     public bool? NoPreserveAcl { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. Key-value pairs mirroring the JSON accepted by your cloud provider. For example, for Cloud Storage, --remove-acl-grant=ENTITY, where ENTITY has a valid ACL entity format, such as user-tim@gmail.com, group-admins, allUsers, etc.
+    /// Key-value pairs mirroring the JSON accepted by your cloud provider. For example, for Cloud Storage, --remove-acl-grant=ENTITY, where ENTITY has a valid ACL entity format, such as user-tim@gmail.com, group-admins, allUsers, etc.
     /// </summary>
     [CliOption("--remove-acl-grant", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveAclGrant { get; set; }
+
+    /// <summary>
+    /// Specifies URLs of objects to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Url { get; set; }
 
 }

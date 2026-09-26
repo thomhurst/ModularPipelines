@@ -22,27 +22,61 @@ namespace ModularPipelines.Google.Options;
 public record GcloudVectorSearchCollectionsDataObjectsQueryOptions : GcloudOptions
 {
     /// <summary>
+    /// query data objects     from a Vector Search collection
+    /// </summary>
+    /// <param name="Collection">The collection to query data objects from.</param>
+    /// <param name="Location">Location of the collection.</param>
+    public GcloudVectorSearchCollectionsDataObjectsQueryOptions(
+        string Collection,
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Collection);
+        this.Collection = Collection;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Collection, out string Location)
+    {
+        Collection = this.Collection;
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// The collection to query data objects from.
+    /// </summary>
+    [CliOption("--collection", Format = OptionFormat.EqualsSeparated)]
+    public string Collection { get; private init; }
+
+    /// <summary>
+    /// Location of the collection.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
     /// A filter expression in JSON format to apply to the query, e.g. '{"genre": {"$eq": "sci-fi"}}'.
     /// </summary>
     [CliOption("--json-filter", Format = OptionFormat.EqualsSeparated)]
     public string? JsonFilter { get; set; }
 
     /// <summary>
-    /// Output fields List of data fields to include in the output. Use * to include all data fields.
+    /// Output fields List of data fields to include in the output. Use * to include all data fields. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--output-data-fields", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--output-data-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? OutputDataFields { get; set; }
 
     /// <summary>
-    /// Output fields List of metadata fields to include in the output. Use * to include all metadata fields.
+    /// Output fields List of metadata fields to include in the output. Use * to include all metadata fields. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--output-metadata-fields", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--output-metadata-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? OutputMetadataFields { get; set; }
 
     /// <summary>
-    /// Output fields List of vector fields to include in the output. Use * to include all vector fields.
+    /// Output fields List of vector fields to include in the output. Use * to include all vector fields. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--output-vector-fields", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--output-vector-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? OutputVectorFields { get; set; }
 
 }

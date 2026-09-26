@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-management", "network-monitoring-providers", "web-paths", "describe")]
 public record GcloudNetworkManagementNetworkMonitoringProvidersWebPathsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Web Path
+    /// </summary>
+    /// <param name="WebPath">WebPath resource - Name of the resource.. Format: projects/{project}/locations/{location}/networkMonitoringProviders/{network_monitoring_provider}/webPaths/{web_path} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument web_path on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the webPath or fully qualified identifier for the webPath. To set the web_path attribute: ▸ provide the argument web_path on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkManagementNetworkMonitoringProvidersWebPathsDescribeOptions(
+        string WebPath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WebPath);
+        this.WebPath = WebPath;
+    }
+
+    public void Deconstruct(out string WebPath)
+    {
+        WebPath = this.WebPath;
+    }
+
+    /// <summary>
+    /// WebPath resource - Name of the resource.. Format: projects/{project}/locations/{location}/networkMonitoringProviders/{network_monitoring_provider}/webPaths/{web_path} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument web_path on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the webPath resource. To set the location attribute: ▸ provide the argument web_path on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// WebPath resource - Name of the resource.. Format: projects/{project}/locations/{location}/networkMonitoringProviders/{network_monitoring_provider}/webPaths/{web_path} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument web_path on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The networkMonitoringProvider id of the webPath resource. To set the network-monitoring-provider attribute: ▸ provide the argument web_path on the command line with a fully specified name; ▸ provide the argument --network-monitoring-provider on the command line.
+    /// </summary>
+    [CliOption("--network-monitoring-provider", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkMonitoringProvider { get; set; }
+
+    /// <summary>
+    /// WebPath resource - Name of the resource.. Format: projects/{project}/locations/{location}/networkMonitoringProviders/{network_monitoring_provider}/webPaths/{web_path} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument web_path on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the webPath or fully qualified identifier for the webPath. To set the web_path attribute: ▸ provide the argument web_path on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WebPath { get; private init; }
+
 }

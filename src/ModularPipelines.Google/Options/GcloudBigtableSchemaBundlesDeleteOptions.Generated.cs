@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bigtable", "schema-bundles", "delete")]
 public record GcloudBigtableSchemaBundlesDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a Bigtable schema bundle
+    /// </summary>
+    /// <param name="SchemaBundle">Schema bundle resource - Bigtable schema bundle to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema_bundle on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the schema-bundle or fully qualified identifier for the schema-bundle. To set the schema_bundle attribute: ▸ provide the argument schema_bundle on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBigtableSchemaBundlesDeleteOptions(
+        string SchemaBundle
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SchemaBundle);
+        this.SchemaBundle = SchemaBundle;
+    }
+
+    public void Deconstruct(out string SchemaBundle)
+    {
+        SchemaBundle = this.SchemaBundle;
+    }
+
+    /// <summary>
+    /// Schema bundle resource - Bigtable schema bundle to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema_bundle on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable instance. To set the instance attribute: ▸ provide the argument schema_bundle on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Schema bundle resource - Bigtable schema bundle to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema_bundle on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable table. To set the table attribute: ▸ provide the argument schema_bundle on the command line with a fully specified name; ▸ provide the argument --table on the command line.
+    /// </summary>
+    [CliOption("--table", Format = OptionFormat.EqualsSeparated)]
+    public string? Table { get; set; }
+
+    /// <summary>
+    /// Schema bundle resource - Bigtable schema bundle to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema_bundle on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the schema-bundle or fully qualified identifier for the schema-bundle. To set the schema_bundle attribute: ▸ provide the argument schema_bundle on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SchemaBundle { get; private init; }
+
 }

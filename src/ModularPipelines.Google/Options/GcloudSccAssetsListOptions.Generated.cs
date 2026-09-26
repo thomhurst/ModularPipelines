@@ -53,4 +53,10 @@ public record GcloudSccAssetsListOptions : GcloudOptions
     [CliOption("--read-time", Format = OptionFormat.EqualsSeparated)]
     public string? ReadTime { get; set; }
 
+    /// <summary>
+    /// Parent resource - parent organization, folder, or project in the Google Cloud resource hierarchy to be used for the gcloud scc command. Specify the argument as either [RESOURCE_TYPE/RESOURCE_ID] or [RESOURCE_ID], as shown in the preceding examples. This represents a Cloud resource. ID of the parent or fully qualified identifier for the parent. To set the parent attribute: ◆ provide the argument parent on the command line; ◆ Set the parent property in configuration using gcloud config set scc/parent if it is not specified in command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Parent { get; set; }
+
 }

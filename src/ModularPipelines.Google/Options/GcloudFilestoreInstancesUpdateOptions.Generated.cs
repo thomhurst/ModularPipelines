@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,8 +21,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("filestore", "instances", "update")]
-public record GcloudFilestoreInstancesUpdateOptions : GcloudOptions
+public record GcloudFilestoreInstancesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Filestore instance
+    /// </summary>
+    /// <param name="Instance">Instance resource - The instance to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudFilestoreInstancesUpdateOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Instance resource - The instance to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The zone of the instance. To set the zone attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --zone on the command line; ▸ provide the argument region on the command line; ▸ provide the argument location on the command line; ▸ set the property filestore/zone; ▸ set the property filestore/region; ▸ set the property filestore/location.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -53,9 +77,9 @@ public record GcloudFilestoreInstancesUpdateOptions : GcloudOptions
     public string? Region { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
@@ -65,13 +89,35 @@ public record GcloudFilestoreInstancesUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Parameters for file-share. File share configuration for an instance. Specifying both name and capacity is required. capacity The desired capacity of the volume in GB or TB units. If no capacity unit is specified, GB is assumed. Acceptable instance capacities for each tier are as follows: ▸ BASIC_HDD: 1TB-63.9TB in 1GB increments or its multiples. ▸ BASIC_SSD: 2.5TB-63.9TB in 1GB increments or its multiples. ▸ HIGH_SCALE_SSD: 10TB-100TB in 2.5TB increments or its multiples. ▸ ZONAL: 1TB-100TB: ▫ 1TB-9.75TB in 256GB increments or its multiples. ▫ 10TB-100TB in 2.5TB increments or its multiples. ▸ ENTERPRISE: 1TB-10TB in 256GB increments or its multiples. ▸ REGIONAL: 1TB-100TB: ▫ 1TB-9.75TB in 256GB increments or its multiples. ▫ 10TB-100TB in 2.5TB increments or its multiples. name The desired logical name of the volume. nfs-export-options The NfsExportOptions for the Cloud Filestore instance file share. Configuring NfsExportOptions is optional and can only be set using flags-file. Use the --flags-file flag to specify the path to a JSON or YAML configuration file that contains the required NfsExportOptions flags. ip-ranges A list of IPv4 addresses or CIDR ranges that are allowed to mount the file share. IPv4 addresses format: {octet 1}.{octet 2}.{octet 3}.{octet 4}. CIDR range format: {octet 1}.{octet 2}.{octet 3}.{octet 4}/{mask size}. Overlapping IP ranges are allowed for all tiers other than BASIC_HDD and BASIC_SSD. The limit of IP ranges/addresses for each FileShareConfig among all NfsExportOptions is 64 per instance. access-mode The type of access allowed for the specified IP-addresses or CIDR ranges. READ_ONLY: Allows only read requests on the exported file share. READ_WRITE: Allows both read and write requests on the exported file share. The default setting is READ_WRITE. squash-mode Enables or disables root squash for the specified IP addresses or CIDR ranges. NO_ROOT_SQUASH: Disables root squash to allow root access on the exported file share. ROOT_SQUASH. Enables root squash to remove root access on the exported file share. The default setting is NO_ROOT_SQUASH. anon_uid An integer that represents the user ID of anonymous users. Anon_uid may only be set when squash_mode is set to ROOT_SQUASH. If NO_ROOT_SQUASH is specified, an error will be returned. The default value is 65534. anon_gid An integer that represents the group ID of anonymous groups. Anon_gid may only be set when squash_mode is set to ROOT_SQUASH. If NO_ROOT_SQUASH is specified, an error will be returned. The default value is 65534. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Parameters for file-share. File share configuration for an instance. Specifying both name and capacity is required. capacity The desired capacity of the volume in GB or TB units. If no capacity unit is specified, GB is assumed. Acceptable instance capacities for each tier are as follows: ▸ BASIC_HDD: 1TB-63.9TB in 1GB increments or its multiples. ▸ BASIC_SSD: 2.5TB-63.9TB in 1GB increments or its multiples. ▸ HIGH_SCALE_SSD: 10TB-100TB in 2.5TB increments or its multiples. ▸ ZONAL: 100GB-100TB: ▫ 100GB-10239GB in 1GB increments or its multiples. ▫ 10TB-100TB in 2.5TB increments or its multiples. ▸ ENTERPRISE: 1TB-10TB in 256GB increments or its multiples. ▸ REGIONAL: 1TB-100TB (100GB-100TB in supported regions): ▫ (100GB|1TB)-10239GB in 1GB increments or its multiples. ▫ 10TB-100TB in 2.5TB increments or its multiples. name The desired logical name of the volume. nfs-export-options The NfsExportOptions for the Cloud Filestore instance file share. Configuring NfsExportOptions is optional and can only be set using flags-file. Use the --flags-file flag to specify the path to a JSON or YAML configuration file that contains the required NfsExportOptions flags. ip-ranges A list of IPv4 addresses or CIDR ranges that are allowed to mount the file share. IPv4 addresses format: {octet 1}.{octet 2}.{octet 3}.{octet 4}. CIDR range format: {octet 1}.{octet 2}.{octet 3}.{octet 4}/{mask size}. Overlapping IP ranges are allowed for all tiers other than BASIC_HDD and BASIC_SSD. The limit of IP ranges/addresses for each FileShareConfig among all NfsExportOptions is 64 per instance. access-mode The type of access allowed for the specified IP-addresses or CIDR ranges. READ_ONLY: Allows only read requests on the exported file share. READ_WRITE: Allows both read and write requests on the exported file share. The default setting is READ_WRITE. squash-mode Enables or disables root squash for the specified IP addresses or CIDR ranges. NO_ROOT_SQUASH: Disables root squash to allow root access on the exported file share. ROOT_SQUASH. Enables root squash to remove root access on the exported file share. The default setting is NO_ROOT_SQUASH. anon_uid An integer that represents the user ID of anonymous users. Anon_uid may only be set when squash_mode is set to ROOT_SQUASH. If NO_ROOT_SQUASH is specified, an error will be returned. The default value is 65534. anon_gid An integer that represents the group ID of anonymous groups. Anon_gid may only be set when squash_mode is set to ROOT_SQUASH. If NO_ROOT_SQUASH is specified, an error will be returned. The default value is 65534. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--file-share", Format = OptionFormat.EqualsSeparated)]
     public string? FileShare { get; set; }
@@ -95,9 +141,29 @@ public record GcloudFilestoreInstancesUpdateOptions : GcloudOptions
     public bool? NoDeletionProtection { get; set; }
 
     /// <summary>
-    /// Deletion protection control options. When deletion protection is enabled, the instance cannot be deleted. The reason for enabling deletion protection for the instance.
+    /// The reason for enabling deletion protection for the instance.
     /// </summary>
     [CliOption("--deletion-protection-reason", Format = OptionFormat.EqualsSeparated)]
     public string? DeletionProtectionReason { get; set; }
+
+    /// <summary>
+    /// Instance resource - The instance to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(FileShare) || ClearNfsExportOptions == true) && (!(!string.IsNullOrWhiteSpace(FileShare))))
+        {
+            yield return new ValidationResult("FileShare must be specified when other arguments in this group are specified.", [nameof(FileShare)]);
+        }
+        yield break;
+    }
 
 }

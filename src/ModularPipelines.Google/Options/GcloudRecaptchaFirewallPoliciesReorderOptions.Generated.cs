@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("recaptcha", "firewall-policies", "reorder")]
 public record GcloudRecaptchaFirewallPoliciesReorderOptions : GcloudOptions
 {
+    /// <summary>
+    /// reorder all Firewall Policies
+    /// </summary>
+    /// <param name="Names">Names of all firewall policies in desired order. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    public GcloudRecaptchaFirewallPoliciesReorderOptions(
+        IEnumerable<string> Names
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Names);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Names));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Names));
+            }
+
+            Names = materialized;
+        }
+        this.Names = Names;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Names)
+    {
+        Names = this.Names;
+    }
+
+    /// <summary>
+    /// Names of all firewall policies in desired order. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Names { get; private init; }
+
 }

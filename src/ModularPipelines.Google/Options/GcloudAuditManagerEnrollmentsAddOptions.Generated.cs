@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,68 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("audit-manager", "enrollments", "add")]
-public record GcloudAuditManagerEnrollmentsAddOptions : GcloudOptions
+public record GcloudAuditManagerEnrollmentsAddOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// enroll a new scope
+    /// </summary>
+    /// <param name="EligibleGcsBuckets">Eligible cloud storage buckets where report and evidence can be uploaded. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    public GcloudAuditManagerEnrollmentsAddOptions(
+        IEnumerable<string> EligibleGcsBuckets
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EligibleGcsBuckets);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EligibleGcsBuckets));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EligibleGcsBuckets));
+            }
+
+            EligibleGcsBuckets = materialized;
+        }
+        this.EligibleGcsBuckets = EligibleGcsBuckets;
+    }
+
+    public void Deconstruct(out IEnumerable<string> EligibleGcsBuckets)
+    {
+        EligibleGcsBuckets = this.EligibleGcsBuckets;
+    }
+
+    /// <summary>
+    /// Eligible cloud storage buckets where report and evidence can be uploaded. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--eligible-gcs-buckets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> EligibleGcsBuckets { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Folder Id to enroll
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization Id to enroll
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Project Id to enroll
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder, Organization, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

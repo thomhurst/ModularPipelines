@@ -23,21 +23,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerHubScopesCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// create a new fleet scope
+    /// </summary>
+    /// <param name="Scope">Scope resource - The fleet scope resourse to be created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument scope on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument scope on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the scope or fully qualified identifier for the scope. To set the scope attribute: ▸ provide the argument scope on the command line.</param>
+    public GcloudContainerHubScopesCreateOptions(
+        string Scope
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Scope);
+        this.Scope = Scope;
+    }
+
+    public void Deconstruct(out string Scope)
+    {
+        Scope = this.Scope;
+    }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// List of scope-level label KEY=VALUE pairs to add.
+    /// List of scope-level label KEY=VALUE pairs to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--namespace-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--namespace-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? NamespaceLabels { get; set; }
+
+    /// <summary>
+    /// Scope resource - The fleet scope resourse to be created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument scope on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument scope on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the scope or fully qualified identifier for the scope. To set the scope attribute: ▸ provide the argument scope on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Scope { get; private init; }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,56 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("healthcare", "consent-stores", "check-data-access")]
 public record GcloudHealthcareConsentStoresCheckDataAccessOptions : GcloudOptions
 {
+    /// <summary>
+    /// check the consent for     a particular data ID
+    /// </summary>
+    /// <param name="DataId">The unique identifier of the data to check access for.</param>
+    /// <param name="ConsentStore">ConsentStore resource - Cloud Healthcare API consent store where the requested data-id is stored. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument consent_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the consentStore or fully qualified identifier for the consentStore. To set the consent_store attribute: ▸ provide the argument consent_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudHealthcareConsentStoresCheckDataAccessOptions(
+        string DataId,
+        string ConsentStore
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DataId);
+        this.DataId = DataId;
+        global::System.ArgumentNullException.ThrowIfNull(ConsentStore);
+        this.ConsentStore = ConsentStore;
+    }
+
+    public void Deconstruct(out string DataId, out string ConsentStore)
+    {
+        DataId = this.DataId;
+        ConsentStore = this.ConsentStore;
+    }
+
+    /// <summary>
+    /// The unique identifier of the data to check access for.
+    /// </summary>
+    [CliOption("--data-id", Format = OptionFormat.EqualsSeparated)]
+    public string DataId { get; private init; }
+
+    /// <summary>
+    /// ConsentStore resource - Cloud Healthcare API consent store where the requested data-id is stored. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument consent_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud Healthcare dataset. To set the dataset attribute: ▸ provide the argument consent_store on the command line with a fully specified name; ▸ provide the argument --dataset on the command line.
+    /// </summary>
+    [CliOption("--dataset", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSet { get; set; }
+
+    /// <summary>
+    /// ConsentStore resource - Cloud Healthcare API consent store where the requested data-id is stored. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument consent_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location. To set the location attribute: ▸ provide the argument consent_store on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property healthcare/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of request attributes associated with this access request. Each attribute has the form "KEY=VALUE". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--request-attributes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? RequestAttributes { get; set; }
+
+    /// <summary>
+    /// ConsentStore resource - Cloud Healthcare API consent store where the requested data-id is stored. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument consent_store on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the consentStore or fully qualified identifier for the consentStore. To set the consent_store attribute: ▸ provide the argument consent_store on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConsentStore { get; private init; }
+
 }

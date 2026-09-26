@@ -21,4 +21,44 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apihub", "runtime-project-attachments", "create")]
 public record GcloudApihubRuntimeProjectAttachmentsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Runtime Project     Attachment
+    /// </summary>
+    /// <param name="RuntimeProject">Google cloud project name in the format: "projects/abc" or "projects/123". As input, project name with either project id or number are accepted. As output, this field will contain project number.</param>
+    /// <param name="RuntimeProjectAttachment">RuntimeProjectAttachment resource - Identifier. The resource name of a runtime project attachment. Format: "projects/{project}/locations/{location}/runtimeProjectAttachments/{runtime_project_attachment}". The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime_project_attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the runtimeProjectAttachment or fully qualified identifier for the runtimeProjectAttachment. To set the runtime_project_attachment attribute: ▸ provide the argument runtime_project_attachment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubRuntimeProjectAttachmentsCreateOptions(
+        string RuntimeProject,
+        string RuntimeProjectAttachment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuntimeProject);
+        this.RuntimeProject = RuntimeProject;
+        global::System.ArgumentNullException.ThrowIfNull(RuntimeProjectAttachment);
+        this.RuntimeProjectAttachment = RuntimeProjectAttachment;
+    }
+
+    public void Deconstruct(out string RuntimeProject, out string RuntimeProjectAttachment)
+    {
+        RuntimeProject = this.RuntimeProject;
+        RuntimeProjectAttachment = this.RuntimeProjectAttachment;
+    }
+
+    /// <summary>
+    /// Google cloud project name in the format: "projects/abc" or "projects/123". As input, project name with either project id or number are accepted. As output, this field will contain project number.
+    /// </summary>
+    [CliOption("--runtime-project", Format = OptionFormat.EqualsSeparated)]
+    public string RuntimeProject { get; private init; }
+
+    /// <summary>
+    /// RuntimeProjectAttachment resource - Identifier. The resource name of a runtime project attachment. Format: "projects/{project}/locations/{location}/runtimeProjectAttachments/{runtime_project_attachment}". The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime_project_attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the runtimeProjectAttachment resource. To set the location attribute: ▸ provide the argument runtime_project_attachment on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// RuntimeProjectAttachment resource - Identifier. The resource name of a runtime project attachment. Format: "projects/{project}/locations/{location}/runtimeProjectAttachments/{runtime_project_attachment}". The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime_project_attachment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the runtimeProjectAttachment or fully qualified identifier for the runtimeProjectAttachment. To set the runtime_project_attachment attribute: ▸ provide the argument runtime_project_attachment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RuntimeProjectAttachment { get; private init; }
+
 }

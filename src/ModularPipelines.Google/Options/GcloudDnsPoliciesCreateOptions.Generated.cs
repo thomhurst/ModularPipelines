@@ -21,4 +21,90 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dns", "policies", "create")]
 public record GcloudDnsPoliciesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// creates a new Cloud DNS policy
+    /// </summary>
+    /// <param name="Description">A description of the policy.</param>
+    /// <param name="Networks">The comma separated list of network names to associate with the policy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Policy">Policy resource - The policy to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the policy or fully qualified identifier for the policy. To set the policy attribute: ▸ provide the argument policy on the command line.</param>
+    public GcloudDnsPoliciesCreateOptions(
+        string Description,
+        IEnumerable<string> Networks,
+        string Policy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Description);
+        this.Description = Description;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Networks);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Networks));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Networks));
+            }
+
+            Networks = materialized;
+        }
+        this.Networks = Networks;
+        global::System.ArgumentNullException.ThrowIfNull(Policy);
+        this.Policy = Policy;
+    }
+
+    public void Deconstruct(out string Description, out IEnumerable<string> Networks, out string Policy)
+    {
+        Description = this.Description;
+        Networks = this.Networks;
+        Policy = this.Policy;
+    }
+
+    /// <summary>
+    /// A description of the policy.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string Description { get; private init; }
+
+    /// <summary>
+    /// The comma separated list of network names to associate with the policy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Networks { get; private init; }
+
+    /// <summary>
+    /// List of alternative name servers to forward to. Non-RFC1918 addresses will forward to the target through the Internet.RFC1918 addresses will forward through the VPC. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--alternative-name-servers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AlternativeNameServers { get; set; }
+
+    /// <summary>
+    /// Specifies whether to allow networks bound to this policy to use DNS64 for IPv6-only VM instances.
+    /// </summary>
+    [CliFlag("--enable-dns64-all-queries")]
+    public bool? EnableDns64AllQueries { get; set; }
+
+    /// <summary>
+    /// Specifies whether to allow networks bound to this policy to receive DNS queries sent by VMs or applications over VPN connections. Defaults to False.
+    /// </summary>
+    [CliFlag("--enable-inbound-forwarding")]
+    public bool? EnableInboundForwarding { get; set; }
+
+    /// <summary>
+    /// Specifies whether to enable query logging. Defaults to False.
+    /// </summary>
+    [CliFlag("--enable-logging")]
+    public bool? EnableLogging { get; set; }
+
+    /// <summary>
+    /// List of alternative name servers to forward to. All addresses specified for this parameter will be reached through the VPC. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--private-alternative-name-servers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? PrivateAlternativeNameServers { get; set; }
+
+    /// <summary>
+    /// Policy resource - The policy to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the policy or fully qualified identifier for the policy. To set the policy attribute: ▸ provide the argument policy on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Policy { get; private init; }
+
 }

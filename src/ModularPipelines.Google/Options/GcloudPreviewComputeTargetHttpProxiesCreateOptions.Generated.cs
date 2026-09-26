@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,90 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "target-http-proxies", "create")]
-public record GcloudPreviewComputeTargetHttpProxiesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeTargetHttpProxiesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a target HTTP     proxy
+    /// </summary>
+    /// <param name="UrlMap">A reference to a URL map resource. A URL map defines the mapping of URLs to backend services. Before you can refer to a URL map, you must create the URL map. To delete a URL map that a target proxy is referring to, you must first delete the target HTTP proxy.</param>
+    /// <param name="Name">Name of the target HTTP proxy to create.</param>
+    public GcloudPreviewComputeTargetHttpProxiesCreateOptions(
+        string UrlMap,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UrlMap);
+        this.UrlMap = UrlMap;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string UrlMap, out string Name)
+    {
+        UrlMap = this.UrlMap;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// A reference to a URL map resource. A URL map defines the mapping of URLs to backend services. Before you can refer to a URL map, you must create the URL map. To delete a URL map that a target proxy is referring to, you must first delete the target HTTP proxy.
+    /// </summary>
+    [CliOption("--url-map", Format = OptionFormat.EqualsSeparated)]
+    public string UrlMap { get; private init; }
+
+    /// <summary>
+    /// An optional, textual description for the target HTTP proxy.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Represents the maximum amount of time that a TCP connection can be idle between the (downstream) client and the target HTTP proxy. If an HTTP keepalive timeout is not specified, the default value is 610 seconds. For global external Application Load Balancers, the minimum allowed value is 5 seconds and the maximum allowed value is 1200 seconds.
+    /// </summary>
+    [CliOption("--http-keep-alive-timeout-sec", Format = OptionFormat.EqualsSeparated)]
+    public int? HttpKeepAliveTimeoutSec { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the target HTTP proxy is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the target HTTP proxy to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the URL map is global.
+    /// </summary>
+    [CliFlag("--global-url-map")]
+    public bool? GlobalUrlMap { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the URL map to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--url-map-region", Format = OptionFormat.EqualsSeparated)]
+    public string? UrlMapRegion { get; set; }
+
+    /// <summary>
+    /// Name of the target HTTP proxy to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        if ((GlobalUrlMap == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(UrlMapRegion) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GlobalUrlMap or UrlMapRegion may be specified.", [nameof(GlobalUrlMap), nameof(UrlMapRegion)]);
+        }
+        yield break;
+    }
+
 }

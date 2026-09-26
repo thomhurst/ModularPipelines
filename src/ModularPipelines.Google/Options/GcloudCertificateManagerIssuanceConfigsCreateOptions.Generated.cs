@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +23,86 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("certificate-manager", "issuance-configs", "create")]
 public record GcloudCertificateManagerIssuanceConfigsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Certificate     Issuance Config
+    /// </summary>
+    /// <param name="CaPool">CA Pool used for issuing certificates. For example: $ gcloud certificate-manager issuance-configs create \ --ca-pool=projects/test-project/locations/us-west1/caPools/\ my-ca-pool</param>
+    /// <param name="CertificateIssuanceConfig">CertificateIssuanceConfig resource - Name of the Certificate Issuance Config to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument certificate_issuance_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the certificateIssuanceConfig or fully qualified identifier for the certificateIssuanceConfig. To set the certificate_issuance_config attribute: ▸ provide the argument certificate_issuance_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudCertificateManagerIssuanceConfigsCreateOptions(
+        string CaPool,
+        string CertificateIssuanceConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CaPool);
+        this.CaPool = CaPool;
+        global::System.ArgumentNullException.ThrowIfNull(CertificateIssuanceConfig);
+        this.CertificateIssuanceConfig = CertificateIssuanceConfig;
+    }
+
+    public void Deconstruct(out string CaPool, out string CertificateIssuanceConfig)
+    {
+        CaPool = this.CaPool;
+        CertificateIssuanceConfig = this.CertificateIssuanceConfig;
+    }
+
+    /// <summary>
+    /// CA Pool used for issuing certificates. For example: $ gcloud certificate-manager issuance-configs create \ --ca-pool=projects/test-project/locations/us-west1/caPools/\ my-ca-pool
+    /// </summary>
+    [CliOption("--ca-pool", Format = OptionFormat.EqualsSeparated)]
+    public string CaPool { get; private init; }
+
+    /// <summary>
+    /// CertificateIssuanceConfig resource - Name of the Certificate Issuance Config to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument certificate_issuance_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Certificate Manager location. To set the location attribute: ▸ provide the argument certificate_issuance_config on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ default value of location is [global].
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Human-readable description of the resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Key algorithm to use when generating the private key. Defaults to rsa-2048. KEY_ALGORITHM must be one of: ecdsa-p256, rsa-2048.
+    /// </summary>
+    [CliOption("--key-algorithm", Format = OptionFormat.EqualsSeparated)]
+    public GcloudCertificateManagerIssuanceConfigsCreateKeyAlgorithm? KeyAlgorithm { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Lifetime of issued certificates in ISO 8601 format. Use gcloud topic datetimes for details. Defaults to P30D.
+    /// </summary>
+    [CliOption("--lifetime", Format = OptionFormat.EqualsSeparated)]
+    public string? Lifetime { get; set; }
+
+    /// <summary>
+    /// How long along the lifetime of the ceritificate to renew, expressed as a percentage. Defaults to 66.
+    /// </summary>
+    [CliOption("--rotation-window-percentage", Format = OptionFormat.EqualsSeparated)]
+    public string? RotationWindowPercentage { get; set; }
+
+    /// <summary>
+    /// List of tags KEY=VALUE pairs to bind. Each item must be expressed as &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;. Example: 123/environment=production,123/costCenter=marketing Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
+
+    /// <summary>
+    /// CertificateIssuanceConfig resource - Name of the Certificate Issuance Config to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument certificate_issuance_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the certificateIssuanceConfig or fully qualified identifier for the certificateIssuanceConfig. To set the certificate_issuance_config attribute: ▸ provide the argument certificate_issuance_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CertificateIssuanceConfig { get; private init; }
+
 }

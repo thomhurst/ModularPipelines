@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,74 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("api-gateway", "gateways", "create")]
 public record GcloudApiGatewayGatewaysCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new gateway
+    /// </summary>
+    /// <param name="ApiConfig">Api config resource - Resource name for API config the gateway will use. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --api-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --api-config on the command line with a fully specified name; ◆ Location for API and API Configs. Defaults to global. This must be specified. ID of the api-config or fully qualified identifier for the api-config. To set the api-config attribute: ▸ provide the argument --api-config on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="Gateway">Gateway resource - Name for gateway which will be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gateway or fully qualified identifier for the gateway. To set the gateway attribute: ▸ provide the argument gateway on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApiGatewayGatewaysCreateOptions(
+        string ApiConfig,
+        string Gateway
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiConfig);
+        this.ApiConfig = ApiConfig;
+        global::System.ArgumentNullException.ThrowIfNull(Gateway);
+        this.Gateway = Gateway;
+    }
+
+    public void Deconstruct(out string ApiConfig, out string Gateway)
+    {
+        ApiConfig = this.ApiConfig;
+        Gateway = this.Gateway;
+    }
+
+    /// <summary>
+    /// Api config resource - Resource name for API config the gateway will use. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --api-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --api-config on the command line with a fully specified name; ◆ Location for API and API Configs. Defaults to global. This must be specified. ID of the api-config or fully qualified identifier for the api-config. To set the api-config attribute: ▸ provide the argument --api-config on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--api-config", Format = OptionFormat.EqualsSeparated)]
+    public string ApiConfig { get; private init; }
+
+    /// <summary>
+    /// Gateway resource - Name for gateway which will be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud location for gateway. To set the location attribute: ▸ provide the argument gateway on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Api config resource - Resource name for API config the gateway will use. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --api-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --api-config on the command line with a fully specified name; ◆ Location for API and API Configs. Defaults to global. This must be specified. API ID. To set the api attribute: ▸ provide the argument --api-config on the command line with a fully specified name; ▸ provide the argument --api on the command line.
+    /// </summary>
+    [CliOption("--api", Format = OptionFormat.EqualsSeparated)]
+    public string? Api { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Human readable name which can optionally be supplied.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Creates the gateway with streaming enabled, which supports Server-Sent Events (SSE), HTTP/2 streaming, HTTP chunked transfer, WebSockets, and gRPC bidirectional streaming. This can only be set when the gateway is created and cannot be changed afterwards. When omitted, API Gateway selects the streaming mode.
+    /// </summary>
+    [CliFlag("--enable-streaming")]
+    public bool? EnableStreaming { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Gateway resource - Name for gateway which will be created. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gateway or fully qualified identifier for the gateway. To set the gateway attribute: ▸ provide the argument gateway on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Gateway { get; private init; }
+
 }

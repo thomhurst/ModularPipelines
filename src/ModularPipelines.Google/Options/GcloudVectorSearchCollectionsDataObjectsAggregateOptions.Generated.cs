@@ -21,4 +21,55 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("vector-search", "collections", "data-objects", "aggregate")]
 public record GcloudVectorSearchCollectionsDataObjectsAggregateOptions : GcloudOptions
 {
+    /// <summary>
+    /// aggregate data     objects
+    /// </summary>
+    /// <param name="AggregationMethod">The aggregation method to apply to the query. AGGREGATION_METHOD must be (only one value is supported): count Count the number of data objects that match the filter.</param>
+    /// <param name="Collection">The collection to aggregate data objects from.</param>
+    /// <param name="Location">Location of the collection.</param>
+    public GcloudVectorSearchCollectionsDataObjectsAggregateOptions(
+        string AggregationMethod,
+        string Collection,
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AggregationMethod);
+        this.AggregationMethod = AggregationMethod;
+        global::System.ArgumentNullException.ThrowIfNull(Collection);
+        this.Collection = Collection;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string AggregationMethod, out string Collection, out string Location)
+    {
+        AggregationMethod = this.AggregationMethod;
+        Collection = this.Collection;
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// The aggregation method to apply to the query. AGGREGATION_METHOD must be (only one value is supported): count Count the number of data objects that match the filter.
+    /// </summary>
+    [CliOption("--aggregation-method", Format = OptionFormat.EqualsSeparated)]
+    public string AggregationMethod { get; private init; }
+
+    /// <summary>
+    /// The collection to aggregate data objects from.
+    /// </summary>
+    [CliOption("--collection", Format = OptionFormat.EqualsSeparated)]
+    public string Collection { get; private init; }
+
+    /// <summary>
+    /// Location of the collection.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// A filter expression in JSON format to apply to the aggregate, e.g. '{"genre": {"$eq": "sci-fi"}}'.
+    /// </summary>
+    [CliOption("--json-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonFilter { get; set; }
+
 }

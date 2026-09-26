@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "instance-configs", "delete")]
-public record GcloudSpannerInstanceConfigsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceConfig
-) : GcloudOptions
+public record GcloudSpannerInstanceConfigsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a Cloud Spanner instance     configuration
+    /// </summary>
+    /// <param name="InstanceConfig">Cloud Spanner instance config.</param>
+    public GcloudSpannerInstanceConfigsDeleteOptions(
+        string InstanceConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceConfig);
+        this.InstanceConfig = InstanceConfig;
+    }
+
+    public void Deconstruct(out string InstanceConfig)
+    {
+        InstanceConfig = this.InstanceConfig;
+    }
+
     /// <summary>
     /// Used for optimistic concurrency control as a way to help prevent simultaneous deletes of an instance config from overwriting each other.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudSpannerInstanceConfigsDeleteOptions(
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Cloud Spanner instance config.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceConfig { get; private init; }
 
 }

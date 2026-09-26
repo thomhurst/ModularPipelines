@@ -22,9 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDeveloperConnectInsightsConfigsDeploymentEventsDescribeOptions : GcloudOptions
 {
     /// <summary>
+    /// describe a deploymentEvent
+    /// </summary>
+    /// <param name="DeploymentEvent">DeploymentEvent resource - The deployment event to describe. Format: projects/{project}/locations/{location}/insightsConfigs/{insights_config}/deploymentEvents/{deployment_event} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument deployment_event on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the deploymentEvent or fully qualified identifier for the deploymentEvent. To set the deployment_event attribute: ▸ provide the argument deployment_event on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDeveloperConnectInsightsConfigsDeploymentEventsDescribeOptions(
+        string DeploymentEvent
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DeploymentEvent);
+        this.DeploymentEvent = DeploymentEvent;
+    }
+
+    public void Deconstruct(out string DeploymentEvent)
+    {
+        DeploymentEvent = this.DeploymentEvent;
+    }
+
+    /// <summary>
+    /// DeploymentEvent resource - The deployment event to describe. Format: projects/{project}/locations/{location}/insightsConfigs/{insights_config}/deploymentEvents/{deployment_event} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument deployment_event on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The insightsConfig id of the deploymentEvent resource. To set the insights-config attribute: ▸ provide the argument deployment_event on the command line with a fully specified name; ▸ provide the argument --insights-config on the command line.
+    /// </summary>
+    [CliOption("--insights-config", Format = OptionFormat.EqualsSeparated)]
+    public string? InsightsConfig { get; set; }
+
+    /// <summary>
+    /// DeploymentEvent resource - The deployment event to describe. Format: projects/{project}/locations/{location}/insightsConfigs/{insights_config}/deploymentEvents/{deployment_event} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument deployment_event on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the deploymentEvent resource. To set the location attribute: ▸ provide the argument deployment_event on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// If true, enriches the deployment event with vulnerability and package dependency details from Container Analysis.
     /// </summary>
     [CliFlag("--show-details")]
     public bool? ShowDetails { get; set; }
+
+    /// <summary>
+    /// DeploymentEvent resource - The deployment event to describe. Format: projects/{project}/locations/{location}/insightsConfigs/{insights_config}/deploymentEvents/{deployment_event} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument deployment_event on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the deploymentEvent or fully qualified identifier for the deploymentEvent. To set the deployment_event attribute: ▸ provide the argument deployment_event on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DeploymentEvent { get; private init; }
 
 }

@@ -21,4 +21,49 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("preview", "compute", "machine-images", "remove-iam-policy-binding")]
 public record GcloudPreviewComputeMachineImagesRemoveIamPolicyBindingOptions : GcloudOptions
 {
+    /// <summary>
+    /// remove     IAM policy binding from the IAM policy of a Compute Engine machine     image
+    /// </summary>
+    /// <param name="Member">The principal to remove the binding for. Should be of the form user|group|serviceAccount:email or domain:domain. Examples: user:test-user@gmail.com, group:admins@example.com, serviceAccount:test123@example.domain.com, or domain:example.domain.com. Deleted principals have an additional deleted: prefix and a ?uid=UID suffix, where UID is a unique identifier for the principal. Example: deleted:user:test-user@gmail.com?uid=123456789012345678901. Some resources also accept the following special values: ◆ allUsers - Special identifier that represents anyone who is on the internet, with or without a Google account. ◆ allAuthenticatedUsers - Special identifier that represents anyone who is authenticated with a Google account or a service account.</param>
+    /// <param name="Role">The role to remove the principal from.</param>
+    /// <param name="MachineImage">Machine image resource - The machine image from which to remove the IAM policy binding. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument machine_image on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the machine image or fully qualified identifier for the machine image. To set the machine_image attribute: ▸ provide the argument machine_image on the command line.</param>
+    public GcloudPreviewComputeMachineImagesRemoveIamPolicyBindingOptions(
+        string Member,
+        string Role,
+        string MachineImage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Member);
+        this.Member = Member;
+        global::System.ArgumentNullException.ThrowIfNull(Role);
+        this.Role = Role;
+        global::System.ArgumentNullException.ThrowIfNull(MachineImage);
+        this.MachineImage = MachineImage;
+    }
+
+    public void Deconstruct(out string Member, out string Role, out string MachineImage)
+    {
+        Member = this.Member;
+        Role = this.Role;
+        MachineImage = this.MachineImage;
+    }
+
+    /// <summary>
+    /// The principal to remove the binding for. Should be of the form user|group|serviceAccount:email or domain:domain. Examples: user:test-user@gmail.com, group:admins@example.com, serviceAccount:test123@example.domain.com, or domain:example.domain.com. Deleted principals have an additional deleted: prefix and a ?uid=UID suffix, where UID is a unique identifier for the principal. Example: deleted:user:test-user@gmail.com?uid=123456789012345678901. Some resources also accept the following special values: ◆ allUsers - Special identifier that represents anyone who is on the internet, with or without a Google account. ◆ allAuthenticatedUsers - Special identifier that represents anyone who is authenticated with a Google account or a service account.
+    /// </summary>
+    [CliOption("--member", Format = OptionFormat.EqualsSeparated)]
+    public string Member { get; private init; }
+
+    /// <summary>
+    /// The role to remove the principal from.
+    /// </summary>
+    [CliOption("--role", Format = OptionFormat.EqualsSeparated)]
+    public string Role { get; private init; }
+
+    /// <summary>
+    /// Machine image resource - The machine image from which to remove the IAM policy binding. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument machine_image on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the machine image or fully qualified identifier for the machine image. To set the machine_image attribute: ▸ provide the argument machine_image on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MachineImage { get; private init; }
+
 }

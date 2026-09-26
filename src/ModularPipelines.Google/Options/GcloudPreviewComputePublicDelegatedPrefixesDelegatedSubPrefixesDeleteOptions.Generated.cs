@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,62 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "public-delegated-prefixes", "delegated-sub-prefixes", "delete")]
-public record GcloudPreviewComputePublicDelegatedPrefixesDelegatedSubPrefixesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputePublicDelegatedPrefixesDelegatedSubPrefixesDeleteOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// prefixes     delete - deletes a Compute Engine delegated sub prefix
+    /// </summary>
+    /// <param name="PublicDelegatedPrefix">Name of the public delegated prefix to delete the delegate sub prefix for.</param>
+    /// <param name="Name">Name of the delegated sub prefix to delete.</param>
+    public GcloudPreviewComputePublicDelegatedPrefixesDelegatedSubPrefixesDeleteOptions(
+        string PublicDelegatedPrefix,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PublicDelegatedPrefix);
+        this.PublicDelegatedPrefix = PublicDelegatedPrefix;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string PublicDelegatedPrefix, out string Name)
+    {
+        PublicDelegatedPrefix = this.PublicDelegatedPrefix;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the public delegated prefix to delete the delegate sub prefix for.
+    /// </summary>
+    [CliOption("--public-delegated-prefix", Format = OptionFormat.EqualsSeparated)]
+    public string PublicDelegatedPrefix { get; private init; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the public delegated prefix is global.
+    /// </summary>
+    [CliFlag("--global-public-delegated-prefix")]
+    public bool? GlobalPublicDelegatedPrefix { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the public delegated prefix to delete the delegate sub prefix for. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--public-delegated-prefix-region", Format = OptionFormat.EqualsSeparated)]
+    public string? PublicDelegatedPrefixRegion { get; set; }
+
+    /// <summary>
+    /// Name of the delegated sub prefix to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((GlobalPublicDelegatedPrefix == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(PublicDelegatedPrefixRegion) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GlobalPublicDelegatedPrefix or PublicDelegatedPrefixRegion may be specified.", [nameof(GlobalPublicDelegatedPrefix), nameof(PublicDelegatedPrefixRegion)]);
+        }
+        yield break;
+    }
+
 }

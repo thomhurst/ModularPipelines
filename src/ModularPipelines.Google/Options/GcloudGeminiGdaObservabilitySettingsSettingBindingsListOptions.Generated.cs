@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("gemini", "gda-observability-settings", "setting-bindings", "list")]
 public record GcloudGeminiGdaObservabilitySettingsSettingBindingsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list     settingBindings
+    /// </summary>
+    /// <param name="GdaObservabilitySetting">GdaObservabilitySetting resource - Parent value for ListSettingBindingsRequest. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --gda-observability-setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gdaObservabilitySetting or fully qualified identifier for the gdaObservabilitySetting. To set the gda-observability-setting attribute: ▸ provide the argument --gda-observability-setting on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudGeminiGdaObservabilitySettingsSettingBindingsListOptions(
+        string GdaObservabilitySetting
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GdaObservabilitySetting);
+        this.GdaObservabilitySetting = GdaObservabilitySetting;
+    }
+
+    public void Deconstruct(out string GdaObservabilitySetting)
+    {
+        GdaObservabilitySetting = this.GdaObservabilitySetting;
+    }
+
+    /// <summary>
+    /// GdaObservabilitySetting resource - Parent value for ListSettingBindingsRequest. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --gda-observability-setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gdaObservabilitySetting or fully qualified identifier for the gdaObservabilitySetting. To set the gda-observability-setting attribute: ▸ provide the argument --gda-observability-setting on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--gda-observability-setting", Format = OptionFormat.EqualsSeparated)]
+    public string GdaObservabilitySetting { get; private init; }
+
+    /// <summary>
+    /// GdaObservabilitySetting resource - Parent value for ListSettingBindingsRequest. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --gda-observability-setting on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the gdaObservabilitySetting resource. To set the location attribute: ▸ provide the argument --gda-observability-setting on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

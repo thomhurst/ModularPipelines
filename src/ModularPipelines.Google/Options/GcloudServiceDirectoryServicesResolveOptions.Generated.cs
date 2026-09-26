@@ -22,6 +22,35 @@ namespace ModularPipelines.Google.Options;
 public record GcloudServiceDirectoryServicesResolveOptions : GcloudOptions
 {
     /// <summary>
+    /// resolves a service
+    /// </summary>
+    /// <param name="Service">Service resource - The Service Directory service to resolve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudServiceDirectoryServicesResolveOptions(
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string Service)
+    {
+        Service = this.Service;
+    }
+
+    /// <summary>
+    /// Service resource - The Service Directory service to resolve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The name of the region for the service. To set the location attribute: ▸ provide the argument service on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Service resource - The Service Directory service to resolve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The name of the namespace for the service. To set the namespace attribute: ▸ provide the argument service on the command line with a fully specified name; ▸ provide the argument --namespace on the command line.
+    /// </summary>
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? Namespace { get; set; }
+
+    /// <summary>
     /// Apply a Boolean filter EXPRESSION to each endpoint in the service. If the expression evaluates True, then that endpoint is listed.
     /// </summary>
     [CliOption("--endpoint-filter", Format = OptionFormat.EqualsSeparated)]
@@ -32,5 +61,11 @@ public record GcloudServiceDirectoryServicesResolveOptions : GcloudOptions
     /// </summary>
     [CliOption("--max-endpoints", Format = OptionFormat.EqualsSeparated)]
     public string? MaxEndpoints { get; set; }
+
+    /// <summary>
+    /// Service resource - The Service Directory service to resolve. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Service { get; private init; }
 
 }

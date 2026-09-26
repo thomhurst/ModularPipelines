@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datastore", "operations", "describe")]
-public record GcloudDatastoreOperationsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudDatastoreOperationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// retrieves information about a Cloud     Datastore admin operation
+    /// </summary>
+    /// <param name="Name">The unique name of the Operation to retrieve, formatted as either the full or relative resource path: projects/my-app-id/operations/foo or: foo</param>
+    public GcloudDatastoreOperationsDescribeOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The unique name of the Operation to retrieve, formatted as either the full or relative resource path: projects/my-app-id/operations/foo or: foo
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("agent-registry", "bindings", "update")]
-public record GcloudAgentRegistryBindingsUpdateOptions : GcloudOptions
+public record GcloudAgentRegistryBindingsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// modify binding parameters
+    /// </summary>
+    /// <param name="Binding">Binding resource - Identifier. The resource name of the Binding. Format: projects/{project}/locations/{location}/bindings/{binding}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the binding or fully qualified identifier for the binding. To set the binding attribute: ▸ provide the argument binding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAgentRegistryBindingsUpdateOptions(
+        string Binding
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Binding);
+        this.Binding = Binding;
+    }
+
+    public void Deconstruct(out string Binding)
+    {
+        Binding = this.Binding;
+    }
+
+    /// <summary>
+    /// Binding resource - Identifier. The resource name of the Binding. Format: projects/{project}/locations/{location}/bindings/{binding}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the binding resource. To set the location attribute: ▸ provide the argument binding on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -64,28 +88,94 @@ public record GcloudAgentRegistryBindingsUpdateOptions : GcloudOptions
     public bool? ClearAuthProviderBinding { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Set auth_provider_binding_scopes to new value.
+    /// Update auth_provider_binding_scopes. At most one of these can be specified: Set auth_provider_binding_scopes to new value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AuthProviderBindingScopes { get; set; }
+    [CliOption("--auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AuthProviderBindingScopes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AuthProviderBindingScopesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AuthProviderBindingScopesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to auth_provider_binding_scopes list.
+    /// Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to auth_provider_binding_scopes list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddAuthProviderBindingScopes { get; set; }
+    [CliOption("--add-auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddAuthProviderBindingScopes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddAuthProviderBindingScopesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddAuthProviderBindingScopesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear auth_provider_binding_scopes value and set to empty list.
+    /// Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear auth_provider_binding_scopes value and set to empty list.
     /// </summary>
     [CliFlag("--clear-auth-provider-binding-scopes")]
     public bool? ClearAuthProviderBindingScopes { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from auth_provider_binding_scopes list.
+    /// Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from auth_provider_binding_scopes list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveAuthProviderBindingScopes { get; set; }
+    [CliOption("--remove-auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveAuthProviderBindingScopes
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveAuthProviderBindingScopesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveAuthProviderBindingScopesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// The source of the Binding. Set binding.source back to default value.
@@ -94,13 +184,13 @@ public record GcloudAgentRegistryBindingsUpdateOptions : GcloudOptions
     public bool? ClearSource { get; set; }
 
     /// <summary>
-    /// Arguments for the source type. The identifier of the source Agent. Format: ◆ urn:agent:{publisher}:{namespace}:{name}
+    /// Arguments for the source type. The target of the Binding. The identifier of the source Agent. Format: ◆ urn:agent:{publisher}:{namespace}:{name}
     /// </summary>
     [CliOption("--source-identifier", Format = OptionFormat.EqualsSeparated)]
     public string? SourceIdentifier { get; set; }
 
     /// <summary>
-    /// The target of the Binding. Set binding.target back to default value.
+    /// Arguments for the source type. The target of the Binding. Set binding.target back to default value.
     /// </summary>
     [CliFlag("--clear-target")]
     public bool? ClearTarget { get; set; }
@@ -110,5 +200,25 @@ public record GcloudAgentRegistryBindingsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--target-identifier", Format = OptionFormat.EqualsSeparated)]
     public string? TargetIdentifier { get; set; }
+
+    /// <summary>
+    /// Binding resource - Identifier. The resource name of the Binding. Format: projects/{project}/locations/{location}/bindings/{binding}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the binding or fully qualified identifier for the binding. To set the binding attribute: ▸ provide the argument binding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Binding { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)AuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AuthProviderBindingScopes is not string || !string.IsNullOrWhiteSpace(AuthProviderBindingScopes?.ToString()) : ((object?)AuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AuthProviderBindingScopes, static item => item is not null) : (AuthProviderBindingScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AuthProviderBindingScopes), static item => item is not null)))) ? 1 : 0) + ((((object?)AddAuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAuthProviderBindingScopes is not string || !string.IsNullOrWhiteSpace(AddAuthProviderBindingScopes?.ToString()) : ((object?)AddAuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAuthProviderBindingScopes, static item => item is not null) : (AddAuthProviderBindingScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAuthProviderBindingScopes), static item => item is not null)))) || ClearAuthProviderBindingScopes == true || ((object?)RemoveAuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAuthProviderBindingScopes is not string || !string.IsNullOrWhiteSpace(RemoveAuthProviderBindingScopes?.ToString()) : ((object?)RemoveAuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAuthProviderBindingScopes, static item => item is not null) : (RemoveAuthProviderBindingScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAuthProviderBindingScopes), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AuthProviderBindingScopes or (AddAuthProviderBindingScopes, ClearAuthProviderBindingScopes, or RemoveAuthProviderBindingScopes) may be specified.", [nameof(AuthProviderBindingScopes), nameof(AddAuthProviderBindingScopes), nameof(ClearAuthProviderBindingScopes), nameof(RemoveAuthProviderBindingScopes)]);
+        }
+        if ((((object?)AuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AuthProviderBindingScopes is not string || !string.IsNullOrWhiteSpace(AuthProviderBindingScopes?.ToString()) : ((object?)AuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AuthProviderBindingScopes, static item => item is not null) : (AuthProviderBindingScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AuthProviderBindingScopes), static item => item is not null)))) || ((object?)AddAuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAuthProviderBindingScopes is not string || !string.IsNullOrWhiteSpace(AddAuthProviderBindingScopes?.ToString()) : ((object?)AddAuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAuthProviderBindingScopes, static item => item is not null) : (AddAuthProviderBindingScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAuthProviderBindingScopes), static item => item is not null)))) || ClearAuthProviderBindingScopes == true || ((object?)RemoveAuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAuthProviderBindingScopes is not string || !string.IsNullOrWhiteSpace(RemoveAuthProviderBindingScopes?.ToString()) : ((object?)RemoveAuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAuthProviderBindingScopes, static item => item is not null) : (RemoveAuthProviderBindingScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAuthProviderBindingScopes), static item => item is not null))))) && (((object?)AddAuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAuthProviderBindingScopes is not string || !string.IsNullOrWhiteSpace(AddAuthProviderBindingScopes?.ToString()) : ((object?)AddAuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAuthProviderBindingScopes, static item => item is not null) : (AddAuthProviderBindingScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAuthProviderBindingScopes), static item => item is not null)))) || ClearAuthProviderBindingScopes == true || ((object?)RemoveAuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAuthProviderBindingScopes is not string || !string.IsNullOrWhiteSpace(RemoveAuthProviderBindingScopes?.ToString()) : ((object?)RemoveAuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAuthProviderBindingScopes, static item => item is not null) : (RemoveAuthProviderBindingScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAuthProviderBindingScopes), static item => item is not null))))) && ((ClearAuthProviderBindingScopes == true ? 1 : 0) + (((object?)RemoveAuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAuthProviderBindingScopes is not string || !string.IsNullOrWhiteSpace(RemoveAuthProviderBindingScopes?.ToString()) : ((object?)RemoveAuthProviderBindingScopes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAuthProviderBindingScopes, static item => item is not null) : (RemoveAuthProviderBindingScopes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAuthProviderBindingScopes), static item => item is not null)))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearAuthProviderBindingScopes or RemoveAuthProviderBindingScopes may be specified.", [nameof(ClearAuthProviderBindingScopes), nameof(RemoveAuthProviderBindingScopes)]);
+        }
+        yield break;
+    }
 
 }

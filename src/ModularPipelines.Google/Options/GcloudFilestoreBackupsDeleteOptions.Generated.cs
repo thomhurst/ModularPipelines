@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("filestore", "backups", "delete")]
-public record GcloudFilestoreBackupsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Backup
-) : GcloudOptions
+public record GcloudFilestoreBackupsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a Filestore backup
+    /// </summary>
+    /// <param name="Region">Compute region (e.g. us-central1) for the backup.</param>
+    /// <param name="Backup">Arguments and flags that specify the Filestore backup you want to delete.</param>
+    public GcloudFilestoreBackupsDeleteOptions(
+        string Region,
+        string Backup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(Backup);
+        this.Backup = Backup;
+    }
+
+    public void Deconstruct(out string Region, out string Backup)
+    {
+        Region = this.Region;
+        Backup = this.Backup;
+    }
+
+    /// <summary>
+    /// Compute region (e.g. us-central1) for the backup.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Arguments and flags that specify the Filestore backup you want to delete.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Backup { get; private init; }
+
 }

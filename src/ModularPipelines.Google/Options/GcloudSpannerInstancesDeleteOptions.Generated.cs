@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "instances", "delete")]
-public record GcloudSpannerInstancesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudSpannerInstancesDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a Cloud Spanner instance
+    /// </summary>
+    /// <param name="Instance">Cloud Spanner instance ID.</param>
+    public GcloudSpannerInstancesDeleteOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Cloud Spanner instance ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
 }

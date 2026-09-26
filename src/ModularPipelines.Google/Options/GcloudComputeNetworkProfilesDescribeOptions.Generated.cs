@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "network-profiles", "describe")]
 public record GcloudComputeNetworkProfilesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a network profile
+    /// </summary>
+    /// <param name="NetworkProfile">Network profile resource - Name of the network profile you want to inspect. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the network_profile or fully qualified identifier for the network_profile. To set the network_profile attribute: ▸ provide the argument network_profile on the command line.</param>
+    public GcloudComputeNetworkProfilesDescribeOptions(
+        string NetworkProfile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NetworkProfile);
+        this.NetworkProfile = NetworkProfile;
+    }
+
+    public void Deconstruct(out string NetworkProfile)
+    {
+        NetworkProfile = this.NetworkProfile;
+    }
+
+    /// <summary>
+    /// Network profile resource - Name of the network profile you want to inspect. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument network_profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the network_profile or fully qualified identifier for the network_profile. To set the network_profile attribute: ▸ provide the argument network_profile on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NetworkProfile { get; private init; }
+
 }

@@ -6,11 +6,11 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,8 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("biglake", "iceberg", "catalogs", "update")]
-public record GcloudBiglakeIcebergCatalogsUpdateOptions : GcloudOptions
+public record GcloudBiglakeIcebergCatalogsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a BigLake Iceberg REST     catalog
+    /// </summary>
+    /// <param name="Catalog">Catalog resource - The Iceberg Catalog to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▸ provide the argument catalog on the command line.</param>
+    public GcloudBiglakeIcebergCatalogsUpdateOptions(
+        string Catalog
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+    }
+
+    public void Deconstruct(out string Catalog)
+    {
+        Catalog = this.Catalog;
+    }
+
     /// <summary>
     /// Catalog type to update the catalog with. Currently only updating to a BigLake or Lakehouse catalog type is supported. CATALOG_TYPE must be one of: biglake BigLake Iceberg catalog. Catalog type which allows namespaces and tables within a catalog to be mapped to locations beyond the catalog's designated default. Note: biglake and lakehouse catalog types are the same. lakehouse BigLake Iceberg catalog. Catalog type which allows namespaces and tables within a catalog to be mapped to locations beyond the catalog's designated default. Note: biglake and lakehouse catalog types are the same.
     /// </summary>
@@ -32,15 +49,14 @@ public record GcloudBiglakeIcebergCatalogsUpdateOptions : GcloudOptions
     /// <summary>
     /// Credential mode to create the catalog with. CREDENTIAL_MODE must be one of: end-user Use end user credentials to access the catalog. vended-credentials Use vended credentials to access the catalog.
     /// </summary>
-    [SecretValue]
     [CliOption("--credential-mode", Format = OptionFormat.EqualsSeparated)]
     public string? CredentialMode { get; set; }
 
     /// <summary>
-    /// Whether to enable caching of remote data on Google Cloud. This may result in data being temporarily persisted on Google Cloud. CROSS_CLOUD_CACHE must be one of: enabled, disabled.
+    /// Whether to enable caching of remote data on Google Cloud. This may result in data being temporarily persisted on Google Cloud. MODE must be one of: enabled, disabled.
     /// </summary>
     [CliOption("--cross-cloud-cache", Format = OptionFormat.EqualsSeparated)]
-    public GcloudCrossCloudCache? CrossCloudCache { get; set; }
+    public GcloudBiglakeIcebergCatalogsUpdateCrossCloudCache? CrossCloudCache { get; set; }
 
     /// <summary>
     /// Description of the resource.
@@ -49,10 +65,52 @@ public record GcloudBiglakeIcebergCatalogsUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Additional Google Cloud Storage buckets and locations (e.g., gs://my-other-bucket/...) that are permitted for use by resources within a catalog. This field is currently only used for BigLake catalogs.If restricted_locations is empty and unrestricted catalog creation is enabled, all accessible locations are allowed. Otherwise, only default_location and locations in this list are allowed.
+    /// The AWS role ARN of the Glue catalog that the BigLake federated catalog will assume to access the catalog.
     /// </summary>
-    [CliOption("--restricted-locations", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--glue-aws-role-arn", Format = OptionFormat.EqualsSeparated)]
+    public string? GlueAwsRoleArn { get; set; }
+
+    /// <summary>
+    /// Filters to determine which namespaces are included in the refresh process. Empty list means include all namespaces. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--namespace-filters", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NamespaceFilters { get; set; }
+
+    /// <summary>
+    /// Interval for refreshing metadata from the remote catalog (e.g., "1hr5m30s"). Defaults to seconds if no unit is specified. If unset, the refresh interval will be set to 0s (background refresh disabled).
+    /// </summary>
+    [CliOption("--refresh-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? RefreshInterval { get; set; }
+
+    /// <summary>
+    /// Additional Google Cloud Storage buckets and locations (e.g., gs://my-other-bucket/...) that are permitted for use by resources within a catalog. This field is currently only used for BigLake catalogs.If restricted_locations is empty and unrestricted catalog creation is enabled, all accessible locations are allowed. Otherwise, only default_location and locations in this list are allowed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--restricted-locations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RestrictedLocations { get; set; }
+
+    /// <summary>
+    /// Resource name of the Secret Manager secret, in the format projects/{project_id}/locations/{location}/secrets/{secret_id} or projects/{project_id}/locations/{location}/secrets/{secret_id}/versions/{version_id}.
+    /// </summary>
+    [CliOption("--secret-name", Format = OptionFormat.EqualsSeparated)]
+    public string? SecretName { get; set; }
+
+    /// <summary>
+    /// The service directory resource name for request routing, in the format projects/{project_id}/locations/{location}/namespaces/{namespace}/services/{service_name}. see https://docs.cloud.google.com/lakehouse/docs/set-up-cross-cloud-lakehouse#setup-cci.
+    /// </summary>
+    [CliOption("--service-directory-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceDirectoryName { get; set; }
+
+    /// <summary>
+    /// The specific role to request for the Snowflake catalog.
+    /// </summary>
+    [CliOption("--snowflake-role", Format = OptionFormat.EqualsSeparated)]
+    public string? SnowflakeRole { get; set; }
+
+    /// <summary>
+    /// Optional. The application ID of the Databricks service principal that will be used to access the Unity Catalog in the OIDC authentication flow. With OIDC, the secret-name argument is not used.
+    /// </summary>
+    [CliOption("--unity-service-principal-application-id", Format = OptionFormat.EqualsSeparated)]
+    public string? UnityServicePrincipalApplicationId { get; set; }
 
     /// <summary>
     /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the catalog. The BigQuery encryption service account (bq-&lt;project_number&gt;@bigquery-encryption.iam.gserviceaccount.com) must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
@@ -77,5 +135,21 @@ public record GcloudBiglakeIcebergCatalogsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
     public string? KmsProject { get; set; }
+
+    /// <summary>
+    /// Catalog resource - The Iceberg Catalog to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▸ provide the argument catalog on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Catalog { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        yield break;
+    }
 
 }

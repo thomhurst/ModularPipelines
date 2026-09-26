@@ -6,12 +6,12 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -22,8 +22,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataproc", "workflow-templates", "set-managed-cluster")]
-public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOptions
+public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// set a managed     cluster for the workflow template
+    /// </summary>
+    /// <param name="Template">Template resource - The name of the workflow template to set managed cluster. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataprocWorkflowTemplatesSetManagedClusterOptions(
+        string Template
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+    }
+
+    public void Deconstruct(out string Template)
+    {
+        Template = this.Template;
+    }
+
+    /// <summary>
+    /// Template resource - The name of the workflow template to set managed cluster. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Dataproc region for the template. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. Overrides the default dataproc/region property value for this command invocation. To set the region attribute: ▸ provide the argument template on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property dataproc/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// ID of the autoscaling policy or fully qualified identifier for the autoscaling policy. To set the autoscaling_policy attribute: ◆ provide the argument --autoscaling-policy on the command line.
     /// </summary>
@@ -46,7 +69,7 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     /// The type of cluster. TYPE must be one of: standard, single-node, zero-scale.
     /// </summary>
     [CliOption("--cluster-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudClusterType? ClusterType { get; set; }
+    public GcloudDataprocWorkflowTemplatesSetManagedClusterClusterType? ClusterType { get; set; }
 
     /// <summary>
     /// Specify the name of a Dataproc Metastore service to be used as an external metastore in the format: "projects/{project-id}/locations/{region}/services/{service-name}".
@@ -76,24 +99,24 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     /// Cluster engine. ENGINE must be one of: default, lightning.
     /// </summary>
     [CliOption("--engine", Format = OptionFormat.EqualsSeparated)]
-    public GcloudEngine? Engine { get; set; }
+    public GcloudDataprocWorkflowTemplatesSetManagedClusterEngine? Engine { get; set; }
 
     /// <summary>
     /// The maximum duration of each initialization action. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--initialization-action-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? InitializationActionTimeout { get; set; }
+    public string? InitializationActionTimeout { get; set; }
 
     /// <summary>
-    /// A list of Google Cloud Storage URIs of executables to run on each node in the cluster.
+    /// A list of Google Cloud Storage URIs of executables to run on each node in the cluster. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--initialization-actions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--initialization-actions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? InitializationActions { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -181,16 +204,16 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     public string? NumWorkerLocalSsds { get; set; }
 
     /// <summary>
-    /// List of optional components to be installed on cluster machines. The following page documents the optional components that can be installed: https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/optional-components.
+    /// List of optional components to be installed on cluster machines. The following page documents the optional components that can be installed: https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/optional-components. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--optional-components", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--optional-components", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? OptionalComponents { get; set; }
 
     /// <summary>
     /// The private IPv6 Google access type for the cluster. PRIVATE_IPV6_GOOGLE_ACCESS_TYPE must be one of: inherit-subnetwork, outbound, bidirectional.
     /// </summary>
     [CliOption("--private-ipv6-google-access-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudPrivateIpv6GoogleAccessType? PrivateIpv6GoogleAccessType { get; set; }
+    public GcloudDataprocWorkflowTemplatesSetManagedClusterPrivateIpv6GoogleAccessType? PrivateIpv6GoogleAccessType { get; set; }
 
     /// <summary>
     /// Specifies configuration properties for installed packages, such as Hadoop and Spark. Properties are mapped to configuration files by specifying a prefix, such as "core:io.serializations". The following are supported prefixes and their mappings: Prefix File Purpose of file capacity-scheduler capacity-scheduler.xml Hadoop YARN Capacity Scheduler configuration core core-site.xml Hadoop general configuration distcp distcp-default.xml Hadoop Distributed Copy configuration hadoop-env hadoop-env.sh Hadoop specific environment variables hdfs hdfs-site.xml Hadoop HDFS configuration hive hive-site.xml Hive configuration mapred mapred-site.xml Hadoop MapReduce configuration mapred-env mapred-env.sh Hadoop MapReduce specific environment variables pig pig.properties Pig configuration spark spark-defaults.conf Spark configuration spark-env spark-env.sh Spark specific environment variables yarn yarn-site.xml Hadoop YARN configuration yarn-env yarn-env.sh Hadoop YARN specific environment variables See https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/cluster-properties for more information.
@@ -313,10 +336,32 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     public string? WorkerMinCpuPlatform { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: A comma-separated list of compute zones (such as us-central1-a) to exclude when Dataproc Auto Zone placement (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone) picks the zone for the cluster.
+    /// At most one of these can be specified: A comma-separated list of compute zones (such as us-central1-a) to exclude when Dataproc Auto Zone placement (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone) picks the zone for the cluster. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--auto-zone-exclude-zones", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AutoZoneExcludeZones { get; set; }
+    [CliOption("--auto-zone-exclude-zones", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AutoZoneExcludeZones
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AutoZoneExcludeZonesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AutoZoneExcludeZonesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: The compute zone (such as us-central1-a) for the cluster. If empty and --region is set to a value other than global, Dataproc Auto Zone placement (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone) will pick a zone in the region. Overrides the default compute/zone property value for this command invocation.
@@ -334,7 +379,7 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     /// At most one of these can be specified: Enables Confidential VM. See https://cloud.google.com/confidential-computing/confidential-vm/docs/ for more information. This flag specifies the type of Confidential Compute technology. See https://cloud.google.com/confidential-computing/confidential-vm/docs/supported-configurations#machine-type-cpu-zone for each machine type supported by Confidential Compute technology. CONFIDENTIAL_COMPUTE_TYPE must be one of: SEV, SEV_SNP, TDX.
     /// </summary>
     [CliOption("--confidential-compute-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudConfidentialComputeType? ConfidentialComputeType { get; set; }
+    public GcloudDataprocWorkflowTemplatesSetManagedClusterConfidentialComputeType? ConfidentialComputeType { get; set; }
 
     /// <summary>
     /// Specifying these flags will enable Secure Multi-Tenancy for the cluster. At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for Secure Multi-Tenancy on the cluster. The path can be a Cloud Storage URL (Example: 'gs://path/to/file') or a local file system path. If you pass "-" as the value of the flag the file content will be read from stdin. The YAML file is formatted as follows: # Required. The mapping from user accounts to service accounts. user_service_account_mapping: bob@company.com: service-account-bob@project.iam.gserviceaccount.com alice@company.com: service-account-alice@project.iam.gserviceaccount.com
@@ -343,10 +388,32 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     public string? IdentityConfigFile { get; set; }
 
     /// <summary>
-    /// Specifying these flags will enable Secure Multi-Tenancy for the cluster. At most one of these can be specified: A string of user-to-service-account mappings. Mappings are separated by commas, and each mapping takes the form of "user-account:service-account". Example: "bob@company.com:service-account-bob@project.iam.gserviceaccount.com,alice@company.com:service-account-alice@project.iam.gserviceaccount.com".
+    /// Specifying these flags will enable Secure Multi-Tenancy for the cluster. At most one of these can be specified: A string of user-to-service-account mappings. Mappings are separated by commas, and each mapping takes the form of "user-account:service-account". Example: "bob@company.com:service-account-bob@project.iam.gserviceaccount.com,alice@company.com:service-account-alice@project.iam.gserviceaccount.com". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--secure-multi-tenancy-user-mapping", Format = OptionFormat.EqualsSeparated)]
-    public string? SecureMultiTenancyUserMapping { get; set; }
+    [CliOption("--secure-multi-tenancy-user-mapping", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SecureMultiTenancyUserMapping
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SecureMultiTenancyUserMappingSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SecureMultiTenancyUserMappingSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: The custom image used to create the cluster. It can be the image name, the image URI, or the image family URI, which selects the latest image from the family.
@@ -375,30 +442,29 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     /// <summary>
     /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Or at least one of these can be specified: Google Cloud Storage URI of a KMS encrypted file containing the root principal password. Must be a Cloud Storage URL beginning with 'gs://'.
     /// </summary>
-    [SecretValue]
     [CliOption("--kerberos-root-principal-password-uri", Format = OptionFormat.EqualsSeparated)]
     public string? KerberosRootPrincipalPasswordUri { get; set; }
 
     /// <summary>
-    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the password. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ▫ provide the argument --kerberos-kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Or at least one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the password. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ▫ provide the argument --kerberos-kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kerberos-kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? KerberosKmsKey { get; set; }
 
     /// <summary>
-    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the password. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ▫ provide the argument --kerberos-kms-key on the command line with a fully specified name; ▫ provide the argument --kerberos-kms-key-keyring on the command line.
+    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Or at least one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the password. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ▫ provide the argument --kerberos-kms-key on the command line with a fully specified name; ▫ provide the argument --kerberos-kms-key-keyring on the command line.
     /// </summary>
     [CliOption("--kerberos-kms-key-keyring", Format = OptionFormat.EqualsSeparated)]
     public string? KerberosKmsKeyKeyring { get; set; }
 
     /// <summary>
-    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the password. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ▫ provide the argument --kerberos-kms-key on the command line with a fully specified name; ▫ provide the argument --kerberos-kms-key-location on the command line.
+    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Or at least one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the password. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ▫ provide the argument --kerberos-kms-key on the command line with a fully specified name; ▫ provide the argument --kerberos-kms-key-location on the command line.
     /// </summary>
     [CliOption("--kerberos-kms-key-location", Format = OptionFormat.EqualsSeparated)]
     public string? KerberosKmsKeyLocation { get; set; }
 
     /// <summary>
-    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the password. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ▫ provide the argument --kerberos-kms-key on the command line with a fully specified name; ▫ provide the argument --kerberos-kms-key-project on the command line; ▫ set the property core/project.
+    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Or at least one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the password. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ▫ provide the argument --kerberos-kms-key on the command line with a fully specified name; ▫ provide the argument --kerberos-kms-key-project on the command line; ▫ set the property core/project.
     /// </summary>
     [CliOption("--kerberos-kms-key-project", Format = OptionFormat.EqualsSeparated)]
     public string? KerberosKmsKeyProject { get; set; }
@@ -428,67 +494,67 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     public string? KmsProject { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Path to a YAML or JSON file containing the instance flexibility policy for the master node group.
+    /// At most one of these can be specified: Path to a YAML or JSON file containing the instance flexibility policy for the master node group.
     /// </summary>
     [CliOption("--master-instance-flexibility-policy-file", Format = OptionFormat.EqualsSeparated)]
     public string? MasterInstanceFlexibilityPolicyFile { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Instance selection configurations for the master node group.
+    /// At most one of these can be specified: Instance selection configurations for the master node group.
     /// </summary>
     [CliOption("--master-instance-selection", Format = OptionFormat.EqualsSeparated)]
     public string? MasterInstanceSelection { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: The type of machine to use for the master. Defaults to server-specified.
+    /// At most one of these can be specified: The type of machine to use for the master. Defaults to server-specified.
     /// </summary>
     [CliOption("--master-machine-type", Format = OptionFormat.EqualsSeparated)]
     public string? MasterMachineType { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Types of machines with optional rank for master nodes to use. Defaults to server-specified.eg. --master-machine-types="type=e2-standard-8,type=t2d-standard-8,rank=0"
+    /// At most one of these can be specified: Types of machines with optional rank for master nodes to use. Defaults to server-specified.eg. --master-machine-types="type=e2-standard-8,type=t2d-standard-8,rank=0"
     /// </summary>
     [CliOption("--master-machine-types", Format = OptionFormat.EqualsSeparated)]
     public string? MasterMachineTypes { get; set; }
 
     /// <summary>
-    /// Compute Engine options for Dataproc clusters. Metadata to be made available to the guest operating system running on the instances
+    /// Compute Engine options for Dataproc clusters. Metadata to be made available to the guest operating system running on the instances Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// Compute Engine options for Dataproc clusters. Specifies a list of resource manager tags to apply to each cluster node (master and worker nodes).
+    /// Specifies a list of resource manager tags to apply to each cluster node (master and worker nodes). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
-    /// Compute Engine options for Dataproc clusters. Specifies scopes for the node instances. Multiple SCOPEs can be specified, separated by commas. Examples: $ gcloud dataproc workflow-templates set-managed-cluster \ example-cluster \ --scopes https://www.googleapis.com/auth/bigtable.admin $ gcloud dataproc workflow-templates set-managed-cluster \ example-cluster --scopes sqlservice,bigquery The following minimum scopes are necessary for the cluster to function properly and are always added, even if not explicitly specified: https://www.googleapis.com/auth/devstorage.read_write https://www.googleapis.com/auth/logging.write If the --scopes flag is not specified, the following default scopes are also included: https://www.googleapis.com/auth/bigquery https://www.googleapis.com/auth/bigtable.admin.table https://www.googleapis.com/auth/bigtable.data https://www.googleapis.com/auth/devstorage.full_control If you want to enable all scopes use the 'cloud-platform' scope. SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances.
+    /// Specifies scopes for the node instances. Multiple SCOPEs can be specified, separated by commas. Examples: $ gcloud dataproc workflow-templates set-managed-cluster \ example-cluster \ --scopes https://www.googleapis.com/auth/bigtable.admin $ gcloud dataproc workflow-templates set-managed-cluster \ example-cluster --scopes sqlservice,bigquery The following minimum scopes are necessary for the cluster to function properly and are always added, even if not explicitly specified: https://www.googleapis.com/auth/devstorage.read_write https://www.googleapis.com/auth/logging.write If the --scopes flag is not specified, the following default scopes are also included: https://www.googleapis.com/auth/bigquery https://www.googleapis.com/auth/bigtable.admin.table https://www.googleapis.com/auth/bigtable.data https://www.googleapis.com/auth/devstorage.full_control If you want to enable all scopes use the 'cloud-platform' scope. SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Scopes { get; set; }
 
     /// <summary>
-    /// Compute Engine options for Dataproc clusters. The Google Cloud IAM service account to be authenticated as.
+    /// The Google Cloud IAM service account to be authenticated as.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceAccount { get; set; }
 
     /// <summary>
-    /// Compute Engine options for Dataproc clusters. Specifies a list of tags to apply to the instance. These tags allow network firewall rules and routes to be applied to specified VM instances. See gcloud compute firewall-rules create(1) for more details. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags To list instances with their respective status and tags, run: $ gcloud compute instances list \ --format='table(name,status,tags.list())' To list instances tagged with a specific tag, tag1, run: $ gcloud compute instances list --filter='tags:tag1'
+    /// Specifies a list of tags to apply to the instance. These tags allow network firewall rules and routes to be applied to specified VM instances. See gcloud compute firewall-rules create(1) for more details. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags To list instances with their respective status and tags, run: $ gcloud compute instances list \ --format='table(name,status,tags.list())' To list instances tagged with a specific tag, tag1, run: $ gcloud compute instances list --filter='tags:tag1' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Compute Engine options for Dataproc clusters. At most one of these can be specified: The Compute Engine network that the VM instances of the cluster will be part of. This is mutually exclusive with --subnet. If neither is specified, this defaults to the "default" network.
+    /// At most one of these can be specified: The Compute Engine network that the VM instances of the cluster will be part of. This is mutually exclusive with --subnet. If neither is specified, this defaults to the "default" network.
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
 
     /// <summary>
-    /// Compute Engine options for Dataproc clusters. At most one of these can be specified: Specifies the subnet that the cluster will be part of. This is mutally exclusive with --network.
+    /// At most one of these can be specified: Specifies the subnet that the cluster will be part of. This is mutally exclusive with --network.
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public string? Subnet { get; set; }
@@ -500,111 +566,201 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     public string? Reservation { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. The type of reservation for the instance. RESERVATION_AFFINITY must be one of: any, none, specific.
+    /// The type of reservation for the instance. RESERVATION_AFFINITY must be one of: any, none, specific.
     /// </summary>
     [CliOption("--reservation-affinity", Format = OptionFormat.EqualsSeparated)]
-    public GcloudReservationAffinity? ReservationAffinity { get; set; }
+    public GcloudDataprocWorkflowTemplatesSetManagedClusterReservationAffinity? ReservationAffinity { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. Specifies a list of cluster Metric Sources (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics) to collect custom metrics. METRIC_SOURCE must be one of: FLINK, HDFS, HIVEMETASTORE, HIVESERVER2, MONITORING_AGENT_DEFAULTS, SPARK, SPARK_HISTORY_SERVER, YARN.
+    /// Specifies a list of cluster Metric Sources (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics) to collect custom metrics. METRIC_SOURCE must be one of: FLINK, HDFS, HIVEMETASTORE, HIVESERVER2, MONITORING_AGENT_DEFAULTS, SPARK, SPARK_HISTORY_SERVER, YARN.
     /// </summary>
-    [CliOption("--metric-sources", Format = OptionFormat.EqualsSeparated)]
-    public GcloudMetricSources? MetricSources { get; set; }
+    [CliOption("--metric-sources", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudDataprocWorkflowTemplatesSetManagedClusterMetricSources>? MetricSources { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. At most one of these can be specified: List of metrics that override the default metrics enabled for the metric sources. Any of the available OSS metrics (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics) and all Spark metrics, can be listed for collection as a metric override. Override metric values are case sensitive, and must be provided, if appropriate, in CamelCase format, for example: sparkHistoryServer:JVM:Memory:NonHeapMemoryUsage.committed hiveserver2:JVM:Memory:NonHeapMemoryUsage.used Only the specified overridden metrics will be collected from a given metric source. For example, if one or more spark:executive metrics are listed as metric overrides, other SPARK metrics will not be collected. The collection of default OSS metrics from other metric sources is unaffected. For example, if both SPARK and YARN metric sources are enabled, and overrides are provided for Spark metrics only, all default YARN metrics will be collected. The source of the specified metric override must be enabled. For example, if one or more spark:driver metrics are provided as metric overrides, the spark metric source must be enabled (--metric-sources=spark).
+    /// At most one of these can be specified: List of metrics that override the default metrics enabled for the metric sources. Any of the available OSS metrics (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics) and all Spark metrics, can be listed for collection as a metric override. Override metric values are case sensitive, and must be provided, if appropriate, in CamelCase format, for example: sparkHistoryServer:JVM:Memory:NonHeapMemoryUsage.committed hiveserver2:JVM:Memory:NonHeapMemoryUsage.used Only the specified overridden metrics will be collected from a given metric source. For example, if one or more spark:executive metrics are listed as metric overrides, other SPARK metrics will not be collected. The collection of default OSS metrics from other metric sources is unaffected. For example, if both SPARK and YARN metric sources are enabled, and overrides are provided for Spark metrics only, all default YARN metrics will be collected. The source of the specified metric override must be enabled. For example, if one or more spark:driver metrics are provided as metric overrides, the spark metric source must be enabled (--metric-sources=spark). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metric-overrides", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MetricOverrides { get; set; }
+    [CliOption("--metric-overrides", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? MetricOverrides
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __MetricOverridesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __MetricOverridesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Specifies the reservation for the instance. At most one of these can be specified: Path to a file containing list of Metrics that override the default metrics enabled for the metric sources. The path can be a Cloud Storage URL (example: gs://path/to/file) or a local file system path.
+    /// At most one of these can be specified: Path to a file containing list of Metrics that override the default metrics enabled for the metric sources. The path can be a Cloud Storage URL (example: gs://path/to/file) or a local file system path.
     /// </summary>
     [CliOption("--metric-overrides-file", Format = OptionFormat.EqualsSeparated)]
     public string? MetricOverridesFile { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. At most one of these can be specified: If provided, the instances in the cluster will not be assigned external IP addresses. If omitted, then the Dataproc service will apply a default policy to determine if each instance in the cluster gets an external IP address or not. Note: Dataproc VMs need access to the Dataproc API. This can be achieved without external IP addresses using Private Google Access (https://cloud.google.com/compute/docs/private-google-access).
+    /// At most one of these can be specified: If provided, the instances in the cluster will not be assigned external IP addresses. If omitted, then the Dataproc service will apply a default policy to determine if each instance in the cluster gets an external IP address or not. Note: Dataproc VMs need access to the Dataproc API. This can be achieved without external IP addresses using Private Google Access (https://cloud.google.com/compute/docs/private-google-access).
     /// </summary>
     [CliFlag("--no-address")]
     public bool? NoAddress { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. At most one of these can be specified: If provided, cluster instances are assigned external IP addresses. If omitted, the Dataproc service applies a default policy to determine whether or not each instance in the cluster gets an external IP address. Note: Dataproc VMs need access to the Dataproc API. This can be achieved without external IP addresses using Private Google Access (https://cloud.google.com/compute/docs/private-google-access).
+    /// At most one of these can be specified: If provided, cluster instances are assigned external IP addresses. If omitted, the Dataproc service applies a default policy to determine whether or not each instance in the cluster gets an external IP address. Note: Dataproc VMs need access to the Dataproc API. This can be achieved without external IP addresses using Private Google Access (https://cloud.google.com/compute/docs/private-google-access).
     /// </summary>
     [CliFlag("--public-ip-address")]
     public bool? PublicIpAddress { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. At most one of these can be specified: Path to a YAML or JSON file containing the instance flexibility policy for the secondary worker node group.
+    /// At most one of these can be specified: Path to a YAML or JSON file containing the instance flexibility policy for the secondary worker node group.
     /// </summary>
     [CliOption("--secondary-worker-instance-flexibility-policy-file", Format = OptionFormat.EqualsSeparated)]
     public string? SecondaryWorkerInstanceFlexibilityPolicyFile { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. At most one of these can be specified: Instance selection configurations for the secondary worker node group.
+    /// At most one of these can be specified: Instance selection configurations for the secondary worker node group.
     /// </summary>
     [CliOption("--secondary-worker-instance-selection", Format = OptionFormat.EqualsSeparated)]
     public string? SecondaryWorkerInstanceSelection { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. At most one of these can be specified: Types of machines with optional rank for secondary workers to use. Defaults to server-specified.eg. --secondary-worker-machine-types="type=e2-standard-8,type=t2d-standard-8,rank=0"
+    /// At most one of these can be specified: Types of machines with optional rank for secondary workers to use. Defaults to server-specified.eg. --secondary-worker-machine-types="type=e2-standard-8,type=t2d-standard-8,rank=0"
     /// </summary>
     [CliOption("--secondary-worker-machine-types", Format = OptionFormat.EqualsSeparated)]
     public string? SecondaryWorkerMachineTypes { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. At most one of these can be specified: Create a single node cluster. A single node cluster has all master and worker components. It cannot have any separate worker nodes. If this flag is not specified, a cluster with separate workers is created.
+    /// At most one of these can be specified: Create a single node cluster. A single node cluster has all master and worker components. It cannot have any separate worker nodes. If this flag is not specified, a cluster with separate workers is created.
     /// </summary>
     [CliFlag("--single-node")]
     public bool? SingleNode { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. At most one of these can be specified: Or at least one of these can be specified: Multi-node cluster flags Minimum number of primary worker nodes to provision for cluster creation to succeed.
+    /// At most one of these can be specified: Or at least one of these can be specified: Multi-node cluster flags Minimum number of primary worker nodes to provision for cluster creation to succeed.
     /// </summary>
     [CliOption("--min-num-workers", Format = OptionFormat.EqualsSeparated)]
     public string? MinNumWorkers { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. At most one of these can be specified: Or at least one of these can be specified: Multi-node cluster flags The number of secondary worker nodes in the cluster.
+    /// At most one of these can be specified: Or at least one of these can be specified: Multi-node cluster flags The number of secondary worker nodes in the cluster.
     /// </summary>
     [CliOption("--num-secondary-workers", Format = OptionFormat.EqualsSeparated)]
     public string? NumSecondaryWorkers { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. At most one of these can be specified: Or at least one of these can be specified: Multi-node cluster flags The number of worker nodes in the cluster. Defaults to server-specified.
+    /// At most one of these can be specified: Or at least one of these can be specified: Multi-node cluster flags The number of worker nodes in the cluster. Defaults to server-specified.
     /// </summary>
     [CliOption("--num-workers", Format = OptionFormat.EqualsSeparated)]
     public string? NumWorkers { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. At most one of these can be specified: Or at least one of these can be specified: Multi-node cluster flags The type of the secondary worker group. TYPE must be one of: preemptible, non-preemptible, spot.
+    /// At most one of these can be specified: Or at least one of these can be specified: Multi-node cluster flags The type of the secondary worker group. TYPE must be one of: preemptible, non-preemptible, spot.
     /// </summary>
     [CliOption("--secondary-worker-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudSecondaryWorkerType? SecondaryWorkerType { get; set; }
+    public GcloudDataprocWorkflowTemplatesSetManagedClusterSecondaryWorkerType? SecondaryWorkerType { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. At most one of these can be specified: Path to a YAML or JSON file containing the instance flexibility policy for the primary worker node group.
+    /// At most one of these can be specified: Path to a YAML or JSON file containing the instance flexibility policy for the primary worker node group.
     /// </summary>
     [CliOption("--worker-instance-flexibility-policy-file", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerInstanceFlexibilityPolicyFile { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. At most one of these can be specified: Instance selection configurations for the primary worker node group.
+    /// At most one of these can be specified: Instance selection configurations for the primary worker node group.
     /// </summary>
     [CliOption("--worker-instance-selection", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerInstanceSelection { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. At most one of these can be specified: The type of machine to use for primary workers. Defaults to server-specified.
+    /// At most one of these can be specified: The type of machine to use for primary workers. Defaults to server-specified.
     /// </summary>
     [CliOption("--worker-machine-type", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerMachineType { get; set; }
 
     /// <summary>
-    /// Specifies the reservation for the instance. At most one of these can be specified: Machine types (https://cloud.google.com/dataproc/docs/concepts/compute/supported-machine-types) for primary worker nodes to use with optional rank. A lower rank number is given higher preference. Based on availablilty, Dataproc tries to create primary worker VMs using the worker machine type with the lowest rank, and then tries to use machine types with higher ranks as necessary. Machine types with the same rank are given the same preference. Example use: --worker-machine-types="type=e2-standard-8,type=n2-standard-8,rank=0". For more information, see Dataproc Flexible VMs (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/flexible-vms)
+    /// At most one of these can be specified: Machine types (https://cloud.google.com/dataproc/docs/concepts/compute/supported-machine-types) for primary worker nodes to use with optional rank. A lower rank number is given higher preference. Based on availablilty, Dataproc tries to create primary worker VMs using the worker machine type with the lowest rank, and then tries to use machine types with higher ranks as necessary. Machine types with the same rank are given the same preference. Example use: --worker-machine-types="type=e2-standard-8,type=n2-standard-8,rank=0". For more information, see Dataproc Flexible VMs (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/flexible-vms)
     /// </summary>
     [CliOption("--worker-machine-types", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerMachineTypes { get; set; }
+
+    /// <summary>
+    /// Template resource - The name of the workflow template to set managed cluster. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Template { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)AutoZoneExcludeZones is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoZoneExcludeZones is not string || !string.IsNullOrWhiteSpace(AutoZoneExcludeZones?.ToString()) : ((object?)AutoZoneExcludeZones is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoZoneExcludeZones, static item => item is not null) : (AutoZoneExcludeZones is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoZoneExcludeZones), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AutoZoneExcludeZones or Zone may be specified.", [nameof(AutoZoneExcludeZones), nameof(Zone)]);
+        }
+        if ((ConfidentialCompute == true ? 1 : 0) + ((object?)ConfidentialComputeType is not null ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ConfidentialCompute or ConfidentialComputeType may be specified.", [nameof(ConfidentialCompute), nameof(ConfidentialComputeType)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(IdentityConfigFile) ? 1 : 0) + (((object?)SecureMultiTenancyUserMapping is global::System.Collections.Generic.IEnumerable<char> ? (object?)SecureMultiTenancyUserMapping is not string || !string.IsNullOrWhiteSpace(SecureMultiTenancyUserMapping?.ToString()) : ((object?)SecureMultiTenancyUserMapping is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SecureMultiTenancyUserMapping, static item => item is not null) : (SecureMultiTenancyUserMapping is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SecureMultiTenancyUserMapping), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of IdentityConfigFile or SecureMultiTenancyUserMapping may be specified.", [nameof(IdentityConfigFile), nameof(SecureMultiTenancyUserMapping)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Image) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ImageVersion) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Image or ImageVersion may be specified.", [nameof(Image), nameof(ImageVersion)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KerberosConfigFile) ? 1 : 0) + ((EnableKerberos == true || !string.IsNullOrWhiteSpace(KerberosRootPrincipalPasswordUri) || !string.IsNullOrWhiteSpace(KerberosKmsKey) || !string.IsNullOrWhiteSpace(KerberosKmsKeyKeyring) || !string.IsNullOrWhiteSpace(KerberosKmsKeyLocation) || !string.IsNullOrWhiteSpace(KerberosKmsKeyProject)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of KerberosConfigFile or (EnableKerberos, KerberosRootPrincipalPasswordUri, KerberosKmsKey, KerberosKmsKeyKeyring, KerberosKmsKeyLocation, or KerberosKmsKeyProject) may be specified.", [nameof(KerberosConfigFile), nameof(EnableKerberos), nameof(KerberosRootPrincipalPasswordUri), nameof(KerberosKmsKey), nameof(KerberosKmsKeyKeyring), nameof(KerberosKmsKeyLocation), nameof(KerberosKmsKeyProject)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KerberosConfigFile) || EnableKerberos == true || !string.IsNullOrWhiteSpace(KerberosRootPrincipalPasswordUri) || !string.IsNullOrWhiteSpace(KerberosKmsKey) || !string.IsNullOrWhiteSpace(KerberosKmsKeyKeyring) || !string.IsNullOrWhiteSpace(KerberosKmsKeyLocation) || !string.IsNullOrWhiteSpace(KerberosKmsKeyProject)) && (EnableKerberos == true || !string.IsNullOrWhiteSpace(KerberosRootPrincipalPasswordUri) || !string.IsNullOrWhiteSpace(KerberosKmsKey) || !string.IsNullOrWhiteSpace(KerberosKmsKeyKeyring) || !string.IsNullOrWhiteSpace(KerberosKmsKeyLocation) || !string.IsNullOrWhiteSpace(KerberosKmsKeyProject)) && (!string.IsNullOrWhiteSpace(KerberosKmsKey) || !string.IsNullOrWhiteSpace(KerberosKmsKeyKeyring) || !string.IsNullOrWhiteSpace(KerberosKmsKeyLocation) || !string.IsNullOrWhiteSpace(KerberosKmsKeyProject)) && (!(!string.IsNullOrWhiteSpace(KerberosKmsKey))))
+        {
+            yield return new ValidationResult("KerberosKmsKey must be specified when other arguments in this group are specified.", [nameof(KerberosKmsKey)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MasterInstanceFlexibilityPolicyFile) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MasterInstanceSelection) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MasterMachineType) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MasterMachineTypes) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of MasterInstanceFlexibilityPolicyFile, MasterInstanceSelection, MasterMachineType, or MasterMachineTypes may be specified.", [nameof(MasterInstanceFlexibilityPolicyFile), nameof(MasterInstanceSelection), nameof(MasterMachineType), nameof(MasterMachineTypes)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Network) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Subnet) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Network or Subnet may be specified.", [nameof(Network), nameof(Subnet)]);
+        }
+        if ((((object?)MetricOverrides is global::System.Collections.Generic.IEnumerable<char> ? (object?)MetricOverrides is not string || !string.IsNullOrWhiteSpace(MetricOverrides?.ToString()) : ((object?)MetricOverrides is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MetricOverrides, static item => item is not null) : (MetricOverrides is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MetricOverrides), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MetricOverridesFile) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of MetricOverrides or MetricOverridesFile may be specified.", [nameof(MetricOverrides), nameof(MetricOverridesFile)]);
+        }
+        if ((NoAddress == true ? 1 : 0) + (PublicIpAddress == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of NoAddress or PublicIpAddress may be specified.", [nameof(NoAddress), nameof(PublicIpAddress)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SecondaryWorkerInstanceFlexibilityPolicyFile) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SecondaryWorkerInstanceSelection) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SecondaryWorkerMachineTypes) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SecondaryWorkerInstanceFlexibilityPolicyFile, SecondaryWorkerInstanceSelection, or SecondaryWorkerMachineTypes may be specified.", [nameof(SecondaryWorkerInstanceFlexibilityPolicyFile), nameof(SecondaryWorkerInstanceSelection), nameof(SecondaryWorkerMachineTypes)]);
+        }
+        if ((SingleNode == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(MinNumWorkers) || !string.IsNullOrWhiteSpace(NumSecondaryWorkers) || !string.IsNullOrWhiteSpace(NumWorkers) || (object?)SecondaryWorkerType is not null) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SingleNode or (MinNumWorkers, NumSecondaryWorkers, NumWorkers, or SecondaryWorkerType) may be specified.", [nameof(SingleNode), nameof(MinNumWorkers), nameof(NumSecondaryWorkers), nameof(NumWorkers), nameof(SecondaryWorkerType)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(WorkerInstanceFlexibilityPolicyFile) ? 1 : 0) + (!string.IsNullOrWhiteSpace(WorkerInstanceSelection) ? 1 : 0) + (!string.IsNullOrWhiteSpace(WorkerMachineType) ? 1 : 0) + (!string.IsNullOrWhiteSpace(WorkerMachineTypes) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of WorkerInstanceFlexibilityPolicyFile, WorkerInstanceSelection, WorkerMachineType, or WorkerMachineTypes may be specified.", [nameof(WorkerInstanceFlexibilityPolicyFile), nameof(WorkerInstanceSelection), nameof(WorkerMachineType), nameof(WorkerMachineTypes)]);
+        }
+        yield break;
+    }
 
 }

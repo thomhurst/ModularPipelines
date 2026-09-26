@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "snapshots", "set-iam-policy")]
-public record GcloudComputeSnapshotsSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudComputeSnapshotsSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the IAM policy for a Compute     Engine snapshot
+    /// </summary>
+    /// <param name="SnapshotName">Snapshot resource - The snapshot to set the IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument snapshot_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the snapshot or fully qualified identifier for the snapshot. To set the snapshot_name attribute: ▸ provide the argument snapshot_name on the command line.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudComputeSnapshotsSetIamPolicyOptions(
+        string SnapshotName,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SnapshotName);
+        this.SnapshotName = SnapshotName;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string SnapshotName, out string PolicyFile)
+    {
+        SnapshotName = this.SnapshotName;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// Snapshot resource - The snapshot to set the IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument snapshot_name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the snapshot or fully qualified identifier for the snapshot. To set the snapshot_name attribute: ▸ provide the argument snapshot_name on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SnapshotName { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

@@ -19,10 +19,36 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "stop")]
-public record GcloudComputeInstancesStopOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> InstanceNames
-) : GcloudOptions
+public record GcloudComputeInstancesStopOptions : GcloudOptions
 {
+    /// <summary>
+    /// stop a virtual machine instance
+    /// </summary>
+    /// <param name="InstanceNames">Names of the instances to operate on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances</param>
+    public GcloudComputeInstancesStopOptions(
+        IEnumerable<string> InstanceNames
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstanceNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstanceNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstanceNames));
+            }
+
+            InstanceNames = materialized;
+        }
+        this.InstanceNames = InstanceNames;
+    }
+
+    public void Deconstruct(out IEnumerable<string> InstanceNames)
+    {
+        InstanceNames = this.InstanceNames;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -36,9 +62,15 @@ public record GcloudComputeInstancesStopOptions(
     public bool? NoGracefulShutdown { get; set; }
 
     /// <summary>
-    /// --discard-local-ssd[=DISCARD_LOCAL_SSD] If set to true, local SSD data is discarded. Zone of the instances to operate on. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// Zone of the instances to operate on. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Names of the instances to operate on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> InstanceNames { get; private init; }
 
 }

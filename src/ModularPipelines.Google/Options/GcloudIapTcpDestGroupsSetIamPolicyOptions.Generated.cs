@@ -19,8 +19,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iap", "tcp", "dest-groups", "set-iam-policy")]
-public record GcloudIapTcpDestGroupsSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudIapTcpDestGroupsSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the IAM policy for an IAP     TCP Destination Group resource
+    /// </summary>
+    /// <param name="DestGroup">Name of the Destination Group.</param>
+    /// <param name="Region">Region of the Destination Group.</param>
+    /// <param name="PolicyFile">JSON or YAML file containing the IAM policy.</param>
+    public GcloudIapTcpDestGroupsSetIamPolicyOptions(
+        string DestGroup,
+        string Region,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestGroup);
+        this.DestGroup = DestGroup;
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string DestGroup, out string Region, out string PolicyFile)
+    {
+        DestGroup = this.DestGroup;
+        Region = this.Region;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// Name of the Destination Group.
+    /// </summary>
+    [CliOption("--dest-group", Format = OptionFormat.EqualsSeparated)]
+    public string DestGroup { get; private init; }
+
+    /// <summary>
+    /// Region of the Destination Group.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// JSON or YAML file containing the IAM policy.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("app", "runtimes", "list")]
 public record GcloudAppRuntimesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list the available runtimes
+    /// </summary>
+    /// <param name="Environment">Environment for the application. ENVIRONMENT must be (only one value is supported): standard.</param>
+    public GcloudAppRuntimesListOptions(
+        string Environment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Environment);
+        this.Environment = Environment;
+    }
+
+    public void Deconstruct(out string Environment)
+    {
+        Environment = this.Environment;
+    }
+
+    /// <summary>
+    /// Environment for the application. ENVIRONMENT must be (only one value is supported): standard.
+    /// </summary>
+    [CliOption("--environment", Format = OptionFormat.EqualsSeparated)]
+    public string Environment { get; private init; }
+
 }

@@ -23,6 +23,34 @@ namespace ModularPipelines.Google.Options;
 public record GcloudResourceManagerTagsKeysCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// creates a TagKey resource under     the specified tag parent
+    /// </summary>
+    /// <param name="Parent">TagKey. This must be specified. Parent of the TagKey in the form of organizations/{org_id}. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="ShortName">TagKey. This must be specified. User specified, friendly name of the TagKey or TagValue. The field must be 1-63 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores ( _ ), dots (.), and alphanumerics between. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudResourceManagerTagsKeysCreateOptions(
+        string Parent,
+        string ShortName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Parent);
+        this.Parent = Parent;
+        global::System.ArgumentNullException.ThrowIfNull(ShortName);
+        this.ShortName = ShortName;
+    }
+
+    public void Deconstruct(out string Parent, out string ShortName)
+    {
+        Parent = this.Parent;
+        ShortName = this.ShortName;
+    }
+
+    /// <summary>
+    /// TagKey. This must be specified. Parent of the TagKey in the form of organizations/{org_id}. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--parent", Format = OptionFormat.EqualsSeparated)]
+    public string Parent { get; private init; }
+
+    /// <summary>
     /// User-assigned regex of allowed short names of TagValues under a TagKey.
     /// </summary>
     [CliOption("--allowed-values-regex", Format = OptionFormat.EqualsSeparated)]
@@ -44,12 +72,18 @@ public record GcloudResourceManagerTagsKeysCreateOptions : GcloudOptions
     /// Purpose specifier of the TagKey that can only be set on creation. Specifying this field adds additional validation from the policy system that corresponds to the purpose. PURPOSE must be one of: GCE_FIREWALL, DATA_GOVERNANCE.
     /// </summary>
     [CliOption("--purpose", Format = OptionFormat.EqualsSeparated)]
-    public GcloudPurpose? Purpose { get; set; }
+    public GcloudResourceManagerTagsKeysCreatePurpose? Purpose { get; set; }
 
     /// <summary>
     /// Purpose data of the TagKey that can only be set on creation. This data is validated by the policy system that corresponds to the purpose.
     /// </summary>
     [CliOption("--purpose-data", Format = OptionFormat.EqualsSeparated)]
     public string? PurposeData { get; set; }
+
+    /// <summary>
+    /// TagKey. This must be specified. User specified, friendly name of the TagKey or TagValue. The field must be 1-63 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores ( _ ), dots (.), and alphanumerics between. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ShortName { get; private init; }
 
 }

@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "security-policies", "remove-user-defined-field")]
-public record GcloudComputeSecurityPoliciesRemoveUserDefinedFieldOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeSecurityPoliciesRemoveUserDefinedFieldOptions : GcloudOptions
 {
+    /// <summary>
+    /// remove a user     defined field from a Compute Engine security policy
+    /// </summary>
+    /// <param name="UserDefinedFieldName">The name of the user defined field to remove.</param>
+    /// <param name="Name">Name of the security policy to update.</param>
+    public GcloudComputeSecurityPoliciesRemoveUserDefinedFieldOptions(
+        string UserDefinedFieldName,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(UserDefinedFieldName);
+        this.UserDefinedFieldName = UserDefinedFieldName;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string UserDefinedFieldName, out string Name)
+    {
+        UserDefinedFieldName = this.UserDefinedFieldName;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the user defined field to remove.
+    /// </summary>
+    [CliOption("--user-defined-field-name", Format = OptionFormat.EqualsSeparated)]
+    public string UserDefinedFieldName { get; private init; }
+
+    /// <summary>
+    /// Region of the security policy to update. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the security policy to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

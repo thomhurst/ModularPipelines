@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,96 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("audit-manager", "audit-scopes", "generate")]
-public record GcloudAuditManagerAuditScopesGenerateOptions : GcloudOptions
+public record GcloudAuditManagerAuditScopesGenerateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// generate Audit Scope
+    /// </summary>
+    /// <param name="ComplianceFramework">Compliance Framework against which the Report must be generated. Eg: FEDRAMP_MODERATE</param>
+    /// <param name="Location">The location where the scope should be generated.</param>
+    /// <param name="OutputFileName">The name by while scope report should be created .</param>
+    /// <param name="ReportFormat">The format in which the audit scope report should be created. REPORT_FORMAT must be (only one value is supported): odf.</param>
+    public GcloudAuditManagerAuditScopesGenerateOptions(
+        string ComplianceFramework,
+        string Location,
+        string OutputFileName,
+        string ReportFormat
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ComplianceFramework);
+        this.ComplianceFramework = ComplianceFramework;
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+        global::System.ArgumentNullException.ThrowIfNull(OutputFileName);
+        this.OutputFileName = OutputFileName;
+        global::System.ArgumentNullException.ThrowIfNull(ReportFormat);
+        this.ReportFormat = ReportFormat;
+    }
+
+    public void Deconstruct(out string ComplianceFramework, out string Location, out string OutputFileName, out string ReportFormat)
+    {
+        ComplianceFramework = this.ComplianceFramework;
+        Location = this.Location;
+        OutputFileName = this.OutputFileName;
+        ReportFormat = this.ReportFormat;
+    }
+
+    /// <summary>
+    /// Compliance Framework against which the Report must be generated. Eg: FEDRAMP_MODERATE
+    /// </summary>
+    [CliOption("--compliance-framework", Format = OptionFormat.EqualsSeparated)]
+    public string ComplianceFramework { get; private init; }
+
+    /// <summary>
+    /// The location where the scope should be generated.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The name by while scope report should be created .
+    /// </summary>
+    [CliOption("--output-file-name", Format = OptionFormat.EqualsSeparated)]
+    public string OutputFileName { get; private init; }
+
+    /// <summary>
+    /// The format in which the audit scope report should be created. REPORT_FORMAT must be (only one value is supported): odf.
+    /// </summary>
+    [CliOption("--report-format", Format = OptionFormat.EqualsSeparated)]
+    public string ReportFormat { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Folder Id for which to generate audit scope
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization Id for which to generate audit scope
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Project Id for which to generate audit scope
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// The directory path where the scope report should be created .
+    /// </summary>
+    [CliOption("--output-directory", Format = OptionFormat.EqualsSeparated)]
+    public string? OutputDirectory { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder, Organization, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

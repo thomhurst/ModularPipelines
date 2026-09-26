@@ -22,6 +22,35 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComplianceManagerFrameworkDeploymentsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a framework     deployment
+    /// </summary>
+    /// <param name="FrameworkDeployment">FrameworkDeployment resource - The name of the framework deployment that you want to delete, in the format organizations/{organization}/locations/{location}/frameworkDeployments/{framework_deployment} or projects/{project}/locations/{location}/frameworkDeployments/{framework_deployment}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument framework_deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.frameworkDeployments, cloudsecuritycompliance.projects.locations.frameworkDeployments]. This must be specified. ID of the frameworkDeployment or fully qualified identifier for the frameworkDeployment. To set the framework_deployment attribute: ▸ provide the argument framework_deployment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComplianceManagerFrameworkDeploymentsDeleteOptions(
+        string FrameworkDeployment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FrameworkDeployment);
+        this.FrameworkDeployment = FrameworkDeployment;
+    }
+
+    public void Deconstruct(out string FrameworkDeployment)
+    {
+        FrameworkDeployment = this.FrameworkDeployment;
+    }
+
+    /// <summary>
+    /// FrameworkDeployment resource - The name of the framework deployment that you want to delete, in the format organizations/{organization}/locations/{location}/frameworkDeployments/{framework_deployment} or projects/{project}/locations/{location}/frameworkDeployments/{framework_deployment}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument framework_deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.frameworkDeployments, cloudsecuritycompliance.projects.locations.frameworkDeployments]. This must be specified. The location id of the frameworkDeployment resource. To set the location attribute: ▸ provide the argument framework_deployment on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// FrameworkDeployment resource - The name of the framework deployment that you want to delete, in the format organizations/{organization}/locations/{location}/frameworkDeployments/{framework_deployment} or projects/{project}/locations/{location}/frameworkDeployments/{framework_deployment}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument framework_deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.frameworkDeployments, cloudsecuritycompliance.projects.locations.frameworkDeployments]. This must be specified. The organization id of the frameworkDeployment resource. To set the organization attribute: ▸ provide the argument framework_deployment on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [cloudsecuritycompliance.organizations.locations.frameworkDeployments].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -32,5 +61,11 @@ public record GcloudComplianceManagerFrameworkDeploymentsDeleteOptions : GcloudO
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
+
+    /// <summary>
+    /// FrameworkDeployment resource - The name of the framework deployment that you want to delete, in the format organizations/{organization}/locations/{location}/frameworkDeployments/{framework_deployment} or projects/{project}/locations/{location}/frameworkDeployments/{framework_deployment}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument framework_deployment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.frameworkDeployments, cloudsecuritycompliance.projects.locations.frameworkDeployments]. This must be specified. ID of the frameworkDeployment or fully qualified identifier for the frameworkDeployment. To set the framework_deployment attribute: ▸ provide the argument framework_deployment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FrameworkDeployment { get; private init; }
 
 }

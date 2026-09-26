@@ -19,8 +19,58 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "databases", "patch")]
-public record GcloudSqlDatabasesPatchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Database
-) : GcloudOptions
+public record GcloudSqlDatabasesPatchOptions : GcloudOptions
 {
+    /// <summary>
+    /// patches the settings of a Cloud SQL database
+    /// </summary>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    /// <param name="Database">Cloud SQL database name.</param>
+    public GcloudSqlDatabasesPatchOptions(
+        string Instance,
+        string Database
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+    }
+
+    public void Deconstruct(out string Instance, out string Database)
+    {
+        Instance = this.Instance;
+        Database = this.Database;
+    }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string Instance { get; private init; }
+
+    /// <summary>
+    /// Cloud SQL database charset setting, which specifies the set of symbols and encodings used to store the data in your database. Each database version may support a different set of charsets.
+    /// </summary>
+    [CliOption("--charset", Format = OptionFormat.EqualsSeparated)]
+    public string? Charset { get; set; }
+
+    /// <summary>
+    /// Cloud SQL database collation setting, which specifies the set of rules for comparing characters in a character set. Each database version may support a different set of collations. This flag can't be used with PostgreSQL instances.
+    /// </summary>
+    [CliOption("--collation", Format = OptionFormat.EqualsSeparated)]
+    public string? Collation { get; set; }
+
+    /// <summary>
+    /// Show what changed as a result of the patch.
+    /// </summary>
+    [CliFlag("--diff")]
+    public bool? Diff { get; set; }
+
+    /// <summary>
+    /// Cloud SQL database name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Database { get; private init; }
+
 }

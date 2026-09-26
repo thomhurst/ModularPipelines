@@ -42,6 +42,7 @@ public static class GcloudExtensions
         services.TryAddScoped<IGcloudApihub, GcloudApihub>();
         services.TryAddScoped<IGcloudApp, GcloudApp>();
         services.TryAddScoped<IGcloudApphub, GcloudApphub>();
+        services.TryAddScoped<IGcloudAppTopology, GcloudAppTopology>();
         services.TryAddScoped<IGcloudArtifacts, GcloudArtifacts>();
         services.TryAddScoped<IGcloudAsset, GcloudAsset>();
         services.TryAddScoped<IGcloudAssured, GcloudAssured>();
@@ -79,6 +80,7 @@ public static class GcloudExtensions
         services.TryAddScoped<IGcloudDeploymentManager, GcloudDeploymentManager>();
         services.TryAddScoped<IGcloudDesignCenter, GcloudDesignCenter>();
         services.TryAddScoped<IGcloudDeveloperConnect, GcloudDeveloperConnect>();
+        services.TryAddScoped<IGcloudDeveloperKnowledge, GcloudDeveloperKnowledge>();
         services.TryAddScoped<IGcloudDns, GcloudDns>();
         services.TryAddScoped<IGcloudDomains, GcloudDomains>();
         services.TryAddScoped<IGcloudEdgeCache, GcloudEdgeCache>();

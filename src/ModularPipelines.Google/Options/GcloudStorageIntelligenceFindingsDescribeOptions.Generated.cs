@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "intelligence-findings", "describe")]
-public record GcloudStorageIntelligenceFindingsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FindingId
-) : GcloudOptions
+public record GcloudStorageIntelligenceFindingsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// intelligence finding     description
+    /// </summary>
+    /// <param name="FindingId">The ID of the intelligence finding to describe.</param>
+    public GcloudStorageIntelligenceFindingsDescribeOptions(
+        string FindingId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FindingId);
+        this.FindingId = FindingId;
+    }
+
+    public void Deconstruct(out string FindingId)
+    {
+        FindingId = this.FindingId;
+    }
+
+    /// <summary>
+    /// The ID of the intelligence finding to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FindingId { get; private init; }
+
 }

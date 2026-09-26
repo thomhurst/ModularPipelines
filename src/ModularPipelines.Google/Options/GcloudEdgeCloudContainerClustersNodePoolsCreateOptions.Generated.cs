@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,102 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("edge-cloud", "container", "clusters", "node-pools", "create")]
 public record GcloudEdgeCloudContainerClustersNodePoolsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create an Edge     Container node pool
+    /// </summary>
+    /// <param name="NodeCount">Default nodeCount used by this node pool.</param>
+    /// <param name="NodeLocation">Google Edge Cloud zone where nodes in this node pool will be created.</param>
+    /// <param name="NodePool">Node pool resource - Edge Container node pool to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the node pool or fully qualified identifier for the node pool. To set the nodePool attribute: ▸ provide the argument node_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEdgeCloudContainerClustersNodePoolsCreateOptions(
+        int NodeCount,
+        string NodeLocation,
+        string NodePool
+    )
+    {
+        this.NodeCount = NodeCount;
+        global::System.ArgumentNullException.ThrowIfNull(NodeLocation);
+        this.NodeLocation = NodeLocation;
+        global::System.ArgumentNullException.ThrowIfNull(NodePool);
+        this.NodePool = NodePool;
+    }
+
+    public void Deconstruct(out int NodeCount, out string NodeLocation, out string NodePool)
+    {
+        NodeCount = this.NodeCount;
+        NodeLocation = this.NodeLocation;
+        NodePool = this.NodePool;
+    }
+
+    /// <summary>
+    /// Default nodeCount used by this node pool.
+    /// </summary>
+    [CliOption("--node-count", Format = OptionFormat.EqualsSeparated)]
+    public int NodeCount { get; private init; }
+
+    /// <summary>
+    /// Google Edge Cloud zone where nodes in this node pool will be created.
+    /// </summary>
+    [CliOption("--node-location", Format = OptionFormat.EqualsSeparated)]
+    public string NodeLocation { get; private init; }
+
+    /// <summary>
+    /// Node pool resource - Edge Container node pool to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cluster of the node pool. To set the cluster attribute: ▸ provide the argument node_pool on the command line with a fully specified name; ▸ provide the argument --cluster on the command line.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Node pool resource - Edge Container node pool to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the node pool. To set the location attribute: ▸ provide the argument node_pool on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Google Cloud KMS key that will be used to secure local disks on nodes in this node pool. The Edge Container service account for this project must have roles/cloudkms.cryptoKeyEncrypterDecrypter on the key. If not provided, a Google-managed key will be used instead.
+    /// </summary>
+    [CliOption("--local-disk-kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? LocalDiskKmsKey { get; set; }
+
+    /// <summary>
+    /// Overwrite the default LRO maximum timeout.
+    /// </summary>
+    [CliOption("--lro-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? LroTimeout { get; set; }
+
+    /// <summary>
+    /// Only machines matching this filter will be allowed to join the node pool. The filtering language accepts strings like "name=&lt;name&gt;", and is documented in more detail at https://google.aip.dev/160.
+    /// </summary>
+    [CliOption("--machine-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineFilter { get; set; }
+
+    /// <summary>
+    /// Comma-delimited list of key-value pairs that comprise labels for the individual nodes in the node pool. This flag sets the Kubernetes labels, unlike --labels which sets the cloud resource labels. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? NodeLabels { get; set; }
+
+    /// <summary>
+    /// Name for the storage schema of worker nodes.
+    /// </summary>
+    [CliOption("--node-storage-schema", Format = OptionFormat.EqualsSeparated)]
+    public string? NodeStorageSchema { get; set; }
+
+    /// <summary>
+    /// Node pool resource - Edge Container node pool to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument node_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the node pool or fully qualified identifier for the node pool. To set the nodePool attribute: ▸ provide the argument node_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string NodePool { get; private init; }
+
 }

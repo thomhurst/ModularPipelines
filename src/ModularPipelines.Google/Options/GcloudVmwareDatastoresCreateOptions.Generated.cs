@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,127 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "datastores", "create")]
-public record GcloudVmwareDatastoresCreateOptions : GcloudOptions
+public record GcloudVmwareDatastoresCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a datastore
+    /// </summary>
+    /// <param name="Datastore">Datastore resource - datastore. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument datastore on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the datastore or fully qualified identifier for the datastore. To set the datastore attribute: ▸ provide the argument datastore on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVmwareDatastoresCreateOptions(
+        string Datastore
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Datastore);
+        this.Datastore = Datastore;
+    }
+
+    public void Deconstruct(out string Datastore)
+    {
+        Datastore = this.Datastore;
+    }
+
+    /// <summary>
+    /// Datastore resource - datastore. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument datastore on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the private cloud or cluster. To set the location attribute: ▸ provide the argument datastore on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/zone.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Google Filestore instance to be used as datastore.
+    /// </summary>
+    [CliOption("--filestore", Format = OptionFormat.EqualsSeparated)]
+    public string? Filestore { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Google NetApp volume to be used as datastore.
+    /// </summary>
+    [CliOption("--netapp", Format = OptionFormat.EqualsSeparated)]
+    public string? Netapp { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Mount folder name of NFS. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--third-party-nfs-file-share", Format = OptionFormat.EqualsSeparated)]
+    public string? ThirdPartyNfsFileShare { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Network name of NFS's VPC. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--third-party-nfs-network", Format = OptionFormat.EqualsSeparated)]
+    public string? ThirdPartyNfsNetwork { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Comma-separated list of server IP addresses of the NFS file service. This flag argument must be specified if any of the other arguments in this group are specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--third-party-nfs-servers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ThirdPartyNfsServers
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ThirdPartyNfsServersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ThirdPartyNfsServersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Text describing the datastore.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Datastore resource - datastore. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument datastore on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the datastore or fully qualified identifier for the datastore. To set the datastore attribute: ▸ provide the argument datastore on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Datastore { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Filestore) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Netapp) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(ThirdPartyNfsFileShare) || !string.IsNullOrWhiteSpace(ThirdPartyNfsNetwork) || ((object?)ThirdPartyNfsServers is global::System.Collections.Generic.IEnumerable<char> ? (object?)ThirdPartyNfsServers is not string || !string.IsNullOrWhiteSpace(ThirdPartyNfsServers?.ToString()) : ((object?)ThirdPartyNfsServers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ThirdPartyNfsServers, static item => item is not null) : (ThirdPartyNfsServers is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ThirdPartyNfsServers), static item => item is not null))))) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Filestore, Netapp, or (ThirdPartyNfsFileShare, ThirdPartyNfsNetwork, or ThirdPartyNfsServers) must be specified.", [nameof(Filestore), nameof(Netapp), nameof(ThirdPartyNfsFileShare), nameof(ThirdPartyNfsNetwork), nameof(ThirdPartyNfsServers)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Filestore) || !string.IsNullOrWhiteSpace(Netapp) || !string.IsNullOrWhiteSpace(ThirdPartyNfsFileShare) || !string.IsNullOrWhiteSpace(ThirdPartyNfsNetwork) || ((object?)ThirdPartyNfsServers is global::System.Collections.Generic.IEnumerable<char> ? (object?)ThirdPartyNfsServers is not string || !string.IsNullOrWhiteSpace(ThirdPartyNfsServers?.ToString()) : ((object?)ThirdPartyNfsServers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ThirdPartyNfsServers, static item => item is not null) : (ThirdPartyNfsServers is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ThirdPartyNfsServers), static item => item is not null))))) && (!string.IsNullOrWhiteSpace(ThirdPartyNfsFileShare) || !string.IsNullOrWhiteSpace(ThirdPartyNfsNetwork) || ((object?)ThirdPartyNfsServers is global::System.Collections.Generic.IEnumerable<char> ? (object?)ThirdPartyNfsServers is not string || !string.IsNullOrWhiteSpace(ThirdPartyNfsServers?.ToString()) : ((object?)ThirdPartyNfsServers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ThirdPartyNfsServers, static item => item is not null) : (ThirdPartyNfsServers is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ThirdPartyNfsServers), static item => item is not null))))) && (!(!string.IsNullOrWhiteSpace(ThirdPartyNfsFileShare))))
+        {
+            yield return new ValidationResult("ThirdPartyNfsFileShare must be specified when other arguments in this group are specified.", [nameof(ThirdPartyNfsFileShare)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Filestore) || !string.IsNullOrWhiteSpace(Netapp) || !string.IsNullOrWhiteSpace(ThirdPartyNfsFileShare) || !string.IsNullOrWhiteSpace(ThirdPartyNfsNetwork) || ((object?)ThirdPartyNfsServers is global::System.Collections.Generic.IEnumerable<char> ? (object?)ThirdPartyNfsServers is not string || !string.IsNullOrWhiteSpace(ThirdPartyNfsServers?.ToString()) : ((object?)ThirdPartyNfsServers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ThirdPartyNfsServers, static item => item is not null) : (ThirdPartyNfsServers is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ThirdPartyNfsServers), static item => item is not null))))) && (!string.IsNullOrWhiteSpace(ThirdPartyNfsFileShare) || !string.IsNullOrWhiteSpace(ThirdPartyNfsNetwork) || ((object?)ThirdPartyNfsServers is global::System.Collections.Generic.IEnumerable<char> ? (object?)ThirdPartyNfsServers is not string || !string.IsNullOrWhiteSpace(ThirdPartyNfsServers?.ToString()) : ((object?)ThirdPartyNfsServers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ThirdPartyNfsServers, static item => item is not null) : (ThirdPartyNfsServers is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ThirdPartyNfsServers), static item => item is not null))))) && (!(!string.IsNullOrWhiteSpace(ThirdPartyNfsNetwork))))
+        {
+            yield return new ValidationResult("ThirdPartyNfsNetwork must be specified when other arguments in this group are specified.", [nameof(ThirdPartyNfsNetwork)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Filestore) || !string.IsNullOrWhiteSpace(Netapp) || !string.IsNullOrWhiteSpace(ThirdPartyNfsFileShare) || !string.IsNullOrWhiteSpace(ThirdPartyNfsNetwork) || ((object?)ThirdPartyNfsServers is global::System.Collections.Generic.IEnumerable<char> ? (object?)ThirdPartyNfsServers is not string || !string.IsNullOrWhiteSpace(ThirdPartyNfsServers?.ToString()) : ((object?)ThirdPartyNfsServers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ThirdPartyNfsServers, static item => item is not null) : (ThirdPartyNfsServers is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ThirdPartyNfsServers), static item => item is not null))))) && (!string.IsNullOrWhiteSpace(ThirdPartyNfsFileShare) || !string.IsNullOrWhiteSpace(ThirdPartyNfsNetwork) || ((object?)ThirdPartyNfsServers is global::System.Collections.Generic.IEnumerable<char> ? (object?)ThirdPartyNfsServers is not string || !string.IsNullOrWhiteSpace(ThirdPartyNfsServers?.ToString()) : ((object?)ThirdPartyNfsServers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ThirdPartyNfsServers, static item => item is not null) : (ThirdPartyNfsServers is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ThirdPartyNfsServers), static item => item is not null))))) && (!(((object?)ThirdPartyNfsServers is global::System.Collections.Generic.IEnumerable<char> ? (object?)ThirdPartyNfsServers is not string || !string.IsNullOrWhiteSpace(ThirdPartyNfsServers?.ToString()) : ((object?)ThirdPartyNfsServers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ThirdPartyNfsServers, static item => item is not null) : (ThirdPartyNfsServers is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ThirdPartyNfsServers), static item => item is not null)))))))
+        {
+            yield return new ValidationResult("ThirdPartyNfsServers must be specified when other arguments in this group are specified.", [nameof(ThirdPartyNfsServers)]);
+        }
+        yield break;
+    }
+
 }

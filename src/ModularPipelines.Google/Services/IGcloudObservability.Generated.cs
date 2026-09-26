@@ -22,9 +22,19 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudObservability
 {
     /// <summary>
+    /// gcloud buckets sub-commands.
+    /// </summary>
+    GcloudObservabilityBuckets Buckets => throw new System.NotSupportedException();
+
+    /// <summary>
     /// gcloud scopes sub-commands.
     /// </summary>
     GcloudObservabilityScopes Scopes => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// gcloud settings sub-commands.
+    /// </summary>
+    GcloudObservabilitySettings Settings => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud trace-scopes sub-commands.

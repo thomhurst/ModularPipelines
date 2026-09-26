@@ -23,9 +23,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBigtableMaterializedViewsDescribeOptions : GcloudOptions
 {
     /// <summary>
+    /// describe an existing Bigtable     materialized view
+    /// </summary>
+    /// <param name="MaterializedView">Materialized view resource - The materialized view to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument materialized_view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the materialized view or fully qualified identifier for the materialized view. To set the name attribute: ▸ provide the argument materialized_view on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBigtableMaterializedViewsDescribeOptions(
+        string MaterializedView
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MaterializedView);
+        this.MaterializedView = MaterializedView;
+    }
+
+    public void Deconstruct(out string MaterializedView)
+    {
+        MaterializedView = this.MaterializedView;
+    }
+
+    /// <summary>
+    /// Materialized view resource - The materialized view to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument materialized_view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Bigtable instance for the materialized view. To set the instance attribute: ▸ provide the argument materialized_view on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
     /// Specifies what type of information to return about the view. VIEW must be one of: full, replication, schema.
     /// </summary>
     [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
-    public GcloudView? View { get; set; }
+    public GcloudBigtableMaterializedViewsDescribeView? View { get; set; }
+
+    /// <summary>
+    /// Materialized view resource - The materialized view to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument materialized_view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the materialized view or fully qualified identifier for the materialized view. To set the name attribute: ▸ provide the argument materialized_view on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MaterializedView { get; private init; }
 
 }

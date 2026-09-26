@@ -20,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "networks", "create")]
-public record GcloudPreviewComputeNetworksCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeNetworksCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Compute Engine network
+    /// </summary>
+    /// <param name="Name">Name of the network to create.</param>
+    public GcloudPreviewComputeNetworksCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// The BGP routing mode for this network. If not specified, defaults to regional. MODE must be one of: global Cloud Routers in this network advertise subnetworks from all regions to their BGP peers, and program instances in all regions with the router's best learned BGP routes. regional Cloud Routers in this network advertise subnetworks from their local region only to their BGP peers, and program instances in their local region only with the router's best learned BGP routes.
     /// </summary>
@@ -79,9 +94,9 @@ public record GcloudPreviewComputeNetworksCreateOptions(
     public string? Range { get; set; }
 
     /// <summary>
-    /// A comma-separated list of Resource Manager tags to apply to the network.
+    /// A comma-separated list of Resource Manager tags to apply to the network. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
@@ -97,21 +112,27 @@ public record GcloudPreviewComputeNetworksCreateOptions(
     public string? BgpBestPathSelectionMode { get; set; }
 
     /// <summary>
-    /// BGP Best Path Selection flags Enables/disables the comparison of MED across routes with different Neighbor ASNs. This value can only be set if the --bgp-best-path-selection-mode is STANDARD. Use --bgp-bps-always-compare-med to enable and --no-bgp-bps-always-compare-med to disable.
+    /// Enables/disables the comparison of MED across routes with different Neighbor ASNs. This value can only be set if the --bgp-best-path-selection-mode is STANDARD. Use --bgp-bps-always-compare-med to enable and --no-bgp-bps-always-compare-med to disable.
     /// </summary>
     [CliFlag("--bgp-bps-always-compare-med")]
     public bool? BgpBpsAlwaysCompareMed { get; set; }
 
     /// <summary>
-    /// Negates --bgp-bps-always-compare-med. BGP Best Path Selection flags Enables/disables the comparison of MED across routes with different Neighbor ASNs. This value can only be set if the --bgp-best-path-selection-mode is STANDARD. Use --bgp-bps-always-compare-med to enable and --no-bgp-bps-always-compare-med to disable.
+    /// Negates --bgp-bps-always-compare-med. Enables/disables the comparison of MED across routes with different Neighbor ASNs. This value can only be set if the --bgp-best-path-selection-mode is STANDARD. Use --bgp-bps-always-compare-med to enable and --no-bgp-bps-always-compare-med to disable.
     /// </summary>
     [CliFlag("--no-bgp-bps-always-compare-med")]
     public bool? NoBgpBpsAlwaysCompareMed { get; set; }
 
     /// <summary>
-    /// BGP Best Path Selection flags Defines the preferred approach for handling inter-region cost in the selection process. This value can only be set if the --bgp-best-path-selection-mode is STANDARD. BGP_BPS_INTER_REGION_COST must be one of: ADD_COST_TO_MED Adds inter-region cost to the MED before comparing the MED value. When multiple routes have the same value after the Add-cost-to-med comparison, the route selection continues and prefers the route with lowest cost. DEFAULT MED is compared as originally received from peers. When multiple routes have the same MED, cost is evaluated as the next step.
+    /// Defines the preferred approach for handling inter-region cost in the selection process. This value can only be set if the --bgp-best-path-selection-mode is STANDARD. BGP_BPS_INTER_REGION_COST must be one of: ADD_COST_TO_MED Adds inter-region cost to the MED before comparing the MED value. When multiple routes have the same value after the Add-cost-to-med comparison, the route selection continues and prefers the route with lowest cost. DEFAULT MED is compared as originally received from peers. When multiple routes have the same MED, cost is evaluated as the next step.
     /// </summary>
     [CliOption("--bgp-bps-inter-region-cost", Format = OptionFormat.EqualsSeparated)]
     public string? BgpBpsInterRegionCost { get; set; }
+
+    /// <summary>
+    /// Name of the network to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

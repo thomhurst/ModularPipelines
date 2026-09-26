@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,62 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "schemas", "commit")]
-public record GcloudPubsubSchemasCommitOptions : GcloudOptions
+public record GcloudPubsubSchemasCommitOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// commit a Pub/Sub schema revision
+    /// </summary>
+    /// <param name="Type">The type of the schema.</param>
+    /// <param name="Schema">Schema resource - Name of the schema to revise. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the schema or fully qualified identifier for the schema. To set the schema attribute: ▸ provide the argument schema on the command line.</param>
+    public GcloudPubsubSchemasCommitOptions(
+        string Type,
+        string Schema
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Type);
+        this.Type = Type;
+        global::System.ArgumentNullException.ThrowIfNull(Schema);
+        this.Schema = Schema;
+    }
+
+    public void Deconstruct(out string Type, out string Schema)
+    {
+        Type = this.Type;
+        Schema = this.Schema;
+    }
+
+    /// <summary>
+    /// The type of the schema.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string Type { get; private init; }
+
+    /// <summary>
+    /// Schema definition Exactly one of these must be specified: The new definition of the schema.
+    /// </summary>
+    [CliOption("--definition", Format = OptionFormat.EqualsSeparated)]
+    public string? Definition { get; set; }
+
+    /// <summary>
+    /// Schema definition Exactly one of these must be specified: File containing the new schema definition. Use a full or relative path to a local file containing the value of definition_file.
+    /// </summary>
+    [CliOption("--definition-file", Format = OptionFormat.EqualsSeparated)]
+    public string? DefinitionFile { get; set; }
+
+    /// <summary>
+    /// Schema resource - Name of the schema to revise. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument schema on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the schema or fully qualified identifier for the schema. To set the schema attribute: ▸ provide the argument schema on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Schema { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Definition) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DefinitionFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Definition or DefinitionFile must be specified.", [nameof(Definition), nameof(DefinitionFile)]);
+        }
+        yield break;
+    }
+
 }

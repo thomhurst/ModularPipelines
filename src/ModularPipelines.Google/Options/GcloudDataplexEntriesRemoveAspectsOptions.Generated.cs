@@ -21,4 +21,61 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dataplex", "entries", "remove-aspects")]
 public record GcloudDataplexEntriesRemoveAspectsOptions : GcloudOptions
 {
+    /// <summary>
+    /// remove aspects from a Dataplex     Entry
+    /// </summary>
+    /// <param name="Keys">List of Aspect keys, identifying Aspects to remove from the entry. Keys are in the format ASPECT_TYPE@PATH, or just ASPECT_TYPE, if the Aspect is attached to an entry itself rather than to a specific column defined in the schema. ASPECT_TYPE is expected to be in a format PROJECT_ID.LOCATION.ASPECT_TYPE_ID or a wildcard *, which targets all aspect types. PATH can be either empty (which means a 'root' path, such that Aspect is attached to the entry itself), point to a specific column defined in the schema (for example: Schema.some_column) or a wildcard * (target all paths). ASPECT_TYPE and PATH cannot be both specified as wildcards *. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Entry">Entry resource - Arguments and flags that define the Dataplex Entry you want to reference. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the entry or fully qualified identifier for the entry. To set the entry attribute: ▸ provide the argument entry on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexEntriesRemoveAspectsOptions(
+        IEnumerable<string> Keys,
+        string Entry
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Keys);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Keys));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Keys));
+            }
+
+            Keys = materialized;
+        }
+        this.Keys = Keys;
+        global::System.ArgumentNullException.ThrowIfNull(Entry);
+        this.Entry = Entry;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Keys, out string Entry)
+    {
+        Keys = this.Keys;
+        Entry = this.Entry;
+    }
+
+    /// <summary>
+    /// List of Aspect keys, identifying Aspects to remove from the entry. Keys are in the format ASPECT_TYPE@PATH, or just ASPECT_TYPE, if the Aspect is attached to an entry itself rather than to a specific column defined in the schema. ASPECT_TYPE is expected to be in a format PROJECT_ID.LOCATION.ASPECT_TYPE_ID or a wildcard *, which targets all aspect types. PATH can be either empty (which means a 'root' path, such that Aspect is attached to the entry itself), point to a specific column defined in the schema (for example: Schema.some_column) or a wildcard * (target all paths). ASPECT_TYPE and PATH cannot be both specified as wildcards *. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--keys", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Keys { get; private init; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the Dataplex Entry you want to reference. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Entry group containing Dataplex Entries. To set the entry-group attribute: ▸ provide the argument entry on the command line with a fully specified name; ▸ provide the argument --entry-group on the command line.
+    /// </summary>
+    [CliOption("--entry-group", Format = OptionFormat.EqualsSeparated)]
+    public string? EntryGroup { get; set; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the Dataplex Entry you want to reference. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the Dataplex resource. To set the location attribute: ▸ provide the argument entry on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Entry resource - Arguments and flags that define the Dataplex Entry you want to reference. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument entry on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the entry or fully qualified identifier for the entry. To set the entry attribute: ▸ provide the argument entry on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Entry { get; private init; }
+
 }

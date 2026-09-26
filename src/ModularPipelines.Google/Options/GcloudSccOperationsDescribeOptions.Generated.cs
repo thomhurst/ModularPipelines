@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("scc", "operations", "describe")]
 public record GcloudSccOperationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Cloud SCC's long running scan     operation
+    /// </summary>
+    /// <param name="Operation">Operation resource - Cloud SCC's API operation to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument operation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSccOperationsDescribeOptions(
+        string Operation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+    }
+
+    public void Deconstruct(out string Operation)
+    {
+        Operation = this.Operation;
+    }
+
+    /// <summary>
+    /// Operation resource - Cloud SCC's API operation to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. (Optional) If the full resource name isn't provided e.g. organizations/123, then provide the organization id which is the suffix of the organization. Example: organizations/123, the id is 123. To set the organization attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --organization on the command line; ▸ Set the organization property in configuration using gcloud config set scc/organization if it is not specified in command line..
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Operation resource - Cloud SCC's API operation to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument operation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Operation { get; private init; }
+
 }

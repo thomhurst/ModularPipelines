@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "machine-images", "describe")]
-public record GcloudPreviewComputeMachineImagesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
-) : GcloudOptions
+public record GcloudPreviewComputeMachineImagesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Compute Engine     machine image
+    /// </summary>
+    /// <param name="Image">Name of the machineImage to describe.</param>
+    public GcloudPreviewComputeMachineImagesDescribeOptions(
+        string Image
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out string Image)
+    {
+        Image = this.Image;
+    }
+
+    /// <summary>
+    /// Name of the machineImage to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Image { get; private init; }
+
 }

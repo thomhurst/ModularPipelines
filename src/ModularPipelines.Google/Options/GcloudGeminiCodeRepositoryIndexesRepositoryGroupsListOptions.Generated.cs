@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("gemini", "code-repository-indexes", "repository-groups", "list")]
 public record GcloudGeminiCodeRepositoryIndexesRepositoryGroupsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list all     repository group for a given code repository index instance
+    /// </summary>
+    /// <param name="CodeRepositoryIndex">CodeRepositoryIndex resource - Parent value for ListRepositoryGroupsRequest The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --code-repository-index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the codeRepositoryIndex or fully qualified identifier for the codeRepositoryIndex. To set the code-repository-index attribute: ▸ provide the argument --code-repository-index on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudGeminiCodeRepositoryIndexesRepositoryGroupsListOptions(
+        string CodeRepositoryIndex
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CodeRepositoryIndex);
+        this.CodeRepositoryIndex = CodeRepositoryIndex;
+    }
+
+    public void Deconstruct(out string CodeRepositoryIndex)
+    {
+        CodeRepositoryIndex = this.CodeRepositoryIndex;
+    }
+
+    /// <summary>
+    /// CodeRepositoryIndex resource - Parent value for ListRepositoryGroupsRequest The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --code-repository-index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the codeRepositoryIndex or fully qualified identifier for the codeRepositoryIndex. To set the code-repository-index attribute: ▸ provide the argument --code-repository-index on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--code-repository-index", Format = OptionFormat.EqualsSeparated)]
+    public string CodeRepositoryIndex { get; private init; }
+
+    /// <summary>
+    /// CodeRepositoryIndex resource - Parent value for ListRepositoryGroupsRequest The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --code-repository-index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the codeRepositoryIndex resource. To set the location attribute: ▸ provide the argument --code-repository-index on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

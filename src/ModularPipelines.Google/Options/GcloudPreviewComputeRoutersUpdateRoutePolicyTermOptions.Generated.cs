@@ -19,8 +19,68 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "routers", "update-route-policy-term")]
-public record GcloudPreviewComputeRoutersUpdateRoutePolicyTermOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeRoutersUpdateRoutePolicyTermOptions : GcloudOptions
 {
+    /// <summary>
+    /// updates a term of     an existing route policy of a Comute Engine router
+    /// </summary>
+    /// <param name="Match">--actions=[ACTION;...] Semicolon separated CEL expressions for the actions to take when the rule matches. CEL expression for matching a route.</param>
+    /// <param name="PolicyName">Name of the route policy to which the term should be updated.</param>
+    /// <param name="Priority">Order of the term within the policy.</param>
+    /// <param name="Name">Name of the router to update.</param>
+    public GcloudPreviewComputeRoutersUpdateRoutePolicyTermOptions(
+        string Match,
+        string PolicyName,
+        string Priority,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Match);
+        this.Match = Match;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyName);
+        this.PolicyName = PolicyName;
+        global::System.ArgumentNullException.ThrowIfNull(Priority);
+        this.Priority = Priority;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Match, out string PolicyName, out string Priority, out string Name)
+    {
+        Match = this.Match;
+        PolicyName = this.PolicyName;
+        Priority = this.Priority;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// --actions=[ACTION;...] Semicolon separated CEL expressions for the actions to take when the rule matches. CEL expression for matching a route.
+    /// </summary>
+    [CliOption("--match", Format = OptionFormat.EqualsSeparated)]
+    public string Match { get; private init; }
+
+    /// <summary>
+    /// Name of the route policy to which the term should be updated.
+    /// </summary>
+    [CliOption("--policy-name", Format = OptionFormat.EqualsSeparated)]
+    public string PolicyName { get; private init; }
+
+    /// <summary>
+    /// Order of the term within the policy.
+    /// </summary>
+    [CliOption("--priority", Format = OptionFormat.EqualsSeparated)]
+    public string Priority { get; private init; }
+
+    /// <summary>
+    /// Region of the router to update. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the router to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

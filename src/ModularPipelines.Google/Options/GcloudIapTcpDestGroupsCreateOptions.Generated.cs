@@ -19,8 +19,52 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iap", "tcp", "dest-groups", "create")]
-public record GcloudIapTcpDestGroupsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string GroupName
-) : GcloudOptions
+public record GcloudIapTcpDestGroupsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create the IAP TCP Destination Group     resource
+    /// </summary>
+    /// <param name="Region">Region of the Destination Group.</param>
+    /// <param name="GroupName">Name of the Destination Group.</param>
+    public GcloudIapTcpDestGroupsCreateOptions(
+        string Region,
+        string GroupName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(GroupName);
+        this.GroupName = GroupName;
+    }
+
+    public void Deconstruct(out string Region, out string GroupName)
+    {
+        Region = this.Region;
+        GroupName = this.GroupName;
+    }
+
+    /// <summary>
+    /// Region of the Destination Group.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// List of FQDNs in the Destination Group.
+    /// </summary>
+    [CliOption("--fqdn-list", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? FqdnList { get; set; }
+
+    /// <summary>
+    /// List of ip-ranges in the Destination Group.
+    /// </summary>
+    [CliOption("--ip-range-list", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? IpRangeList { get; set; }
+
+    /// <summary>
+    /// Name of the Destination Group.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GroupName { get; private init; }
+
 }

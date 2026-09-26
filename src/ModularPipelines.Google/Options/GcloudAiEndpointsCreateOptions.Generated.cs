@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,75 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("ai", "endpoints", "create")]
 public record GcloudAiEndpointsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new Vertex AI endpoint
+    /// </summary>
+    /// <param name="DisplayName">Display name of the endpoint.</param>
+    public GcloudAiEndpointsCreateOptions(
+        string DisplayName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+    }
+
+    public void Deconstruct(out string DisplayName)
+    {
+        DisplayName = this.DisplayName;
+    }
+
+    /// <summary>
+    /// Display name of the endpoint.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Description of the endpoint.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The Cloud KMS resource identifier of the customer managed encryption key used to protect a resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as where the compute resource is created.
+    /// </summary>
+    [CliOption("--encryption-kms-key-name", Format = OptionFormat.EqualsSeparated)]
+    public string? EncryptionKmsKeyName { get; set; }
+
+    /// <summary>
+    /// User-specified ID of the endpoint.
+    /// </summary>
+    [CliOption("--endpoint-id", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointId { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The full name of the Google Compute Engine network to which the endpoint should be peered.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create endpoint. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the region or fully qualified identifier for the region. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property ai/region; ◆ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create endpoint. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Prediction request &amp; response sampling rate for logging to BigQuery table.
+    /// </summary>
+    [CliOption("--request-response-logging-rate", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestResponseLoggingRate { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create endpoint. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. BigQuery table uri for prediction request &amp; response logging. You can provide table uri that does not exist, it will be created for you. Value should be provided in format: bq://PROJECT_ID/DATASET/TABLE
+    /// </summary>
+    [CliOption("--request-response-logging-table", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestResponseLoggingTable { get; set; }
+
 }

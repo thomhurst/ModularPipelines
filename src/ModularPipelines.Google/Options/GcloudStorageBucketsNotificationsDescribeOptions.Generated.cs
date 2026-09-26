@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "buckets", "notifications", "describe")]
-public record GcloudStorageBucketsNotificationsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Url
-) : GcloudOptions
+public record GcloudStorageBucketsNotificationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show metadata for a     notification configuration
+    /// </summary>
+    /// <param name="Url">The url of the notification configuration</param>
+    public GcloudStorageBucketsNotificationsDescribeOptions(
+        string Url
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Url);
+        this.Url = Url;
+    }
+
+    public void Deconstruct(out string Url)
+    {
+        Url = this.Url;
+    }
+
+    /// <summary>
+    /// The url of the notification configuration
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Url { get; private init; }
+
 }

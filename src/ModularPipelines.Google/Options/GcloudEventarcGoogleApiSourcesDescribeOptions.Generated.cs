@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("eventarc", "google-api-sources", "describe")]
 public record GcloudEventarcGoogleApiSourcesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an Eventarc Google     API source
+    /// </summary>
+    /// <param name="GoogleApiSource">Google API source resource - Google API source to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument google_api_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Google API source or fully qualified identifier for the Google API source. To set the google-api-source attribute: ▸ provide the argument google_api_source on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEventarcGoogleApiSourcesDescribeOptions(
+        string GoogleApiSource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GoogleApiSource);
+        this.GoogleApiSource = GoogleApiSource;
+    }
+
+    public void Deconstruct(out string GoogleApiSource)
+    {
+        GoogleApiSource = this.GoogleApiSource;
+    }
+
+    /// <summary>
+    /// Google API source resource - Google API source to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument google_api_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location for the Eventarc Google API source, which should be one of the supported regions. Alternatively, set the [eventarc/location] property. To set the location attribute: ▸ provide the argument google_api_source on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property eventarc/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Google API source resource - Google API source to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument google_api_source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Google API source or fully qualified identifier for the Google API source. To set the google-api-source attribute: ▸ provide the argument google_api_source on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GoogleApiSource { get; private init; }
+
 }

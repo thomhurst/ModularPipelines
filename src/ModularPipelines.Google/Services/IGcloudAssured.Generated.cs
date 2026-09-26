@@ -27,6 +27,11 @@ public interface IGcloudAssured
     GcloudAssuredOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
+    /// gcloud v2 sub-commands.
+    /// </summary>
+    GcloudAssuredV2 V2 => throw new System.NotSupportedException();
+
+    /// <summary>
     /// gcloud workloads sub-commands.
     /// </summary>
     GcloudAssuredWorkloads Workloads => throw new System.NotSupportedException();

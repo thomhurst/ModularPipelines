@@ -20,20 +20,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "add-metadata")]
-public record GcloudComputeInstancesAddMetadataOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
-) : GcloudOptions
+public record GcloudComputeInstancesAddMetadataOptions : GcloudOptions
 {
     /// <summary>
-    /// Metadata to be made available to the guest operating system running on the instances. Each metadata entry is a key/value pair separated by an equals sign. Each metadata key must be unique and have a max of 128 bytes in length. Each value must have a max of 256 KB in length. Multiple arguments can be passed to this flag, e.g., --metadata key-1=value-1,key-2=value-2,key-3=value-3. The combined total size for all metadata entries is 512 KB. In images that have Compute Engine tools installed on them, such as the official images (https://cloud.google.com/compute/docs/images), the following metadata keys have special meanings: startup-script Specifies a script that will be executed by the instances once they start running. For convenience, --metadata-from-file can be used to pull the value from a file. startup-script-url Same as startup-script except that the script contents are pulled from a publicly-accessible location on the web. For startup scripts on Windows instances, the following metadata keys have special meanings: windows-startup-script-url, windows-startup-script-cmd, windows-startup-script-bat, windows-startup-script-ps1, sysprep-specialize-script-url, sysprep-specialize-script-cmd, sysprep-specialize-script-bat, and sysprep-specialize-script-ps1. For more information, see Running startup scripts (https://cloud.google.com/compute/docs/startupscript). At least one of [--metadata] or [--metadata-from-file] is required.
+    /// add or update instance metadata
     /// </summary>
-    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="InstanceName">Name of the instance to set metadata on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances</param>
+    public GcloudComputeInstancesAddMetadataOptions(
+        string InstanceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+    }
+
+    public void Deconstruct(out string InstanceName)
+    {
+        InstanceName = this.InstanceName;
+    }
+
+    /// <summary>
+    /// Metadata to be made available to the guest operating system running on the instances. Each metadata entry is a key/value pair separated by an equals sign. Each metadata key must be unique and have a max of 128 bytes in length. Each value must have a max of 256 KB in length. Multiple arguments can be passed to this flag, e.g., --metadata key-1=value-1,key-2=value-2,key-3=value-3. The combined total size for all metadata entries is 512 KB. In images that have Compute Engine tools installed on them, such as the official images (https://cloud.google.com/compute/docs/images), the following metadata keys have special meanings: startup-script Specifies a script that will be executed by the instances once they start running. For convenience, --metadata-from-file can be used to pull the value from a file. startup-script-url Same as startup-script except that the script contents are pulled from a publicly-accessible location on the web. For startup scripts on Windows instances, the following metadata keys have special meanings: windows-startup-script-url, windows-startup-script-cmd, windows-startup-script-bat, windows-startup-script-ps1, sysprep-specialize-script-url, sysprep-specialize-script-cmd, sysprep-specialize-script-bat, and sysprep-specialize-script-ps1. For more information, see Running startup scripts (https://cloud.google.com/compute/docs/startupscript). At least one of [--metadata] or [--metadata-from-file] is required. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// Same as --metadata except that the value for the entry will be read from a local file. This is useful for values that are too large such as startup-script contents. At least one of [--metadata] or [--metadata-from-file] is required.
+    /// Same as --metadata except that the value for the entry will be read from a local file. This is useful for values that are too large such as startup-script contents. At least one of [--metadata] or [--metadata-from-file] is required. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MetadataFromFile { get; set; }
 
     /// <summary>
@@ -41,5 +56,11 @@ public record GcloudComputeInstancesAddMetadataOptions(
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the instance to set metadata on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceName { get; private init; }
 
 }

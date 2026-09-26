@@ -6,10 +6,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,81 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identity", "groups", "search")]
-public record GcloudIdentityGroupsSearchOptions : GcloudOptions
+public record GcloudIdentityGroupsSearchOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// searches for Groups matching a specified     query
+    /// </summary>
+    /// <param name="Labels">One or more label entries that apply to the Group. Currently supported labels contain a key with an empty value. Google Groups are the default type of group and have a label with a key of 'cloudidentity.googleapis.com/groups.discussion_forum' and an empty value. Existing Google Groups can have an additional label with a key of 'cloudidentity.googleapis.com/groups.security' and an empty value added to them. This is an immutable change and the security label cannot be removed once added. POSIX groups have a label with a key of 'cloudidentity.googleapis.com/groups.posix'. Dynamic groups have a label with a key of 'cloudidentity.googleapis.com/groups.dynamic'. Identity-mapped groups for Cloud Search have a label with a key of 'system/groups/external' and an empty value. Examples: {"cloudidentity.googleapis.com/groups.discussion_forum": ""} or {"system/groups/external": ""}.</param>
+    public GcloudIdentityGroupsSearchOptions(
+        IEnumerable<string> Labels
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Labels);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Labels));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Labels));
+            }
+
+            Labels = materialized;
+        }
+        this.Labels = Labels;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Labels)
+    {
+        Labels = this.Labels;
+    }
+
+    /// <summary>
+    /// One or more label entries that apply to the Group. Currently supported labels contain a key with an empty value. Google Groups are the default type of group and have a label with a key of 'cloudidentity.googleapis.com/groups.discussion_forum' and an empty value. Existing Google Groups can have an additional label with a key of 'cloudidentity.googleapis.com/groups.security' and an empty value added to them. This is an immutable change and the security label cannot be removed once added. POSIX groups have a label with a key of 'cloudidentity.googleapis.com/groups.posix'. Dynamic groups have a label with a key of 'cloudidentity.googleapis.com/groups.dynamic'. Identity-mapped groups for Cloud Search have a label with a key of 'system/groups/external' and an empty value. Examples: {"cloudidentity.googleapis.com/groups.discussion_forum": ""} or {"system/groups/external": ""}.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string> Labels { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The customer ID for the customer's G Suite account. Example of customer: "C01k1e9nw"
+    /// </summary>
+    [CliOption("--customer", Format = OptionFormat.EqualsSeparated)]
+    public string? Customer { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The organization ID for the groups being searched.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// The maximum number of results to return. Note that the number of results returned may be less than this value even if there are more available results. To fetch all results, clients must continue calling this method repeatedly until the response no longer contains a nextPageToken. If unspecified, defaults to 200 'basic' view and to 50 for 'full' view. Must not be greater than 1000 for 'basic' view or 500 for 'full' view.
+    /// </summary>
+    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
+    public int? PageSize { get; set; }
+
+    /// <summary>
+    /// The nextPageToken value returned from a previous search request, if any.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--page-token", Format = OptionFormat.EqualsSeparated)]
+    public string? PageToken { get; set; }
+
+    /// <summary>
+    /// The level of detail to be returned. There are two possible views: 'basic' and 'full'. If unspecified, default to 'basic'. VIEW must be one of: basic Default. Only basic group information is returned. full All group information is returned.
+    /// </summary>
+    [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
+    public string? View { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Customer) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Customer or Organization must be specified.", [nameof(Customer), nameof(Organization)]);
+        }
+        yield break;
+    }
+
 }

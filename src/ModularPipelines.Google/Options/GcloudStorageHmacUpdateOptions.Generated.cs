@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,57 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "hmac", "update")]
-public record GcloudStorageHmacUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AccessId
-) : GcloudOptions
+public record GcloudStorageHmacUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// change the status of a service account HMAC
+    /// </summary>
+    /// <param name="AccessId">Access ID for HMAC key to update.</param>
+    public GcloudStorageHmacUpdateOptions(
+        string AccessId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccessId);
+        this.AccessId = AccessId;
+    }
+
+    public void Deconstruct(out string AccessId)
+    {
+        AccessId = this.AccessId;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Sets the state of the specified key to ACTIVE.
+    /// </summary>
+    [CliFlag("--activate")]
+    public bool? Activate { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Sets the state of the specified key to INACTIVE.
+    /// </summary>
+    [CliFlag("--deactivate")]
+    public bool? Deactivate { get; set; }
+
+    /// <summary>
+    /// If provided, the update will only be performed if the specified etag matches the etag of the stored key.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string? Etag { get; set; }
+
+    /// <summary>
+    /// Access ID for HMAC key to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AccessId { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Activate == true ? 1 : 0) + (Deactivate == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Activate or Deactivate must be specified.", [nameof(Activate), nameof(Deactivate)]);
+        }
+        yield break;
+    }
+
 }

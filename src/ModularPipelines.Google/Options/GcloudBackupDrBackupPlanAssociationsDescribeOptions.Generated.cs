@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("backup-dr", "backup-plan-associations", "describe")]
 public record GcloudBackupDrBackupPlanAssociationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details of the     backup plan association
+    /// </summary>
+    /// <param name="BackupPlanAssociation">Backup plan association resource - Name of the backup plan association to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_plan_association on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup_plan_association or fully qualified identifier for the backup_plan_association. To set the backup_plan_association attribute: ▸ provide the argument backup_plan_association on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBackupDrBackupPlanAssociationsDescribeOptions(
+        string BackupPlanAssociation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupPlanAssociation);
+        this.BackupPlanAssociation = BackupPlanAssociation;
+    }
+
+    public void Deconstruct(out string BackupPlanAssociation)
+    {
+        BackupPlanAssociation = this.BackupPlanAssociation;
+    }
+
+    /// <summary>
+    /// Backup plan association resource - Name of the backup plan association to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_plan_association on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location ID of the resource. To set the location attribute: ▸ provide the argument backup_plan_association on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Backup plan association resource - Name of the backup plan association to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_plan_association on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup_plan_association or fully qualified identifier for the backup_plan_association. To set the backup_plan_association attribute: ▸ provide the argument backup_plan_association on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackupPlanAssociation { get; private init; }
+
 }

@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("vmware", "private-clouds", "subnets", "update")]
 public record GcloudVmwarePrivateCloudsSubnetsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a subnet
+    /// </summary>
+    /// <param name="IpCidrRange">Updated IP CIDR range for this subnet.</param>
+    /// <param name="Subnet">Subnet resource - subnet. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the subnet or fully qualified identifier for the subnet. To set the subnet attribute: ▸ provide the argument subnet on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVmwarePrivateCloudsSubnetsUpdateOptions(
+        string IpCidrRange,
+        string Subnet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IpCidrRange);
+        this.IpCidrRange = IpCidrRange;
+        global::System.ArgumentNullException.ThrowIfNull(Subnet);
+        this.Subnet = Subnet;
+    }
+
+    public void Deconstruct(out string IpCidrRange, out string Subnet)
+    {
+        IpCidrRange = this.IpCidrRange;
+        Subnet = this.Subnet;
+    }
+
+    /// <summary>
+    /// Updated IP CIDR range for this subnet.
+    /// </summary>
+    [CliOption("--ip-cidr-range", Format = OptionFormat.EqualsSeparated)]
+    public string IpCidrRange { get; private init; }
+
+    /// <summary>
+    /// Subnet resource - subnet. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the private cloud or cluster. To set the location attribute: ▸ provide the argument subnet on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/zone.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Subnet resource - subnet. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. VMware Engine private cloud. To set the private-cloud attribute: ▸ provide the argument subnet on the command line with a fully specified name; ▸ provide the argument --private-cloud on the command line.
+    /// </summary>
+    [CliOption("--private-cloud", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateCloud { get; set; }
+
+    /// <summary>
+    /// Subnet resource - subnet. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the subnet or fully qualified identifier for the subnet. To set the subnet attribute: ▸ provide the argument subnet on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Subnet { get; private init; }
+
 }

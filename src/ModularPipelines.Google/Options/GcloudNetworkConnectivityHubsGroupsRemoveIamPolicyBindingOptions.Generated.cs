@@ -21,4 +21,55 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-connectivity", "hubs", "groups", "remove-iam-policy-binding")]
 public record GcloudNetworkConnectivityHubsGroupsRemoveIamPolicyBindingOptions : GcloudOptions
 {
+    /// <summary>
+    /// remove     an IAM policy binding from the IAM policy of a group resource
+    /// </summary>
+    /// <param name="Member">The principal to remove the binding for. Should be of the form user|group|serviceAccount:email or domain:domain. Examples: user:test-user@gmail.com, group:admins@example.com, serviceAccount:test123@example.domain.com, or domain:example.domain.com. Deleted principals have an additional deleted: prefix and a ?uid=UID suffix, where UID is a unique identifier for the principal. Example: deleted:user:test-user@gmail.com?uid=123456789012345678901. Some resources also accept the following special values: ◆ allUsers - Special identifier that represents anyone who is on the internet, with or without a Google account. ◆ allAuthenticatedUsers - Special identifier that represents anyone who is authenticated with a Google account or a service account.</param>
+    /// <param name="Role">The role to remove the principal from.</param>
+    /// <param name="Group">Group resource - The group that you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the group or fully qualified identifier for the group. To set the group attribute: ▸ provide the argument group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkConnectivityHubsGroupsRemoveIamPolicyBindingOptions(
+        string Member,
+        string Role,
+        string Group
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Member);
+        this.Member = Member;
+        global::System.ArgumentNullException.ThrowIfNull(Role);
+        this.Role = Role;
+        global::System.ArgumentNullException.ThrowIfNull(Group);
+        this.Group = Group;
+    }
+
+    public void Deconstruct(out string Member, out string Role, out string Group)
+    {
+        Member = this.Member;
+        Role = this.Role;
+        Group = this.Group;
+    }
+
+    /// <summary>
+    /// The principal to remove the binding for. Should be of the form user|group|serviceAccount:email or domain:domain. Examples: user:test-user@gmail.com, group:admins@example.com, serviceAccount:test123@example.domain.com, or domain:example.domain.com. Deleted principals have an additional deleted: prefix and a ?uid=UID suffix, where UID is a unique identifier for the principal. Example: deleted:user:test-user@gmail.com?uid=123456789012345678901. Some resources also accept the following special values: ◆ allUsers - Special identifier that represents anyone who is on the internet, with or without a Google account. ◆ allAuthenticatedUsers - Special identifier that represents anyone who is authenticated with a Google account or a service account.
+    /// </summary>
+    [CliOption("--member", Format = OptionFormat.EqualsSeparated)]
+    public string Member { get; private init; }
+
+    /// <summary>
+    /// The role to remove the principal from.
+    /// </summary>
+    [CliOption("--role", Format = OptionFormat.EqualsSeparated)]
+    public string Role { get; private init; }
+
+    /// <summary>
+    /// Group resource - The group that you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Id of the hub. To set the hub attribute: ▸ provide the argument group on the command line with a fully specified name; ▸ provide the argument --hub on the command line.
+    /// </summary>
+    [CliOption("--hub", Format = OptionFormat.EqualsSeparated)]
+    public string? Hub { get; set; }
+
+    /// <summary>
+    /// Group resource - The group that you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the group or fully qualified identifier for the group. To set the group attribute: ▸ provide the argument group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Group { get; private init; }
+
 }

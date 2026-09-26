@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("ai", "endpoints", "stream-raw-predict")]
 public record GcloudAiEndpointsStreamRawPredictOptions : GcloudOptions
 {
+    /// <summary>
+    /// run Vertex AI online stream raw     prediction
+    /// </summary>
+    /// <param name="Request">The request to send to the endpoint. If the request starts with the letter '@', the rest should be a file name to read the request from, or '@-' to read from stdin. If the request body actually starts with '@', it must be placed in a file. If required, the Content-Type header should also be set appropriately, particularly for binary data.</param>
+    /// <param name="Endpoint">Endpoint resource - The endpoint to do online stream raw prediction. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the endpoint or fully qualified identifier for the endpoint. To set the name attribute: ▸ provide the argument endpoint on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAiEndpointsStreamRawPredictOptions(
+        string Request,
+        string Endpoint
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Request);
+        this.Request = Request;
+        global::System.ArgumentNullException.ThrowIfNull(Endpoint);
+        this.Endpoint = Endpoint;
+    }
+
+    public void Deconstruct(out string Request, out string Endpoint)
+    {
+        Request = this.Request;
+        Endpoint = this.Endpoint;
+    }
+
+    /// <summary>
+    /// The request to send to the endpoint. If the request starts with the letter '@', the rest should be a file name to read the request from, or '@-' to read from stdin. If the request body actually starts with '@', it must be placed in a file. If required, the Content-Type header should also be set appropriately, particularly for binary data.
+    /// </summary>
+    [CliOption("--request", Format = OptionFormat.EqualsSeparated)]
+    public string Request { get; private init; }
+
+    /// <summary>
+    /// Endpoint resource - The endpoint to do online stream raw prediction. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud region for the endpoint. To set the region attribute: ▸ provide the argument endpoint on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property ai/region; ▸ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// List of header and value pairs to send as part of the request. For example, to set the Content-Type and X-Header: --http-headers=Content-Type="application/json",X-Header=Value Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--http-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? HttpHeaders { get; set; }
+
+    /// <summary>
+    /// Endpoint resource - The endpoint to do online stream raw prediction. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument endpoint on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the endpoint or fully qualified identifier for the endpoint. To set the name attribute: ▸ provide the argument endpoint on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Endpoint { get; private init; }
+
 }

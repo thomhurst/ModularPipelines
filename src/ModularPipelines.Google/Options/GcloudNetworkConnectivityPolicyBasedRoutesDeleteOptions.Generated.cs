@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivityPolicyBasedRoutesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a     policy-based route
+    /// </summary>
+    /// <param name="PolicyBasedRoute">Policy based route resource - Name of the policy-based route to be deleted. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_based_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the policy based route or fully qualified identifier for the policy based route. To set the policy_based_route attribute: ▸ provide the argument policy_based_route on the command line.</param>
+    public GcloudNetworkConnectivityPolicyBasedRoutesDeleteOptions(
+        string PolicyBasedRoute
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyBasedRoute);
+        this.PolicyBasedRoute = PolicyBasedRoute;
+    }
+
+    public void Deconstruct(out string PolicyBasedRoute)
+    {
+        PolicyBasedRoute = this.PolicyBasedRoute;
+    }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Policy based route resource - Name of the policy-based route to be deleted. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_based_route on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the policy based route or fully qualified identifier for the policy based route. To set the policy_based_route attribute: ▸ provide the argument policy_based_route on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyBasedRoute { get; private init; }
 
 }

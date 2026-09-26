@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("filestore", "backups", "describe")]
-public record GcloudFilestoreBackupsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Backup
-) : GcloudOptions
+public record GcloudFilestoreBackupsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Filestore backup
+    /// </summary>
+    /// <param name="Region">Region (e.g. us-central1) for the backup.</param>
+    /// <param name="Backup">Arguments and flags that specify the Filestore backup you want to create.</param>
+    public GcloudFilestoreBackupsDescribeOptions(
+        string Region,
+        string Backup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(Backup);
+        this.Backup = Backup;
+    }
+
+    public void Deconstruct(out string Region, out string Backup)
+    {
+        Region = this.Region;
+        Backup = this.Backup;
+    }
+
+    /// <summary>
+    /// Region (e.g. us-central1) for the backup.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// Arguments and flags that specify the Filestore backup you want to create.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Backup { get; private init; }
+
 }

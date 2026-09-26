@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,85 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "dependencies", "create")]
-public record GcloudApihubDependenciesCreateOptions : GcloudOptions
+public record GcloudApihubDependenciesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Dependency
+    /// </summary>
+    /// <param name="Dependency">Dependency resource - Identifier. The name of the dependency in the API Hub. Format: projects/{project}/locations/{location}/dependencies/{dependency} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dependency on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dependency or fully qualified identifier for the dependency. To set the dependency attribute: ▸ provide the argument dependency on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubDependenciesCreateOptions(
+        string Dependency
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Dependency);
+        this.Dependency = Dependency;
+    }
+
+    public void Deconstruct(out string Dependency)
+    {
+        Dependency = this.Dependency;
+    }
+
+    /// <summary>
+    /// Dependency resource - Identifier. The name of the dependency in the API Hub. Format: projects/{project}/locations/{location}/dependencies/{dependency} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dependency on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the dependency resource. To set the location attribute: ▸ provide the argument dependency on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Reference to an entity participating in a dependency. This must be specified. Arguments for the identifier. At most one of these can be specified: The resource name of an external API in the API Hub. Format: projects/{project}/locations/{location}/externalApis/{external_api}
+    /// </summary>
+    [CliOption("--consumer-external-api-resource-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ConsumerExternalApiResourceName { get; set; }
+
+    /// <summary>
+    /// Reference to an entity participating in a dependency. This must be specified. Arguments for the identifier. At most one of these can be specified: The resource name of an operation in the API Hub. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version}/operations/{operation}
+    /// </summary>
+    [CliOption("--consumer-operation-resource-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ConsumerOperationResourceName { get; set; }
+
+    /// <summary>
+    /// Reference to an entity participating in a dependency. This must be specified. Arguments for the identifier. At most one of these can be specified: The resource name of an external API in the API Hub. Format: projects/{project}/locations/{location}/externalApis/{external_api}
+    /// </summary>
+    [CliOption("--supplier-external-api-resource-name", Format = OptionFormat.EqualsSeparated)]
+    public string? SupplierExternalApiResourceName { get; set; }
+
+    /// <summary>
+    /// Reference to an entity participating in a dependency. This must be specified. Arguments for the identifier. At most one of these can be specified: The resource name of an operation in the API Hub. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version}/operations/{operation}
+    /// </summary>
+    [CliOption("--supplier-operation-resource-name", Format = OptionFormat.EqualsSeparated)]
+    public string? SupplierOperationResourceName { get; set; }
+
+    /// <summary>
+    /// The list of user defined attributes associated with the dependency resource. The key is the attribute name. It will be of the format: projects/{project}/locations/{location}/attributes/{attribute}. The value is the attribute values associated with the resource. KEY Sets KEY value. VALUE Sets VALUE value. enumValues The attribute values associated with a resource in case attribute data type is enum. values The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ▹ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ▹ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. jsonValues The attribute values associated with a resource in case attribute data type is JSON. values The attribute values in case attribute data type is string or JSON. stringValues The attribute values associated with a resource in case attribute data type is string. values The attribute values in case attribute data type is string or JSON. uriValues The attribute values associated with a resource in case attribute data type is URL, URI or IP, like gs://bucket-name/object-name. values The attribute values in case attribute data type is string or JSON. Shorthand Example: --attributes=string={enumValues={values=[{description=string,displayName=string,id=string,immutable=boolean}]},jsonValues={values=[string]},stringValues={values=[string]},uriValues={values=[string]}} JSON Example: --attributes='{"string": {"enumValues": {"values": [{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]}, "jsonValues": {"values": ["string"]}, "stringValues": {"values": ["string"]}, "uriValues": {"values": ["string"]}}}' File Example: --attributes=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Attributes { get; set; }
+
+    /// <summary>
+    /// Human readable description corresponding of the dependency.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Dependency resource - Identifier. The name of the dependency in the API Hub. Format: projects/{project}/locations/{location}/dependencies/{dependency} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument dependency on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dependency or fully qualified identifier for the dependency. To set the dependency attribute: ▸ provide the argument dependency on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Dependency { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ConsumerExternalApiResourceName) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ConsumerOperationResourceName) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ConsumerExternalApiResourceName or ConsumerOperationResourceName must be specified.", [nameof(ConsumerExternalApiResourceName), nameof(ConsumerOperationResourceName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SupplierExternalApiResourceName) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SupplierOperationResourceName) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of SupplierExternalApiResourceName or SupplierOperationResourceName must be specified.", [nameof(SupplierExternalApiResourceName), nameof(SupplierOperationResourceName)]);
+        }
+        yield break;
+    }
+
 }

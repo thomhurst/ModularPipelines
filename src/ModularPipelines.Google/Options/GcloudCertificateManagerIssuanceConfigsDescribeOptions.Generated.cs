@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("certificate-manager", "issuance-configs", "describe")]
 public record GcloudCertificateManagerIssuanceConfigsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details about a     Certificate Issuance Config
+    /// </summary>
+    /// <param name="CertificateIssuanceConfig">CertificateIssuanceConfig resource - CertificateIssuanceConfig you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument certificate_issuance_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the certificateIssuanceConfig or fully qualified identifier for the certificateIssuanceConfig. To set the certificate_issuance_config attribute: ▸ provide the argument certificate_issuance_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudCertificateManagerIssuanceConfigsDescribeOptions(
+        string CertificateIssuanceConfig
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateIssuanceConfig);
+        this.CertificateIssuanceConfig = CertificateIssuanceConfig;
+    }
+
+    public void Deconstruct(out string CertificateIssuanceConfig)
+    {
+        CertificateIssuanceConfig = this.CertificateIssuanceConfig;
+    }
+
+    /// <summary>
+    /// CertificateIssuanceConfig resource - CertificateIssuanceConfig you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument certificate_issuance_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Certificate Manager location. To set the location attribute: ▸ provide the argument certificate_issuance_config on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ default value of location is [global].
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// CertificateIssuanceConfig resource - CertificateIssuanceConfig you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument certificate_issuance_config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the certificateIssuanceConfig or fully qualified identifier for the certificateIssuanceConfig. To set the certificate_issuance_config attribute: ▸ provide the argument certificate_issuance_config on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CertificateIssuanceConfig { get; private init; }
+
 }

@@ -23,15 +23,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerHubScopesNamespacesCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// create a fleet namespace
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Namespace">Namespace resource - The group of arguments defining the Fleet Namespace. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAMESPACE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument NAMESPACE on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the namespace or fully qualified identifier for the namespace. To set the namespace attribute: ▸ provide the argument NAMESPACE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerHubScopesNamespacesCreateOptions(
+        string Namespace
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Namespace);
+        this.Namespace = Namespace;
+    }
+
+    public void Deconstruct(out string Namespace)
+    {
+        Namespace = this.Namespace;
+    }
+
+    /// <summary>
+    /// Namespace resource - The group of arguments defining the Fleet Namespace. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAMESPACE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument NAMESPACE on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. the To set the scope attribute: ▸ provide the argument NAMESPACE on the command line with a fully specified name; ▸ provide the argument --scope on the command line.
+    /// </summary>
+    [CliOption("--scope", Format = OptionFormat.EqualsSeparated)]
+    public string? Scope { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// List of namespace-level label KEY=VALUE pairs to add.
+    /// List of namespace-level label KEY=VALUE pairs to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--namespace-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--namespace-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? NamespaceLabels { get; set; }
+
+    /// <summary>
+    /// Namespace resource - The group of arguments defining the Fleet Namespace. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAMESPACE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument NAMESPACE on the command line with a fully specified name; ◆ global is the only supported location. This must be specified. ID of the namespace or fully qualified identifier for the namespace. To set the namespace attribute: ▸ provide the argument NAMESPACE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Namespace { get; private init; }
 
 }

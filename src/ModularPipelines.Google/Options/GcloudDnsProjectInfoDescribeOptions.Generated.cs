@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "project-info", "describe")]
-public record GcloudDnsProjectInfoDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ProjectId
-) : GcloudOptions
+public record GcloudDnsProjectInfoDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// view Cloud DNS related information for a     project
+    /// </summary>
+    /// <param name="ProjectId">The identifier for the project you want DNS related info for.</param>
+    public GcloudDnsProjectInfoDescribeOptions(
+        string ProjectId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectId);
+        this.ProjectId = ProjectId;
+    }
+
+    public void Deconstruct(out string ProjectId)
+    {
+        ProjectId = this.ProjectId;
+    }
+
+    /// <summary>
+    /// The identifier for the project you want DNS related info for.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ProjectId { get; private init; }
+
 }

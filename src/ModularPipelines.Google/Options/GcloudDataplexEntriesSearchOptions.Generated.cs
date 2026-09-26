@@ -19,8 +19,70 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "entries", "search")]
-public record GcloudDataplexEntriesSearchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Query
-) : GcloudOptions
+public record GcloudDataplexEntriesSearchOptions : GcloudOptions
 {
+    /// <summary>
+    /// searches for Dataplex entries
+    /// </summary>
+    /// <param name="Project">The project to which the request should be attributed.</param>
+    /// <param name="Query">The query against which entries in scope should be matched.</param>
+    public GcloudDataplexEntriesSearchOptions(
+        string Project,
+        string Query
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Project);
+        this.Project = Project;
+        global::System.ArgumentNullException.ThrowIfNull(Query);
+        this.Query = Query;
+    }
+
+    public void Deconstruct(out string Project, out string Query)
+    {
+        Project = this.Project;
+        Query = this.Query;
+    }
+
+    /// <summary>
+    /// The project to which the request should be attributed.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string Project { get; private init; }
+
+    /// <summary>
+    /// Maximum number of resources.
+    /// </summary>
+    [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
+    public string? Limit { get; set; }
+
+    /// <summary>
+    /// Specifies the ordering of results, currently supported case-sensitive choices are: ◆ title [asc|desc], defaults to ascending if not specified.
+    /// </summary>
+    [CliOption("--order-by", Format = OptionFormat.EqualsSeparated)]
+    public string? OrderBy { get; set; }
+
+    /// <summary>
+    /// Maximum number of resources per page. No more than 500.
+    /// </summary>
+    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
+    public int? PageSize { get; set; }
+
+    /// <summary>
+    /// The scope under which the search should be operating. Should either be organizations/&lt;org_id&gt; or projects/&lt;project_ref&gt;. If left unspecified, it will default to the organization where the project is located.
+    /// </summary>
+    [CliOption("--scope", Format = OptionFormat.EqualsSeparated)]
+    public string? Scope { get; set; }
+
+    /// <summary>
+    /// Specifies whether the search should understand the meaning and intent behind the query, rather than just matching keywords.
+    /// </summary>
+    [CliFlag("--semantic-search")]
+    public bool? SemanticSearch { get; set; }
+
+    /// <summary>
+    /// The query against which entries in scope should be matched.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Query { get; private init; }
+
 }

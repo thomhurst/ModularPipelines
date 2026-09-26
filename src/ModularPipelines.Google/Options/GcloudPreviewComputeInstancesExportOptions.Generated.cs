@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPreviewComputeInstancesExportOptions : GcloudOptions
 {
     /// <summary>
+    /// export a Compute Engine virtual     machine instance's configuration to a file
+    /// </summary>
+    /// <param name="Instance">Instance resource - Name of the instance to export. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPreviewComputeInstancesExportOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Instance resource - Name of the instance to export. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Google Compute Engine zone. To set the zone attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --zone on the command line; ▸ set the property compute/zone.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
     /// Path to a YAML file where the configuration will be exported. The exported data will not contain any output-only fields. Alternatively, you may omit this flag to write to standard output. For a schema describing the export/import format, see $CLOUDSDKROOT/lib/googlecloudsdk/schemas/...
     /// </summary>
     [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
     public string? Destination { get; set; }
+
+    /// <summary>
+    /// Instance resource - Name of the instance to export. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
 
 }

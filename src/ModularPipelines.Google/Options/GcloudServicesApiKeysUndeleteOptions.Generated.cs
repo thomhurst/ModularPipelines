@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,12 +20,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services", "api-keys", "undelete")]
-public record GcloudServicesApiKeysUndeleteOptions : GcloudOptions
+public record GcloudServicesApiKeysUndeleteOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: ▸ provide the argument key on the command line. This positional argument must be specified if any of the other arguments in this group are specified. Location of the key. To set the location attribute:
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: ▸ provide the argument key on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ location will default to global. Key String of the key.
+    /// </summary>
+    [CliOption("--key-string", Format = OptionFormat.EqualsSeparated)]
+    public string? KeyString { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Key resource - The name of the key to undelete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument key on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. ID of the key or fully qualified identifier for the key. To set the key attribute:
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Key { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(Key)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Location)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(KeyString)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (Key), (Location), or (KeyString) must be specified.", [nameof(Key), nameof(Location), nameof(KeyString)]);
+        }
+        yield break;
+    }
 
 }

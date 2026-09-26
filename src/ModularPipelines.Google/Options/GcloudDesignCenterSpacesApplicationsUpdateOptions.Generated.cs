@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,37 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "applications", "update")]
-public record GcloudDesignCenterSpacesApplicationsUpdateOptions : GcloudOptions
+public record GcloudDesignCenterSpacesApplicationsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update an application
+    /// </summary>
+    /// <param name="Application">Application resource - Identifier. The name of the application. Format: projects/{project}/locations/{location}/spaces/{space}/applications/{application} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the application or fully qualified identifier for the application. To set the application attribute: ▸ provide the argument application on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDesignCenterSpacesApplicationsUpdateOptions(
+        string Application
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Application);
+        this.Application = Application;
+    }
+
+    public void Deconstruct(out string Application)
+    {
+        Application = this.Application;
+    }
+
+    /// <summary>
+    /// Application resource - Identifier. The name of the application. Format: projects/{project}/locations/{location}/spaces/{space}/applications/{application} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the application resource. To set the location attribute: ▸ provide the argument application on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Application resource - Identifier. The name of the application. Format: projects/{project}/locations/{location}/spaces/{space}/applications/{application} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The space id of the application resource. To set the space attribute: ▸ provide the argument application on the command line with a fully specified name; ▸ provide the argument --space on the command line.
+    /// </summary>
+    [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
+    public string? Space { get; set; }
+
     /// <summary>
     /// Deployment project of the application.
     /// </summary>
@@ -79,13 +109,93 @@ public record GcloudDesignCenterSpacesApplicationsUpdateOptions : GcloudOptions
     /// Update app_parameters. At most one of these can be specified: Set app_parameters to new value. A list of parameters to attach to the deployment source object, which is a catalog entry or application template snapshot. key The key of the parameter. value The value of the parameter. Shorthand Example: --app-parameters=key=string,value={...} --app-parameters=key=string,value={...} JSON Example: --app-parameters='[{"key": "string", "value": {...}}]' File Example: --app-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--app-parameters", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AppParameters { get; set; }
+    public IEnumerable<string>? AppParameters
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AppParametersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AppParametersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AppParametersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AppParametersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update app_parameters. At most one of these can be specified: Or at least one of these can be specified: Add new value to app_parameters list. A list of parameters to attach to the deployment source object, which is a catalog entry or application template snapshot. key The key of the parameter. value The value of the parameter. Shorthand Example: --add-app-parameters=key=string,value={...} --add-app-parameters=key=string,value={...} JSON Example: --add-app-parameters='[{"key": "string", "value": {...}}]' File Example: --add-app-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-app-parameters", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddAppParameters { get; set; }
+    public IEnumerable<string>? AddAppParameters
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddAppParametersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddAppParametersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddAppParametersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddAppParametersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Update app_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear app_parameters value and set to empty list.
@@ -97,7 +207,47 @@ public record GcloudDesignCenterSpacesApplicationsUpdateOptions : GcloudOptions
     /// Update app_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from app_parameters list. A list of parameters to attach to the deployment source object, which is a catalog entry or application template snapshot. key The key of the parameter. value The value of the parameter. Shorthand Example: --remove-app-parameters=key=string,value={...} --remove-app-parameters=key=string,value={...} JSON Example: --remove-app-parameters='[{"key": "string", "value": {...}}]' File Example: --remove-app-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-app-parameters", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveAppParameters { get; set; }
+    public IEnumerable<string>? RemoveAppParameters
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveAppParametersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveAppParametersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveAppParametersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveAppParametersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Consumer provided attributes. Set application.attributes back to default value.
@@ -106,76 +256,436 @@ public record GcloudDesignCenterSpacesApplicationsUpdateOptions : GcloudOptions
     public bool? ClearAttributes { get; set; }
 
     /// <summary>
-    /// Consumer provided attributes. Update attributes_business_owners. At most one of these can be specified: Set attributes_business_owners to new value. Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-business-owners=channel={uri=string},displayName=string,email=string --attributes-business-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-business-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-business-owners=path_to_file.(yaml|json)
+    /// Update attributes_business_owners. At most one of these can be specified: Set attributes_business_owners to new value. Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-business-owners=channel={uri=string},displayName=string,email=string --attributes-business-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-business-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-business-owners=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--attributes-business-owners", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AttributesBusinessOwners { get; set; }
+    public IEnumerable<string>? AttributesBusinessOwners
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AttributesBusinessOwnersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AttributesBusinessOwnersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AttributesBusinessOwnersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AttributesBusinessOwnersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Consumer provided attributes. Update attributes_business_owners. At most one of these can be specified: Or at least one of these can be specified: Add new value to attributes_business_owners list. Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --add-attributes-business-owners=channel={uri=string},displayName=string,email=string --add-attributes-business-owners=channel={uri=string},displayName=string,email=string JSON Example: --add-attributes-business-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --add-attributes-business-owners=path_to_file.(yaml|json)
+    /// Update attributes_business_owners. At most one of these can be specified: Or at least one of these can be specified: Add new value to attributes_business_owners list. Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --add-attributes-business-owners=channel={uri=string},displayName=string,email=string --add-attributes-business-owners=channel={uri=string},displayName=string,email=string JSON Example: --add-attributes-business-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --add-attributes-business-owners=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-attributes-business-owners", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddAttributesBusinessOwners { get; set; }
+    public IEnumerable<string>? AddAttributesBusinessOwners
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddAttributesBusinessOwnersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddAttributesBusinessOwnersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddAttributesBusinessOwnersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddAttributesBusinessOwnersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Consumer provided attributes. Update attributes_business_owners. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear attributes_business_owners value and set to empty list.
+    /// Update attributes_business_owners. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear attributes_business_owners value and set to empty list.
     /// </summary>
     [CliFlag("--clear-attributes-business-owners")]
     public bool? ClearAttributesBusinessOwners { get; set; }
 
     /// <summary>
-    /// Consumer provided attributes. Update attributes_business_owners. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from attributes_business_owners list. Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --remove-attributes-business-owners=channel={uri=string},displayName=string,email=string --remove-attributes-business-owners=channel={uri=string},displayName=string,email=string JSON Example: --remove-attributes-business-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --remove-attributes-business-owners=path_to_file.(yaml|json)
+    /// Update attributes_business_owners. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from attributes_business_owners list. Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --remove-attributes-business-owners=channel={uri=string},displayName=string,email=string --remove-attributes-business-owners=channel={uri=string},displayName=string,email=string JSON Example: --remove-attributes-business-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --remove-attributes-business-owners=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-attributes-business-owners", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveAttributesBusinessOwners { get; set; }
+    public IEnumerable<string>? RemoveAttributesBusinessOwners
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveAttributesBusinessOwnersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveAttributesBusinessOwnersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveAttributesBusinessOwnersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveAttributesBusinessOwnersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Consumer provided attributes. Update attributes_developer_owners. At most one of these can be specified: Set attributes_developer_owners to new value. Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-developer-owners=channel={uri=string},displayName=string,email=string --attributes-developer-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-developer-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-developer-owners=path_to_file.(yaml|json)
+    /// Update attributes_developer_owners. At most one of these can be specified: Set attributes_developer_owners to new value. Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-developer-owners=channel={uri=string},displayName=string,email=string --attributes-developer-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-developer-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-developer-owners=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--attributes-developer-owners", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AttributesDeveloperOwners { get; set; }
+    public IEnumerable<string>? AttributesDeveloperOwners
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AttributesDeveloperOwnersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AttributesDeveloperOwnersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AttributesDeveloperOwnersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AttributesDeveloperOwnersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Consumer provided attributes. Update attributes_developer_owners. At most one of these can be specified: Or at least one of these can be specified: Add new value to attributes_developer_owners list. Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --add-attributes-developer-owners=channel={uri=string},displayName=string,email=string --add-attributes-developer-owners=channel={uri=string},displayName=string,email=string JSON Example: --add-attributes-developer-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --add-attributes-developer-owners=path_to_file.(yaml|json)
+    /// Update attributes_developer_owners. At most one of these can be specified: Or at least one of these can be specified: Add new value to attributes_developer_owners list. Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --add-attributes-developer-owners=channel={uri=string},displayName=string,email=string --add-attributes-developer-owners=channel={uri=string},displayName=string,email=string JSON Example: --add-attributes-developer-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --add-attributes-developer-owners=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-attributes-developer-owners", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddAttributesDeveloperOwners { get; set; }
+    public IEnumerable<string>? AddAttributesDeveloperOwners
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddAttributesDeveloperOwnersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddAttributesDeveloperOwnersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddAttributesDeveloperOwnersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddAttributesDeveloperOwnersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Consumer provided attributes. Update attributes_developer_owners. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear attributes_developer_owners value and set to empty list.
+    /// Update attributes_developer_owners. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear attributes_developer_owners value and set to empty list.
     /// </summary>
     [CliFlag("--clear-attributes-developer-owners")]
     public bool? ClearAttributesDeveloperOwners { get; set; }
 
     /// <summary>
-    /// Consumer provided attributes. Update attributes_developer_owners. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from attributes_developer_owners list. Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --remove-attributes-developer-owners=channel={uri=string},displayName=string,email=string --remove-attributes-developer-owners=channel={uri=string},displayName=string,email=string JSON Example: --remove-attributes-developer-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --remove-attributes-developer-owners=path_to_file.(yaml|json)
+    /// Update attributes_developer_owners. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from attributes_developer_owners list. Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --remove-attributes-developer-owners=channel={uri=string},displayName=string,email=string --remove-attributes-developer-owners=channel={uri=string},displayName=string,email=string JSON Example: --remove-attributes-developer-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --remove-attributes-developer-owners=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-attributes-developer-owners", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveAttributesDeveloperOwners { get; set; }
+    public IEnumerable<string>? RemoveAttributesDeveloperOwners
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveAttributesDeveloperOwnersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveAttributesDeveloperOwnersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveAttributesDeveloperOwnersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveAttributesDeveloperOwnersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Consumer provided attributes. Update attributes_operator_owners. At most one of these can be specified: Set attributes_operator_owners to new value. Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-operator-owners=channel={uri=string},displayName=string,email=string --attributes-operator-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-operator-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-operator-owners=path_to_file.(yaml|json)
+    /// Update attributes_operator_owners. At most one of these can be specified: Set attributes_operator_owners to new value. Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-operator-owners=channel={uri=string},displayName=string,email=string --attributes-operator-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-operator-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-operator-owners=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--attributes-operator-owners", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AttributesOperatorOwners { get; set; }
+    public IEnumerable<string>? AttributesOperatorOwners
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AttributesOperatorOwnersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AttributesOperatorOwnersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AttributesOperatorOwnersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AttributesOperatorOwnersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Consumer provided attributes. Update attributes_operator_owners. At most one of these can be specified: Or at least one of these can be specified: Add new value to attributes_operator_owners list. Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --add-attributes-operator-owners=channel={uri=string},displayName=string,email=string --add-attributes-operator-owners=channel={uri=string},displayName=string,email=string JSON Example: --add-attributes-operator-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --add-attributes-operator-owners=path_to_file.(yaml|json)
+    /// Update attributes_operator_owners. At most one of these can be specified: Or at least one of these can be specified: Add new value to attributes_operator_owners list. Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --add-attributes-operator-owners=channel={uri=string},displayName=string,email=string --add-attributes-operator-owners=channel={uri=string},displayName=string,email=string JSON Example: --add-attributes-operator-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --add-attributes-operator-owners=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-attributes-operator-owners", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddAttributesOperatorOwners { get; set; }
+    public IEnumerable<string>? AddAttributesOperatorOwners
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddAttributesOperatorOwnersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddAttributesOperatorOwnersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddAttributesOperatorOwnersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddAttributesOperatorOwnersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Consumer provided attributes. Update attributes_operator_owners. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear attributes_operator_owners value and set to empty list.
+    /// Update attributes_operator_owners. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear attributes_operator_owners value and set to empty list.
     /// </summary>
     [CliFlag("--clear-attributes-operator-owners")]
     public bool? ClearAttributesOperatorOwners { get; set; }
 
     /// <summary>
-    /// Consumer provided attributes. Update attributes_operator_owners. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from attributes_operator_owners list. Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --remove-attributes-operator-owners=channel={uri=string},displayName=string,email=string --remove-attributes-operator-owners=channel={uri=string},displayName=string,email=string JSON Example: --remove-attributes-operator-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --remove-attributes-operator-owners=path_to_file.(yaml|json)
+    /// Update attributes_operator_owners. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from attributes_operator_owners list. Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --remove-attributes-operator-owners=channel={uri=string},displayName=string,email=string --remove-attributes-operator-owners=channel={uri=string},displayName=string,email=string JSON Example: --remove-attributes-operator-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --remove-attributes-operator-owners=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-attributes-operator-owners", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveAttributesOperatorOwners { get; set; }
+    public IEnumerable<string>? RemoveAttributesOperatorOwners
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveAttributesOperatorOwnersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveAttributesOperatorOwnersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveAttributesOperatorOwnersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveAttributesOperatorOwnersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Criticality of the Application, Service, or Workload Criticality level. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead.
@@ -184,19 +694,19 @@ public record GcloudDesignCenterSpacesApplicationsUpdateOptions : GcloudOptions
     public string? CriticalityLevel { get; set; }
 
     /// <summary>
-    /// Criticality of the Application, Service, or Workload Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead. Use --criticality-mission-critical to enable and --no-criticality-mission-critical to disable.
+    /// Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead. Use --criticality-mission-critical to enable and --no-criticality-mission-critical to disable.
     /// </summary>
     [CliFlag("--criticality-mission-critical")]
     public bool? CriticalityMissionCritical { get; set; }
 
     /// <summary>
-    /// Negates --criticality-mission-critical. Criticality of the Application, Service, or Workload Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead. Use --criticality-mission-critical to enable and --no-criticality-mission-critical to disable.
+    /// Negates --criticality-mission-critical. Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead. Use --criticality-mission-critical to enable and --no-criticality-mission-critical to disable.
     /// </summary>
     [CliFlag("--no-criticality-mission-critical")]
     public bool? NoCriticalityMissionCritical { get; set; }
 
     /// <summary>
-    /// Criticality of the Application, Service, or Workload Criticality Type. CRITICALITY_TYPE must be one of: high High impact. low Low impact. medium Medium impact. mission-critical Mission critical service, application or workload.
+    /// Criticality Type. CRITICALITY_TYPE must be one of: high High impact. low Low impact. medium Medium impact. mission-critical Mission critical service, application or workload.
     /// </summary>
     [CliOption("--criticality-type", Format = OptionFormat.EqualsSeparated)]
     public string? CriticalityType { get; set; }
@@ -208,7 +718,7 @@ public record GcloudDesignCenterSpacesApplicationsUpdateOptions : GcloudOptions
     public string? Environment { get; set; }
 
     /// <summary>
-    /// Environment of the Application, Service, or Workload Environment Type. ENVIRONMENT_TYPE must be one of: development Development environment. production Production environment. staging Staging environment. test Test environment.
+    /// Environment Type. ENVIRONMENT_TYPE must be one of: development Development environment. production Production environment. staging Staging environment. test Test environment.
     /// </summary>
     [CliOption("--environment-type", Format = OptionFormat.EqualsSeparated)]
     public string? EnvironmentType { get; set; }
@@ -220,25 +730,105 @@ public record GcloudDesignCenterSpacesApplicationsUpdateOptions : GcloudOptions
     public bool? ClearCompositeApplicationParameters { get; set; }
 
     /// <summary>
-    /// Holds parameters that are specific to composite applications. Update composite_application_parameters_service_account_map. At most one of these can be specified: Set composite_application_parameters_service_account_map to new value. A map from a component's URI to the deployment service account for composite application. key format: projects/{project}/locations/{location}/spaces/{space}/applicationTemplates/{application_template}/components/{component} value format: projects/{project}/serviceAccounts/{email_address}. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --composite-application-parameters-service-account-map=string=string JSON Example: --composite-application-parameters-service-account-map='{"string": "string"}' File Example: --composite-application-parameters-service-account-map=path_to_file.(yaml|json)
+    /// Update composite_application_parameters_service_account_map. At most one of these can be specified: Set composite_application_parameters_service_account_map to new value. A map from a component's URI to the deployment service account for composite application. key format: projects/{project}/locations/{location}/spaces/{space}/applicationTemplates/{application_template}/components/{component} value format: projects/{project}/serviceAccounts/{email_address}. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --composite-application-parameters-service-account-map=string=string JSON Example: --composite-application-parameters-service-account-map='{"string": "string"}' File Example: --composite-application-parameters-service-account-map=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--composite-application-parameters-service-account-map", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? CompositeApplicationParametersServiceAccountMap { get; set; }
+    public IEnumerable<string>? CompositeApplicationParametersServiceAccountMap
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __CompositeApplicationParametersServiceAccountMapSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __CompositeApplicationParametersServiceAccountMapSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __CompositeApplicationParametersServiceAccountMapSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __CompositeApplicationParametersServiceAccountMapSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Holds parameters that are specific to composite applications. Update composite_application_parameters_service_account_map. At most one of these can be specified: Or at least one of these can be specified: Update composite_application_parameters_service_account_map value or add key value pair. A map from a component's URI to the deployment service account for composite application. key format: projects/{project}/locations/{location}/spaces/{space}/applicationTemplates/{application_template}/components/{component} value format: projects/{project}/serviceAccounts/{email_address}. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-composite-application-parameters-service-account-map=string=string JSON Example: --update-composite-application-parameters-service-account-map='{"string": "string"}' File Example: --update-composite-application-parameters-service-account-map=path_to_file.(yaml|json)
+    /// Update composite_application_parameters_service_account_map. At most one of these can be specified: Or at least one of these can be specified: Update composite_application_parameters_service_account_map value or add key value pair. A map from a component's URI to the deployment service account for composite application. key format: projects/{project}/locations/{location}/spaces/{space}/applicationTemplates/{application_template}/components/{component} value format: projects/{project}/serviceAccounts/{email_address}. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-composite-application-parameters-service-account-map=string=string JSON Example: --update-composite-application-parameters-service-account-map='{"string": "string"}' File Example: --update-composite-application-parameters-service-account-map=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-composite-application-parameters-service-account-map", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? UpdateCompositeApplicationParametersServiceAccountMap { get; set; }
+    public IEnumerable<string>? UpdateCompositeApplicationParametersServiceAccountMap
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __UpdateCompositeApplicationParametersServiceAccountMapSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __UpdateCompositeApplicationParametersServiceAccountMapSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __UpdateCompositeApplicationParametersServiceAccountMapSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __UpdateCompositeApplicationParametersServiceAccountMapSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Holds parameters that are specific to composite applications. Update composite_application_parameters_service_account_map. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear composite_application_parameters_service_account_map value and set to empty map.
+    /// Update composite_application_parameters_service_account_map. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear composite_application_parameters_service_account_map value and set to empty map.
     /// </summary>
     [CliFlag("--clear-composite-application-parameters-service-account-map")]
     public bool? ClearCompositeApplicationParametersServiceAccountMap { get; set; }
 
     /// <summary>
-    /// Holds parameters that are specific to composite applications. Update composite_application_parameters_service_account_map. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map composite_application_parameters_service_account_map. Sets remove_composite_application_parameters_service_account_map value. Shorthand Example: --remove-composite-application-parameters-service-account-map=string,string JSON Example: --remove-composite-application-parameters-service-account-map=["string"] File Example: --remove-composite-application-parameters-service-account-map=path_to_file.(yaml|json)
+    /// Update composite_application_parameters_service_account_map. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map composite_application_parameters_service_account_map. Sets remove_composite_application_parameters_service_account_map value. Shorthand Example: --remove-composite-application-parameters-service-account-map=string,string JSON Example: --remove-composite-application-parameters-service-account-map=["string"] File Example: --remove-composite-application-parameters-service-account-map=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-composite-application-parameters-service-account-map", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveCompositeApplicationParametersServiceAccountMap { get; set; }
@@ -250,111 +840,423 @@ public record GcloudDesignCenterSpacesApplicationsUpdateOptions : GcloudOptions
     public bool? ClearDeploymentTarget { get; set; }
 
     /// <summary>
-    /// Arguments for the target. The GKE deployment target. The self link of the cluster where GKE based application is deployed.
+    /// Arguments for the target. The GKE deployment target. Scope of an application. Source template information for the deployment. The self link of the cluster where GKE based application is deployed.
     /// </summary>
     [CliOption("--gke-deployment-target-cluster-self-link", Format = OptionFormat.EqualsSeparated)]
     public string? GkeDeploymentTargetClusterSelfLink { get; set; }
 
     /// <summary>
-    /// Arguments for the target. The GKE deployment target. The kubernetes service account that is created within the namespace provided above. Example: default or node-sa
+    /// Arguments for the target. The GKE deployment target. Scope of an application. Source template information for the deployment. The kubernetes service account that is created within the namespace provided above. Example: default or node-sa
     /// </summary>
     [CliOption("--gke-deployment-target-kubernetes-service-account", Format = OptionFormat.EqualsSeparated)]
     public string? GkeDeploymentTargetKubernetesServiceAccount { get; set; }
 
     /// <summary>
-    /// Arguments for the target. The GKE deployment target. Whether to create the provided KSA. If true, the KSA will be created in the namespace provided above. If false, the KSA is expected to already exist in the namespace provided above. Use --gke-deployment-target-kubernetes-service-account-creation to enable and --no-gke-deployment-target-kubernetes-service-account-creation to disable.
+    /// Arguments for the target. The GKE deployment target. Scope of an application. Source template information for the deployment. Whether to create the provided KSA. If true, the KSA will be created in the namespace provided above. If false, the KSA is expected to already exist in the namespace provided above. Use --gke-deployment-target-kubernetes-service-account-creation to enable and --no-gke-deployment-target-kubernetes-service-account-creation to disable.
     /// </summary>
     [CliFlag("--gke-deployment-target-kubernetes-service-account-creation")]
     public bool? GkeDeploymentTargetKubernetesServiceAccountCreation { get; set; }
 
     /// <summary>
-    /// Negates --gke-deployment-target-kubernetes-service-account-creation. Arguments for the target. The GKE deployment target. Whether to create the provided KSA. If true, the KSA will be created in the namespace provided above. If false, the KSA is expected to already exist in the namespace provided above. Use --gke-deployment-target-kubernetes-service-account-creation to enable and --no-gke-deployment-target-kubernetes-service-account-creation to disable.
+    /// Negates --gke-deployment-target-kubernetes-service-account-creation. Arguments for the target. The GKE deployment target. Scope of an application. Source template information for the deployment. Whether to create the provided KSA. If true, the KSA will be created in the namespace provided above. If false, the KSA is expected to already exist in the namespace provided above. Use --gke-deployment-target-kubernetes-service-account-creation to enable and --no-gke-deployment-target-kubernetes-service-account-creation to disable.
     /// </summary>
     [CliFlag("--no-gke-deployment-target-kubernetes-service-account-creation")]
     public bool? NoGkeDeploymentTargetKubernetesServiceAccountCreation { get; set; }
 
     /// <summary>
-    /// Arguments for the target. The GKE deployment target. The namespace where the application is deployed.
+    /// Arguments for the target. The GKE deployment target. Scope of an application. Source template information for the deployment. The namespace where the application is deployed.
     /// </summary>
     [CliOption("--gke-deployment-target-namespace", Format = OptionFormat.EqualsSeparated)]
     public string? GkeDeploymentTargetNamespace { get; set; }
 
     /// <summary>
-    /// Scope of an application. Set application.scope back to default value.
+    /// Arguments for the target. The GKE deployment target. Scope of an application. Source template information for the deployment. Set application.scope back to default value.
     /// </summary>
     [CliFlag("--clear-scope")]
     public bool? ClearScope { get; set; }
 
     /// <summary>
-    /// Scope of an application. Scope Type. SCOPE_TYPE must be one of: global Global type. regional Regional type.
+    /// Arguments for the target. The GKE deployment target. Scope of an application. Source template information for the deployment. Scope Type. SCOPE_TYPE must be one of: global Global type. regional Regional type.
     /// </summary>
     [CliOption("--scope-type", Format = OptionFormat.EqualsSeparated)]
     public string? ScopeType { get; set; }
 
     /// <summary>
-    /// Source template information for the deployment. Set application.source back to default value.
+    /// Arguments for the target. The GKE deployment target. Scope of an application. Source template information for the deployment. Set application.source back to default value.
     /// </summary>
     [CliFlag("--clear-source")]
     public bool? ClearSource { get; set; }
 
     /// <summary>
-    /// Source template information for the deployment. Arguments for the source. At most one of these can be specified: Application template revision URI.
+    /// Arguments for the source. At most one of these can be specified: Application template revision URI.
     /// </summary>
     [CliOption("--source-application-template-revision", Format = OptionFormat.EqualsSeparated)]
     public string? SourceApplicationTemplateRevision { get; set; }
 
     /// <summary>
-    /// Source template information for the deployment. Arguments for the source. At most one of these can be specified: Shared template revision URI.
+    /// Arguments for the source. At most one of these can be specified: Shared template revision URI.
     /// </summary>
     [CliOption("--source-shared-template-revision-uri", Format = OptionFormat.EqualsSeparated)]
     public string? SourceSharedTemplateRevisionUri { get; set; }
 
     /// <summary>
-    /// Source template information for the deployment. Update component_parameters. At most one of these can be specified: Set component_parameters to new value. A list of component parameters to associate with the application. applicationInfo The application associated with the component. apphubApplicationId The application ID of the apphub application. The ID must be 1-63 characters long and should match the regular expression ^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$. attributes Attributes of apphub application. businessOwners Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. criticality User-defined criticality information. level Criticality level. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead. missionCritical Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead. type Criticality Type. developerOwners Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. environment User-defined environment information. environment Environment name. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead. type Environment Type. operatorOwners Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. deploymentRegion Deployment region for the component. If the scope is set to REGIONAL, then the apphub application is created in this region, e.g. us-central1. displayName Display name for the application. The number of characters should be less than 64 characters. scope Scope of apphub application. type Scope Type. component The name of the component parameter. parameters A list of parameters associated with the component. key The key of the parameter. value The value of the parameter. Shorthand Example: --component-parameters=applicationInfo={apphubApplicationId=string,attributes={businessOwners=[{channel={uri=string},displayName=string,email=string}],criticality={level=string,missionCritical=boolean,type=string},developerOwners=[{channel={uri=string},displayName=string,email=string}],environment={environment=string,type=string},operatorOwners=[{channel={uri=string},displayName=string,email=string}]},deploymentRegion=string,displayName=string,scope={type=string}},component=string,parameters=[{key=string,value={...}}] --component-parameters=applicationInfo={apphubApplicationId=string,attributes={businessOwners=[{channel={uri=string},displayName=string,email=string}],criticality={level=string,missionCritical=boolean,type=string},developerOwners=[{channel={uri=string},displayName=string,email=string}],environment={environment=string,type=string},operatorOwners=[{channel={uri=string},displayName=string,email=string}]},deploymentRegion=string,displayName=string,scope={type=string}},component=string,parameters=[{key=string,value={...}}] JSON Example: --component-parameters='[{"applicationInfo": {"apphubApplicationId": "string", "attributes": {"businessOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}], "criticality": {"level": "string", "missionCritical": boolean, "type": "string"}, "developerOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}], "environment": {"environment": "string", "type": "string"}, "operatorOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]}, "deploymentRegion": "string", "displayName": "string", "scope": {"type": "string"}}, "component": "string", "parameters": [{"key": "string", "value": {...}}]}]' File Example: --component-parameters=path_to_file.(yaml|json)
+    /// Update component_parameters. At most one of these can be specified: Set component_parameters to new value. A list of component parameters to associate with the application. applicationInfo The application associated with the component. apphubApplicationId The application ID of the apphub application. The ID must be 1-63 characters long and should match the regular expression ^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$. attributes Attributes of apphub application. businessOwners Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. criticality User-defined criticality information. level Criticality level. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead. missionCritical Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead. type Criticality Type. developerOwners Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. environment User-defined environment information. environment Environment name. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead. type Environment Type. operatorOwners Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. deploymentRegion Deployment region for the component. If the scope is set to REGIONAL, then the apphub application is created in this region, e.g. us-central1. displayName Display name for the application. The number of characters should be less than 64 characters. scope Scope of apphub application. type Scope Type. component The name of the component parameter. parameters A list of parameters associated with the component. key The key of the parameter. value The value of the parameter. Shorthand Example: --component-parameters=applicationInfo={apphubApplicationId=string,attributes={businessOwners=[{channel={uri=string},displayName=string,email=string}],criticality={level=string,missionCritical=boolean,type=string},developerOwners=[{channel={uri=string},displayName=string,email=string}],environment={environment=string,type=string},operatorOwners=[{channel={uri=string},displayName=string,email=string}]},deploymentRegion=string,displayName=string,scope={type=string}},component=string,parameters=[{key=string,value={...}}] --component-parameters=applicationInfo={apphubApplicationId=string,attributes={businessOwners=[{channel={uri=string},displayName=string,email=string}],criticality={level=string,missionCritical=boolean,type=string},developerOwners=[{channel={uri=string},displayName=string,email=string}],environment={environment=string,type=string},operatorOwners=[{channel={uri=string},displayName=string,email=string}]},deploymentRegion=string,displayName=string,scope={type=string}},component=string,parameters=[{key=string,value={...}}] JSON Example: --component-parameters='[{"applicationInfo": {"apphubApplicationId": "string", "attributes": {"businessOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}], "criticality": {"level": "string", "missionCritical": boolean, "type": "string"}, "developerOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}], "environment": {"environment": "string", "type": "string"}, "operatorOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]}, "deploymentRegion": "string", "displayName": "string", "scope": {"type": "string"}}, "component": "string", "parameters": [{"key": "string", "value": {...}}]}]' File Example: --component-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--component-parameters", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ComponentParameters { get; set; }
+    public IEnumerable<string>? ComponentParameters
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __ComponentParametersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ComponentParametersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ComponentParametersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __ComponentParametersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Source template information for the deployment. Update component_parameters. At most one of these can be specified: Or at least one of these can be specified: Add new value to component_parameters list. A list of component parameters to associate with the application. applicationInfo The application associated with the component. apphubApplicationId The application ID of the apphub application. The ID must be 1-63 characters long and should match the regular expression ^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$. attributes Attributes of apphub application. businessOwners Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. criticality User-defined criticality information. level Criticality level. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead. missionCritical Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead. type Criticality Type. developerOwners Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. environment User-defined environment information. environment Environment name. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead. type Environment Type. operatorOwners Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. deploymentRegion Deployment region for the component. If the scope is set to REGIONAL, then the apphub application is created in this region, e.g. us-central1. displayName Display name for the application. The number of characters should be less than 64 characters. scope Scope of apphub application. type Scope Type. component The name of the component parameter. parameters A list of parameters associated with the component. key The key of the parameter. value The value of the parameter. Shorthand Example: --add-component-parameters=applicationInfo={apphubApplicationId=string,attributes={businessOwners=[{channel={uri=string},displayName=string,email=string}],criticality={level=string,missionCritical=boolean,type=string},developerOwners=[{channel={uri=string},displayName=string,email=string}],environment={environment=string,type=string},operatorOwners=[{channel={uri=string},displayName=string,email=string}]},deploymentRegion=string,displayName=string,scope={type=string}},component=string,parameters=[{key=string,value={...}}] --add-component-parameters=applicationInfo={apphubApplicationId=string,attributes={businessOwners=[{channel={uri=string},displayName=string,email=string}],criticality={level=string,missionCritical=boolean,type=string},developerOwners=[{channel={uri=string},displayName=string,email=string}],environment={environment=string,type=string},operatorOwners=[{channel={uri=string},displayName=string,email=string}]},deploymentRegion=string,displayName=string,scope={type=string}},component=string,parameters=[{key=string,value={...}}] JSON Example: --add-component-parameters='[{"applicationInfo": {"apphubApplicationId": "string", "attributes": {"businessOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}], "criticality": {"level": "string", "missionCritical": boolean, "type": "string"}, "developerOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}], "environment": {"environment": "string", "type": "string"}, "operatorOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]}, "deploymentRegion": "string", "displayName": "string", "scope": {"type": "string"}}, "component": "string", "parameters": [{"key": "string", "value": {...}}]}]' File Example: --add-component-parameters=path_to_file.(yaml|json)
+    /// Update component_parameters. At most one of these can be specified: Or at least one of these can be specified: Add new value to component_parameters list. A list of component parameters to associate with the application. applicationInfo The application associated with the component. apphubApplicationId The application ID of the apphub application. The ID must be 1-63 characters long and should match the regular expression ^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$. attributes Attributes of apphub application. businessOwners Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. criticality User-defined criticality information. level Criticality level. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead. missionCritical Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead. type Criticality Type. developerOwners Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. environment User-defined environment information. environment Environment name. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead. type Environment Type. operatorOwners Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. deploymentRegion Deployment region for the component. If the scope is set to REGIONAL, then the apphub application is created in this region, e.g. us-central1. displayName Display name for the application. The number of characters should be less than 64 characters. scope Scope of apphub application. type Scope Type. component The name of the component parameter. parameters A list of parameters associated with the component. key The key of the parameter. value The value of the parameter. Shorthand Example: --add-component-parameters=applicationInfo={apphubApplicationId=string,attributes={businessOwners=[{channel={uri=string},displayName=string,email=string}],criticality={level=string,missionCritical=boolean,type=string},developerOwners=[{channel={uri=string},displayName=string,email=string}],environment={environment=string,type=string},operatorOwners=[{channel={uri=string},displayName=string,email=string}]},deploymentRegion=string,displayName=string,scope={type=string}},component=string,parameters=[{key=string,value={...}}] --add-component-parameters=applicationInfo={apphubApplicationId=string,attributes={businessOwners=[{channel={uri=string},displayName=string,email=string}],criticality={level=string,missionCritical=boolean,type=string},developerOwners=[{channel={uri=string},displayName=string,email=string}],environment={environment=string,type=string},operatorOwners=[{channel={uri=string},displayName=string,email=string}]},deploymentRegion=string,displayName=string,scope={type=string}},component=string,parameters=[{key=string,value={...}}] JSON Example: --add-component-parameters='[{"applicationInfo": {"apphubApplicationId": "string", "attributes": {"businessOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}], "criticality": {"level": "string", "missionCritical": boolean, "type": "string"}, "developerOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}], "environment": {"environment": "string", "type": "string"}, "operatorOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]}, "deploymentRegion": "string", "displayName": "string", "scope": {"type": "string"}}, "component": "string", "parameters": [{"key": "string", "value": {...}}]}]' File Example: --add-component-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-component-parameters", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddComponentParameters { get; set; }
+    public IEnumerable<string>? AddComponentParameters
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddComponentParametersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddComponentParametersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddComponentParametersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddComponentParametersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Source template information for the deployment. Update component_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear component_parameters value and set to empty list.
+    /// Update component_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear component_parameters value and set to empty list.
     /// </summary>
     [CliFlag("--clear-component-parameters")]
     public bool? ClearComponentParameters { get; set; }
 
     /// <summary>
-    /// Source template information for the deployment. Update component_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from component_parameters list. A list of component parameters to associate with the application. applicationInfo The application associated with the component. apphubApplicationId The application ID of the apphub application. The ID must be 1-63 characters long and should match the regular expression ^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$. attributes Attributes of apphub application. businessOwners Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. criticality User-defined criticality information. level Criticality level. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead. missionCritical Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead. type Criticality Type. developerOwners Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. environment User-defined environment information. environment Environment name. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead. type Environment Type. operatorOwners Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. deploymentRegion Deployment region for the component. If the scope is set to REGIONAL, then the apphub application is created in this region, e.g. us-central1. displayName Display name for the application. The number of characters should be less than 64 characters. scope Scope of apphub application. type Scope Type. component The name of the component parameter. parameters A list of parameters associated with the component. key The key of the parameter. value The value of the parameter. Shorthand Example: --remove-component-parameters=applicationInfo={apphubApplicationId=string,attributes={businessOwners=[{channel={uri=string},displayName=string,email=string}],criticality={level=string,missionCritical=boolean,type=string},developerOwners=[{channel={uri=string},displayName=string,email=string}],environment={environment=string,type=string},operatorOwners=[{channel={uri=string},displayName=string,email=string}]},deploymentRegion=string,displayName=string,scope={type=string}},component=string,parameters=[{key=string,value={...}}] --remove-component-parameters=applicationInfo={apphubApplicationId=string,attributes={businessOwners=[{channel={uri=string},displayName=string,email=string}],criticality={level=string,missionCritical=boolean,type=string},developerOwners=[{channel={uri=string},displayName=string,email=string}],environment={environment=string,type=string},operatorOwners=[{channel={uri=string},displayName=string,email=string}]},deploymentRegion=string,displayName=string,scope={type=string}},component=string,parameters=[{key=string,value={...}}] JSON Example: --remove-component-parameters='[{"applicationInfo": {"apphubApplicationId": "string", "attributes": {"businessOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}], "criticality": {"level": "string", "missionCritical": boolean, "type": "string"}, "developerOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}], "environment": {"environment": "string", "type": "string"}, "operatorOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]}, "deploymentRegion": "string", "displayName": "string", "scope": {"type": "string"}}, "component": "string", "parameters": [{"key": "string", "value": {...}}]}]' File Example: --remove-component-parameters=path_to_file.(yaml|json)
+    /// Update component_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from component_parameters list. A list of component parameters to associate with the application. applicationInfo The application associated with the component. apphubApplicationId The application ID of the apphub application. The ID must be 1-63 characters long and should match the regular expression ^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$. attributes Attributes of apphub application. businessOwners Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. criticality User-defined criticality information. level Criticality level. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead. missionCritical Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead. type Criticality Type. developerOwners Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. environment User-defined environment information. environment Environment name. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead. type Environment Type. operatorOwners Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. deploymentRegion Deployment region for the component. If the scope is set to REGIONAL, then the apphub application is created in this region, e.g. us-central1. displayName Display name for the application. The number of characters should be less than 64 characters. scope Scope of apphub application. type Scope Type. component The name of the component parameter. parameters A list of parameters associated with the component. key The key of the parameter. value The value of the parameter. Shorthand Example: --remove-component-parameters=applicationInfo={apphubApplicationId=string,attributes={businessOwners=[{channel={uri=string},displayName=string,email=string}],criticality={level=string,missionCritical=boolean,type=string},developerOwners=[{channel={uri=string},displayName=string,email=string}],environment={environment=string,type=string},operatorOwners=[{channel={uri=string},displayName=string,email=string}]},deploymentRegion=string,displayName=string,scope={type=string}},component=string,parameters=[{key=string,value={...}}] --remove-component-parameters=applicationInfo={apphubApplicationId=string,attributes={businessOwners=[{channel={uri=string},displayName=string,email=string}],criticality={level=string,missionCritical=boolean,type=string},developerOwners=[{channel={uri=string},displayName=string,email=string}],environment={environment=string,type=string},operatorOwners=[{channel={uri=string},displayName=string,email=string}]},deploymentRegion=string,displayName=string,scope={type=string}},component=string,parameters=[{key=string,value={...}}] JSON Example: --remove-component-parameters='[{"applicationInfo": {"apphubApplicationId": "string", "attributes": {"businessOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}], "criticality": {"level": "string", "missionCritical": boolean, "type": "string"}, "developerOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}], "environment": {"environment": "string", "type": "string"}, "operatorOwners": [{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]}, "deploymentRegion": "string", "displayName": "string", "scope": {"type": "string"}}, "component": "string", "parameters": [{"key": "string", "value": {...}}]}]' File Example: --remove-component-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-component-parameters", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveComponentParameters { get; set; }
+    public IEnumerable<string>? RemoveComponentParameters
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveComponentParametersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveComponentParametersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveComponentParametersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveComponentParametersSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Source template information for the deployment. Update connection_configs. At most one of these can be specified: Set connection_configs to new value. Connection configuration for the application. connectionUri The connection URI. destinationComponentParameters The parameters of the connection associated with the destination component. key The key of the parameter. value The value of the parameter. sourceComponentParameters The parameters of the connection associated with the source component. key The key of the parameter. value The value of the parameter. Shorthand Example: --connection-configs=connectionUri=string,destinationComponentParameters=[{key=string,value={...}}],sourceComponentParameters=[{key=string,value={...}}] --connection-configs=connectionUri=string,destinationComponentParameters=[{key=string,value={...}}],sourceComponentParameters=[{key=string,value={...}}] JSON Example: --connection-configs='[{"connectionUri": "string", "destinationComponentParameters": [{"key": "string", "value": {...}}], "sourceComponentParameters": [{"key": "string", "value": {...}}]}]' File Example: --connection-configs=path_to_file.(yaml|json)
+    /// Update connection_configs. At most one of these can be specified: Set connection_configs to new value. Connection configuration for the application. connectionUri The connection URI. destinationComponentParameters The parameters of the connection associated with the destination component. key The key of the parameter. value The value of the parameter. sourceComponentParameters The parameters of the connection associated with the source component. key The key of the parameter. value The value of the parameter. Shorthand Example: --connection-configs=connectionUri=string,destinationComponentParameters=[{key=string,value={...}}],sourceComponentParameters=[{key=string,value={...}}] --connection-configs=connectionUri=string,destinationComponentParameters=[{key=string,value={...}}],sourceComponentParameters=[{key=string,value={...}}] JSON Example: --connection-configs='[{"connectionUri": "string", "destinationComponentParameters": [{"key": "string", "value": {...}}], "sourceComponentParameters": [{"key": "string", "value": {...}}]}]' File Example: --connection-configs=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--connection-configs", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ConnectionConfigs { get; set; }
+    public IEnumerable<string>? ConnectionConfigs
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __ConnectionConfigsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ConnectionConfigsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ConnectionConfigsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __ConnectionConfigsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Source template information for the deployment. Update connection_configs. At most one of these can be specified: Or at least one of these can be specified: Add new value to connection_configs list. Connection configuration for the application. connectionUri The connection URI. destinationComponentParameters The parameters of the connection associated with the destination component. key The key of the parameter. value The value of the parameter. sourceComponentParameters The parameters of the connection associated with the source component. key The key of the parameter. value The value of the parameter. Shorthand Example: --add-connection-configs=connectionUri=string,destinationComponentParameters=[{key=string,value={...}}],sourceComponentParameters=[{key=string,value={...}}] --add-connection-configs=connectionUri=string,destinationComponentParameters=[{key=string,value={...}}],sourceComponentParameters=[{key=string,value={...}}] JSON Example: --add-connection-configs='[{"connectionUri": "string", "destinationComponentParameters": [{"key": "string", "value": {...}}], "sourceComponentParameters": [{"key": "string", "value": {...}}]}]' File Example: --add-connection-configs=path_to_file.(yaml|json)
+    /// Update connection_configs. At most one of these can be specified: Or at least one of these can be specified: Add new value to connection_configs list. Connection configuration for the application. connectionUri The connection URI. destinationComponentParameters The parameters of the connection associated with the destination component. key The key of the parameter. value The value of the parameter. sourceComponentParameters The parameters of the connection associated with the source component. key The key of the parameter. value The value of the parameter. Shorthand Example: --add-connection-configs=connectionUri=string,destinationComponentParameters=[{key=string,value={...}}],sourceComponentParameters=[{key=string,value={...}}] --add-connection-configs=connectionUri=string,destinationComponentParameters=[{key=string,value={...}}],sourceComponentParameters=[{key=string,value={...}}] JSON Example: --add-connection-configs='[{"connectionUri": "string", "destinationComponentParameters": [{"key": "string", "value": {...}}], "sourceComponentParameters": [{"key": "string", "value": {...}}]}]' File Example: --add-connection-configs=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-connection-configs", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddConnectionConfigs { get; set; }
+    public IEnumerable<string>? AddConnectionConfigs
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AddConnectionConfigsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddConnectionConfigsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddConnectionConfigsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AddConnectionConfigsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Source template information for the deployment. Update connection_configs. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear connection_configs value and set to empty list.
+    /// Update connection_configs. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear connection_configs value and set to empty list.
     /// </summary>
     [CliFlag("--clear-connection-configs")]
     public bool? ClearConnectionConfigs { get; set; }
 
     /// <summary>
-    /// Source template information for the deployment. Update connection_configs. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from connection_configs list. Connection configuration for the application. connectionUri The connection URI. destinationComponentParameters The parameters of the connection associated with the destination component. key The key of the parameter. value The value of the parameter. sourceComponentParameters The parameters of the connection associated with the source component. key The key of the parameter. value The value of the parameter. Shorthand Example: --remove-connection-configs=connectionUri=string,destinationComponentParameters=[{key=string,value={...}}],sourceComponentParameters=[{key=string,value={...}}] --remove-connection-configs=connectionUri=string,destinationComponentParameters=[{key=string,value={...}}],sourceComponentParameters=[{key=string,value={...}}] JSON Example: --remove-connection-configs='[{"connectionUri": "string", "destinationComponentParameters": [{"key": "string", "value": {...}}], "sourceComponentParameters": [{"key": "string", "value": {...}}]}]' File Example: --remove-connection-configs=path_to_file.(yaml|json)
+    /// Update connection_configs. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from connection_configs list. Connection configuration for the application. connectionUri The connection URI. destinationComponentParameters The parameters of the connection associated with the destination component. key The key of the parameter. value The value of the parameter. sourceComponentParameters The parameters of the connection associated with the source component. key The key of the parameter. value The value of the parameter. Shorthand Example: --remove-connection-configs=connectionUri=string,destinationComponentParameters=[{key=string,value={...}}],sourceComponentParameters=[{key=string,value={...}}] --remove-connection-configs=connectionUri=string,destinationComponentParameters=[{key=string,value={...}}],sourceComponentParameters=[{key=string,value={...}}] JSON Example: --remove-connection-configs='[{"connectionUri": "string", "destinationComponentParameters": [{"key": "string", "value": {...}}], "sourceComponentParameters": [{"key": "string", "value": {...}}]}]' File Example: --remove-connection-configs=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-connection-configs", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveConnectionConfigs { get; set; }
+    public IEnumerable<string>? RemoveConnectionConfigs
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RemoveConnectionConfigsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveConnectionConfigsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveConnectionConfigsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RemoveConnectionConfigsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Application resource - Identifier. The name of the application. Format: projects/{project}/locations/{location}/spaces/{space}/applications/{application} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument application on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the application or fully qualified identifier for the application. To set the application attribute: ▸ provide the argument application on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Application { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)AppParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AppParameters, static item => item is not null) : ((object?)AppParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AppParameters is not string || !string.IsNullOrWhiteSpace(AppParameters?.ToString()) : ((object?)AppParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AppParameters, static item => item is not null) : (AppParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AppParameters), static item => item is not null))))) ? 1 : 0) + ((((object?)AddAppParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddAppParameters, static item => item is not null) : ((object?)AddAppParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAppParameters is not string || !string.IsNullOrWhiteSpace(AddAppParameters?.ToString()) : ((object?)AddAppParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAppParameters, static item => item is not null) : (AddAppParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAppParameters), static item => item is not null))))) || ClearAppParameters == true || ((object?)RemoveAppParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAppParameters, static item => item is not null) : ((object?)RemoveAppParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAppParameters is not string || !string.IsNullOrWhiteSpace(RemoveAppParameters?.ToString()) : ((object?)RemoveAppParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAppParameters, static item => item is not null) : (RemoveAppParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAppParameters), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AppParameters or (AddAppParameters, ClearAppParameters, or RemoveAppParameters) may be specified.", [nameof(AppParameters), nameof(AddAppParameters), nameof(ClearAppParameters), nameof(RemoveAppParameters)]);
+        }
+        if ((((object?)AppParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AppParameters, static item => item is not null) : ((object?)AppParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AppParameters is not string || !string.IsNullOrWhiteSpace(AppParameters?.ToString()) : ((object?)AppParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AppParameters, static item => item is not null) : (AppParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AppParameters), static item => item is not null))))) || ((object?)AddAppParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddAppParameters, static item => item is not null) : ((object?)AddAppParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAppParameters is not string || !string.IsNullOrWhiteSpace(AddAppParameters?.ToString()) : ((object?)AddAppParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAppParameters, static item => item is not null) : (AddAppParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAppParameters), static item => item is not null))))) || ClearAppParameters == true || ((object?)RemoveAppParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAppParameters, static item => item is not null) : ((object?)RemoveAppParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAppParameters is not string || !string.IsNullOrWhiteSpace(RemoveAppParameters?.ToString()) : ((object?)RemoveAppParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAppParameters, static item => item is not null) : (RemoveAppParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAppParameters), static item => item is not null)))))) && (((object?)AddAppParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddAppParameters, static item => item is not null) : ((object?)AddAppParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAppParameters is not string || !string.IsNullOrWhiteSpace(AddAppParameters?.ToString()) : ((object?)AddAppParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAppParameters, static item => item is not null) : (AddAppParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAppParameters), static item => item is not null))))) || ClearAppParameters == true || ((object?)RemoveAppParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAppParameters, static item => item is not null) : ((object?)RemoveAppParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAppParameters is not string || !string.IsNullOrWhiteSpace(RemoveAppParameters?.ToString()) : ((object?)RemoveAppParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAppParameters, static item => item is not null) : (RemoveAppParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAppParameters), static item => item is not null)))))) && ((ClearAppParameters == true ? 1 : 0) + (((object?)RemoveAppParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAppParameters, static item => item is not null) : ((object?)RemoveAppParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAppParameters is not string || !string.IsNullOrWhiteSpace(RemoveAppParameters?.ToString()) : ((object?)RemoveAppParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAppParameters, static item => item is not null) : (RemoveAppParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAppParameters), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearAppParameters or RemoveAppParameters may be specified.", [nameof(ClearAppParameters), nameof(RemoveAppParameters)]);
+        }
+        if ((((object?)AttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AttributesBusinessOwners, static item => item is not null) : ((object?)AttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)AttributesBusinessOwners is not string || !string.IsNullOrWhiteSpace(AttributesBusinessOwners?.ToString()) : ((object?)AttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AttributesBusinessOwners, static item => item is not null) : (AttributesBusinessOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AttributesBusinessOwners), static item => item is not null))))) ? 1 : 0) + ((((object?)AddAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddAttributesBusinessOwners, static item => item is not null) : ((object?)AddAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAttributesBusinessOwners is not string || !string.IsNullOrWhiteSpace(AddAttributesBusinessOwners?.ToString()) : ((object?)AddAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAttributesBusinessOwners, static item => item is not null) : (AddAttributesBusinessOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAttributesBusinessOwners), static item => item is not null))))) || ClearAttributesBusinessOwners == true || ((object?)RemoveAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAttributesBusinessOwners, static item => item is not null) : ((object?)RemoveAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAttributesBusinessOwners is not string || !string.IsNullOrWhiteSpace(RemoveAttributesBusinessOwners?.ToString()) : ((object?)RemoveAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAttributesBusinessOwners, static item => item is not null) : (RemoveAttributesBusinessOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAttributesBusinessOwners), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AttributesBusinessOwners or (AddAttributesBusinessOwners, ClearAttributesBusinessOwners, or RemoveAttributesBusinessOwners) may be specified.", [nameof(AttributesBusinessOwners), nameof(AddAttributesBusinessOwners), nameof(ClearAttributesBusinessOwners), nameof(RemoveAttributesBusinessOwners)]);
+        }
+        if ((((object?)AttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AttributesBusinessOwners, static item => item is not null) : ((object?)AttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)AttributesBusinessOwners is not string || !string.IsNullOrWhiteSpace(AttributesBusinessOwners?.ToString()) : ((object?)AttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AttributesBusinessOwners, static item => item is not null) : (AttributesBusinessOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AttributesBusinessOwners), static item => item is not null))))) || ((object?)AddAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddAttributesBusinessOwners, static item => item is not null) : ((object?)AddAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAttributesBusinessOwners is not string || !string.IsNullOrWhiteSpace(AddAttributesBusinessOwners?.ToString()) : ((object?)AddAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAttributesBusinessOwners, static item => item is not null) : (AddAttributesBusinessOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAttributesBusinessOwners), static item => item is not null))))) || ClearAttributesBusinessOwners == true || ((object?)RemoveAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAttributesBusinessOwners, static item => item is not null) : ((object?)RemoveAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAttributesBusinessOwners is not string || !string.IsNullOrWhiteSpace(RemoveAttributesBusinessOwners?.ToString()) : ((object?)RemoveAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAttributesBusinessOwners, static item => item is not null) : (RemoveAttributesBusinessOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAttributesBusinessOwners), static item => item is not null)))))) && (((object?)AddAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddAttributesBusinessOwners, static item => item is not null) : ((object?)AddAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAttributesBusinessOwners is not string || !string.IsNullOrWhiteSpace(AddAttributesBusinessOwners?.ToString()) : ((object?)AddAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAttributesBusinessOwners, static item => item is not null) : (AddAttributesBusinessOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAttributesBusinessOwners), static item => item is not null))))) || ClearAttributesBusinessOwners == true || ((object?)RemoveAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAttributesBusinessOwners, static item => item is not null) : ((object?)RemoveAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAttributesBusinessOwners is not string || !string.IsNullOrWhiteSpace(RemoveAttributesBusinessOwners?.ToString()) : ((object?)RemoveAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAttributesBusinessOwners, static item => item is not null) : (RemoveAttributesBusinessOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAttributesBusinessOwners), static item => item is not null)))))) && ((ClearAttributesBusinessOwners == true ? 1 : 0) + (((object?)RemoveAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAttributesBusinessOwners, static item => item is not null) : ((object?)RemoveAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAttributesBusinessOwners is not string || !string.IsNullOrWhiteSpace(RemoveAttributesBusinessOwners?.ToString()) : ((object?)RemoveAttributesBusinessOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAttributesBusinessOwners, static item => item is not null) : (RemoveAttributesBusinessOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAttributesBusinessOwners), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearAttributesBusinessOwners or RemoveAttributesBusinessOwners may be specified.", [nameof(ClearAttributesBusinessOwners), nameof(RemoveAttributesBusinessOwners)]);
+        }
+        if ((((object?)AttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AttributesDeveloperOwners, static item => item is not null) : ((object?)AttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)AttributesDeveloperOwners is not string || !string.IsNullOrWhiteSpace(AttributesDeveloperOwners?.ToString()) : ((object?)AttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AttributesDeveloperOwners, static item => item is not null) : (AttributesDeveloperOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AttributesDeveloperOwners), static item => item is not null))))) ? 1 : 0) + ((((object?)AddAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddAttributesDeveloperOwners, static item => item is not null) : ((object?)AddAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAttributesDeveloperOwners is not string || !string.IsNullOrWhiteSpace(AddAttributesDeveloperOwners?.ToString()) : ((object?)AddAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAttributesDeveloperOwners, static item => item is not null) : (AddAttributesDeveloperOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAttributesDeveloperOwners), static item => item is not null))))) || ClearAttributesDeveloperOwners == true || ((object?)RemoveAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAttributesDeveloperOwners, static item => item is not null) : ((object?)RemoveAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAttributesDeveloperOwners is not string || !string.IsNullOrWhiteSpace(RemoveAttributesDeveloperOwners?.ToString()) : ((object?)RemoveAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAttributesDeveloperOwners, static item => item is not null) : (RemoveAttributesDeveloperOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAttributesDeveloperOwners), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AttributesDeveloperOwners or (AddAttributesDeveloperOwners, ClearAttributesDeveloperOwners, or RemoveAttributesDeveloperOwners) may be specified.", [nameof(AttributesDeveloperOwners), nameof(AddAttributesDeveloperOwners), nameof(ClearAttributesDeveloperOwners), nameof(RemoveAttributesDeveloperOwners)]);
+        }
+        if ((((object?)AttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AttributesDeveloperOwners, static item => item is not null) : ((object?)AttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)AttributesDeveloperOwners is not string || !string.IsNullOrWhiteSpace(AttributesDeveloperOwners?.ToString()) : ((object?)AttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AttributesDeveloperOwners, static item => item is not null) : (AttributesDeveloperOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AttributesDeveloperOwners), static item => item is not null))))) || ((object?)AddAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddAttributesDeveloperOwners, static item => item is not null) : ((object?)AddAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAttributesDeveloperOwners is not string || !string.IsNullOrWhiteSpace(AddAttributesDeveloperOwners?.ToString()) : ((object?)AddAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAttributesDeveloperOwners, static item => item is not null) : (AddAttributesDeveloperOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAttributesDeveloperOwners), static item => item is not null))))) || ClearAttributesDeveloperOwners == true || ((object?)RemoveAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAttributesDeveloperOwners, static item => item is not null) : ((object?)RemoveAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAttributesDeveloperOwners is not string || !string.IsNullOrWhiteSpace(RemoveAttributesDeveloperOwners?.ToString()) : ((object?)RemoveAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAttributesDeveloperOwners, static item => item is not null) : (RemoveAttributesDeveloperOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAttributesDeveloperOwners), static item => item is not null)))))) && (((object?)AddAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddAttributesDeveloperOwners, static item => item is not null) : ((object?)AddAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAttributesDeveloperOwners is not string || !string.IsNullOrWhiteSpace(AddAttributesDeveloperOwners?.ToString()) : ((object?)AddAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAttributesDeveloperOwners, static item => item is not null) : (AddAttributesDeveloperOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAttributesDeveloperOwners), static item => item is not null))))) || ClearAttributesDeveloperOwners == true || ((object?)RemoveAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAttributesDeveloperOwners, static item => item is not null) : ((object?)RemoveAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAttributesDeveloperOwners is not string || !string.IsNullOrWhiteSpace(RemoveAttributesDeveloperOwners?.ToString()) : ((object?)RemoveAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAttributesDeveloperOwners, static item => item is not null) : (RemoveAttributesDeveloperOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAttributesDeveloperOwners), static item => item is not null)))))) && ((ClearAttributesDeveloperOwners == true ? 1 : 0) + (((object?)RemoveAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAttributesDeveloperOwners, static item => item is not null) : ((object?)RemoveAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAttributesDeveloperOwners is not string || !string.IsNullOrWhiteSpace(RemoveAttributesDeveloperOwners?.ToString()) : ((object?)RemoveAttributesDeveloperOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAttributesDeveloperOwners, static item => item is not null) : (RemoveAttributesDeveloperOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAttributesDeveloperOwners), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearAttributesDeveloperOwners or RemoveAttributesDeveloperOwners may be specified.", [nameof(ClearAttributesDeveloperOwners), nameof(RemoveAttributesDeveloperOwners)]);
+        }
+        if ((((object?)AttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AttributesOperatorOwners, static item => item is not null) : ((object?)AttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)AttributesOperatorOwners is not string || !string.IsNullOrWhiteSpace(AttributesOperatorOwners?.ToString()) : ((object?)AttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AttributesOperatorOwners, static item => item is not null) : (AttributesOperatorOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AttributesOperatorOwners), static item => item is not null))))) ? 1 : 0) + ((((object?)AddAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddAttributesOperatorOwners, static item => item is not null) : ((object?)AddAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAttributesOperatorOwners is not string || !string.IsNullOrWhiteSpace(AddAttributesOperatorOwners?.ToString()) : ((object?)AddAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAttributesOperatorOwners, static item => item is not null) : (AddAttributesOperatorOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAttributesOperatorOwners), static item => item is not null))))) || ClearAttributesOperatorOwners == true || ((object?)RemoveAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAttributesOperatorOwners, static item => item is not null) : ((object?)RemoveAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAttributesOperatorOwners is not string || !string.IsNullOrWhiteSpace(RemoveAttributesOperatorOwners?.ToString()) : ((object?)RemoveAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAttributesOperatorOwners, static item => item is not null) : (RemoveAttributesOperatorOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAttributesOperatorOwners), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AttributesOperatorOwners or (AddAttributesOperatorOwners, ClearAttributesOperatorOwners, or RemoveAttributesOperatorOwners) may be specified.", [nameof(AttributesOperatorOwners), nameof(AddAttributesOperatorOwners), nameof(ClearAttributesOperatorOwners), nameof(RemoveAttributesOperatorOwners)]);
+        }
+        if ((((object?)AttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AttributesOperatorOwners, static item => item is not null) : ((object?)AttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)AttributesOperatorOwners is not string || !string.IsNullOrWhiteSpace(AttributesOperatorOwners?.ToString()) : ((object?)AttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AttributesOperatorOwners, static item => item is not null) : (AttributesOperatorOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AttributesOperatorOwners), static item => item is not null))))) || ((object?)AddAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddAttributesOperatorOwners, static item => item is not null) : ((object?)AddAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAttributesOperatorOwners is not string || !string.IsNullOrWhiteSpace(AddAttributesOperatorOwners?.ToString()) : ((object?)AddAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAttributesOperatorOwners, static item => item is not null) : (AddAttributesOperatorOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAttributesOperatorOwners), static item => item is not null))))) || ClearAttributesOperatorOwners == true || ((object?)RemoveAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAttributesOperatorOwners, static item => item is not null) : ((object?)RemoveAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAttributesOperatorOwners is not string || !string.IsNullOrWhiteSpace(RemoveAttributesOperatorOwners?.ToString()) : ((object?)RemoveAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAttributesOperatorOwners, static item => item is not null) : (RemoveAttributesOperatorOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAttributesOperatorOwners), static item => item is not null)))))) && (((object?)AddAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddAttributesOperatorOwners, static item => item is not null) : ((object?)AddAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAttributesOperatorOwners is not string || !string.IsNullOrWhiteSpace(AddAttributesOperatorOwners?.ToString()) : ((object?)AddAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAttributesOperatorOwners, static item => item is not null) : (AddAttributesOperatorOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAttributesOperatorOwners), static item => item is not null))))) || ClearAttributesOperatorOwners == true || ((object?)RemoveAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAttributesOperatorOwners, static item => item is not null) : ((object?)RemoveAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAttributesOperatorOwners is not string || !string.IsNullOrWhiteSpace(RemoveAttributesOperatorOwners?.ToString()) : ((object?)RemoveAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAttributesOperatorOwners, static item => item is not null) : (RemoveAttributesOperatorOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAttributesOperatorOwners), static item => item is not null)))))) && ((ClearAttributesOperatorOwners == true ? 1 : 0) + (((object?)RemoveAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveAttributesOperatorOwners, static item => item is not null) : ((object?)RemoveAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAttributesOperatorOwners is not string || !string.IsNullOrWhiteSpace(RemoveAttributesOperatorOwners?.ToString()) : ((object?)RemoveAttributesOperatorOwners is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAttributesOperatorOwners, static item => item is not null) : (RemoveAttributesOperatorOwners is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAttributesOperatorOwners), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearAttributesOperatorOwners or RemoveAttributesOperatorOwners may be specified.", [nameof(ClearAttributesOperatorOwners), nameof(RemoveAttributesOperatorOwners)]);
+        }
+        if ((((object?)CompositeApplicationParametersServiceAccountMap is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)CompositeApplicationParametersServiceAccountMap, static item => item is not null) : ((object?)CompositeApplicationParametersServiceAccountMap is global::System.Collections.Generic.IEnumerable<char> ? (object?)CompositeApplicationParametersServiceAccountMap is not string || !string.IsNullOrWhiteSpace(CompositeApplicationParametersServiceAccountMap?.ToString()) : ((object?)CompositeApplicationParametersServiceAccountMap is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CompositeApplicationParametersServiceAccountMap, static item => item is not null) : (CompositeApplicationParametersServiceAccountMap is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CompositeApplicationParametersServiceAccountMap), static item => item is not null))))) ? 1 : 0) + ((((object?)UpdateCompositeApplicationParametersServiceAccountMap is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateCompositeApplicationParametersServiceAccountMap, static item => item is not null) : ((object?)UpdateCompositeApplicationParametersServiceAccountMap is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateCompositeApplicationParametersServiceAccountMap is not string || !string.IsNullOrWhiteSpace(UpdateCompositeApplicationParametersServiceAccountMap?.ToString()) : ((object?)UpdateCompositeApplicationParametersServiceAccountMap is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateCompositeApplicationParametersServiceAccountMap, static item => item is not null) : (UpdateCompositeApplicationParametersServiceAccountMap is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateCompositeApplicationParametersServiceAccountMap), static item => item is not null))))) || ClearCompositeApplicationParametersServiceAccountMap == true || !string.IsNullOrWhiteSpace(RemoveCompositeApplicationParametersServiceAccountMap)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of CompositeApplicationParametersServiceAccountMap or (UpdateCompositeApplicationParametersServiceAccountMap, ClearCompositeApplicationParametersServiceAccountMap, or RemoveCompositeApplicationParametersServiceAccountMap) may be specified.", [nameof(CompositeApplicationParametersServiceAccountMap), nameof(UpdateCompositeApplicationParametersServiceAccountMap), nameof(ClearCompositeApplicationParametersServiceAccountMap), nameof(RemoveCompositeApplicationParametersServiceAccountMap)]);
+        }
+        if ((((object?)CompositeApplicationParametersServiceAccountMap is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)CompositeApplicationParametersServiceAccountMap, static item => item is not null) : ((object?)CompositeApplicationParametersServiceAccountMap is global::System.Collections.Generic.IEnumerable<char> ? (object?)CompositeApplicationParametersServiceAccountMap is not string || !string.IsNullOrWhiteSpace(CompositeApplicationParametersServiceAccountMap?.ToString()) : ((object?)CompositeApplicationParametersServiceAccountMap is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CompositeApplicationParametersServiceAccountMap, static item => item is not null) : (CompositeApplicationParametersServiceAccountMap is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CompositeApplicationParametersServiceAccountMap), static item => item is not null))))) || ((object?)UpdateCompositeApplicationParametersServiceAccountMap is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateCompositeApplicationParametersServiceAccountMap, static item => item is not null) : ((object?)UpdateCompositeApplicationParametersServiceAccountMap is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateCompositeApplicationParametersServiceAccountMap is not string || !string.IsNullOrWhiteSpace(UpdateCompositeApplicationParametersServiceAccountMap?.ToString()) : ((object?)UpdateCompositeApplicationParametersServiceAccountMap is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateCompositeApplicationParametersServiceAccountMap, static item => item is not null) : (UpdateCompositeApplicationParametersServiceAccountMap is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateCompositeApplicationParametersServiceAccountMap), static item => item is not null))))) || ClearCompositeApplicationParametersServiceAccountMap == true || !string.IsNullOrWhiteSpace(RemoveCompositeApplicationParametersServiceAccountMap)) && (((object?)UpdateCompositeApplicationParametersServiceAccountMap is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateCompositeApplicationParametersServiceAccountMap, static item => item is not null) : ((object?)UpdateCompositeApplicationParametersServiceAccountMap is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateCompositeApplicationParametersServiceAccountMap is not string || !string.IsNullOrWhiteSpace(UpdateCompositeApplicationParametersServiceAccountMap?.ToString()) : ((object?)UpdateCompositeApplicationParametersServiceAccountMap is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateCompositeApplicationParametersServiceAccountMap, static item => item is not null) : (UpdateCompositeApplicationParametersServiceAccountMap is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateCompositeApplicationParametersServiceAccountMap), static item => item is not null))))) || ClearCompositeApplicationParametersServiceAccountMap == true || !string.IsNullOrWhiteSpace(RemoveCompositeApplicationParametersServiceAccountMap)) && ((ClearCompositeApplicationParametersServiceAccountMap == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveCompositeApplicationParametersServiceAccountMap) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearCompositeApplicationParametersServiceAccountMap or RemoveCompositeApplicationParametersServiceAccountMap may be specified.", [nameof(ClearCompositeApplicationParametersServiceAccountMap), nameof(RemoveCompositeApplicationParametersServiceAccountMap)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(SourceApplicationTemplateRevision) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceSharedTemplateRevisionUri) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SourceApplicationTemplateRevision or SourceSharedTemplateRevisionUri may be specified.", [nameof(SourceApplicationTemplateRevision), nameof(SourceSharedTemplateRevisionUri)]);
+        }
+        if ((((object?)ComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)ComponentParameters, static item => item is not null) : ((object?)ComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)ComponentParameters is not string || !string.IsNullOrWhiteSpace(ComponentParameters?.ToString()) : ((object?)ComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ComponentParameters, static item => item is not null) : (ComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ComponentParameters), static item => item is not null))))) ? 1 : 0) + ((((object?)AddComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddComponentParameters, static item => item is not null) : ((object?)AddComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddComponentParameters is not string || !string.IsNullOrWhiteSpace(AddComponentParameters?.ToString()) : ((object?)AddComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddComponentParameters, static item => item is not null) : (AddComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddComponentParameters), static item => item is not null))))) || ClearComponentParameters == true || ((object?)RemoveComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveComponentParameters, static item => item is not null) : ((object?)RemoveComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveComponentParameters is not string || !string.IsNullOrWhiteSpace(RemoveComponentParameters?.ToString()) : ((object?)RemoveComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveComponentParameters, static item => item is not null) : (RemoveComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveComponentParameters), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ComponentParameters or (AddComponentParameters, ClearComponentParameters, or RemoveComponentParameters) may be specified.", [nameof(ComponentParameters), nameof(AddComponentParameters), nameof(ClearComponentParameters), nameof(RemoveComponentParameters)]);
+        }
+        if ((((object?)ComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)ComponentParameters, static item => item is not null) : ((object?)ComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)ComponentParameters is not string || !string.IsNullOrWhiteSpace(ComponentParameters?.ToString()) : ((object?)ComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ComponentParameters, static item => item is not null) : (ComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ComponentParameters), static item => item is not null))))) || ((object?)AddComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddComponentParameters, static item => item is not null) : ((object?)AddComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddComponentParameters is not string || !string.IsNullOrWhiteSpace(AddComponentParameters?.ToString()) : ((object?)AddComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddComponentParameters, static item => item is not null) : (AddComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddComponentParameters), static item => item is not null))))) || ClearComponentParameters == true || ((object?)RemoveComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveComponentParameters, static item => item is not null) : ((object?)RemoveComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveComponentParameters is not string || !string.IsNullOrWhiteSpace(RemoveComponentParameters?.ToString()) : ((object?)RemoveComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveComponentParameters, static item => item is not null) : (RemoveComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveComponentParameters), static item => item is not null)))))) && (((object?)AddComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddComponentParameters, static item => item is not null) : ((object?)AddComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddComponentParameters is not string || !string.IsNullOrWhiteSpace(AddComponentParameters?.ToString()) : ((object?)AddComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddComponentParameters, static item => item is not null) : (AddComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddComponentParameters), static item => item is not null))))) || ClearComponentParameters == true || ((object?)RemoveComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveComponentParameters, static item => item is not null) : ((object?)RemoveComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveComponentParameters is not string || !string.IsNullOrWhiteSpace(RemoveComponentParameters?.ToString()) : ((object?)RemoveComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveComponentParameters, static item => item is not null) : (RemoveComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveComponentParameters), static item => item is not null)))))) && ((ClearComponentParameters == true ? 1 : 0) + (((object?)RemoveComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveComponentParameters, static item => item is not null) : ((object?)RemoveComponentParameters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveComponentParameters is not string || !string.IsNullOrWhiteSpace(RemoveComponentParameters?.ToString()) : ((object?)RemoveComponentParameters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveComponentParameters, static item => item is not null) : (RemoveComponentParameters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveComponentParameters), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearComponentParameters or RemoveComponentParameters may be specified.", [nameof(ClearComponentParameters), nameof(RemoveComponentParameters)]);
+        }
+        if ((((object?)ConnectionConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)ConnectionConfigs, static item => item is not null) : ((object?)ConnectionConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)ConnectionConfigs is not string || !string.IsNullOrWhiteSpace(ConnectionConfigs?.ToString()) : ((object?)ConnectionConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ConnectionConfigs, static item => item is not null) : (ConnectionConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ConnectionConfigs), static item => item is not null))))) ? 1 : 0) + ((((object?)AddConnectionConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddConnectionConfigs, static item => item is not null) : ((object?)AddConnectionConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddConnectionConfigs is not string || !string.IsNullOrWhiteSpace(AddConnectionConfigs?.ToString()) : ((object?)AddConnectionConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddConnectionConfigs, static item => item is not null) : (AddConnectionConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddConnectionConfigs), static item => item is not null))))) || ClearConnectionConfigs == true || ((object?)RemoveConnectionConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveConnectionConfigs, static item => item is not null) : ((object?)RemoveConnectionConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveConnectionConfigs is not string || !string.IsNullOrWhiteSpace(RemoveConnectionConfigs?.ToString()) : ((object?)RemoveConnectionConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveConnectionConfigs, static item => item is not null) : (RemoveConnectionConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveConnectionConfigs), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ConnectionConfigs or (AddConnectionConfigs, ClearConnectionConfigs, or RemoveConnectionConfigs) may be specified.", [nameof(ConnectionConfigs), nameof(AddConnectionConfigs), nameof(ClearConnectionConfigs), nameof(RemoveConnectionConfigs)]);
+        }
+        if ((((object?)ConnectionConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)ConnectionConfigs, static item => item is not null) : ((object?)ConnectionConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)ConnectionConfigs is not string || !string.IsNullOrWhiteSpace(ConnectionConfigs?.ToString()) : ((object?)ConnectionConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ConnectionConfigs, static item => item is not null) : (ConnectionConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ConnectionConfigs), static item => item is not null))))) || ((object?)AddConnectionConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddConnectionConfigs, static item => item is not null) : ((object?)AddConnectionConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddConnectionConfigs is not string || !string.IsNullOrWhiteSpace(AddConnectionConfigs?.ToString()) : ((object?)AddConnectionConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddConnectionConfigs, static item => item is not null) : (AddConnectionConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddConnectionConfigs), static item => item is not null))))) || ClearConnectionConfigs == true || ((object?)RemoveConnectionConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveConnectionConfigs, static item => item is not null) : ((object?)RemoveConnectionConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveConnectionConfigs is not string || !string.IsNullOrWhiteSpace(RemoveConnectionConfigs?.ToString()) : ((object?)RemoveConnectionConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveConnectionConfigs, static item => item is not null) : (RemoveConnectionConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveConnectionConfigs), static item => item is not null)))))) && (((object?)AddConnectionConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AddConnectionConfigs, static item => item is not null) : ((object?)AddConnectionConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddConnectionConfigs is not string || !string.IsNullOrWhiteSpace(AddConnectionConfigs?.ToString()) : ((object?)AddConnectionConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddConnectionConfigs, static item => item is not null) : (AddConnectionConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddConnectionConfigs), static item => item is not null))))) || ClearConnectionConfigs == true || ((object?)RemoveConnectionConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveConnectionConfigs, static item => item is not null) : ((object?)RemoveConnectionConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveConnectionConfigs is not string || !string.IsNullOrWhiteSpace(RemoveConnectionConfigs?.ToString()) : ((object?)RemoveConnectionConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveConnectionConfigs, static item => item is not null) : (RemoveConnectionConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveConnectionConfigs), static item => item is not null)))))) && ((ClearConnectionConfigs == true ? 1 : 0) + (((object?)RemoveConnectionConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RemoveConnectionConfigs, static item => item is not null) : ((object?)RemoveConnectionConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveConnectionConfigs is not string || !string.IsNullOrWhiteSpace(RemoveConnectionConfigs?.ToString()) : ((object?)RemoveConnectionConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveConnectionConfigs, static item => item is not null) : (RemoveConnectionConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveConnectionConfigs), static item => item is not null))))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearConnectionConfigs or RemoveConnectionConfigs may be specified.", [nameof(ClearConnectionConfigs), nameof(RemoveConnectionConfigs)]);
+        }
+        yield break;
+    }
 
 }

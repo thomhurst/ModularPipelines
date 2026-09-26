@@ -19,8 +19,52 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service-directory", "services", "set-iam-policy")]
-public record GcloudServiceDirectoryServicesSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudServiceDirectoryServicesSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// sets IAM policy for a     service
+    /// </summary>
+    /// <param name="Service">Service resource - The Service Directory service to add IAM policy binding to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudServiceDirectoryServicesSetIamPolicyOptions(
+        string Service,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string Service, out string PolicyFile)
+    {
+        Service = this.Service;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// Service resource - The Service Directory service to add IAM policy binding to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The name of the region for the service. To set the location attribute: ▸ provide the argument service on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Service resource - The Service Directory service to add IAM policy binding to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The name of the namespace for the service. To set the namespace attribute: ▸ provide the argument service on the command line with a fully specified name; ▸ provide the argument --namespace on the command line.
+    /// </summary>
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? Namespace { get; set; }
+
+    /// <summary>
+    /// Service resource - The Service Directory service to add IAM policy binding to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Service { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

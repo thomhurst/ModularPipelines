@@ -6,11 +6,11 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,12 +21,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "attached", "clusters", "update")]
-public record GcloudContainerAttachedClustersUpdateOptions : GcloudOptions
+public record GcloudContainerAttachedClustersUpdateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// Annotations for the cluster.
+    /// update an Attached cluster
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Cluster">Cluster resource - cluster to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerAttachedClustersUpdateOptions(
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Cluster)
+    {
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Cluster resource - cluster to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the cluster. To set the location attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_attached/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Annotations for the cluster. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Annotations { get; set; }
 
     /// <summary>
@@ -56,8 +79,8 @@ public record GcloudContainerAttachedClustersUpdateOptions : GcloudOptions
     /// <summary>
     /// Set the components that have logging enabled. Examples: $ gcloud container attached clusters update --logging=SYSTEM $ gcloud container attached clusters update --logging=SYSTEM,WORKLOAD $ gcloud container attached clusters update --logging=NONE COMPONENT must be one of: NONE, SYSTEM, WORKLOAD.
     /// </summary>
-    [CliOption("--logging", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLogging? Logging { get; set; }
+    [CliOption("--logging", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudContainerAttachedClustersUpdateLogging>? Logging { get; set; }
 
     /// <summary>
     /// Platform version to use for the cluster. To retrieve a list of valid versions, run: $ gcloud alpha container attached get-server-config \ --location=LOCATION Replace LOCATION with the target Google Cloud location for the cluster.
@@ -72,10 +95,32 @@ public record GcloudContainerAttachedClustersUpdateOptions : GcloudOptions
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// Admin groups At most one of these can be specified: Groups of users that can perform operations as a cluster administrator.
+    /// Admin groups At most one of these can be specified: Groups of users that can perform operations as a cluster administrator. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--admin-groups", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AdminGroups { get; set; }
+    [CliOption("--admin-groups", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdminGroups
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AdminGroupsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AdminGroupsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Admin groups At most one of these can be specified: Clear the admin groups associated with the cluster
@@ -84,10 +129,32 @@ public record GcloudContainerAttachedClustersUpdateOptions : GcloudOptions
     public bool? ClearAdminGroups { get; set; }
 
     /// <summary>
-    /// Admin users At most one of these can be specified: Users that can perform operations as a cluster administrator.
+    /// Admin users At most one of these can be specified: Users that can perform operations as a cluster administrator. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AdminUsers { get; set; }
+    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AdminUsers
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AdminUsersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AdminUsersSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Admin users At most one of these can be specified: Clear the admin users associated with the cluster
@@ -128,8 +195,43 @@ public record GcloudContainerAttachedClustersUpdateOptions : GcloudOptions
     /// <summary>
     /// Proxy config Namespace of the Kubernetes secret that contains the HTTP/HTTPS proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
-    [SecretValue]
     [CliOption("--proxy-secret-namespace", Format = OptionFormat.EqualsSeparated)]
     public string? ProxySecretNamespace { get; set; }
+
+    /// <summary>
+    /// Cluster resource - cluster to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)AdminGroups is global::System.Collections.Generic.IEnumerable<char> ? (object?)AdminGroups is not string || !string.IsNullOrWhiteSpace(AdminGroups?.ToString()) : ((object?)AdminGroups is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AdminGroups, static item => item is not null) : (AdminGroups is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AdminGroups), static item => item is not null)))) ? 1 : 0) + (ClearAdminGroups == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AdminGroups or ClearAdminGroups may be specified.", [nameof(AdminGroups), nameof(ClearAdminGroups)]);
+        }
+        if ((((object?)AdminUsers is global::System.Collections.Generic.IEnumerable<char> ? (object?)AdminUsers is not string || !string.IsNullOrWhiteSpace(AdminUsers?.ToString()) : ((object?)AdminUsers is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AdminUsers, static item => item is not null) : (AdminUsers is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AdminUsers), static item => item is not null)))) ? 1 : 0) + (ClearAdminUsers == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AdminUsers or ClearAdminUsers may be specified.", [nameof(AdminUsers), nameof(ClearAdminUsers)]);
+        }
+        if ((DisableCloudMonitoring == true ? 1 : 0) + (EnableCloudMonitoring == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisableCloudMonitoring or EnableCloudMonitoring may be specified.", [nameof(DisableCloudMonitoring), nameof(EnableCloudMonitoring)]);
+        }
+        if ((DisableManagedPrometheus == true ? 1 : 0) + (EnableManagedPrometheus == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisableManagedPrometheus or EnableManagedPrometheus may be specified.", [nameof(DisableManagedPrometheus), nameof(EnableManagedPrometheus)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ProxySecretName) || !string.IsNullOrWhiteSpace(ProxySecretNamespace)) && (!(!string.IsNullOrWhiteSpace(ProxySecretName))))
+        {
+            yield return new ValidationResult("ProxySecretName must be specified when other arguments in this group are specified.", [nameof(ProxySecretName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ProxySecretName) || !string.IsNullOrWhiteSpace(ProxySecretNamespace)) && (!(!string.IsNullOrWhiteSpace(ProxySecretNamespace))))
+        {
+            yield return new ValidationResult("ProxySecretNamespace must be specified when other arguments in this group are specified.", [nameof(ProxySecretNamespace)]);
+        }
+        yield break;
+    }
 
 }

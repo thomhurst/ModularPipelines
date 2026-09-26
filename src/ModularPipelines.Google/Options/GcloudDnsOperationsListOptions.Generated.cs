@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dns", "operations", "list")]
 public record GcloudDnsOperationsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list Cloud DNS operations
+    /// </summary>
+    /// <param name="Zones">Zone resource - Name of one or more zones to read. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --zones on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. IDs of the zones or fully qualified identifiers for the zones. To set the zone attribute: ▸ provide the argument --zones on the command line. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    public GcloudDnsOperationsListOptions(
+        IEnumerable<string> Zones
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Zones);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Zones));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Zones));
+            }
+
+            Zones = materialized;
+        }
+        this.Zones = Zones;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Zones)
+    {
+        Zones = this.Zones;
+    }
+
+    /// <summary>
+    /// Zone resource - Name of one or more zones to read. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --zones on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. IDs of the zones or fully qualified identifiers for the zones. To set the zone attribute: ▸ provide the argument --zones on the command line. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--zones", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Zones { get; private init; }
+
 }

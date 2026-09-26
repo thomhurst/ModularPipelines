@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComplianceManagerCloudControlsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// The categories for the cloud control. CATEGORIES must be one of: cc-category-admin-access The admin access category. cc-category-artificial-intelligence The artificial intelligence category. cc-category-bcdr The business continuity and disaster recovery (BCDR) category. cc-category-data-residency DRZ (Data Residency). cc-category-data-security The data security category. cc-category-encryption The encryption category. cc-category-hr-admin-and-processes The HR, admin, and processes category. cc-category-identity-and-access-management The identity and access management category. cc-category-incident-management The incident management category. cc-category-infrastructure The infrastructure security category. cc-category-legal-and-disclosures The legal and disclosures category. cc-category-logs-management-and-infrastructure The logs management and infrastructure category. cc-category-network-security The network security category. cc-category-physical-security The physical security category. cc-category-privacy The privacy category. cc-category-resource-usage-restriction RUR (Resource Usage Restriction). cc-category-service-specific SERVICE SPECIFIC cc-category-third-party-and-sub-processor-management The third-party and sub-processor management category. cc-category-vulnerability-management The vulnerability management category.
+    /// create a cloud control
     /// </summary>
-    [CliOption("--categories", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="CloudControl">CloudControl resource - Identifier. The name of the cloud control, in either of the formats: ◆ organizations/{organization}/locations/{location}/cloudControls/{cloud_control} ◆ projects/{project}/locations/{location}/cloudControls/{cloud_control}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_control on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.cloudControls, cloudsecuritycompliance.projects.locations.cloudControls]. This must be specified. ID of the cloudControl or fully qualified identifier for the cloudControl. To set the cloud_control attribute: ▸ provide the argument cloud_control on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComplianceManagerCloudControlsCreateOptions(
+        string CloudControl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CloudControl);
+        this.CloudControl = CloudControl;
+    }
+
+    public void Deconstruct(out string CloudControl)
+    {
+        CloudControl = this.CloudControl;
+    }
+
+    /// <summary>
+    /// CloudControl resource - Identifier. The name of the cloud control, in either of the formats: ◆ organizations/{organization}/locations/{location}/cloudControls/{cloud_control} ◆ projects/{project}/locations/{location}/cloudControls/{cloud_control}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_control on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.cloudControls, cloudsecuritycompliance.projects.locations.cloudControls]. This must be specified. The location id of the cloudControl resource. To set the location attribute: ▸ provide the argument cloud_control on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// CloudControl resource - Identifier. The name of the cloud control, in either of the formats: ◆ organizations/{organization}/locations/{location}/cloudControls/{cloud_control} ◆ projects/{project}/locations/{location}/cloudControls/{cloud_control}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_control on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.cloudControls, cloudsecuritycompliance.projects.locations.cloudControls]. This must be specified. The organization id of the cloudControl resource. To set the organization attribute: ▸ provide the argument cloud_control on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [cloudsecuritycompliance.organizations.locations.cloudControls].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// The categories for the cloud control. CATEGORIES must be one of: cc-category-admin-access The admin access category. cc-category-artificial-intelligence The artificial intelligence category. cc-category-bcdr The business continuity and disaster recovery (BCDR) category. cc-category-data-residency DRZ (Data Residency). cc-category-data-security The data security category. cc-category-encryption The encryption category. cc-category-hr-admin-and-processes The HR, admin, and processes category. cc-category-identity-and-access-management The identity and access management category. cc-category-incident-management The incident management category. cc-category-infrastructure The infrastructure security category. cc-category-legal-and-disclosures The legal and disclosures category. cc-category-logs-management-and-infrastructure The logs management and infrastructure category. cc-category-network-security The network security category. cc-category-physical-security The physical security category. cc-category-privacy The privacy category. cc-category-resource-usage-restriction RUR (Resource Usage Restriction). cc-category-service-specific SERVICE SPECIFIC cc-category-third-party-and-sub-processor-management The third-party and sub-processor management category. cc-category-vulnerability-management The vulnerability management category. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--categories", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Categories { get; set; }
 
     /// <summary>
@@ -70,15 +99,21 @@ public record GcloudComplianceManagerCloudControlsCreateOptions : GcloudOptions
     public string? Severity { get; set; }
 
     /// <summary>
-    /// The supported cloud providers. SUPPORTED_CLOUD_PROVIDERS must be one of: aws Amazon Web Services (AWS). azure Microsoft Azure. gcp Google Cloud.
+    /// The supported cloud providers. SUPPORTED_CLOUD_PROVIDERS must be one of: aws Amazon Web Services (AWS). azure Microsoft Azure. gcp Google Cloud. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--supported-cloud-providers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--supported-cloud-providers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SupportedCloudProviders { get; set; }
 
     /// <summary>
-    /// The target resource types that are supported by the cloud control. SUPPORTED_TARGET_RESOURCE_TYPES must be one of: target-resource-crm-type-folder The target resource is a folder. target-resource-crm-type-org The target resource is a Google Cloud organization. target-resource-crm-type-project The target resource is a project. target-resource-type-application The target resource is an application in App Hub.
+    /// The target resource types that are supported by the cloud control. SUPPORTED_TARGET_RESOURCE_TYPES must be one of: target-resource-crm-type-folder The target resource is a folder. target-resource-crm-type-org The target resource is a Google Cloud organization. target-resource-crm-type-project The target resource is a project. target-resource-type-application The target resource is an application in App Hub. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--supported-target-resource-types", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--supported-target-resource-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SupportedTargetResourceTypes { get; set; }
+
+    /// <summary>
+    /// CloudControl resource - Identifier. The name of the cloud control, in either of the formats: ◆ organizations/{organization}/locations/{location}/cloudControls/{cloud_control} ◆ projects/{project}/locations/{location}/cloudControls/{cloud_control}. The only supported location is global. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cloud_control on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.cloudControls, cloudsecuritycompliance.projects.locations.cloudControls]. This must be specified. ID of the cloudControl or fully qualified identifier for the cloudControl. To set the cloud_control attribute: ▸ provide the argument cloud_control on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CloudControl { get; private init; }
 
 }

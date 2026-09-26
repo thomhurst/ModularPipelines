@@ -19,8 +19,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "wire-groups", "add-endpoint")]
-public record GcloudComputeInterconnectsWireGroupsAddEndpointOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeInterconnectsWireGroupsAddEndpointOptions : GcloudOptions
 {
+    /// <summary>
+    /// add endpoint to a     Compute Engine wire group
+    /// </summary>
+    /// <param name="CrossSiteNetwork">Name of the crossSiteNetwork to operate on.</param>
+    /// <param name="EndpointLabel">The endpoint label for the wire group.</param>
+    /// <param name="Name">Name of the wire group to update.</param>
+    public GcloudComputeInterconnectsWireGroupsAddEndpointOptions(
+        string CrossSiteNetwork,
+        string EndpointLabel,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CrossSiteNetwork);
+        this.CrossSiteNetwork = CrossSiteNetwork;
+        global::System.ArgumentNullException.ThrowIfNull(EndpointLabel);
+        this.EndpointLabel = EndpointLabel;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string CrossSiteNetwork, out string EndpointLabel, out string Name)
+    {
+        CrossSiteNetwork = this.CrossSiteNetwork;
+        EndpointLabel = this.EndpointLabel;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the crossSiteNetwork to operate on.
+    /// </summary>
+    [CliOption("--cross-site-network", Format = OptionFormat.EqualsSeparated)]
+    public string CrossSiteNetwork { get; private init; }
+
+    /// <summary>
+    /// The endpoint label for the wire group.
+    /// </summary>
+    [CliOption("--endpoint-label", Format = OptionFormat.EqualsSeparated)]
+    public string EndpointLabel { get; private init; }
+
+    /// <summary>
+    /// Name of the wire group to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

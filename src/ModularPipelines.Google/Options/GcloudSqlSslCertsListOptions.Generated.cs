@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("sql", "ssl-certs", "list")]
 public record GcloudSqlSslCertsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// lists all SSL certs for a Cloud SQL instance
+    /// </summary>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    public GcloudSqlSslCertsListOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string Instance { get; private init; }
+
 }

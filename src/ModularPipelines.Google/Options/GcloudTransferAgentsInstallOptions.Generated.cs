@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudTransferAgentsInstallOptions : GcloudOptions
 {
     /// <summary>
+    /// install Transfer Service agents
+    /// </summary>
+    /// <param name="Pool">The agent pool to associate with the newly installed agent. When creating transfer jobs, the agent pool parameter will determine which agents are activated.</param>
+    public GcloudTransferAgentsInstallOptions(
+        string Pool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Pool);
+        this.Pool = Pool;
+    }
+
+    public void Deconstruct(out string Pool)
+    {
+        Pool = this.Pool;
+    }
+
+    /// <summary>
+    /// The agent pool to associate with the newly installed agent. When creating transfer jobs, the agent pool parameter will determine which agents are activated.
+    /// </summary>
+    [CliOption("--pool", Format = OptionFormat.EqualsSeparated)]
+    public string Pool { get; private init; }
+
+    /// <summary>
     /// Specify the number of agents to install on your current machine. System requirements: 8 GB of memory and 4 CPUs per agent. Note: If the 'id-prefix' flag is specified, Transfer Service increments a number value after each prefix. Example: prefix1, prefix2, etc.
     /// </summary>
     [CliOption("--count", Format = OptionFormat.EqualsSeparated)]
@@ -70,9 +93,9 @@ public record GcloudTransferAgentsInstallOptions : GcloudOptions
     public string? MemlockLimit { get; set; }
 
     /// <summary>
-    /// If you want to grant agents access to specific parts of your filesystem instead of the entire filesystem, specify which directory paths to mount to the agent container. Multiple paths must be separated by commas with no spaces (e.g., --mount-directories=/system/path/to/dir1,/path/to/dir2). When mounting specific directories, gcloud transfer will also mount a directory for logs (either /tmp or what you've specified for --logs-directory) and your Google credentials file for agent authentication. It is strongly recommended that you use this flag. If this flag isn't specified, gcloud transfer will mount your entire filesystem to the agent container and give the agent root access.
+    /// If you want to grant agents access to specific parts of your filesystem instead of the entire filesystem, specify which directory paths to mount to the agent container. Multiple paths must be separated by commas with no spaces (e.g., --mount-directories=/system/path/to/dir1,/path/to/dir2). When mounting specific directories, gcloud transfer will also mount a directory for logs (either /tmp or what you've specified for --logs-directory) and your Google credentials file for agent authentication. It is strongly recommended that you use this flag. If this flag isn't specified, gcloud transfer will mount your entire filesystem to the agent container and give the agent root access. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--mount-directories", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--mount-directories", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MountDirectories { get; set; }
 
     /// <summary>

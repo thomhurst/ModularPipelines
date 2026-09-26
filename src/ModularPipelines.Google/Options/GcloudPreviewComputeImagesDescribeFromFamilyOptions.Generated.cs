@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "images", "describe-from-family")]
-public record GcloudPreviewComputeImagesDescribeFromFamilyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImageName
-) : GcloudOptions
+public record GcloudPreviewComputeImagesDescribeFromFamilyOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe the latest     image from an image family
+    /// </summary>
+    /// <param name="ImageName">Name of the disk image to describe.</param>
+    public GcloudPreviewComputeImagesDescribeFromFamilyOptions(
+        string ImageName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageName);
+        this.ImageName = ImageName;
+    }
+
+    public void Deconstruct(out string ImageName)
+    {
+        ImageName = this.ImageName;
+    }
+
     /// <summary>
     /// Zone to query. Returns the latest image available in the image family for the specified zone. If not specified, returns the latest globally available image.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the disk image to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ImageName { get; private init; }
 
 }

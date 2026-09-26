@@ -22,6 +22,35 @@ namespace ModularPipelines.Google.Options;
 public record GcloudVectorSearchCollectionsIndexesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete an index
+    /// </summary>
+    /// <param name="Index">Index resource - The resource name of the Index to delete. Format: projects/{project}/locations/{location}/collections/{collection}/indexes/Delete an index. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the index or fully qualified identifier for the index. To set the index attribute: ▸ provide the argument index on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVectorSearchCollectionsIndexesDeleteOptions(
+        string Index
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Index);
+        this.Index = Index;
+    }
+
+    public void Deconstruct(out string Index)
+    {
+        Index = this.Index;
+    }
+
+    /// <summary>
+    /// Index resource - The resource name of the Index to delete. Format: projects/{project}/locations/{location}/collections/{collection}/indexes/Delete an index. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The collection id of the index resource. To set the collection attribute: ▸ provide the argument index on the command line with a fully specified name; ▸ provide the argument --collection on the command line.
+    /// </summary>
+    [CliOption("--collection", Format = OptionFormat.EqualsSeparated)]
+    public string? Collection { get; set; }
+
+    /// <summary>
+    /// Index resource - The resource name of the Index to delete. Format: projects/{project}/locations/{location}/collections/{collection}/indexes/Delete an index. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the index resource. To set the location attribute: ▸ provide the argument index on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -32,5 +61,11 @@ public record GcloudVectorSearchCollectionsIndexesDeleteOptions : GcloudOptions
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Index resource - The resource name of the Index to delete. Format: projects/{project}/locations/{location}/collections/{collection}/indexes/Delete an index. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the index or fully qualified identifier for the index. To set the index attribute: ▸ provide the argument index on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Index { get; private init; }
 
 }

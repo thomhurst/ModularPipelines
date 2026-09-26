@@ -22,6 +22,35 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSccPostureDeploymentsUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// update the given Cloud Security     Command Center posture deployment
+    /// </summary>
+    /// <param name="PostureDeployment">Posture deployment resource - The posture deployment to update. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postureDeployments/&lt;postureDeploymentID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the posture_deployment or fully qualified identifier for the posture_deployment. To set the posture_deployment attribute: ▸ provide the argument posture_deployment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSccPostureDeploymentsUpdateOptions(
+        string PostureDeployment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PostureDeployment);
+        this.PostureDeployment = PostureDeployment;
+    }
+
+    public void Deconstruct(out string PostureDeployment)
+    {
+        PostureDeployment = this.PostureDeployment;
+    }
+
+    /// <summary>
+    /// Posture deployment resource - The posture deployment to update. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postureDeployments/&lt;postureDeploymentID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the location where the resource exists (for example, global). To set the location attribute: ▸ provide the argument posture_deployment on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Posture deployment resource - The posture deployment to update. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postureDeployments/&lt;postureDeploymentID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the organization which is the parent of the resource. To set the organization attribute: ▸ provide the argument posture_deployment on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -40,10 +69,10 @@ public record GcloudSccPostureDeploymentsUpdateOptions : GcloudOptions
     public string? Etag { get; set; }
 
     /// <summary>
-    /// Comma-separated string containing list of fields to be updated.
+    /// Comma-separated string containing list of fields to be updated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated)]
-    public string? UpdateMask { get; set; }
+    [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? UpdateMask { get; set; }
 
     /// <summary>
     /// Relative name of the posture to be updated, like organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postures/&lt;postureID&gt;.
@@ -56,5 +85,11 @@ public record GcloudSccPostureDeploymentsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--posture-revision-id", Format = OptionFormat.EqualsSeparated)]
     public string? PostureRevisionId { get; set; }
+
+    /// <summary>
+    /// Posture deployment resource - The posture deployment to update. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postureDeployments/&lt;postureDeploymentID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the posture_deployment or fully qualified identifier for the posture_deployment. To set the posture_deployment attribute: ▸ provide the argument posture_deployment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PostureDeployment { get; private init; }
 
 }

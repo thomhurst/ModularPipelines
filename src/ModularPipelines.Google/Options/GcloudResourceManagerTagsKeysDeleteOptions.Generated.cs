@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "tags", "keys", "delete")]
-public record GcloudResourceManagerTagsKeysDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ResourceName
-) : GcloudOptions
+public record GcloudResourceManagerTagsKeysDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// deletes the specified TagKey     resource
+    /// </summary>
+    /// <param name="ResourceName">Resource name or namespaced name. The resource name should be in the form {resource_type}/{numeric_id}. The namespaced name should be in the form {org_id}/{short_name} where short_name must be 1-63 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores ( _ ), dots (.), and alphanumerics between.</param>
+    public GcloudResourceManagerTagsKeysDeleteOptions(
+        string ResourceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceName);
+        this.ResourceName = ResourceName;
+    }
+
+    public void Deconstruct(out string ResourceName)
+    {
+        ResourceName = this.ResourceName;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Resource name or namespaced name. The resource name should be in the form {resource_type}/{numeric_id}. The namespaced name should be in the form {org_id}/{short_name} where short_name must be 1-63 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores ( _ ), dots (.), and alphanumerics between.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ResourceName { get; private init; }
 
 }

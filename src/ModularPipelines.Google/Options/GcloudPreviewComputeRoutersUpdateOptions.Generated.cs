@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "routers", "update")]
-public record GcloudPreviewComputeRoutersUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeRoutersUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Compute Engine router
+    /// </summary>
+    /// <param name="Name">Name of the router to update.</param>
+    public GcloudPreviewComputeRoutersUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// The new advertisement mode for this router. MODE must be one of: CUSTOM Custom (user-configured) BGP advertisements. DEFAULT Default (Google-managed) BGP advertisements.
     /// </summary>
@@ -60,39 +76,143 @@ public record GcloudPreviewComputeRoutersUpdateOptions(
     public string? Region { get; set; }
 
     /// <summary>
-    /// The list of pre-defined groups of IP ranges to dynamically advertise on this router. This list can only be specified in custom advertisement mode. GROUP must be (only one value is supported): ALL_SUBNETS Automatically advertise all available subnets. This excludes any routes learned for subnets that use VPC Network Peering.
+    /// The list of pre-defined groups of IP ranges to dynamically advertise on this router. This list can only be specified in custom advertisement mode. GROUP must be (only one value is supported): ALL_SUBNETS Automatically advertise all available subnets. This excludes any routes learned for subnets that use VPC Network Peering. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-advertisement-groups", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--set-advertisement-groups", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SetAdvertisementGroups { get; set; }
 
     /// <summary>
-    /// The list of individual IP ranges, in CIDR format, to dynamically advertise on this router. Each IP range can (optionally) be given a text description DESC. For example, to advertise a specific range, use --set-advertisement-ranges=192.168.10.0/24. To store a description with the range, use --set-advertisement-ranges=192.168.10.0/24=my-networks. This list can only be specified in custom advertisement mode.
+    /// The list of individual IP ranges, in CIDR format, to dynamically advertise on this router. Each IP range can (optionally) be given a text description DESC. For example, to advertise a specific range, use --set-advertisement-ranges=192.168.10.0/24. To store a description with the range, use --set-advertisement-ranges=192.168.10.0/24=my-networks. This list can only be specified in custom advertisement mode. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-advertisement-ranges", Format = OptionFormat.EqualsSeparated)]
-    public string? SetAdvertisementRanges { get; set; }
+    [CliOption("--set-advertisement-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SetAdvertisementRanges { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: A list of pre-defined groups of IP ranges to dynamically advertise on this router. This list is appended to any existing advertisements. This field can only be specified in custom advertisement mode. GROUP must be (only one value is supported): ALL_SUBNETS Automatically advertise all available subnets. This excludes any routes learned for subnets that use VPC Network Peering.
+    /// At most one of these can be specified: A list of pre-defined groups of IP ranges to dynamically advertise on this router. This list is appended to any existing advertisements. This field can only be specified in custom advertisement mode. GROUP must be (only one value is supported): ALL_SUBNETS Automatically advertise all available subnets. This excludes any routes learned for subnets that use VPC Network Peering. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-advertisement-groups", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddAdvertisementGroups { get; set; }
+    [CliOption("--add-advertisement-groups", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddAdvertisementGroups
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddAdvertisementGroupsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddAdvertisementGroupsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// At most one of these can be specified: A list of individual IP ranges, in CIDR format, to dynamically advertise on this router. This list is appended to any existing advertisements. Each IP range can (optionally) be given a text description DESC. For example, to advertise a specific range, use --advertisement-ranges=192.168.10.0/24. To store a description with the range, use --advertisement-ranges=192.168.10.0/24=my-networks. This list can only be specified in custom advertisement mode.
+    /// At most one of these can be specified: A list of individual IP ranges, in CIDR format, to dynamically advertise on this router. This list is appended to any existing advertisements. Each IP range can (optionally) be given a text description DESC. For example, to advertise a specific range, use --advertisement-ranges=192.168.10.0/24. To store a description with the range, use --advertisement-ranges=192.168.10.0/24=my-networks. This list can only be specified in custom advertisement mode. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-advertisement-ranges", Format = OptionFormat.EqualsSeparated)]
-    public string? AddAdvertisementRanges { get; set; }
+    [CliOption("--add-advertisement-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AddAdvertisementRanges
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AddAdvertisementRangesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AddAdvertisementRangesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// At most one of these can be specified: A list of pre-defined groups of IP ranges to remove from dynamic advertisement on this router. Each group in the list must exist in the current set of custom advertisements. This field can only be specified in custom advertisement mode. GROUP must be (only one value is supported): ALL_SUBNETS Automatically advertise all available subnets. This excludes any routes learned for subnets that use VPC Network Peering.
+    /// At most one of these can be specified: A list of pre-defined groups of IP ranges to remove from dynamic advertisement on this router. Each group in the list must exist in the current set of custom advertisements. This field can only be specified in custom advertisement mode. GROUP must be (only one value is supported): ALL_SUBNETS Automatically advertise all available subnets. This excludes any routes learned for subnets that use VPC Network Peering. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-advertisement-groups", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveAdvertisementGroups { get; set; }
+    [CliOption("--remove-advertisement-groups", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveAdvertisementGroups
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveAdvertisementGroupsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveAdvertisementGroupsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// At most one of these can be specified: A list of individual IP ranges, in CIDR format, to remove from dynamic advertisement on this router. Each IP range in the list must exist in the current set of custom advertisements. This field can only be specified in custom advertisement mode.
+    /// At most one of these can be specified: A list of individual IP ranges, in CIDR format, to remove from dynamic advertisement on this router. Each IP range in the list must exist in the current set of custom advertisements. This field can only be specified in custom advertisement mode. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-advertisement-ranges", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveAdvertisementRanges { get; set; }
+    [CliOption("--remove-advertisement-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveAdvertisementRanges
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveAdvertisementRangesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveAdvertisementRangesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Name of the router to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)AddAdvertisementGroups is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAdvertisementGroups is not string || !string.IsNullOrWhiteSpace(AddAdvertisementGroups?.ToString()) : ((object?)AddAdvertisementGroups is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAdvertisementGroups, static item => item is not null) : (AddAdvertisementGroups is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAdvertisementGroups), static item => item is not null)))) ? 1 : 0) + (((object?)AddAdvertisementRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)AddAdvertisementRanges is not string || !string.IsNullOrWhiteSpace(AddAdvertisementRanges?.ToString()) : ((object?)AddAdvertisementRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AddAdvertisementRanges, static item => item is not null) : (AddAdvertisementRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AddAdvertisementRanges), static item => item is not null)))) ? 1 : 0) + (((object?)RemoveAdvertisementGroups is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAdvertisementGroups is not string || !string.IsNullOrWhiteSpace(RemoveAdvertisementGroups?.ToString()) : ((object?)RemoveAdvertisementGroups is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAdvertisementGroups, static item => item is not null) : (RemoveAdvertisementGroups is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAdvertisementGroups), static item => item is not null)))) ? 1 : 0) + (((object?)RemoveAdvertisementRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveAdvertisementRanges is not string || !string.IsNullOrWhiteSpace(RemoveAdvertisementRanges?.ToString()) : ((object?)RemoveAdvertisementRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveAdvertisementRanges, static item => item is not null) : (RemoveAdvertisementRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveAdvertisementRanges), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AddAdvertisementGroups, AddAdvertisementRanges, RemoveAdvertisementGroups, or RemoveAdvertisementRanges may be specified.", [nameof(AddAdvertisementGroups), nameof(AddAdvertisementRanges), nameof(RemoveAdvertisementGroups), nameof(RemoveAdvertisementRanges)]);
+        }
+        yield break;
+    }
 
 }

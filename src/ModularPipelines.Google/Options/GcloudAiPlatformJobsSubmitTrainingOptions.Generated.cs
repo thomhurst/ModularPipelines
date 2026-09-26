@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,10 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai-platform", "jobs", "submit", "training")]
-public record GcloudAiPlatformJobsSubmitTrainingOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Job
-) : GcloudOptions
+public record GcloudAiPlatformJobsSubmitTrainingOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// submit an AI Platform training     job
+    /// </summary>
+    /// <param name="Job">Name of the job.</param>
+    public GcloudAiPlatformJobsSubmitTrainingOptions(
+        string Job
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Job);
+        this.Job = Job;
+    }
+
+    public void Deconstruct(out string Job)
+    {
+        Job = this.Job;
+    }
+
     /// <summary>
     /// Path to the job configuration file. This file should be a YAML document (JSON also accepted) containing a Job resource as defined in the API (all fields are optional): https://cloud.google.com/ml/reference/rest/v1/projects.jobs EXAMPLES: JSON: { "jobId": "my_job", "labels": { "type": "prod", "owner": "alice" }, "trainingInput": { "scaleTier": "BASIC", "packageUris": [ "gs://my/package/path" ], "region": "us-east1" } } YAML: jobId: my_job labels: type: prod owner: alice trainingInput: scaleTier: BASIC packageUris: - gs://my/package/path region: us-east1 If an option is specified both in the configuration file **and** via command line arguments, the command line arguments override the configuration file.
     /// </summary>
@@ -43,9 +59,9 @@ public record GcloudAiPlatformJobsSubmitTrainingOptions(
     public string? JobDir { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -79,9 +95,9 @@ public record GcloudAiPlatformJobsSubmitTrainingOptions(
     public string? PackagePath { get; set; }
 
     /// <summary>
-    /// Path to Python archives used for training. These can be local paths (absolute or relative), in which case they will be uploaded to the Cloud Storage bucket given by --staging-bucket, or Cloud Storage URLs ('gs://bucket-name/path/to/package.tar.gz').
+    /// Path to Python archives used for training. These can be local paths (absolute or relative), in which case they will be uploaded to the Cloud Storage bucket given by --staging-bucket, or Cloud Storage URLs ('gs://bucket-name/path/to/package.tar.gz'). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--packages", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--packages", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Packages { get; set; }
 
     /// <summary>
@@ -209,5 +225,47 @@ public record GcloudAiPlatformJobsSubmitTrainingOptions(
     /// </summary>
     [CliOption("--worker-machine-type", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerMachineType { get; set; }
+
+    /// <summary>
+    /// Name of the job.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Job { get; private init; }
+
+    /// <summary>
+    /// Additional user arguments to be forwarded to user code The '--' argument must be specified between gcloud specific args on the left and USER_ARGS on the right.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
+    public IEnumerable<string>? UserArgs { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Async == true ? 1 : 0) + (StreamLogs == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Async or StreamLogs may be specified.", [nameof(Async), nameof(StreamLogs)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        if (((object?)ParameterServerCount is not null || !string.IsNullOrWhiteSpace(ParameterServerMachineType)) && (!((object?)ParameterServerCount is not null)))
+        {
+            yield return new ValidationResult("ParameterServerCount must be specified when other arguments in this group are specified.", [nameof(ParameterServerCount)]);
+        }
+        if (((object?)ParameterServerCount is not null || !string.IsNullOrWhiteSpace(ParameterServerMachineType)) && (!(!string.IsNullOrWhiteSpace(ParameterServerMachineType))))
+        {
+            yield return new ValidationResult("ParameterServerMachineType must be specified when other arguments in this group are specified.", [nameof(ParameterServerMachineType)]);
+        }
+        if (((object?)WorkerCount is not null || !string.IsNullOrWhiteSpace(WorkerMachineType)) && (!((object?)WorkerCount is not null)))
+        {
+            yield return new ValidationResult("WorkerCount must be specified when other arguments in this group are specified.", [nameof(WorkerCount)]);
+        }
+        if (((object?)WorkerCount is not null || !string.IsNullOrWhiteSpace(WorkerMachineType)) && (!(!string.IsNullOrWhiteSpace(WorkerMachineType))))
+        {
+            yield return new ValidationResult("WorkerMachineType must be specified when other arguments in this group are specified.", [nameof(WorkerMachineType)]);
+        }
+        yield break;
+    }
 
 }

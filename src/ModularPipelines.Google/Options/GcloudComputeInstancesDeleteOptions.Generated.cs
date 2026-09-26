@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,36 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "delete")]
-public record GcloudComputeInstancesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> InstanceNames
-) : GcloudOptions
+public record GcloudComputeInstancesDeleteOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// delete Compute Engine virtual machine     instances
+    /// </summary>
+    /// <param name="InstanceNames">Names of the instances to delete. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances</param>
+    public GcloudComputeInstancesDeleteOptions(
+        IEnumerable<string> InstanceNames
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstanceNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstanceNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstanceNames));
+            }
+
+            InstanceNames = materialized;
+        }
+        this.InstanceNames = InstanceNames;
+    }
+
+    public void Deconstruct(out IEnumerable<string> InstanceNames)
+    {
+        InstanceNames = this.InstanceNames;
+    }
+
     /// <summary>
     /// Deletes the instance immediately without gracefully shutting it down. If a graceful shutdown is in progress, then the instance is forcefully stopped and deleted.
     /// </summary>
@@ -46,5 +73,21 @@ public record GcloudComputeInstancesDeleteOptions(
     /// </summary>
     [CliOption("--keep-disks", Format = OptionFormat.EqualsSeparated)]
     public string? KeepDisks { get; set; }
+
+    /// <summary>
+    /// Names of the instances to delete. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> InstanceNames { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DeleteDisks) ? 1 : 0) + (!string.IsNullOrWhiteSpace(KeepDisks) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DeleteDisks or KeepDisks may be specified.", [nameof(DeleteDisks), nameof(KeepDisks)]);
+        }
+        yield break;
+    }
 
 }

@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("preview", "compute", "machine-images", "get-iam-policy")]
 public record GcloudPreviewComputeMachineImagesGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the IAM policy     for a Compute Engine machine image
+    /// </summary>
+    /// <param name="MachineImage">Machine image resource - The machine image to display the IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument machine_image on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the machine image or fully qualified identifier for the machine image. To set the machine_image attribute: ▸ provide the argument machine_image on the command line.</param>
+    public GcloudPreviewComputeMachineImagesGetIamPolicyOptions(
+        string MachineImage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MachineImage);
+        this.MachineImage = MachineImage;
+    }
+
+    public void Deconstruct(out string MachineImage)
+    {
+        MachineImage = this.MachineImage;
+    }
+
+    /// <summary>
+    /// Machine image resource - The machine image to display the IAM policy for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument machine_image on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the machine image or fully qualified identifier for the machine image. To set the machine_image attribute: ▸ provide the argument machine_image on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MachineImage { get; private init; }
+
 }

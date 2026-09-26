@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "networks", "peerings", "cancel-request-delete")]
-public record GcloudComputeNetworksPeeringsCancelRequestDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeNetworksPeeringsCancelRequestDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// cancel deletion     request of a Compute Engine network peering
+    /// </summary>
+    /// <param name="Network">The name of the network in the current project containing the peering.</param>
+    /// <param name="Name">The name of the peering.</param>
+    public GcloudComputeNetworksPeeringsCancelRequestDeleteOptions(
+        string Network,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Network, out string Name)
+    {
+        Network = this.Network;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the network in the current project containing the peering.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The name of the peering.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

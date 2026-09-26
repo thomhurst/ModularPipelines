@@ -19,8 +19,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "sign-jwt")]
-public record GcloudIamServiceAccountsSignJwtOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Input
-) : GcloudOptions
+public record GcloudIamServiceAccountsSignJwtOptions : GcloudOptions
 {
+    /// <summary>
+    /// sign a JWT with a managed service     account key
+    /// </summary>
+    /// <param name="IamAccount">The service account to sign as.</param>
+    /// <param name="InputFile">A path to the file containing the JSON JWT Claim set to be signed.</param>
+    /// <param name="OutputFile">A path the resulting signed JWT will be written to.</param>
+    public GcloudIamServiceAccountsSignJwtOptions(
+        string IamAccount,
+        string InputFile,
+        string OutputFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(IamAccount);
+        this.IamAccount = IamAccount;
+        global::System.ArgumentNullException.ThrowIfNull(InputFile);
+        this.InputFile = InputFile;
+        global::System.ArgumentNullException.ThrowIfNull(OutputFile);
+        this.OutputFile = OutputFile;
+    }
+
+    public void Deconstruct(out string IamAccount, out string InputFile, out string OutputFile)
+    {
+        IamAccount = this.IamAccount;
+        InputFile = this.InputFile;
+        OutputFile = this.OutputFile;
+    }
+
+    /// <summary>
+    /// The service account to sign as.
+    /// </summary>
+    [CliOption("--iam-account", Format = OptionFormat.EqualsSeparated)]
+    public string IamAccount { get; private init; }
+
+    /// <summary>
+    /// A path to the file containing the JSON JWT Claim set to be signed.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InputFile { get; private init; }
+
+    /// <summary>
+    /// A path the resulting signed JWT will be written to.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OutputFile { get; private init; }
+
 }

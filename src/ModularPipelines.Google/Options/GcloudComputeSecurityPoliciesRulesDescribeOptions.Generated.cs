@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "security-policies", "rules", "describe")]
-public record GcloudComputeSecurityPoliciesRulesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
-) : GcloudOptions
+public record GcloudComputeSecurityPoliciesRulesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Compute Engine     security policy rule
+    /// </summary>
+    /// <param name="Priority">The priority of the rule to describe. Rules are evaluated in order from highest priority to lowest priority where 0 is the highest priority and 2147483647 is the lowest priority.</param>
+    public GcloudComputeSecurityPoliciesRulesDescribeOptions(
+        string Priority
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Priority);
+        this.Priority = Priority;
+    }
+
+    public void Deconstruct(out string Priority)
+    {
+        Priority = this.Priority;
+    }
+
     /// <summary>
     /// Region of the security policy to describe. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
     /// </summary>
@@ -34,5 +49,11 @@ public record GcloudComputeSecurityPoliciesRulesDescribeOptions(
     /// </summary>
     [CliOption("--security-policy", Format = OptionFormat.EqualsSeparated)]
     public string? SecurityPolicy { get; set; }
+
+    /// <summary>
+    /// The priority of the rule to describe. Rules are evaluated in order from highest priority to lowest priority where 0 is the highest priority and 2147483647 is the lowest priority.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Priority { get; private init; }
 
 }

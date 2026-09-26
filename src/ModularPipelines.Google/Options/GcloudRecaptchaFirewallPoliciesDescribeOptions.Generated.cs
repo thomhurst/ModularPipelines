@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("recaptcha", "firewall-policies", "describe")]
 public record GcloudRecaptchaFirewallPoliciesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe reCAPTCHA Firewall     Policy
+    /// </summary>
+    /// <param name="FirewallPolicy">Firewall policy resource - The reCAPTCHA firewall policy to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument firewall_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the firewall_policy or fully qualified identifier for the firewall_policy. To set the firewall_policy attribute: ▸ provide the argument firewall_policy on the command line.</param>
+    public GcloudRecaptchaFirewallPoliciesDescribeOptions(
+        string FirewallPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallPolicy);
+        this.FirewallPolicy = FirewallPolicy;
+    }
+
+    public void Deconstruct(out string FirewallPolicy)
+    {
+        FirewallPolicy = this.FirewallPolicy;
+    }
+
+    /// <summary>
+    /// Firewall policy resource - The reCAPTCHA firewall policy to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument firewall_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the firewall_policy or fully qualified identifier for the firewall_policy. To set the firewall_policy attribute: ▸ provide the argument firewall_policy on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FirewallPolicy { get; private init; }
+
 }

@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "groups", "update")]
-public record GcloudPreviewComputeInterconnectsGroupsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInterconnectsGroupsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a Compute     Engine interconnect group
+    /// </summary>
+    /// <param name="Name">Name of the interconnect group to update.</param>
+    public GcloudPreviewComputeInterconnectsGroupsUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// An optional, textual description for the interconnect group.
     /// </summary>
@@ -36,15 +51,21 @@ public record GcloudPreviewComputeInterconnectsGroupsUpdateOptions(
     public string? IntendedTopologyCapability { get; set; }
 
     /// <summary>
-    /// Member interconnects to set the interconnect group to contain.
+    /// Member interconnects to set the interconnect group to contain. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--interconnects", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--interconnects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Interconnects { get; set; }
 
     /// <summary>
-    /// Optional update mask to specify which fields to update. Use commas to separate masks. If not specified, all fields present in the command will be updated.
+    /// Optional update mask to specify which fields to update. Use commas to separate masks. If not specified, all fields present in the command will be updated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated)]
-    public string? UpdateMask { get; set; }
+    [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? UpdateMask { get; set; }
+
+    /// <summary>
+    /// Name of the interconnect group to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

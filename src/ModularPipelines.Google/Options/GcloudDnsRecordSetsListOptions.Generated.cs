@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDnsRecordSetsListOptions : GcloudOptions
 {
     /// <summary>
+    /// sets in a     managed-zone
+    /// </summary>
+    /// <param name="Zone">Name of the managed zone whose record sets you want to manage.</param>
+    public GcloudDnsRecordSetsListOptions(
+        string Zone
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+    }
+
+    public void Deconstruct(out string Zone)
+    {
+        Zone = this.Zone;
+    }
+
+    /// <summary>
+    /// Name of the managed zone whose record sets you want to manage.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
+    /// <summary>
     /// Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]

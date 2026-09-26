@@ -23,6 +23,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudEdgeCacheServicesUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// update an EdgeCacheService resource
+    /// </summary>
+    /// <param name="Service">Service resource - The name of the EdgeCacheService resource to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEdgeCacheServicesUpdateOptions(
+        string Service
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Service);
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out string Service)
+    {
+        Service = this.Service;
+    }
+
+    /// <summary>
+    /// Service resource - The name of the EdgeCacheService resource to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument service on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ use global location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -41,9 +64,9 @@ public record GcloudEdgeCacheServicesUpdateOptions : GcloudOptions
     public string? EdgeSecurityPolicy { get; set; }
 
     /// <summary>
-    /// URLs to sslCertificate resources that are used to authenticate connections between users and the EdgeCacheService. Certificates should be specified as relative resource URLs - for example projects/my-project/locations/global/certificates/my-cert Note that only "global" certificates with a "scope" of EDGE_CACHE can be attached to an EdgeCacheService. You may specify up to 5 SSL certificates per Service.
+    /// URLs to sslCertificate resources that are used to authenticate connections between users and the EdgeCacheService. Certificates should be specified as relative resource URLs - for example projects/my-project/locations/global/certificates/my-cert Note that only "global" certificates with a "scope" of EDGE_CACHE can be attached to an EdgeCacheService. You may specify up to 5 SSL certificates per Service. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--edge-ssl-certificate", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--edge-ssl-certificate", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? EdgeSslCertificate { get; set; }
 
     /// <summary>
@@ -53,9 +76,9 @@ public record GcloudEdgeCacheServicesUpdateOptions : GcloudOptions
     public bool? EnableLogging { get; set; }
 
     /// <summary>
-    /// List of KEY=VALUE labels to attach to this resource.
+    /// List of KEY=VALUE labels to attach to this resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -69,5 +92,11 @@ public record GcloudEdgeCacheServicesUpdateOptions : GcloudOptions
     /// </summary>
     [CliFlag("--require-tls")]
     public bool? RequireTls { get; set; }
+
+    /// <summary>
+    /// Service resource - The name of the EdgeCacheService resource to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▸ provide the argument service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Service { get; private init; }
 
 }

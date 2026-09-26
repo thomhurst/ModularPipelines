@@ -19,8 +19,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "ops-agents", "policies", "create")]
-public record GcloudComputeInstancesOpsAgentsPoliciesCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyId
-) : GcloudOptions
+public record GcloudComputeInstancesOpsAgentsPoliciesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Google Cloud     Observability agents policy for the Ops Agent
+    /// </summary>
+    /// <param name="File">YAML file with agents policy to create. For information about the agents policy format, see https://cloud.google.com/stackdriver/docs/solutions/agents/ops-agent/agent-policies#config-files.</param>
+    /// <param name="Zone">Zone in which to create the agents policy.</param>
+    /// <param name="PolicyId">ID of the policy. This ID must contain only lowercase letters, numbers, and hyphens, end with a number or a letter, be between 1-63 characters, and be unique within the project.</param>
+    public GcloudComputeInstancesOpsAgentsPoliciesCreateOptions(
+        string File,
+        string Zone,
+        string PolicyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(File);
+        this.File = File;
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyId);
+        this.PolicyId = PolicyId;
+    }
+
+    public void Deconstruct(out string File, out string Zone, out string PolicyId)
+    {
+        File = this.File;
+        Zone = this.Zone;
+        PolicyId = this.PolicyId;
+    }
+
+    /// <summary>
+    /// YAML file with agents policy to create. For information about the agents policy format, see https://cloud.google.com/stackdriver/docs/solutions/agents/ops-agent/agent-policies#config-files.
+    /// </summary>
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public string File { get; private init; }
+
+    /// <summary>
+    /// Zone in which to create the agents policy.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
+    /// <summary>
+    /// ID of the policy. This ID must contain only lowercase letters, numbers, and hyphens, end with a number or a letter, be between 1-63 characters, and be unique within the project.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyId { get; private init; }
+
 }

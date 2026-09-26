@@ -19,8 +19,81 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "lite-topics", "create")]
-public record GcloudPubsubLiteTopicsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Topic
-) : GcloudOptions
+public record GcloudPubsubLiteTopicsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Pub/Sub Lite topic
+    /// </summary>
+    /// <param name="Partitions">Number of partitions in the topic.</param>
+    /// <param name="PerPartitionBytes">Provisioned storage, in bytes, per partition. If the number of bytes stored in any of the topic's partitions exceeds this value, older messages will be dropped to make room for newer ones, regardless of the value of message-retention-period. A valid example value of this flag would be per-partition-bytes=30GiB.</param>
+    /// <param name="Topic">Topic ID.</param>
+    public GcloudPubsubLiteTopicsCreateOptions(
+        string Partitions,
+        string PerPartitionBytes,
+        string Topic
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Partitions);
+        this.Partitions = Partitions;
+        global::System.ArgumentNullException.ThrowIfNull(PerPartitionBytes);
+        this.PerPartitionBytes = PerPartitionBytes;
+        global::System.ArgumentNullException.ThrowIfNull(Topic);
+        this.Topic = Topic;
+    }
+
+    public void Deconstruct(out string Partitions, out string PerPartitionBytes, out string Topic)
+    {
+        Partitions = this.Partitions;
+        PerPartitionBytes = this.PerPartitionBytes;
+        Topic = this.Topic;
+    }
+
+    /// <summary>
+    /// Number of partitions in the topic.
+    /// </summary>
+    [CliOption("--partitions", Format = OptionFormat.EqualsSeparated)]
+    public string Partitions { get; private init; }
+
+    /// <summary>
+    /// Provisioned storage, in bytes, per partition. If the number of bytes stored in any of the topic's partitions exceeds this value, older messages will be dropped to make room for newer ones, regardless of the value of message-retention-period. A valid example value of this flag would be per-partition-bytes=30GiB.
+    /// </summary>
+    [CliOption("--per-partition-bytes", Format = OptionFormat.EqualsSeparated)]
+    public string PerPartitionBytes { get; private init; }
+
+    /// <summary>
+    /// Location resource - Identifies the Cloud zone this command will be executed on. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line; ◆ provide the argument --zone on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Location resource - Identifies the Cloud zone this command will be executed on. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. How long a published message is retained. If unset, messages will only be dropped to make space for new ones once the per-partition-bytes limit is reached. A valid example value of this flag would be message-retention-period="2w".
+    /// </summary>
+    [CliOption("--message-retention-period", Format = OptionFormat.EqualsSeparated)]
+    public string? MessageRetentionPeriod { get; set; }
+
+    /// <summary>
+    /// Location resource - Identifies the Cloud zone this command will be executed on. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Topic partition publish throughput capacity in MiB/s. Must be between 4 and 16.
+    /// </summary>
+    [CliOption("--per-partition-publish-mib", Format = OptionFormat.EqualsSeparated)]
+    public string? PerPartitionPublishMib { get; set; }
+
+    /// <summary>
+    /// Location resource - Identifies the Cloud zone this command will be executed on. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Topic partition subscribe throughput capacity in MiB/s. Must be between 4 and 32.
+    /// </summary>
+    [CliOption("--per-partition-subscribe-mib", Format = OptionFormat.EqualsSeparated)]
+    public string? PerPartitionSubscribeMib { get; set; }
+
+    /// <summary>
+    /// Location resource - Identifies the Cloud zone this command will be executed on. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation ID to use for topic throughput.
+    /// </summary>
+    [CliOption("--throughput-reservation", Format = OptionFormat.EqualsSeparated)]
+    public string? ThroughputReservation { get; set; }
+
+    /// <summary>
+    /// Topic ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Topic { get; private init; }
+
 }

@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudMemorystoreAclPoliciesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete aclPolicies
+    /// </summary>
+    /// <param name="AclPolicy">AclPolicy resource - Memorystore ACL policy resource name using the form: projects/{project}/locations/{location}/aclPolicies/{acl_policy_id} where location refers to a Google Cloud region. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the aclPolicy or fully qualified identifier for the aclPolicy. To set the acl_policy attribute: ▸ provide the argument acl_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudMemorystoreAclPoliciesDeleteOptions(
+        string AclPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AclPolicy);
+        this.AclPolicy = AclPolicy;
+    }
+
+    public void Deconstruct(out string AclPolicy)
+    {
+        AclPolicy = this.AclPolicy;
+    }
+
+    /// <summary>
+    /// AclPolicy resource - Memorystore ACL policy resource name using the form: projects/{project}/locations/{location}/aclPolicies/{acl_policy_id} where location refers to a Google Cloud region. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the aclPolicy resource. To set the location attribute: ▸ provide the argument acl_policy on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -38,5 +61,11 @@ public record GcloudMemorystoreAclPoliciesDeleteOptions : GcloudOptions
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
+
+    /// <summary>
+    /// AclPolicy resource - Memorystore ACL policy resource name using the form: projects/{project}/locations/{location}/aclPolicies/{acl_policy_id} where location refers to a Google Cloud region. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the aclPolicy or fully qualified identifier for the aclPolicy. To set the acl_policy attribute: ▸ provide the argument acl_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AclPolicy { get; private init; }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,79 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("edge-cloud", "networking", "routers", "create")]
 public record GcloudEdgeCloudNetworkingRoutersCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Distributed Cloud     Edge Network router
+    /// </summary>
+    /// <param name="Asn">The locally assigned BGP ASN.</param>
+    /// <param name="Network">The network that this subnetwork belongs to.</param>
+    /// <param name="Router">Router resource - Distributed Cloud Edge Network router to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument router on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the router or fully qualified identifier for the router. To set the router attribute: ▸ provide the argument router on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEdgeCloudNetworkingRoutersCreateOptions(
+        string Asn,
+        string Network,
+        string Router
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Asn);
+        this.Asn = Asn;
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(Router);
+        this.Router = Router;
+    }
+
+    public void Deconstruct(out string Asn, out string Network, out string Router)
+    {
+        Asn = this.Asn;
+        Network = this.Network;
+        Router = this.Router;
+    }
+
+    /// <summary>
+    /// The locally assigned BGP ASN.
+    /// </summary>
+    [CliOption("--asn", Format = OptionFormat.EqualsSeparated)]
+    public string Asn { get; private init; }
+
+    /// <summary>
+    /// The network that this subnetwork belongs to.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// Router resource - Distributed Cloud Edge Network router to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument router on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The global location name. To set the location attribute: ▸ provide the argument router on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Router resource - Distributed Cloud Edge Network router to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument router on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Google Distributed Cloud Edge zone. To set the zone attribute: ▸ provide the argument router on the command line with a fully specified name; ▸ provide the argument --zone on the command line.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the router.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Router resource - Distributed Cloud Edge Network router to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument router on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the router or fully qualified identifier for the router. To set the router attribute: ▸ provide the argument router on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Router { get; private init; }
+
 }

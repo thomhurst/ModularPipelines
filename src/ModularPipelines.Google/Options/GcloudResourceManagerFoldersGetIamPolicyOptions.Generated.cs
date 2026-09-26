@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "folders", "get-iam-policy")]
-public record GcloudResourceManagerFoldersGetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FolderId
-) : GcloudOptions
+public record GcloudResourceManagerFoldersGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get IAM policy for a     folder
+    /// </summary>
+    /// <param name="FolderId">ID for the folder whose policy you want to get.</param>
+    public GcloudResourceManagerFoldersGetIamPolicyOptions(
+        string FolderId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FolderId);
+        this.FolderId = FolderId;
+    }
+
+    public void Deconstruct(out string FolderId)
+    {
+        FolderId = this.FolderId;
+    }
+
+    /// <summary>
+    /// ID for the folder whose policy you want to get.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FolderId { get; private init; }
+
 }

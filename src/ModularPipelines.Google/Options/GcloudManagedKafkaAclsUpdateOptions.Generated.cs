@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,114 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-kafka", "acls", "update")]
-public record GcloudManagedKafkaAclsUpdateOptions : GcloudOptions
+public record GcloudManagedKafkaAclsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Managed Service for Apache     Kafka acl
+    /// </summary>
+    /// <param name="Etag">etag returned in the response to a previous create or describe command. The etag is used for concurrency control, to ensure that the client and server agree on the current set of acl entries in the Kafka cluster, before full replacement in the update command.</param>
+    /// <param name="Acl">Acl resource - Identifies the name of the acl that this command updates. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the acl or fully qualified identifier for the acl. To set the acl attribute: ▸ provide the argument acl on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudManagedKafkaAclsUpdateOptions(
+        string Etag,
+        string Acl
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Etag);
+        this.Etag = Etag;
+        global::System.ArgumentNullException.ThrowIfNull(Acl);
+        this.Acl = Acl;
+    }
+
+    public void Deconstruct(out string Etag, out string Acl)
+    {
+        Etag = this.Etag;
+        Acl = this.Acl;
+    }
+
+    /// <summary>
+    /// etag returned in the response to a previous create or describe command. The etag is used for concurrency control, to ensure that the client and server agree on the current set of acl entries in the Kafka cluster, before full replacement in the update command.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string Etag { get; private init; }
+
+    /// <summary>
+    /// Acl resource - Identifies the name of the acl that this command updates. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The cluster name. To set the cluster attribute: ▸ provide the argument acl on the command line with a fully specified name; ▸ provide the argument --cluster on the command line.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Acl resource - Identifies the name of the acl that this command updates. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location of the Managed Service for Apache Kafka resource. See https://cloud.google.com/managed-service-for-apache-kafka/docs/locations for a list of supported locations. To set the location attribute: ▸ provide the argument acl on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a JSON or YAML file containing the acl entries to use in the acl. Use a full or relative path to a local file containing the value of acl_entries.
+    /// </summary>
+    [CliOption("--acl-entries-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? AclEntriesFromFile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: An acl entry that configures access for a principal, for a specific operation on the acl's resource pattern. This flag can be repeated. PRINCIPAL is the principal. Specified as Google Cloud account, with the Kafka StandardAuthorizer prefix "User:". For example: "User:admin@project.iam.gserviceaccount.com". Can be the wildcard "User:*" to refer to all users. OPERATION is the operation type. Allowed values are: ALL, READ, WRITE, CREATE, DELETE, ALTER, DESCRIBE, CLUSTER_ACTION, DESCRIBE_CONFIGS, ALTER_CONFIGS, IDEMPOTENT_WRITE. PERMISSION-TYPE is the permission type. Allowed values are: ALLOW, DENY. HOST is the host. Must be set to "*" for Managed Service for Apache Kafka. Example acl-entry: "principal=User:admin@project.iam.gserviceaccount.com,operation=ALL,permission-type=ALLOW,host=*"
+    /// </summary>
+    [CliOption("--acl-entry", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AclEntry
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __AclEntrySnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AclEntrySnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AclEntrySnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __AclEntrySnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Acl resource - Identifies the name of the acl that this command updates. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the acl or fully qualified identifier for the acl. To set the acl attribute: ▸ provide the argument acl on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Acl { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(AclEntriesFromFile) ? 1 : 0) + (((object?)AclEntry is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)AclEntry, static item => item is not null) : ((object?)AclEntry is global::System.Collections.Generic.IEnumerable<char> ? (object?)AclEntry is not string || !string.IsNullOrWhiteSpace(AclEntry?.ToString()) : ((object?)AclEntry is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AclEntry, static item => item is not null) : (AclEntry is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AclEntry), static item => item is not null))))) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of AclEntriesFromFile or AclEntry must be specified.", [nameof(AclEntriesFromFile), nameof(AclEntry)]);
+        }
+        yield break;
+    }
+
 }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,8 +22,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "clusters", "create")]
-public record GcloudRedisClustersCreateOptions : GcloudOptions
+public record GcloudRedisClustersCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new Memorystore for Redis Cluster     instance
+    /// </summary>
+    /// <param name="Cluster">Cluster resource - Arguments and flags that specify the cluster you want to create. Your cluster ID must be 1 to 63 characters and use only lowercase letters, numbers, or hyphens. It must start with a lowercase letter and end with a lowercase letter or number. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudRedisClustersCreateOptions(
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Cluster)
+    {
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Cluster resource - Arguments and flags that specify the cluster you want to create. Your cluster ID must be 1 to 63 characters and use only lowercase letters, numbers, or hyphens. It must start with a lowercase letter and end with a lowercase letter or number. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Redis region of the cluster. Overrides the default redis/region property value for this command invocation. To set the region attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property redis/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// The ACL policy to use for the cluster.
     /// </summary>
@@ -90,16 +114,16 @@ public record GcloudRedisClustersCreateOptions : GcloudOptions
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Day of week when the window starts, e.g. sunday. MAINTENANCE_WINDOW_DAY must be one of: friday, monday, saturday, sunday, thursday, tuesday, wednesday.
     /// </summary>
     [CliOption("--maintenance-window-day", Format = OptionFormat.EqualsSeparated)]
-    public GcloudMaintenanceWindowDay? MaintenanceWindowDay { get; set; }
+    public GcloudRedisClustersCreateMaintenanceWindowDay? MaintenanceWindowDay { get; set; }
 
     /// <summary>
     /// Hour of day (0 to 23) for the start of maintenance window, in UTC time zone.
@@ -117,7 +141,7 @@ public record GcloudRedisClustersCreateOptions : GcloudOptions
     /// Node Type of the redis cluster Node. NODE_TYPE must be one of: redis-highcpu-medium, redis-highmem-2xlarge, redis-highmem-medium, redis-highmem-xlarge, redis-shared-core-nano, redis-standard-large, redis-standard-small.
     /// </summary>
     [CliOption("--node-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudNodeType? NodeType { get; set; }
+    public GcloudRedisClustersCreateNodeType? NodeType { get; set; }
 
     /// <summary>
     /// Operation mode for persistence. PERSISTENCE_MODE must be one of: aof AOF-based persistence disabled Persistence mode is disabled rdb RDB-based persistence
@@ -144,9 +168,9 @@ public record GcloudRedisClustersCreateOptions : GcloudOptions
     public string? RdbSnapshotStartTime { get; set; }
 
     /// <summary>
-    /// A list of Redis config KEY=VALUE pairs to set on the Redis Cluster according to http://redis.io/topics/config. Currently the supported Redis configs are: maxmemory-clients, maxmemory, maxmemory-policy, notify-keyspace-events, slowlog-log-slower-than, maxclients.
+    /// A list of Redis config KEY=VALUE pairs to set on the Redis Cluster according to http://redis.io/topics/config. Currently the supported Redis configs are: maxmemory-clients, maxmemory, maxmemory-policy, notify-keyspace-events, slowlog-log-slower-than, maxclients. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--redis-config", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--redis-config", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RedisConfig { get; set; }
 
     /// <summary>
@@ -192,21 +216,59 @@ public record GcloudRedisClustersCreateOptions : GcloudOptions
     public string? ZoneDistributionMode { get; set; }
 
     /// <summary>
-    /// Specify the zones of a multi-zone cluster where Memorystore for Redis Cluster allocates resources. This flag isn't applicable for single-zone clusters.
+    /// Specify the zones of a multi-zone cluster where Memorystore for Redis Cluster allocates resources. This flag isn't applicable for single-zone clusters. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--zones", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--zones", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Zones { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: URIs of Google Cloud Storage objects to import from. For example, gs://bucket/folder/file1.rdb,gs://bucket/folder/file2.rdb.
+    /// At most one of these can be specified: URIs of Google Cloud Storage objects to import from. For example, gs://bucket/folder/file1.rdb,gs://bucket/folder/file2.rdb. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--import-gcs-object-uris", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ImportGcsObjectUris { get; set; }
+    [CliOption("--import-gcs-object-uris", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ImportGcsObjectUris
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ImportGcsObjectUrisSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ImportGcsObjectUrisSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Managed backup to import from. For example, projects/PROJECT_ID/locations/REGION/backupCollections/BACKUP_COLLECTION_ID/backups/BACKUP_ID.
     /// </summary>
     [CliOption("--import-managed-backup", Format = OptionFormat.EqualsSeparated)]
     public string? ImportManagedBackup { get; set; }
+
+    /// <summary>
+    /// Cluster resource - Arguments and flags that specify the cluster you want to create. Your cluster ID must be 1 to 63 characters and use only lowercase letters, numbers, or hyphens. It must start with a lowercase letter and end with a lowercase letter or number. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)ImportGcsObjectUris is global::System.Collections.Generic.IEnumerable<char> ? (object?)ImportGcsObjectUris is not string || !string.IsNullOrWhiteSpace(ImportGcsObjectUris?.ToString()) : ((object?)ImportGcsObjectUris is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ImportGcsObjectUris, static item => item is not null) : (ImportGcsObjectUris is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ImportGcsObjectUris), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ImportManagedBackup) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ImportGcsObjectUris or ImportManagedBackup may be specified.", [nameof(ImportGcsObjectUris), nameof(ImportManagedBackup)]);
+        }
+        yield break;
+    }
 
 }

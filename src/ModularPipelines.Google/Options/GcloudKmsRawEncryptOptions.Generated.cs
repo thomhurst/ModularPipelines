@@ -21,4 +21,85 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("kms", "raw-encrypt")]
 public record GcloudKmsRawEncryptOptions : GcloudOptions
 {
+    /// <summary>
+    /// encrypt a plaintext file using a raw key
+    /// </summary>
+    /// <param name="CiphertextFile">File path of the ciphertext file to output.</param>
+    /// <param name="PlaintextFile">File path of the plaintext file to encrypt.</param>
+    /// <param name="Version">Version to use for encryption.</param>
+    public GcloudKmsRawEncryptOptions(
+        string CiphertextFile,
+        string PlaintextFile,
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CiphertextFile);
+        this.CiphertextFile = CiphertextFile;
+        global::System.ArgumentNullException.ThrowIfNull(PlaintextFile);
+        this.PlaintextFile = PlaintextFile;
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string CiphertextFile, out string PlaintextFile, out string Version)
+    {
+        CiphertextFile = this.CiphertextFile;
+        PlaintextFile = this.PlaintextFile;
+        Version = this.Version;
+    }
+
+    /// <summary>
+    /// File path of the ciphertext file to output.
+    /// </summary>
+    [CliOption("--ciphertext-file", Format = OptionFormat.EqualsSeparated)]
+    public string CiphertextFile { get; private init; }
+
+    /// <summary>
+    /// File path of the plaintext file to encrypt.
+    /// </summary>
+    [CliOption("--plaintext-file", Format = OptionFormat.EqualsSeparated)]
+    public string PlaintextFile { get; private init; }
+
+    /// <summary>
+    /// Version to use for encryption.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string Version { get; private init; }
+
+    /// <summary>
+    /// File path to the optional file containing the additional authenticated data.
+    /// </summary>
+    [CliOption("--additional-authenticated-data-file", Format = OptionFormat.EqualsSeparated)]
+    public string? AdditionalAuthenticatedDataFile { get; set; }
+
+    /// <summary>
+    /// File path to the optional file containing the initialization vector for encryption.
+    /// </summary>
+    [CliOption("--initialization-vector-file", Format = OptionFormat.EqualsSeparated)]
+    public string? InitializationVectorFile { get; set; }
+
+    /// <summary>
+    /// The key to use for encryption.
+    /// </summary>
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
+    public string? Key { get; set; }
+
+    /// <summary>
+    /// Key ring of the key.
+    /// </summary>
+    [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? Keyring { get; set; }
+
+    /// <summary>
+    /// Location of the keyring.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Skip integrity verification on request and response API fields.
+    /// </summary>
+    [CliFlag("--skip-integrity-verification")]
+    public bool? SkipIntegrityVerification { get; set; }
+
 }

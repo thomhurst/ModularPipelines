@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("api-gateway", "apis", "describe")]
 public record GcloudApiGatewayApisDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details about a specific API
+    /// </summary>
+    /// <param name="Api">Api resource - Name for API which will be described. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument api on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument api on the command line with a fully specified name; ◆ Location for API and API Configs. Defaults to global. This must be specified. ID of the api or fully qualified identifier for the api. To set the api attribute: ▸ provide the argument api on the command line.</param>
+    public GcloudApiGatewayApisDescribeOptions(
+        string Api
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Api);
+        this.Api = Api;
+    }
+
+    public void Deconstruct(out string Api)
+    {
+        Api = this.Api;
+    }
+
+    /// <summary>
+    /// Api resource - Name for API which will be described. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument api on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument api on the command line with a fully specified name; ◆ Location for API and API Configs. Defaults to global. This must be specified. ID of the api or fully qualified identifier for the api. To set the api attribute: ▸ provide the argument api on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Api { get; private init; }
+
 }

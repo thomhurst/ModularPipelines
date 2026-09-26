@@ -22,15 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDnsResponsePoliciesUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// updates a Cloud DNS response policy
+    /// </summary>
+    /// <param name="ResponsePolicies">Response policy resource - The response policy to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument response_policies on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the response_policy or fully qualified identifier for the response_policy. To set the response-policy attribute: ▸ provide the argument response_policies on the command line.</param>
+    public GcloudDnsResponsePoliciesUpdateOptions(
+        string ResponsePolicies
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResponsePolicies);
+        this.ResponsePolicies = ResponsePolicies;
+    }
+
+    public void Deconstruct(out string ResponsePolicies)
+    {
+        ResponsePolicies = this.ResponsePolicies;
+    }
+
+    /// <summary>
     /// A description of the response policy.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The comma-separated list of GKE cluster names to associate with the response policy.
+    /// The comma-separated list of GKE cluster names to associate with the response policy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--gkeclusters", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--gkeclusters", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Gkeclusters { get; set; }
 
     /// <summary>
@@ -40,9 +57,15 @@ public record GcloudDnsResponsePoliciesUpdateOptions : GcloudOptions
     public string? Location { get; set; }
 
     /// <summary>
-    /// The comma-separated list of network names to associate with the response policy.
+    /// The comma-separated list of network names to associate with the response policy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--networks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Networks { get; set; }
+
+    /// <summary>
+    /// Response policy resource - The response policy to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument response_policies on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the response_policy or fully qualified identifier for the response_policy. To set the response-policy attribute: ▸ provide the argument response_policies on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ResponsePolicies { get; private init; }
 
 }

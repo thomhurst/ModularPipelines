@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,10 +21,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "future-reservations", "update")]
-public record GcloudComputeFutureReservationsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FutureReservation
-) : GcloudOptions
+public record GcloudComputeFutureReservationsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update Compute Engine future     reservations
+    /// </summary>
+    /// <param name="FutureReservation">Name of the future reservation to update.</param>
+    public GcloudComputeFutureReservationsUpdateOptions(
+        string FutureReservation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FutureReservation);
+        this.FutureReservation = FutureReservation;
+    }
+
+    public void Deconstruct(out string FutureReservation)
+    {
+        FutureReservation = this.FutureReservation;
+    }
+
     /// <summary>
     /// If specified, the auto-created reservations for a future reservation are deleted at the end time (default) or at a specified delete time. Use --auto-delete-auto-created-reservations to enable and --no-auto-delete-auto-created-reservations to disable.
     /// </summary>
@@ -136,13 +152,35 @@ public record GcloudComputeFutureReservationsUpdateOptions(
     /// Manage the properties of a shared future reservation. At most one of these can be specified: Or at least one of these can be specified: Manage the share settings of a future reservation. Specify if this future reservation is shared, and if so, the type of sharing. If you omit this flag, this value is local by default. SHARE_SETTING must be one of: local, projects.
     /// </summary>
     [CliOption("--share-setting", Format = OptionFormat.EqualsSeparated)]
-    public GcloudShareSetting? ShareSetting { get; set; }
+    public GcloudComputeFutureReservationsUpdateShareSetting? ShareSetting { get; set; }
 
     /// <summary>
-    /// Manage the properties of a shared future reservation. At most one of these can be specified: Or at least one of these can be specified: Manage the share settings of a future reservation. If this future reservation is shared, provide a comma-separated list of projects that this future reservation is shared with. The list must contain project IDs or project numbers.
+    /// Manage the properties of a shared future reservation. At most one of these can be specified: Or at least one of these can be specified: Manage the share settings of a future reservation. If this future reservation is shared, provide a comma-separated list of projects that this future reservation is shared with. The list must contain project IDs or project numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--share-with", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ShareWith { get; set; }
+    [CliOption("--share-with", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ShareWith
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ShareWithSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ShareWithSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Manage the commitment info properties Name of commitment covering the delivered reservation at the time of delivery of future reservations. If not specified, it takes the name of the future reservation.
@@ -154,7 +192,7 @@ public record GcloudComputeFutureReservationsUpdateOptions(
     /// Manage the commitment info properties The plan for this commitment to be created, which determines duration and discount rate. The currently supported plans are TWELVE_MONTH (1 year), and THIRTY_SIX_MONTH (3 years). COMMITMENT_PLAN must be one of: TWELVE_MONTH, THIRTY_SIX_MONTH.
     /// </summary>
     [CliOption("--commitment-plan", Format = OptionFormat.EqualsSeparated)]
-    public GcloudCommitmentPlan? CommitmentPlan { get; set; }
+    public GcloudComputeFutureReservationsUpdateCommitmentPlan? CommitmentPlan { get; set; }
 
     /// <summary>
     /// Manage the commitment info properties Applicable only if future reservation will deliver to an existing reservation with a ramp plan. When set to EXTEND, all associated parent Committed Used Discount's end-date/term will be extended to the end-time of this future reservation. Default is to extend previous commitment's time to the end_time of the reservation. PREVIOUS_COMMITMENT_TERMS must be (only one value is supported): EXTEND.
@@ -169,31 +207,31 @@ public record GcloudComputeFutureReservationsUpdateOptions(
     public string? MachineType { get; set; }
 
     /// <summary>
-    /// Manage the specific SKU reservation properties. Optional minimum CPU platform of the reservation to create.
+    /// Optional minimum CPU platform of the reservation to create.
     /// </summary>
     [CliOption("--min-cpu-platform", Format = OptionFormat.EqualsSeparated)]
     public string? MinCpuPlatform { get; set; }
 
     /// <summary>
-    /// Manage the specific SKU reservation properties. Manage the accelerators of a future reservation. At most one of these can be specified: Manage the configuration of the type and number of accelerator cards attached. count The number of accelerators to attach to each instance in the reservation. type The specific type (e.g. nvidia-tesla-k80 for nVidia Tesla K80) of accelerator to attach to instances in the reservation. Use gcloud compute accelerator-types list to learn about all available accelerator types.
+    /// Manage the accelerators of a future reservation. At most one of these can be specified: Manage the configuration of the type and number of accelerator cards attached. count The number of accelerators to attach to each instance in the reservation. type The specific type (e.g. nvidia-tesla-k80 for nVidia Tesla K80) of accelerator to attach to instances in the reservation. Use gcloud compute accelerator-types list to learn about all available accelerator types.
     /// </summary>
     [CliOption("--accelerator", Format = OptionFormat.EqualsSeparated)]
     public string? Accelerator { get; set; }
 
     /// <summary>
-    /// Manage the specific SKU reservation properties. Manage the accelerators of a future reservation. At most one of these can be specified: Remove all accelerators from the future reservation.
+    /// Manage the accelerators of a future reservation. At most one of these can be specified: Remove all accelerators from the future reservation.
     /// </summary>
     [CliFlag("--clear-accelerator")]
     public bool? ClearAccelerator { get; set; }
 
     /// <summary>
-    /// Manage the specific SKU reservation properties. Manage the local ssd of a future reservation. At most one of these can be specified: Remove all local ssd information on the future reservation.
+    /// Manage the local ssd of a future reservation. At most one of these can be specified: Remove all local ssd information on the future reservation.
     /// </summary>
     [CliFlag("--clear-local-ssd")]
     public bool? ClearLocalSsd { get; set; }
 
     /// <summary>
-    /// Manage the specific SKU reservation properties. Manage the local ssd of a future reservation. At most one of these can be specified: Manage the size and the interface of local SSD to use. See https://cloud.google.com/compute/docs/disks/local-ssd for more information. interface The kind of disk interface exposed to the VM for this SSD. Valid values are scsi and nvme. SCSI is the default and is supported by more guest operating systems. NVME may provide higher performance. size The size of the local SSD in base-2 GB. count The number of local SSD to use per VM. If you don't specify this argument, then the default value is 1.
+    /// Manage the local ssd of a future reservation. At most one of these can be specified: Manage the size and the interface of local SSD to use. See https://cloud.google.com/compute/docs/disks/local-ssd for more information. interface The kind of disk interface exposed to the VM for this SSD. Valid values are scsi and nvme. SCSI is the default and is supported by more guest operating systems. NVME may provide higher performance. size The size of the local SSD in base-2 GB. count The number of local SSD to use per VM. If you don't specify this argument, then the default value is 1.
     /// </summary>
     [CliOption("--local-ssd", Format = OptionFormat.EqualsSeparated)]
     public string? LocalSsd { get; set; }
@@ -205,15 +243,51 @@ public record GcloudComputeFutureReservationsUpdateOptions(
     public string? StartTime { get; set; }
 
     /// <summary>
-    /// Manage the time specific properties for requesting future capacity At most one of these can be specified: Alternate way of specifying time in the number of seconds to terminate capacity request relative to the start time of a request.
+    /// At most one of these can be specified: Alternate way of specifying time in the number of seconds to terminate capacity request relative to the start time of a request.
     /// </summary>
     [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
     public string? Duration { get; set; }
 
     /// <summary>
-    /// Manage the time specific properties for requesting future capacity At most one of these can be specified: End time of the Future Reservation. The end time must be an RFC3339 valid string formatted by date, time, and timezone or "YYYY-MM-DDTHH:MM:SSZ"; where YYYY = year, MM = month, DD = day, HH = hours, MM = minutes, SS = seconds, and Z = timezone (i.e. 2021-11-20T07:00:00Z).
+    /// At most one of these can be specified: End time of the Future Reservation. The end time must be an RFC3339 valid string formatted by date, time, and timezone or "YYYY-MM-DDTHH:MM:SSZ"; where YYYY = year, MM = month, DD = day, HH = hours, MM = minutes, SS = seconds, and Z = timezone (i.e. 2021-11-20T07:00:00Z).
     /// </summary>
     [CliOption("--end-time", Format = OptionFormat.EqualsSeparated)]
     public string? EndTime { get; set; }
+
+    /// <summary>
+    /// Name of the future reservation to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FutureReservation { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(AutoCreatedReservationsDeleteTime) ? 1 : 0) + (!string.IsNullOrWhiteSpace(AutoCreatedReservationsDuration) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AutoCreatedReservationsDeleteTime or AutoCreatedReservationsDuration may be specified.", [nameof(AutoCreatedReservationsDeleteTime), nameof(AutoCreatedReservationsDuration)]);
+        }
+        if ((ClearNamePrefix == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(NamePrefix) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearNamePrefix or NamePrefix may be specified.", [nameof(ClearNamePrefix), nameof(NamePrefix)]);
+        }
+        if ((ClearShareSettings == true ? 1 : 0) + (((object?)ShareSetting is not null || ((object?)ShareWith is global::System.Collections.Generic.IEnumerable<char> ? (object?)ShareWith is not string || !string.IsNullOrWhiteSpace(ShareWith?.ToString()) : ((object?)ShareWith is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ShareWith, static item => item is not null) : (ShareWith is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ShareWith), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearShareSettings or (ShareSetting or ShareWith) may be specified.", [nameof(ClearShareSettings), nameof(ShareSetting), nameof(ShareWith)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Accelerator) ? 1 : 0) + (ClearAccelerator == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Accelerator or ClearAccelerator may be specified.", [nameof(Accelerator), nameof(ClearAccelerator)]);
+        }
+        if ((ClearLocalSsd == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(LocalSsd) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLocalSsd or LocalSsd may be specified.", [nameof(ClearLocalSsd), nameof(LocalSsd)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Duration) ? 1 : 0) + (!string.IsNullOrWhiteSpace(EndTime) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Duration or EndTime may be specified.", [nameof(Duration), nameof(EndTime)]);
+        }
+        yield break;
+    }
 
 }

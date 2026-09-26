@@ -19,8 +19,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "images", "add-tag")]
-public record GcloudContainerImagesAddTagOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SrcImage
-) : GcloudOptions
+public record GcloudContainerImagesAddTagOptions : GcloudOptions
 {
+    /// <summary>
+    /// adds tags to existing image
+    /// </summary>
+    /// <param name="SrcImage">The fully qualified name(s) of image(s) to add tags for. The name(s) should be formatted as *.gcr.io/PROJECT_ID/IMAGE_PATH@sha256:DIGEST or *.gcr.io/PROJECT_ID/IMAGE_PATH:TAG.</param>
+    /// <param name="DestImage">The fully qualified name(s) of image(s) to be the new tags. The name(s) should be formatted as *.gcr.io/PROJECT_ID/IMAGE_PATH:TAG.</param>
+    public GcloudContainerImagesAddTagOptions(
+        string SrcImage,
+        IEnumerable<string> DestImage
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SrcImage);
+        this.SrcImage = SrcImage;
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DestImage);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DestImage));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DestImage));
+            }
+
+            DestImage = materialized;
+        }
+        this.DestImage = DestImage;
+    }
+
+    public void Deconstruct(out string SrcImage, out IEnumerable<string> DestImage)
+    {
+        SrcImage = this.SrcImage;
+        DestImage = this.DestImage;
+    }
+
+    /// <summary>
+    /// The fully qualified name(s) of image(s) to add tags for. The name(s) should be formatted as *.gcr.io/PROJECT_ID/IMAGE_PATH@sha256:DIGEST or *.gcr.io/PROJECT_ID/IMAGE_PATH:TAG.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string SrcImage { get; private init; }
+
+    /// <summary>
+    /// The fully qualified name(s) of image(s) to be the new tags. The name(s) should be formatted as *.gcr.io/PROJECT_ID/IMAGE_PATH:TAG.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> DestImage { get; private init; }
+
 }

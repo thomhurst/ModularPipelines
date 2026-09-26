@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,6 +22,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("database-migration", "conversion-workspaces", "describe-entities")]
 public record GcloudDatabaseMigrationConversionWorkspacesDescribeEntitiesOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe database entities in a Database Migration conversion workspace
+    /// </summary>
+    /// <param name="TreeType">Tree type for database entities. TREE_TYPE must be one of: SOURCE, DRAFT.</param>
+    /// <param name="ConversionWorkspace">Conversion workspace resource - The conversion workspace describe entities. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument conversion_workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the conversion_workspace or fully qualified identifier for the conversion_workspace. To set the conversion_workspace attribute: ▸ provide the argument conversion_workspace on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatabaseMigrationConversionWorkspacesDescribeEntitiesOptions(
+        GcloudDatabaseMigrationConversionWorkspacesDescribeEntitiesTreeType TreeType,
+        string ConversionWorkspace
+    )
+    {
+        this.TreeType = TreeType;
+        global::System.ArgumentNullException.ThrowIfNull(ConversionWorkspace);
+        this.ConversionWorkspace = ConversionWorkspace;
+    }
+
+    public void Deconstruct(out GcloudDatabaseMigrationConversionWorkspacesDescribeEntitiesTreeType TreeType, out string ConversionWorkspace)
+    {
+        TreeType = this.TreeType;
+        ConversionWorkspace = this.ConversionWorkspace;
+    }
+
+    /// <summary>
+    /// Tree type for database entities. TREE_TYPE must be one of: SOURCE, DRAFT.
+    /// </summary>
+    [CliOption("--tree-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDatabaseMigrationConversionWorkspacesDescribeEntitiesTreeType TreeType { get; private init; }
+
+    /// <summary>
+    /// Conversion workspace resource - The conversion workspace describe entities. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument conversion_workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the conversion_workspace. To set the region attribute: ▸ provide the argument conversion_workspace on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// Request a specific commit id. If not specified, the entities from the latest commit are returned.
     /// </summary>
@@ -38,5 +72,11 @@ public record GcloudDatabaseMigrationConversionWorkspacesDescribeEntitiesOptions
     /// </summary>
     [CliFlag("--uncommitted")]
     public bool? Uncommitted { get; set; }
+
+    /// <summary>
+    /// Conversion workspace resource - The conversion workspace describe entities. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument conversion_workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the conversion_workspace or fully qualified identifier for the conversion_workspace. To set the conversion_workspace attribute: ▸ provide the argument conversion_workspace on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConversionWorkspace { get; private init; }
 
 }

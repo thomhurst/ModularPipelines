@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkManagementConnectivityTestsRerunOptions : GcloudOptions
 {
     /// <summary>
+    /// rerun a connectivity     test
+    /// </summary>
+    /// <param name="ConnectivityTest">Connectivity test resource - Name of the connectivity test you want to rerun. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connectivity_test on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connectivity test or fully qualified identifier for the connectivity test. To set the connectivity_test attribute: ▸ provide the argument connectivity_test on the command line.</param>
+    public GcloudNetworkManagementConnectivityTestsRerunOptions(
+        string ConnectivityTest
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConnectivityTest);
+        this.ConnectivityTest = ConnectivityTest;
+    }
+
+    public void Deconstruct(out string ConnectivityTest)
+    {
+        ConnectivityTest = this.ConnectivityTest;
+    }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Connectivity test resource - Name of the connectivity test you want to rerun. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connectivity_test on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connectivity test or fully qualified identifier for the connectivity test. To set the connectivity_test attribute: ▸ provide the argument connectivity_test on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConnectivityTest { get; private init; }
 
 }

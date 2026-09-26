@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivityServiceConnectionPoliciesDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a     service connection policy
+    /// </summary>
+    /// <param name="ServiceConnectionPolicy">Service connection policy resource - Name of the Service Connection Policy to be deleted. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service_connection_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service connection policy or fully qualified identifier for the service connection policy. To set the service_connection_policy attribute: ▸ provide the argument service_connection_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkConnectivityServiceConnectionPoliciesDeleteOptions(
+        string ServiceConnectionPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceConnectionPolicy);
+        this.ServiceConnectionPolicy = ServiceConnectionPolicy;
+    }
+
+    public void Deconstruct(out string ServiceConnectionPolicy)
+    {
+        ServiceConnectionPolicy = this.ServiceConnectionPolicy;
+    }
+
+    /// <summary>
+    /// Service connection policy resource - Name of the Service Connection Policy to be deleted. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service_connection_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the region attribute: ▸ provide the argument service_connection_policy on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Service connection policy resource - Name of the Service Connection Policy to be deleted. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service_connection_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service connection policy or fully qualified identifier for the service connection policy. To set the service_connection_policy attribute: ▸ provide the argument service_connection_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ServiceConnectionPolicy { get; private init; }
 
 }

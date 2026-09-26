@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "operations", "list")]
-public record GcloudStorageOperationsListOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ParentResourceName
-) : GcloudOptions
+public record GcloudStorageOperationsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list storage operations
+    /// </summary>
+    /// <param name="ParentResourceName">The operation parent resource in the format "projects/_/buckets/BUCKET".</param>
+    public GcloudStorageOperationsListOptions(
+        string ParentResourceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ParentResourceName);
+        this.ParentResourceName = ParentResourceName;
+    }
+
+    public void Deconstruct(out string ParentResourceName)
+    {
+        ParentResourceName = this.ParentResourceName;
+    }
+
     /// <summary>
     /// Server-side filter string used to determine what operations to return. Example: '(done = true AND complete_time &gt;= "2023-01-01T00:00:00Z") OR requested_cancellation = true' Note that the entire filter string must be in quotes and date strings within the filter must be in embedded quotes.
     /// </summary>
     [CliOption("--server-filter", Format = OptionFormat.EqualsSeparated)]
     public string? ServerFilter { get; set; }
+
+    /// <summary>
+    /// The operation parent resource in the format "projects/_/buckets/BUCKET".
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ParentResourceName { get; private init; }
 
 }

@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("data-catalog", "tag-templates", "fields", "rename")]
 public record GcloudDataCatalogTagTemplatesFieldsRenameOptions : GcloudOptions
 {
+    /// <summary>
+    /// rename a Data Catalog tag     template field
+    /// </summary>
+    /// <param name="NewId">New ID of the tag template field.</param>
+    /// <param name="Field">Tag template field resource - Tag template field to rename. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tag template field or fully qualified identifier for the tag template field. To set the field attribute: ▸ provide the argument field on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataCatalogTagTemplatesFieldsRenameOptions(
+        string NewId,
+        string Field
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NewId);
+        this.NewId = NewId;
+        global::System.ArgumentNullException.ThrowIfNull(Field);
+        this.Field = Field;
+    }
+
+    public void Deconstruct(out string NewId, out string Field)
+    {
+        NewId = this.NewId;
+        Field = this.Field;
+    }
+
+    /// <summary>
+    /// New ID of the tag template field.
+    /// </summary>
+    [CliOption("--new-id", Format = OptionFormat.EqualsSeparated)]
+    public string NewId { get; private init; }
+
+    /// <summary>
+    /// Tag template field resource - Tag template field to rename. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the tag template field. To set the location attribute: ▸ provide the argument field on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Tag template field resource - Tag template field to rename. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Tag template of the tag template field. To set the tag-template attribute: ▸ provide the argument field on the command line with a fully specified name; ▸ provide the argument --tag-template on the command line.
+    /// </summary>
+    [CliOption("--tag-template", Format = OptionFormat.EqualsSeparated)]
+    public string? TagTemplate { get; set; }
+
+    /// <summary>
+    /// Tag template field resource - Tag template field to rename. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tag template field or fully qualified identifier for the tag template field. To set the field attribute: ▸ provide the argument field on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Field { get; private init; }
+
 }

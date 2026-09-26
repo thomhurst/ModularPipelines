@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "shared-vpc", "associated-projects", "list")]
-public record GcloudComputeSharedVpcAssociatedProjectsListOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ProjectId
-) : GcloudOptions
+public record GcloudComputeSharedVpcAssociatedProjectsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list the associated     service projects of the given host project
+    /// </summary>
+    /// <param name="ProjectId">ID for the project to get associated projects for</param>
+    public GcloudComputeSharedVpcAssociatedProjectsListOptions(
+        string ProjectId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ProjectId);
+        this.ProjectId = ProjectId;
+    }
+
+    public void Deconstruct(out string ProjectId)
+    {
+        ProjectId = this.ProjectId;
+    }
+
+    /// <summary>
+    /// ID for the project to get associated projects for
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ProjectId { get; private init; }
+
 }

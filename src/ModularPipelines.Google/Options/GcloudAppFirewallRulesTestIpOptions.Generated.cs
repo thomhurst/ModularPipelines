@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "firewall-rules", "test-ip")]
-public record GcloudAppFirewallRulesTestIpOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Ip
-) : GcloudOptions
+public record GcloudAppFirewallRulesTestIpOptions : GcloudOptions
 {
+    /// <summary>
+    /// display firewall rules that match a     given IP
+    /// </summary>
+    /// <param name="Ip">An IPv4 or IPv6 address to test against the firewall.</param>
+    public GcloudAppFirewallRulesTestIpOptions(
+        string Ip
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Ip);
+        this.Ip = Ip;
+    }
+
+    public void Deconstruct(out string Ip)
+    {
+        Ip = this.Ip;
+    }
+
+    /// <summary>
+    /// An IPv4 or IPv6 address to test against the firewall.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Ip { get; private init; }
+
 }

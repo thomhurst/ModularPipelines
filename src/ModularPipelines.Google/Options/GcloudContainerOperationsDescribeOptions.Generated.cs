@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,10 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "operations", "describe")]
-public record GcloudContainerOperationsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OperationId
-) : GcloudOptions
+public record GcloudContainerOperationsDescribeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// describe an operation
+    /// </summary>
+    /// <param name="OperationId">The operation id to look up.</param>
+    public GcloudContainerOperationsDescribeOptions(
+        string OperationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OperationId);
+        this.OperationId = OperationId;
+    }
+
+    public void Deconstruct(out string OperationId)
+    {
+        OperationId = this.OperationId;
+    }
+
     /// <summary>
     /// At most one of these can be specified: Compute zone or region (e.g. us-central1-a or us-central1) for the cluster. Overrides the default compute/region or compute/zone value for this command invocation. Prefer using this flag over the --region or --zone flags.
     /// </summary>
@@ -40,5 +56,21 @@ public record GcloudContainerOperationsDescribeOptions(
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// The operation id to look up.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OperationId { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Location) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Location, Region, or Zone may be specified.", [nameof(Location), nameof(Region), nameof(Zone)]);
+        }
+        yield break;
+    }
 
 }

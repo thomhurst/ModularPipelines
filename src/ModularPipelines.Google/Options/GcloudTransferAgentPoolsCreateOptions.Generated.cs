@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "agent-pools", "create")]
-public record GcloudTransferAgentPoolsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudTransferAgentPoolsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Transfer Service agent pool
+    /// </summary>
+    /// <param name="Name">A unique, permanent identifier for this pool.</param>
+    public GcloudTransferAgentPoolsCreateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Block other tasks in your terminal until the pool has been created. If not included, pool creation will run asynchronously.
     /// </summary>
@@ -40,5 +55,11 @@ public record GcloudTransferAgentPoolsCreateOptions(
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// A unique, permanent identifier for this pool.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

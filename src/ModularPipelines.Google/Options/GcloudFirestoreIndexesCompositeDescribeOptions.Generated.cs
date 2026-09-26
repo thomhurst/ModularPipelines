@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("firestore", "indexes", "composite", "describe")]
 public record GcloudFirestoreIndexesCompositeDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe the given composite     index
+    /// </summary>
+    /// <param name="Index">Composite index resource - Index to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the collection-group attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument [--collection-group] on the command line. This must be specified. ID of the composite index or fully qualified identifier for the composite index. To set the index attribute: ▸ provide the argument index on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudFirestoreIndexesCompositeDescribeOptions(
+        string Index
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Index);
+        this.Index = Index;
+    }
+
+    public void Deconstruct(out string Index)
+    {
+        Index = this.Index;
+    }
+
+    /// <summary>
+    /// Composite index resource - Index to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the collection-group attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument [--collection-group] on the command line. This must be specified. Database of the composite index. To set the database attribute: ▸ provide the argument index on the command line with a fully specified name; ▸ provide the argument --database on the command line; ▸ the default value of argument [--database] is (default).
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string? Database { get; set; }
+
+    /// <summary>
+    /// Composite index resource - Index to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the collection-group attribute: ◆ provide the argument index on the command line with a fully specified name; ◆ provide the argument [--collection-group] on the command line. This must be specified. ID of the composite index or fully qualified identifier for the composite index. To set the index attribute: ▸ provide the argument index on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Index { get; private init; }
+
 }

@@ -23,6 +23,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudEdgeCacheKeysetsCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// create an EdgeCacheKeyset resource
+    /// </summary>
+    /// <param name="KeySet">Keyset resource - The name of the EdgeCacheKeyset resource to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument keyset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the keyset or fully qualified identifier for the keyset. To set the keyset attribute: ▸ provide the argument keyset on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEdgeCacheKeysetsCreateOptions(
+        string KeySet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(KeySet);
+        this.KeySet = KeySet;
+    }
+
+    public void Deconstruct(out string KeySet)
+    {
+        KeySet = this.KeySet;
+    }
+
+    /// <summary>
+    /// Keyset resource - The name of the EdgeCacheKeyset resource to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument keyset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument keyset on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ use global location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -35,9 +58,9 @@ public record GcloudEdgeCacheKeysetsCreateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// List of KEY=VALUE labels to attach to this resource.
+    /// List of KEY=VALUE labels to attach to this resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -51,5 +74,11 @@ public record GcloudEdgeCacheKeysetsCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--validation-shared-key", Format = OptionFormat.EqualsSeparated)]
     public string? ValidationSharedKey { get; set; }
+
+    /// <summary>
+    /// Keyset resource - The name of the EdgeCacheKeyset resource to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument keyset on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the keyset or fully qualified identifier for the keyset. To set the keyset attribute: ▸ provide the argument keyset on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string KeySet { get; private init; }
 
 }

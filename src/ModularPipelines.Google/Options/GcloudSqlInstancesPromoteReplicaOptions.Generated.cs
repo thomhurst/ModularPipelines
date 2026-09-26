@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "promote-replica")]
-public record GcloudSqlInstancesPromoteReplicaOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Replica
-) : GcloudOptions
+public record GcloudSqlInstancesPromoteReplicaOptions : GcloudOptions
 {
+    /// <summary>
+    /// promotes Cloud SQL read replica to a     stand-alone instance
+    /// </summary>
+    /// <param name="Replica">Cloud SQL read replica ID.</param>
+    public GcloudSqlInstancesPromoteReplicaOptions(
+        string Replica
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Replica);
+        this.Replica = Replica;
+    }
+
+    public void Deconstruct(out string Replica)
+    {
+        Replica = this.Replica;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -40,5 +55,11 @@ public record GcloudSqlInstancesPromoteReplicaOptions(
     /// </summary>
     [CliFlag("--no-failover")]
     public bool? NoFailover { get; set; }
+
+    /// <summary>
+    /// Cloud SQL read replica ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Replica { get; private init; }
 
 }

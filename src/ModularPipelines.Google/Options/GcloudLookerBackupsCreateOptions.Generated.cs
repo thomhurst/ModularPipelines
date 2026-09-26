@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("looker", "backups", "create")]
 public record GcloudLookerBackupsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a backup of a Looker instance
+    /// </summary>
+    /// <param name="Instance">ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ◆ provide the argument --instance on the command line.</param>
+    /// <param name="Region">The name of the Looker region of the instance. Overrides the default looker/region property value for this command invocation.</param>
+    public GcloudLookerBackupsCreateOptions(
+        string Instance,
+        string Region
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+    }
+
+    public void Deconstruct(out string Instance, out string Region)
+    {
+        Instance = this.Instance;
+        Region = this.Region;
+    }
+
+    /// <summary>
+    /// ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ◆ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string Instance { get; private init; }
+
+    /// <summary>
+    /// The name of the Looker region of the instance. Overrides the default looker/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
 }

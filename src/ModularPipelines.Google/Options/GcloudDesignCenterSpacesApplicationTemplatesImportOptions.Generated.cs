@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "application-templates", "import")]
-public record GcloudDesignCenterSpacesApplicationTemplatesImportOptions : GcloudOptions
+public record GcloudDesignCenterSpacesApplicationTemplatesImportOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// For resources [application-template-revision-uri, application_template], provides fallback value for resource application-template attribute. When the resource's full URI path is not provided, application-template will fallback to this flag value.
@@ -56,5 +57,15 @@ public record GcloudDesignCenterSpacesApplicationTemplatesImportOptions : Gcloud
     /// </summary>
     [CliOption("--shared-template", Format = OptionFormat.EqualsSeparated)]
     public string? SharedTemplate { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(SharedTemplateRevisionUri) || !string.IsNullOrWhiteSpace(SharedTemplate)) && (!(!string.IsNullOrWhiteSpace(SharedTemplateRevisionUri))))
+        {
+            yield return new ValidationResult("SharedTemplateRevisionUri must be specified when other arguments in this group are specified.", [nameof(SharedTemplateRevisionUri)]);
+        }
+        yield break;
+    }
 
 }

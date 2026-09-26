@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataCatalogTagTemplatesUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// update a Data Catalog tag     template
+    /// </summary>
+    /// <param name="TagTemplate">Tag template resource - Tag template to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tag_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tag template or fully qualified identifier for the tag template. To set the tag_template attribute: ▸ provide the argument tag_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataCatalogTagTemplatesUpdateOptions(
+        string TagTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TagTemplate);
+        this.TagTemplate = TagTemplate;
+    }
+
+    public void Deconstruct(out string TagTemplate)
+    {
+        TagTemplate = this.TagTemplate;
+    }
+
+    /// <summary>
+    /// Tag template resource - Tag template to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tag_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the tag template. To set the location attribute: ▸ provide the argument tag_template on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// New human-readable name for the tag template.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Tag template resource - Tag template to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument tag_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tag template or fully qualified identifier for the tag template. To set the tag_template attribute: ▸ provide the argument tag_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string TagTemplate { get; private init; }
 
 }

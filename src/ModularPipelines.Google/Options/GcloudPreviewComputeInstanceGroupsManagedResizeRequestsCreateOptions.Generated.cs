@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,106 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instance-groups", "managed", "resize-requests", "create")]
-public record GcloudPreviewComputeInstanceGroupsManagedResizeRequestsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInstanceGroupsManagedResizeRequestsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Compute Engine managed instance group resize request
+    /// </summary>
+    /// <param name="ResizeRequest">The name of the resize request to create.</param>
+    /// <param name="Name">Name of the managed instance group to operate on.</param>
+    public GcloudPreviewComputeInstanceGroupsManagedResizeRequestsCreateOptions(
+        string ResizeRequest,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResizeRequest);
+        this.ResizeRequest = ResizeRequest;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string ResizeRequest, out string Name)
+    {
+        ResizeRequest = this.ResizeRequest;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// The name of the resize request to create.
+    /// </summary>
+    [CliOption("--resize-request", Format = OptionFormat.EqualsSeparated)]
+    public string ResizeRequest { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: A comma-separated list of instance names. The number of names you provide determines the number of instances to create with this resize request. The group's target size increases by this count. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--instances", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Instances
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __InstancesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __InstancesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The number of instances to create with this resize request. Instances have automatically-generated names. The group's target size increases by this number.
+    /// </summary>
+    [CliOption("--resize-by", Format = OptionFormat.EqualsSeparated)]
+    public string? ResizeBy { get; set; }
+
+    /// <summary>
+    /// The time you need the requested VMs to run before being automatically deleted. The value must be formatted as the number of days, hours, minutes, or seconds followed by d, h, m, and s respectively. For example, specify 30m for a duration of 30 minutes or 1d2h3m4s for 1 day, 2 hours, 3 minutes, and 4 seconds. The value must be between 10m (10 minutes) and 7d (7 days). If you want the managed instance group to consume a reservation or use FLEX_START provisioning model, then this flag is optional. Otherwise, it's required.
+    /// </summary>
+    [CliOption("--requested-run-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestedRunDuration { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the managed instance group to operate on. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone of the managed instance group to operate on. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the managed instance group to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)Instances is global::System.Collections.Generic.IEnumerable<char> ? (object?)Instances is not string || !string.IsNullOrWhiteSpace(Instances?.ToString()) : ((object?)Instances is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Instances, static item => item is not null) : (Instances is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Instances), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ResizeBy) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Instances or ResizeBy must be specified.", [nameof(Instances), nameof(ResizeBy)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Region or Zone may be specified.", [nameof(Region), nameof(Zone)]);
+        }
+        yield break;
+    }
+
 }

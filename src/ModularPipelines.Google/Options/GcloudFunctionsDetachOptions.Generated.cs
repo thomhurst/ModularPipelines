@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("functions", "detach")]
 public record GcloudFunctionsDetachOptions : GcloudOptions
 {
+    /// <summary>
+    /// detach a Cloud Functions v2 function from its     existing environment and make it a native Cloud Run function
+    /// </summary>
+    /// <param name="Name">Function resource - The name of the Cloud Functions v2 function to detach. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the function or fully qualified identifier for the function. To set the function attribute: ▸ provide the argument NAME on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudFunctionsDetachOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Function resource - The name of the Cloud Functions v2 function to detach. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the function. Overrides the default functions/region property value for this command invocation. To set the region attribute: ▸ provide the argument NAME on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property functions/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Function resource - The name of the Cloud Functions v2 function to detach. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument NAME on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the function or fully qualified identifier for the function. To set the function attribute: ▸ provide the argument NAME on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }
