@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines;
 using ModularPipelines.Build;
@@ -12,6 +13,13 @@ using ModularPipelines.Build.Settings;
 using ModularPipelines.Extensions;
 using Octokit;
 using Octokit.Internal;
+
+if (args is ["--redis-info"])
+{
+    using var loggerFactory = LoggerFactory.Create(logging => logging.AddSimpleConsole());
+    await DistributedBuildConfiguration.PrintRedisDiagnosticsAsync(Environment.GetEnvironmentVariable, loggerFactory.CreateLogger("RedisDiagnostics")).ConfigureAwait(false);
+    return;
+}
 
 var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
 {

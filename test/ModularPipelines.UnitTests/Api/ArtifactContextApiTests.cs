@@ -462,6 +462,33 @@ public class ArtifactContextApiTests
     }
 
     [Test]
+    [Arguments("./")]
+    [Arguments("nested/../")]
+    public async Task Directory_Archive_Extraction_Accepts_Root_Directory_Entries(string rootEntry)
+    {
+        await using var archiveStream = new MemoryStream();
+        using (var archive = new ZipArchive(archiveStream, ZipArchiveMode.Create, leaveOpen: true))
+        {
+            archive.CreateEntry(rootEntry);
+            archive.CreateEntry("nested/file.txt");
+        }
+
+        archiveStream.Position = 0;
+        using var archiveToExtract = new ZipArchive(archiveStream, ZipArchiveMode.Read);
+        var destinationDirectory = Directory.CreateTempSubdirectory("artifact-extraction-");
+        try
+        {
+            await ArtifactContextImpl.ExtractDirectoryArchiveAsync(
+                archiveToExtract, destinationDirectory.FullName, CancellationToken.None);
+            await Assert.That(File.Exists(Path.Combine(destinationDirectory.FullName, "nested", "file.txt"))).IsTrue();
+        }
+        finally
+        {
+            destinationDirectory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
     public async Task Directory_Archive_Extraction_Rejects_Traversal()
     {
         await using var archiveStream = new MemoryStream();

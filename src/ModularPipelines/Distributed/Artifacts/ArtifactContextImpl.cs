@@ -184,8 +184,13 @@ internal class ArtifactContextImpl(
         {
             cancellationToken.ThrowIfCancellationRequested();
             var entryPath = Path.GetFullPath(Path.Combine(destinationDirectory, entry.FullName));
-            if (!entryPath.StartsWith(destinationPrefix, pathComparison)
-                && !string.Equals(entryPath, destinationDirectory, pathComparison))
+            // A root directory entry needs no work; every other entry must be below it.
+            if (string.IsNullOrEmpty(entry.Name) && string.Equals(entryPath, destinationDirectory, pathComparison))
+            {
+                continue;
+            }
+
+            if (!entryPath.StartsWith(destinationPrefix, pathComparison))
             {
                 throw new IOException($"Extracting '{entry.FullName}' would leave the destination directory.");
             }
@@ -223,7 +228,12 @@ internal class ArtifactContextImpl(
 
             // A new sibling file receives the archive mode through the OS umask even
             // when replacing an existing destination. Cancellation leaves that file intact.
-            var temporaryPath = Path.Combine(entryDirectory!, $".modularpipelines-extract-{Guid.NewGuid():N}.tmp");
+            var temporaryPath = Path.GetFullPath(Path.Combine(entryDirectory!, $".modularpipelines-extract-{Guid.NewGuid():N}.tmp"));
+            if (!temporaryPath.StartsWith(destinationPrefix, pathComparison))
+            {
+                throw new IOException("The archive temporary file would leave the destination directory.");
+            }
+
             var destinationStream = new FileStream(temporaryPath, fileOptions);
             try
             {

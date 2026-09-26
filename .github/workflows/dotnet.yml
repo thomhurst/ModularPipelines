@@ -424,6 +424,13 @@ jobs:
       - name: Publish portable host
         shell: bash
         run: dotnet publish src/ModularPipelines.Build/ModularPipelines.Build.csproj -c Release --framework net10.0 --no-self-contained -p:UseAppHost=false -o "$RUNNER_TEMP/pipeline-host"
+      - name: Record Redis capacity
+        if: needs.fast-fail.outputs.distributed == 'true'
+        shell: bash
+        env:
+          REDIS_ENDPOINT: ${{ secrets.REDIS_ENDPOINT }}
+          REDIS_KEY: ${{ secrets.REDIS_KEY }}
+        run: dotnet "$RUNNER_TEMP/pipeline-host/ModularPipelines.Build.dll" --redis-info
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: pipeline-host-${{ github.run_attempt }}

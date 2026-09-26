@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Redis;
 using ModularPipelines.Extensions;
@@ -9,6 +10,40 @@ namespace ModularPipelines.Build.Helpers;
 internal static class DistributedBuildConfiguration
 {
     public const string MasterCapability = "ci-master";
+
+    public static async Task PrintRedisDiagnosticsAsync(Func<string, string?> getEnvironmentVariable, ILogger logger)
+    {
+        var connectionOptions = ConfigurationOptions.Parse(getEnvironmentVariable("REDIS_ENDPOINT")
+            ?? throw new InvalidOperationException("REDIS_ENDPOINT is required for Redis diagnostics."));
+        connectionOptions.Password = getEnvironmentVariable("REDIS_KEY");
+        connectionOptions.Ssl = true;
+        connectionOptions.AbortOnConnectFail = true;
+        connectionOptions.ConnectRetry = 0;
+        connectionOptions.ConnectTimeout = 5000;
+        connectionOptions.AsyncTimeout = 5000;
+        try
+        {
+            using var connection = await ConnectionMultiplexer.ConnectAsync(connectionOptions).ConfigureAwait(false);
+            var server = connection.GetServer(connection.GetEndPoints()[0]);
+            foreach (var section in new[] { "memory", "stats" })
+            {
+                var information = await server.InfoAsync(section).ConfigureAwait(false);
+                foreach (var entry in information.SelectMany(static group => group))
+                {
+                    // Never print endpoint, credentials, or arbitrary server fields.
+                    if (entry.Key is "used_memory" or "maxmemory" or "evicted_keys"
+                        && long.TryParse(entry.Value, out var value))
+                    {
+                        logger.LogInformation("Redis {Counter}: {Value}", entry.Key, value);
+                    }
+                }
+            }
+        }
+        catch (Exception exception) when (exception is RedisException or TimeoutException)
+        {
+            logger.LogWarning("Redis capacity diagnostics unavailable; the service may restrict INFO.");
+        }
+    }
 
     public static bool Configure(PipelineBuilder builder, Func<string, string?> getEnvironmentVariable)
     {
