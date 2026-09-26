@@ -13,21 +13,24 @@ public sealed class InterfaceMemberBuilds : IDisposable
 
     public Type Second { get; }
 
-    public InterfaceMemberBuilds(Type moduleBaseType, bool inherited, bool typeConstraint = false, bool moduleConstraint = false)
+    public InterfaceMemberBuilds(Type moduleBaseType, bool inherited, bool typeConstraint = false, bool moduleConstraint = false, string? constraintDependency = null)
     {
         var dependencyName = $"InterfaceMember_{Guid.NewGuid():N}";
-        var dependency = Load(_firstContext, BuildDependency(dependencyName, "original", typeConstraint || moduleConstraint)).GetType("MemberValue")!;
-        Load(_secondContext, BuildDependency(dependencyName, "changed", typeConstraint || moduleConstraint));
+        var interfaceDependency = (typeConstraint || moduleConstraint) && constraintDependency != "Member";
+        var dependency = Load(_firstContext, BuildDependency(dependencyName, "original", interfaceDependency)).GetType("MemberValue")!;
+        Load(_secondContext, BuildDependency(dependencyName, "changed", interfaceDependency));
         var assembly = new PersistedAssemblyBuilder(new AssemblyName($"InterfaceModule_{Guid.NewGuid():N}"), typeof(object).Assembly);
         var module = assembly.DefineDynamicModule("InterfaceModule");
-        var valueType = typeConstraint || moduleConstraint ? DefineConstrainedValue(module, dependency) : dependency;
+        var constraint = constraintDependency is null ? dependency : DefineIndirectConstraint(module, dependency, constraintDependency);
+        var labelContract = constraintDependency == "Inherited" ? dependency : constraint;
+        var valueType = typeConstraint || moduleConstraint ? DefineConstrainedValue(module, constraint, labelContract) : dependency;
         if (moduleConstraint)
         {
-            DefineConstrainedModule(module, moduleBaseType, dependency, valueType, inherited);
+            DefineConstrainedModule(module, moduleBaseType, constraint, valueType, inherited);
         }
         else
         {
-            DefineInterfaceModule(module, moduleBaseType, dependency, valueType, inherited, typeConstraint);
+            DefineInterfaceModule(module, moduleBaseType, constraint, valueType, inherited, typeConstraint);
         }
 
         var image = Save(assembly);
@@ -102,7 +105,32 @@ public sealed class InterfaceMemberBuilds : IDisposable
         return getter;
     }
 
-    private static Type DefineConstrainedValue(ModuleBuilder module, Type dependency)
+    private static Type DefineIndirectConstraint(ModuleBuilder module, Type dependency, string kind)
+    {
+        var type = module.DefineType("IConstraint", TypeAttributes.Public | TypeAttributes.Interface | TypeAttributes.Abstract);
+        if (kind == "Inherited")
+        {
+            type.AddInterfaceImplementation(dependency);
+            return type.CreateType()!;
+        }
+
+        const MethodAttributes attributes = MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.NewSlot | MethodAttributes.SpecialName;
+        var valueGetter = type.DefineMethod("get_Value", attributes, dependency, Type.EmptyTypes);
+        var valueIl = valueGetter.GetILGenerator();
+        valueIl.Emit(OpCodes.Newobj, dependency.GetConstructor(Type.EmptyTypes)!);
+        valueIl.Emit(OpCodes.Ret);
+        type.DefineProperty("Value", PropertyAttributes.None, dependency, null).SetGetMethod(valueGetter);
+        var labelGetter = type.DefineMethod("get_Label", attributes, typeof(string), Type.EmptyTypes);
+        var labelIl = labelGetter.GetILGenerator();
+        labelIl.Emit(OpCodes.Ldarg_0);
+        labelIl.Emit(OpCodes.Callvirt, valueGetter);
+        labelIl.Emit(OpCodes.Callvirt, dependency.GetMethod("get_Label")!);
+        labelIl.Emit(OpCodes.Ret);
+        type.DefineProperty("Label", PropertyAttributes.None, typeof(string), null).SetGetMethod(labelGetter);
+        return type.CreateType()!;
+    }
+
+    private static Type DefineConstrainedValue(ModuleBuilder module, Type dependency, Type labelContract)
     {
         // The payload binary stays identical and exposes no external member types.
         // Its label calls the independently rebuilt default interface implementation.
@@ -111,7 +139,7 @@ public sealed class InterfaceMemberBuilds : IDisposable
         var getter = type.DefineMethod("get_Label", MethodAttributes.Public | MethodAttributes.SpecialName, typeof(string), Type.EmptyTypes);
         var il = getter.GetILGenerator();
         il.Emit(OpCodes.Ldarg_0);
-        il.Emit(OpCodes.Callvirt, dependency.GetMethod("get_Label")!);
+        il.Emit(OpCodes.Callvirt, labelContract.GetMethod("get_Label")!);
         il.Emit(OpCodes.Ret);
         type.DefineProperty("Label", PropertyAttributes.None, typeof(string), null).SetGetMethod(getter);
         return type.CreateType()!;

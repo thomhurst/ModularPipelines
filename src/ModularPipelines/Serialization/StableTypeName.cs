@@ -40,13 +40,19 @@ internal static class StableTypeName
             : ComputeInterfaceBuildFingerprint(type, versionedAssembly);
 
     private static string ComputeInterfaceBuildFingerprint(Type type, Assembly? versionedAssembly) =>
-        Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(GetInterfaceBuildIdentity(type, versionedAssembly))));
+        Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(GetInterfaceBuildIdentity(type, versionedAssembly, []))));
 
     public static IEnumerable<string> GetGenericConstraintBuildFingerprints(Type type, Assembly? versionedAssembly = null)
     {
         foreach (var constraint in GetGenericParameterConstraints(type).Distinct().OrderBy(Get, StringComparer.Ordinal))
         {
             // Constraints govern execution, not serialization. Do not construct JSON converters.
+            if (constraint.IsInterface)
+            {
+                yield return GetInterfaceBuildFingerprint(constraint, versionedAssembly);
+                continue;
+            }
+
             var identity = GetBuildIdentity(constraint, [], [], expandMembers: false, versionedAssembly);
             yield return Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(identity)));
         }
@@ -57,20 +63,35 @@ internal static class StableTypeName
             ? type.GetGenericTypeDefinition().GetGenericArguments().SelectMany(argument => argument.GetGenericParameterConstraints())
             : [];
 
-    private static string GetInterfaceBuildIdentity(Type type, Assembly? versionedAssembly)
+    private static string GetInterfaceBuildIdentity(Type type, Assembly? versionedAssembly, HashSet<Type> expandedDefinitions)
     {
         var identity = GetBuildIdentity(type, [], [], expandMembers: false, versionedAssembly);
-        foreach (var memberType in GetInterfaceMemberTypes(type).Distinct().OrderBy(Get, StringComparer.Ordinal))
+        // Interface members can be cyclic or recursively expand their generic arguments.
+        // Keep each construction's build above, but expand each definition only once.
+        if (!expandedDefinitions.Add(type.IsGenericType ? type.GetGenericTypeDefinition() : type))
         {
-            identity += $"\0InterfaceMember={GetBuildIdentity(memberType, [], [], expandMembers: false, versionedAssembly)}";
+            return identity;
+        }
+
+        foreach (var memberType in GetInterfaceContractTypes(type).Distinct().OrderBy(Get, StringComparer.Ordinal))
+        {
+            var memberIdentity = memberType.IsInterface
+                ? GetInterfaceBuildIdentity(memberType, versionedAssembly, expandedDefinitions)
+                : GetBuildIdentity(memberType, [], [], expandMembers: false, versionedAssembly);
+            identity += $"\0InterfaceMember={memberIdentity}";
         }
 
         return identity;
     }
 
     [UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "Module interface build fingerprints require runtime type metadata.")]
-    private static IEnumerable<Type> GetInterfaceMemberTypes(Type type)
+    private static IEnumerable<Type> GetInterfaceContractTypes(Type type)
     {
+        foreach (var inherited in type.GetInterfaces())
+        {
+            yield return inherited;
+        }
+
         // Closed arguments do not retain the definition's constraint metadata.
         // Constraint assemblies can supply default interface behavior independently.
         foreach (var constraint in GetGenericParameterConstraints(type))
