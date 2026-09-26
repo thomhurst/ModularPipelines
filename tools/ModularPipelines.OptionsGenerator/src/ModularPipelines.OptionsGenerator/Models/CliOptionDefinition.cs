@@ -18,7 +18,7 @@ public record CliOptionDefinition
     internal bool IsResourceReference { get; init; }
 
     /// <summary>Whether an explicitly empty scalar string is a documented value, such as a reset to defaults.</summary>
-    public bool AllowsEmptyValue { get; init; }
+    internal bool AllowsEmptyValue { get; init; }
 
     private const string CollectionProbeTypeName = "CollectionShapeProbe.Probe";
     private static readonly ConcurrentDictionary<string, CollectionShapeResolution> CollectionShapes = new(StringComparer.Ordinal);
