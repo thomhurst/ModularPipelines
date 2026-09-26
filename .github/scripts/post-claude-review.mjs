@@ -40,6 +40,12 @@ function parseReviewJson(rawReview) {
     if (typeof rawReview === 'string' && rawReview.trimStart().startsWith('{')) {
       throw new Error('Claude returned malformed JSON object text.');
     }
+    if (typeof rawReview === 'string' && /^\s*#{1,6}\s/.test(rawReview)) {
+      throw new Error('Claude returned a Markdown review instead of JSON.');
+    }
+    if (typeof rawReview === 'string' && rawReview.trimStart().startsWith('<')) {
+      throw new Error('Claude returned markup instead of a JSON review.');
+    }
     throw new Error('Claude did not return a valid structured review.');
   }
 }

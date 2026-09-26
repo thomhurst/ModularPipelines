@@ -311,3 +311,18 @@ test('invalid workflow targets cannot reach GitHub', () => {
     assert.throws(() => publishReview({ ...options, ...invalid }, () => assert.fail('Invalid target.')));
   }
 });
+
+test('non-JSON final formats fail at the command line without publication or disclosure', t => {
+  for (const [raw, message] of [
+    ['## Review\nprivate model response', 'Claude returned a Markdown review instead of JSON.'],
+    ['<review>private model response</review>', 'Claude returned markup instead of a JSON review.'],
+    ['Review complete: private model response', 'Claude did not return a valid structured review.'],
+  ]) {
+    const { result, callsFile, fixtureFile } = runPublisher(t, JSON.stringify([{ ...successResult, result: raw }]));
+    assert.equal(result.status, 1);
+    assert.equal(result.stdout, '');
+    assert.equal(result.stderr.trim(), message);
+    assert.equal(existsSync(callsFile), false);
+    assert.equal(existsSync(fixtureFile), false);
+  }
+});

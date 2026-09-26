@@ -186,6 +186,7 @@ jobs:
           # StructuredOutput tool (#5380). The trusted publisher enforces the full contract.
           claude_args: |
             --add-dir pr-head --tools "Read,Glob,Grep" --allowedTools "Read,Glob,Grep"
+            --append-system-prompt-file .github/prompts/claude-review-system.md
           allowed_bots: 'dependabot[bot]'
 
       - name: Publish validated review
