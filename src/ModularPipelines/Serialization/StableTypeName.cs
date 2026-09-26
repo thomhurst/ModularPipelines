@@ -131,8 +131,8 @@ internal static class StableTypeName
         foreach (var property in type.GetProperties(flags))
         {
             if (property.GetIndexParameters().Length == 0
-                && (property.GetMethod?.IsPublic == true || property.SetMethod?.IsPublic == true
-                    || property.IsDefined(typeof(JsonIncludeAttribute)))
+                && property.GetMethod is { } getter
+                && (getter.IsPublic || property.IsDefined(typeof(JsonIncludeAttribute)))
                 && property.GetCustomAttribute<JsonIgnoreAttribute>()?.Condition != JsonIgnoreCondition.Always)
             {
                 yield return (property, property.PropertyType);

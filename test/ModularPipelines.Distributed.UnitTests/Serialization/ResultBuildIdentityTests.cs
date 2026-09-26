@@ -42,6 +42,7 @@ public class ResultBuildIdentityTests
     [Test]
     [Arguments("Property", 0)]
     [Arguments("Property", 1)]
+    [Arguments("IncludedPrivateGetter", 0)]
     [Arguments("Field", 0)]
     [Arguments("TypeConverter", 0)]
     [Arguments("PropertyConverter", 0)]
@@ -78,17 +79,22 @@ public class ResultBuildIdentityTests
     }
 
     [Test]
-    public async Task Unserialized_Public_Field_Build_Does_Not_Change_Schema_Or_Reject_Result()
+    [Arguments("UnserializedField")]
+    [Arguments("PrivateGetter")]
+    [Arguments("SetterOnly")]
+    [Arguments("IncludedSetterOnly")]
+    public async Task Unserialized_Member_Build_Does_Not_Change_Schema_Or_Reject_Result(string memberKind)
     {
-        using var builds = new ResultBuilds(0, "UnserializedField");
+        using var builds = new ResultBuilds(0, memberKind);
         var first = new ModuleTypeRegistry();
         var second = new ModuleTypeRegistry();
         first.Register(typeof(ResultModule<>).MakeGenericType(builds.First));
         second.Register(typeof(ResultModule<>).MakeGenericType(builds.Second));
 
         await Assert.That(builds.First.Module.ModuleVersionId).IsEqualTo(builds.Second.Module.ModuleVersionId);
-        await Assert.That(builds.First.GetField("Value")!.FieldType.Module.ModuleVersionId)
-            .IsNotEqualTo(builds.Second.GetField("Value")!.FieldType.Module.ModuleVersionId);
+        var firstMemberType = builds.First.GetField("Value")?.FieldType ?? builds.First.GetProperty("Value")!.PropertyType;
+        var secondMemberType = builds.Second.GetField("Value")?.FieldType ?? builds.Second.GetProperty("Value")!.PropertyType;
+        await Assert.That(firstMemberType.Module.ModuleVersionId).IsNotEqualTo(secondMemberType.Module.ModuleVersionId);
         await Assert.That(JsonSerializer.Serialize(CreateValue(builds.First))).IsEqualTo("{}");
         await Assert.That(JsonSerializer.Serialize(CreateValue(builds.Second))).IsEqualTo("{}");
         await Assert.That(first.GetPipelineSchemaVersion()).IsEqualTo(second.GetPipelineSchemaVersion());
@@ -275,6 +281,12 @@ public class ResultBuildIdentityTests
                 : new(typeof(JsonConverterAttribute).GetConstructor([typeof(Type)])!, [dependency]);
             switch (memberKind)
             {
+                case "PrivateGetter":
+                case "SetterOnly":
+                case "IncludedPrivateGetter":
+                case "IncludedSetterOnly":
+                    DefineSetterProperty(type, dependency, memberKind);
+                    break;
                 case "UnserializedField":
                     type.DefineField("Value", dependency, FieldAttributes.Public);
                     break;
@@ -312,6 +324,30 @@ public class ResultBuildIdentityTests
             }
 
             return type.CreateType()!;
+        }
+
+        private static void DefineSetterProperty(TypeBuilder type, Type propertyType, string memberKind)
+        {
+            var property = type.DefineProperty("Value", PropertyAttributes.None, propertyType, null);
+            if (memberKind.StartsWith("Included", StringComparison.Ordinal))
+            {
+                property.SetCustomAttribute(new CustomAttributeBuilder(
+                    typeof(JsonIncludeAttribute).GetConstructor(Type.EmptyTypes)!, []));
+            }
+
+            var setter = type.DefineMethod("set_Value",
+                MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig, typeof(void), [propertyType]);
+            setter.GetILGenerator().Emit(OpCodes.Ret);
+            property.SetSetMethod(setter);
+            if (memberKind.EndsWith("PrivateGetter", StringComparison.Ordinal))
+            {
+                var getter = type.DefineMethod("get_Value",
+                    MethodAttributes.Private | MethodAttributes.SpecialName | MethodAttributes.HideBySig, propertyType, Type.EmptyTypes);
+                var il = getter.GetILGenerator();
+                il.Emit(OpCodes.Ldnull);
+                il.Emit(OpCodes.Ret);
+                property.SetGetMethod(getter);
+            }
         }
 
         private static Type DefineCollectionType(ModuleBuilder module, string name, Type element, bool dictionary)
