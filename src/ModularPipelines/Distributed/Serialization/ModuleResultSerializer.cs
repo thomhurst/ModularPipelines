@@ -6,19 +6,17 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Distributed.Serialization;
 
-internal class ModuleResultSerializer
+internal class ModuleResultSerializer(
+    ModuleTypeRegistry typeRegistry,
+    ICommandExecutionCounter? commandExecutionCounter = null)
 {
-    private readonly ModuleTypeRegistry _typeRegistry;
-    private readonly ICommandExecutionCounter? _commandExecutionCounter;
-    private readonly JsonSerializerOptions _options;
+    private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
+    private readonly ICommandExecutionCounter? _commandExecutionCounter = commandExecutionCounter;
+    private readonly JsonSerializerOptions _options = CreateOptions();
 
-    public ModuleResultSerializer(
-        ModuleTypeRegistry typeRegistry,
-        ICommandExecutionCounter? commandExecutionCounter = null)
+    internal static JsonSerializerOptions CreateOptions()
     {
-        _typeRegistry = typeRegistry;
-        _commandExecutionCounter = commandExecutionCounter;
-        _options = new JsonSerializerOptions
+        var options = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
             WriteIndented = false,
@@ -31,9 +29,11 @@ internal class ModuleResultSerializer
 
         if (gitRoot is not null)
         {
-            _options.Converters.Add(new PortableFilePathJsonConverter(gitRoot));
-            _options.Converters.Add(new PortableFolderPathJsonConverter(gitRoot));
+            options.Converters.Add(new PortableFilePathJsonConverter(gitRoot));
+            options.Converters.Add(new PortableFolderPathJsonConverter(gitRoot));
         }
+
+        return options;
     }
 
     [UnconditionalSuppressMessage(
@@ -75,9 +75,9 @@ internal class ModuleResultSerializer
         Justification = "Distributed type-erased result serialization is explicitly unsupported in trimmed applications.")]
     public IModuleResult? Deserialize(ModularPipelines.Distributed.SerializedModuleResult serialized)
     {
-        var resolved = _typeRegistry.Resolve(serialized.ModuleId) ?? throw new InvalidOperationException(
+        var (moduleType, valueType) = _typeRegistry.Resolve(serialized.ModuleId) ?? throw new InvalidOperationException(
                 $"Cannot deserialize result for module '{serialized.ModuleId}': type not found in registry.");
-        var resultType = typeof(ModuleResult<>).MakeGenericType(resolved.ResultType);
+        var resultType = typeof(ModuleResult<>).MakeGenericType(valueType);
         var result = JsonSerializer.Deserialize(serialized.Payload, resultType, _options) as ModuleResult;
         int? workerIndex = serialized.WorkerIndex >= 0 ? serialized.WorkerIndex : null;
         if (result?.ExceptionOrDefault is RemoteModuleException remoteException)
@@ -89,8 +89,8 @@ internal class ModuleResultSerializer
             ? null
             : result with
             {
-                ModuleType = resolved.ModuleType,
-                TypeName = ModuleTypeIdentifier.Get(resolved.ModuleType),
+                ModuleType = moduleType,
+                TypeName = ModuleTypeIdentifier.Get(moduleType),
                 WorkerIndex = workerIndex,
             };
     }

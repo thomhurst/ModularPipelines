@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Serialization;
+using ModularPipelines.Distributed.Serialization;
 
 namespace ModularPipelines.Serialization;
 
@@ -98,7 +99,7 @@ internal static class StableTypeName
             yield return derived.DerivedType;
         }
 
-        foreach (var converterType in GetConverterTypes(type))
+        foreach (var converterType in GetConverterTypes(type, type))
         {
             yield return converterType;
         }
@@ -106,7 +107,7 @@ internal static class StableTypeName
         foreach (var (member, memberType) in GetSerializedMembers(type))
         {
             yield return memberType;
-            foreach (var converterType in GetConverterTypes(member))
+            foreach (var converterType in GetConverterTypes(member, memberType))
             {
                 yield return converterType;
             }
@@ -149,17 +150,58 @@ internal static class StableTypeName
         }
     }
 
-    private static IEnumerable<Type> GetConverterTypes(MemberInfo member)
+    [UnconditionalSuppressMessage("Trimming", "IL2067", Justification = "Runtime converter construction and its build fingerprints are explicitly unsupported in trimmed applications.")]
+    private static IEnumerable<Type> GetConverterTypes(MemberInfo member, Type typeToConvert)
     {
-        if (member.GetCustomAttribute<JsonConverterAttribute>() is { } converter)
+        if (member.GetCustomAttribute<JsonConverterAttribute>(inherit: false) is not { } attribute)
         {
-            // A derived attribute can create the converter itself instead of supplying ConverterType.
-            yield return converter.GetType();
-            if (converter.ConverterType is { } converterType)
-            {
-                yield return converterType;
-            }
+            yield break;
         }
+
+        yield return attribute.GetType();
+        JsonConverter? converter;
+        if (attribute.ConverterType is { } converterType)
+        {
+            yield return converterType;
+            if (!typeof(JsonConverterFactory).IsAssignableFrom(converterType))
+            {
+                yield break;
+            }
+
+            converter = (JsonConverter?) Activator.CreateInstance(converterType);
+        }
+        else
+        {
+            converter = attribute.CreateConverter(typeToConvert);
+        }
+
+        if (converter is null)
+        {
+            throw new InvalidOperationException($"The JSON converter for '{member.Name}' returned no converter.");
+        }
+
+        yield return converter.GetType();
+        if (converter is JsonConverterFactory factory)
+        {
+            yield return GetProducedConverterType(factory, typeToConvert, member.Name);
+        }
+    }
+
+    private static Type GetProducedConverterType(JsonConverterFactory factory, Type typeToConvert, string memberName)
+    {
+        // System.Text.Json forwards nullable values to an attribute's underlying-value converter.
+        var targetType = !factory.CanConvert(typeToConvert)
+            && Nullable.GetUnderlyingType(typeToConvert) is { } underlyingType
+            && factory.CanConvert(underlyingType)
+                ? underlyingType
+                : typeToConvert;
+        var produced = factory.CreateConverter(targetType, ModuleResultSerializer.CreateOptions());
+        if (produced is null or JsonConverterFactory)
+        {
+            throw new InvalidOperationException($"The JSON converter factory for '{memberName}' returned no concrete converter.");
+        }
+
+        return produced.GetType();
     }
 
     [UnconditionalSuppressMessage("Trimming", "IL2057", Justification = "Runtime module result value types are explicitly unsupported in trimmed applications.")]

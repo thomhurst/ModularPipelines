@@ -46,6 +46,15 @@ public class ResultBuildIdentityTests
     [Arguments("TypeConverter", 0)]
     [Arguments("PropertyConverter", 0)]
     [Arguments("FieldConverter", 0)]
+    [Arguments("TypeFactory", 0)]
+    [Arguments("PropertyFactory", 0)]
+    [Arguments("FieldFactory", 0)]
+    [Arguments("TypeAttribute", 0)]
+    [Arguments("PropertyAttribute", 0)]
+    [Arguments("FieldAttribute", 0)]
+    [Arguments("TypeFactoryAttribute", 0)]
+    [Arguments("PropertyFactoryAttribute", 0)]
+    [Arguments("FieldFactoryAttribute", 0)]
     [Arguments("Collection", 0)]
     [Arguments("Dictionary", 0)]
     public async Task Schema_And_Runtime_Reject_Changed_Member_With_Unchanged_Result_Binary(string memberKind, int intermediateLevels)
@@ -178,6 +187,35 @@ public class ResultBuildIdentityTests
         }
     }
 
+    public sealed class NullableConverterResult
+    {
+        [JsonConverter(typeof(UnderlyingIntFactory))]
+        public int? Value { get; set; }
+    }
+
+    public sealed class UnderlyingIntFactory : JsonConverterFactory
+    {
+        public override bool CanConvert(Type typeToConvert) => typeToConvert == typeof(int);
+
+        public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options) =>
+            typeToConvert == typeof(int) ? new IntConverter() : throw new InvalidOperationException("Expected the underlying value type.");
+    }
+
+    public sealed class IntConverter : JsonConverter<int>
+    {
+        public override int Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) => reader.GetInt32();
+
+        public override void Write(Utf8JsonWriter writer, int value, JsonSerializerOptions options) => writer.WriteNumberValue(value);
+    }
+
+    [Test]
+    public async Task Nullable_Member_Factory_Uses_Underlying_Type()
+    {
+        await Assert.That(StableTypeName.GetBuildFingerprint(typeof(NullableConverterResult))).IsNotEmpty();
+        var json = JsonSerializer.Serialize(new NullableConverterResult { Value = 42 });
+        await Assert.That(JsonSerializer.Deserialize<NullableConverterResult>(json)!.Value).IsEqualTo(42);
+    }
+
     private sealed class ResultBuilds : IDisposable
     {
         private readonly AssemblyLoadContext _firstContext = new(null, isCollectible: true);
@@ -190,9 +228,25 @@ public class ResultBuildIdentityTests
         public ResultBuilds(int intermediateLevels, string memberKind = "Base")
         {
             var baseName = $"ResultBase_{Guid.NewGuid():N}";
-            var converter = memberKind.EndsWith("Converter", StringComparison.Ordinal);
+            var factory = memberKind.EndsWith("Factory", StringComparison.Ordinal);
+            var attribute = memberKind.EndsWith("Attribute", StringComparison.Ordinal);
+            var converter = factory || attribute || memberKind.EndsWith("Converter", StringComparison.Ordinal);
             var firstBase = Load(_firstContext, BuildBase(baseName, "Original", converter)).GetType("ResultBase")!;
             Load(_secondContext, BuildBase(baseName, "Changed", converter));
+            if (memberKind.EndsWith("FactoryAttribute", StringComparison.Ordinal))
+            {
+                var innerFactoryImage = BuildConverterFactory(firstBase, attribute: false);
+                firstBase = Load(_firstContext, innerFactoryImage).GetType("ConverterFactory")!;
+                Load(_secondContext, innerFactoryImage);
+                memberKind = memberKind.Replace("FactoryAttribute", "Attribute", StringComparison.Ordinal);
+            }
+            if (factory || attribute)
+            {
+                var factoryImage = BuildConverterFactory(firstBase, attribute);
+                firstBase = Load(_firstContext, factoryImage).GetType("ConverterFactory")!;
+                Load(_secondContext, factoryImage);
+                memberKind = memberKind.Replace(factory ? "Factory" : "Attribute", "Converter", StringComparison.Ordinal);
+            }
 
             var derived = new PersistedAssemblyBuilder(new AssemblyName($"Derived_{Guid.NewGuid():N}"), typeof(object).Assembly);
             var module = derived.DefineDynamicModule("Derived");
@@ -216,8 +270,9 @@ public class ResultBuildIdentityTests
             }
 
             var type = module.DefineType(name, TypeAttributes.Public, memberKind == "Base" ? dependency : typeof(object));
-            CustomAttributeBuilder ConverterAttribute() => new(
-                typeof(JsonConverterAttribute).GetConstructor([typeof(Type)])!, [dependency]);
+            CustomAttributeBuilder ConverterAttribute() => typeof(JsonConverterAttribute).IsAssignableFrom(dependency)
+                ? new(dependency.GetConstructor(Type.EmptyTypes)!, [])
+                : new(typeof(JsonConverterAttribute).GetConstructor([typeof(Type)])!, [dependency]);
             switch (memberKind)
             {
                 case "UnserializedField":
@@ -300,6 +355,32 @@ public class ResultBuildIdentityTests
             }
 
             return type.CreateType()!;
+        }
+
+        private static byte[] BuildConverterFactory(Type producedConverter, bool attribute)
+        {
+            var assembly = new PersistedAssemblyBuilder(new AssemblyName($"Factory_{Guid.NewGuid():N}"), typeof(object).Assembly);
+            var baseType = attribute ? typeof(JsonConverterAttribute) : typeof(JsonConverterFactory);
+            var type = assembly.DefineDynamicModule("Factory").DefineType("ConverterFactory", TypeAttributes.Public, baseType);
+            type.DefineDefaultConstructor(MethodAttributes.Public);
+            if (!attribute)
+            {
+                var canConvert = type.DefineMethod(nameof(JsonConverterFactory.CanConvert), MethodAttributes.Public | MethodAttributes.Virtual,
+                    typeof(bool), [typeof(Type)]);
+                var canConvertIl = canConvert.GetILGenerator();
+                canConvertIl.Emit(OpCodes.Ldc_I4_1);
+                canConvertIl.Emit(OpCodes.Ret);
+                type.DefineMethodOverride(canConvert, baseType.GetMethod(nameof(JsonConverterFactory.CanConvert))!);
+            }
+
+            var create = type.DefineMethod(nameof(JsonConverterFactory.CreateConverter), MethodAttributes.Public | MethodAttributes.Virtual,
+                typeof(JsonConverter), attribute ? [typeof(Type)] : [typeof(Type), typeof(JsonSerializerOptions)]);
+            var il = create.GetILGenerator();
+            il.Emit(OpCodes.Newobj, producedConverter.GetConstructor(Type.EmptyTypes)!);
+            il.Emit(OpCodes.Ret);
+            type.DefineMethodOverride(create, baseType.GetMethod(nameof(JsonConverterFactory.CreateConverter))!);
+            type.CreateType();
+            return Save(assembly);
         }
 
         private static byte[] BuildBase(string name, string propertyName, bool converter)
