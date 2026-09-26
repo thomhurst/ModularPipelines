@@ -50,14 +50,6 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Resolve distributed matrix
-        id: distribution
-        shell: pwsh
-        env:
-          REDIS_ENDPOINT: ${{ secrets.REDIS_ENDPOINT }}
-          REDIS_KEY: ${{ secrets.REDIS_KEY }}
-          ALLOW_DISTRIBUTED: ${{ github.actor != 'dependabot[bot]' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) && (github.event_name != 'workflow_dispatch' || inputs.distributed) }}
-        run: ./scripts/Resolve-DistributedBuildMatrix.ps1 -GitHubOutput $env:GITHUB_OUTPUT
       - name: Detect generated integration pull request
         id: generated_integration
         uses: ./.github/actions/detect-generated-integration
@@ -74,6 +66,15 @@ jobs:
             -BaseSha $env:BASE_SHA `
             -HeadSha $env:HEAD_SHA `
             -GitHubOutput $env:GITHUB_OUTPUT
+      - name: Resolve distributed matrix
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
+        id: distribution
+        shell: pwsh
+        env:
+          REDIS_ENDPOINT: ${{ secrets.REDIS_ENDPOINT }}
+          REDIS_KEY: ${{ secrets.REDIS_KEY }}
+          ALLOW_DISTRIBUTED: ${{ github.actor != 'dependabot[bot]' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) && (github.event_name != 'workflow_dispatch' || inputs.distributed) }}
+        run: ./scripts/Resolve-DistributedBuildMatrix.ps1 -GitHubOutput $env:GITHUB_OUTPUT
       - name: Reject stale generated snapshots
         if: steps.generated_integration.outputs.is_generated_integration == 'true'
         shell: pwsh
@@ -470,6 +471,7 @@ jobs:
             exit 1
           fi
       - uses: actions/checkout@v7.0.1
+        id: checkout
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -575,7 +577,7 @@ jobs:
           REDIS_KEY: ${{ needs.fast-fail.outputs.distributed == 'true' && secrets.REDIS_KEY || '' }}
 
       - name: Summarize pipeline efficiency
-        if: always() && matrix.instance == 0
+        if: always() && matrix.instance == 0 && steps.checkout.outcome == 'success'
         shell: pwsh
         run: ./scripts/Write-DistributedBuildSummary.ps1 -ReportPath artifacts/run-report.json -SummaryPath $env:GITHUB_STEP_SUMMARY
       - name: Upload pipeline report
