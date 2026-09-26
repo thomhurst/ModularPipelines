@@ -565,6 +565,12 @@ jobs:
             unset GitHub__StandardToken
           fi
 
+          # Let the compiler use its default server GC on macOS; forcing workstation GC
+          # greatly slows the large generated integrations on ARM runners.
+          if [[ "$RUNNER_OS" == "macOS" ]]; then
+            unset DOTNET_gcServer COMPlus_gcServer
+          fi
+
           dotnet "$RUNNER_TEMP/pipeline-host/ModularPipelines.Build.dll"
         working-directory: "src/ModularPipelines.Build"
         env:
@@ -684,6 +690,11 @@ jobs:
       - name: Restore and build solutions
         shell: pwsh
         run: |
+          # Match the compiler GC configuration used by the macOS distributed worker.
+          if ($IsMacOS) {
+            Remove-Item Env:DOTNET_gcServer, Env:COMPlus_gcServer -ErrorAction SilentlyContinue
+          }
+
           $solutions = Get-Content BuildSolutions.txt |
             ForEach-Object { $_.Trim() } |
             Where-Object { $_ -and -not $_.StartsWith('#') }
