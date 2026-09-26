@@ -207,7 +207,7 @@ internal class ArtifactContextImpl(
             var fileOptions = new FileStreamOptions
             {
                 Access = FileAccess.Write,
-                Mode = FileMode.Create,
+                Mode = FileMode.CreateNew,
                 Options = FileOptions.Asynchronous | FileOptions.SequentialScan,
             };
             if (!OperatingSystem.IsWindows())
@@ -221,13 +221,27 @@ internal class ArtifactContextImpl(
                 }
             }
 
-            await using (var entryStream = entry.Open())
-            await using (var destinationStream = new FileStream(entryPath, fileOptions))
+            // A new sibling file receives the archive mode through the OS umask even
+            // when replacing an existing destination. Cancellation leaves that file intact.
+            var temporaryPath = Path.Combine(entryDirectory!, $".modularpipelines-extract-{Guid.NewGuid():N}.tmp");
+            var destinationStream = new FileStream(temporaryPath, fileOptions);
+            try
             {
-                await entryStream.CopyToAsync(destinationStream, cancellationToken).ConfigureAwait(false);
-            }
+                await using (destinationStream.ConfigureAwait(false))
+                await using (var entryStream = entry.Open())
+                {
+                    await entryStream.CopyToAsync(destinationStream, cancellationToken).ConfigureAwait(false);
+                }
 
-            File.SetLastWriteTime(entryPath, entry.LastWriteTime.DateTime);
+                cancellationToken.ThrowIfCancellationRequested();
+                File.SetLastWriteTime(temporaryPath, entry.LastWriteTime.DateTime);
+                EnsurePathContainsNoLinks(destinationDirectory, entryPath);
+                File.Move(temporaryPath, entryPath, overwrite: true);
+            }
+            finally
+            {
+                File.Delete(temporaryPath);
+            }
         }
     }
 

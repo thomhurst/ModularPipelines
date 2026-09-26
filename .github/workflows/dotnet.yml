@@ -430,7 +430,7 @@ jobs:
     needs: [fast-fail, pipeline-host]
     # Only core-related changes need the full suite, on both PRs and main pushes.
     # Manual dispatch always runs the suite, including package publishing.
-    if: ${{ always() && needs.fast-fail.outputs.run_full_pipeline == 'true' }}
+    if: ${{ !cancelled() && needs.fast-fail.outputs.run_full_pipeline == 'true' }}
     environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
     strategy:
       matrix: ${{ fromJSON(needs.fast-fail.outputs.matrix) }}
@@ -614,7 +614,7 @@ jobs:
     name: build (${{ matrix.os }})
     needs: fast-fail
     # Secretless builds retain Windows/macOS compilation outside the standalone host.
-    if: ${{ always() && needs.fast-fail.outputs.run_full_pipeline == 'true' && needs.fast-fail.outputs.distributed != 'true' }}
+    if: ${{ !cancelled() && needs.fast-fail.outputs.run_full_pipeline == 'true' && needs.fast-fail.outputs.distributed != 'true' }}
     permissions:
       contents: read
     strategy:

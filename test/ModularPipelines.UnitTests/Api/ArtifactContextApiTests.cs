@@ -243,19 +243,33 @@ public class ArtifactContextApiTests
     }
 
     [Test]
-    [Arguments(false, 0x1E8)]
-    [Arguments(true, 0x1E8)]
-    [Arguments(false, 0x1FF)]
-    [Arguments(true, 0x1FF)]
-    public async Task Directory_Archive_RoundTrip_Preserves_Executable_Permissions(bool useLifecycleArchive, int mode)
+    [Arguments(false, 0x1E8, false)]
+    [Arguments(true, 0x1E8, false)]
+    [Arguments(false, 0x1FF, false)]
+    [Arguments(true, 0x1FF, false)]
+    [Arguments(false, 0x1E8, true)]
+    [Arguments(true, 0x1E8, true)]
+    [Arguments(false, 0x1FF, true)]
+    [Arguments(true, 0x1FF, true)]
+    public async Task Directory_Archive_RoundTrip_Preserves_Executable_Permissions(bool useLifecycleArchive, int mode, bool overwriteExisting)
     {
         var source = Directory.CreateTempSubdirectory("artifact-permissions-source-");
         var destination = Directory.CreateTempSubdirectory("artifact-permissions-destination-");
         var archivePath = Path.Combine(destination.FullName, "artifact.zip");
         var sourcePath = Path.Combine(source.FullName, "test-host");
+        var restoredPath = Path.Combine(destination.FullName, "test-host");
         var permissions = (UnixFileMode) mode;
         try
         {
+            if (overwriteExisting)
+            {
+                await File.WriteAllTextAsync(restoredPath, "stale output");
+                if (!OperatingSystem.IsWindows())
+                {
+                    File.SetUnixFileMode(restoredPath, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+                }
+            }
+
             await File.WriteAllTextAsync(sourcePath, "#!/bin/sh\nexit 0\n");
             if (!OperatingSystem.IsWindows())
             {
@@ -274,7 +288,6 @@ public class ArtifactContextApiTests
 
             using var archive = ZipFile.OpenRead(archivePath);
             await ArtifactContextImpl.ExtractDirectoryArchiveAsync(archive, destination.FullName, CancellationToken.None);
-            var restoredPath = Path.Combine(destination.FullName, "test-host");
             await Assert.That(await File.ReadAllTextAsync(restoredPath)).IsEqualTo("#!/bin/sh\nexit 0\n");
             if (!OperatingSystem.IsWindows())
             {
@@ -412,6 +425,8 @@ public class ArtifactContextApiTests
     {
         var destinationDirectory = Directory.CreateTempSubdirectory(
             $"artifact-extraction-{iteration}-");
+        var destinationPath = Path.Combine(destinationDirectory.FullName, "payload.bin");
+        await File.WriteAllTextAsync(destinationPath, "existing output");
         await using var archiveStream = new MemoryStream(archiveBytes, writable: false);
         await using var blockingStream = new SwitchableBlockingReadStream(archiveStream);
         using var archiveToExtract = new ZipArchive(
@@ -419,6 +434,7 @@ public class ArtifactContextApiTests
             ZipArchiveMode.Read,
             leaveOpen: true);
         using var cancellationTokenSource = new CancellationTokenSource();
+        _ = archiveToExtract.Entries.Count;
         blockingStream.BlockReads(cancellationTokenSource.Token);
         var extractionTask = Task.Run(() =>
             ArtifactContextImpl.ExtractDirectoryArchiveAsync(
@@ -432,6 +448,8 @@ public class ArtifactContextApiTests
             cancellationTokenSource.Cancel();
             await Assert.ThrowsAsync<OperationCanceledException>(() =>
                 extractionTask.WaitAsync(TimeSpan.FromSeconds(5)));
+            await Assert.That(await File.ReadAllTextAsync(destinationPath)).IsEqualTo("existing output");
+            await Assert.That(Directory.GetFiles(destinationDirectory.FullName)).IsEquivalentTo([destinationPath]);
         }
         finally
         {
