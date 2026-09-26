@@ -38,6 +38,34 @@ function runPublisher(t, execution, paths = changedFiles, fixtureName = 'validat
   return { result, callsFile, fixtureFile };
 }
 
+test('the recorded action result passes the real command-line publisher', t => {
+  const execution = readFileSync(new URL('./fixtures/claude-review-success.json', import.meta.url), 'utf8');
+  const recordedPaths = [
+    '.github/scripts/post-claude-review.mjs',
+    '.github/scripts/post-claude-review.test.mjs',
+    '.github/scripts/review-evidence-limits.test.mjs',
+    '.github/workflows/claude-code-review.yml',
+    '.github/scripts/fixtures/mock-review-github.mjs',
+  ];
+  const { result, callsFile, fixtureFile } = runPublisher(t, execution, recordedPaths);
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stdout, '');
+  assert.equal(result.stderr, '');
+  const calls = readFileSync(callsFile, 'utf8').trim().split('\n').map(line => JSON.parse(line));
+  assert.equal(calls.length, 3);
+  assert.deepEqual(calls[1].args, ['api', '--method', 'POST', 'repos/owner/repo/pulls/5381/reviews', '--input', '-']);
+  const published = JSON.parse(calls[1].input);
+  assert.equal(published.commit_id, headSha);
+  assert.match(published.body, /Reviewed the switch from claude-code-action's structured-output tool/);
+  assert.match(published.body, /REVIEW_VERDICT: CLEAR HEAD: a{40}/);
+  for (const path of recordedPaths) assert.ok(published.body.includes(path));
+  assert.deepEqual(JSON.parse(readFileSync(fixtureFile, 'utf8')), JSON.parse(execution));
+
+  const rejected = runPublisher(t, execution, ['src/unrelated.cs']);
+  assert.equal(rejected.result.status, 1);
+  assert.equal(existsSync(rejected.callsFile), false);
+});
+
 test('command-line publication captures only the validated final response', t => {
   const { result, callsFile, fixtureFile } = runPublisher(t, JSON.stringify([
     { type: 'user', message: { content: 'private intermediate transcript' } },
