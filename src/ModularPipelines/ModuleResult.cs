@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Runtime.Loader;
 using System.Text;
@@ -1148,17 +1149,17 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         switch (value)
         {
             case ModuleResult<T>.Success success:
-                var runtimeValueType = success.Value?.GetType();
-                if (runtimeValueType is not null && runtimeValueType != DeclaredValueType)
+                var serializationType = GetSerializableValueType(success.Value?.GetType());
+                if (serializationType is not null && serializationType != DeclaredValueType)
                 {
                     writer.WriteString(
                         "$valueType",
-                        StableTypeName.Get(runtimeValueType));
-                    writer.WriteString("$valueTypeBuild", StableTypeName.GetBuildFingerprint(runtimeValueType, options));
+                        StableTypeName.Get(serializationType));
+                    writer.WriteString("$valueTypeBuild", StableTypeName.GetBuildFingerprint(serializationType, options));
                 }
 
                 writer.WritePropertyName("Value");
-                JsonSerializer.Serialize(writer, success.Value, runtimeValueType ?? typeof(T), options);
+                JsonSerializer.Serialize(writer, success.Value, serializationType ?? typeof(T), options);
                 break;
             case ModuleResult<T>.Failure failure:
                 writer.WritePropertyName("Exception");
@@ -1171,6 +1172,25 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         }
 
         writer.WriteEndObject();
+    }
+
+    private static Type? GetSerializableValueType(Type? runtimeValueType)
+    {
+        if (runtimeValueType is null
+            || !runtimeValueType.IsDefined(typeof(CompilerGeneratedAttribute), inherit: false)
+            || !DeclaredValueType.IsGenericType)
+        {
+            return runtimeValueType;
+        }
+
+        // Collection expressions can produce internal read-only wrappers that JSON cannot
+        // construct. Their declared collection contract is the portable wire type.
+        var definition = DeclaredValueType.GetGenericTypeDefinition();
+        return definition == typeof(IReadOnlyList<>)
+               || definition == typeof(IReadOnlyCollection<>)
+               || definition == typeof(IEnumerable<>)
+            ? DeclaredValueType
+            : runtimeValueType;
     }
 }
 
