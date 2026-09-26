@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("redis", "acl-policies", "describe")]
 public record GcloudRedisAclPoliciesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show metadata for a Memorystore for     Redis Cluster ACL policy
+    /// </summary>
+    /// <param name="AclPolicy">Acl policy resource - Arguments and flags that specify the ACL policy you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the acl policy or fully qualified identifier for the acl policy. To set the acl_policy attribute: ▸ provide the argument acl_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudRedisAclPoliciesDescribeOptions(
+        string AclPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AclPolicy);
+        this.AclPolicy = AclPolicy;
+    }
+
+    public void Deconstruct(out string AclPolicy)
+    {
+        AclPolicy = this.AclPolicy;
+    }
+
+    /// <summary>
+    /// Acl policy resource - Arguments and flags that specify the ACL policy you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Redis region of the acl policy. Overrides the default redis/region property value for this command invocation. To set the region attribute: ▸ provide the argument acl_policy on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property redis/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Acl policy resource - Arguments and flags that specify the ACL policy you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument acl_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the acl policy or fully qualified identifier for the acl policy. To set the acl_policy attribute: ▸ provide the argument acl_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AclPolicy { get; private init; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,37 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "application-templates", "revisions", "generate")]
-public record GcloudDesignCenterSpacesApplicationTemplatesRevisionsGenerateOptions : GcloudOptions
+public record GcloudDesignCenterSpacesApplicationTemplatesRevisionsGenerateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// generate IaC for an application template revision
+    /// </summary>
+    /// <param name="Revision">Revision resource - The name of the application template revision. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the revision or fully qualified identifier for the revision. To set the revision attribute: ▸ provide the argument revision on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDesignCenterSpacesApplicationTemplatesRevisionsGenerateOptions(
+        string Revision
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Revision);
+        this.Revision = Revision;
+    }
+
+    public void Deconstruct(out string Revision)
+    {
+        Revision = this.Revision;
+    }
+
+    /// <summary>
+    /// Revision resource - The name of the application template revision. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. The applicationTemplate id of the revision resource. To set the application-template attribute: ▸ provide the argument revision on the command line with a fully specified name; ▸ provide the argument --application-template on the command line.
+    /// </summary>
+    [CliOption("--application-template", Format = OptionFormat.EqualsSeparated)]
+    public string? ApplicationTemplate { get; set; }
+
+    /// <summary>
+    /// Revision resource - The name of the application template revision. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. The space id of the revision resource. To set the space attribute: ▸ provide the argument revision on the command line with a fully specified name; ▸ provide the argument --space on the command line.
+    /// </summary>
+    [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
+    public string? Space { get; set; }
+
     /// <summary>
     /// The IaC format to generate. IAC_FORMAT must be one of: helm IaC format is HELM. terraform IaC format is Terraform.
     /// </summary>
@@ -62,5 +92,33 @@ public record GcloudDesignCenterSpacesApplicationTemplatesRevisionsGenerateOptio
     /// </summary>
     [CliOption("--connection", Format = OptionFormat.EqualsSeparated)]
     public string? Connection { get; set; }
+
+    /// <summary>
+    /// Revision resource - The name of the application template revision. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the revision or fully qualified identifier for the revision. To set the revision attribute: ▸ provide the argument revision on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Revision { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ArtifactLocationGcsUri) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(DeveloperConnectExportConfigDir) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigBranch) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigRepoUri) || !string.IsNullOrWhiteSpace(Connection)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ArtifactLocationGcsUri or (DeveloperConnectExportConfigDir, DeveloperConnectExportConfigBranch, DeveloperConnectExportConfigRepoUri, or Connection) may be specified.", [nameof(ArtifactLocationGcsUri), nameof(DeveloperConnectExportConfigDir), nameof(DeveloperConnectExportConfigBranch), nameof(DeveloperConnectExportConfigRepoUri), nameof(Connection)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ArtifactLocationGcsUri) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigDir) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigBranch) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigRepoUri) || !string.IsNullOrWhiteSpace(Connection)) && (!string.IsNullOrWhiteSpace(DeveloperConnectExportConfigDir) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigBranch) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigRepoUri) || !string.IsNullOrWhiteSpace(Connection)) && (!string.IsNullOrWhiteSpace(DeveloperConnectExportConfigDir) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigBranch) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigRepoUri) || !string.IsNullOrWhiteSpace(Connection)) && (!(!string.IsNullOrWhiteSpace(DeveloperConnectExportConfigDir))))
+        {
+            yield return new ValidationResult("DeveloperConnectExportConfigDir must be specified when other arguments in this group are specified.", [nameof(DeveloperConnectExportConfigDir)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ArtifactLocationGcsUri) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigDir) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigBranch) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigRepoUri) || !string.IsNullOrWhiteSpace(Connection)) && (!string.IsNullOrWhiteSpace(DeveloperConnectExportConfigDir) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigBranch) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigRepoUri) || !string.IsNullOrWhiteSpace(Connection)) && (!string.IsNullOrWhiteSpace(DeveloperConnectExportConfigDir) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigBranch) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigRepoUri) || !string.IsNullOrWhiteSpace(Connection)) && (!(!string.IsNullOrWhiteSpace(DeveloperConnectExportConfigRepoUri) || !string.IsNullOrWhiteSpace(Connection))))
+        {
+            yield return new ValidationResult("At least one of DeveloperConnectExportConfigRepoUri or Connection must be specified.", [nameof(DeveloperConnectExportConfigRepoUri), nameof(Connection)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ArtifactLocationGcsUri) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigDir) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigBranch) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigRepoUri) || !string.IsNullOrWhiteSpace(Connection)) && (!string.IsNullOrWhiteSpace(DeveloperConnectExportConfigDir) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigBranch) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigRepoUri) || !string.IsNullOrWhiteSpace(Connection)) && (!string.IsNullOrWhiteSpace(DeveloperConnectExportConfigDir) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigBranch) || !string.IsNullOrWhiteSpace(DeveloperConnectExportConfigRepoUri) || !string.IsNullOrWhiteSpace(Connection)) && (!string.IsNullOrWhiteSpace(DeveloperConnectExportConfigRepoUri) || !string.IsNullOrWhiteSpace(Connection)) && (!(!string.IsNullOrWhiteSpace(DeveloperConnectExportConfigRepoUri))))
+        {
+            yield return new ValidationResult("DeveloperConnectExportConfigRepoUri must be specified when other arguments in this group are specified.", [nameof(DeveloperConnectExportConfigRepoUri)]);
+        }
+        yield break;
+    }
 
 }

@@ -21,4 +21,44 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dataproc", "workflow-templates", "set-dag-timeout")]
 public record GcloudDataprocWorkflowTemplatesSetDagTimeoutOptions : GcloudOptions
 {
+    /// <summary>
+    /// set DAG timeout on a     workflow template
+    /// </summary>
+    /// <param name="DagTimeout">The duration for which a DAG of jobs can run before being auto-cancelled, such as "10m" or "16h". See $ gcloud topic datetimes for information on duration formats.</param>
+    /// <param name="Template">Template resource - The name of the workflow template to set the DAG timeout on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataprocWorkflowTemplatesSetDagTimeoutOptions(
+        string DagTimeout,
+        string Template
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DagTimeout);
+        this.DagTimeout = DagTimeout;
+        global::System.ArgumentNullException.ThrowIfNull(Template);
+        this.Template = Template;
+    }
+
+    public void Deconstruct(out string DagTimeout, out string Template)
+    {
+        DagTimeout = this.DagTimeout;
+        Template = this.Template;
+    }
+
+    /// <summary>
+    /// The duration for which a DAG of jobs can run before being auto-cancelled, such as "10m" or "16h". See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--dag-timeout", Format = OptionFormat.EqualsSeparated)]
+    public string DagTimeout { get; private init; }
+
+    /// <summary>
+    /// Template resource - The name of the workflow template to set the DAG timeout on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Dataproc region for the template. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. Overrides the default dataproc/region property value for this command invocation. To set the region attribute: ▸ provide the argument template on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property dataproc/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Template resource - The name of the workflow template to set the DAG timeout on. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Template { get; private init; }
+
 }

@@ -19,8 +19,58 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "samples", "backend")]
-public record GcloudSpannerSamplesBackendOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Appname
-) : GcloudOptions
+public record GcloudSpannerSamplesBackendOptions : GcloudOptions
 {
+    /// <summary>
+    /// run the backend gRPC service for the given     Cloud Spanner sample app
+    /// </summary>
+    /// <param name="InstanceId">The Cloud Spanner instance ID for the sample app.</param>
+    /// <param name="Appname">The sample app name, e.g. "finance".</param>
+    public GcloudSpannerSamplesBackendOptions(
+        string InstanceId,
+        string Appname
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceId);
+        this.InstanceId = InstanceId;
+        global::System.ArgumentNullException.ThrowIfNull(Appname);
+        this.Appname = Appname;
+    }
+
+    public void Deconstruct(out string InstanceId, out string Appname)
+    {
+        InstanceId = this.InstanceId;
+        Appname = this.Appname;
+    }
+
+    /// <summary>
+    /// The Cloud Spanner instance ID for the sample app.
+    /// </summary>
+    [CliOption("--instance-id", Format = OptionFormat.EqualsSeparated)]
+    public string InstanceId { get; private init; }
+
+    /// <summary>
+    /// The Cloud Spanner database ID for the sample app.
+    /// </summary>
+    [CliOption("--database-id", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseId { get; set; }
+
+    /// <summary>
+    /// Duration of time allowed to run before stopping the service.
+    /// </summary>
+    [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
+    public string? Duration { get; set; }
+
+    /// <summary>
+    /// Port on which to receive gRPC requests.
+    /// </summary>
+    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
+    public string? Port { get; set; }
+
+    /// <summary>
+    /// The sample app name, e.g. "finance".
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Appname { get; private init; }
+
 }

@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetappStoragePoolsSwitchOptions : GcloudOptions
 {
     /// <summary>
+    /// switch a Regional Cloud NetApp Flex     Storage Pool zone
+    /// </summary>
+    /// <param name="StoragePool">Storage pool resource - The Storage Pool to switch. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument storage_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the storage_pool or fully qualified identifier for the storage_pool. To set the storage_pool attribute: ▸ provide the argument storage_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetappStoragePoolsSwitchOptions(
+        string StoragePool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(StoragePool);
+        this.StoragePool = StoragePool;
+    }
+
+    public void Deconstruct(out string StoragePool)
+    {
+        StoragePool = this.StoragePool;
+    }
+
+    /// <summary>
+    /// Storage pool resource - The Storage Pool to switch. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument storage_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the storage_pool. To set the location attribute: ▸ provide the argument storage_pool on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Storage pool resource - The Storage Pool to switch. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument storage_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the storage_pool or fully qualified identifier for the storage_pool. To set the storage_pool attribute: ▸ provide the argument storage_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string StoragePool { get; private init; }
 
 }

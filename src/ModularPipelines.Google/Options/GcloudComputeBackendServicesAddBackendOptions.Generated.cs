@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,309 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-services", "add-backend")]
-public record GcloudComputeBackendServicesAddBackendOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendServiceName
-) : GcloudOptions
+public record GcloudComputeBackendServicesAddBackendOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// add a backend to a backend     service
+    /// </summary>
+    /// <param name="BackendServiceName">Name of the backend service to operate on.</param>
+    public GcloudComputeBackendServicesAddBackendOptions(
+        string BackendServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackendServiceName);
+        this.BackendServiceName = BackendServiceName;
+    }
+
+    public void Deconstruct(out string BackendServiceName)
+    {
+        BackendServiceName = this.BackendServiceName;
+    }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Instance Group Name of the instance group to add to the backend service. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--instance-group", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceGroup { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Instance Group At most one of these can be specified: Region of the instance group to add to the backend service. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--instance-group-region", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceGroupRegion { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Instance Group At most one of these can be specified: Zone of the instance group to add to the backend service. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--instance-group-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceGroupZone { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Network Endpoint Group Name of the network endpoint group to add to the backend service. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--network-endpoint-group", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkEndpointGroup { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Network Endpoint Group At most one of these can be specified: If set, the network endpoint group is global.
+    /// </summary>
+    [CliFlag("--global-network-endpoint-group")]
+    public bool? GlobalNetworkEndpointGroup { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Network Endpoint Group At most one of these can be specified: Region of the network endpoint group to add to the backend service. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--network-endpoint-group-region", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkEndpointGroupRegion { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Network Endpoint Group At most one of these can be specified: Zone of the network endpoint group to add to the backend service. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--network-endpoint-group-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkEndpointGroupZone { get; set; }
+
+    /// <summary>
+    /// Defines how to measure whether a backend can handle additional traffic or is fully loaded. For more information, see https://cloud.google.com/load-balancing/docs/backend-service#balancing-mode. This cannot be used when the endpoint type of an attached network endpoint group is INTERNET_IP_PORT, INTERNET_FQDN_PORT, or SERVERLESS. BALANCING_MODE must be one of: CONNECTION Available if the backend service's load balancing scheme is either INTERNAL or EXTERNAL. Available if the backend service's protocol is one of SSL, TCP, or UDP. Spreads load based on how many concurrent connections the backend can handle. For backend services with --load-balancing-scheme EXTERNAL, you must specify exactly one of these additional parameters: --max-connections, --max-connections-per-instance, or --max-connections-per-endpoint. For backend services where --load-balancing-scheme is INTERNAL, you must omit all of these parameters. CUSTOM_METRICS Spreads load based on custom defined and reported metrics. IN_FLIGHT Available if the backend service's load balancing scheme is INTERNAL_MANAGED, INTERNAL_SELF_MANAGED, or EXTERNAL_MANAGED. Available if the backend service's protocol is one of HTTP, HTTPS, or HTTP/2. Spreads load based on how many in-flight requests the backend can handle. You must specify exactly one of these additional parameters: --max-in-flight-requests, --max-in-flight-requests-per-instance, or --max-in-flight-requests-per-endpoint, and --traffic-duration=LONG. RATE Available if the backend service's load balancing scheme is INTERNAL_MANAGED, INTERNAL_SELF_MANAGED, or EXTERNAL. Available if the backend service's protocol is one of HTTP, HTTPS, or HTTP/2. Spreads load based on how many HTTP requests per second (RPS) the backend can handle. You must specify exactly one of these additional parameters: --max-rate, --max-rate-per-instance, or --max-rate-per-endpoint. UTILIZATION Available if the backend service's load balancing scheme is INTERNAL_MANAGED, INTERNAL_SELF_MANAGED, or EXTERNAL. Available only for managed or unmanaged instance group backends. Spreads load based on the backend utilization of instances in a backend instance group. The following additional parameters may be specified: --max-utilization, --max-rate, --max-rate-per-instance, --max-connections, --max-connections-per-instance. For valid combinations, see --max-utilization.
+    /// </summary>
+    [CliOption("--balancing-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? BalancingMode { get; set; }
+
+    /// <summary>
+    /// Scales down the target capacity (max utilization, max rate, or max connections) without changing the target capacity. For usage guidelines and examples, see Capacity scaler (https://cloud.google.com/load-balancing/docs/backend-service#capacity_scaler). This cannot be used when the endpoint type of an attached network endpoint group is INTERNET_IP_PORT, INTERNET_FQDN_PORT, or SERVERLESS.
+    /// </summary>
+    [CliOption("--capacity-scaler", Format = OptionFormat.EqualsSeparated)]
+    public string? CapacityScaler { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the backend.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Designates whether this is a failover backend. More than one failover backend can be configured for a given BackendService. Not compatible with the --global flag
+    /// </summary>
+    [CliFlag("--failover")]
+    public bool? Failover { get; set; }
+
+    /// <summary>
+    /// Defines the maximum target for average utilization of the backend instance group. Supported values are 0.0 (0%) through 1.0 (100%). This is an optional parameter for the UTILIZATION balancing mode. You can use this parameter with other parameters for defining target capacity. For usage guidelines, see Balancing mode combinations (https://cloud.google.com/load-balancing/docs/backend-service#balancing-mode-combos).
+    /// </summary>
+    [CliOption("--max-utilization", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxUtilization { get; set; }
+
+    /// <summary>
+    /// This parameter specifies whether a backend should be fully utilized before sending traffic to backends with the default preference. This parameter cannot be used with regional managed instance groups and when the endpoint type of an attached network endpoint group is INTERNET_IP_PORT, INTERNET_FQDN_PORT, or SERVERLESS. PREFERENCE must be one of: DEFAULT This is the default setting. If the designated preferred backends don't have enough capacity, backends in the default category are used. Traffic is distributed between default backends based on the load balancing algorithm used. PREFERRED Backends with this preference setting are used up to their capacity limits first, while optimizing overall network latency.
+    /// </summary>
+    [CliOption("--preference", Format = OptionFormat.EqualsSeparated)]
+    public string? Preference { get; set; }
+
+    /// <summary>
+    /// The expected traffic duration for this service. TRAFFIC_DURATION must be one of: LONG Most of the requests are expected to take more than multiple seconds to finish. SHORT Most requests are expected to finish with a sub-second latency. TRAFFIC_DURATION_UNSPECIFIED Default value. Defaults to SHORT.
+    /// </summary>
+    [CliOption("--traffic-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? TrafficDuration { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of custom metrics that are used for CUSTOM_METRICS balancing mode and WEIGHTED_ROUND_ROBIN locality load balancing policy. Example: $ gcloud compute backend-services add-backend \ --custom-metrics='name=my-signal,maxUtilization=0.8,dryRun=true' $ gcloud compute backend-services add-backend \ --custom-metrics='name=my-signal,maxUtilization=0.8,dryRun=true'\ --custom-metrics='name=my-signal2,maxUtilization=0.2' $ gcloud compute backend-services add-backend \ --custom-metrics='[{"name" : "my-signal", "maxUtilization" : 0.8, "dryRun" : true}, {"name" : "my-signal2", "maxUtilization" : 0.1}]' Sets custom_metrics value. dryRun Sets dryRun value. maxUtilization Sets maxUtilization value. name Required, sets name value. Shorthand Example: --custom-metrics=dryRun=boolean,maxUtilization=float,name=string --custom-metrics=dryRun=boolean,maxUtilization=float,name=string JSON Example: --custom-metrics='[{"dryRun": boolean, "maxUtilization": float, "name": "string"}]' File Example: --custom-metrics=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--custom-metrics", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? CustomMetrics
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __CustomMetricsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __CustomMetricsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __CustomMetricsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __CustomMetricsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At most one of these can be specified: File path to json file with custom metrics that are used for CUSTOM_METRICS balancing mode and WEIGHTED_ROUND_ROBIN locality load balancing policy. Example: $ gcloud compute backend-services add-backend \ --custom-metrics-file='customMetric.json' Sets custom_metrics_file value. dryRun Sets dryRun value. maxUtilization Sets maxUtilization value. name Required, sets name value. Shorthand Example: --custom-metrics-file=dryRun=boolean,maxUtilization=float,name=string --custom-metrics-file=dryRun=boolean,maxUtilization=float,name=string JSON Example: --custom-metrics-file='[{"dryRun": boolean, "maxUtilization": float, "name": "string"}]' File Example: --custom-metrics-file=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--custom-metrics-file", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? CustomMetricsFile
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __CustomMetricsFileSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __CustomMetricsFileSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __CustomMetricsFileSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __CustomMetricsFileSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the backend service is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the backend service to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Maximum concurrent connections that the backend can handle. Valid for network endpoint group and instance group backends (except for regional managed instance groups). This cannot be used when the endpoint type of an attached network endpoint group is INTERNET_IP_PORT, INTERNET_FQDN_PORT, or SERVERLESS.
+    /// </summary>
+    [CliOption("--max-connections", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxConnections { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Only valid for network endpoint group backends. Defines a maximum number of connections per endpoint if all endpoints are healthy. When one or more endpoints are unhealthy, an effective maximum average number of connections per healthy endpoint is calculated by multiplying MAX_CONNECTIONS_PER_ENDPOINT by the number of endpoints in the network endpoint group, and then dividing by the number of healthy endpoints. This cannot be used when the endpoint type of an attached network endpoint group is INTERNET_IP_PORT, INTERNET_FQDN_PORT, or SERVERLESS.
+    /// </summary>
+    [CliOption("--max-connections-per-endpoint", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxConnectionsPerEndpoint { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Only valid for instance group backends. Defines a maximum number of concurrent connections per instance if all instances in the instance group are healthy. When one or more instances are unhealthy, an effective average maximum number of connections per healthy instance is calculated by multiplying MAX_CONNECTIONS_PER_INSTANCE by the number of instances in the instance group, and then dividing by the number of healthy instances.
+    /// </summary>
+    [CliOption("--max-connections-per-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxConnectionsPerInstance { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Maximum number of in-flight requests that the backend can handle. This cannot be used when the endpoint type of an attached network endpoint group is INTERNET_IP_PORT, INTERNET_FQDN_PORT, or SERVERLESS.
+    /// </summary>
+    [CliOption("--max-in-flight-requests", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxInFlightRequests { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Only valid for network endpoint group backends. Defines the maximum number of in-flight requests per endpoint. This cannot be used when the endpoint type of an attached network endpoint group is INTERNET_IP_PORT, INTERNET_FQDN_PORT, or SERVERLESS.
+    /// </summary>
+    [CliOption("--max-in-flight-requests-per-endpoint", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxInFlightRequestsPerEndpoint { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Only valid for instance group backends. Defines the maximum number of in-flight requests per instance. This cannot be used when the endpoint type of an attached network endpoint group is INTERNET_IP_PORT, INTERNET_FQDN_PORT, or SERVERLESS.
+    /// </summary>
+    [CliOption("--max-in-flight-requests-per-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxInFlightRequestsPerInstance { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Maximum number of HTTP requests per second (RPS) that the backend can handle. Valid for network endpoint group and instance group backends (except for regional managed instance groups). Must not be defined if the backend is a managed instance group using load balancing-based autoscaling. This cannot be used when the endpoint type of an attached network endpoint group is INTERNET_IP_PORT, INTERNET_FQDN_PORT, or SERVERLESS.
+    /// </summary>
+    [CliOption("--max-rate", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxRate { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Only valid for network endpoint group backends. Defines a maximum number of HTTP requests per second (RPS) per endpoint if all endpoints are healthy. When one or more endpoints are unhealthy, an effective maximum rate per healthy endpoint is calculated by multiplying MAX_RATE_PER_ENDPOINT by the number of endpoints in the network endpoint group, and then dividing by the number of healthy endpoints. This cannot be used when the endpoint type of an attached network endpoint group is INTERNET_IP_PORT, INTERNET_FQDN_PORT, or SERVERLESS.
+    /// </summary>
+    [CliOption("--max-rate-per-endpoint", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxRatePerEndpoint { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Only valid for instance group backends. Defines a maximum number of HTTP requests per second (RPS) per instance if all instances in the instance group are healthy. When one or more instances are unhealthy, an effective maximum RPS per healthy instance is calculated by multiplying MAX_RATE_PER_INSTANCE by the number of instances in the instance group, and then dividing by the number of healthy instances. This parameter is compatible with managed instance group backends that use autoscaling based on load balancing.
+    /// </summary>
+    [CliOption("--max-rate-per-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxRatePerInstance { get; set; }
+
+    /// <summary>
+    /// Name of the backend service to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackendServiceName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((!string.IsNullOrWhiteSpace(InstanceGroup) || !string.IsNullOrWhiteSpace(InstanceGroupRegion) || !string.IsNullOrWhiteSpace(InstanceGroupZone)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(NetworkEndpointGroup) || GlobalNetworkEndpointGroup == true || !string.IsNullOrWhiteSpace(NetworkEndpointGroupRegion) || !string.IsNullOrWhiteSpace(NetworkEndpointGroupZone)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (InstanceGroup, InstanceGroupRegion, or InstanceGroupZone) or (NetworkEndpointGroup, GlobalNetworkEndpointGroup, NetworkEndpointGroupRegion, or NetworkEndpointGroupZone) must be specified.", [nameof(InstanceGroup), nameof(InstanceGroupRegion), nameof(InstanceGroupZone), nameof(NetworkEndpointGroup), nameof(GlobalNetworkEndpointGroup), nameof(NetworkEndpointGroupRegion), nameof(NetworkEndpointGroupZone)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(InstanceGroup) || !string.IsNullOrWhiteSpace(InstanceGroupRegion) || !string.IsNullOrWhiteSpace(InstanceGroupZone) || !string.IsNullOrWhiteSpace(NetworkEndpointGroup) || GlobalNetworkEndpointGroup == true || !string.IsNullOrWhiteSpace(NetworkEndpointGroupRegion) || !string.IsNullOrWhiteSpace(NetworkEndpointGroupZone)) && (!string.IsNullOrWhiteSpace(InstanceGroup) || !string.IsNullOrWhiteSpace(InstanceGroupRegion) || !string.IsNullOrWhiteSpace(InstanceGroupZone)) && (!(!string.IsNullOrWhiteSpace(InstanceGroup))))
+        {
+            yield return new ValidationResult("InstanceGroup must be specified when other arguments in this group are specified.", [nameof(InstanceGroup)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(InstanceGroup) || !string.IsNullOrWhiteSpace(InstanceGroupRegion) || !string.IsNullOrWhiteSpace(InstanceGroupZone) || !string.IsNullOrWhiteSpace(NetworkEndpointGroup) || GlobalNetworkEndpointGroup == true || !string.IsNullOrWhiteSpace(NetworkEndpointGroupRegion) || !string.IsNullOrWhiteSpace(NetworkEndpointGroupZone)) && (!string.IsNullOrWhiteSpace(InstanceGroup) || !string.IsNullOrWhiteSpace(InstanceGroupRegion) || !string.IsNullOrWhiteSpace(InstanceGroupZone)) && ((!string.IsNullOrWhiteSpace(InstanceGroupRegion) ? 1 : 0) + (!string.IsNullOrWhiteSpace(InstanceGroupZone) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of InstanceGroupRegion or InstanceGroupZone may be specified.", [nameof(InstanceGroupRegion), nameof(InstanceGroupZone)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(InstanceGroup) || !string.IsNullOrWhiteSpace(InstanceGroupRegion) || !string.IsNullOrWhiteSpace(InstanceGroupZone) || !string.IsNullOrWhiteSpace(NetworkEndpointGroup) || GlobalNetworkEndpointGroup == true || !string.IsNullOrWhiteSpace(NetworkEndpointGroupRegion) || !string.IsNullOrWhiteSpace(NetworkEndpointGroupZone)) && (!string.IsNullOrWhiteSpace(NetworkEndpointGroup) || GlobalNetworkEndpointGroup == true || !string.IsNullOrWhiteSpace(NetworkEndpointGroupRegion) || !string.IsNullOrWhiteSpace(NetworkEndpointGroupZone)) && (!(!string.IsNullOrWhiteSpace(NetworkEndpointGroup))))
+        {
+            yield return new ValidationResult("NetworkEndpointGroup must be specified when other arguments in this group are specified.", [nameof(NetworkEndpointGroup)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(InstanceGroup) || !string.IsNullOrWhiteSpace(InstanceGroupRegion) || !string.IsNullOrWhiteSpace(InstanceGroupZone) || !string.IsNullOrWhiteSpace(NetworkEndpointGroup) || GlobalNetworkEndpointGroup == true || !string.IsNullOrWhiteSpace(NetworkEndpointGroupRegion) || !string.IsNullOrWhiteSpace(NetworkEndpointGroupZone)) && (!string.IsNullOrWhiteSpace(NetworkEndpointGroup) || GlobalNetworkEndpointGroup == true || !string.IsNullOrWhiteSpace(NetworkEndpointGroupRegion) || !string.IsNullOrWhiteSpace(NetworkEndpointGroupZone)) && ((GlobalNetworkEndpointGroup == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(NetworkEndpointGroupRegion) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NetworkEndpointGroupZone) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of GlobalNetworkEndpointGroup, NetworkEndpointGroupRegion, or NetworkEndpointGroupZone may be specified.", [nameof(GlobalNetworkEndpointGroup), nameof(NetworkEndpointGroupRegion), nameof(NetworkEndpointGroupZone)]);
+        }
+        if ((((object?)CustomMetrics is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)CustomMetrics, static item => item is not null) : ((object?)CustomMetrics is global::System.Collections.Generic.IEnumerable<char> ? (object?)CustomMetrics is not string || !string.IsNullOrWhiteSpace(CustomMetrics?.ToString()) : ((object?)CustomMetrics is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CustomMetrics, static item => item is not null) : (CustomMetrics is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CustomMetrics), static item => item is not null))))) ? 1 : 0) + (((object?)CustomMetricsFile is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)CustomMetricsFile, static item => item is not null) : ((object?)CustomMetricsFile is global::System.Collections.Generic.IEnumerable<char> ? (object?)CustomMetricsFile is not string || !string.IsNullOrWhiteSpace(CustomMetricsFile?.ToString()) : ((object?)CustomMetricsFile is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CustomMetricsFile, static item => item is not null) : (CustomMetricsFile is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CustomMetricsFile), static item => item is not null))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of CustomMetrics or CustomMetricsFile may be specified.", [nameof(CustomMetrics), nameof(CustomMetricsFile)]);
+        }
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(MaxConnections) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxConnectionsPerEndpoint) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxConnectionsPerInstance) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxInFlightRequests) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxInFlightRequestsPerEndpoint) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxInFlightRequestsPerInstance) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxRate) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxRatePerEndpoint) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MaxRatePerInstance) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of MaxConnections, MaxConnectionsPerEndpoint, MaxConnectionsPerInstance, MaxInFlightRequests, MaxInFlightRequestsPerEndpoint, MaxInFlightRequestsPerInstance, MaxRate, MaxRatePerEndpoint, or MaxRatePerInstance may be specified.", [nameof(MaxConnections), nameof(MaxConnectionsPerEndpoint), nameof(MaxConnectionsPerInstance), nameof(MaxInFlightRequests), nameof(MaxInFlightRequestsPerEndpoint), nameof(MaxInFlightRequestsPerInstance), nameof(MaxRate), nameof(MaxRatePerEndpoint), nameof(MaxRatePerInstance)]);
+        }
+        yield break;
+    }
+
 }

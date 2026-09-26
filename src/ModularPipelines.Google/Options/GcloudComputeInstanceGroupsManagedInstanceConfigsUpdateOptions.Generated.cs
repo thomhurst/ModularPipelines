@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +21,128 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instance-groups", "managed", "instance-configs", "update")]
-public record GcloudComputeInstanceGroupsManagedInstanceConfigsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeInstanceGroupsManagedInstanceConfigsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update     per-instance config of a managed instance group
+    /// </summary>
+    /// <param name="Instance">URI/name of an existing instance in the managed instance group.</param>
+    /// <param name="Name">Name of the managed instance group to update per-instance config for.</param>
+    public GcloudComputeInstanceGroupsManagedInstanceConfigsUpdateOptions(
+        string Instance,
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Instance, out string Name)
+    {
+        Instance = this.Instance;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// URI/name of an existing instance in the managed instance group.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string Instance { get; private init; }
+
+    /// <summary>
+    /// Perform at least this action on the instance while updating, if --update-instance is set to true. INSTANCE_UPDATE_MINIMAL_ACTION must be one of: none No action refresh Apply the new configuration without stopping VMs, if possible. For example, use ``refresh`` to apply changes that only affect metadata or additional disks. restart Apply the new configuration without replacing VMs, if possible. For example, stopping VMs and starting them again is sufficient to apply changes to machine type. replace Replace old VMs according to the --replacement-method flag.
+    /// </summary>
+    [CliOption("--instance-update-minimal-action", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceUpdateMinimalAction { get; set; }
+
+    /// <summary>
+    /// Remove stateful configuration for the specified disks from the instance's configuration. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--remove-stateful-disks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveStatefulDisks { get; set; }
+
+    /// <summary>
+    /// List of all stateful IP network interface names to remove from the instance's per-instance configuration. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--remove-stateful-external-ips", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveStatefulExternalIps { get; set; }
+
+    /// <summary>
+    /// List of all stateful IP network interface names to remove from the instance's per-instance configuration. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--remove-stateful-internal-ips", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveStatefulInternalIps { get; set; }
+
+    /// <summary>
+    /// Remove stateful configuration for the specified metadata keys from the instance's configuration. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--remove-stateful-metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveStatefulMetadata { get; set; }
+
+    /// <summary>
+    /// Disks considered stateful by the instance group. Managed instance groups preserve and reattach stateful disks on VM autohealing, update, and recreate events. You can also attach and preserve disks, not defined in the group's instance template, to a given instance. The same disk can be attached to more than one instance but only in read-only mode. Use this argument multiple times to update multiple disks. If stateful disk with given device-name exists in current instance configuration, its properties will be replaced by the newly provided ones. In other case new stateful disk definition will be added to the instance configuration. device-name Name under which disk is or will be attached. source Optional argument used to specify the URI of an existing persistent disk to attach under specified device-name. mode Specifies the mode of the disk to attach. Supported options are ro for read-only and rw for read-write. If omitted when source is specified, rw is used as a default. mode can only be specified if source is given. auto-delete (Optional) Specifies the auto deletion policy of the stateful disk. The following options are available: ▸ never: (Default) Never delete this disk. Instead, detach the disk when its instance is deleted. ▸ on-permanent-instance-deletion: Delete the stateful disk when the instance that it's attached to is permanently deleted from the group; for example, when the instance is deleted manually or when the group size is decreased.
+    /// </summary>
+    [CliOption("--stateful-disk", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? StatefulDisk { get; set; }
+
+    /// <summary>
+    /// Managed instance groups preserve stateful IPs on VM autohealing, update, and recreate events. You can preserve the IP address that's specified in a network interface for a specific managed instance, even if that network interface is not defined in the group's instance template. Use this argument multiple times to update multiple IPs. If a stateful IP with the given network interface name exists in the current per-instance configuration, its properties are replaced by the newly provided ones. Otherwise, a new stateful IP definition is added to the per-instance configuration. interface-name (Optional) Network interface name. If omitted, the default network interface named nic0 is assumed. address (Optional) Static IP address to assign to the instance in one of the following formats: + Address: URL of a static IP address reservation. For example: projects/example-project/regions/us-east1/addresses/example-ip-name. + Literal: For example: 130.211.181.55. If the provided IP address is not yet reserved, the managed instance group automatically creates the corresponding IP address reservation. If the provided IP address is reserved, the group assigns the reservation to the instance. The address flag is optional if an address is already defined in the instance's per-instance configuration. Otherwise it is required. If omitted, the currently configured address remains unchanged. auto-delete (Optional) Prescribes what should happen to an associated static Address resource when a VM instance is permanently deleted. Regardless of the value of the delete rule, stateful IP addresses are always preserved on instance autohealing, update, and recreation operations. The following options are available: ▸ never: (Default) Never delete the static IP address. Instead, unassign the address when its instance is permanently deleted and keep the address reserved. ▸ on-permanent-instance-deletion: Delete the static IP address reservation when the instance that it's assigned to is permanently deleted from the instance group; for example, when the instance is deleted manually or when the group size is decreased.
+    /// </summary>
+    [CliOption("--stateful-external-ip", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? StatefulExternalIp { get; set; }
+
+    /// <summary>
+    /// Managed instance groups preserve stateful IPs on VM autohealing, update, and recreate events. You can preserve the IP address that's specified in a network interface for a specific managed instance, even if that network interface is not defined in the group's instance template. Use this argument multiple times to update multiple IPs. If a stateful IP with the given network interface name exists in the current per-instance configuration, its properties are replaced by the newly provided ones. Otherwise, a new stateful IP definition is added to the per-instance configuration. interface-name (Optional) Network interface name. If omitted, the default network interface named nic0 is assumed. address (Optional) Static IP address to assign to the instance in one of the following formats: + Address: URL of a static IP address reservation. For example: projects/example-project/regions/us-east1/addresses/example-ip-name. + Literal: For example: 130.211.181.55. If the provided IP address is not yet reserved, the managed instance group automatically creates the corresponding IP address reservation. If the provided IP address is reserved, the group assigns the reservation to the instance. The address flag is optional if an address is already defined in the instance's per-instance configuration. Otherwise it is required. If omitted, the currently configured address remains unchanged. auto-delete (Optional) Prescribes what should happen to an associated static Address resource when a VM instance is permanently deleted. Regardless of the value of the delete rule, stateful IP addresses are always preserved on instance autohealing, update, and recreation operations. The following options are available: ▸ never: (Default) Never delete the static IP address. Instead, unassign the address when its instance is permanently deleted and keep the address reserved. ▸ on-permanent-instance-deletion: Delete the static IP address reservation when the instance that it's assigned to is permanently deleted from the instance group; for example, when the instance is deleted manually or when the group size is decreased.
+    /// </summary>
+    [CliOption("--stateful-internal-ip", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? StatefulInternalIp { get; set; }
+
+    /// <summary>
+    /// Additional metadata to be made available to the guest operating system in addition to the metadata defined in the instance template. Stateful metadata may be used to define a key/value pair specific for the one given instance to differentiate it from the other instances in the managed instance group. Stateful metadata key/value pairs are preserved on instance recreation, autohealing, updates, and any other lifecycle transitions of the instance. Stateful metadata have priority over the metadata defined in the instance template. This means that stateful metadata that is defined for a key that already exists in the instance template overrides the instance template value. Each metadata entry is a key/value pair separated by an equals sign. Metadata keys must be unique and less than 128 bytes in length. Multiple entries can be passed to this flag, e.g., --stateful-metadata key-1=value-1,key-2=value-2,key-3=value-3. If stateful metadata with the given key exists in current instance configuration, its value will be overridden with the newly provided one. If the key does not exist in the current instance configuration, a new key/value pair will be added. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--stateful-metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? StatefulMetadata { get; set; }
+
+    /// <summary>
+    /// Apply the configuration changes immediately to the instance. If you disable this flag, the managed instance group will apply the configuration update when you next recreate or update the instance. Example: say you have an instance with a disk attached to it and you created a stateful configuration for the disk. If you decide to delete the stateful configuration for the disk and you provide this flag, the group immediately refreshes the instance and removes the stateful configuration for the disk. Similarly if you have attached a new disk or changed its definition, with this flag the group immediately refreshes the instance with the new configuration. Enabled by default, use --no-update-instance to disable.
+    /// </summary>
+    [CliFlag("--update-instance")]
+    public bool? UpdateInstance { get; set; }
+
+    /// <summary>
+    /// Negates --update-instance. Apply the configuration changes immediately to the instance. If you disable this flag, the managed instance group will apply the configuration update when you next recreate or update the instance. Example: say you have an instance with a disk attached to it and you created a stateful configuration for the disk. If you decide to delete the stateful configuration for the disk and you provide this flag, the group immediately refreshes the instance and removes the stateful configuration for the disk. Similarly if you have attached a new disk or changed its definition, with this flag the group immediately refreshes the instance with the new configuration. Enabled by default, use --no-update-instance to disable.
+    /// </summary>
+    [CliFlag("--no-update-instance")]
+    public bool? NoUpdateInstance { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the managed instance group to update per-instance config for. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone of the managed instance group to update per-instance config for. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the managed instance group to update per-instance config for.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Region or Zone may be specified.", [nameof(Region), nameof(Zone)]);
+        }
+        yield break;
+    }
+
 }

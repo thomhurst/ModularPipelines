@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("edge-cloud", "services", "describe")]
 public record GcloudEdgeCloudServicesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Google Cloud Platform     service enabled on a Google Distributed Cloud zone
+    /// </summary>
+    /// <param name="ZonalService">Zonal Service resource - Service ID to describe which is enabled on a Google Distributed Cloud zone. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument zonal_service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Zonal Service or fully qualified identifier for the Zonal Service. To set the zonal_service attribute: ▸ provide the argument zonal_service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEdgeCloudServicesDescribeOptions(
+        string ZonalService
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ZonalService);
+        this.ZonalService = ZonalService;
+    }
+
+    public void Deconstruct(out string ZonalService)
+    {
+        ZonalService = this.ZonalService;
+    }
+
+    /// <summary>
+    /// Zonal Service resource - Service ID to describe which is enabled on a Google Distributed Cloud zone. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument zonal_service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location name. To set the location attribute: ▸ provide the argument zonal_service on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Zonal Service resource - Service ID to describe which is enabled on a Google Distributed Cloud zone. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument zonal_service on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Zonal Service or fully qualified identifier for the Zonal Service. To set the zonal_service attribute: ▸ provide the argument zonal_service on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ZonalService { get; private init; }
+
 }

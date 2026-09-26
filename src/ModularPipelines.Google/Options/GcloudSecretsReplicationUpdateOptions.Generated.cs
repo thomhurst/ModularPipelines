@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secrets", "replication", "update")]
-public record GcloudSecretsReplicationUpdateOptions : GcloudOptions
+public record GcloudSecretsReplicationUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a secret replica's metadata
+    /// </summary>
+    /// <param name="Secret">Secret resource - The secret to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument SECRET on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the secret or fully qualified identifier for the secret. To set the secret attribute: ▸ provide the argument SECRET on the command line.</param>
+    public GcloudSecretsReplicationUpdateOptions(
+        string Secret
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Secret);
+        this.Secret = Secret;
+    }
+
+    public void Deconstruct(out string Secret)
+    {
+        Secret = this.Secret;
+    }
+
     /// <summary>
     /// Replication update. At most one of these can be specified: Remove customer managed encryption key so that future versions will be encrypted by a Google managed encryption key.
     /// </summary>
@@ -38,5 +56,21 @@ public record GcloudSecretsReplicationUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--set-kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? SetKmsKey { get; set; }
+
+    /// <summary>
+    /// Secret resource - The secret to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument SECRET on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the secret or fully qualified identifier for the secret. To set the secret attribute: ▸ provide the argument SECRET on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Secret { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((RemoveCmek == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(SetKmsKey)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of RemoveCmek or (Location or SetKmsKey) may be specified.", [nameof(RemoveCmek), nameof(Location), nameof(SetKmsKey)]);
+        }
+        yield break;
+    }
 
 }

@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "rollouts", "describe")]
 public record GcloudComputeRolloutsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a rollout
+    /// </summary>
+    /// <param name="Rollout">Rollout resource - Name of the rollout you want to inspect. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rollout on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Rollout or fully qualified identifier for the Rollout. To set the rollout attribute: ▸ provide the argument rollout on the command line.</param>
+    public GcloudComputeRolloutsDescribeOptions(
+        string Rollout
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Rollout);
+        this.Rollout = Rollout;
+    }
+
+    public void Deconstruct(out string Rollout)
+    {
+        Rollout = this.Rollout;
+    }
+
+    /// <summary>
+    /// Rollout resource - Name of the rollout you want to inspect. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rollout on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Rollout or fully qualified identifier for the Rollout. To set the rollout attribute: ▸ provide the argument rollout on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Rollout { get; private init; }
+
 }

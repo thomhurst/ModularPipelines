@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDnsRecordSetsTransactionExecuteOptions : GcloudOptions
 {
     /// <summary>
+    /// execute the transaction on     Cloud DNS
+    /// </summary>
+    /// <param name="Zone">Name of the managed zone whose record sets you want to manage.</param>
+    public GcloudDnsRecordSetsTransactionExecuteOptions(
+        string Zone
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+    }
+
+    public void Deconstruct(out string Zone)
+    {
+        Zone = this.Zone;
+    }
+
+    /// <summary>
+    /// Name of the managed zone whose record sets you want to manage.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
+    /// <summary>
     /// Path of the file which contains the transaction.
     /// </summary>
     [CliOption("--transaction-file", Format = OptionFormat.EqualsSeparated)]

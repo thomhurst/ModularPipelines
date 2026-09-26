@@ -21,4 +21,62 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("vmware", "private-clouds", "clusters", "create")]
 public record GcloudVmwarePrivateCloudsClustersCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Google Cloud VMware     Engine cluster
+    /// </summary>
+    /// <param name="NodeTypeConfig">Information about the type and number of nodes associated with the cluster. type (required): canonical identifier of the node type. count (required): number of nodes of this type in the cluster. custom-core-count (optional): customized number of cores available to each node of the type. To get a list of valid values for your node type, run the gcloud vmware node-types describe command and reference the availableCustomCoreCounts field in the output.</param>
+    /// <param name="Cluster">Cluster resource - cluster. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVmwarePrivateCloudsClustersCreateOptions(
+        string NodeTypeConfig,
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NodeTypeConfig);
+        this.NodeTypeConfig = NodeTypeConfig;
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string NodeTypeConfig, out string Cluster)
+    {
+        NodeTypeConfig = this.NodeTypeConfig;
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Information about the type and number of nodes associated with the cluster. type (required): canonical identifier of the node type. count (required): number of nodes of this type in the cluster. custom-core-count (optional): customized number of cores available to each node of the type. To get a list of valid values for your node type, run the gcloud vmware node-types describe command and reference the availableCustomCoreCounts field in the output.
+    /// </summary>
+    [CliOption("--node-type-config", Format = OptionFormat.EqualsSeparated)]
+    public string NodeTypeConfig { get; private init; }
+
+    /// <summary>
+    /// Cluster resource - cluster. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the private cloud or cluster. To set the location attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/zone.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Cluster resource - cluster. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. VMware Engine private cloud. To set the private-cloud attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --private-cloud on the command line.
+    /// </summary>
+    [CliOption("--private-cloud", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateCloud { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Cluster resource - cluster. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
 }

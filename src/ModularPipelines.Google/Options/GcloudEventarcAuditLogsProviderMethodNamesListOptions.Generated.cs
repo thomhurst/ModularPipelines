@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("eventarc", "audit-logs-provider", "method-names", "list")]
 public record GcloudEventarcAuditLogsProviderMethodNamesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list values for the     methodName attribute for event type google.cloud.audit.log.v1.written
+    /// </summary>
+    /// <param name="ServiceName">The value of the serviceName CloudEvents attribute.</param>
+    public GcloudEventarcAuditLogsProviderMethodNamesListOptions(
+        string ServiceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceName);
+        this.ServiceName = ServiceName;
+    }
+
+    public void Deconstruct(out string ServiceName)
+    {
+        ServiceName = this.ServiceName;
+    }
+
+    /// <summary>
+    /// The value of the serviceName CloudEvents attribute.
+    /// </summary>
+    [CliOption("--service-name", Format = OptionFormat.EqualsSeparated)]
+    public string ServiceName { get; private init; }
+
 }

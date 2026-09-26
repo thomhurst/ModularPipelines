@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "logs", "list")]
-public record GcloudLoggingLogsListOptions : GcloudOptions
+public record GcloudLoggingLogsListOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// These arguments are used in conjunction with the parent to construct a view resource. Id of the log bucket. This flag argument must be specified if any of the other arguments in this group are specified.
@@ -38,5 +39,23 @@ public record GcloudLoggingLogsListOptions : GcloudOptions
     /// </summary>
     [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
     public string? View { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Bucket) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(View)) && (!(!string.IsNullOrWhiteSpace(Bucket))))
+        {
+            yield return new ValidationResult("Bucket must be specified when other arguments in this group are specified.", [nameof(Bucket)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Bucket) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(View)) && (!(!string.IsNullOrWhiteSpace(Location))))
+        {
+            yield return new ValidationResult("Location must be specified when other arguments in this group are specified.", [nameof(Location)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Bucket) || !string.IsNullOrWhiteSpace(Location) || !string.IsNullOrWhiteSpace(View)) && (!(!string.IsNullOrWhiteSpace(View))))
+        {
+            yield return new ValidationResult("View must be specified when other arguments in this group are specified.", [nameof(View)]);
+        }
+        yield break;
+    }
 
 }

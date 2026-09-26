@@ -21,4 +21,84 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("scc", "posture-deployments", "create")]
 public record GcloudSccPostureDeploymentsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Cloud Security Command     Center posture deployment
+    /// </summary>
+    /// <param name="PostureName">Posture that needs to be deployed. Format: organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postures/&lt;postureID&gt;</param>
+    /// <param name="PostureRevisionId">Posture revision that needs to be deployed.</param>
+    /// <param name="TargetResource">Name of the workload on which posture deployment is to be created. It could be an organization, folder or a project. Possible formats: | organizations/&lt;organizationID&gt; | folders/&lt;folderID&gt; | projects/&lt;projectID&gt; The above mentioned IDs need to have numeric format.</param>
+    /// <param name="PostureDeployment">Posture deployment resource - The name of the posture deployment to be created. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postureDeployments/&lt;postureDeploymentID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the posture_deployment or fully qualified identifier for the posture_deployment. To set the posture_deployment attribute: ▸ provide the argument posture_deployment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSccPostureDeploymentsCreateOptions(
+        string PostureName,
+        string PostureRevisionId,
+        string TargetResource,
+        string PostureDeployment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PostureName);
+        this.PostureName = PostureName;
+        global::System.ArgumentNullException.ThrowIfNull(PostureRevisionId);
+        this.PostureRevisionId = PostureRevisionId;
+        global::System.ArgumentNullException.ThrowIfNull(TargetResource);
+        this.TargetResource = TargetResource;
+        global::System.ArgumentNullException.ThrowIfNull(PostureDeployment);
+        this.PostureDeployment = PostureDeployment;
+    }
+
+    public void Deconstruct(out string PostureName, out string PostureRevisionId, out string TargetResource, out string PostureDeployment)
+    {
+        PostureName = this.PostureName;
+        PostureRevisionId = this.PostureRevisionId;
+        TargetResource = this.TargetResource;
+        PostureDeployment = this.PostureDeployment;
+    }
+
+    /// <summary>
+    /// Posture that needs to be deployed. Format: organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postures/&lt;postureID&gt;
+    /// </summary>
+    [CliOption("--posture-name", Format = OptionFormat.EqualsSeparated)]
+    public string PostureName { get; private init; }
+
+    /// <summary>
+    /// Posture revision that needs to be deployed.
+    /// </summary>
+    [CliOption("--posture-revision-id", Format = OptionFormat.EqualsSeparated)]
+    public string PostureRevisionId { get; private init; }
+
+    /// <summary>
+    /// Name of the workload on which posture deployment is to be created. It could be an organization, folder or a project. Possible formats: | organizations/&lt;organizationID&gt; | folders/&lt;folderID&gt; | projects/&lt;projectID&gt; The above mentioned IDs need to have numeric format.
+    /// </summary>
+    [CliOption("--target-resource", Format = OptionFormat.EqualsSeparated)]
+    public string TargetResource { get; private init; }
+
+    /// <summary>
+    /// Posture deployment resource - The name of the posture deployment to be created. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postureDeployments/&lt;postureDeploymentID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the location where the resource exists (for example, global). To set the location attribute: ▸ provide the argument posture_deployment on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Posture deployment resource - The name of the posture deployment to be created. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postureDeployments/&lt;postureDeploymentID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the organization which is the parent of the resource. To set the organization attribute: ▸ provide the argument posture_deployment on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// User-provided description of the posture deployment.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Posture deployment resource - The name of the posture deployment to be created. For example organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postureDeployments/&lt;postureDeploymentID&gt;. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the posture_deployment or fully qualified identifier for the posture_deployment. To set the posture_deployment attribute: ▸ provide the argument posture_deployment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PostureDeployment { get; private init; }
+
 }

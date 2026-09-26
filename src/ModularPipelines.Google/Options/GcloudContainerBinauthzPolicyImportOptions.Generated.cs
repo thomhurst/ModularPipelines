@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "binauthz", "policy", "import")]
-public record GcloudContainerBinauthzPolicyImportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudContainerBinauthzPolicyImportOptions : GcloudOptions
 {
+    /// <summary>
+    /// import a Binary Authorization     policy to the current project
+    /// </summary>
+    /// <param name="PolicyFile">The file containing the YAML-formatted policy description.</param>
+    public GcloudContainerBinauthzPolicyImportOptions(
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string PolicyFile)
+    {
+        PolicyFile = this.PolicyFile;
+    }
+
     /// <summary>
     /// Whether to perform additional checks on the validity of policy contents.
     /// </summary>
     [CliFlag("--strict-validation")]
     public bool? StrictValidation { get; set; }
+
+    /// <summary>
+    /// The file containing the YAML-formatted policy description.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
 
 }

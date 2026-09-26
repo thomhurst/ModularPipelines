@@ -22,9 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerFleetPackagesRolloutsSuspendOptions : GcloudOptions
 {
     /// <summary>
+    /// progress     Rollout
+    /// </summary>
+    /// <param name="Rollout">Rollout resource - The rollout to suspend. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rollout on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the rollout or fully qualified identifier for the rollout. To set the rollout attribute: ▸ provide the argument rollout on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerFleetPackagesRolloutsSuspendOptions(
+        string Rollout
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Rollout);
+        this.Rollout = Rollout;
+    }
+
+    public void Deconstruct(out string Rollout)
+    {
+        Rollout = this.Rollout;
+    }
+
+    /// <summary>
+    /// Rollout resource - The rollout to suspend. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rollout on the command line with a fully specified name; ◆ set the property core/project. This must be specified. Fleet Package name. To set the fleet-package attribute: ▸ provide the argument rollout on the command line with a fully specified name; ▸ provide the argument --fleet-package on the command line.
+    /// </summary>
+    [CliOption("--fleet-package", Format = OptionFormat.EqualsSeparated)]
+    public string? FleetPackage { get; set; }
+
+    /// <summary>
+    /// Rollout resource - The rollout to suspend. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rollout on the command line with a fully specified name; ◆ set the property core/project. This must be specified. Google Cloud zone or region for the rollout. To set the location attribute: ▸ provide the argument rollout on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property config_delivery/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Reason for suspending rollout.
     /// </summary>
     [CliOption("--reason", Format = OptionFormat.EqualsSeparated)]
     public string? Reason { get; set; }
+
+    /// <summary>
+    /// Rollout resource - The rollout to suspend. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument rollout on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the rollout or fully qualified identifier for the rollout. To set the rollout attribute: ▸ provide the argument rollout on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Rollout { get; private init; }
 
 }

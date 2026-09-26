@@ -6,11 +6,11 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,20 +21,45 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "point-in-time-restore")]
-public record GcloudSqlInstancesPointInTimeRestoreOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Datasource
-) : GcloudOptions
+public record GcloudSqlInstancesPointInTimeRestoreOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// performs a point in time     restore for a Cloud SQL instance managed by Google Cloud Backup and     Disaster Recovery Service
+    /// </summary>
+    /// <param name="Datasource">The Google Cloud Backup and Disaster Recovery (DR) Service Datasource URI, of the form projects/{project}/locations/{region}/backupVaults/ {backupvault}/dataSources/{datasource}.</param>
+    /// <param name="Target">Cloud SQL instance ID of the target instance.</param>
+    /// <param name="PointInTime">The point in time in which to restore the instance to. Uses RFC 3339 format in UTC timezone. For example, '2012-11-15T16:19:00.094Z'.</param>
+    public GcloudSqlInstancesPointInTimeRestoreOptions(
+        string Datasource,
+        string Target,
+        string PointInTime
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Datasource);
+        this.Datasource = Datasource;
+        global::System.ArgumentNullException.ThrowIfNull(Target);
+        this.Target = Target;
+        global::System.ArgumentNullException.ThrowIfNull(PointInTime);
+        this.PointInTime = PointInTime;
+    }
+
+    public void Deconstruct(out string Datasource, out string Target, out string PointInTime)
+    {
+        Datasource = this.Datasource;
+        Target = this.Target;
+        PointInTime = this.PointInTime;
+    }
+
     /// <summary>
     /// Activation policy for this instance. This specifies when the instance should be activated and is applicable only when the instance state is RUNNABLE. The default is always. More information on activation policies can be found here: https://cloud.google.com/sql/docs/mysql/start-stop-restart-instance#activation_policy. ACTIVATION_POLICY must be one of: always, never.
     /// </summary>
     [CliOption("--activation-policy", Format = OptionFormat.EqualsSeparated)]
-    public GcloudActivationPolicy? ActivationPolicy { get; set; }
+    public GcloudSqlInstancesPointInTimeRestoreActivationPolicy? ActivationPolicy { get; set; }
 
     /// <summary>
-    /// A comma-separated list of the DNS servers to be used for Active Directory. Only available for SQL Server instances. E.g: 10.0.0.1,10.0.0.2
+    /// A comma-separated list of the DNS servers to be used for Active Directory. Only available for SQL Server instances. E.g: 10.0.0.1,10.0.0.2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ActiveDirectoryDnsServers { get; set; }
 
     /// <summary>
@@ -58,7 +83,6 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     /// <summary>
     /// The secret manager key storing administrator credentials. Only available for SQL Server instances.
     /// </summary>
-    [SecretValue]
     [CliOption("--active-directory-secret-manager-key", Format = OptionFormat.EqualsSeparated)]
     public string? ActiveDirectorySecretManagerKey { get; set; }
 
@@ -105,9 +129,9 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     public string? AuditUploadInterval { get; set; }
 
     /// <summary>
-    /// The list of external networks that are allowed to connect to the instance. Specified in CIDR notation, also known as 'slash' notation (e.g. 192.168.100.0/24).
+    /// The list of external networks that are allowed to connect to the instance. Specified in CIDR notation, also known as 'slash' notation (e.g. 192.168.100.0/24). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AuthorizedNetworks { get; set; }
 
     /// <summary>
@@ -222,7 +246,7 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     /// Specifies the edition of Cloud SQL instance. EDITION must be one of: enterprise, enterprise-plus.
     /// </summary>
     [CliOption("--edition", Format = OptionFormat.EqualsSeparated)]
-    public GcloudEdition? Edition { get; set; }
+    public GcloudSqlInstancesPointInTimeRestoreEdition? Edition { get; set; }
 
     /// <summary>
     /// Allows for data recovery from a specific point in time, down to a fraction of a second. Must have automatic backups enabled to use. Make sure storage can support at least 7 days of logs.
@@ -306,7 +330,7 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     /// Day of week for maintenance window, in UTC time zone. MAINTENANCE_WINDOW_DAY must be one of: SUN, MON, TUE, WED, THU, FRI, SAT.
     /// </summary>
     [CliOption("--maintenance-window-day", Format = OptionFormat.EqualsSeparated)]
-    public GcloudMaintenanceWindowDay? MaintenanceWindowDay { get; set; }
+    public GcloudSqlInstancesPointInTimeRestoreMaintenanceWindowDay? MaintenanceWindowDay { get; set; }
 
     /// <summary>
     /// Hour of day for maintenance window, in UTC time zone.
@@ -408,7 +432,7 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     /// The storage type for the instance, determined by the selected machine type. STORAGE_TYPE must be one of: SSD, HDD, HYPERDISK_BALANCED.
     /// </summary>
     [CliOption("--storage-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudStorageType? StorageType { get; set; }
+    public GcloudSqlInstancesPointInTimeRestoreStorageType? StorageType { get; set; }
 
     /// <summary>
     /// Specifies the machine type for the instance. The usage of this flag depends on the selected --edition. Enterprise Edition: Use --tier for shared-core instances (e.g., db-f1-micro, db-g1-small). For dedicated-core instances, do not use --tier; instead, customize your instance by specifying its CPU and memory with the --cpu and --memory flags. Enterprise Plus Edition: --tier is required to specify the predefined machine type. The --cpu and --memory flags are not supported for Enterprise Plus. Examples include db-perf-optimized-N-2 (N2 series) or db-c4a-highmem-2 (C4A series). For a detailed list of available machine types and series, refer to the documentation for your database engine: ◆ MySQL: https://cloud.google.com/sql/docs/mysql/machine-series-overview ◆ PostgreSQL: https://cloud.google.com/sql/docs/postgres/machine-series-overview ◆ SQL Server: https://cloud.google.com/sql/docs/sqlserver/machine-series-overview Learn more about how machine types, CPU, and memory affect pricing: https://cloud.google.com/sql/pricing
@@ -429,9 +453,9 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     public int? Timeout { get; set; }
 
     /// <summary>
-    /// A comma-separated list of projects. Each project in this list might be represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be established from specified consumer projects.
+    /// A comma-separated list of projects. Each project in this list might be represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be established from specified consumer projects. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--allowed-psc-projects", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--allowed-psc-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AllowedPscProjects { get; set; }
 
     /// <summary>
@@ -465,27 +489,63 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     public string? DiskEncryptionKeyProject { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
+    /// At most one of these can be specified: Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Or at most one of these can be specified: (DEPRECATED) Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.). Flag --gce-zone is deprecated and will be removed by release 255.0.0. Use --zone instead.
+    /// At most one of these can be specified: Or at most one of these can be specified: (DEPRECATED) Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.). Flag --gce-zone is deprecated and will be removed by release 255.0.0. Use --zone instead.
     /// </summary>
     [CliOption("--gce-zone", Format = OptionFormat.EqualsSeparated)]
     public string? GceZone { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Preferred secondary Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
+    /// At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Preferred secondary Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
     /// </summary>
     [CliOption("--secondary-zone", Format = OptionFormat.EqualsSeparated)]
     public string? SecondaryZone { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
+    /// At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// The Google Cloud Backup and Disaster Recovery (DR) Service Datasource URI, of the form projects/{project}/locations/{region}/backupVaults/ {backupvault}/dataSources/{datasource}.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Datasource { get; private init; }
+
+    /// <summary>
+    /// Cloud SQL instance ID of the target instance.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Target { get; private init; }
+
+    /// <summary>
+    /// The point in time in which to restore the instance to. Uses RFC 3339 format in UTC timezone. For example, '2012-11-15T16:19:00.094Z'.
+    /// </summary>
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PointInTime { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DiskEncryptionKey) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyKeyring) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyLocation) || !string.IsNullOrWhiteSpace(DiskEncryptionKeyProject)) && (!(!string.IsNullOrWhiteSpace(DiskEncryptionKey))))
+        {
+            yield return new ValidationResult("DiskEncryptionKey must be specified when other arguments in this group are specified.", [nameof(DiskEncryptionKey)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Region) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(GceZone) || !string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Region or (GceZone, SecondaryZone, or Zone) may be specified.", [nameof(Region), nameof(GceZone), nameof(SecondaryZone), nameof(Zone)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Region) || !string.IsNullOrWhiteSpace(GceZone) || !string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone)) && ((!string.IsNullOrWhiteSpace(GceZone) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone)) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of GceZone or (SecondaryZone or Zone) may be specified.", [nameof(GceZone), nameof(SecondaryZone), nameof(Zone)]);
+        }
+        yield break;
+    }
 
 }

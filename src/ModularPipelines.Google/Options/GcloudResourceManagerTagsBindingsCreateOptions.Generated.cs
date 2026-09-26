@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("resource-manager", "tags", "bindings", "create")]
 public record GcloudResourceManagerTagsBindingsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// creates a TagBinding     resource
+    /// </summary>
+    /// <param name="Parent">Full resource name of the resource to attach to the tagValue.</param>
+    /// <param name="TagValue">Tag value name or namespaced name. The name should be in the form tagValues/{numeric_id}. The namespaced name should be in the form {org_id}/{tag_key_short_name}/{short_name} where short_name must be 1-63 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (), dots (.), and alphanumerics between.</param>
+    public GcloudResourceManagerTagsBindingsCreateOptions(
+        string Parent,
+        string TagValue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Parent);
+        this.Parent = Parent;
+        global::System.ArgumentNullException.ThrowIfNull(TagValue);
+        this.TagValue = TagValue;
+    }
+
+    public void Deconstruct(out string Parent, out string TagValue)
+    {
+        Parent = this.Parent;
+        TagValue = this.TagValue;
+    }
+
+    /// <summary>
+    /// Full resource name of the resource to attach to the tagValue.
+    /// </summary>
+    [CliOption("--parent", Format = OptionFormat.EqualsSeparated)]
+    public string Parent { get; private init; }
+
+    /// <summary>
+    /// Tag value name or namespaced name. The name should be in the form tagValues/{numeric_id}. The namespaced name should be in the form {org_id}/{tag_key_short_name}/{short_name} where short_name must be 1-63 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (), dots (.), and alphanumerics between.
+    /// </summary>
+    [CliOption("--tag-value", Format = OptionFormat.EqualsSeparated)]
+    public string TagValue { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Region or zone of the resource to bind to the TagValue. This field is not required if the resource is a global resource like projects, folders and organizations.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,217 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-kafka", "clusters", "update")]
-public record GcloudManagedKafkaClustersUpdateOptions : GcloudOptions
+public record GcloudManagedKafkaClustersUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Managed Service for Apache     Kafka cluster
+    /// </summary>
+    /// <param name="Cluster">Cluster resource - Identifies the cluster to be updated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudManagedKafkaClustersUpdateOptions(
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Cluster)
+    {
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Cluster resource - Identifies the cluster to be updated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location of the Managed Service for Apache Kafka resource. See https://cloud.google.com/managed-service-for-apache-kafka/docs/locations for a list of supported locations. To set the location attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A comma-separated list of IPv4 ranges in CIDR notation that are allowed to connect to the public cluster. Use this flag only if --public-cluster is enabled. Example: --allowed-source-ip-ranges=203.0.113.0/24,198.51.100.0/24. To protect your cluster, allow access from only trusted external IP ranges. Don't expose your cluster to untrusted ranges. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--allowed-source-ip-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AllowedSourceIpRanges
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AllowedSourceIpRangesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AllowedSourceIpRangesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At least one of these must be specified: Whether the automatic rebalancing is enabled. If automatic rebalancing is enabled, topic partitions are rebalanced among brokers when the number of CPUs in the cluster changes. Automatic rebalancing is enabled by default. Use --no-auto-rebalance to disable this flag.
+    /// </summary>
+    [CliFlag("--auto-rebalance")]
+    public bool? AutoRebalance { get; set; }
+
+    /// <summary>
+    /// Negates --auto-rebalance. At least one of these must be specified: Whether the automatic rebalancing is enabled. If automatic rebalancing is enabled, topic partitions are rebalanced among brokers when the number of CPUs in the cluster changes. Automatic rebalancing is enabled by default. Use --no-auto-rebalance to disable this flag.
+    /// </summary>
+    [CliFlag("--no-auto-rebalance")]
+    public bool? NoAutoRebalance { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: The amount of local disk to provision for each broker. Can be specified as a plain integer (defaults to GiB) or with units (e.g., 500Gi, 500GiB, 1Ti, 1TiB). Minimum: 100 Gibibytes.
+    /// </summary>
+    [CliOption("--broker-disk", Format = OptionFormat.EqualsSeparated)]
+    public string? BrokerDisk { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: The number of vCPUs to provision for the cluster. The minimum is 3.
+    /// </summary>
+    [CliOption("--cpu", Format = OptionFormat.EqualsSeparated)]
+    public string? Cpu { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
+
+    /// <summary>
+    /// At least one of these must be specified: The memory to provision for the cluster in bytes. The value must be between 1 GiB and 8 GiB per vCPU. Ex. 1024Mi, 4Gi.
+    /// </summary>
+    [CliOption("--memory", Format = OptionFormat.EqualsSeparated)]
+    public string? Memory { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Enable a public cluster. If disabled, public cluster config is cleared. Use --public-cluster to enable and --no-public-cluster to disable.
+    /// </summary>
+    [CliFlag("--public-cluster")]
+    public bool? PublicCluster { get; set; }
+
+    /// <summary>
+    /// Negates --public-cluster. At least one of these must be specified: Enable a public cluster. If disabled, public cluster config is cleared. Use --public-cluster to enable and --no-public-cluster to disable.
+    /// </summary>
+    [CliFlag("--no-public-cluster")]
+    public bool? NoPublicCluster { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: The rules for mapping mTLS certificate Distinguished Names (DNs) to shortened principal names for Kafka ACLs. This flag corresponds exactly to the ssl.principal.mapping.rules broker config and matches the format and syntax defined in the Apache Kafka documentation. Setting or modifying this field will trigger a rolling restart of the Kafka brokers to apply the change. An empty string means that the default Kafka behavior is used. Example: "RULE:^CN=(.?),OU=ServiceUsers.$/$1@example.com/,DEFAULT"
+    /// </summary>
+    [CliOption("--ssl-principal-mapping-rules", Format = OptionFormat.EqualsSeparated)]
+    public string? SslPrincipalMappingRules { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A comma-separated list of VPC subnets from which the cluster is accessible. Both broker and bootstrap server IP addresses and DNS entries are automatically created in each subnet. Only one subnet per network is allowed, and the subnet must be located in the same region as the cluster. The project may differ. A minimum of 1 subnet is required. A maximum of 10 subnets can be specified. Use commas to separate multiple subnets. The name of the subnet must be in the format projects/PROJECT_ID/regions/REGION/subnetworks/SUBNET. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--subnets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Subnets
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SubnetsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SubnetsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: Remove all the CA pools from the cluster. This will remove all root certificates from the truststore of each broker in the cluster.
+    /// </summary>
+    [CliFlag("--clear-mtls-ca-pools")]
+    public bool? ClearMtlsCaPools { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: A comma-separated list of CA pools from the Google Cloud Certificate Authority Service. The root certificates of these CA pools will be installed in the truststore of each broker in the cluster for use with mTLS. A maximum of 10 CA pools can be specified. CA pools can be in a different project and region than the cluster. This command overwrites the entire set of pools currently configured on the cluster. If you want to add a new pool to an existing configuration, you must provide the full list of both the old and new CA pools in the command. Each CA pool must be in the format projects/PROJECT_ID/locations/LOCATION/caPools/CA_POOL. Clear the CA pools using the --clear-mtls-ca-pools flag. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--mtls-ca-pools", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? MtlsCaPools
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __MtlsCaPoolsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __MtlsCaPoolsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// If enabled, this setting allows an update operation that could significantly decrease the per-broker vCPU and/or memory allocation, which can lead to reduced performance and availability. By default, an update operation will fail if it results in a reduction of 10% or more to the brokers' vCPU or memory allocation.
+    /// </summary>
+    [CliFlag("--allow-broker-downscale-on-cluster-upscale")]
+    public bool? AllowBrokerDownscaleOnClusterUpscale { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Cluster resource - Identifies the cluster to be updated. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(((object?)AllowedSourceIpRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)AllowedSourceIpRanges is not string || !string.IsNullOrWhiteSpace(AllowedSourceIpRanges?.ToString()) : ((object?)AllowedSourceIpRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AllowedSourceIpRanges, static item => item is not null) : (AllowedSourceIpRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AllowedSourceIpRanges), static item => item is not null)))) || !string.IsNullOrWhiteSpace(BrokerDisk) || !string.IsNullOrWhiteSpace(Cpu) || ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Memory) || !string.IsNullOrWhiteSpace(SslPrincipalMappingRules) || ((object?)Subnets is global::System.Collections.Generic.IEnumerable<char> ? (object?)Subnets is not string || !string.IsNullOrWhiteSpace(Subnets?.ToString()) : ((object?)Subnets is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Subnets, static item => item is not null) : (Subnets is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Subnets), static item => item is not null)))) || ClearMtlsCaPools == true || ((object?)MtlsCaPools is global::System.Collections.Generic.IEnumerable<char> ? (object?)MtlsCaPools is not string || !string.IsNullOrWhiteSpace(MtlsCaPools?.ToString()) : ((object?)MtlsCaPools is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MtlsCaPools, static item => item is not null) : (MtlsCaPools is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MtlsCaPools), static item => item is not null)))) || AutoRebalance == true || NoAutoRebalance == true || PublicCluster == true || NoPublicCluster == true))
+        {
+            yield return new ValidationResult("At least one of AllowedSourceIpRanges, BrokerDisk, Cpu, Labels, Memory, SslPrincipalMappingRules, Subnets, ClearMtlsCaPools, MtlsCaPools, AutoRebalance, NoAutoRebalance, PublicCluster, or NoPublicCluster must be specified.", [nameof(AllowedSourceIpRanges), nameof(BrokerDisk), nameof(Cpu), nameof(Labels), nameof(Memory), nameof(SslPrincipalMappingRules), nameof(Subnets), nameof(ClearMtlsCaPools), nameof(MtlsCaPools), nameof(AutoRebalance), nameof(NoAutoRebalance), nameof(PublicCluster), nameof(NoPublicCluster)]);
+        }
+        if ((((object?)AllowedSourceIpRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)AllowedSourceIpRanges is not string || !string.IsNullOrWhiteSpace(AllowedSourceIpRanges?.ToString()) : ((object?)AllowedSourceIpRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AllowedSourceIpRanges, static item => item is not null) : (AllowedSourceIpRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AllowedSourceIpRanges), static item => item is not null)))) || !string.IsNullOrWhiteSpace(BrokerDisk) || !string.IsNullOrWhiteSpace(Cpu) || ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Memory) || !string.IsNullOrWhiteSpace(SslPrincipalMappingRules) || ((object?)Subnets is global::System.Collections.Generic.IEnumerable<char> ? (object?)Subnets is not string || !string.IsNullOrWhiteSpace(Subnets?.ToString()) : ((object?)Subnets is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Subnets, static item => item is not null) : (Subnets is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Subnets), static item => item is not null)))) || ClearMtlsCaPools == true || ((object?)MtlsCaPools is global::System.Collections.Generic.IEnumerable<char> ? (object?)MtlsCaPools is not string || !string.IsNullOrWhiteSpace(MtlsCaPools?.ToString()) : ((object?)MtlsCaPools is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MtlsCaPools, static item => item is not null) : (MtlsCaPools is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MtlsCaPools), static item => item is not null)))) || AutoRebalance == true || NoAutoRebalance == true || PublicCluster == true || NoPublicCluster == true) && ((ClearMtlsCaPools == true ? 1 : 0) + (((object?)MtlsCaPools is global::System.Collections.Generic.IEnumerable<char> ? (object?)MtlsCaPools is not string || !string.IsNullOrWhiteSpace(MtlsCaPools?.ToString()) : ((object?)MtlsCaPools is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MtlsCaPools, static item => item is not null) : (MtlsCaPools is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MtlsCaPools), static item => item is not null)))) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of ClearMtlsCaPools or MtlsCaPools may be specified.", [nameof(ClearMtlsCaPools), nameof(MtlsCaPools)]);
+        }
+        if ((((object?)AllowedSourceIpRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)AllowedSourceIpRanges is not string || !string.IsNullOrWhiteSpace(AllowedSourceIpRanges?.ToString()) : ((object?)AllowedSourceIpRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AllowedSourceIpRanges, static item => item is not null) : (AllowedSourceIpRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AllowedSourceIpRanges), static item => item is not null)))) || !string.IsNullOrWhiteSpace(BrokerDisk) || !string.IsNullOrWhiteSpace(Cpu) || ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Memory) || !string.IsNullOrWhiteSpace(SslPrincipalMappingRules) || ((object?)Subnets is global::System.Collections.Generic.IEnumerable<char> ? (object?)Subnets is not string || !string.IsNullOrWhiteSpace(Subnets?.ToString()) : ((object?)Subnets is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Subnets, static item => item is not null) : (Subnets is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Subnets), static item => item is not null)))) || ClearMtlsCaPools == true || ((object?)MtlsCaPools is global::System.Collections.Generic.IEnumerable<char> ? (object?)MtlsCaPools is not string || !string.IsNullOrWhiteSpace(MtlsCaPools?.ToString()) : ((object?)MtlsCaPools is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MtlsCaPools, static item => item is not null) : (MtlsCaPools is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MtlsCaPools), static item => item is not null)))) || AutoRebalance == true || NoAutoRebalance == true || PublicCluster == true || NoPublicCluster == true) && ((AutoRebalance == true ? 1 : 0) + (NoAutoRebalance == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of AutoRebalance or NoAutoRebalance may be specified.", [nameof(AutoRebalance), nameof(NoAutoRebalance)]);
+        }
+        if ((((object?)AllowedSourceIpRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)AllowedSourceIpRanges is not string || !string.IsNullOrWhiteSpace(AllowedSourceIpRanges?.ToString()) : ((object?)AllowedSourceIpRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AllowedSourceIpRanges, static item => item is not null) : (AllowedSourceIpRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AllowedSourceIpRanges), static item => item is not null)))) || !string.IsNullOrWhiteSpace(BrokerDisk) || !string.IsNullOrWhiteSpace(Cpu) || ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null)))) || !string.IsNullOrWhiteSpace(Memory) || !string.IsNullOrWhiteSpace(SslPrincipalMappingRules) || ((object?)Subnets is global::System.Collections.Generic.IEnumerable<char> ? (object?)Subnets is not string || !string.IsNullOrWhiteSpace(Subnets?.ToString()) : ((object?)Subnets is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Subnets, static item => item is not null) : (Subnets is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Subnets), static item => item is not null)))) || ClearMtlsCaPools == true || ((object?)MtlsCaPools is global::System.Collections.Generic.IEnumerable<char> ? (object?)MtlsCaPools is not string || !string.IsNullOrWhiteSpace(MtlsCaPools?.ToString()) : ((object?)MtlsCaPools is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)MtlsCaPools, static item => item is not null) : (MtlsCaPools is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)MtlsCaPools), static item => item is not null)))) || AutoRebalance == true || NoAutoRebalance == true || PublicCluster == true || NoPublicCluster == true) && ((PublicCluster == true ? 1 : 0) + (NoPublicCluster == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of PublicCluster or NoPublicCluster may be specified.", [nameof(PublicCluster), nameof(NoPublicCluster)]);
+        }
+        yield break;
+    }
+
 }

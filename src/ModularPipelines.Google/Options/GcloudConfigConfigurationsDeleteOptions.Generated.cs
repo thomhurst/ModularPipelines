@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "configurations", "delete")]
-public record GcloudConfigConfigurationsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> ConfigurationNames
-) : GcloudOptions
+public record GcloudConfigConfigurationsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// deletes a named configuration
+    /// </summary>
+    /// <param name="ConfigurationNames">Name of the configuration to delete. Cannot be currently active configuration.</param>
+    public GcloudConfigConfigurationsDeleteOptions(
+        IEnumerable<string> ConfigurationNames
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ConfigurationNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ConfigurationNames));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ConfigurationNames));
+            }
+
+            ConfigurationNames = materialized;
+        }
+        this.ConfigurationNames = ConfigurationNames;
+    }
+
+    public void Deconstruct(out IEnumerable<string> ConfigurationNames)
+    {
+        ConfigurationNames = this.ConfigurationNames;
+    }
+
+    /// <summary>
+    /// Name of the configuration to delete. Cannot be currently active configuration.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> ConfigurationNames { get; private init; }
+
 }

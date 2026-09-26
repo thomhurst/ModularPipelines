@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source-manager", "instances", "create")]
-public record GcloudSourceManagerInstancesCreateOptions : GcloudOptions
+public record GcloudSourceManagerInstancesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Secure Source Manager     instance
+    /// </summary>
+    /// <param name="Instance">Instance resource - The Secure Source Manager instance to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSourceManagerInstancesCreateOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Instance resource - The Secure Source Manager instance to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Secure Source Manager location. To set the region attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
@@ -70,10 +94,32 @@ public record GcloudSourceManagerInstancesCreateOptions : GcloudOptions
     public string? CaPool { get; set; }
 
     /// <summary>
-    /// Private instance configuration. List of additional projects allowed to connect to the instance via private service connect.
+    /// Private instance configuration. List of additional projects allowed to connect to the instance via private service connect. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--psc-allowed-projects", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? PscAllowedProjects { get; set; }
+    [CliOption("--psc-allowed-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? PscAllowedProjects
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __PscAllowedProjectsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __PscAllowedProjectsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Custom hostname configuration. Custom hostname for api. This flag argument must be specified if any of the other arguments in this group are specified.
@@ -98,5 +144,37 @@ public record GcloudSourceManagerInstancesCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--custom-hostname-html", Format = OptionFormat.EqualsSeparated)]
     public string? CustomHostnameHtml { get; set; }
+
+    /// <summary>
+    /// Instance resource - The Secure Source Manager instance to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((IsPrivate == true || !string.IsNullOrWhiteSpace(CaPool) || ((object?)PscAllowedProjects is global::System.Collections.Generic.IEnumerable<char> ? (object?)PscAllowedProjects is not string || !string.IsNullOrWhiteSpace(PscAllowedProjects?.ToString()) : ((object?)PscAllowedProjects is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)PscAllowedProjects, static item => item is not null) : (PscAllowedProjects is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)PscAllowedProjects), static item => item is not null))))) && (!(IsPrivate == true)))
+        {
+            yield return new ValidationResult("IsPrivate must be specified when other arguments in this group are specified.", [nameof(IsPrivate)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CustomHostnameApi) || !string.IsNullOrWhiteSpace(CustomHostnameGitHttp) || !string.IsNullOrWhiteSpace(CustomHostnameGitSsh) || !string.IsNullOrWhiteSpace(CustomHostnameHtml)) && (!(!string.IsNullOrWhiteSpace(CustomHostnameApi))))
+        {
+            yield return new ValidationResult("CustomHostnameApi must be specified when other arguments in this group are specified.", [nameof(CustomHostnameApi)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CustomHostnameApi) || !string.IsNullOrWhiteSpace(CustomHostnameGitHttp) || !string.IsNullOrWhiteSpace(CustomHostnameGitSsh) || !string.IsNullOrWhiteSpace(CustomHostnameHtml)) && (!(!string.IsNullOrWhiteSpace(CustomHostnameGitHttp))))
+        {
+            yield return new ValidationResult("CustomHostnameGitHttp must be specified when other arguments in this group are specified.", [nameof(CustomHostnameGitHttp)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CustomHostnameApi) || !string.IsNullOrWhiteSpace(CustomHostnameGitHttp) || !string.IsNullOrWhiteSpace(CustomHostnameGitSsh) || !string.IsNullOrWhiteSpace(CustomHostnameHtml)) && (!(!string.IsNullOrWhiteSpace(CustomHostnameGitSsh))))
+        {
+            yield return new ValidationResult("CustomHostnameGitSsh must be specified when other arguments in this group are specified.", [nameof(CustomHostnameGitSsh)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(CustomHostnameApi) || !string.IsNullOrWhiteSpace(CustomHostnameGitHttp) || !string.IsNullOrWhiteSpace(CustomHostnameGitSsh) || !string.IsNullOrWhiteSpace(CustomHostnameHtml)) && (!(!string.IsNullOrWhiteSpace(CustomHostnameHtml))))
+        {
+            yield return new ValidationResult("CustomHostnameHtml must be specified when other arguments in this group are specified.", [nameof(CustomHostnameHtml)]);
+        }
+        yield break;
+    }
 
 }

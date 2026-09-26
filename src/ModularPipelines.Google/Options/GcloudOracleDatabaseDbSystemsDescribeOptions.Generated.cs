@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("oracle-database", "db-systems", "describe")]
 public record GcloudOracleDatabaseDbSystemsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get details of a DbSystem
+    /// </summary>
+    /// <param name="DbSystem">DbSystem resource - The name of the DbSystem in the following format: projects/{project}/locations/{location}/dbSystems/{db_system}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument db_system on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dbSystem or fully qualified identifier for the dbSystem. To set the db_system attribute: ▸ provide the argument db_system on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudOracleDatabaseDbSystemsDescribeOptions(
+        string DbSystem
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DbSystem);
+        this.DbSystem = DbSystem;
+    }
+
+    public void Deconstruct(out string DbSystem)
+    {
+        DbSystem = this.DbSystem;
+    }
+
+    /// <summary>
+    /// DbSystem resource - The name of the DbSystem in the following format: projects/{project}/locations/{location}/dbSystems/{db_system}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument db_system on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the dbSystem resource. To set the location attribute: ▸ provide the argument db_system on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// DbSystem resource - The name of the DbSystem in the following format: projects/{project}/locations/{location}/dbSystems/{db_system}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument db_system on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the dbSystem or fully qualified identifier for the dbSystem. To set the db_system attribute: ▸ provide the argument db_system on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DbSystem { get; private init; }
+
 }

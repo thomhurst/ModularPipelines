@@ -26,12 +26,12 @@ public record GcloudAppLogsTailOptions : GcloudOptions
     /// Filter entries with severity equal to or higher than a given level. LEVEL must be one of: critical, error, warning, info, debug, any.
     /// </summary>
     [CliOption("--level", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLevel? Level { get; set; }
+    public GcloudAppLogsTailLevel? Level { get; set; }
 
     /// <summary>
-    /// Filter entries from a particular set of logs. Must be a comma-separated list of log names (request_log, stdout, stderr, etc).
+    /// Filter entries from a particular set of logs. Must be a comma-separated list of log names (request_log, stdout, stderr, etc). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--logs", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--logs", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Logs { get; set; }
 
     /// <summary>

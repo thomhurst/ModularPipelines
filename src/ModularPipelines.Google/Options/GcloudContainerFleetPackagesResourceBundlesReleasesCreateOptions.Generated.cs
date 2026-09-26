@@ -21,4 +21,61 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "fleet", "packages", "resource-bundles", "releases", "create")]
 public record GcloudContainerFleetPackagesResourceBundlesReleasesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create     Package Rollouts Release
+    /// </summary>
+    /// <param name="ResourceBundle">Resource Bundle name.</param>
+    /// <param name="Source">Source file or directory to create the Release from. e.g. --source=manifest.yaml, --source=/manifests-dir/, --source=/manifests-dir/*.yaml</param>
+    /// <param name="Version">Version of the Release to create.</param>
+    public GcloudContainerFleetPackagesResourceBundlesReleasesCreateOptions(
+        string ResourceBundle,
+        string Source,
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceBundle);
+        this.ResourceBundle = ResourceBundle;
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string ResourceBundle, out string Source, out string Version)
+    {
+        ResourceBundle = this.ResourceBundle;
+        Source = this.Source;
+        Version = this.Version;
+    }
+
+    /// <summary>
+    /// Resource Bundle name.
+    /// </summary>
+    [CliOption("--resource-bundle", Format = OptionFormat.EqualsSeparated)]
+    public string ResourceBundle { get; private init; }
+
+    /// <summary>
+    /// Source file or directory to create the Release from. e.g. --source=manifest.yaml, --source=/manifests-dir/, --source=/manifests-dir/*.yaml
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string Source { get; private init; }
+
+    /// <summary>
+    /// Version of the Release to create.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string Version { get; private init; }
+
+    /// <summary>
+    /// Lifecycle of the Release.
+    /// </summary>
+    [CliOption("--lifecycle", Format = OptionFormat.EqualsSeparated)]
+    public string? Lifecycle { get; set; }
+
+    /// <summary>
+    /// Google Cloud zone or region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

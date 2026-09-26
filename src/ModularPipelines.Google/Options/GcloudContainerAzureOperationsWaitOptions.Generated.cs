@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "azure", "operations", "wait")]
 public record GcloudContainerAzureOperationsWaitOptions : GcloudOptions
 {
+    /// <summary>
+    /// wait for an operation to complete
+    /// </summary>
+    /// <param name="OperationId">Operation resource - operation to wait for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation_id on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument operation_id on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerAzureOperationsWaitOptions(
+        string OperationId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OperationId);
+        this.OperationId = OperationId;
+    }
+
+    public void Deconstruct(out string OperationId)
+    {
+        OperationId = this.OperationId;
+    }
+
+    /// <summary>
+    /// Operation resource - operation to wait for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation_id on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the operation. To set the location attribute: ▸ provide the argument operation_id on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Operation resource - operation to wait for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument operation_id on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the operation or fully qualified identifier for the operation. To set the operation attribute: ▸ provide the argument operation_id on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OperationId { get; private init; }
+
 }

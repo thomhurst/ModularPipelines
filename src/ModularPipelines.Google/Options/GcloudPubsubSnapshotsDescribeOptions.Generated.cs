@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "snapshots", "describe")]
-public record GcloudPubsubSnapshotsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Snapshot
-) : GcloudOptions
+public record GcloudPubsubSnapshotsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describes a Cloud Pub/Sub snapshot
+    /// </summary>
+    /// <param name="Snapshot">snapshot to describe.</param>
+    public GcloudPubsubSnapshotsDescribeOptions(
+        string Snapshot
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Snapshot);
+        this.Snapshot = Snapshot;
+    }
+
+    public void Deconstruct(out string Snapshot)
+    {
+        Snapshot = this.Snapshot;
+    }
+
+    /// <summary>
+    /// snapshot to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Snapshot { get; private init; }
+
 }

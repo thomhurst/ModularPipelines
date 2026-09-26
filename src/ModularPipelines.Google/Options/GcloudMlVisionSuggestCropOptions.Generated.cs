@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "vision", "suggest-crop")]
-public record GcloudMlVisionSuggestCropOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImagePath
-) : GcloudOptions
+public record GcloudMlVisionSuggestCropOptions : GcloudOptions
 {
     /// <summary>
-    /// A list of aspect ratio hints for the suggested bounding box. Aspect ratios may be specified either as a decimal number (ex. 1.333) or as a ratio of width to height (ex 4:3).
+    /// suggest a bounding box in an image
     /// </summary>
-    [CliOption("--aspect-ratios", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="ImagePath">Path to the image to be analyzed. This can be either a local path or a URL. If you provide a local file, the contents will be sent directly to Google Cloud Vision. If you provide a URL, it must be in Google Cloud Storage format (gs://bucket/object) or an HTTP URL (http://... or https://...)</param>
+    public GcloudMlVisionSuggestCropOptions(
+        string ImagePath
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImagePath);
+        this.ImagePath = ImagePath;
+    }
+
+    public void Deconstruct(out string ImagePath)
+    {
+        ImagePath = this.ImagePath;
+    }
+
+    /// <summary>
+    /// A list of aspect ratio hints for the suggested bounding box. Aspect ratios may be specified either as a decimal number (ex. 1.333) or as a ratio of width to height (ex 4:3). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--aspect-ratios", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AspectRatios { get; set; }
+
+    /// <summary>
+    /// Path to the image to be analyzed. This can be either a local path or a URL. If you provide a local file, the contents will be sent directly to Google Cloud Vision. If you provide a URL, it must be in Google Cloud Storage format (gs://bucket/object) or an HTTP URL (http://... or https://...)
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ImagePath { get; private init; }
 
 }

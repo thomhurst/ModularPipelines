@@ -21,4 +21,44 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("active-directory", "domains", "trusts", "validate-state")]
 public record GcloudActiveDirectoryDomainsTrustsValidateStateOptions : GcloudOptions
 {
+    /// <summary>
+    /// validate the state     of a Managed Microsoft AD trust
+    /// </summary>
+    /// <param name="TargetDomainName">Target domain name of the Managed Microsoft AD Active Directory trust you want to validate.</param>
+    /// <param name="Domain">Domain resource - Name of the the Managed Microsoft AD trust for which you want to validate state. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument domain on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the domain or fully qualified identifier for the domain. To set the domain attribute: ▸ provide the argument domain on the command line.</param>
+    public GcloudActiveDirectoryDomainsTrustsValidateStateOptions(
+        string TargetDomainName,
+        string Domain
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TargetDomainName);
+        this.TargetDomainName = TargetDomainName;
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+    }
+
+    public void Deconstruct(out string TargetDomainName, out string Domain)
+    {
+        TargetDomainName = this.TargetDomainName;
+        Domain = this.Domain;
+    }
+
+    /// <summary>
+    /// Target domain name of the Managed Microsoft AD Active Directory trust you want to validate.
+    /// </summary>
+    [CliOption("--target-domain-name", Format = OptionFormat.EqualsSeparated)]
+    public string TargetDomainName { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Domain resource - Name of the the Managed Microsoft AD trust for which you want to validate state. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument domain on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the domain or fully qualified identifier for the domain. To set the domain attribute: ▸ provide the argument domain on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Domain { get; private init; }
+
 }

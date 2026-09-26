@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "docker", "tags", "delete")]
-public record GcloudArtifactsDockerTagsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DockerTag
-) : GcloudOptions
+public record GcloudArtifactsDockerTagsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a tag from a container image     in Artifact Registry
+    /// </summary>
+    /// <param name="DockerTag">Image tag - The container image tag. A valid Docker tag has the format of LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE:tag</param>
+    public GcloudArtifactsDockerTagsDeleteOptions(
+        string DockerTag
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DockerTag);
+        this.DockerTag = DockerTag;
+    }
+
+    public void Deconstruct(out string DockerTag)
+    {
+        DockerTag = this.DockerTag;
+    }
+
+    /// <summary>
+    /// Image tag - The container image tag. A valid Docker tag has the format of LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE:tag
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string DockerTag { get; private init; }
+
 }

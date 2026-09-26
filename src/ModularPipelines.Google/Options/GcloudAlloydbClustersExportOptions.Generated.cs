@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,175 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "clusters", "export")]
-public record GcloudAlloydbClustersExportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Cluster
-) : GcloudOptions
+public record GcloudAlloydbClustersExportOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// export data from an AlloyDB cluster to     Google Cloud Storage
+    /// </summary>
+    /// <param name="Database">Database name.</param>
+    /// <param name="Region">Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.</param>
+    /// <param name="Cluster">AlloyDB cluster ID</param>
+    public GcloudAlloydbClustersExportOptions(
+        string Database,
+        string Region,
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+        global::System.ArgumentNullException.ThrowIfNull(Region);
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Database, out string Region, out string Cluster)
+    {
+        Database = this.Database;
+        Region = this.Region;
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Database name.
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string Database { get; private init; }
+
+    /// <summary>
+    /// Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string Region { get; private init; }
+
+    /// <summary>
+    /// Destination URI where the file needs to be exported. This must be specified. Path to the Google Cloud Storage file to which export has to be done.
+    /// </summary>
+    [CliOption("--gcs-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? GcsUri { get; set; }
+
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: CSV export options for the cluster. Specifies destination file type. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--csv")]
+    public bool? Csv { get; set; }
+
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: CSV export options for the cluster. Select query to be used for export. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--select-query", Format = OptionFormat.EqualsSeparated)]
+    public string? SelectQuery { get; set; }
+
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: CSV export options for the cluster. Escape character to be used for export.
+    /// </summary>
+    [CliOption("--escape-character", Format = OptionFormat.EqualsSeparated)]
+    public string? EscapeCharacter { get; set; }
+
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: CSV export options for the cluster. Field delimiter to be used for export.
+    /// </summary>
+    [CliOption("--field-delimiter", Format = OptionFormat.EqualsSeparated)]
+    public string? FieldDelimiter { get; set; }
+
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: CSV export options for the cluster. Quote character to be used for export.
+    /// </summary>
+    [CliOption("--quote-character", Format = OptionFormat.EqualsSeparated)]
+    public string? QuoteCharacter { get; set; }
+
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: SQL export options for the cluster. Specifies destination file type. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--sql")]
+    public bool? Sql { get; set; }
+
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: SQL export options for the cluster. Export only schema of the database.
+    /// </summary>
+    [CliFlag("--schema-only")]
+    public bool? SchemaOnly { get; set; }
+
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: SQL export options for the cluster. Comma-separated list of table names which need to be exported. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--tables", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Tables
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __TablesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __TablesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: SQL export options to clean target objects. If true, output commands to DROP all the dumped database objects prior to outputting the commands for creating them. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--clean-target-objects")]
+    public bool? CleanTargetObjects { get; set; }
+
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: SQL export options to clean target objects. If true, use DROP ... IF EXISTS commands to check for the object's existence before dropping it in clean_target_objects mode.
+    /// </summary>
+    [CliFlag("--if-exist-target-objects")]
+    public bool? IfExistTargetObjects { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// AlloyDB cluster ID
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(GcsUri)))
+        {
+            yield return new ValidationResult("At least one of GcsUri must be specified.", [nameof(GcsUri)]);
+        }
+        if (((Csv == true || !string.IsNullOrWhiteSpace(SelectQuery) || !string.IsNullOrWhiteSpace(EscapeCharacter) || !string.IsNullOrWhiteSpace(FieldDelimiter) || !string.IsNullOrWhiteSpace(QuoteCharacter)) ? 1 : 0) + ((Sql == true || SchemaOnly == true || ((object?)Tables is global::System.Collections.Generic.IEnumerable<char> ? (object?)Tables is not string || !string.IsNullOrWhiteSpace(Tables?.ToString()) : ((object?)Tables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Tables, static item => item is not null) : (Tables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Tables), static item => item is not null)))) || CleanTargetObjects == true || IfExistTargetObjects == true) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of (Csv, SelectQuery, EscapeCharacter, FieldDelimiter, or QuoteCharacter) or (Sql, SchemaOnly, Tables, CleanTargetObjects, or IfExistTargetObjects) must be specified.", [nameof(Csv), nameof(SelectQuery), nameof(EscapeCharacter), nameof(FieldDelimiter), nameof(QuoteCharacter), nameof(Sql), nameof(SchemaOnly), nameof(Tables), nameof(CleanTargetObjects), nameof(IfExistTargetObjects)]);
+        }
+        if ((Csv == true || !string.IsNullOrWhiteSpace(SelectQuery) || !string.IsNullOrWhiteSpace(EscapeCharacter) || !string.IsNullOrWhiteSpace(FieldDelimiter) || !string.IsNullOrWhiteSpace(QuoteCharacter) || Sql == true || SchemaOnly == true || ((object?)Tables is global::System.Collections.Generic.IEnumerable<char> ? (object?)Tables is not string || !string.IsNullOrWhiteSpace(Tables?.ToString()) : ((object?)Tables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Tables, static item => item is not null) : (Tables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Tables), static item => item is not null)))) || CleanTargetObjects == true || IfExistTargetObjects == true) && (Csv == true || !string.IsNullOrWhiteSpace(SelectQuery) || !string.IsNullOrWhiteSpace(EscapeCharacter) || !string.IsNullOrWhiteSpace(FieldDelimiter) || !string.IsNullOrWhiteSpace(QuoteCharacter)) && (!(Csv == true)))
+        {
+            yield return new ValidationResult("Csv must be specified when other arguments in this group are specified.", [nameof(Csv)]);
+        }
+        if ((Csv == true || !string.IsNullOrWhiteSpace(SelectQuery) || !string.IsNullOrWhiteSpace(EscapeCharacter) || !string.IsNullOrWhiteSpace(FieldDelimiter) || !string.IsNullOrWhiteSpace(QuoteCharacter) || Sql == true || SchemaOnly == true || ((object?)Tables is global::System.Collections.Generic.IEnumerable<char> ? (object?)Tables is not string || !string.IsNullOrWhiteSpace(Tables?.ToString()) : ((object?)Tables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Tables, static item => item is not null) : (Tables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Tables), static item => item is not null)))) || CleanTargetObjects == true || IfExistTargetObjects == true) && (Csv == true || !string.IsNullOrWhiteSpace(SelectQuery) || !string.IsNullOrWhiteSpace(EscapeCharacter) || !string.IsNullOrWhiteSpace(FieldDelimiter) || !string.IsNullOrWhiteSpace(QuoteCharacter)) && (!(!string.IsNullOrWhiteSpace(SelectQuery))))
+        {
+            yield return new ValidationResult("SelectQuery must be specified when other arguments in this group are specified.", [nameof(SelectQuery)]);
+        }
+        if ((Csv == true || !string.IsNullOrWhiteSpace(SelectQuery) || !string.IsNullOrWhiteSpace(EscapeCharacter) || !string.IsNullOrWhiteSpace(FieldDelimiter) || !string.IsNullOrWhiteSpace(QuoteCharacter) || Sql == true || SchemaOnly == true || ((object?)Tables is global::System.Collections.Generic.IEnumerable<char> ? (object?)Tables is not string || !string.IsNullOrWhiteSpace(Tables?.ToString()) : ((object?)Tables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Tables, static item => item is not null) : (Tables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Tables), static item => item is not null)))) || CleanTargetObjects == true || IfExistTargetObjects == true) && (Sql == true || SchemaOnly == true || ((object?)Tables is global::System.Collections.Generic.IEnumerable<char> ? (object?)Tables is not string || !string.IsNullOrWhiteSpace(Tables?.ToString()) : ((object?)Tables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Tables, static item => item is not null) : (Tables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Tables), static item => item is not null)))) || CleanTargetObjects == true || IfExistTargetObjects == true) && (!(Sql == true)))
+        {
+            yield return new ValidationResult("Sql must be specified when other arguments in this group are specified.", [nameof(Sql)]);
+        }
+        if ((Csv == true || !string.IsNullOrWhiteSpace(SelectQuery) || !string.IsNullOrWhiteSpace(EscapeCharacter) || !string.IsNullOrWhiteSpace(FieldDelimiter) || !string.IsNullOrWhiteSpace(QuoteCharacter) || Sql == true || SchemaOnly == true || ((object?)Tables is global::System.Collections.Generic.IEnumerable<char> ? (object?)Tables is not string || !string.IsNullOrWhiteSpace(Tables?.ToString()) : ((object?)Tables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Tables, static item => item is not null) : (Tables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Tables), static item => item is not null)))) || CleanTargetObjects == true || IfExistTargetObjects == true) && (Sql == true || SchemaOnly == true || ((object?)Tables is global::System.Collections.Generic.IEnumerable<char> ? (object?)Tables is not string || !string.IsNullOrWhiteSpace(Tables?.ToString()) : ((object?)Tables is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Tables, static item => item is not null) : (Tables is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Tables), static item => item is not null)))) || CleanTargetObjects == true || IfExistTargetObjects == true) && (CleanTargetObjects == true || IfExistTargetObjects == true) && (!(CleanTargetObjects == true)))
+        {
+            yield return new ValidationResult("CleanTargetObjects must be specified when other arguments in this group are specified.", [nameof(CleanTargetObjects)]);
+        }
+        yield break;
+    }
+
 }

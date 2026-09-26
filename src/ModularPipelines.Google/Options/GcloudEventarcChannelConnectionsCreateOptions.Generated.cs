@@ -6,10 +6,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +23,68 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("eventarc", "channel-connections", "create")]
 public record GcloudEventarcChannelConnectionsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create an Eventarc channel     connection
+    /// </summary>
+    /// <param name="ActivationToken">Activation token for the specified channel.</param>
+    /// <param name="Channel">Subscriber channel for which to create the channel connection. This argument should be the full channel name, including project, location and the channel id.</param>
+    /// <param name="ChannelConnection">Channel connection resource - Channel connection to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument channel_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the channel connection or fully qualified identifier for the channel connection. To set the channel-connection attribute: ▸ provide the argument channel_connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEventarcChannelConnectionsCreateOptions(
+        string ActivationToken,
+        string Channel,
+        string ChannelConnection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ActivationToken);
+        this.ActivationToken = ActivationToken;
+        global::System.ArgumentNullException.ThrowIfNull(Channel);
+        this.Channel = Channel;
+        global::System.ArgumentNullException.ThrowIfNull(ChannelConnection);
+        this.ChannelConnection = ChannelConnection;
+    }
+
+    public void Deconstruct(out string ActivationToken, out string Channel, out string ChannelConnection)
+    {
+        ActivationToken = this.ActivationToken;
+        Channel = this.Channel;
+        ChannelConnection = this.ChannelConnection;
+    }
+
+    /// <summary>
+    /// Activation token for the specified channel.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--activation-token", Format = OptionFormat.EqualsSeparated)]
+    public string ActivationToken { get; private init; }
+
+    /// <summary>
+    /// Subscriber channel for which to create the channel connection. This argument should be the full channel name, including project, location and the channel id.
+    /// </summary>
+    [CliOption("--channel", Format = OptionFormat.EqualsSeparated)]
+    public string Channel { get; private init; }
+
+    /// <summary>
+    /// Channel connection resource - Channel connection to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument channel_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location for the Eventarc channel connection, which should be either global or one of the supported regions. Alternatively, set the [eventarc/location] property. To set the location attribute: ▸ provide the argument channel_connection on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property eventarc/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Labels to apply to the channel connection. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Channel connection resource - Channel connection to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument channel_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the channel connection or fully qualified identifier for the channel connection. To set the channel-connection attribute: ▸ provide the argument channel_connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ChannelConnection { get; private init; }
+
 }

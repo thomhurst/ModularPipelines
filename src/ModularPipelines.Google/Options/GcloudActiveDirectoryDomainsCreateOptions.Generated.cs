@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,90 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("active-directory", "domains", "create")]
 public record GcloudActiveDirectoryDomainsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a Managed Microsoft AD     domain
+    /// </summary>
+    /// <param name="Region">Google Compute Engine region in which to provision domain controllers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="ReservedIpRange">Classless Inter-Domain Routing range of internal addresses that are reserved for this domain.</param>
+    /// <param name="Domain">Domain resource - Name of the managed Managed Microsoft AD domain you want to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument domain on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the domain or fully qualified identifier for the domain. To set the domain attribute: ▸ provide the argument domain on the command line.</param>
+    public GcloudActiveDirectoryDomainsCreateOptions(
+        IEnumerable<string> Region,
+        string ReservedIpRange,
+        string Domain
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Region);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Region));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Region));
+            }
+
+            Region = materialized;
+        }
+        this.Region = Region;
+        global::System.ArgumentNullException.ThrowIfNull(ReservedIpRange);
+        this.ReservedIpRange = ReservedIpRange;
+        global::System.ArgumentNullException.ThrowIfNull(Domain);
+        this.Domain = Domain;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Region, out string ReservedIpRange, out string Domain)
+    {
+        Region = this.Region;
+        ReservedIpRange = this.ReservedIpRange;
+        Domain = this.Domain;
+    }
+
+    /// <summary>
+    /// Google Compute Engine region in which to provision domain controllers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Region { get; private init; }
+
+    /// <summary>
+    /// Classless Inter-Domain Routing range of internal addresses that are reserved for this domain.
+    /// </summary>
+    [CliOption("--reserved-ip-range", Format = OptionFormat.EqualsSeparated)]
+    public string ReservedIpRange { get; private init; }
+
+    /// <summary>
+    /// Name of the administrator that may be used to perform Active Directory operations. This is a delegated administrator account provisioned by our service. If left unspecified MIAdmin will be used. This is different from both the domain administrator and the Directory Services Restore Mode (DSRM) administrator.
+    /// </summary>
+    [CliOption("--admin-name", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminName { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Names of the Google Compute Engine networks to which the domain will be connected. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AuthorizedNetworks { get; set; }
+
+    /// <summary>
+    /// If specified, Active Directory data audit logs are enabled for the domain.
+    /// </summary>
+    [CliFlag("--enable-audit-logs")]
+    public bool? EnableAuditLogs { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Domain resource - Name of the managed Managed Microsoft AD domain you want to create. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument domain on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the domain or fully qualified identifier for the domain. To set the domain attribute: ▸ provide the argument domain on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Domain { get; private init; }
+
 }

@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "hmac", "describe")]
-public record GcloudStorageHmacDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AccessId
-) : GcloudOptions
+public record GcloudStorageHmacDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describes a service account HMAC key
+    /// </summary>
+    /// <param name="AccessId">The Access ID (https://cloud.google.com/storage/docs/authentication/hmackeys#overview) of the HMAC key</param>
+    public GcloudStorageHmacDescribeOptions(
+        string AccessId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccessId);
+        this.AccessId = AccessId;
+    }
+
+    public void Deconstruct(out string AccessId)
+    {
+        AccessId = this.AccessId;
+    }
+
+    /// <summary>
+    /// The Access ID (https://cloud.google.com/storage/docs/authentication/hmackeys#overview) of the HMAC key
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AccessId { get; private init; }
+
 }

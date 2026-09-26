@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,63 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transcoder", "templates", "create")]
-public record GcloudTranscoderTemplatesCreateOptions : GcloudOptions
+public record GcloudTranscoderTemplatesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create Transcoder job templates
+    /// </summary>
+    /// <param name="TemplateId">JobTemplate resource - Transcoder job template id The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template_id on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the jobTemplate or fully qualified identifier for the jobTemplate. To set the template_id attribute: ▸ provide the argument template_id on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudTranscoderTemplatesCreateOptions(
+        string TemplateId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TemplateId);
+        this.TemplateId = TemplateId;
+    }
+
+    public void Deconstruct(out string TemplateId)
+    {
+        TemplateId = this.TemplateId;
+    }
+
+    /// <summary>
+    /// JobTemplate resource - Transcoder job template id The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template_id on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Transcoder location for resources To set the location attribute: ▸ provide the argument template_id on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property transcoder/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to job template.
+    /// </summary>
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public string? File { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Job template in json format.
+    /// </summary>
+    [CliOption("--json", Format = OptionFormat.EqualsSeparated)]
+    public string? Json { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// JobTemplate resource - Transcoder job template id The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template_id on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the jobTemplate or fully qualified identifier for the jobTemplate. To set the template_id attribute: ▸ provide the argument template_id on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string TemplateId { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(File) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Json) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of File or Json must be specified.", [nameof(File), nameof(Json)]);
+        }
+        yield break;
+    }
+
 }

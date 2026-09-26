@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudVmwareDatastoresDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a datastore
+    /// </summary>
+    /// <param name="Datastore">Datastore resource - datastore. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument datastore on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the datastore or fully qualified identifier for the datastore. To set the datastore attribute: ▸ provide the argument datastore on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVmwareDatastoresDeleteOptions(
+        string Datastore
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Datastore);
+        this.Datastore = Datastore;
+    }
+
+    public void Deconstruct(out string Datastore)
+    {
+        Datastore = this.Datastore;
+    }
+
+    /// <summary>
+    /// Datastore resource - datastore. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument datastore on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the private cloud or cluster. To set the location attribute: ▸ provide the argument datastore on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property compute/zone.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
@@ -38,5 +61,11 @@ public record GcloudVmwareDatastoresDeleteOptions : GcloudOptions
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
+
+    /// <summary>
+    /// Datastore resource - datastore. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument datastore on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the datastore or fully qualified identifier for the datastore. To set the datastore attribute: ▸ provide the argument datastore on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Datastore { get; private init; }
 
 }

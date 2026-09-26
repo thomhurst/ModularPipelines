@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,104 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "exascale-db-storage-vaults", "create")]
-public record GcloudOracleDatabaseExascaleDbStorageVaultsCreateOptions : GcloudOptions
+public record GcloudOracleDatabaseExascaleDbStorageVaultsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new     ExascaleDbStorageVault
+    /// </summary>
+    /// <param name="DisplayName">The display name for the ExascaleDbStorageVault. The name does not have to be unique within your project. The name must be 1-255 characters long and can only contain alphanumeric characters.</param>
+    /// <param name="ExascaleDbStorageVault">ExascaleDbStorageVault resource - Identifier. The resource name of the ExascaleDbStorageVault. Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument exascale_db_storage_vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument exascale_db_storage_vault on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the exascaleDbStorageVault or fully qualified identifier for the exascaleDbStorageVault. To set the exascale_db_storage_vault attribute: ▸ provide the argument exascale_db_storage_vault on the command line.</param>
+    public GcloudOracleDatabaseExascaleDbStorageVaultsCreateOptions(
+        string DisplayName,
+        string ExascaleDbStorageVault
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(ExascaleDbStorageVault);
+        this.ExascaleDbStorageVault = ExascaleDbStorageVault;
+    }
+
+    public void Deconstruct(out string DisplayName, out string ExascaleDbStorageVault)
+    {
+        DisplayName = this.DisplayName;
+        ExascaleDbStorageVault = this.ExascaleDbStorageVault;
+    }
+
+    /// <summary>
+    /// The display name for the ExascaleDbStorageVault. The name does not have to be unique within your project. The name must be 1-255 characters long and can only contain alphanumeric characters.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// The properties of the ExascaleDbStorageVault. next ID: 12 This must be specified. The storage details of the ExascaleDbStorageVault. This must be specified. The total storage allocation for the ExascaleDbStorageVault, in gigabytes (GB).
+    /// </summary>
+    [CliOption("--exascale-db-storage-details-total-size-gbs", Format = OptionFormat.EqualsSeparated)]
+    public int? ExascaleDbStorageDetailsTotalSizeGbs { get; set; }
+
+    /// <summary>
+    /// The size of additional flash cache in percentage of high capacity database storage.
+    /// </summary>
+    [CliOption("--properties-additional-flash-cache-percent", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesAdditionalFlashCachePercent { get; set; }
+
+    /// <summary>
+    /// The description of the ExascaleDbStorageVault.
+    /// </summary>
+    [CliOption("--properties-description", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesDescription { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// CloudExadataInfrastructure resource - The Exadata Infrastructure resource on which ExascaleDbStorageVault resource is created, in the following format: projects/{project}/locations/{region}/cloudExadataInfrastuctures/{cloud_extradata_infrastructure} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --location on the command line. ID of the cloudExadataInfrastructure or fully qualified identifier for the cloudExadataInfrastructure. To set the cloud-exadata-infrastructure attribute: ◆ provide the argument --exadata-infrastructure on the command line.
+    /// </summary>
+    [CliOption("--exadata-infrastructure", Format = OptionFormat.EqualsSeparated)]
+    public string? ExadataInfrastructure { get; set; }
+
+    /// <summary>
+    /// CloudExadataInfrastructure resource - The Exadata Infrastructure resource on which ExascaleDbStorageVault resource is created, in the following format: projects/{project}/locations/{region}/cloudExadataInfrastuctures/{cloud_extradata_infrastructure} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --location on the command line. The GCP Oracle zone where Oracle ExascaleDbStorageVault is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability.
+    /// </summary>
+    [CliOption("--gcp-oracle-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? GcpOracleZone { get; set; }
+
+    /// <summary>
+    /// CloudExadataInfrastructure resource - The Exadata Infrastructure resource on which ExascaleDbStorageVault resource is created, in the following format: projects/{project}/locations/{region}/cloudExadataInfrastuctures/{cloud_extradata_infrastructure} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --location on the command line. The labels or tags associated with the ExascaleDbStorageVault. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// CloudExadataInfrastructure resource - The Exadata Infrastructure resource on which ExascaleDbStorageVault resource is created, in the following format: projects/{project}/locations/{region}/cloudExadataInfrastuctures/{cloud_extradata_infrastructure} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --location on the command line. For resources [exadata-infrastructure, exascale_db_storage_vault], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// CloudExadataInfrastructure resource - The Exadata Infrastructure resource on which ExascaleDbStorageVault resource is created, in the following format: projects/{project}/locations/{region}/cloudExadataInfrastuctures/{cloud_extradata_infrastructure} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --location on the command line. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// ExascaleDbStorageVault resource - Identifier. The resource name of the ExascaleDbStorageVault. Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument exascale_db_storage_vault on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument exascale_db_storage_vault on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the exascaleDbStorageVault or fully qualified identifier for the exascaleDbStorageVault. To set the exascale_db_storage_vault attribute: ▸ provide the argument exascale_db_storage_vault on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ExascaleDbStorageVault { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!((object?)ExascaleDbStorageDetailsTotalSizeGbs is not null))
+        {
+            yield return new ValidationResult("At least one of ExascaleDbStorageDetailsTotalSizeGbs must be specified.", [nameof(ExascaleDbStorageDetailsTotalSizeGbs)]);
+        }
+        yield break;
+    }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,184 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "plugins", "instances", "create")]
-public record GcloudApihubPluginsInstancesCreateOptions : GcloudOptions
+public record GcloudApihubPluginsInstancesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Plugin Instance
+    /// </summary>
+    /// <param name="Actions">Required, The action status for the plugin instance. actionId This should map to one of the [action id][google.cloud.apihub.v1.PluginActionConfig.id] specified in [actions_config][google.cloud.apihub.v1.Plugin.actions_config] in the plugin. curationConfig This configuration should be provided if the plugin action is publishing data to API hub curate layer. curationType The curation type for this plugin instance. customCuration Custom curation information for this plugin instance. curation The unique name of the curation resource. This will be the name of the curation resource in the format: projects/{project}/locations/{location}/curations/{curation}. scheduleCronExpression The schedule for this plugin instance action. This can only be set if the plugin supports API_HUB_SCHEDULE_TRIGGER mode for this action. scheduleTimeZone The time zone for the schedule cron expression. If not provided, UTC will be used. serviceAccount The service account used to publish data. Note, the service account will only be accepted for non-Google Cloud plugins like OPDK. Shorthand Example: --actions=actionId=string,curationConfig={curationType=string,customCuration={curation=string}},scheduleCronExpression=string,scheduleTimeZone=string,serviceAccount=string --actions=actionId=string,curationConfig={curationType=string,customCuration={curation=string}},scheduleCronExpression=string,scheduleTimeZone=string,serviceAccount=string JSON Example: --actions='[{"actionId": "string", "curationConfig": {"curationType": "string", "customCuration": {"curation": "string"}}, "scheduleCronExpression": "string", "scheduleTimeZone": "string", "serviceAccount": "string"}]' File Example: --actions=path_to_file.(yaml|json)</param>
+    /// <param name="DisplayName">The display name for this plugin instance. Max length is 255 characters.</param>
+    /// <param name="Instance">Instance resource - Identifier. The unique name of the plugin instance resource. Format: projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubPluginsInstancesCreateOptions(
+        IEnumerable<string> Actions,
+        string DisplayName,
+        string Instance
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Actions);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Actions));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Actions));
+            }
+
+            Actions = materialized;
+        }
+        this.Actions = Actions;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Actions, out string DisplayName, out string Instance)
+    {
+        Actions = this.Actions;
+        DisplayName = this.DisplayName;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Required, The action status for the plugin instance. actionId This should map to one of the [action id][google.cloud.apihub.v1.PluginActionConfig.id] specified in [actions_config][google.cloud.apihub.v1.Plugin.actions_config] in the plugin. curationConfig This configuration should be provided if the plugin action is publishing data to API hub curate layer. curationType The curation type for this plugin instance. customCuration Custom curation information for this plugin instance. curation The unique name of the curation resource. This will be the name of the curation resource in the format: projects/{project}/locations/{location}/curations/{curation}. scheduleCronExpression The schedule for this plugin instance action. This can only be set if the plugin supports API_HUB_SCHEDULE_TRIGGER mode for this action. scheduleTimeZone The time zone for the schedule cron expression. If not provided, UTC will be used. serviceAccount The service account used to publish data. Note, the service account will only be accepted for non-Google Cloud plugins like OPDK. Shorthand Example: --actions=actionId=string,curationConfig={curationType=string,customCuration={curation=string}},scheduleCronExpression=string,scheduleTimeZone=string,serviceAccount=string --actions=actionId=string,curationConfig={curationType=string,customCuration={curation=string}},scheduleCronExpression=string,scheduleTimeZone=string,serviceAccount=string JSON Example: --actions='[{"actionId": "string", "curationConfig": {"curationType": "string", "customCuration": {"curation": "string"}}, "scheduleCronExpression": "string", "scheduleTimeZone": "string", "serviceAccount": "string"}]' File Example: --actions=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--actions", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string> Actions { get; private init; }
+
+    /// <summary>
+    /// The display name for this plugin instance. Max length is 255 characters.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// Instance resource - Identifier. The unique name of the plugin instance resource. Format: projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the instance resource. To set the location attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Instance resource - Identifier. The unique name of the plugin instance resource. Format: projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The plugin id of the instance resource. To set the plugin attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --plugin on the command line.
+    /// </summary>
+    [CliOption("--plugin", Format = OptionFormat.EqualsSeparated)]
+    public string? Plugin { get; set; }
+
+    /// <summary>
+    /// The additional information for this plugin instance corresponding to the additional config template of the plugin. This information will be sent to plugin hosting service on each call to plugin hosted service. The key will be the config_variable_template.display_name to uniquely identify the config variable. KEY Sets KEY value. VALUE Sets VALUE value. boolValue The config variable value in case of config variable of type boolean. enumValue The config variable value in case of config variable of type enum. description Description of the option. displayName Display name of the option. id Id of the option. intValue The config variable value in case of config variable of type integer. multiIntValues The config variable value in case of config variable of type multi integer. values The config variable value of data type multi int. multiSelectValues The config variable value in case of config variable of type multi select. values The config variable value of data type multi select. description Description of the option. displayName Display name of the option. id Id of the option. multiStringValues The config variable value in case of config variable of type multi string. values The config variable value of data type multi string. secretValue The config variable value in case of config variable of type secret. secretVersion The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*. stringValue The config variable value in case of config variable of type string. Shorthand Example: --additional-config=string={boolValue=boolean,enumValue={description=string,displayName=string,id=string},intValue=int,multiIntValues={values=[int]},multiSelectValues={values=[{description=string,displayName=string,id=string}]},multiStringValues={values=[string]},secretValue={secretVersion=string},stringValue=string} JSON Example: --additional-config='{"string": {"boolValue": boolean, "enumValue": {"description": "string", "displayName": "string", "id": "string"}, "intValue": int, "multiIntValues": {"values": [int]}, "multiSelectValues": {"values": [{"description": "string", "displayName": "string", "id": "string"}]}, "multiStringValues": {"values": ["string"]}, "secretValue": {"secretVersion": "string"}, "stringValue": "string"}}' File Example: --additional-config=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--additional-config", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AdditionalConfig { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The source environment's config present in the gateway instance linked to the plugin instance. The key is the source_environment name from the SourceEnvironment message. KEY Sets KEY value. VALUE Sets VALUE value. createTime The time at which the environment was created at the source. sourceEnvironment The name of the environment at the source. This should map to [Deployment][google.cloud.apihub.v1.SourceEnvironment.source_environment]. sourceEnvironmentUri The location where additional information about source environments can be found. The location should be relative path of the environment manifest with respect to a plugin instance. updateTime The time at which the environment was last updated at the source. Shorthand Example: --source-environments-config=string={createTime=string,sourceEnvironment=string,sourceEnvironmentUri=string,updateTime=string} JSON Example: --source-environments-config='{"string": {"createTime": "string", "sourceEnvironment": "string", "sourceEnvironmentUri": "string", "updateTime": "string"}}' File Example: --source-environments-config=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--source-environments-config", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SourceEnvironmentsConfig { get; set; }
+
+    /// <summary>
+    /// The source project id of the plugin instance. This will be the id of runtime project in case of Google Cloud based plugins and org id in case of non-Google Cloud based plugins. This field will be a required field for Google provided on-ramp plugins.
+    /// </summary>
+    [CliOption("--source-project-id", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceProjectId { get; set; }
+
+    /// <summary>
+    /// AuthConfig represents the authentication information. The authentication type. AUTH_CONFIG_TYPE must be one of: api-key API Key authentication. google-service-account Google service account authentication. no-auth No authentication. oauth2-client-credentials Oauth 2.0 client credentials grant authentication. user-password Username and password authentication. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--auth-config-type", Format = OptionFormat.EqualsSeparated)]
+    public string? AuthConfigType { get; set; }
+
+    /// <summary>
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. The location of the API key. The default value is QUERY. API_KEY_CONFIG_HTTP_ELEMENT_LOCATION must be one of: body Element is in the HTTP request body. cookie Element is in the HTTP request cookie. header Element is in the HTTP request header. path Element is in the HTTP request path. query Element is in the HTTP request query. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--api-key-config-http-element-location", Format = OptionFormat.EqualsSeparated)]
+    public string? ApiKeyConfigHttpElementLocation { get; set; }
+
+    /// <summary>
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. The parameter name of the API key. E.g. If the API request is "https://example.com/act?api_key=&lt;API KEY&gt;", "api_key" would be the parameter name. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--api-key-config-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ApiKeyConfigName { get; set; }
+
+    /// <summary>
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. Secret provides a reference to entries in Secret Manager. This must be specified. The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*.
+    /// </summary>
+    [CliOption("--api-key-config-secret-version", Format = OptionFormat.EqualsSeparated)]
+    public string? ApiKeyConfigSecretVersion { get; set; }
+
+    /// <summary>
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. The client identifier. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--oauth2-client-credentials-config-id", Format = OptionFormat.EqualsSeparated)]
+    public string? Oauth2ClientCredentialsConfigId { get; set; }
+
+    /// <summary>
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. Secret provides a reference to entries in Secret Manager. This must be specified. The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*.
+    /// </summary>
+    [CliOption("--oauth2-client-credentials-config-secret-version", Format = OptionFormat.EqualsSeparated)]
+    public string? Oauth2ClientCredentialsConfigSecretVersion { get; set; }
+
+    /// <summary>
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Parameters to support Username and Password Authentication. Secret provides a reference to entries in Secret Manager. This must be specified. The resource name of the secret version in the format, format as: projects/*/secrets/*/versions/*.
+    /// </summary>
+    [CliOption("--user-password-config-secret-version", Format = OptionFormat.EqualsSeparated)]
+    public string? UserPasswordConfigSecretVersion { get; set; }
+
+    /// <summary>
+    /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Parameters to support Username and Password Authentication. Username.
+    /// </summary>
+    [CliOption("--user-password-config-username", Format = OptionFormat.EqualsSeparated)]
+    public string? UserPasswordConfigUsername { get; set; }
+
+    /// <summary>
+    /// Instance resource - Identifier. The unique name of the plugin instance resource. Format: projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(AuthConfigType) || !string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation) || !string.IsNullOrWhiteSpace(ApiKeyConfigName) || !string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigId) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigSecretVersion) || !string.IsNullOrWhiteSpace(UserPasswordConfigUsername) || !string.IsNullOrWhiteSpace(UserPasswordConfigSecretVersion)) && (!(!string.IsNullOrWhiteSpace(AuthConfigType))))
+        {
+            yield return new ValidationResult("AuthConfigType must be specified when other arguments in this group are specified.", [nameof(AuthConfigType)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AuthConfigType) || !string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation) || !string.IsNullOrWhiteSpace(ApiKeyConfigName) || !string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigId) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigSecretVersion) || !string.IsNullOrWhiteSpace(UserPasswordConfigUsername) || !string.IsNullOrWhiteSpace(UserPasswordConfigSecretVersion)) && (((!string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation) || !string.IsNullOrWhiteSpace(ApiKeyConfigName) || !string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigId) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigSecretVersion)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(UserPasswordConfigUsername) || !string.IsNullOrWhiteSpace(UserPasswordConfigSecretVersion)) ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of (ApiKeyConfigHttpElementLocation, ApiKeyConfigName, or ApiKeyConfigSecretVersion), (Oauth2ClientCredentialsConfigId or Oauth2ClientCredentialsConfigSecretVersion), or (UserPasswordConfigUsername or UserPasswordConfigSecretVersion) may be specified.", [nameof(ApiKeyConfigHttpElementLocation), nameof(ApiKeyConfigName), nameof(ApiKeyConfigSecretVersion), nameof(Oauth2ClientCredentialsConfigId), nameof(Oauth2ClientCredentialsConfigSecretVersion), nameof(UserPasswordConfigUsername), nameof(UserPasswordConfigSecretVersion)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AuthConfigType) || !string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation) || !string.IsNullOrWhiteSpace(ApiKeyConfigName) || !string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigId) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigSecretVersion) || !string.IsNullOrWhiteSpace(UserPasswordConfigUsername) || !string.IsNullOrWhiteSpace(UserPasswordConfigSecretVersion)) && (!string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation) || !string.IsNullOrWhiteSpace(ApiKeyConfigName) || !string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigId) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigSecretVersion) || !string.IsNullOrWhiteSpace(UserPasswordConfigUsername) || !string.IsNullOrWhiteSpace(UserPasswordConfigSecretVersion)) && (!string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation) || !string.IsNullOrWhiteSpace(ApiKeyConfigName) || !string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion)) && (!(!string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation))))
+        {
+            yield return new ValidationResult("ApiKeyConfigHttpElementLocation must be specified when other arguments in this group are specified.", [nameof(ApiKeyConfigHttpElementLocation)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AuthConfigType) || !string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation) || !string.IsNullOrWhiteSpace(ApiKeyConfigName) || !string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigId) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigSecretVersion) || !string.IsNullOrWhiteSpace(UserPasswordConfigUsername) || !string.IsNullOrWhiteSpace(UserPasswordConfigSecretVersion)) && (!string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation) || !string.IsNullOrWhiteSpace(ApiKeyConfigName) || !string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigId) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigSecretVersion) || !string.IsNullOrWhiteSpace(UserPasswordConfigUsername) || !string.IsNullOrWhiteSpace(UserPasswordConfigSecretVersion)) && (!string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation) || !string.IsNullOrWhiteSpace(ApiKeyConfigName) || !string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion)) && (!(!string.IsNullOrWhiteSpace(ApiKeyConfigName))))
+        {
+            yield return new ValidationResult("ApiKeyConfigName must be specified when other arguments in this group are specified.", [nameof(ApiKeyConfigName)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AuthConfigType) || !string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation) || !string.IsNullOrWhiteSpace(ApiKeyConfigName) || !string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigId) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigSecretVersion) || !string.IsNullOrWhiteSpace(UserPasswordConfigUsername) || !string.IsNullOrWhiteSpace(UserPasswordConfigSecretVersion)) && (!string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation) || !string.IsNullOrWhiteSpace(ApiKeyConfigName) || !string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigId) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigSecretVersion) || !string.IsNullOrWhiteSpace(UserPasswordConfigUsername) || !string.IsNullOrWhiteSpace(UserPasswordConfigSecretVersion)) && (!string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation) || !string.IsNullOrWhiteSpace(ApiKeyConfigName) || !string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion)) && (!(!string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion))))
+        {
+            yield return new ValidationResult("At least one of ApiKeyConfigSecretVersion must be specified.", [nameof(ApiKeyConfigSecretVersion)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AuthConfigType) || !string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation) || !string.IsNullOrWhiteSpace(ApiKeyConfigName) || !string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigId) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigSecretVersion) || !string.IsNullOrWhiteSpace(UserPasswordConfigUsername) || !string.IsNullOrWhiteSpace(UserPasswordConfigSecretVersion)) && (!string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation) || !string.IsNullOrWhiteSpace(ApiKeyConfigName) || !string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigId) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigSecretVersion) || !string.IsNullOrWhiteSpace(UserPasswordConfigUsername) || !string.IsNullOrWhiteSpace(UserPasswordConfigSecretVersion)) && (!string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigId) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigSecretVersion)) && (!(!string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigId))))
+        {
+            yield return new ValidationResult("Oauth2ClientCredentialsConfigId must be specified when other arguments in this group are specified.", [nameof(Oauth2ClientCredentialsConfigId)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AuthConfigType) || !string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation) || !string.IsNullOrWhiteSpace(ApiKeyConfigName) || !string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigId) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigSecretVersion) || !string.IsNullOrWhiteSpace(UserPasswordConfigUsername) || !string.IsNullOrWhiteSpace(UserPasswordConfigSecretVersion)) && (!string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation) || !string.IsNullOrWhiteSpace(ApiKeyConfigName) || !string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigId) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigSecretVersion) || !string.IsNullOrWhiteSpace(UserPasswordConfigUsername) || !string.IsNullOrWhiteSpace(UserPasswordConfigSecretVersion)) && (!string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigId) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigSecretVersion)) && (!(!string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigSecretVersion))))
+        {
+            yield return new ValidationResult("At least one of Oauth2ClientCredentialsConfigSecretVersion must be specified.", [nameof(Oauth2ClientCredentialsConfigSecretVersion)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(AuthConfigType) || !string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation) || !string.IsNullOrWhiteSpace(ApiKeyConfigName) || !string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigId) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigSecretVersion) || !string.IsNullOrWhiteSpace(UserPasswordConfigUsername) || !string.IsNullOrWhiteSpace(UserPasswordConfigSecretVersion)) && (!string.IsNullOrWhiteSpace(ApiKeyConfigHttpElementLocation) || !string.IsNullOrWhiteSpace(ApiKeyConfigName) || !string.IsNullOrWhiteSpace(ApiKeyConfigSecretVersion) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigId) || !string.IsNullOrWhiteSpace(Oauth2ClientCredentialsConfigSecretVersion) || !string.IsNullOrWhiteSpace(UserPasswordConfigUsername) || !string.IsNullOrWhiteSpace(UserPasswordConfigSecretVersion)) && (!string.IsNullOrWhiteSpace(UserPasswordConfigUsername) || !string.IsNullOrWhiteSpace(UserPasswordConfigSecretVersion)) && (!(!string.IsNullOrWhiteSpace(UserPasswordConfigSecretVersion))))
+        {
+            yield return new ValidationResult("At least one of UserPasswordConfigSecretVersion must be specified.", [nameof(UserPasswordConfigSecretVersion)]);
+        }
+        yield break;
+    }
+
 }

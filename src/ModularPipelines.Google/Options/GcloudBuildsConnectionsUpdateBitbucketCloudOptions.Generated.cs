@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBuildsConnectionsUpdateBitbucketCloudOptions : GcloudOptions
 {
     /// <summary>
+    /// update a Cloud Build     Connection of type Bitbucket Cloud
+    /// </summary>
+    /// <param name="Connection">Connection resource - Connection to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection or fully qualified identifier for the connection. To set the connection attribute: ▸ provide the argument connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBuildsConnectionsUpdateBitbucketCloudOptions(
+        string Connection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Connection);
+        this.Connection = Connection;
+    }
+
+    public void Deconstruct(out string Connection)
+    {
+        Connection = this.Connection;
+    }
+
+    /// <summary>
+    /// Connection resource - Connection to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Google Cloud region. To set the region attribute: ▸ provide the argument connection on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property builds/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -31,21 +53,18 @@ public record GcloudBuildsConnectionsUpdateBitbucketCloudOptions : GcloudOptions
     /// <summary>
     /// Secret containing the repository_read,repository_admin, pullrequest_read, webhook access token. It can be a repository, project or workspace access token.
     /// </summary>
-    [SecretValue]
     [CliOption("--authorizer-token-secret-version", Format = OptionFormat.EqualsSeparated)]
     public string? AuthorizerTokenSecretVersion { get; set; }
 
     /// <summary>
     /// Secret containing the repository_read access token. It can be a repository, project or workspace access token.
     /// </summary>
-    [SecretValue]
     [CliOption("--read-authorizer-token-secret-version", Format = OptionFormat.EqualsSeparated)]
     public string? ReadAuthorizerTokenSecretVersion { get; set; }
 
     /// <summary>
     /// Secret containing the webhook secret string for validating webhook events sent by Bitbucket Cloud.
     /// </summary>
-    [SecretValue]
     [CliOption("--webhook-secret-secret-version", Format = OptionFormat.EqualsSeparated)]
     public string? WebhookSecretSecretVersion { get; set; }
 
@@ -54,5 +73,11 @@ public record GcloudBuildsConnectionsUpdateBitbucketCloudOptions : GcloudOptions
     /// </summary>
     [CliOption("--workspace", Format = OptionFormat.EqualsSeparated)]
     public string? Workspace { get; set; }
+
+    /// <summary>
+    /// Connection resource - Connection to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connection or fully qualified identifier for the connection. To set the connection attribute: ▸ provide the argument connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Connection { get; private init; }
 
 }

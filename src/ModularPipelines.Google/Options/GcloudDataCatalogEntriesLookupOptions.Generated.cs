@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "entries", "lookup")]
-public record GcloudDataCatalogEntriesLookupOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Resource
-) : GcloudOptions
+public record GcloudDataCatalogEntriesLookupOptions : GcloudOptions
 {
+    /// <summary>
+    /// lookup a Data Catalog entry by its     target name
+    /// </summary>
+    /// <param name="Resource">The name of the target resource to lookup. This can be either the Google Cloud Platform resource name or the SQL name of a Google Cloud Platform resource. SQL names follow Standard SQL lexical structure: https://cloud.google.com/bigquery/docs/reference/standard-sql/lexical</param>
+    public GcloudDataCatalogEntriesLookupOptions(
+        string Resource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+    }
+
+    public void Deconstruct(out string Resource)
+    {
+        Resource = this.Resource;
+    }
+
+    /// <summary>
+    /// The name of the target resource to lookup. This can be either the Google Cloud Platform resource name or the SQL name of a Google Cloud Platform resource. SQL names follow Standard SQL lexical structure: https://cloud.google.com/bigquery/docs/reference/standard-sql/lexical
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Resource { get; private init; }
+
 }

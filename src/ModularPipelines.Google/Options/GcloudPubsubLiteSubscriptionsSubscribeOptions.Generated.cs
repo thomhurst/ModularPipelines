@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPubsubLiteSubscriptionsSubscribeOptions : GcloudOptions
 {
     /// <summary>
+    /// stream messages from a Pub/Sub     Lite subscription
+    /// </summary>
+    /// <param name="Subscription">Subscription resource - The Pub/Sub Lite subscription to receive messages from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subscription on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the subscription or fully qualified identifier for the subscription. To set the subscription attribute: ▸ provide the argument subscription on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPubsubLiteSubscriptionsSubscribeOptions(
+        string Subscription
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Subscription);
+        this.Subscription = Subscription;
+    }
+
+    public void Deconstruct(out string Subscription)
+    {
+        Subscription = this.Subscription;
+    }
+
+    /// <summary>
+    /// Subscription resource - The Pub/Sub Lite subscription to receive messages from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subscription on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location of the Pub/Sub Lite resource. To set the location attribute: ▸ provide the argument subscription on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Automatically ACK every message received on this subscription.
     /// </summary>
     [CliFlag("--auto-ack")]
@@ -34,9 +57,15 @@ public record GcloudPubsubLiteSubscriptionsSubscribeOptions : GcloudOptions
     public string? NumMessages { get; set; }
 
     /// <summary>
-    /// The partitions this subscriber should connect to to receive messages. If empty, partitions will be automatically assigned.
+    /// The partitions this subscriber should connect to to receive messages. If empty, partitions will be automatically assigned. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--partitions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--partitions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Partitions { get; set; }
+
+    /// <summary>
+    /// Subscription resource - The Pub/Sub Lite subscription to receive messages from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subscription on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the subscription or fully qualified identifier for the subscription. To set the subscription attribute: ▸ provide the argument subscription on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Subscription { get; private init; }
 
 }

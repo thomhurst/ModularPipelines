@@ -21,4 +21,84 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("ai", "semantic-governance-policies", "create")]
 public record GcloudAiSemanticGovernancePoliciesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new semantic     governance policy
+    /// </summary>
+    /// <param name="Agent">The name of the agent in Agent Registry that is affected by this policy.</param>
+    /// <param name="DisplayName">The user-defined name of the semantic governance policy.</param>
+    /// <param name="NaturalLanguageConstraint">The natural language constraint of the semantic governance policy.</param>
+    /// <param name="Policy">Policy resource - The semantic governance policy to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the policy or fully qualified identifier for the policy. To set the policy attribute: ▸ provide the argument policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAiSemanticGovernancePoliciesCreateOptions(
+        string Agent,
+        string DisplayName,
+        string NaturalLanguageConstraint,
+        string Policy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Agent);
+        this.Agent = Agent;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(NaturalLanguageConstraint);
+        this.NaturalLanguageConstraint = NaturalLanguageConstraint;
+        global::System.ArgumentNullException.ThrowIfNull(Policy);
+        this.Policy = Policy;
+    }
+
+    public void Deconstruct(out string Agent, out string DisplayName, out string NaturalLanguageConstraint, out string Policy)
+    {
+        Agent = this.Agent;
+        DisplayName = this.DisplayName;
+        NaturalLanguageConstraint = this.NaturalLanguageConstraint;
+        Policy = this.Policy;
+    }
+
+    /// <summary>
+    /// The name of the agent in Agent Registry that is affected by this policy.
+    /// </summary>
+    [CliOption("--agent", Format = OptionFormat.EqualsSeparated)]
+    public string Agent { get; private init; }
+
+    /// <summary>
+    /// The user-defined name of the semantic governance policy.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// The natural language constraint of the semantic governance policy.
+    /// </summary>
+    [CliOption("--natural-language-constraint", Format = OptionFormat.EqualsSeparated)]
+    public string NaturalLanguageConstraint { get; private init; }
+
+    /// <summary>
+    /// Policy resource - The semantic governance policy to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location to create the policy in. To set the location attribute: ▸ provide the argument policy on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The description of the semantic governance policy.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The MCP tools that are affected by this policy. Syntax: --mcp-tools=mcp-server=S1,tools=T1;T2
+    /// </summary>
+    [CliOption("--mcp-tools", Format = OptionFormat.EqualsSeparated)]
+    public string? McpTools { get; set; }
+
+    /// <summary>
+    /// Policy resource - The semantic governance policy to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the policy or fully qualified identifier for the policy. To set the policy attribute: ▸ provide the argument policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Policy { get; private init; }
+
 }

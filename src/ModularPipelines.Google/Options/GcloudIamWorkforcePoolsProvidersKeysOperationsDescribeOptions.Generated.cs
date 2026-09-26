@@ -21,4 +21,51 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("iam", "workforce-pools", "providers", "keys", "operations", "describe")]
 public record GcloudIamWorkforcePoolsProvidersKeysOperationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a     workforce pool provider key operation
+    /// </summary>
+    /// <param name="Operation">Workforce pool provider key operation resource - The workforce pool provider key long-running operation to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workforce pool provider key operation or fully qualified identifier for the workforce pool provider key operation. To set the operation attribute: ▸ provide the argument operation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamWorkforcePoolsProvidersKeysOperationsDescribeOptions(
+        string Operation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Operation);
+        this.Operation = Operation;
+    }
+
+    public void Deconstruct(out string Operation)
+    {
+        Operation = this.Operation;
+    }
+
+    /// <summary>
+    /// Workforce pool provider key operation resource - The workforce pool provider key long-running operation to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The ID for the key, which becomes the final component of the resource name. This value must be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix gcp- is reserved for use by Google, and may not be specified. To set the key attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --key on the command line.
+    /// </summary>
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
+    public string? Key { get; set; }
+
+    /// <summary>
+    /// Workforce pool provider key operation resource - The workforce pool provider key long-running operation to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location for the workforce pool. To set the location attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Workforce pool provider key operation resource - The workforce pool provider key long-running operation to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The ID to use for the workforce pool provider, which becomes the final component of the resource name. This value must be unique within the workforce pool, 4-32 characters in length, and may contain the characters [a-z0-9-]. The prefix gcp- is reserved for use by Google, and may not be specified. To set the provider attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --provider on the command line.
+    /// </summary>
+    [CliOption("--provider", Format = OptionFormat.EqualsSeparated)]
+    public string? Provider { get; set; }
+
+    /// <summary>
+    /// Workforce pool provider key operation resource - The workforce pool provider key long-running operation to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The ID to use for the workforce pool, which becomes the final component of the resource name. This value must be a globally unique string of 6 to 63 lowercase letters, digits, or hyphens. It must start with a letter, and cannot have a trailing hyphen. The prefix gcp- is reserved for use by Google, and may not be specified. To set the workforce-pool attribute: ▸ provide the argument operation on the command line with a fully specified name; ▸ provide the argument --workforce-pool on the command line.
+    /// </summary>
+    [CliOption("--workforce-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkforcePool { get; set; }
+
+    /// <summary>
+    /// Workforce pool provider key operation resource - The workforce pool provider key long-running operation to describe. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workforce pool provider key operation or fully qualified identifier for the workforce pool provider key operation. To set the operation attribute: ▸ provide the argument operation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Operation { get; private init; }
+
 }

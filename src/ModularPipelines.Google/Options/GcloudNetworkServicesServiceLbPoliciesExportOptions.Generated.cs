@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkServicesServiceLbPoliciesExportOptions : GcloudOptions
 {
     /// <summary>
+    /// export service LB     policy
+    /// </summary>
+    /// <param name="ServiceLbPolicy">Service lb policy resource - Name of the service LB policy to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service_lb_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service lb policy or fully qualified identifier for the service lb policy. To set the service_lb_policy attribute: ▸ provide the argument service_lb_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkServicesServiceLbPoliciesExportOptions(
+        string ServiceLbPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ServiceLbPolicy);
+        this.ServiceLbPolicy = ServiceLbPolicy;
+    }
+
+    public void Deconstruct(out string ServiceLbPolicy)
+    {
+        ServiceLbPolicy = this.ServiceLbPolicy;
+    }
+
+    /// <summary>
+    /// Service lb policy resource - Name of the service LB policy to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service_lb_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument service_lb_policy on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Path to a YAML file where the configuration will be exported. The exported data will not contain any output-only fields. Alternatively, you may omit this flag to write to standard output. For a schema describing the export/import format, see $CLOUDSDKROOT/lib/googlecloudsdk/schemas/...
     /// </summary>
     [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
     public string? Destination { get; set; }
+
+    /// <summary>
+    /// Service lb policy resource - Name of the service LB policy to export. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument service_lb_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the service lb policy or fully qualified identifier for the service lb policy. To set the service_lb_policy attribute: ▸ provide the argument service_lb_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ServiceLbPolicy { get; private init; }
 
 }

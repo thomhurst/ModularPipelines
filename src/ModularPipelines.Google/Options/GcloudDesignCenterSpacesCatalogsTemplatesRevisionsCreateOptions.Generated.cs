@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,165 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "catalogs", "templates", "revisions", "create")]
-public record GcloudDesignCenterSpacesCatalogsTemplatesRevisionsCreateOptions : GcloudOptions
+public record GcloudDesignCenterSpacesCatalogsTemplatesRevisionsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a     new catalog template revision
+    /// </summary>
+    /// <param name="Revision">Revision resource - The revision to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the revision or fully qualified identifier for the revision. To set the revision attribute: ▸ provide the argument revision on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDesignCenterSpacesCatalogsTemplatesRevisionsCreateOptions(
+        string Revision
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Revision);
+        this.Revision = Revision;
+    }
+
+    public void Deconstruct(out string Revision)
+    {
+        Revision = this.Revision;
+    }
+
+    /// <summary>
+    /// Revision resource - The revision to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The ID of the catalog. To set the catalog attribute: ▸ provide the argument revision on the command line with a fully specified name; ▸ provide the argument --catalog on the command line.
+    /// </summary>
+    [CliOption("--catalog", Format = OptionFormat.EqualsSeparated)]
+    public string? Catalog { get; set; }
+
+    /// <summary>
+    /// Revision resource - The revision to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the revision. To set the location attribute: ▸ provide the argument revision on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Revision resource - The revision to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The ID of the space. To set the space attribute: ▸ provide the argument revision on the command line with a fully specified name; ▸ provide the argument --space on the command line.
+    /// </summary>
+    [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
+    public string? Space { get; set; }
+
+    /// <summary>
+    /// Revision resource - The revision to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The ID of the template. To set the template attribute: ▸ provide the argument revision on the command line with a fully specified name; ▸ provide the argument --template on the command line.
+    /// </summary>
+    [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
+    public string? Template { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Application template revision to use as source. Example: projects/my-project/locations/us-central1/spaces/my-space/catalogs/my-catalog/templates/my-template/revisions/r1
+    /// </summary>
+    [CliOption("--application-template-revision-source", Format = OptionFormat.EqualsSeparated)]
+    public string? ApplicationTemplateRevisionSource { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Google Cloud Storage URI for source. Example: gs://my-bucket/my-template.
+    /// </summary>
+    [CliOption("--gcs-source-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? GcsSourceUri { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Developer Connect source. The Developer Connect repository to use as a source. Example: projects/my-project/locations/us-central1/connections/my-connection/gitRepositoryLinks/my-repo This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--developer-connect-repo", Format = OptionFormat.EqualsSeparated)]
+    public string? DeveloperConnectRepo { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Developer Connect source. The directory within the repository to use. Example: "modules/my-product" This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--developer-connect-repo-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? DeveloperConnectRepoDir { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Developer Connect source. The Git ref (branch or tag) within the repository to use. Example: "refs/tags/v1.0.0" or "refs/heads/main" or "refs/commits/269b518b99d06b31ff938a2d182e75f5e41941c7". This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--developer-connect-repo-ref", Format = OptionFormat.EqualsSeparated)]
+    public string? DeveloperConnectRepoRef { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Git source. Git reference tag for Git source. Example: "v1.0.0" This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--git-source-ref-tag", Format = OptionFormat.EqualsSeparated)]
+    public string? GitSourceRefTag { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Git source. Git repository for Git source. Example: GoogleCloudPlatform/terraform-google-cloud-run This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--git-source-repo", Format = OptionFormat.EqualsSeparated)]
+    public string? GitSourceRepo { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Git source. Git directory for Git source. Example: "modules/my-product". This field is optional.
+    /// </summary>
+    [CliOption("--git-source-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? GitSourceDir { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for OCI Repo source. OCI Repo URI for OCI Repo source. Example: oci://us-west1-docker.pkg.dev/my-project/my-repo/my-chart This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--oci-repo-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? OciRepoUri { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for OCI Repo source. OCI Repo version for OCI Repo source. Example: "1.0.0". This field is optional.
+    /// </summary>
+    [CliOption("--oci-repo-version", Format = OptionFormat.EqualsSeparated)]
+    public string? OciRepoVersion { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A description for the revision.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Path to a local YAML file containing the template metadata. Example: "path/to/metadata.yaml".
+    /// </summary>
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
+    public string? Metadata { get; set; }
+
+    /// <summary>
+    /// Revision resource - The revision to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument revision on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the revision or fully qualified identifier for the revision. To set the revision attribute: ▸ provide the argument revision on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Revision { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ApplicationTemplateRevisionSource) ? 1 : 0) + (!string.IsNullOrWhiteSpace(GcsSourceUri) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(DeveloperConnectRepo) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoDir) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoRef)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(GitSourceRefTag) || !string.IsNullOrWhiteSpace(GitSourceRepo) || !string.IsNullOrWhiteSpace(GitSourceDir)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(OciRepoUri) || !string.IsNullOrWhiteSpace(OciRepoVersion)) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ApplicationTemplateRevisionSource, GcsSourceUri, (DeveloperConnectRepo, DeveloperConnectRepoDir, or DeveloperConnectRepoRef), (GitSourceRefTag, GitSourceRepo, or GitSourceDir), or (OciRepoUri or OciRepoVersion) must be specified.", [nameof(ApplicationTemplateRevisionSource), nameof(GcsSourceUri), nameof(DeveloperConnectRepo), nameof(DeveloperConnectRepoDir), nameof(DeveloperConnectRepoRef), nameof(GitSourceRefTag), nameof(GitSourceRepo), nameof(GitSourceDir), nameof(OciRepoUri), nameof(OciRepoVersion)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ApplicationTemplateRevisionSource) || !string.IsNullOrWhiteSpace(GcsSourceUri) || !string.IsNullOrWhiteSpace(DeveloperConnectRepo) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoDir) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoRef) || !string.IsNullOrWhiteSpace(GitSourceRefTag) || !string.IsNullOrWhiteSpace(GitSourceRepo) || !string.IsNullOrWhiteSpace(GitSourceDir) || !string.IsNullOrWhiteSpace(OciRepoUri) || !string.IsNullOrWhiteSpace(OciRepoVersion)) && (!string.IsNullOrWhiteSpace(DeveloperConnectRepo) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoDir) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoRef)) && (!string.IsNullOrWhiteSpace(DeveloperConnectRepo) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoDir) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoRef)) && (!(!string.IsNullOrWhiteSpace(DeveloperConnectRepo))))
+        {
+            yield return new ValidationResult("DeveloperConnectRepo must be specified when other arguments in this group are specified.", [nameof(DeveloperConnectRepo)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ApplicationTemplateRevisionSource) || !string.IsNullOrWhiteSpace(GcsSourceUri) || !string.IsNullOrWhiteSpace(DeveloperConnectRepo) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoDir) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoRef) || !string.IsNullOrWhiteSpace(GitSourceRefTag) || !string.IsNullOrWhiteSpace(GitSourceRepo) || !string.IsNullOrWhiteSpace(GitSourceDir) || !string.IsNullOrWhiteSpace(OciRepoUri) || !string.IsNullOrWhiteSpace(OciRepoVersion)) && (!string.IsNullOrWhiteSpace(DeveloperConnectRepo) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoDir) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoRef)) && (!string.IsNullOrWhiteSpace(DeveloperConnectRepo) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoDir) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoRef)) && (!(!string.IsNullOrWhiteSpace(DeveloperConnectRepoDir))))
+        {
+            yield return new ValidationResult("DeveloperConnectRepoDir must be specified when other arguments in this group are specified.", [nameof(DeveloperConnectRepoDir)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ApplicationTemplateRevisionSource) || !string.IsNullOrWhiteSpace(GcsSourceUri) || !string.IsNullOrWhiteSpace(DeveloperConnectRepo) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoDir) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoRef) || !string.IsNullOrWhiteSpace(GitSourceRefTag) || !string.IsNullOrWhiteSpace(GitSourceRepo) || !string.IsNullOrWhiteSpace(GitSourceDir) || !string.IsNullOrWhiteSpace(OciRepoUri) || !string.IsNullOrWhiteSpace(OciRepoVersion)) && (!string.IsNullOrWhiteSpace(DeveloperConnectRepo) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoDir) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoRef)) && (!string.IsNullOrWhiteSpace(DeveloperConnectRepo) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoDir) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoRef)) && (!(!string.IsNullOrWhiteSpace(DeveloperConnectRepoRef))))
+        {
+            yield return new ValidationResult("DeveloperConnectRepoRef must be specified when other arguments in this group are specified.", [nameof(DeveloperConnectRepoRef)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ApplicationTemplateRevisionSource) || !string.IsNullOrWhiteSpace(GcsSourceUri) || !string.IsNullOrWhiteSpace(DeveloperConnectRepo) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoDir) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoRef) || !string.IsNullOrWhiteSpace(GitSourceRefTag) || !string.IsNullOrWhiteSpace(GitSourceRepo) || !string.IsNullOrWhiteSpace(GitSourceDir) || !string.IsNullOrWhiteSpace(OciRepoUri) || !string.IsNullOrWhiteSpace(OciRepoVersion)) && (!string.IsNullOrWhiteSpace(GitSourceRefTag) || !string.IsNullOrWhiteSpace(GitSourceRepo) || !string.IsNullOrWhiteSpace(GitSourceDir)) && (!string.IsNullOrWhiteSpace(GitSourceRefTag) || !string.IsNullOrWhiteSpace(GitSourceRepo) || !string.IsNullOrWhiteSpace(GitSourceDir)) && (!(!string.IsNullOrWhiteSpace(GitSourceRefTag))))
+        {
+            yield return new ValidationResult("GitSourceRefTag must be specified when other arguments in this group are specified.", [nameof(GitSourceRefTag)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ApplicationTemplateRevisionSource) || !string.IsNullOrWhiteSpace(GcsSourceUri) || !string.IsNullOrWhiteSpace(DeveloperConnectRepo) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoDir) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoRef) || !string.IsNullOrWhiteSpace(GitSourceRefTag) || !string.IsNullOrWhiteSpace(GitSourceRepo) || !string.IsNullOrWhiteSpace(GitSourceDir) || !string.IsNullOrWhiteSpace(OciRepoUri) || !string.IsNullOrWhiteSpace(OciRepoVersion)) && (!string.IsNullOrWhiteSpace(GitSourceRefTag) || !string.IsNullOrWhiteSpace(GitSourceRepo) || !string.IsNullOrWhiteSpace(GitSourceDir)) && (!string.IsNullOrWhiteSpace(GitSourceRefTag) || !string.IsNullOrWhiteSpace(GitSourceRepo) || !string.IsNullOrWhiteSpace(GitSourceDir)) && (!(!string.IsNullOrWhiteSpace(GitSourceRepo))))
+        {
+            yield return new ValidationResult("GitSourceRepo must be specified when other arguments in this group are specified.", [nameof(GitSourceRepo)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(ApplicationTemplateRevisionSource) || !string.IsNullOrWhiteSpace(GcsSourceUri) || !string.IsNullOrWhiteSpace(DeveloperConnectRepo) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoDir) || !string.IsNullOrWhiteSpace(DeveloperConnectRepoRef) || !string.IsNullOrWhiteSpace(GitSourceRefTag) || !string.IsNullOrWhiteSpace(GitSourceRepo) || !string.IsNullOrWhiteSpace(GitSourceDir) || !string.IsNullOrWhiteSpace(OciRepoUri) || !string.IsNullOrWhiteSpace(OciRepoVersion)) && (!string.IsNullOrWhiteSpace(OciRepoUri) || !string.IsNullOrWhiteSpace(OciRepoVersion)) && (!string.IsNullOrWhiteSpace(OciRepoUri) || !string.IsNullOrWhiteSpace(OciRepoVersion)) && (!(!string.IsNullOrWhiteSpace(OciRepoUri))))
+        {
+            yield return new ValidationResult("OciRepoUri must be specified when other arguments in this group are specified.", [nameof(OciRepoUri)]);
+        }
+        yield break;
+    }
+
 }

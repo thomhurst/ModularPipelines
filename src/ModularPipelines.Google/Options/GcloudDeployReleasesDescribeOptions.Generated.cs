@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("deploy", "releases", "describe")]
 public record GcloudDeployReleasesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details about a release
+    /// </summary>
+    /// <param name="Release">Release resource - The release you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument release on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the release or fully qualified identifier for the release. To set the release attribute: ▸ provide the argument release on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDeployReleasesDescribeOptions(
+        string Release
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Release);
+        this.Release = Release;
+    }
+
+    public void Deconstruct(out string Release)
+    {
+        Release = this.Release;
+    }
+
+    /// <summary>
+    /// Release resource - The release you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument release on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Cloud Deploy delivery pipeline. To set the delivery-pipeline attribute: ▸ provide the argument release on the command line with a fully specified name; ▸ provide the argument --delivery-pipeline on the command line; ▸ set the property deploy/delivery_pipeline.
+    /// </summary>
+    [CliOption("--delivery-pipeline", Format = OptionFormat.EqualsSeparated)]
+    public string? DeliveryPipeline { get; set; }
+
+    /// <summary>
+    /// Release resource - The release you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument release on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the release. To set the region attribute: ▸ provide the argument release on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property deploy/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Release resource - The release you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument release on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the release or fully qualified identifier for the release. To set the release attribute: ▸ provide the argument release on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Release { get; private init; }
+
 }

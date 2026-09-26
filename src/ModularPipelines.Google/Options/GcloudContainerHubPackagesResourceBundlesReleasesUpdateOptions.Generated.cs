@@ -19,8 +19,52 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "packages", "resource-bundles", "releases", "update")]
-public record GcloudContainerHubPackagesResourceBundlesReleasesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Release
-) : GcloudOptions
+public record GcloudContainerHubPackagesResourceBundlesReleasesUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update     Package Rollouts Release
+    /// </summary>
+    /// <param name="ResourceBundle">Resource Bundle name.</param>
+    /// <param name="Release">Release identifier, either a version or tag.</param>
+    public GcloudContainerHubPackagesResourceBundlesReleasesUpdateOptions(
+        string ResourceBundle,
+        string Release
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResourceBundle);
+        this.ResourceBundle = ResourceBundle;
+        global::System.ArgumentNullException.ThrowIfNull(Release);
+        this.Release = Release;
+    }
+
+    public void Deconstruct(out string ResourceBundle, out string Release)
+    {
+        ResourceBundle = this.ResourceBundle;
+        Release = this.Release;
+    }
+
+    /// <summary>
+    /// Resource Bundle name.
+    /// </summary>
+    [CliOption("--resource-bundle", Format = OptionFormat.EqualsSeparated)]
+    public string ResourceBundle { get; private init; }
+
+    /// <summary>
+    /// Lifecycle of the Release.
+    /// </summary>
+    [CliOption("--lifecycle", Format = OptionFormat.EqualsSeparated)]
+    public string? Lifecycle { get; set; }
+
+    /// <summary>
+    /// Google Cloud zone or region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Release identifier, either a version or tag.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Release { get; private init; }
+
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -20,18 +21,41 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "azure", "clusters", "update")]
-public record GcloudContainerAzureClustersUpdateOptions : GcloudOptions
+public record GcloudContainerAzureClustersUpdateOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// Groups of users that can perform operations as a cluster administrator.
+    /// update an Anthos cluster on Azure
     /// </summary>
-    [CliOption("--admin-groups", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Cluster">Cluster resource - Azure cluster to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerAzureClustersUpdateOptions(
+        string Cluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Cluster);
+        this.Cluster = Cluster;
+    }
+
+    public void Deconstruct(out string Cluster)
+    {
+        Cluster = this.Cluster;
+    }
+
+    /// <summary>
+    /// Cluster resource - Azure cluster to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the cluster. To set the location attribute: ▸ provide the argument cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Groups of users that can perform operations as a cluster administrator. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--admin-groups", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AdminGroups { get; set; }
 
     /// <summary>
-    /// Users that can perform operations as a cluster administrator.
+    /// Users that can perform operations as a cluster administrator. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AdminUsers { get; set; }
 
     /// <summary>
@@ -49,8 +73,8 @@ public record GcloudContainerAzureClustersUpdateOptions : GcloudOptions
     /// <summary>
     /// Set the components that have logging enabled. Examples: $ gcloud container azure clusters update --logging=SYSTEM $ gcloud container azure clusters update --logging=SYSTEM,WORKLOAD COMPONENT must be one of: SYSTEM, WORKLOAD.
     /// </summary>
-    [CliOption("--logging", Format = OptionFormat.EqualsSeparated)]
-    public GcloudLogging? Logging { get; set; }
+    [CliOption("--logging", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<GcloudContainerAzureClustersUpdateLogging>? Logging { get; set; }
 
     /// <summary>
     /// SSH public key to use for authentication.
@@ -71,10 +95,32 @@ public record GcloudContainerAzureClustersUpdateOptions : GcloudOptions
     public int? VmSize { get; set; }
 
     /// <summary>
-    /// Annotations At most one of these can be specified: Annotations for the cluster.
+    /// Annotations At most one of these can be specified: Annotations for the cluster. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Annotations { get; set; }
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Annotations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AnnotationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AnnotationsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// Annotations At most one of these can be specified: Clear the annotations for the cluster.
@@ -95,25 +141,25 @@ public record GcloudContainerAzureClustersUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Authentication configuration At most one of these can be specified: Client resource - Azure client to use for cluster update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location. ID of the client or fully qualified identifier for the client. To set the client attribute: ▸ provide the argument --client on the command line.
+    /// Authentication configuration At most one of these can be specified: Client resource - Azure client to use for cluster update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location. Azure services authentication ID of the client or fully qualified identifier for the client. To set the client attribute: ▸ provide the argument --client on the command line.
     /// </summary>
     [CliOption("--client", Format = OptionFormat.EqualsSeparated)]
     public string? Client { get; set; }
 
     /// <summary>
-    /// Azure services authentication ID of the Azure Application to manage Azure resources.
+    /// Authentication configuration At most one of these can be specified: Client resource - Azure client to use for cluster update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location. Azure services authentication ID of the Azure Application to manage Azure resources.
     /// </summary>
     [CliOption("--azure-application-id", Format = OptionFormat.EqualsSeparated)]
     public string? AzureApplicationId { get; set; }
 
     /// <summary>
-    /// Azure services authentication ID of the Azure Tenant to manage Azure resources.
+    /// Authentication configuration At most one of these can be specified: Client resource - Azure client to use for cluster update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location. Azure services authentication ID of the Azure Tenant to manage Azure resources.
     /// </summary>
     [CliOption("--azure-tenant-id", Format = OptionFormat.EqualsSeparated)]
     public string? AzureTenantId { get; set; }
 
     /// <summary>
-    /// Azure services authentication Clear the Azure client. This flag is required when updating to use Azure workload identity federation from Azure client to manage Azure resources.
+    /// Authentication configuration At most one of these can be specified: Client resource - Azure client to use for cluster update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location. Azure services authentication Clear the Azure client. This flag is required when updating to use Azure workload identity federation from Azure client to manage Azure resources.
     /// </summary>
     [CliFlag("--clear-client")]
     public bool? ClearClient { get; set; }
@@ -129,5 +175,33 @@ public record GcloudContainerAzureClustersUpdateOptions : GcloudOptions
     /// </summary>
     [CliFlag("--enable-managed-prometheus")]
     public bool? EnableManagedPrometheus { get; set; }
+
+    /// <summary>
+    /// Cluster resource - Azure cluster to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the cluster or fully qualified identifier for the cluster. To set the cluster attribute: ▸ provide the argument cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Cluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)Annotations is global::System.Collections.Generic.IEnumerable<char> ? (object?)Annotations is not string || !string.IsNullOrWhiteSpace(Annotations?.ToString()) : ((object?)Annotations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Annotations, static item => item is not null) : (Annotations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Annotations), static item => item is not null)))) ? 1 : 0) + (ClearAnnotations == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Annotations or ClearAnnotations may be specified.", [nameof(Annotations), nameof(ClearAnnotations)]);
+        }
+        if ((ClearDescription == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Description) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearDescription or Description may be specified.", [nameof(ClearDescription), nameof(Description)]);
+        }
+        if (((!string.IsNullOrWhiteSpace(Client)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AzureApplicationId) || !string.IsNullOrWhiteSpace(AzureTenantId) || ClearClient == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (Client) or (AzureApplicationId, AzureTenantId, or ClearClient) may be specified.", [nameof(Client), nameof(AzureApplicationId), nameof(AzureTenantId), nameof(ClearClient)]);
+        }
+        if ((DisableManagedPrometheus == true ? 1 : 0) + (EnableManagedPrometheus == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DisableManagedPrometheus or EnableManagedPrometheus may be specified.", [nameof(DisableManagedPrometheus), nameof(EnableManagedPrometheus)]);
+        }
+        yield break;
+    }
 
 }

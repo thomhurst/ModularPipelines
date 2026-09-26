@@ -19,8 +19,93 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "export", "csv")]
-public record GcloudSqlExportCsvOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudSqlExportCsvOptions : GcloudOptions
 {
+    /// <summary>
+    /// exports data from a Cloud SQL instance to a CSV     file
+    /// </summary>
+    /// <param name="Query">A SQL SELECT query (e.g., SELECT * FROM table) that specifies the data to export. WARNING: While in-transit, the query might be processed in intermediate locations other than the location of the target instance.</param>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    /// <param name="Uri">The path to the file in Google Cloud Storage where the export will be stored. The URI is in the form gs://bucketName/fileName. If the file already exists, the operation fails. If the filename ends with .gz, the contents are compressed.</param>
+    public GcloudSqlExportCsvOptions(
+        string Query,
+        string Instance,
+        string Uri
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Query);
+        this.Query = Query;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+        global::System.ArgumentNullException.ThrowIfNull(Uri);
+        this.Uri = Uri;
+    }
+
+    public void Deconstruct(out string Query, out string Instance, out string Uri)
+    {
+        Query = this.Query;
+        Instance = this.Instance;
+        Uri = this.Uri;
+    }
+
+    /// <summary>
+    /// A SQL SELECT query (e.g., SELECT * FROM table) that specifies the data to export. WARNING: While in-transit, the query might be processed in intermediate locations other than the location of the target instance.
+    /// </summary>
+    [CliOption("--query", Format = OptionFormat.EqualsSeparated)]
+    public string Query { get; private init; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Database(s) from which the export is made. Information on requirements can be found here: https://cloud.google.com/sql/docs/mysql/admin-api/v1beta4/instances/export#exportContext.databases Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Database { get; set; }
+
+    /// <summary>
+    /// Specifies the character that should appear before a data character that needs to be escaped. The value of this argument has to be a character in Hex ASCII Code. For example, "22" represents double quotes. This flag is only available for MySQL and Postgres. If this flag is not provided, double quotes character will be used as the default value.
+    /// </summary>
+    [CliOption("--escape", Format = OptionFormat.EqualsSeparated)]
+    public string? Escape { get; set; }
+
+    /// <summary>
+    /// Specifies the character that splits column values. The value of this argument has to be a character in Hex ASCII Code. For example, "2C" represents a comma. This flag is only available for MySQL and Postgres. If this flag is not provided, a comma character will be used as the default value.
+    /// </summary>
+    [CliOption("--fields-terminated-by", Format = OptionFormat.EqualsSeparated)]
+    public string? FieldsTerminatedBy { get; set; }
+
+    /// <summary>
+    /// Specifies the character that split line records. The value of this argument has to be a character in Hex ASCII Code. For example, "0A" represents a new line. This flag is only available for MySQL. If this flag is not provided, a new line character will be used as the default value.
+    /// </summary>
+    [CliOption("--lines-terminated-by", Format = OptionFormat.EqualsSeparated)]
+    public string? LinesTerminatedBy { get; set; }
+
+    /// <summary>
+    /// Offload an export to a temporary instance. Doing so reduces strain on source instances and allows other operations to be performed while the export is in progress.
+    /// </summary>
+    [CliFlag("--offload")]
+    public bool? Offload { get; set; }
+
+    /// <summary>
+    /// Specifies the character that encloses values from columns that have string data type. The value of this argument has to be a character in Hex ASCII Code. For example, "22" represents double quotes. This flag is only available for MySQL and Postgres. If this flag is not provided, double quotes character will be used as the default value.
+    /// </summary>
+    [CliOption("--quote", Format = OptionFormat.EqualsSeparated)]
+    public string? Quote { get; set; }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <summary>
+    /// The path to the file in Google Cloud Storage where the export will be stored. The URI is in the form gs://bucketName/fileName. If the file already exists, the operation fails. If the filename ends with .gz, the contents are compressed.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Uri { get; private init; }
+
 }

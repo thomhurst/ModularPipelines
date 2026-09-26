@@ -22,21 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamOauthClientsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// A list of OAuth grant types that are allowed for the OAuth client. The following grant types are currently supported: ◆ authorization-code-grant ◆ refresh-token-grant
+    /// update an OAuth client
     /// </summary>
-    [CliOption("--allowed-grant-types", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="OauthClient">Oauth client resource - The OAuth client to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument oauth_client on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the oauth client or fully qualified identifier for the oauth client. To set the oauth_client attribute: ▸ provide the argument oauth_client on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamOauthClientsUpdateOptions(
+        string OauthClient
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OauthClient);
+        this.OauthClient = OauthClient;
+    }
+
+    public void Deconstruct(out string OauthClient)
+    {
+        OauthClient = this.OauthClient;
+    }
+
+    /// <summary>
+    /// Oauth client resource - The OAuth client to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument oauth_client on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location name. To set the location attribute: ▸ provide the argument oauth_client on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// A list of OAuth grant types that are allowed for the OAuth client. The following grant types are currently supported: ◆ authorization-code-grant ◆ refresh-token-grant Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--allowed-grant-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AllowedGrantTypes { get; set; }
 
     /// <summary>
-    /// A list of redirect uris that is allowed for redirecting when the authorization is completed.
+    /// A list of redirect uris that is allowed for redirecting when the authorization is completed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--allowed-redirect-uris", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--allowed-redirect-uris", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AllowedRedirectUris { get; set; }
 
     /// <summary>
-    /// A list of scopes that the OAuth client is allowed to request during OAuth flows. The following scopes are currently supported: ◆ https://www.googleapis.com/auth/cloud-platform: View, edit, configure, and delete your Google Cloud data, and view the email address for your Google Account. ◆ openid: Associate you with your personal info on Google Cloud. ◆ email: The OAuth client can read a federated identity's email address. ◆ groups: The OAuth client can read a federated identity's groups.
+    /// A list of scopes that the OAuth client is allowed to request during OAuth flows. The following scopes are currently supported: ◆ https://www.googleapis.com/auth/cloud-platform: View, edit, configure, and delete your Google Cloud data, and view the email address for your Google Account. ◆ openid: Associate you with your personal info on Google Cloud. ◆ email: The OAuth client can read a federated identity's email address. ◆ groups: The OAuth client can read a federated identity's groups. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--allowed-scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--allowed-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AllowedScopes { get; set; }
 
     /// <summary>
@@ -62,5 +85,11 @@ public record GcloudIamOauthClientsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Oauth client resource - The OAuth client to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument oauth_client on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the oauth client or fully qualified identifier for the oauth client. To set the oauth_client attribute: ▸ provide the argument oauth_client on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OauthClient { get; private init; }
 
 }

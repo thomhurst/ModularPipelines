@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,167 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("filestore", "instances", "create")]
-public record GcloudFilestoreInstancesCreateOptions : GcloudOptions
+public record GcloudFilestoreInstancesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Filestore instance
+    /// </summary>
+    /// <param name="FileShare">File share configuration for an instance. Specifying both name and capacity is required. capacity The desired capacity of the volume in GB or TB units. If no capacity unit is specified, GB is assumed. Acceptable instance capacities for each tier are as follows: ▸ BASIC_HDD: 1TB-63.9TB in 1GB increments or its multiples. ▸ BASIC_SSD: 2.5TB-63.9TB in 1GB increments or its multiples. ▸ HIGH_SCALE_SSD: 10TB-100TB in 2.5TB increments or its multiples. ▸ ZONAL: 100GB-100TB: ▫ 100GB-10239GB in 1GB increments or its multiples. ▫ 10TB-100TB in 2.5TB increments or its multiples. ▸ ENTERPRISE: 1TB-10TB in 256GB increments or its multiples. ▸ REGIONAL: 1TB-100TB (100GB-100TB in supported regions): ▫ (100GB|1TB)-10239GB in 1GB increments or its multiples. ▫ 10TB-100TB in 2.5TB increments or its multiples. name The desired logical name of the volume. nfs-export-options The NfsExportOptions for the Cloud Filestore instance file share. Configuring NfsExportOptions is optional and can only be set using flags-file. Use the --flags-file flag to specify the path to a JSON or YAML configuration file that contains the required NfsExportOptions flags. ip-ranges A list of IPv4 addresses or CIDR ranges that are allowed to mount the file share. IPv4 addresses format: {octet 1}.{octet 2}.{octet 3}.{octet 4}. CIDR range format: {octet 1}.{octet 2}.{octet 3}.{octet 4}/{mask size}. Overlapping IP ranges are allowed for all tiers other than BASIC_HDD and BASIC_SSD. The limit of IP ranges/addresses for each FileShareConfig among all NfsExportOptions is 64 per instance. access-mode The type of access allowed for the specified IP-addresses or CIDR ranges. READ_ONLY: Allows only read requests on the exported file share. READ_WRITE: Allows both read and write requests on the exported file share. The default setting is READ_WRITE. squash-mode Enables or disables root squash for the specified IP addresses or CIDR ranges. NO_ROOT_SQUASH: Disables root squash to allow root access on the exported file share. ROOT_SQUASH. Enables root squash to remove root access on the exported file share. The default setting is NO_ROOT_SQUASH. anon_uid An integer that represents the user ID of anonymous users. Anon_uid may only be set when squash_mode is set to ROOT_SQUASH. If NO_ROOT_SQUASH is specified, an error will be returned. The default value is 65534. anon_gid An integer that represents the group ID of anonymous groups. Anon_gid may only be set when squash_mode is set to ROOT_SQUASH. If NO_ROOT_SQUASH is specified, an error will be returned. The default value is 65534. source-backup The name of the backup to restore from. source-backup-region The region of the source backup. source-backup-project The project of the source backup, If unspecified, it is assumed that the backup is in the same project where the instance is to be created. source-backupdr-backup (Optional) The resource name of the backup, in the format projects/{project_id}/locations/{location_id}/backupVaults/{backupvault_id}/dataSources/{datasource_id}/backups/{backup_id}, that this file share has been restored from.</param>
+    /// <param name="Network">Network configuration for a Cloud Filestore instance. Specifying reserved-ip-range, address-mode and connect-mode is optional. name The name of the Google Compute Engine VPC network to which the instance is connected. reserved-ip-range The reserved-ip-range can have one of the following two types of values: a CIDR range value when using DIRECT_PEERING connect mode or an allocated IP address range (https://cloud.google.com/compute/docs/ip-addresses/reserve-static-internal-ip-address) when using PRIVATE_SERVICE_ACCESS connect mode. When the name of an allocated IP address range is specified, it must be one of the ranges associated with the private service access connection. When specified as a direct CIDR value, it must be a /29 CIDR block for Basic tier or a /24 CIDR block for High Scale, Zonal, Enterprise or Regional tier in one of the internal IP address ranges (https://www.arin.net/knowledge/address_filters.html) that identifies the range of IP addresses reserved for this instance. For example, 10.0.0.0/29 or 192.168.0.0/24. The range you specify can't overlap with either existing subnets or assigned IP address ranges for other Cloud Filestore instances in the selected VPC network. connect-mode Network connection mode used by instances. CONNECT_MODE must be one of: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS or PRIVATE_SERVICE_CONNECT. address-mode Internet protocol version for which the instance has IP address assigned. psc-endpoint-project Consumer service project in which the psc endpoint would be set up. This is optional, and only relevant in case the network is a shared VPC. If this is not specified, the psc endpoint would be setup in the VPC host project. psc-requested-ip-address (Optional) IP address for the Filestore instance. This IP must be within the subnetwork range configured in the Service Connection Policy and must not already be in use. If not specified, an IP will be automatically allocated.</param>
+    /// <param name="Instance">Instance resource - The instance to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudFilestoreInstancesCreateOptions(
+        string FileShare,
+        string Network,
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FileShare);
+        this.FileShare = FileShare;
+        global::System.ArgumentNullException.ThrowIfNull(Network);
+        this.Network = Network;
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string FileShare, out string Network, out string Instance)
+    {
+        FileShare = this.FileShare;
+        Network = this.Network;
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// File share configuration for an instance. Specifying both name and capacity is required. capacity The desired capacity of the volume in GB or TB units. If no capacity unit is specified, GB is assumed. Acceptable instance capacities for each tier are as follows: ▸ BASIC_HDD: 1TB-63.9TB in 1GB increments or its multiples. ▸ BASIC_SSD: 2.5TB-63.9TB in 1GB increments or its multiples. ▸ HIGH_SCALE_SSD: 10TB-100TB in 2.5TB increments or its multiples. ▸ ZONAL: 100GB-100TB: ▫ 100GB-10239GB in 1GB increments or its multiples. ▫ 10TB-100TB in 2.5TB increments or its multiples. ▸ ENTERPRISE: 1TB-10TB in 256GB increments or its multiples. ▸ REGIONAL: 1TB-100TB (100GB-100TB in supported regions): ▫ (100GB|1TB)-10239GB in 1GB increments or its multiples. ▫ 10TB-100TB in 2.5TB increments or its multiples. name The desired logical name of the volume. nfs-export-options The NfsExportOptions for the Cloud Filestore instance file share. Configuring NfsExportOptions is optional and can only be set using flags-file. Use the --flags-file flag to specify the path to a JSON or YAML configuration file that contains the required NfsExportOptions flags. ip-ranges A list of IPv4 addresses or CIDR ranges that are allowed to mount the file share. IPv4 addresses format: {octet 1}.{octet 2}.{octet 3}.{octet 4}. CIDR range format: {octet 1}.{octet 2}.{octet 3}.{octet 4}/{mask size}. Overlapping IP ranges are allowed for all tiers other than BASIC_HDD and BASIC_SSD. The limit of IP ranges/addresses for each FileShareConfig among all NfsExportOptions is 64 per instance. access-mode The type of access allowed for the specified IP-addresses or CIDR ranges. READ_ONLY: Allows only read requests on the exported file share. READ_WRITE: Allows both read and write requests on the exported file share. The default setting is READ_WRITE. squash-mode Enables or disables root squash for the specified IP addresses or CIDR ranges. NO_ROOT_SQUASH: Disables root squash to allow root access on the exported file share. ROOT_SQUASH. Enables root squash to remove root access on the exported file share. The default setting is NO_ROOT_SQUASH. anon_uid An integer that represents the user ID of anonymous users. Anon_uid may only be set when squash_mode is set to ROOT_SQUASH. If NO_ROOT_SQUASH is specified, an error will be returned. The default value is 65534. anon_gid An integer that represents the group ID of anonymous groups. Anon_gid may only be set when squash_mode is set to ROOT_SQUASH. If NO_ROOT_SQUASH is specified, an error will be returned. The default value is 65534. source-backup The name of the backup to restore from. source-backup-region The region of the source backup. source-backup-project The project of the source backup, If unspecified, it is assumed that the backup is in the same project where the instance is to be created. source-backupdr-backup (Optional) The resource name of the backup, in the format projects/{project_id}/locations/{location_id}/backupVaults/{backupvault_id}/dataSources/{datasource_id}/backups/{backup_id}, that this file share has been restored from.
+    /// </summary>
+    [CliOption("--file-share", Format = OptionFormat.EqualsSeparated)]
+    public string FileShare { get; private init; }
+
+    /// <summary>
+    /// Network configuration for a Cloud Filestore instance. Specifying reserved-ip-range, address-mode and connect-mode is optional. name The name of the Google Compute Engine VPC network to which the instance is connected. reserved-ip-range The reserved-ip-range can have one of the following two types of values: a CIDR range value when using DIRECT_PEERING connect mode or an allocated IP address range (https://cloud.google.com/compute/docs/ip-addresses/reserve-static-internal-ip-address) when using PRIVATE_SERVICE_ACCESS connect mode. When the name of an allocated IP address range is specified, it must be one of the ranges associated with the private service access connection. When specified as a direct CIDR value, it must be a /29 CIDR block for Basic tier or a /24 CIDR block for High Scale, Zonal, Enterprise or Regional tier in one of the internal IP address ranges (https://www.arin.net/knowledge/address_filters.html) that identifies the range of IP addresses reserved for this instance. For example, 10.0.0.0/29 or 192.168.0.0/24. The range you specify can't overlap with either existing subnets or assigned IP address ranges for other Cloud Filestore instances in the selected VPC network. connect-mode Network connection mode used by instances. CONNECT_MODE must be one of: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS or PRIVATE_SERVICE_CONNECT. address-mode Internet protocol version for which the instance has IP address assigned. psc-endpoint-project Consumer service project in which the psc endpoint would be set up. This is optional, and only relevant in case the network is a shared VPC. If this is not specified, the psc endpoint would be setup in the VPC host project. psc-requested-ip-address (Optional) IP address for the Filestore instance. This IP must be within the subnetwork range configured in the Service Connection Policy and must not already be in use. If not specified, an IP will be automatically allocated.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string Network { get; private init; }
+
+    /// <summary>
+    /// Instance resource - The instance to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The zone of the instance. To set the zone attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --zone on the command line; ▸ provide the argument region on the command line; ▸ provide the argument location on the command line; ▸ set the property filestore/zone; ▸ set the property filestore/region; ▸ set the property filestore/location.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A description of the Cloud Filestore instance.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Location of the Cloud Filestore instance/operation.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Performance configuration for the instance. This flag is used to configure the read IOPS provisioned for the instance. The instance's write IOPS and read/write throughputs will be derived from the configured read IOPS. For more information about the derived performance limits and default performance see: https://cloud.google.com/filestore/docs/performance. Must be one of: max-iops The number of IOPS to provision for the instance. MAX-IOPS must be in multiple of 1000 and in the supported IOPS range for the current capacity of the instance. For more details, see: https://cloud.google.com/filestore/docs/performance. max-iops-per-tb Is used for setting the max IOPS of the instance by specifying the IOPS per TB. When this parameter is used, the max IOPS are derived from the instance capacity: The instance max IOPS will be calculated by multiplying the capacity of the instance (TB) by MAX-IOPS-PER-TB, and rounding to the nearest 1000. The max IOPS will be changed dynamically based on the instance capacity. MAX-IOPS-PER-TB must be in the supported range of the instance. For more details, see: https://cloud.google.com/filestore/docs/performance. Examples: Configure an instance with max-iops performance: $ gcloud filestore instances create example-cluster \ --performance=max-iops=17000 Configure an instance with max-iops-per-tb performance: $ gcloud filestore instances create example-cluster \ --performance=max-iops-per-tb=17000
+    /// </summary>
+    [CliOption("--performance", Format = OptionFormat.EqualsSeparated)]
+    public string? Performance { get; set; }
+
+    /// <summary>
+    /// The service protocol for the Cloud Filestore instance. PROTOCOL must be one of: nfs-v3 NFSv3 protocol. nfs-v4-1 NFSv4.1 protocol.
+    /// </summary>
+    [CliOption("--protocol", Format = OptionFormat.EqualsSeparated)]
+    public string? Protocol { get; set; }
+
+    /// <summary>
+    /// Region of the Cloud Filestore instance.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// The replication source instance of the Cloud Filestore instance.
+    /// </summary>
+    [CliOption("--source-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceInstance { get; set; }
+
+    /// <summary>
+    /// List of tags KEY=VALUE pairs to bind. Each item must be expressed as &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;. Example: 123/environment=production,123/costCenter=marketing Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
+
+    /// <summary>
+    /// The service tier for the Cloud Filestore instance. For more details, see: https://cloud.google.com/filestore/docs/instance-tiers TIER must be one of: basic-hdd Performant NFS storage system using HDD. basic-ssd Performant NFS storage system using SSD. enterprise Enterprise instance. Use REGIONAL instead whenever possible. high-scale-ssd High Scale SSD instance, an alias for ZONAL. Use ZONAL instead whenever possible. premium Premium Filestore instance, An alias for BASIC_SSD. Use BASIC_SSD instead whenever possible. regional Regional instances offer the features and availability needed for mission-critical workloads. standard Standard Filestore instance, An alias for BASIC_HDD. Use BASIC_HDD instead whenever possible. zonal Zonal instances offer NFS storage system suitable for high performance computing application requirements. It offers fast performance that scales with capacity and allows you to grow and shrink capacity.
+    /// </summary>
+    [CliOption("--tier", Format = OptionFormat.EqualsSeparated)]
+    public string? Tier { get; set; }
+
+    /// <summary>
+    /// Deletion protection control options. When deletion protection is enabled, the instance cannot be deleted. Enables deletion protection for the instance. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--deletion-protection")]
+    public bool? DeletionProtection { get; set; }
+
+    /// <summary>
+    /// Deletion protection control options. When deletion protection is enabled, the instance cannot be deleted. The reason for enabling deletion protection for the instance.
+    /// </summary>
+    [CliOption("--deletion-protection-reason", Format = OptionFormat.EqualsSeparated)]
+    public string? DeletionProtectionReason { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Filestore Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Filestore Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Filestore Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Filestore Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line; ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <summary>
+    /// Instance resource - The instance to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((DeletionProtection == true || !string.IsNullOrWhiteSpace(DeletionProtectionReason)) && (!(DeletionProtection == true)))
+        {
+            yield return new ValidationResult("DeletionProtection must be specified when other arguments in this group are specified.", [nameof(DeletionProtection)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        yield break;
+    }
+
 }

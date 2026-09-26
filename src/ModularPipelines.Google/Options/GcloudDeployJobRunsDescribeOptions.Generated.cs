@@ -21,4 +21,51 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("deploy", "job-runs", "describe")]
 public record GcloudDeployJobRunsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details for a job run
+    /// </summary>
+    /// <param name="JobRun">Job run resource - The name of the job run you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job_run on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the job run or fully qualified identifier for the job run. To set the job_run attribute: ▸ provide the argument job_run on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDeployJobRunsDescribeOptions(
+        string JobRun
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(JobRun);
+        this.JobRun = JobRun;
+    }
+
+    public void Deconstruct(out string JobRun)
+    {
+        JobRun = this.JobRun;
+    }
+
+    /// <summary>
+    /// Job run resource - The name of the job run you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job_run on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Cloud Deploy delivery pipeline. To set the delivery-pipeline attribute: ▸ provide the argument job_run on the command line with a fully specified name; ▸ provide the argument --delivery-pipeline on the command line; ▸ set the property deploy/delivery_pipeline.
+    /// </summary>
+    [CliOption("--delivery-pipeline", Format = OptionFormat.EqualsSeparated)]
+    public string? DeliveryPipeline { get; set; }
+
+    /// <summary>
+    /// Job run resource - The name of the job run you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job_run on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the job run. To set the region attribute: ▸ provide the argument job_run on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property deploy/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Job run resource - The name of the job run you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job_run on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Cloud Deploy release. To set the release attribute: ▸ provide the argument job_run on the command line with a fully specified name; ▸ provide the argument --release on the command line.
+    /// </summary>
+    [CliOption("--release", Format = OptionFormat.EqualsSeparated)]
+    public string? Release { get; set; }
+
+    /// <summary>
+    /// Job run resource - The name of the job run you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job_run on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Cloud Deploy rollout. To set the rollout attribute: ▸ provide the argument job_run on the command line with a fully specified name; ▸ provide the argument --rollout on the command line.
+    /// </summary>
+    [CliOption("--rollout", Format = OptionFormat.EqualsSeparated)]
+    public string? Rollout { get; set; }
+
+    /// <summary>
+    /// Job run resource - The name of the job run you want to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument job_run on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the job run or fully qualified identifier for the job run. To set the job_run attribute: ▸ provide the argument job_run on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string JobRun { get; private init; }
+
 }

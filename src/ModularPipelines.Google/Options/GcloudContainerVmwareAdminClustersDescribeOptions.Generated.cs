@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "vmware", "admin-clusters", "describe")]
 public record GcloudContainerVmwareAdminClustersDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an Anthos on     VMware admin cluster
+    /// </summary>
+    /// <param name="AdminCluster">Admin cluster resource - admin cluster to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument admin_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the admin_cluster or fully qualified identifier for the admin_cluster. To set the admin_cluster attribute: ▸ provide the argument admin_cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerVmwareAdminClustersDescribeOptions(
+        string AdminCluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AdminCluster);
+        this.AdminCluster = AdminCluster;
+    }
+
+    public void Deconstruct(out string AdminCluster)
+    {
+        AdminCluster = this.AdminCluster;
+    }
+
+    /// <summary>
+    /// Admin cluster resource - admin cluster to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument admin_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the admin_cluster. To set the location attribute: ▸ provide the argument admin_cluster on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_vmware/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Admin cluster resource - admin cluster to describe The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument admin_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the admin_cluster or fully qualified identifier for the admin_cluster. To set the admin_cluster attribute: ▸ provide the argument admin_cluster on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AdminCluster { get; private init; }
+
 }

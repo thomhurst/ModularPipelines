@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,74 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "manage", "custom-modules", "etd", "validate")]
-public record GcloudSccManageCustomModulesEtdValidateOptions : GcloudOptions
+public record GcloudSccManageCustomModulesEtdValidateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// command to validate an ETD     custom module
+    /// </summary>
+    /// <param name="CustomConfigFile">Path to a JSON custom configuration file of the ETD custom module. Use a full or relative path to a local file containing the value of custom_config_file.</param>
+    /// <param name="ModuleType">Type of the custom module. For a list of valid module types please visit https://cloud.google.com/security-command-center/docs/custom-modules-etd-overview#custom_modules_and_templates.</param>
+    public GcloudSccManageCustomModulesEtdValidateOptions(
+        string CustomConfigFile,
+        string ModuleType
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CustomConfigFile);
+        this.CustomConfigFile = CustomConfigFile;
+        global::System.ArgumentNullException.ThrowIfNull(ModuleType);
+        this.ModuleType = ModuleType;
+    }
+
+    public void Deconstruct(out string CustomConfigFile, out string ModuleType)
+    {
+        CustomConfigFile = this.CustomConfigFile;
+        ModuleType = this.ModuleType;
+    }
+
+    /// <summary>
+    /// Path to a JSON custom configuration file of the ETD custom module. Use a full or relative path to a local file containing the value of custom_config_file.
+    /// </summary>
+    [CliOption("--custom-config-file", Format = OptionFormat.EqualsSeparated)]
+    public string CustomConfigFile { get; private init; }
+
+    /// <summary>
+    /// Type of the custom module. For a list of valid module types please visit https://cloud.google.com/security-command-center/docs/custom-modules-etd-overview#custom_modules_and_templates.
+    /// </summary>
+    [CliOption("--module-type", Format = OptionFormat.EqualsSeparated)]
+    public string ModuleType { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Folder associated with the custom module.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization associated with the custom module.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Parent associated with the custom module. Can be one of organizations/&lt;id&gt;, projects/&lt;id or name&gt;, folders/&lt;id&gt;
+    /// </summary>
+    [CliOption("--parent", Format = OptionFormat.EqualsSeparated)]
+    public string? Parent { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Project associated with the custom module.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Parent) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder, Organization, Parent, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Parent), nameof(Project)]);
+        }
+        yield break;
+    }
+
 }

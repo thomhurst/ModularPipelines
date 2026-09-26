@@ -51,4 +51,10 @@ public record GcloudPreviewComputeImagesListOptions : GcloudOptions
     [CliFlag("--no-standard-images")]
     public bool? NoStandardImages { get; set; }
 
+    /// <summary>
+    /// (DEPRECATED) If provided, show details for the specified names and/or URIs of resources. Argument NAME is deprecated. Use --filter="name=( 'NAME' ... )" instead.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Name { get; set; }
+
 }

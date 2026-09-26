@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,57 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "backups", "update-metadata")]
-public record GcloudSpannerBackupsUpdateMetadataOptions : GcloudOptions
+public record GcloudSpannerBackupsUpdateMetadataOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// updates the metadata of a Cloud     Spanner a backup
+    /// </summary>
+    /// <param name="Backup">Backup resource - The Cloud Spanner backup to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument backup on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSpannerBackupsUpdateMetadataOptions(
+        string Backup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Backup);
+        this.Backup = Backup;
+    }
+
+    public void Deconstruct(out string Backup)
+    {
+        Backup = this.Backup;
+    }
+
+    /// <summary>
+    /// Backup resource - The Cloud Spanner backup to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The name of the Cloud Spanner instance. To set the instance attribute: ▸ provide the argument backup on the command line with a fully specified name; ▸ provide the argument --instance on the command line; ▸ set the property spanner/instance.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Expiration time of the backup, must be at least 6 hours and at most 366 days from the time of creation. See $ gcloud topic datetimes for information on date/time formats.
+    /// </summary>
+    [CliOption("--expiration-date", Format = OptionFormat.EqualsSeparated)]
+    public string? ExpirationDate { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Retention period of the backup relative from now, must be at least 6 hours and at most a year from the time of creation. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--retention-period", Format = OptionFormat.EqualsSeparated)]
+    public string? RetentionPeriod { get; set; }
+
+    /// <summary>
+    /// Backup resource - The Cloud Spanner backup to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument backup on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Backup { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ExpirationDate) ? 1 : 0) + (!string.IsNullOrWhiteSpace(RetentionPeriod) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ExpirationDate or RetentionPeriod must be specified.", [nameof(ExpirationDate), nameof(RetentionPeriod)]);
+        }
+        yield break;
+    }
+
 }

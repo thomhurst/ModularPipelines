@@ -21,4 +21,44 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("domains", "registrations", "google-domains-dns", "export-dns-record-sets")]
 public record GcloudDomainsRegistrationsGoogleDomainsDnsExportDnsRecordSetsOptions : GcloudOptions
 {
+    /// <summary>
+    /// export your registration's Google Domains DNS zone's record-sets into a     file
+    /// </summary>
+    /// <param name="RecordsFile">File to which record-sets should be exported.</param>
+    /// <param name="Registration">Registration resource - The domain registration to get the DNS records for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument registration on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument registration on the command line with a fully specified name; ◆ location is always global. This must be specified. ID of the registration or fully qualified identifier for the registration. To set the registration attribute: ▸ provide the argument registration on the command line.</param>
+    public GcloudDomainsRegistrationsGoogleDomainsDnsExportDnsRecordSetsOptions(
+        string RecordsFile,
+        string Registration
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RecordsFile);
+        this.RecordsFile = RecordsFile;
+        global::System.ArgumentNullException.ThrowIfNull(Registration);
+        this.Registration = Registration;
+    }
+
+    public void Deconstruct(out string RecordsFile, out string Registration)
+    {
+        RecordsFile = this.RecordsFile;
+        Registration = this.Registration;
+    }
+
+    /// <summary>
+    /// File to which record-sets should be exported.
+    /// </summary>
+    [CliOption("--records-file", Format = OptionFormat.EqualsSeparated)]
+    public string RecordsFile { get; private init; }
+
+    /// <summary>
+    /// Indicates that records-file should be in the zone file format. When using this flag, expect the record-set to be exported to a BIND zone formatted file. If you omit this flag, the record-set is exported into a YAML formatted records file. Note, this format flag determines the format of the output recorded in the records-file; it is different from the global --format flag which affects console output alone.
+    /// </summary>
+    [CliFlag("--zone-file-format")]
+    public bool? ZoneFileFormat { get; set; }
+
+    /// <summary>
+    /// Registration resource - The domain registration to get the DNS records for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument registration on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument registration on the command line with a fully specified name; ◆ location is always global. This must be specified. ID of the registration or fully qualified identifier for the registration. To set the registration attribute: ▸ provide the argument registration on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Registration { get; private init; }
+
 }

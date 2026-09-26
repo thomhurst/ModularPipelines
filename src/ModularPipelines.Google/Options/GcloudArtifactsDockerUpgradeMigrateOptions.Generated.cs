@@ -70,10 +70,10 @@ public record GcloudArtifactsDockerUpgradeMigrateOptions : GcloudOptions
     public string? PkgDevLocation { get; set; }
 
     /// <summary>
-    /// Comma seperated list of Container Registry projects to migrate to Artifact Registry gcr.io repositories.
+    /// Comma seperated list of Container Registry projects to migrate to Artifact Registry gcr.io repositories. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--projects", Format = OptionFormat.EqualsSeparated)]
-    public string? Projects { get; set; }
+    [CliOption("--projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Projects { get; set; }
 
     /// <summary>
     /// Only copy images pulled or pushed in the last NUM_DAYS days. NUM_DAYS must be between 30 and 90 inclusive.

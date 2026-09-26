@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("components", "install")]
-public record GcloudComponentsInstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Component
-) : GcloudOptions
+public record GcloudComponentsInstallOptions : GcloudOptions
 {
+    /// <summary>
+    /// install one or more Google Cloud CLI components
+    /// </summary>
+    /// <param name="ComponentIds">The IDs of the components to be installed.</param>
+    public GcloudComponentsInstallOptions(
+        IEnumerable<string> ComponentIds
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ComponentIds);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ComponentIds));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ComponentIds));
+            }
+
+            ComponentIds = materialized;
+        }
+        this.ComponentIds = ComponentIds;
+    }
+
+    public void Deconstruct(out IEnumerable<string> ComponentIds)
+    {
+        ComponentIds = this.ComponentIds;
+    }
+
+    /// <summary>
+    /// The IDs of the components to be installed.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> ComponentIds { get; private init; }
+
 }

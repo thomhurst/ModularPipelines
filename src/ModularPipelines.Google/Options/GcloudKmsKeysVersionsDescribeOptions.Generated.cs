@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "keys", "versions", "describe")]
-public record GcloudKmsKeysVersionsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Version
-) : GcloudOptions
+public record GcloudKmsKeysVersionsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// get metadata for a given version
+    /// </summary>
+    /// <param name="Version">Name of the version to describe.</param>
+    public GcloudKmsKeysVersionsDescribeOptions(
+        string Version
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Version);
+        this.Version = Version;
+    }
+
+    public void Deconstruct(out string Version)
+    {
+        Version = this.Version;
+    }
+
     /// <summary>
     /// Path to the output attestation file.
     /// </summary>
@@ -46,5 +61,11 @@ public record GcloudKmsKeysVersionsDescribeOptions(
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// Name of the version to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Version { get; private init; }
 
 }

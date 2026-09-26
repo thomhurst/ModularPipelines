@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "sole-tenancy", "node-groups", "simulate-maintenance-event")]
-public record GcloudComputeSoleTenancyNodeGroupsSimulateMaintenanceEventOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudComputeSoleTenancyNodeGroupsSimulateMaintenanceEventOptions : GcloudOptions
 {
+    /// <summary>
+    /// simulate maintenance of a Compute Engine node group
+    /// </summary>
+    /// <param name="Name">Name of the node group to operate on.</param>
+    public GcloudComputeSoleTenancyNodeGroupsSimulateMaintenanceEventOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -30,9 +45,9 @@ public record GcloudComputeSoleTenancyNodeGroupsSimulateMaintenanceEventOptions(
     public bool? Async { get; set; }
 
     /// <summary>
-    /// The names of the nodes to simulate maintenance event.
+    /// The names of the nodes to simulate maintenance event. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Nodes { get; set; }
 
     /// <summary>
@@ -40,5 +55,11 @@ public record GcloudComputeSoleTenancyNodeGroupsSimulateMaintenanceEventOptions(
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the node group to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "addons", "manage-config")]
-public record GcloudApihubAddonsManageConfigOptions : GcloudOptions
+public record GcloudApihubAddonsManageConfigOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// manage the Config of an Addon
+    /// </summary>
+    /// <param name="Addon">Addon resource - The name of the addon for which the config is to be managed. Format: projects/{project}/locations/{location}/addons/{addon}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument addon on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the addon or fully qualified identifier for the addon. To set the addon attribute: ▸ provide the argument addon on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubAddonsManageConfigOptions(
+        string Addon
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Addon);
+        this.Addon = Addon;
+    }
+
+    public void Deconstruct(out string Addon)
+    {
+        Addon = this.Addon;
+    }
+
+    /// <summary>
+    /// Addon resource - The name of the addon for which the config is to be managed. Format: projects/{project}/locations/{location}/addons/{addon}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument addon on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the addon resource. To set the location attribute: ▸ provide the argument addon on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
@@ -40,9 +64,69 @@ public record GcloudApihubAddonsManageConfigOptions : GcloudOptions
     public bool? NoAllDataAddonConfigEnabled { get; set; }
 
     /// <summary>
-    /// Configuration for gateway plugin addons. This is used to specify the list of gateway plugin configs for which the addon is enabled. Required, The list of gateway plugin configs for which the addon is enabled. Each gateway plugin config should have a unique plugin instance. apigeeEdgeConfig Configuration for Apigee Edge gateways. environmentFilter The filter to apply on the resources managed by the gateway plugin instance. If provided this filter applies environment specific filtering. allEnvironments Indicates if this filter should match all environments or only a subset of environments. If set to true, all environments are matched. environments If provided, only environments in this list are matched. This field is ignored if all_environments is true. apigeeOpdkConfig Configuration for Apigee OPDK gateways. environmentFilter The filter to apply on the resources managed by the gateway plugin instance. If provided this filter applies environment specific filtering. allEnvironments Indicates if this filter should match all environments or only a subset of environments. If set to true, all environments are matched. environments If provided, only environments in this list are matched. This field is ignored if all_environments is true. apigeeXHybridConfig Configuration for Apigee X and Apigee Hybrid gateways. environmentFilter The filter to apply on the resources managed by the gateway plugin instance. If provided this filter applies environment specific filtering. allEnvironments Indicates if this filter should match all environments or only a subset of environments. If set to true, all environments are matched. environments If provided, only environments in this list are matched. This field is ignored if all_environments is true. pluginInstance The name of the gateway plugin instance for which the config is to be specified. Format: projects/{project}/locations/{location}/plugins/{plugin}/pluginInstances/{plugin_instance}. Shorthand Example: --gateway-plugin-addon-config-configs=apigeeEdgeConfig={environmentFilter={allEnvironments=boolean,environments=[string]}},apigeeOpdkConfig={environmentFilter={allEnvironments=boolean,environments=[string]}},apigeeXHybridConfig={environmentFilter={allEnvironments=boolean,environments=[string]}},pluginInstance=string --gateway-plugin-addon-config-configs=apigeeEdgeConfig={environmentFilter={allEnvironments=boolean,environments=[string]}},apigeeOpdkConfig={environmentFilter={allEnvironments=boolean,environments=[string]}},apigeeXHybridConfig={environmentFilter={allEnvironments=boolean,environments=[string]}},pluginInstance=string JSON Example: --gateway-plugin-addon-config-configs='[{"apigeeEdgeConfig": {"environmentFilter": {"allEnvironments": boolean, "environments": ["string"]}}, "apigeeOpdkConfig": {"environmentFilter": {"allEnvironments": boolean, "environments": ["string"]}}, "apigeeXHybridConfig": {"environmentFilter": {"allEnvironments": boolean, "environments": ["string"]}}, "pluginInstance": "string"}]' File Example: --gateway-plugin-addon-config-configs=path_to_file.(yaml|json)
+    /// Arguments for the config. At most one of these can be specified: Configuration for gateway plugin addons. This is used to specify the list of gateway plugin configs for which the addon is enabled. Required, The list of gateway plugin configs for which the addon is enabled. Each gateway plugin config should have a unique plugin instance. apigeeEdgeConfig Configuration for Apigee Edge gateways. environmentFilter The filter to apply on the resources managed by the gateway plugin instance. If provided this filter applies environment specific filtering. allEnvironments Indicates if this filter should match all environments or only a subset of environments. If set to true, all environments are matched. environments If provided, only environments in this list are matched. This field is ignored if all_environments is true. apigeeOpdkConfig Configuration for Apigee OPDK gateways. environmentFilter The filter to apply on the resources managed by the gateway plugin instance. If provided this filter applies environment specific filtering. allEnvironments Indicates if this filter should match all environments or only a subset of environments. If set to true, all environments are matched. environments If provided, only environments in this list are matched. This field is ignored if all_environments is true. apigeeXHybridConfig Configuration for Apigee X and Apigee Hybrid gateways. environmentFilter The filter to apply on the resources managed by the gateway plugin instance. If provided this filter applies environment specific filtering. allEnvironments Indicates if this filter should match all environments or only a subset of environments. If set to true, all environments are matched. environments If provided, only environments in this list are matched. This field is ignored if all_environments is true. pluginInstance The name of the gateway plugin instance for which the config is to be specified. Format: projects/{project}/locations/{location}/plugins/{plugin}/pluginInstances/{plugin_instance}. Shorthand Example: --gateway-plugin-addon-config-configs=apigeeEdgeConfig={environmentFilter={allEnvironments=boolean,environments=[string]}},apigeeOpdkConfig={environmentFilter={allEnvironments=boolean,environments=[string]}},apigeeXHybridConfig={environmentFilter={allEnvironments=boolean,environments=[string]}},pluginInstance=string --gateway-plugin-addon-config-configs=apigeeEdgeConfig={environmentFilter={allEnvironments=boolean,environments=[string]}},apigeeOpdkConfig={environmentFilter={allEnvironments=boolean,environments=[string]}},apigeeXHybridConfig={environmentFilter={allEnvironments=boolean,environments=[string]}},pluginInstance=string JSON Example: --gateway-plugin-addon-config-configs='[{"apigeeEdgeConfig": {"environmentFilter": {"allEnvironments": boolean, "environments": ["string"]}}, "apigeeOpdkConfig": {"environmentFilter": {"allEnvironments": boolean, "environments": ["string"]}}, "apigeeXHybridConfig": {"environmentFilter": {"allEnvironments": boolean, "environments": ["string"]}}, "pluginInstance": "string"}]' File Example: --gateway-plugin-addon-config-configs=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--gateway-plugin-addon-config-configs", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? GatewayPluginAddonConfigConfigs { get; set; }
+    public IEnumerable<string>? GatewayPluginAddonConfigConfigs
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __GatewayPluginAddonConfigConfigsSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __GatewayPluginAddonConfigConfigsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __GatewayPluginAddonConfigConfigsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __GatewayPluginAddonConfigConfigsSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Addon resource - The name of the addon for which the config is to be managed. Format: projects/{project}/locations/{location}/addons/{addon}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument addon on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the addon or fully qualified identifier for the addon. To set the addon attribute: ▸ provide the argument addon on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Addon { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((AllDataAddonConfigEnabled == true || NoAllDataAddonConfigEnabled == true) ? 1 : 0) + ((((object?)GatewayPluginAddonConfigConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)GatewayPluginAddonConfigConfigs, static item => item is not null) : ((object?)GatewayPluginAddonConfigConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)GatewayPluginAddonConfigConfigs is not string || !string.IsNullOrWhiteSpace(GatewayPluginAddonConfigConfigs?.ToString()) : ((object?)GatewayPluginAddonConfigConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)GatewayPluginAddonConfigConfigs, static item => item is not null) : (GatewayPluginAddonConfigConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GatewayPluginAddonConfigConfigs), static item => item is not null)))))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (AllDataAddonConfigEnabled or NoAllDataAddonConfigEnabled) or (GatewayPluginAddonConfigConfigs) may be specified.", [nameof(AllDataAddonConfigEnabled), nameof(NoAllDataAddonConfigEnabled), nameof(GatewayPluginAddonConfigConfigs)]);
+        }
+        if ((AllDataAddonConfigEnabled == true || NoAllDataAddonConfigEnabled == true || ((object?)GatewayPluginAddonConfigConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)GatewayPluginAddonConfigConfigs, static item => item is not null) : ((object?)GatewayPluginAddonConfigConfigs is global::System.Collections.Generic.IEnumerable<char> ? (object?)GatewayPluginAddonConfigConfigs is not string || !string.IsNullOrWhiteSpace(GatewayPluginAddonConfigConfigs?.ToString()) : ((object?)GatewayPluginAddonConfigConfigs is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)GatewayPluginAddonConfigConfigs, static item => item is not null) : (GatewayPluginAddonConfigConfigs is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)GatewayPluginAddonConfigConfigs), static item => item is not null)))))) && (AllDataAddonConfigEnabled == true || NoAllDataAddonConfigEnabled == true) && ((AllDataAddonConfigEnabled == true ? 1 : 0) + (NoAllDataAddonConfigEnabled == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of AllDataAddonConfigEnabled or NoAllDataAddonConfigEnabled may be specified.", [nameof(AllDataAddonConfigEnabled), nameof(NoAllDataAddonConfigEnabled)]);
+        }
+        yield break;
+    }
 
 }

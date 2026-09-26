@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "ekm-connections", "set-iam-policy")]
-public record GcloudKmsEkmConnectionsSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyFile
-) : GcloudOptions
+public record GcloudKmsEkmConnectionsSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set the IAM policy binding for     a KMS ekm connection
+    /// </summary>
+    /// <param name="EkmConnection">Ekm connection resource - The ekm connection for which to set the IAM policy binding. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ekm_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the ekm connection or fully qualified identifier for the ekm connection. To set the ekm_connection attribute: ▸ provide the argument ekm_connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="PolicyFile">Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).</param>
+    public GcloudKmsEkmConnectionsSetIamPolicyOptions(
+        string EkmConnection,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EkmConnection);
+        this.EkmConnection = EkmConnection;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string EkmConnection, out string PolicyFile)
+    {
+        EkmConnection = this.EkmConnection;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// Ekm connection resource - The ekm connection for which to set the IAM policy binding. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ekm_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the resource. To set the location attribute: ▸ provide the argument ekm_connection on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Ekm connection resource - The ekm connection for which to set the IAM policy binding. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ekm_connection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the ekm connection or fully qualified identifier for the ekm connection. To set the ekm_connection attribute: ▸ provide the argument ekm_connection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string EkmConnection { get; private init; }
+
+    /// <summary>
+    /// Path to a local JSON or YAML formatted file containing a valid policy. The output of the get-iam-policy command is a valid file, as is any JSON or YAML file conforming to the structure of a Policy (https://cloud.google.com/iam/reference/rest/v1/Policy).
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

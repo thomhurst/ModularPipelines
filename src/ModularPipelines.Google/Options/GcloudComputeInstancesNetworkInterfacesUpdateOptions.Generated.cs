@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "network-interfaces", "update")]
-public record GcloudComputeInstancesNetworkInterfacesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
-) : GcloudOptions
+public record GcloudComputeInstancesNetworkInterfacesUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a Compute     Engine virtual machine network interface
+    /// </summary>
+    /// <param name="InstanceName">Name of the instance to operate on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances</param>
+    public GcloudComputeInstancesNetworkInterfacesUpdateOptions(
+        string InstanceName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+    }
+
+    public void Deconstruct(out string InstanceName)
+    {
+        InstanceName = this.InstanceName;
+    }
+
     /// <summary>
     /// The IP alias ranges to allocate for this interface. If there are multiple IP alias ranges, they are separated by semicolons. Can be specified together with --network and/or --subnetwork to choose IP alias ranges in the new subnetwork. If unspecified, then the previous IP alias ranges will be allocated in the new subnetwork. If the previous IP alias ranges are not available in the new subnetwork, then other available IP alias ranges of the same size will be allocated in the new subnetwork. For example: --aliases="10.128.1.0/24;r1:/32"
     /// </summary>
@@ -112,5 +127,11 @@ public record GcloudComputeInstancesNetworkInterfacesUpdateOptions(
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Name of the instance to operate on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceName { get; private init; }
 
 }

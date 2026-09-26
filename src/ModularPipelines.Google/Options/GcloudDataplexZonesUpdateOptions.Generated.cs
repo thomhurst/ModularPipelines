@@ -23,6 +23,35 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataplexZonesUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// update a Dataplex zone resource
+    /// </summary>
+    /// <param name="Zone">Zones resource - Arguments and flags that define the Dataplex zone you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the zones or fully qualified identifier for the zones. To set the zone attribute: ▸ provide the argument zone on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataplexZonesUpdateOptions(
+        string Zone
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+    }
+
+    public void Deconstruct(out string Zone)
+    {
+        Zone = this.Zone;
+    }
+
+    /// <summary>
+    /// Zones resource - Arguments and flags that define the Dataplex zone you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The identifier of the Dataplex lake resource. To set the lake attribute: ▸ provide the argument zone on the command line with a fully specified name; ▸ provide the argument --lake on the command line.
+    /// </summary>
+    [CliOption("--lake", Format = OptionFormat.EqualsSeparated)]
+    public string? Lake { get; set; }
+
+    /// <summary>
+    /// Zones resource - Arguments and flags that define the Dataplex zone you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the Dataplex resource. To set the location attribute: ▸ provide the argument zone on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -41,9 +70,9 @@ public record GcloudDataplexZonesUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -65,15 +94,15 @@ public record GcloudDataplexZonesUpdateOptions : GcloudOptions
     public bool? NoDiscoveryEnabled { get; set; }
 
     /// <summary>
-    /// Settings to manage the metadata discovery and publishing. The list of patterns to apply for selecting data to exclude during discovery. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
+    /// The list of patterns to apply for selecting data to exclude during discovery. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--discovery-exclude-patterns", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--discovery-exclude-patterns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DiscoveryExcludePatterns { get; set; }
 
     /// <summary>
-    /// Settings to manage the metadata discovery and publishing. The list of patterns to apply for selecting data to include during discovery if only a subset of the data should considered. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
+    /// The list of patterns to apply for selecting data to include during discovery if only a subset of the data should considered. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--discovery-include-patterns", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--discovery-include-patterns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DiscoveryIncludePatterns { get; set; }
 
     /// <summary>
@@ -89,25 +118,25 @@ public record GcloudDataplexZonesUpdateOptions : GcloudOptions
     public string? CsvDelimiter { get; set; }
 
     /// <summary>
-    /// Describe data formats. Describe CSV and similar semi-structured data formats. Whether to disable the inference of data type for CSV data. If true, all columns will be registered as strings. Use --csv-disable-type-inference to enable and --no-csv-disable-type-inference to disable.
+    /// Whether to disable the inference of data type for CSV data. If true, all columns will be registered as strings. Use --csv-disable-type-inference to enable and --no-csv-disable-type-inference to disable.
     /// </summary>
     [CliFlag("--csv-disable-type-inference")]
     public bool? CsvDisableTypeInference { get; set; }
 
     /// <summary>
-    /// Negates --csv-disable-type-inference. Describe data formats. Describe CSV and similar semi-structured data formats. Whether to disable the inference of data type for CSV data. If true, all columns will be registered as strings. Use --csv-disable-type-inference to enable and --no-csv-disable-type-inference to disable.
+    /// Negates --csv-disable-type-inference. Whether to disable the inference of data type for CSV data. If true, all columns will be registered as strings. Use --csv-disable-type-inference to enable and --no-csv-disable-type-inference to disable.
     /// </summary>
     [CliFlag("--no-csv-disable-type-inference")]
     public bool? NoCsvDisableTypeInference { get; set; }
 
     /// <summary>
-    /// Describe data formats. Describe CSV and similar semi-structured data formats. The character encoding of the data. The default is UTF-8.
+    /// The character encoding of the data. The default is UTF-8.
     /// </summary>
     [CliOption("--csv-encoding", Format = OptionFormat.EqualsSeparated)]
     public string? CsvEncoding { get; set; }
 
     /// <summary>
-    /// Describe data formats. Describe CSV and similar semi-structured data formats. The number of rows to interpret as header rows that should be skipped when reading data rows.
+    /// The number of rows to interpret as header rows that should be skipped when reading data rows.
     /// </summary>
     [CliOption("--csv-header-rows", Format = OptionFormat.EqualsSeparated)]
     public string? CsvHeaderRows { get; set; }
@@ -125,9 +154,15 @@ public record GcloudDataplexZonesUpdateOptions : GcloudOptions
     public bool? NoJsonDisableTypeInference { get; set; }
 
     /// <summary>
-    /// Describe JSON data format. The character encoding of the data. The default is UTF-8.
+    /// The character encoding of the data. The default is UTF-8.
     /// </summary>
     [CliOption("--json-encoding", Format = OptionFormat.EqualsSeparated)]
     public string? JsonEncoding { get; set; }
+
+    /// <summary>
+    /// Zones resource - Arguments and flags that define the Dataplex zone you want to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the zones or fully qualified identifier for the zones. To set the zone attribute: ▸ provide the argument zone on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Zone { get; private init; }
 
 }

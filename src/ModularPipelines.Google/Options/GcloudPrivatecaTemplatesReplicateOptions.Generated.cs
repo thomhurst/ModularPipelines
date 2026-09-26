@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,91 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "templates", "replicate")]
-public record GcloudPrivatecaTemplatesReplicateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Certificate
-) : GcloudOptions
+public record GcloudPrivatecaTemplatesReplicateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// replicate a certificate template to     multiple locations
+    /// </summary>
+    /// <param name="CertificateTemplate">CERTIFICATE TEMPLATE resource - The template to replicate. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_TEMPLATE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CERTIFICATE_TEMPLATE or fully qualified identifier for the CERTIFICATE_TEMPLATE. To set the certificate template attribute: ▸ provide the argument CERTIFICATE_TEMPLATE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudPrivatecaTemplatesReplicateOptions(
+        string CertificateTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CertificateTemplate);
+        this.CertificateTemplate = CertificateTemplate;
+    }
+
+    public void Deconstruct(out string CertificateTemplate)
+    {
+        CertificateTemplate = this.CertificateTemplate;
+    }
+
+    /// <summary>
+    /// CERTIFICATE TEMPLATE resource - The template to replicate. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_TEMPLATE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the CERTIFICATE_TEMPLATE. To set the location attribute: ▸ provide the argument CERTIFICATE_TEMPLATE on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property privateca/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Specify where the certificate template should be replicated. Exactly one of these must be specified: Replicate this template to all supported locations.
+    /// </summary>
+    [CliFlag("--all-locations")]
+    public bool? AllLocations { get; set; }
+
+    /// <summary>
+    /// Specify where the certificate template should be replicated. Exactly one of these must be specified: Replicate this template to the given locations. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--target-locations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? TargetLocations
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __TargetLocationsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __TargetLocationsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Continue replicating the template to other locations even if an error is encountered. If this is set, an error in one location will be logged but will not prevent replication to other locations.
+    /// </summary>
+    [CliFlag("--continue-on-error")]
+    public bool? ContinueOnError { get; set; }
+
+    /// <summary>
+    /// Overwrite any existing templates with the same name, if they exist.
+    /// </summary>
+    [CliFlag("--overwrite")]
+    public bool? Overwrite { get; set; }
+
+    /// <summary>
+    /// CERTIFICATE TEMPLATE resource - The template to replicate. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument CERTIFICATE_TEMPLATE on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the CERTIFICATE_TEMPLATE or fully qualified identifier for the CERTIFICATE_TEMPLATE. To set the certificate template attribute: ▸ provide the argument CERTIFICATE_TEMPLATE on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string CertificateTemplate { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((AllLocations == true ? 1 : 0) + (((object?)TargetLocations is global::System.Collections.Generic.IEnumerable<char> ? (object?)TargetLocations is not string || !string.IsNullOrWhiteSpace(TargetLocations?.ToString()) : ((object?)TargetLocations is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)TargetLocations, static item => item is not null) : (TargetLocations is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)TargetLocations), static item => item is not null)))) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of AllLocations or TargetLocations must be specified.", [nameof(AllLocations), nameof(TargetLocations)]);
+        }
+        yield break;
+    }
+
 }

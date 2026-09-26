@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,93 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "mirroring-endpoint-groups", "create")]
-public record GcloudNetworkSecurityMirroringEndpointGroupsCreateOptions : GcloudOptions
+public record GcloudNetworkSecurityMirroringEndpointGroupsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a     Mirroring Endpoint Group
+    /// </summary>
+    /// <param name="MirroringEndpointGroup">Mirroring endpoint group resource - Mirroring Endpoint Group. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument MIRRORING_ENDPOINT_GROUP on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the mirroring endpoint group or fully qualified identifier for the mirroring endpoint group. To set the endpoint-group-id attribute: ▸ provide the argument MIRRORING_ENDPOINT_GROUP on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetworkSecurityMirroringEndpointGroupsCreateOptions(
+        string MirroringEndpointGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MirroringEndpointGroup);
+        this.MirroringEndpointGroup = MirroringEndpointGroup;
+    }
+
+    public void Deconstruct(out string MirroringEndpointGroup)
+    {
+        MirroringEndpointGroup = this.MirroringEndpointGroup;
+    }
+
+    /// <summary>
+    /// Mirroring endpoint group resource - Mirroring Endpoint Group. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument MIRRORING_ENDPOINT_GROUP on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the mirroring endpoint group. To set the location attribute: ▸ provide the argument MIRRORING_ENDPOINT_GROUP on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// This must be specified. Mirroring deployment group resource - Mirroring Deployment Group. The arguments in this group can be used to specify the attributes of this resource. ID of the mirroring deployment group or fully qualified identifier for the mirroring deployment group. To set the id attribute: ▸ provide the argument --mirroring-deployment-group on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--mirroring-deployment-group", Format = OptionFormat.EqualsSeparated)]
+    public string? MirroringDeploymentGroup { get; set; }
+
+    /// <summary>
+    /// This must be specified. Mirroring deployment group resource - Mirroring Deployment Group. The arguments in this group can be used to specify the attributes of this resource. Location of the mirroring deployment group. To set the location attribute: ▸ provide the argument --mirroring-deployment-group on the command line with a fully specified name; ▸ provide the argument --mirroring-deployment-group-location on the command line; ▸ provide the argument --location on the command line; ▸ provide the argument MIRRORING_ENDPOINT_GROUP on the command line with a fully specified name.
+    /// </summary>
+    [CliOption("--mirroring-deployment-group-location", Format = OptionFormat.EqualsSeparated)]
+    public string? MirroringDeploymentGroupLocation { get; set; }
+
+    /// <summary>
+    /// This must be specified. Mirroring deployment group resource - Mirroring Deployment Group. The arguments in this group can be used to specify the attributes of this resource. Project of the mirroring deployment group. To set the project attribute: ▸ provide the argument --mirroring-deployment-group on the command line with a fully specified name; ▸ provide the argument --mirroring-deployment-group-project on the command line; ▸ provide the argument --project on the command line; ▸ set the property core/project; ▸ provide the argument MIRRORING_ENDPOINT_GROUP on the command line with a fully specified name.
+    /// </summary>
+    [CliOption("--mirroring-deployment-group-project", Format = OptionFormat.EqualsSeparated)]
+    public string? MirroringDeploymentGroupProject { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Description of the endpoint
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Time to synchronously wait for the operation to complete, after which the operation continues asynchronously. Ignored if --no-async isn't specified. See $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--max-wait", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxWait { get; set; }
+
+    /// <summary>
+    /// Mirroring endpoint group resource - Mirroring Endpoint Group. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument MIRRORING_ENDPOINT_GROUP on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the mirroring endpoint group or fully qualified identifier for the mirroring endpoint group. To set the endpoint-group-id attribute: ▸ provide the argument MIRRORING_ENDPOINT_GROUP on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MirroringEndpointGroup { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(MirroringDeploymentGroup) || !string.IsNullOrWhiteSpace(MirroringDeploymentGroupLocation) || !string.IsNullOrWhiteSpace(MirroringDeploymentGroupProject)) && (!(!string.IsNullOrWhiteSpace(MirroringDeploymentGroup))))
+        {
+            yield return new ValidationResult("MirroringDeploymentGroup must be specified when other arguments in this group are specified.", [nameof(MirroringDeploymentGroup)]);
+        }
+        yield break;
+    }
+
 }

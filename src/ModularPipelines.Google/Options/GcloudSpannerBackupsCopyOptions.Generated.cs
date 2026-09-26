@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,146 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "backups", "copy")]
-public record GcloudSpannerBackupsCopyOptions : GcloudOptions
+public record GcloudSpannerBackupsCopyOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// copies a backup of a Cloud Spanner database
+    /// </summary>
+    /// <param name="DestinationBackup">Backup resource - TEXT The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination-backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument --destination-backup on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="SourceBackup">Backup resource - TEXT The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source-backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument --source-backup on the command line. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudSpannerBackupsCopyOptions(
+        string DestinationBackup,
+        string SourceBackup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DestinationBackup);
+        this.DestinationBackup = DestinationBackup;
+        global::System.ArgumentNullException.ThrowIfNull(SourceBackup);
+        this.SourceBackup = SourceBackup;
+    }
+
+    public void Deconstruct(out string DestinationBackup, out string SourceBackup)
+    {
+        DestinationBackup = this.DestinationBackup;
+        SourceBackup = this.SourceBackup;
+    }
+
+    /// <summary>
+    /// Backup resource - TEXT The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination-backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument --destination-backup on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--destination-backup", Format = OptionFormat.EqualsSeparated)]
+    public string DestinationBackup { get; private init; }
+
+    /// <summary>
+    /// Backup resource - TEXT The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source-backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument --source-backup on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--source-backup", Format = OptionFormat.EqualsSeparated)]
+    public string SourceBackup { get; private init; }
+
+    /// <summary>
+    /// Backup resource - TEXT The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination-backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud Spanner instance for the backup. To set the instance attribute: ▸ provide the argument --destination-backup on the command line with a fully specified name; ▸ provide the argument --destination-instance on the command line; ▸ set the property spanner/instance.
+    /// </summary>
+    [CliOption("--destination-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationInstance { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Expiration time of the backup, must be at least 6 hours and at most 366 days from the time when the source backup is created. See $ gcloud topic datetimes for information on date/time formats.
+    /// </summary>
+    [CliOption("--expiration-date", Format = OptionFormat.EqualsSeparated)]
+    public string? ExpirationDate { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Retention period of the backup relative from now, must be at least 6 hours and at most 366 days from the time when the source backup is created. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--retention-period", Format = OptionFormat.EqualsSeparated)]
+    public string? RetentionPeriod { get; set; }
+
+    /// <summary>
+    /// Backup resource - TEXT The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source-backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud Spanner instance for the backup. To set the instance attribute: ▸ provide the argument --source-backup on the command line with a fully specified name; ▸ provide the argument --source-instance on the command line; ▸ set the property spanner/instance.
+    /// </summary>
+    [CliOption("--source-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceInstance { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The encryption type of the copied backup. ENCRYPTION_TYPE must be one of: customer-managed-encryption Use the provided Cloud KMS key for encryption. If this option is selected, kms-key must be set. google-default-encryption Use Google default encryption. use-config-default-or-backup-encryption Use the default encryption configuration if one exists. otherwise use the same encryption configuration as the source backup.
+    /// </summary>
+    [CliOption("--encryption-type", Format = OptionFormat.EqualsSeparated)]
+    public string? EncryptionType { get; set; }
+
+    /// <summary>
+    /// KMS key name group At most one of these can be specified: Key resource - Cloud KMS key(s) to be used to copy the Cloud Spanner backup. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the kms-project attribute: ▸ provide the argument --kms-keys on the command line with a fully specified name. To set the kms-location attribute: ▸ provide the argument --kms-keys on the command line with a fully specified name. To set the kms-keyring attribute: ▸ provide the argument --kms-keys on the command line with a fully specified name. IDs of the keys or fully qualified identifiers for the keys. To set the kms-key attribute: ▸ provide the argument --kms-keys on the command line. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--kms-keys", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? KmsKeys
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __KmsKeysSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __KmsKeysSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// KMS key name group At most one of these can be specified: Key resource - Cloud KMS key to be used to copy the Cloud Spanner backup. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ▸ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// KMS key name group At most one of these can be specified: Key resource - Cloud KMS key to be used to copy the Cloud Spanner backup. The arguments in this group can be used to specify the attributes of this resource. KMS keyring id of the key. To set the kms-keyring attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// KMS key name group At most one of these can be specified: Key resource - Cloud KMS key to be used to copy the Cloud Spanner backup. The arguments in this group can be used to specify the attributes of this resource. Cloud location for the key. To set the kms-location attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// KMS key name group At most one of these can be specified: Key resource - Cloud KMS key to be used to copy the Cloud Spanner backup. The arguments in this group can be used to specify the attributes of this resource. Cloud project id for the key. To set the kms-project attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --kms-project on the command line.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ExpirationDate) ? 1 : 0) + (!string.IsNullOrWhiteSpace(RetentionPeriod) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ExpirationDate or RetentionPeriod must be specified.", [nameof(ExpirationDate), nameof(RetentionPeriod)]);
+        }
+        if (((((object?)KmsKeys is global::System.Collections.Generic.IEnumerable<char> ? (object?)KmsKeys is not string || !string.IsNullOrWhiteSpace(KmsKeys?.ToString()) : ((object?)KmsKeys is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)KmsKeys, static item => item is not null) : (KmsKeys is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)KmsKeys), static item => item is not null))))) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (KmsKeys) or (KmsKey, KmsKeyring, KmsLocation, or KmsProject) may be specified.", [nameof(KmsKeys), nameof(KmsKey), nameof(KmsKeyring), nameof(KmsLocation), nameof(KmsProject)]);
+        }
+        if ((((object?)KmsKeys is global::System.Collections.Generic.IEnumerable<char> ? (object?)KmsKeys is not string || !string.IsNullOrWhiteSpace(KmsKeys?.ToString()) : ((object?)KmsKeys is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)KmsKeys, static item => item is not null) : (KmsKeys is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)KmsKeys), static item => item is not null)))) || !string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!string.IsNullOrWhiteSpace(KmsKey) || !string.IsNullOrWhiteSpace(KmsKeyring) || !string.IsNullOrWhiteSpace(KmsLocation) || !string.IsNullOrWhiteSpace(KmsProject)) && (!(!string.IsNullOrWhiteSpace(KmsKey))))
+        {
+            yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
+        }
+        yield break;
+    }
+
 }

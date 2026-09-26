@@ -19,8 +19,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "groups", "add-members")]
-public record GcloudPreviewComputeInterconnectsGroupsAddMembersOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeInterconnectsGroupsAddMembersOptions : GcloudOptions
 {
+    /// <summary>
+    /// add member     interconnects to a Compute Engine interconnect group
+    /// </summary>
+    /// <param name="Interconnects">Member interconnects to add to or remove from the interconnect group. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="Name">Name of the interconnect group to update.</param>
+    public GcloudPreviewComputeInterconnectsGroupsAddMembersOptions(
+        IEnumerable<string> Interconnects,
+        string Name
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Interconnects);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Interconnects));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Interconnects));
+            }
+
+            Interconnects = materialized;
+        }
+        this.Interconnects = Interconnects;
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Interconnects, out string Name)
+    {
+        Interconnects = this.Interconnects;
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Member interconnects to add to or remove from the interconnect group. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--interconnects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> Interconnects { get; private init; }
+
+    /// <summary>
+    /// Name of the interconnect group to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

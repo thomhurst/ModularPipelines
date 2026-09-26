@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "spokes", "describe")]
-public record GcloudNetworkConnectivitySpokesDescribeOptions : GcloudOptions
+public record GcloudNetworkConnectivitySpokesDescribeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// describe a spoke
+    /// </summary>
+    /// <param name="Spoke">Spoke resource - Name of the spoke to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument spoke on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument spoke on the command line with a fully specified name; ◆ provide the argument --global on the command line; ◆ provide the argument --region on the command line. This must be specified. ID of the spoke or fully qualified identifier for the spoke. To set the spoke attribute: ▸ provide the argument spoke on the command line.</param>
+    public GcloudNetworkConnectivitySpokesDescribeOptions(
+        string Spoke
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Spoke);
+        this.Spoke = Spoke;
+    }
+
+    public void Deconstruct(out string Spoke)
+    {
+        Spoke = this.Spoke;
+    }
+
     /// <summary>
     /// At most one of these can be specified: Indicates that the spoke is global.
     /// </summary>
@@ -32,5 +50,21 @@ public record GcloudNetworkConnectivitySpokesDescribeOptions : GcloudOptions
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// Spoke resource - Name of the spoke to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument spoke on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument spoke on the command line with a fully specified name; ◆ provide the argument --global on the command line; ◆ provide the argument --region on the command line. This must be specified. ID of the spoke or fully qualified identifier for the spoke. To set the spoke attribute: ▸ provide the argument spoke on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Spoke { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
 
 }

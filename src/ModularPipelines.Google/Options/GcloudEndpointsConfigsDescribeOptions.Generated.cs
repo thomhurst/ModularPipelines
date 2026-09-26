@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("endpoints", "configs", "describe")]
-public record GcloudEndpointsConfigsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ConfigId
-) : GcloudOptions
+public record GcloudEndpointsConfigsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describes the configuration for a given     version of a service
+    /// </summary>
+    /// <param name="ConfigId">The configuration ID to retrieve.</param>
+    public GcloudEndpointsConfigsDescribeOptions(
+        string ConfigId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ConfigId);
+        this.ConfigId = ConfigId;
+    }
+
+    public void Deconstruct(out string ConfigId)
+    {
+        ConfigId = this.ConfigId;
+    }
+
     /// <summary>
     /// The name of the service from which to retrieve the configuration..
     /// </summary>
     [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
+
+    /// <summary>
+    /// The configuration ID to retrieve.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ConfigId { get; private init; }
 
 }

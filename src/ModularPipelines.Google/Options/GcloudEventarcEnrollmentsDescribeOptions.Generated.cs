@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("eventarc", "enrollments", "describe")]
 public record GcloudEventarcEnrollmentsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an Eventarc enrollment
+    /// </summary>
+    /// <param name="Enrollment">Enrollment resource - Enrollment to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument enrollment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the enrollment or fully qualified identifier for the enrollment. To set the enrollment attribute: ▸ provide the argument enrollment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudEventarcEnrollmentsDescribeOptions(
+        string Enrollment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Enrollment);
+        this.Enrollment = Enrollment;
+    }
+
+    public void Deconstruct(out string Enrollment)
+    {
+        Enrollment = this.Enrollment;
+    }
+
+    /// <summary>
+    /// Enrollment resource - Enrollment to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument enrollment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location for the Eventarc enrollment, which should be one of the supported regions. Alternatively, set the [eventarc/location] property. To set the location attribute: ▸ provide the argument enrollment on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property eventarc/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Enrollment resource - Enrollment to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument enrollment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the enrollment or fully qualified identifier for the enrollment. To set the enrollment attribute: ▸ provide the argument enrollment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Enrollment { get; private init; }
+
 }

@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("biglake", "delta-sharing", "catalogs", "delete")]
 public record GcloudBiglakeDeltaSharingCatalogsDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete a BigLake Delta     Sharing catalog
+    /// </summary>
+    /// <param name="Catalog">Catalog resource - The Delta Sharing catalog to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▸ provide the argument catalog on the command line.</param>
+    public GcloudBiglakeDeltaSharingCatalogsDeleteOptions(
+        string Catalog
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+    }
+
+    public void Deconstruct(out string Catalog)
+    {
+        Catalog = this.Catalog;
+    }
+
+    /// <summary>
+    /// Catalog resource - The Delta Sharing catalog to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▸ provide the argument catalog on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Catalog { get; private init; }
+
 }

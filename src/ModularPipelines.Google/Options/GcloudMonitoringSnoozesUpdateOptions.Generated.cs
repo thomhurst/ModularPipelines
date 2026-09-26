@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitoring", "snoozes", "update")]
-public record GcloudMonitoringSnoozesUpdateOptions : GcloudOptions
+public record GcloudMonitoringSnoozesUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// updates a snooze
+    /// </summary>
+    /// <param name="Snooze">Snooze resource - Name of the Snooze to be updated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument snooze on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Snooze or fully qualified identifier for the Snooze. To set the snooze attribute: ▸ provide the argument snooze on the command line.</param>
+    public GcloudMonitoringSnoozesUpdateOptions(
+        string Snooze
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Snooze);
+        this.Snooze = Snooze;
+    }
+
+    public void Deconstruct(out string Snooze)
+    {
+        Snooze = this.Snooze;
+    }
+
     /// <summary>
     /// The path to a JSON or YAML file containing the snooze. Use a full or relative path to a local file containing the value of snooze.
     /// </summary>
@@ -28,10 +46,32 @@ public record GcloudMonitoringSnoozesUpdateOptions : GcloudOptions
     public string? SnoozeFromFile { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: The list of fields to update. Must specify --snooze-from-file if using this flag.
+    /// At most one of these can be specified: The list of fields to update. Must specify --snooze-from-file if using this flag. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--fields", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Fields { get; set; }
+    [CliOption("--fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? Fields
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __FieldsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __FieldsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Or at least one of these can be specified: Snooze Settings. If any of these are specified, they will overwrite fields in the --snooze-from-file flags if specified. The display name for the Snooze.
@@ -50,5 +90,21 @@ public record GcloudMonitoringSnoozesUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
     public string? StartTime { get; set; }
+
+    /// <summary>
+    /// Snooze resource - Name of the Snooze to be updated. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument snooze on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the Snooze or fully qualified identifier for the Snooze. To set the snooze attribute: ▸ provide the argument snooze on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Snooze { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)Fields is global::System.Collections.Generic.IEnumerable<char> ? (object?)Fields is not string || !string.IsNullOrWhiteSpace(Fields?.ToString()) : ((object?)Fields is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Fields, static item => item is not null) : (Fields is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Fields), static item => item is not null)))) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(DisplayName) || !string.IsNullOrWhiteSpace(EndTime) || !string.IsNullOrWhiteSpace(StartTime)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Fields or (DisplayName, EndTime, or StartTime) may be specified.", [nameof(Fields), nameof(DisplayName), nameof(EndTime), nameof(StartTime)]);
+        }
+        yield break;
+    }
 
 }

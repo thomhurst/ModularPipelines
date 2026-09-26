@@ -21,4 +21,79 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("oracle-database", "odb-networks", "odb-subnets", "create")]
 public record GcloudOracleDatabaseOdbNetworksOdbSubnetsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new     OdbSubnet
+    /// </summary>
+    /// <param name="CidrRange">The CIDR range of the subnet.</param>
+    /// <param name="Purpose">Purpose of the subnet. PURPOSE must be one of: backup-subnet Subnet to be used for backup. client-subnet Subnet to be used for client connections.</param>
+    /// <param name="OdbSubnet">OdbSubnet resource - Identifier. The name of the OdbSubnet resource in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument odb_subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the odbSubnet or fully qualified identifier for the odbSubnet. To set the odb_subnet attribute: ▸ provide the argument odb_subnet on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudOracleDatabaseOdbNetworksOdbSubnetsCreateOptions(
+        string CidrRange,
+        string Purpose,
+        string OdbSubnet
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CidrRange);
+        this.CidrRange = CidrRange;
+        global::System.ArgumentNullException.ThrowIfNull(Purpose);
+        this.Purpose = Purpose;
+        global::System.ArgumentNullException.ThrowIfNull(OdbSubnet);
+        this.OdbSubnet = OdbSubnet;
+    }
+
+    public void Deconstruct(out string CidrRange, out string Purpose, out string OdbSubnet)
+    {
+        CidrRange = this.CidrRange;
+        Purpose = this.Purpose;
+        OdbSubnet = this.OdbSubnet;
+    }
+
+    /// <summary>
+    /// The CIDR range of the subnet.
+    /// </summary>
+    [CliOption("--cidr-range", Format = OptionFormat.EqualsSeparated)]
+    public string CidrRange { get; private init; }
+
+    /// <summary>
+    /// Purpose of the subnet. PURPOSE must be one of: backup-subnet Subnet to be used for backup. client-subnet Subnet to be used for client connections.
+    /// </summary>
+    [CliOption("--purpose", Format = OptionFormat.EqualsSeparated)]
+    public string Purpose { get; private init; }
+
+    /// <summary>
+    /// OdbSubnet resource - Identifier. The name of the OdbSubnet resource in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument odb_subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the odbSubnet resource. To set the location attribute: ▸ provide the argument odb_subnet on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - Identifier. The name of the OdbSubnet resource in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument odb_subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The odbNetwork id of the odbSubnet resource. To set the odb-network attribute: ▸ provide the argument odb_subnet on the command line with a fully specified name; ▸ provide the argument --odb-network on the command line.
+    /// </summary>
+    [CliOption("--odb-network", Format = OptionFormat.EqualsSeparated)]
+    public string? OdbNetwork { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Labels or tags associated with the resource. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// OdbSubnet resource - Identifier. The name of the OdbSubnet resource in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument odb_subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the odbSubnet or fully qualified identifier for the odbSubnet. To set the odb_subnet attribute: ▸ provide the argument odb_subnet on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string OdbSubnet { get; private init; }
+
 }

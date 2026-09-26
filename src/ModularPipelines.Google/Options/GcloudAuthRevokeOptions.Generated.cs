@@ -27,4 +27,10 @@ public record GcloudAuthRevokeOptions : GcloudOptions
     [CliFlag("--all")]
     public bool? All { get; set; }
 
+    /// <summary>
+    /// Accounts whose credentials are to be revoked.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Accounts { get; set; }
+
 }

@@ -19,8 +19,46 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workforce-pools", "create-login-config")]
-public record GcloudIamWorkforcePoolsCreateLoginConfigOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Audience
-) : GcloudOptions
+public record GcloudIamWorkforcePoolsCreateLoginConfigOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a login     configuration file to enable sign-in via a web-based authorization flow     using Workforce Identity Federation
+    /// </summary>
+    /// <param name="OutputFile">Location to store the generated login configuration file.</param>
+    /// <param name="Audience">The workforce pool provider resource name in the format "&lt;pool&gt;/&lt;provider&gt;" or "locations/&lt;location&gt;/workforcePools/&lt;pool&gt;/providers/&lt;provider&gt;".</param>
+    public GcloudIamWorkforcePoolsCreateLoginConfigOptions(
+        string OutputFile,
+        string Audience
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(OutputFile);
+        this.OutputFile = OutputFile;
+        global::System.ArgumentNullException.ThrowIfNull(Audience);
+        this.Audience = Audience;
+    }
+
+    public void Deconstruct(out string OutputFile, out string Audience)
+    {
+        OutputFile = this.OutputFile;
+        Audience = this.Audience;
+    }
+
+    /// <summary>
+    /// Location to store the generated login configuration file.
+    /// </summary>
+    [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
+    public string OutputFile { get; private init; }
+
+    /// <summary>
+    /// Sets the property auth/login_config_file to the created login configuration file. Calling gcloud auth login will automatically use this login configuration unless it is explicitly unset.
+    /// </summary>
+    [CliFlag("--activate")]
+    public bool? Activate { get; set; }
+
+    /// <summary>
+    /// The workforce pool provider resource name in the format "&lt;pool&gt;/&lt;provider&gt;" or "locations/&lt;location&gt;/workforcePools/&lt;pool&gt;/providers/&lt;provider&gt;".
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Audience { get; private init; }
+
 }

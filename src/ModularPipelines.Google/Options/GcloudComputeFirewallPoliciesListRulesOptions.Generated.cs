@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "firewall-policies", "list-rules")]
-public record GcloudComputeFirewallPoliciesListRulesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FirewallPolicy
-) : GcloudOptions
+public record GcloudComputeFirewallPoliciesListRulesOptions : GcloudOptions
 {
+    /// <summary>
+    /// list the rules of a Compute     Engine organization firewall policy
+    /// </summary>
+    /// <param name="FirewallPolicy">Short name or ID of the firewall policy to list rules for.</param>
+    public GcloudComputeFirewallPoliciesListRulesOptions(
+        string FirewallPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallPolicy);
+        this.FirewallPolicy = FirewallPolicy;
+    }
+
+    public void Deconstruct(out string FirewallPolicy)
+    {
+        FirewallPolicy = this.FirewallPolicy;
+    }
+
     /// <summary>
     /// Organization which the organization firewall policy belongs to. Must be set if FIREWALL_POLICY is short name.
     /// </summary>
@@ -34,5 +49,17 @@ public record GcloudComputeFirewallPoliciesListRulesOptions(
     /// </summary>
     [CliOption("--regexp", Format = OptionFormat.EqualsSeparated)]
     public string? Regexp { get; set; }
+
+    /// <summary>
+    /// Short name or ID of the firewall policy to list rules for.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FirewallPolicy { get; private init; }
+
+    /// <summary>
+    /// (DEPRECATED) If provided, show details for the specified names and/or URIs of resources. Argument NAME is deprecated. Use --filter="name=( 'NAME' ... )" instead.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Name { get; set; }
 
 }

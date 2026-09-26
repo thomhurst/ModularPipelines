@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("backup-dr", "backup-plan-revisions", "describe")]
 public record GcloudBackupDrBackupPlanRevisionsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details of the     backup plan revision
+    /// </summary>
+    /// <param name="BackupPlanRevision">Backup plan revision resource - Name of the backup plan revision to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_plan_revision on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup_plan_revision or fully qualified identifier for the backup_plan_revision. To set the backup_plan_revision attribute: ▸ provide the argument backup_plan_revision on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBackupDrBackupPlanRevisionsDescribeOptions(
+        string BackupPlanRevision
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupPlanRevision);
+        this.BackupPlanRevision = BackupPlanRevision;
+    }
+
+    public void Deconstruct(out string BackupPlanRevision)
+    {
+        BackupPlanRevision = this.BackupPlanRevision;
+    }
+
+    /// <summary>
+    /// Backup plan revision resource - Name of the backup plan revision to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_plan_revision on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The ID of the Backup Plan To set the backup_plan attribute: ▸ provide the argument backup_plan_revision on the command line with a fully specified name; ▸ provide the argument --backup_plan on the command line.
+    /// </summary>
+    [CliOption("--backup_plan", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupPlan { get; set; }
+
+    /// <summary>
+    /// Backup plan revision resource - Name of the backup plan revision to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_plan_revision on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location ID of the resource. To set the location attribute: ▸ provide the argument backup_plan_revision on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Backup plan revision resource - Name of the backup plan revision to describe. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup_plan_revision on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup_plan_revision or fully qualified identifier for the backup_plan_revision. To set the backup_plan_revision attribute: ▸ provide the argument backup_plan_revision on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackupPlanRevision { get; private init; }
+
 }

@@ -22,9 +22,32 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDnsResponsePoliciesRulesListOptions : GcloudOptions
 {
     /// <summary>
+    /// displays the list of all a Cloud     DNS response policy rules
+    /// </summary>
+    /// <param name="ResponsePolicies">Response policy resource - The response policy to list. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument response_policies on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the response_policy or fully qualified identifier for the response_policy. To set the response-policy attribute: ▸ provide the argument response_policies on the command line.</param>
+    public GcloudDnsResponsePoliciesRulesListOptions(
+        string ResponsePolicies
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ResponsePolicies);
+        this.ResponsePolicies = ResponsePolicies;
+    }
+
+    public void Deconstruct(out string ResponsePolicies)
+    {
+        ResponsePolicies = this.ResponsePolicies;
+    }
+
+    /// <summary>
     /// Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// Response policy resource - The response policy to list. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument response_policies on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the response_policy or fully qualified identifier for the response_policy. To set the response-policy attribute: ▸ provide the argument response_policies on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ResponsePolicies { get; private init; }
 
 }

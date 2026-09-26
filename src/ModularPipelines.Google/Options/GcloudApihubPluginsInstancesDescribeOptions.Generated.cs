@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apihub", "plugins", "instances", "describe")]
 public record GcloudApihubPluginsInstancesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Plugin Instance
+    /// </summary>
+    /// <param name="Instance">Instance resource - The name of the plugin instance to retrieve. Format: projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubPluginsInstancesDescribeOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Instance resource - The name of the plugin instance to retrieve. Format: projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the instance resource. To set the location attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Instance resource - The name of the plugin instance to retrieve. Format: projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The plugin id of the instance resource. To set the plugin attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --plugin on the command line.
+    /// </summary>
+    [CliOption("--plugin", Format = OptionFormat.EqualsSeparated)]
+    public string? Plugin { get; set; }
+
+    /// <summary>
+    /// Instance resource - The name of the plugin instance to retrieve. Format: projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
 }

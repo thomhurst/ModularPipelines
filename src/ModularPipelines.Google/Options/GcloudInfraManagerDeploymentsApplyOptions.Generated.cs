@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -20,12 +21,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("infra-manager", "deployments", "apply")]
-public record GcloudInfraManagerDeploymentsApplyOptions : GcloudOptions
+public record GcloudInfraManagerDeploymentsApplyOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
-    /// Annotations to apply to the deployment. Existing values are overwritten. To retain the existing annotations on a deployment, do not specify this flag. Examples: Update annotations for an existing deployment: $ gcloud infra-manager deployments apply \ projects/p1/locations/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket" \ --annotations="env=prod,team=finance" Clear annotations for an existing deployment: $ gcloud infra-manager deployments apply \ projects/p1/locations/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket" --annotations="" Add an annotation to an existing deployment: First, fetch the current annotations using the `describe` command, then follow the preceding example for updating annotations.
+    /// create or update a deployment
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="Deployment">Deployment resource - the deployment to create or update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument DEPLOYMENT on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the deployment or fully qualified identifier for the deployment. To set the deployment attribute: ▸ provide the argument DEPLOYMENT on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudInfraManagerDeploymentsApplyOptions(
+        string Deployment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Deployment);
+        this.Deployment = Deployment;
+    }
+
+    public void Deconstruct(out string Deployment)
+    {
+        Deployment = this.Deployment;
+    }
+
+    /// <summary>
+    /// Deployment resource - the deployment to create or update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument DEPLOYMENT on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the deployment. To set the location attribute: ▸ provide the argument DEPLOYMENT on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property infra-manager/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Annotations to apply to the deployment. Existing values are overwritten. To retain the existing annotations on a deployment, do not specify this flag. Examples: Update annotations for an existing deployment: $ gcloud infra-manager deployments apply \ projects/p1/locations/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket" \ --annotations="env=prod,team=finance" Clear annotations for an existing deployment: $ gcloud infra-manager deployments apply \ projects/p1/locations/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket" --annotations="" Add an annotation to an existing deployment: First, fetch the current annotations using the `describe` command, then follow the preceding example for updating annotations. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Annotations { get; set; }
 
     /// <summary>
@@ -47,9 +71,9 @@ public record GcloudInfraManagerDeploymentsApplyOptions : GcloudOptions
     public bool? ImportExistingResources { get; set; }
 
     /// <summary>
-    /// Labels to apply to the deployment. Existing values are overwritten. To retain the existing labels on a deployment, do not specify this flag. Examples: Update labels for an existing deployment: $ gcloud infra-manager deployments apply \ projects/p1/locations/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket" --labels="env=prod,team=finance" Clear labels for an existing deployment: $ gcloud infra-manager deployments apply \ projects/p1/locations/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket" --labels="" Add a label to an existing deployment: First, fetch the current labels using the `describe` command, then follow the preceding example for updating labels.
+    /// Labels to apply to the deployment. Existing values are overwritten. To retain the existing labels on a deployment, do not specify this flag. Examples: Update labels for an existing deployment: $ gcloud infra-manager deployments apply \ projects/p1/locations/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket" --labels="env=prod,team=finance" Clear labels for an existing deployment: $ gcloud infra-manager deployments apply \ projects/p1/locations/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket" --labels="" Add a label to an existing deployment: First, fetch the current labels using the `describe` command, then follow the preceding example for updating labels. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -113,15 +137,39 @@ public record GcloudInfraManagerDeploymentsApplyOptions : GcloudOptions
     public string? LocalSource { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Input variable values for the Terraform blueprint. It only accepts (key, value) pairs where value is a scalar value. Examples: Pass input values on command line: $ gcloud infra-manager deployments apply \ projects/p1/location/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket" \ --input-values=projects=p1,region=r
+    /// At most one of these can be specified: Input variable values for the Terraform blueprint. It only accepts (key, value) pairs where value is a scalar value. Examples: Pass input values on command line: $ gcloud infra-manager deployments apply \ projects/p1/location/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket" \ --input-values=projects=p1,region=r Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--input-values", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? InputValues { get; set; }
+    [CliOption("--input-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? InputValues
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
     /// At most one of these can be specified: A .tfvars file containing terraform variable values. --inputs-file flag is supported for python version 3.6 and above. Examples: Pass input values on the command line: $ gcloud infra-manager deployments apply \ projects/p1/location/us-central1/deployments/my-deployment \ --gcs-source="gs://my-bucket" \ --inputs-file=path-to-tfvar-file.tfvar
     /// </summary>
     [CliOption("--inputs-file", Format = OptionFormat.EqualsSeparated)]
     public string? InputsFile { get; set; }
+
+    /// <summary>
+    /// Deployment resource - the deployment to create or update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument DEPLOYMENT on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the deployment or fully qualified identifier for the deployment. To set the deployment attribute: ▸ provide the argument DEPLOYMENT on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Deployment { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(GcsSource) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(GitSourceDirectory) || !string.IsNullOrWhiteSpace(GitSourceRef) || !string.IsNullOrWhiteSpace(GitSourceRepo)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(IgnoreFile) || !string.IsNullOrWhiteSpace(LocalSource)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GcsSource, (GitSourceDirectory, GitSourceRef, or GitSourceRepo), or (IgnoreFile or LocalSource) may be specified.", [nameof(GcsSource), nameof(GitSourceDirectory), nameof(GitSourceRef), nameof(GitSourceRepo), nameof(IgnoreFile), nameof(LocalSource)]);
+        }
+        if ((((object?)InputValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)InputValues is not string || !string.IsNullOrWhiteSpace(InputValues?.ToString()) : ((object?)InputValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)InputValues, static item => item is not null) : (InputValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)InputValues), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(InputsFile) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of InputValues or InputsFile may be specified.", [nameof(InputValues), nameof(InputsFile)]);
+        }
+        yield break;
+    }
 
 }

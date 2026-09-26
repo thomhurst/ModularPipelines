@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,62 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dns", "response-policies", "rules", "create")]
 public record GcloudDnsResponsePoliciesRulesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// creates a new Cloud DNS     response policy rule
+    /// </summary>
+    /// <param name="DnsName">DNS name (wildcard or exact) to apply this rule to.</param>
+    /// <param name="ResponsePolicyRule">Response policy rule resource - The response policy rule to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument response_policy_rule on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the response_policy_rule or fully qualified identifier for the response_policy_rule. To set the response-policy-rule attribute: ▸ provide the argument response_policy_rule on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDnsResponsePoliciesRulesCreateOptions(
+        string DnsName,
+        string ResponsePolicyRule
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(DnsName);
+        this.DnsName = DnsName;
+        global::System.ArgumentNullException.ThrowIfNull(ResponsePolicyRule);
+        this.ResponsePolicyRule = ResponsePolicyRule;
+    }
+
+    public void Deconstruct(out string DnsName, out string ResponsePolicyRule)
+    {
+        DnsName = this.DnsName;
+        ResponsePolicyRule = this.ResponsePolicyRule;
+    }
+
+    /// <summary>
+    /// DNS name (wildcard or exact) to apply this rule to.
+    /// </summary>
+    [CliOption("--dns-name", Format = OptionFormat.EqualsSeparated)]
+    public string DnsName { get; private init; }
+
+    /// <summary>
+    /// Response policy rule resource - The response policy rule to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument response_policy_rule on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The Cloud DNS response policy name response_policy_rule. To set the response-policy attribute: ▸ provide the argument response_policy_rule on the command line with a fully specified name; ▸ provide the argument --response-policy on the command line.
+    /// </summary>
+    [CliOption("--response-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? ResponsePolicy { get; set; }
+
+    /// <summary>
+    /// The response policy rule query behavior. BEHAVIOR must be one of: behaviorUnspecified, bypassResponsePolicy.
+    /// </summary>
+    [CliOption("--behavior", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDnsResponsePoliciesRulesCreateBehavior? Behavior { get; set; }
+
+    /// <summary>
+    /// All resource record sets for this selector, one per resource record type. The name must match the dns_name. This is a repeated argument that can be specified multiple times to specify multiple local data rrsets. (e.g. --local-data=name="zone.com.",type="A",ttl=21600,rrdata="1.2.3.4 " --local-data=name="www.zone.com.",type="CNAME",ttl=21600,rrdata="1.2.3.4|5.6.7.8") name The DnsName of a resource record set. type Type of all resource records in this set. For example, A, AAAA, SOA, MX, NS, TXT ... ttl Number of seconds that this ResourceRecordSet can be cached by resolvers. rrdatas The list of datas for this record, split by "|".
+    /// </summary>
+    [CliOption("--local-data", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? LocalData { get; set; }
+
+    /// <summary>
+    /// Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Response policy rule resource - The response policy rule to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument response_policy_rule on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the response_policy_rule or fully qualified identifier for the response_policy_rule. To set the response-policy-rule attribute: ▸ provide the argument response_policy_rule on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ResponsePolicyRule { get; private init; }
+
 }

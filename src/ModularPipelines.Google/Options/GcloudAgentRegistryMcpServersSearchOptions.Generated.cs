@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -21,4 +22,46 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("agent-registry", "mcp-servers", "search")]
 public record GcloudAgentRegistryMcpServersSearchOptions : GcloudOptions
 {
+    /// <summary>
+    /// search MCP servers matching     criteria
+    /// </summary>
+    /// <param name="Location">Location resource - Parent value for SearchMcpServersRequest. Format: projects/{project}/locations/{location}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.</param>
+    public GcloudAgentRegistryMcpServersSearchOptions(
+        string Location
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Location);
+        this.Location = Location;
+    }
+
+    public void Deconstruct(out string Location)
+    {
+        Location = this.Location;
+    }
+
+    /// <summary>
+    /// Location resource - Parent value for SearchMcpServersRequest. Format: projects/{project}/locations/{location}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string Location { get; private init; }
+
+    /// <summary>
+    /// The maximum number of MCP servers to return. The service may return fewer than this value. If unspecified, at most 20 servers will be returned. The maximum value is 100; values above 100 will be coerced to 100.
+    /// </summary>
+    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
+    public int? PageSize { get; set; }
+
+    /// <summary>
+    /// A page token, received from a previous SearchMcpServers call.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--page-token", Format = OptionFormat.EqualsSeparated)]
+    public string? PageToken { get; set; }
+
+    /// <summary>
+    /// Search criteria used to select the MCP Servers to return. If no search criteria is specified then all accessible MCP Servers will be returned. Search expressions can be used to restrict results based upon searchable fields, where the operators can be used along with the suffix wildcard symbol *. See instructions (https://docs.cloud.google.com/agent-registry/search-agents-and-tools) for more details. Allowed operators: =, :, NOT, AND, OR, and (). Examples: ◆ mcpServerId="urn:mcp:projects-123:projects:123:locations:us-central1:agentregistry:services:service-id" to find the MCP Server with the specified MCP Server ID. ◆ name:important to find MCP Servers whose name contains important as a word. ◆ displayName:works* to find MCP Servers whose display name contains words that start with works. ◆ planner OR booking to find MCP Servers whose metadata contains the words planner or booking. ◆ mcpServerId:service-id AND (displayName:planner OR displayName:booking) to find MCP Servers whose MCP Server ID contains service-id and whose display name contains planner or booking.
+    /// </summary>
+    [CliOption("--search-string", Format = OptionFormat.EqualsSeparated)]
+    public string? SearchString { get; set; }
+
 }

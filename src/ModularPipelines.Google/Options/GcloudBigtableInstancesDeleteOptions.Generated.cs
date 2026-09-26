@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bigtable", "instances", "delete")]
 public record GcloudBigtableInstancesDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// delete an existing Bigtable instance
+    /// </summary>
+    /// <param name="Instance">Instance resource - The instances to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. IDs of the instances or fully qualified identifiers for the instances. To set the instance attribute: ▸ provide the argument instance on the command line.</param>
+    public GcloudBigtableInstancesDeleteOptions(
+        IEnumerable<string> Instance
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Instance);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Instance));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Instance));
+            }
+
+            Instance = materialized;
+        }
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Instance)
+    {
+        Instance = this.Instance;
+    }
+
+    /// <summary>
+    /// Instance resource - The instances to delete. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. IDs of the instances or fully qualified identifiers for the instances. To set the instance attribute: ▸ provide the argument instance on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Instance { get; private init; }
+
 }

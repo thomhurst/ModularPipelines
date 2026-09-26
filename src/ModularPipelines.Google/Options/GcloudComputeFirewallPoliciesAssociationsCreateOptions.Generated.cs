@@ -21,4 +21,51 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "firewall-policies", "associations", "create")]
 public record GcloudComputeFirewallPoliciesAssociationsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new     association between a firewall policy and an organization or folder     resource
+    /// </summary>
+    /// <param name="FirewallPolicy">Security policy ID of the association.</param>
+    public GcloudComputeFirewallPoliciesAssociationsCreateOptions(
+        string FirewallPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FirewallPolicy);
+        this.FirewallPolicy = FirewallPolicy;
+    }
+
+    public void Deconstruct(out string FirewallPolicy)
+    {
+        FirewallPolicy = this.FirewallPolicy;
+    }
+
+    /// <summary>
+    /// Security policy ID of the association.
+    /// </summary>
+    [CliOption("--firewall-policy", Format = OptionFormat.EqualsSeparated)]
+    public string FirewallPolicy { get; private init; }
+
+    /// <summary>
+    /// ID of the folder with which the association is created.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Name to identify this association. If unspecified, the name will be set to "organization-{ORGANIZATION_ID}" or "folder-{FOLDER_ID}".
+    /// </summary>
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// ID of the organization in which the firewall policy is to be associated. Must be set if FIREWALL_POLICY is short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// By default, if you attempt to insert an association to an organization or folder resource that is already associated with a firewall policy the method will fail. If this is set, the existing association will be deleted at the same time that the new association is created.
+    /// </summary>
+    [CliFlag("--replace-association-on-target")]
+    public bool? ReplaceAssociationOnTarget { get; set; }
+
 }

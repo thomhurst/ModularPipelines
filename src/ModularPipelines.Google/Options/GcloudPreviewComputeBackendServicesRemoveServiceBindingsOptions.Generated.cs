@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,8 +20,73 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "backend-services", "remove-service-bindings")]
-public record GcloudPreviewComputeBackendServicesRemoveServiceBindingsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendServiceName
-) : GcloudOptions
+public record GcloudPreviewComputeBackendServicesRemoveServiceBindingsOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// remove     service bindings from a backend service
+    /// </summary>
+    /// <param name="ServiceBindings">List of service binding names to be removed from the backend service. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).</param>
+    /// <param name="BackendServiceName">Name of the backend service to operate on.</param>
+    public GcloudPreviewComputeBackendServicesRemoveServiceBindingsOptions(
+        IEnumerable<string> ServiceBindings,
+        string BackendServiceName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ServiceBindings);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ServiceBindings));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ServiceBindings));
+            }
+
+            ServiceBindings = materialized;
+        }
+        this.ServiceBindings = ServiceBindings;
+        global::System.ArgumentNullException.ThrowIfNull(BackendServiceName);
+        this.BackendServiceName = BackendServiceName;
+    }
+
+    public void Deconstruct(out IEnumerable<string> ServiceBindings, out string BackendServiceName)
+    {
+        ServiceBindings = this.ServiceBindings;
+        BackendServiceName = this.BackendServiceName;
+    }
+
+    /// <summary>
+    /// List of service binding names to be removed from the backend service. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--service-bindings", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string> ServiceBindings { get; private init; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the backend service is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the backend service to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Name of the backend service to operate on.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string BackendServiceName { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Global == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Region) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Global or Region may be specified.", [nameof(Global), nameof(Region)]);
+        }
+        yield break;
+    }
+
 }

@@ -28,9 +28,15 @@ public record GcloudPreviewComputeDiskTypesListOptions : GcloudOptions
     public string? Regexp { get; set; }
 
     /// <summary>
-    /// If provided, only resources from the given zones are queried.
+    /// If provided, only resources from the given zones are queried. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--zones", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--zones", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Zones { get; set; }
+
+    /// <summary>
+    /// (DEPRECATED) If provided, show details for the specified names and/or URIs of resources. Argument NAME is deprecated. Use --filter="name=( 'NAME' ... )" instead.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Name { get; set; }
 
 }

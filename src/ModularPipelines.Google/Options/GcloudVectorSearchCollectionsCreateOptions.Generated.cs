@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudVectorSearchCollectionsCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// create a collection
+    /// </summary>
+    /// <param name="Collection">Collection resource - Identifier. name of resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the collection or fully qualified identifier for the collection. To set the collection attribute: ▸ provide the argument collection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudVectorSearchCollectionsCreateOptions(
+        string Collection
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Collection);
+        this.Collection = Collection;
+    }
+
+    public void Deconstruct(out string Collection)
+    {
+        Collection = this.Collection;
+    }
+
+    /// <summary>
+    /// Collection resource - Identifier. name of resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the collection resource. To set the location attribute: ▸ provide the argument collection on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -52,21 +75,27 @@ public record GcloudVectorSearchCollectionsCreateOptions : GcloudOptions
     public string? EncryptionSpecCryptoKeyName { get; set; }
 
     /// <summary>
-    /// Represents a customer-managed encryption key specification that can be applied to a Vector Search collection. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
-    /// Represents a customer-managed encryption key specification that can be applied to a Vector Search collection. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// Represents a customer-managed encryption key specification that can be applied to a Vector Search collection. Schema for vector fields. Only vector fields in this schema will be searchable. Field names must contain only alphanumeric characters, underscores, and hyphens. KEY Sets KEY value. VALUE Sets VALUE value. denseVector Dense vector field. dimensions Dimensionality of the vector field. vertexEmbeddingConfig Configuration for generating embeddings for the vector field. If not specified, the embedding field must be populated in the DataObject. modelId Required: ID of the embedding model to use. See https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models#embeddings-models for the list of supported models. taskType Required: Task type for the embeddings. textTemplate Required: Text template for the input to the model. The template must contain one or more references to fields in the DataObject, e.g.: "Movie Title: {title} ---- Movie Plot: {plot}". sparseVector Sparse vector field. Shorthand Example: --vector-schema=string={denseVector={dimensions=int,vertexEmbeddingConfig={modelId=string,taskType=string,textTemplate=string}},sparseVector} JSON Example: --vector-schema='{"string": {"denseVector": {"dimensions": int, "vertexEmbeddingConfig": {"modelId": "string", "taskType": "string", "textTemplate": "string"}}, "sparseVector": {}}}' File Example: --vector-schema=path_to_file.(yaml|json)
+    /// Schema for vector fields. Only vector fields in this schema will be searchable. Field names must contain only alphanumeric characters, underscores, and hyphens. KEY Sets KEY value. VALUE Sets VALUE value. denseVector Dense vector field. dimensions Dimensionality of the vector field. vertexEmbeddingConfig Configuration for generating embeddings for the vector field. If not specified, the embedding field must be populated in the DataObject. modelId Required: ID of the embedding model to use. See https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models#embeddings-models for the list of supported models. taskType Required: Task type for the embeddings. textTemplate Required: Text template for the input to the model. The template must contain one or more references to fields in the DataObject, e.g.: "Movie Title: {title} ---- Movie Plot: {plot}". sparseVector Sparse vector field. Shorthand Example: --vector-schema=string={denseVector={dimensions=int,vertexEmbeddingConfig={modelId=string,taskType=string,textTemplate=string}},sparseVector} JSON Example: --vector-schema='{"string": {"denseVector": {"dimensions": int, "vertexEmbeddingConfig": {"modelId": "string", "taskType": "string", "textTemplate": "string"}}, "sparseVector": {}}}' File Example: --vector-schema=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--vector-schema", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? VectorSchema { get; set; }
+
+    /// <summary>
+    /// Collection resource - Identifier. name of resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the collection or fully qualified identifier for the collection. To set the collection attribute: ▸ provide the argument collection on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Collection { get; private init; }
 
 }

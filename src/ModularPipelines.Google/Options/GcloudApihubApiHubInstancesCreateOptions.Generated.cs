@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,87 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "api-hub-instances", "create")]
-public record GcloudApihubApiHubInstancesCreateOptions : GcloudOptions
+public record GcloudApihubApiHubInstancesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create an Api Hub Instance
+    /// </summary>
+    /// <param name="ApiHubInstance">ApiHubInstance resource - Identifier. Format: projects/{project}/locations/{location}/apiHubInstances/{apiHubInstance}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument api_hub_instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the apiHubInstance or fully qualified identifier for the apiHubInstance. To set the api_hub_instance attribute: ▸ provide the argument api_hub_instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubApiHubInstancesCreateOptions(
+        string ApiHubInstance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiHubInstance);
+        this.ApiHubInstance = ApiHubInstance;
+    }
+
+    public void Deconstruct(out string ApiHubInstance)
+    {
+        ApiHubInstance = this.ApiHubInstance;
+    }
+
+    /// <summary>
+    /// ApiHubInstance resource - Identifier. Format: projects/{project}/locations/{location}/apiHubInstances/{apiHubInstance}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument api_hub_instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the apiHubInstance resource. To set the location attribute: ▸ provide the argument api_hub_instance on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Available configurations to provision an ApiHub Instance. At least one of these must be specified: The Customer Managed Encryption Key (CMEK) used for data encryption. The CMEK name should follow the format of projects/([^/]+)/locations/([^/]+)/keyRings/([^/]+)/cryptoKeys/([^/]+), where the location must match the instance location. If the CMEK is not provided, a GMEK will be created for the instance.
+    /// </summary>
+    [CliOption("--config-cmek-key-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigCmekKeyName { get; set; }
+
+    /// <summary>
+    /// Available configurations to provision an ApiHub Instance. At least one of these must be specified: If true, the search will be disabled for the instance. The default value is false.
+    /// </summary>
+    [CliFlag("--config-disable-search")]
+    public bool? ConfigDisableSearch { get; set; }
+
+    /// <summary>
+    /// Available configurations to provision an ApiHub Instance. At least one of these must be specified: Encryption type for the region. If the encryption type is CMEK, the cmek_key_name must be provided. If no encryption type is provided, GMEK will be used. CONFIG_ENCRYPTION_TYPE must be one of: cmek Encryption using customer managed encryption key. gmek Default encryption using Google managed encryption key.
+    /// </summary>
+    [CliOption("--config-encryption-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigEncryptionType { get; set; }
+
+    /// <summary>
+    /// Available configurations to provision an ApiHub Instance. At least one of these must be specified: The name of the Vertex AI location where the data store is stored.
+    /// </summary>
+    [CliOption("--config-vertex-location", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigVertexLocation { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the ApiHub instance.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Instance labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// ApiHubInstance resource - Identifier. Format: projects/{project}/locations/{location}/apiHubInstances/{apiHubInstance}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument api_hub_instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the apiHubInstance or fully qualified identifier for the apiHubInstance. To set the api_hub_instance attribute: ▸ provide the argument api_hub_instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ApiHubInstance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(ConfigCmekKeyName) || ConfigDisableSearch == true || !string.IsNullOrWhiteSpace(ConfigEncryptionType) || !string.IsNullOrWhiteSpace(ConfigVertexLocation)))
+        {
+            yield return new ValidationResult("At least one of ConfigCmekKeyName, ConfigDisableSearch, ConfigEncryptionType, or ConfigVertexLocation must be specified.", [nameof(ConfigCmekKeyName), nameof(ConfigDisableSearch), nameof(ConfigEncryptionType), nameof(ConfigVertexLocation)]);
+        }
+        yield break;
+    }
+
 }

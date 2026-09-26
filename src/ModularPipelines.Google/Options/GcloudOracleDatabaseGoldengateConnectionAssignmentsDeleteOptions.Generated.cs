@@ -22,6 +22,29 @@ namespace ModularPipelines.Google.Options;
 public record GcloudOracleDatabaseGoldengateConnectionAssignmentsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a     GoldengateConnectionAssignment
+    /// </summary>
+    /// <param name="GoldengateConnectionAssignment">GoldengateConnectionAssignment resource - The name of the GoldengateConnectionAssignment to delete. Format: projects/{project}/locations/{location}/goldengateConnectionAssignments/{goldengate_connection_assignment} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument goldengate_connection_assignment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the goldengateConnectionAssignment or fully qualified identifier for the goldengateConnectionAssignment. To set the goldengate_connection_assignment attribute: ▸ provide the argument goldengate_connection_assignment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudOracleDatabaseGoldengateConnectionAssignmentsDeleteOptions(
+        string GoldengateConnectionAssignment
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(GoldengateConnectionAssignment);
+        this.GoldengateConnectionAssignment = GoldengateConnectionAssignment;
+    }
+
+    public void Deconstruct(out string GoldengateConnectionAssignment)
+    {
+        GoldengateConnectionAssignment = this.GoldengateConnectionAssignment;
+    }
+
+    /// <summary>
+    /// GoldengateConnectionAssignment resource - The name of the GoldengateConnectionAssignment to delete. Format: projects/{project}/locations/{location}/goldengateConnectionAssignments/{goldengate_connection_assignment} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument goldengate_connection_assignment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the goldengateConnectionAssignment resource. To set the location attribute: ▸ provide the argument goldengate_connection_assignment on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
@@ -32,5 +55,11 @@ public record GcloudOracleDatabaseGoldengateConnectionAssignmentsDeleteOptions :
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
+
+    /// <summary>
+    /// GoldengateConnectionAssignment resource - The name of the GoldengateConnectionAssignment to delete. Format: projects/{project}/locations/{location}/goldengateConnectionAssignments/{goldengate_connection_assignment} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument goldengate_connection_assignment on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the goldengateConnectionAssignment or fully qualified identifier for the goldengateConnectionAssignment. To set the goldengate_connection_assignment attribute: ▸ provide the argument goldengate_connection_assignment on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string GoldengateConnectionAssignment { get; private init; }
 
 }

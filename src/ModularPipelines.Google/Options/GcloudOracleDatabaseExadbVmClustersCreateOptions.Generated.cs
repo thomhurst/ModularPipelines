@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,213 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "exadb-vm-clusters", "create")]
-public record GcloudOracleDatabaseExadbVmClustersCreateOptions : GcloudOptions
+public record GcloudOracleDatabaseExadbVmClustersCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a new     ExadbVmCluster
+    /// </summary>
+    /// <param name="BackupOdbSubnet">OdbSubnet resource - The name of the backup OdbSubnet associated with the ExadbVmCluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --backup-odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --backup-odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --backup-odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. This must be specified. ID of the odbSubnet or fully qualified identifier for the odbSubnet. To set the odb-subnet attribute: ▸ provide the argument --backup-odb-subnet on the command line.</param>
+    /// <param name="DisplayName">The display name for the ExadbVmCluster. The name does not have to be unique within your project. The name must be 1-255 characters long and can only contain alphanumeric characters.</param>
+    /// <param name="OdbSubnet">OdbSubnet resource - The name of the OdbSubnet associated with the ExadbVmCluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. This must be specified. ID of the odbSubnet or fully qualified identifier for the odbSubnet. To set the odb-subnet attribute: ▸ provide the argument --odb-subnet on the command line.</param>
+    /// <param name="PropertiesEnabledEcpuCountPerNode">The properties of an ExadbVmCluster. This must be specified. The number of ECPUs enabled per node for an exadata vm cluster on exascale infrastructure. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="PropertiesExascaleDbStorageVault">The properties of an ExadbVmCluster. This must be specified. ExascaleDbStorageVault resource - The name of ExascaleDbStorageVault associated with the ExadbVmCluster. It can refer to an existing ExascaleDbStorageVault. Or a new one can be created during the ExadbVmCluster creation (requires storage_vault_properties to be set). Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --properties-exascale-db-storage-vault on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --properties-exascale-db-storage-vault on the command line with a fully specified name; ▸ provide the argument --location on the command line. This must be specified. ID of the exascaleDbStorageVault or fully qualified identifier for the exascaleDbStorageVault. To set the exascale-db-storage-vault attribute: ▫ provide the argument --properties-exascale-db-storage-vault on the command line.</param>
+    /// <param name="ExadbVmCluster">ExadbVmCluster resource - Identifier. The name of the ExadbVmCluster resource in the following format: projects/{project}/locations/{region}/exadbVmClusters/{exadb_vm_cluster} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument exadb_vm_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument exadb_vm_cluster on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the exadbVmCluster or fully qualified identifier for the exadbVmCluster. To set the exadb_vm_cluster attribute: ▸ provide the argument exadb_vm_cluster on the command line.</param>
+    public GcloudOracleDatabaseExadbVmClustersCreateOptions(
+        string BackupOdbSubnet,
+        string DisplayName,
+        string OdbSubnet,
+        int PropertiesEnabledEcpuCountPerNode,
+        string PropertiesExascaleDbStorageVault,
+        string ExadbVmCluster
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(BackupOdbSubnet);
+        this.BackupOdbSubnet = BackupOdbSubnet;
+        global::System.ArgumentNullException.ThrowIfNull(DisplayName);
+        this.DisplayName = DisplayName;
+        global::System.ArgumentNullException.ThrowIfNull(OdbSubnet);
+        this.OdbSubnet = OdbSubnet;
+        this.PropertiesEnabledEcpuCountPerNode = PropertiesEnabledEcpuCountPerNode;
+        global::System.ArgumentNullException.ThrowIfNull(PropertiesExascaleDbStorageVault);
+        this.PropertiesExascaleDbStorageVault = PropertiesExascaleDbStorageVault;
+        global::System.ArgumentNullException.ThrowIfNull(ExadbVmCluster);
+        this.ExadbVmCluster = ExadbVmCluster;
+    }
+
+    public void Deconstruct(out string BackupOdbSubnet, out string DisplayName, out string OdbSubnet, out int PropertiesEnabledEcpuCountPerNode, out string PropertiesExascaleDbStorageVault, out string ExadbVmCluster)
+    {
+        BackupOdbSubnet = this.BackupOdbSubnet;
+        DisplayName = this.DisplayName;
+        OdbSubnet = this.OdbSubnet;
+        PropertiesEnabledEcpuCountPerNode = this.PropertiesEnabledEcpuCountPerNode;
+        PropertiesExascaleDbStorageVault = this.PropertiesExascaleDbStorageVault;
+        ExadbVmCluster = this.ExadbVmCluster;
+    }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the backup OdbSubnet associated with the ExadbVmCluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --backup-odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --backup-odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --backup-odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. This must be specified. ID of the odbSubnet or fully qualified identifier for the odbSubnet. To set the odb-subnet attribute: ▸ provide the argument --backup-odb-subnet on the command line.
+    /// </summary>
+    [CliOption("--backup-odb-subnet", Format = OptionFormat.EqualsSeparated)]
+    public string BackupOdbSubnet { get; private init; }
+
+    /// <summary>
+    /// The display name for the ExadbVmCluster. The name does not have to be unique within your project. The name must be 1-255 characters long and can only contain alphanumeric characters.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string DisplayName { get; private init; }
+
+    /// <summary>
+    /// OdbSubnet resource - The name of the OdbSubnet associated with the ExadbVmCluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --location on the command line. To set the odb-network attribute: ◆ provide the argument --odb-subnet on the command line with a fully specified name; ◆ provide the argument --odb-network on the command line. This must be specified. ID of the odbSubnet or fully qualified identifier for the odbSubnet. To set the odb-subnet attribute: ▸ provide the argument --odb-subnet on the command line.
+    /// </summary>
+    [CliOption("--odb-subnet", Format = OptionFormat.EqualsSeparated)]
+    public string OdbSubnet { get; private init; }
+
+    /// <summary>
+    /// The properties of an ExadbVmCluster. This must be specified. The number of ECPUs enabled per node for an exadata vm cluster on exascale infrastructure. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--properties-enabled-ecpu-count-per-node", Format = OptionFormat.EqualsSeparated)]
+    public int PropertiesEnabledEcpuCountPerNode { get; private init; }
+
+    /// <summary>
+    /// The properties of an ExadbVmCluster. This must be specified. ExascaleDbStorageVault resource - The name of ExascaleDbStorageVault associated with the ExadbVmCluster. It can refer to an existing ExascaleDbStorageVault. Or a new one can be created during the ExadbVmCluster creation (requires storage_vault_properties to be set). Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --properties-exascale-db-storage-vault on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --properties-exascale-db-storage-vault on the command line with a fully specified name; ▸ provide the argument --location on the command line. This must be specified. ID of the exascaleDbStorageVault or fully qualified identifier for the exascaleDbStorageVault. To set the exascale-db-storage-vault attribute: ▫ provide the argument --properties-exascale-db-storage-vault on the command line.
+    /// </summary>
+    [CliOption("--properties-exascale-db-storage-vault", Format = OptionFormat.EqualsSeparated)]
+    public string PropertiesExascaleDbStorageVault { get; private init; }
+
+    /// <summary>
+    /// The properties of an ExadbVmCluster. This must be specified. Grid Infrastructure Version.
+    /// </summary>
+    [CliOption("--properties-grid-image-id", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesGridImageId { get; set; }
+
+    /// <summary>
+    /// The properties of an ExadbVmCluster. This must be specified. Prefix for VM cluster host names.
+    /// </summary>
+    [CliOption("--properties-hostname-prefix", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesHostnamePrefix { get; set; }
+
+    /// <summary>
+    /// The properties of an ExadbVmCluster. This must be specified. The number of nodes/VMs in the ExadbVmCluster.
+    /// </summary>
+    [CliOption("--properties-node-count", Format = OptionFormat.EqualsSeparated)]
+    public int? PropertiesNodeCount { get; set; }
+
+    /// <summary>
+    /// The properties of an ExadbVmCluster. This must be specified. The shape attribute of the VM cluster. The type of Exascale storage used for Exadata VM cluster. The default is SMART_STORAGE which supports Oracle Database 23ai and later. PROPERTIES_SHAPE_ATTRIBUTE must be one of: block-storage Indicates that the resource is in block storage. smart-storage Indicates that the resource is in smart storage.
+    /// </summary>
+    [CliOption("--properties-shape-attribute", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesShapeAttribute { get; set; }
+
+    /// <summary>
+    /// The properties of an ExadbVmCluster. This must be specified. The SSH public keys for the ExadbVmCluster. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--properties-ssh-public-keys", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? PropertiesSshPublicKeys { get; set; }
+
+    /// <summary>
+    /// The properties of an ExadbVmCluster. This must be specified. The storage allocation for the exadbvmcluster, in gigabytes (GB). This must be specified. The storage allocation for the exadbvmcluster per node, in gigabytes (GB). This field is used to calculate the total storage allocation for the exadbvmcluster.
+    /// </summary>
+    [CliOption("--vm-file-system-storage-size-in-gbs-per-node", Format = OptionFormat.EqualsSeparated)]
+    public string? VmFileSystemStorageSizeInGbsPerNode { get; set; }
+
+    /// <summary>
+    /// The properties of an ExadbVmCluster. This must be specified. The number of additional ECPUs per node for an Exadata VM cluster on exascale infrastructure.
+    /// </summary>
+    [CliOption("--properties-additional-ecpu-count-per-node", Format = OptionFormat.EqualsSeparated)]
+    public int? PropertiesAdditionalEcpuCountPerNode { get; set; }
+
+    /// <summary>
+    /// The properties of an ExadbVmCluster. This must be specified. The cluster name for Exascale vm cluster. The cluster name must begin with an alphabetic character and may contain hyphens(-) but can not contain underscores(). It should be not more than 11 characters and is not case sensitive. OCI Cluster name.
+    /// </summary>
+    [CliOption("--properties-cluster-name", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesClusterName { get; set; }
+
+    /// <summary>
+    /// The properties of an ExadbVmCluster. This must be specified. The license type of the ExadbVmCluster. PROPERTIES_LICENSE_MODEL must be one of: bring-your-own-license Bring your own license. license-included Default is license included.
+    /// </summary>
+    [CliOption("--properties-license-model", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesLicenseModel { get; set; }
+
+    /// <summary>
+    /// The properties of an ExadbVmCluster. This must be specified. SCAN listener port - TCP
+    /// </summary>
+    [CliOption("--properties-scan-listener-port-tcp", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesScanListenerPortTcp { get; set; }
+
+    /// <summary>
+    /// Data collection options for diagnostics. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/DataCollectionOptions Indicates whether to enable data collection for diagnostics.
+    /// </summary>
+    [CliFlag("--data-collection-options-is-diagnostics-events-enabled")]
+    public bool? DataCollectionOptionsIsDiagnosticsEventsEnabled { get; set; }
+
+    /// <summary>
+    /// Indicates whether to enable health monitoring.
+    /// </summary>
+    [CliFlag("--data-collection-options-is-health-monitoring-enabled")]
+    public bool? DataCollectionOptionsIsHealthMonitoringEnabled { get; set; }
+
+    /// <summary>
+    /// Indicates whether to enable incident logs and trace collection.
+    /// </summary>
+    [CliFlag("--data-collection-options-is-incident-logs-enabled")]
+    public bool? DataCollectionOptionsIsIncidentLogsEnabled { get; set; }
+
+    /// <summary>
+    /// Represents a time zone from the IANA Time Zone Database (https://www.iana.org/time-zones). IANA Time Zone Database time zone. For example "America/New_York".
+    /// </summary>
+    [CliOption("--time-zone-id", Format = OptionFormat.EqualsSeparated)]
+    public string? TimeZoneId { get; set; }
+
+    /// <summary>
+    /// IANA Time Zone Database version number. For example "2019a".
+    /// </summary>
+    [CliOption("--time-zone-version", Format = OptionFormat.EqualsSeparated)]
+    public string? TimeZoneVersion { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The labels or tags associated with the ExadbVmCluster. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// For resources [backup-odb-subnet, exadb_vm_cluster, odb-network, odb-subnet, properties-exascale-db-storage-vault], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// For resources [backup-odb-subnet, odb-network, odb-subnet], provides fallback value for resource odb-network attribute. When the resource's full URI path is not provided, odb-network will fallback to this flag value.
+    /// </summary>
+    [CliOption("--odb-network", Format = OptionFormat.EqualsSeparated)]
+    public string? OdbNetwork { get; set; }
+
+    /// <summary>
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// ExadbVmCluster resource - Identifier. The name of the ExadbVmCluster resource in the following format: projects/{project}/locations/{region}/exadbVmClusters/{exadb_vm_cluster} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument exadb_vm_cluster on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument exadb_vm_cluster on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the exadbVmCluster or fully qualified identifier for the exadbVmCluster. To set the exadb_vm_cluster attribute: ▸ provide the argument exadb_vm_cluster on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ExadbVmCluster { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(VmFileSystemStorageSizeInGbsPerNode)))
+        {
+            yield return new ValidationResult("At least one of VmFileSystemStorageSizeInGbsPerNode must be specified.", [nameof(VmFileSystemStorageSizeInGbsPerNode)]);
+        }
+        yield break;
+    }
+
 }

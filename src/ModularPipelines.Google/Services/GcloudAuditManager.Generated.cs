@@ -22,6 +22,7 @@ public class GcloudAuditManager : IGcloudAuditManager
 {
     private readonly ICommandContext _command;
     private GcloudAuditManagerAuditReports? _auditReports;
+    private GcloudAuditManagerAuditSchedules? _auditSchedules;
     private GcloudAuditManagerAuditScopes? _auditScopes;
     private GcloudAuditManagerEnrollments? _enrollments;
     private GcloudAuditManagerOperations? _operations;
@@ -40,6 +41,11 @@ public class GcloudAuditManager : IGcloudAuditManager
     /// gcloud audit-reports sub-commands.
     /// </summary>
     public GcloudAuditManagerAuditReports AuditReports => _auditReports ??= new GcloudAuditManagerAuditReports(_command);
+
+    /// <summary>
+    /// gcloud audit-schedules sub-commands.
+    /// </summary>
+    public GcloudAuditManagerAuditSchedules AuditSchedules => _auditSchedules ??= new GcloudAuditManagerAuditSchedules(_command);
 
     /// <summary>
     /// gcloud audit-scopes sub-commands.

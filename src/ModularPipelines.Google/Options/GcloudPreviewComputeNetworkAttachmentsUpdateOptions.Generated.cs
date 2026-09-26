@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "network-attachments", "update")]
-public record GcloudPreviewComputeNetworkAttachmentsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeNetworkAttachmentsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// update a Google Compute     Engine network attachment
+    /// </summary>
+    /// <param name="Name">Name of the network attachment to update.</param>
+    public GcloudPreviewComputeNetworkAttachmentsUpdateOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// An optional, textual description for the network attachment.
     /// </summary>
@@ -30,15 +45,15 @@ public record GcloudPreviewComputeNetworkAttachmentsUpdateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// Projects that are allowed to connect to this network attachment.
+    /// Projects that are allowed to connect to this network attachment. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--producer-accept-list", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--producer-accept-list", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ProducerAcceptList { get; set; }
 
     /// <summary>
-    /// Projects that are not allowed to connect to this network attachment.
+    /// Projects that are not allowed to connect to this network attachment. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--producer-reject-list", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--producer-reject-list", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ProducerRejectList { get; set; }
 
     /// <summary>
@@ -48,9 +63,9 @@ public record GcloudPreviewComputeNetworkAttachmentsUpdateOptions(
     public string? Region { get; set; }
 
     /// <summary>
-    /// The subnetworks provided by the consumer for the producers
+    /// The subnetworks provided by the consumer for the producers Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--subnets", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--subnets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Subnets { get; set; }
 
     /// <summary>
@@ -58,5 +73,11 @@ public record GcloudPreviewComputeNetworkAttachmentsUpdateOptions(
     /// </summary>
     [CliOption("--subnets-region", Format = OptionFormat.EqualsSeparated)]
     public string? SubnetsRegion { get; set; }
+
+    /// <summary>
+    /// Name of the network attachment to update.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

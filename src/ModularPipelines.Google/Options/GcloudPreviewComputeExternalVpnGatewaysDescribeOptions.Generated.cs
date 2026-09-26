@@ -19,8 +19,29 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "external-vpn-gateways", "describe")]
-public record GcloudPreviewComputeExternalVpnGatewaysDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+public record GcloudPreviewComputeExternalVpnGatewaysDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a Compute     Engine external VPN gateway
+    /// </summary>
+    /// <param name="Name">Name of the external VPN gateway to describe.</param>
+    public GcloudPreviewComputeExternalVpnGatewaysDescribeOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
+    /// Name of the external VPN gateway to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
+
 }

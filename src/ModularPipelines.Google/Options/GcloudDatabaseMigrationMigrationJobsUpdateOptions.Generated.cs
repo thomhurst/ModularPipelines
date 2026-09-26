@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -21,8 +22,31 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "migration-jobs", "update")]
-public record GcloudDatabaseMigrationMigrationJobsUpdateOptions : GcloudOptions
+public record GcloudDatabaseMigrationMigrationJobsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// update a Database     Migration Service migration job
+    /// </summary>
+    /// <param name="MigrationJob">Migration job resource - The migration job to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument migration_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the migration_job or fully qualified identifier for the migration_job. To set the migration_job attribute: ▸ provide the argument migration_job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatabaseMigrationMigrationJobsUpdateOptions(
+        string MigrationJob
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MigrationJob);
+        this.MigrationJob = MigrationJob;
+    }
+
+    public void Deconstruct(out string MigrationJob)
+    {
+        MigrationJob = this.MigrationJob;
+    }
+
+    /// <summary>
+    /// Migration job resource - The migration job to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument migration_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the migration_job. To set the region attribute: ▸ provide the argument migration_job on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
     /// <summary>
     /// Waits for the operation in progress to complete before returning.
     /// </summary>
@@ -51,13 +75,13 @@ public record GcloudDatabaseMigrationMigrationJobsUpdateOptions : GcloudOptions
     /// Connection profile resource - ID of the destination connection profile, representing the destination database. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --region on the command line. Parallelization level during initial dump of the migration job. If not specified, will be defaulted to OPTIMAL. DUMP_PARALLEL_LEVEL must be one of: MIN, OPTIMAL, MAX.
     /// </summary>
     [CliOption("--dump-parallel-level", Format = OptionFormat.EqualsSeparated)]
-    public GcloudDumpParallelLevel? DumpParallelLevel { get; set; }
+    public GcloudDatabaseMigrationMigrationJobsUpdateDumpParallelLevel? DumpParallelLevel { get; set; }
 
     /// <summary>
     /// Connection profile resource - ID of the destination connection profile, representing the destination database. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --region on the command line. The type of the data dump. Currently applicable for MySQL to MySQL migrations only. DUMP_TYPE must be one of: LOGICAL, PHYSICAL.
     /// </summary>
     [CliOption("--dump-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudDumpType? DumpType { get; set; }
+    public GcloudDatabaseMigrationMigrationJobsUpdateDumpType? DumpType { get; set; }
 
     /// <summary>
     /// Connection profile resource - ID of the destination connection profile, representing the destination database. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --region on the command line. Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
@@ -70,6 +94,12 @@ public record GcloudDatabaseMigrationMigrationJobsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
     public string? Filter { get; set; }
+
+    /// <summary>
+    /// Connection profile resource - ID of the destination connection profile, representing the destination database. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --region on the command line. Parallelization level during initial load of the migration job. If not specified, will be defaulted to OPTIMAL. Only applicable for MySQL to MySQL migrations. LOAD_PARALLEL_LEVEL must be one of: MIN, OPTIMAL, MAX.
+    /// </summary>
+    [CliOption("--load-parallel-level", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDatabaseMigrationMigrationJobsUpdateLoadParallelLevel? LoadParallelLevel { get; set; }
 
     /// <summary>
     /// Connection profile resource - ID of the destination connection profile, representing the destination database. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --region on the command line. Maximum number of additional subscriptions to use for the PostgreSQL migration job.
@@ -87,144 +117,254 @@ public record GcloudDatabaseMigrationMigrationJobsUpdateOptions : GcloudOptions
     /// Connection profile resource - ID of the source connection profile, representing the source database. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --region on the command line. Type of the migration job. TYPE must be one of: ONE_TIME, CONTINUOUS.
     /// </summary>
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudType? Type { get; set; }
+    public GcloudDatabaseMigrationMigrationJobsUpdateType? Type { get; set; }
 
     /// <summary>
-    /// Connection profile resource - ID of the source connection profile, representing the source database. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --region on the command line. List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// Connection profile resource - ID of the source connection profile, representing the source database. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --region on the command line. List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Connection profile resource - ID of the source connection profile, representing the source database. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --region on the command line. The migration job objects config. The migration job objects config for databases. At most one of these can be specified: Migrate all databases for the migration job. This flag is used only for Postgres to AlloyDB, and Postgres to Cloud SQL Postgres and MySQL to Cloud SQL MySQL migrations.
+    /// The migration job objects config. The migration job objects config for databases. At most one of these can be specified: Migrate all databases for the migration job. This flag is used only for Postgres to AlloyDB, and Postgres to Cloud SQL Postgres and MySQL to Cloud SQL MySQL migrations.
     /// </summary>
     [CliFlag("--all-databases")]
     public bool? AllDatabases { get; set; }
 
     /// <summary>
-    /// Connection profile resource - ID of the source connection profile, representing the source database. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --region on the command line. The migration job objects config. The migration job objects config for databases. At most one of these can be specified: A list of databases to be migrated to the destination instance. Provide databases as a comma separated list. This flag is used only for Postgres to AlloyDB, and Postgres to Cloud SQL Postgres and MySQL to Cloud SQL MySQL migrations.
+    /// The migration job objects config. The migration job objects config for databases. At most one of these can be specified: A list of databases to be migrated to the destination instance. Provide databases as a comma separated list. This flag is used only for Postgres to AlloyDB, and Postgres to Cloud SQL Postgres and MySQL to Cloud SQL MySQL migrations. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--databases-filter", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? DatabasesFilter { get; set; }
+    [CliOption("--databases-filter", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? DatabasesFilter
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __DatabasesFilterSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __DatabasesFilterSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Connection profile resource - ID of the source connection profile, representing the source database. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --region on the command line. At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud database-migration migration-jobs update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud database-migration migration-jobs update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud database-migration migration-jobs update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud database-migration migration-jobs update --clear-labels \ --update-labels foo=bar,baz=qux
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Connection profile resource - ID of the source connection profile, representing the source database. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --region on the command line. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabels { get; set; }
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? RemoveLabels
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RemoveLabelsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RemoveLabelsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Connection profile resource - ID of the source connection profile, representing the source database. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --region on the command line. At most one of these can be specified: A list of dump flags. An object containing a list of "key": "value" pairs.
+    /// At most one of these can be specified: A list of dump flags. An object containing a list of "key": "value" pairs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--dump-flags", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? DumpFlags { get; set; }
+    [CliOption("--dump-flags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? DumpFlags
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+    }
 
     /// <summary>
-    /// Connection profile resource - ID of the source connection profile, representing the source database. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --region on the command line. At most one of these can be specified: Path to the dump file in Google Cloud Storage, in the format: gs://[BUCKET_NAME]/[OBJECT_NAME].
+    /// At most one of these can be specified: Path to the dump file in Google Cloud Storage, in the format: gs://[BUCKET_NAME]/[OBJECT_NAME].
     /// </summary>
     [CliOption("--dump-path", Format = OptionFormat.EqualsSeparated)]
     public string? DumpPath { get; set; }
 
     /// <summary>
-    /// The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Maximum number of connections Database Migration Service will open to the source for CDC phase.
+    /// Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Maximum number of connections Database Migration Service will open to the source for CDC phase.
     /// </summary>
     [CliOption("--max-concurrent-cdc-connections", Format = OptionFormat.EqualsSeparated)]
     public string? MaxConcurrentCdcConnections { get; set; }
 
     /// <summary>
-    /// The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Maximum number of connections Database Migration Service will open to the source for full dump phase.
+    /// Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Maximum number of connections Database Migration Service will open to the source for full dump phase.
     /// </summary>
     [CliOption("--max-concurrent-full-dump-connections", Format = OptionFormat.EqualsSeparated)]
     public string? MaxConcurrentFullDumpConnections { get; set; }
 
     /// <summary>
-    /// Configuration for Postgres as a destination in a heterogeneous migration. Maximum number of concurrent connections Database Migration Service will open to the destination for data migration.
+    /// Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for Postgres as a destination in a heterogeneous migration. Maximum number of concurrent connections Database Migration Service will open to the destination for data migration.
     /// </summary>
     [CliOption("--max-concurrent-destination-connections", Format = OptionFormat.EqualsSeparated)]
     public string? MaxConcurrentDestinationConnections { get; set; }
 
     /// <summary>
-    /// Configuration for Postgres as a destination in a heterogeneous migration. Timeout for data migration transactions.
+    /// Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Timeout for data migration transactions.
     /// </summary>
     [CliOption("--transaction-timeout", Format = OptionFormat.EqualsSeparated)]
     public int? TransactionTimeout { get; set; }
 
     /// <summary>
-    /// Configuration for Postgres as a destination in a heterogeneous migration. The connectivity method used by the migration job. If a connectivity method isn't specified, then it isn't updated for the migration job. At most one of these can be specified: Name of the VPC network to peer with the Cloud SQL private network.
+    /// Configuration for Oracle or SQL Server as a source in a heterogeneous migration. The connectivity method used by the migration job. If a connectivity method isn't specified, then it isn't updated for the migration job. At most one of these can be specified: Name of the VPC network to peer with the Cloud SQL private network.
     /// </summary>
     [CliOption("--peer-vpc", Format = OptionFormat.EqualsSeparated)]
     public string? PeerVpc { get; set; }
 
     /// <summary>
-    /// Configuration for Postgres as a destination in a heterogeneous migration. The connectivity method used by the migration job. If a connectivity method isn't specified, then it isn't updated for the migration job. At most one of these can be specified: Use the default IP allowlist method. This method creates a public IP that will be used with the destination Cloud SQL database. The method works by configuring the source database server to accept connections from the outgoing IP of the Cloud SQL instance.
+    /// Configuration for Oracle or SQL Server as a source in a heterogeneous migration. The connectivity method used by the migration job. If a connectivity method isn't specified, then it isn't updated for the migration job. At most one of these can be specified: Use the default IP allowlist method. This method creates a public IP that will be used with the destination Cloud SQL database. The method works by configuring the source database server to accept connections from the outgoing IP of the Cloud SQL instance.
     /// </summary>
     [CliFlag("--static-ip")]
     public bool? StaticIp { get; set; }
 
     /// <summary>
-    /// Configuration for Postgres as a destination in a heterogeneous migration. The connectivity method used by the migration job. If a connectivity method isn't specified, then it isn't updated for the migration job. At most one of these can be specified: Or at least one of these can be specified: Parameters for the reverse-SSH tunnel connectivity method. Name of VM that will host the SSH tunnel bastion.
+    /// Configuration for Oracle or SQL Server as a source in a heterogeneous migration. The connectivity method used by the migration job. If a connectivity method isn't specified, then it isn't updated for the migration job. At most one of these can be specified: Or at least one of these can be specified: Parameters for the reverse-SSH tunnel connectivity method. Name of VM that will host the SSH tunnel bastion.
     /// </summary>
     [CliOption("--vm", Format = OptionFormat.EqualsSeparated)]
     public string? Vm { get; set; }
 
     /// <summary>
-    /// Configuration for Postgres as a destination in a heterogeneous migration. The connectivity method used by the migration job. If a connectivity method isn't specified, then it isn't updated for the migration job. At most one of these can be specified: Or at least one of these can be specified: Parameters for the reverse-SSH tunnel connectivity method. Bastion Virtual Machine IP.
+    /// Configuration for Oracle or SQL Server as a source in a heterogeneous migration. The connectivity method used by the migration job. If a connectivity method isn't specified, then it isn't updated for the migration job. At most one of these can be specified: Or at least one of these can be specified: Parameters for the reverse-SSH tunnel connectivity method. Bastion Virtual Machine IP.
     /// </summary>
     [CliOption("--vm-ip", Format = OptionFormat.EqualsSeparated)]
     public string? VmIp { get; set; }
 
     /// <summary>
-    /// Configuration for Postgres as a destination in a heterogeneous migration. The connectivity method used by the migration job. If a connectivity method isn't specified, then it isn't updated for the migration job. At most one of these can be specified: Or at least one of these can be specified: Parameters for the reverse-SSH tunnel connectivity method. Forwarding port for the SSH tunnel.
+    /// Configuration for Oracle or SQL Server as a source in a heterogeneous migration. The connectivity method used by the migration job. If a connectivity method isn't specified, then it isn't updated for the migration job. At most one of these can be specified: Or at least one of these can be specified: Parameters for the reverse-SSH tunnel connectivity method. Forwarding port for the SSH tunnel.
     /// </summary>
     [CliOption("--vm-port", Format = OptionFormat.EqualsSeparated)]
     public string? VmPort { get; set; }
 
     /// <summary>
-    /// Configuration for Postgres as a destination in a heterogeneous migration. The connectivity method used by the migration job. If a connectivity method isn't specified, then it isn't updated for the migration job. At most one of these can be specified: Or at least one of these can be specified: Parameters for the reverse-SSH tunnel connectivity method. Name of the VPC network where the VM is hosted.
+    /// Configuration for Oracle or SQL Server as a source in a heterogeneous migration. The connectivity method used by the migration job. If a connectivity method isn't specified, then it isn't updated for the migration job. At most one of these can be specified: Or at least one of these can be specified: Parameters for the reverse-SSH tunnel connectivity method. Name of the VPC network where the VM is hosted.
     /// </summary>
     [CliOption("--vpc", Format = OptionFormat.EqualsSeparated)]
     public string? Vpc { get; set; }
 
     /// <summary>
-    /// Configuration for Postgres as a destination in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous migration config. This is used only for SQL Server to CloudSQL SQL Server migrations. A list of databases to be migrated to the destination Cloud SQL instance. Provide databases as a comma separated list. This list should contain all encrypted and non-encrypted database names. This flag is used only for SQL Server to Cloud SQL migrations.
+    /// Configuration for Oracle or SQL Server as a source in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous migration config. This is used only for SQL Server to CloudSQL SQL Server migrations. A list of databases to be migrated to the destination Cloud SQL instance. Provide databases as a comma separated list. This list should contain all encrypted and non-encrypted database names. This flag is used only for SQL Server to Cloud SQL migrations. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--sqlserver-databases", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SqlServerDatabases { get; set; }
+    [CliOption("--sqlserver-databases", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? SqlServerDatabases
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SqlServerDatabasesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __SqlServerDatabasesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
-    /// Configuration for Postgres as a destination in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous migration config. This is used only for SQL Server to CloudSQL SQL Server migrations. Enable differential backups. If not specified, differential backups are disabled by default. Use --sqlserver-diff-backup to enable and --no-sqlserver-diff-backup to disable. This flag is used only for homogeneous SQL Server to Cloud SQL for SQL Server migrations.
+    /// Configuration for Oracle or SQL Server as a source in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous migration config. This is used only for SQL Server to CloudSQL SQL Server migrations. Enable differential backups. If not specified, differential backups are disabled by default. Use --sqlserver-diff-backup to enable and --no-sqlserver-diff-backup to disable. This flag is used only for homogeneous SQL Server to Cloud SQL for SQL Server migrations.
     /// </summary>
     [CliFlag("--sqlserver-diff-backup")]
     public bool? SqlServerDiffBackup { get; set; }
 
     /// <summary>
-    /// Negates --sqlserver-diff-backup. Configuration for Postgres as a destination in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous migration config. This is used only for SQL Server to CloudSQL SQL Server migrations. Enable differential backups. If not specified, differential backups are disabled by default. Use --sqlserver-diff-backup to enable and --no-sqlserver-diff-backup to disable. This flag is used only for homogeneous SQL Server to Cloud SQL for SQL Server migrations.
+    /// Negates --sqlserver-diff-backup. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous migration config. This is used only for SQL Server to CloudSQL SQL Server migrations. Enable differential backups. If not specified, differential backups are disabled by default. Use --sqlserver-diff-backup to enable and --no-sqlserver-diff-backup to disable. This flag is used only for homogeneous SQL Server to Cloud SQL for SQL Server migrations.
     /// </summary>
     [CliFlag("--no-sqlserver-diff-backup")]
     public bool? NoSqlServerDiffBackup { get; set; }
 
     /// <summary>
-    /// Configuration for Postgres as a destination in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous migration config. This is used only for SQL Server to CloudSQL SQL Server migrations. A JSON/YAML file describing the encryption settings per database for all encrytped databases. Note: Path to the Certificate (.cer) and Private Key (.pvk) in Cloud Storage, should be in the form of gs://bucketName/fileName. The instance must have write permissions to the bucket and read access to the file. An example of a JSON request: [{ "database": "db1", "encryptionOptions": { "certPath": "Path to certificate 1", "pvkPath": "Path to certificate private key 1", "pvkPassword": "Private key password 1" } }, { "database": "db2", "encryptionOptions": { "certPath": "Path to certificate 2", "pvkPath": "Path to certificate private key 2", "pvkPassword": "Private key password 2" } }] This flag accepts "-" for stdin. This flag is used only for SQL Server to Cloud SQL migrations.
+    /// Configuration for Oracle or SQL Server as a source in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous migration config. This is used only for SQL Server to CloudSQL SQL Server migrations. A JSON/YAML file describing the encryption settings per database for all encrytped databases. Note: Path to the Certificate (.cer) and Private Key (.pvk) in Cloud Storage, should be in the form of gs://bucketName/fileName. The instance must have write permissions to the bucket and read access to the file. An example of a JSON request: [{ "database": "db1", "encryptionOptions": { "certPath": "Path to certificate 1", "pvkPath": "Path to certificate private key 1", "pvkPassword": "Private key password 1" } }, { "database": "db2", "encryptionOptions": { "certPath": "Path to certificate 2", "pvkPath": "Path to certificate private key 2", "pvkPassword": "Private key password 2" } }] This flag accepts "-" for stdin. This flag is used only for SQL Server to Cloud SQL migrations.
     /// </summary>
     [CliOption("--sqlserver-encrypted-databases", Format = OptionFormat.EqualsSeparated)]
     public string? SqlServerEncryptedDatabases { get; set; }
 
     /// <summary>
-    /// Configuration for Postgres as a destination in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous migration config. This is used only for SQL Server to CloudSQL SQL Server migrations. Promote the database when it is ready. Use --sqlserver-promote-when-ready to enable and --no-sqlserver-promote-when-ready to disable. This flag is used only for homogeneous SQL Server to Cloud SQL for SQL Server migrations.
+    /// Configuration for Oracle or SQL Server as a source in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous migration config. This is used only for SQL Server to CloudSQL SQL Server migrations. Promote the database when it is ready. Use --sqlserver-promote-when-ready to enable and --no-sqlserver-promote-when-ready to disable. This flag is used only for homogeneous SQL Server to Cloud SQL for SQL Server migrations.
     /// </summary>
     [CliFlag("--sqlserver-promote-when-ready")]
     public bool? SqlServerPromoteWhenReady { get; set; }
 
     /// <summary>
-    /// Negates --sqlserver-promote-when-ready. Configuration for Postgres as a destination in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous migration config. This is used only for SQL Server to CloudSQL SQL Server migrations. Promote the database when it is ready. Use --sqlserver-promote-when-ready to enable and --no-sqlserver-promote-when-ready to disable. This flag is used only for homogeneous SQL Server to Cloud SQL for SQL Server migrations.
+    /// Negates --sqlserver-promote-when-ready. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous migration config. This is used only for SQL Server to CloudSQL SQL Server migrations. Promote the database when it is ready. Use --sqlserver-promote-when-ready to enable and --no-sqlserver-promote-when-ready to disable. This flag is used only for homogeneous SQL Server to Cloud SQL for SQL Server migrations.
     /// </summary>
     [CliFlag("--no-sqlserver-promote-when-ready")]
     public bool? NoSqlServerPromoteWhenReady { get; set; }
+
+    /// <summary>
+    /// Migration job resource - The migration job to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument migration_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the migration_job or fully qualified identifier for the migration_job. To set the migration_job attribute: ▸ provide the argument migration_job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MigrationJob { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((AllDatabases == true ? 1 : 0) + (((object?)DatabasesFilter is global::System.Collections.Generic.IEnumerable<char> ? (object?)DatabasesFilter is not string || !string.IsNullOrWhiteSpace(DatabasesFilter?.ToString()) : ((object?)DatabasesFilter is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DatabasesFilter, static item => item is not null) : (DatabasesFilter is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DatabasesFilter), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AllDatabases or DatabasesFilter may be specified.", [nameof(AllDatabases), nameof(DatabasesFilter)]);
+        }
+        if ((ClearLabels == true ? 1 : 0) + (((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)RemoveLabels is not string || !string.IsNullOrWhiteSpace(RemoveLabels?.ToString()) : ((object?)RemoveLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RemoveLabels, static item => item is not null) : (RemoveLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RemoveLabels), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((((object?)DumpFlags is global::System.Collections.Generic.IEnumerable<char> ? (object?)DumpFlags is not string || !string.IsNullOrWhiteSpace(DumpFlags?.ToString()) : ((object?)DumpFlags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DumpFlags, static item => item is not null) : (DumpFlags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DumpFlags), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DumpPath) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of DumpFlags or DumpPath may be specified.", [nameof(DumpFlags), nameof(DumpPath)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(PeerVpc) ? 1 : 0) + (StaticIp == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(Vm) || !string.IsNullOrWhiteSpace(VmIp) || !string.IsNullOrWhiteSpace(VmPort) || !string.IsNullOrWhiteSpace(Vpc)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of PeerVpc, StaticIp, or (Vm, VmIp, VmPort, or Vpc) may be specified.", [nameof(PeerVpc), nameof(StaticIp), nameof(Vm), nameof(VmIp), nameof(VmPort), nameof(Vpc)]);
+        }
+        if (((((object?)SqlServerDatabases is global::System.Collections.Generic.IEnumerable<char> ? (object?)SqlServerDatabases is not string || !string.IsNullOrWhiteSpace(SqlServerDatabases?.ToString()) : ((object?)SqlServerDatabases is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SqlServerDatabases, static item => item is not null) : (SqlServerDatabases is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SqlServerDatabases), static item => item is not null)))) || !string.IsNullOrWhiteSpace(SqlServerEncryptedDatabases) || SqlServerDiffBackup == true || NoSqlServerDiffBackup == true || SqlServerPromoteWhenReady == true || NoSqlServerPromoteWhenReady == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of (SqlServerDatabases, SqlServerEncryptedDatabases, SqlServerDiffBackup, NoSqlServerDiffBackup, SqlServerPromoteWhenReady, or NoSqlServerPromoteWhenReady) may be specified.", [nameof(SqlServerDatabases), nameof(SqlServerEncryptedDatabases), nameof(SqlServerDiffBackup), nameof(NoSqlServerDiffBackup), nameof(SqlServerPromoteWhenReady), nameof(NoSqlServerPromoteWhenReady)]);
+        }
+        if ((((object?)SqlServerDatabases is global::System.Collections.Generic.IEnumerable<char> ? (object?)SqlServerDatabases is not string || !string.IsNullOrWhiteSpace(SqlServerDatabases?.ToString()) : ((object?)SqlServerDatabases is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SqlServerDatabases, static item => item is not null) : (SqlServerDatabases is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SqlServerDatabases), static item => item is not null)))) || !string.IsNullOrWhiteSpace(SqlServerEncryptedDatabases) || SqlServerDiffBackup == true || NoSqlServerDiffBackup == true || SqlServerPromoteWhenReady == true || NoSqlServerPromoteWhenReady == true) && (((object?)SqlServerDatabases is global::System.Collections.Generic.IEnumerable<char> ? (object?)SqlServerDatabases is not string || !string.IsNullOrWhiteSpace(SqlServerDatabases?.ToString()) : ((object?)SqlServerDatabases is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SqlServerDatabases, static item => item is not null) : (SqlServerDatabases is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SqlServerDatabases), static item => item is not null)))) || !string.IsNullOrWhiteSpace(SqlServerEncryptedDatabases) || SqlServerDiffBackup == true || NoSqlServerDiffBackup == true || SqlServerPromoteWhenReady == true || NoSqlServerPromoteWhenReady == true) && ((SqlServerDiffBackup == true ? 1 : 0) + (NoSqlServerDiffBackup == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of SqlServerDiffBackup or NoSqlServerDiffBackup may be specified.", [nameof(SqlServerDiffBackup), nameof(NoSqlServerDiffBackup)]);
+        }
+        if ((((object?)SqlServerDatabases is global::System.Collections.Generic.IEnumerable<char> ? (object?)SqlServerDatabases is not string || !string.IsNullOrWhiteSpace(SqlServerDatabases?.ToString()) : ((object?)SqlServerDatabases is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SqlServerDatabases, static item => item is not null) : (SqlServerDatabases is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SqlServerDatabases), static item => item is not null)))) || !string.IsNullOrWhiteSpace(SqlServerEncryptedDatabases) || SqlServerDiffBackup == true || NoSqlServerDiffBackup == true || SqlServerPromoteWhenReady == true || NoSqlServerPromoteWhenReady == true) && (((object?)SqlServerDatabases is global::System.Collections.Generic.IEnumerable<char> ? (object?)SqlServerDatabases is not string || !string.IsNullOrWhiteSpace(SqlServerDatabases?.ToString()) : ((object?)SqlServerDatabases is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SqlServerDatabases, static item => item is not null) : (SqlServerDatabases is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SqlServerDatabases), static item => item is not null)))) || !string.IsNullOrWhiteSpace(SqlServerEncryptedDatabases) || SqlServerDiffBackup == true || NoSqlServerDiffBackup == true || SqlServerPromoteWhenReady == true || NoSqlServerPromoteWhenReady == true) && ((SqlServerPromoteWhenReady == true ? 1 : 0) + (NoSqlServerPromoteWhenReady == true ? 1 : 0) > 1))
+        {
+            yield return new ValidationResult("At most one of SqlServerPromoteWhenReady or NoSqlServerPromoteWhenReady may be specified.", [nameof(SqlServerPromoteWhenReady), nameof(NoSqlServerPromoteWhenReady)]);
+        }
+        yield break;
+    }
 
 }

@@ -22,9 +22,50 @@ namespace ModularPipelines.Google.Options;
 public record GcloudWorkstationsStartOptions : GcloudOptions
 {
     /// <summary>
+    /// start a workstation
+    /// </summary>
+    /// <param name="Workstation">Workstation resource - The group of arguments defining a workstation The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workstation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workstation or fully qualified identifier for the workstation. To set the workstation attribute: ▸ provide the argument workstation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudWorkstationsStartOptions(
+        string Workstation
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Workstation);
+        this.Workstation = Workstation;
+    }
+
+    public void Deconstruct(out string Workstation)
+    {
+        Workstation = this.Workstation;
+    }
+
+    /// <summary>
+    /// Workstation resource - The group of arguments defining a workstation The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workstation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The cluster for the workstation. To set the cluster attribute: ▸ provide the argument workstation on the command line with a fully specified name; ▸ provide the argument --cluster on the command line; ▸ set the property workstations/cluster.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Workstation resource - The group of arguments defining a workstation The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workstation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The config for the workstation. To set the config attribute: ▸ provide the argument workstation on the command line with a fully specified name; ▸ provide the argument --config on the command line; ▸ set the property workstations/config.
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
+
+    /// <summary>
+    /// Workstation resource - The group of arguments defining a workstation The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workstation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The region for the workstation. To set the region attribute: ▸ provide the argument workstation on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property workstations/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Workstation resource - The group of arguments defining a workstation The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workstation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workstation or fully qualified identifier for the workstation. To set the workstation attribute: ▸ provide the argument workstation on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Workstation { get; private init; }
 
 }

@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("billing", "accounts", "get-iam-policy")]
 public record GcloudBillingAccountsGetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// get the IAM policy for a Cloud     Billing account
+    /// </summary>
+    /// <param name="Account">Account resource - The Cloud Billing account for which to display the IAM policy. This represents a Cloud resource. This must be specified. ID of the account or fully qualified identifier for the account. To set the account attribute: ▸ provide the argument account on the command line.</param>
+    public GcloudBillingAccountsGetIamPolicyOptions(
+        string Account
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Account);
+        this.Account = Account;
+    }
+
+    public void Deconstruct(out string Account)
+    {
+        Account = this.Account;
+    }
+
+    /// <summary>
+    /// Account resource - The Cloud Billing account for which to display the IAM policy. This represents a Cloud resource. This must be specified. ID of the account or fully qualified identifier for the account. To set the account attribute: ▸ provide the argument account on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Account { get; private init; }
+
 }

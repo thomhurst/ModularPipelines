@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apihub", "api-hub-instances", "describe")]
 public record GcloudApihubApiHubInstancesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an Api Hub Instance
+    /// </summary>
+    /// <param name="ApiHubInstance">ApiHubInstance resource - The name of the Api Hub instance to retrieve. Format: projects/{project}/locations/{location}/apiHubInstances/{apiHubInstance}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument api_hub_instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the apiHubInstance or fully qualified identifier for the apiHubInstance. To set the api_hub_instance attribute: ▸ provide the argument api_hub_instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubApiHubInstancesDescribeOptions(
+        string ApiHubInstance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ApiHubInstance);
+        this.ApiHubInstance = ApiHubInstance;
+    }
+
+    public void Deconstruct(out string ApiHubInstance)
+    {
+        ApiHubInstance = this.ApiHubInstance;
+    }
+
+    /// <summary>
+    /// ApiHubInstance resource - The name of the Api Hub instance to retrieve. Format: projects/{project}/locations/{location}/apiHubInstances/{apiHubInstance}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument api_hub_instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the apiHubInstance resource. To set the location attribute: ▸ provide the argument api_hub_instance on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// ApiHubInstance resource - The name of the Api Hub instance to retrieve. Format: projects/{project}/locations/{location}/apiHubInstances/{apiHubInstance}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument api_hub_instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the apiHubInstance or fully qualified identifier for the apiHubInstance. To set the api_hub_instance attribute: ▸ provide the argument api_hub_instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ApiHubInstance { get; private init; }
+
 }

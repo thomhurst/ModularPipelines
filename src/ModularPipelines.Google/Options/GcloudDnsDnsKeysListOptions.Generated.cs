@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dns", "dns-keys", "list")]
 public record GcloudDnsDnsKeysListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list DNS key resources
+    /// </summary>
+    /// <param name="Zone">The name of the managed-zone you want to list DNSKEY records for.</param>
+    public GcloudDnsDnsKeysListOptions(
+        string Zone
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+    }
+
+    public void Deconstruct(out string Zone)
+    {
+        Zone = this.Zone;
+    }
+
+    /// <summary>
+    /// The name of the managed-zone you want to list DNSKEY records for.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
 }

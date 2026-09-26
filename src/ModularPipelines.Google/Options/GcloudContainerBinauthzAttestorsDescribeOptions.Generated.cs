@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "binauthz", "attestors", "describe")]
 public record GcloudContainerBinauthzAttestorsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an Attestor
+    /// </summary>
+    /// <param name="Attestor">Attestor resource - The attestor to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ATTESTOR on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the attestor or fully qualified identifier for the attestor. To set the name attribute: ▸ provide the argument ATTESTOR on the command line.</param>
+    public GcloudContainerBinauthzAttestorsDescribeOptions(
+        string Attestor
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Attestor);
+        this.Attestor = Attestor;
+    }
+
+    public void Deconstruct(out string Attestor)
+    {
+        Attestor = this.Attestor;
+    }
+
+    /// <summary>
+    /// Attestor resource - The attestor to describe. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument ATTESTOR on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the attestor or fully qualified identifier for the attestor. To set the name attribute: ▸ provide the argument ATTESTOR on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Attestor { get; private init; }
+
 }

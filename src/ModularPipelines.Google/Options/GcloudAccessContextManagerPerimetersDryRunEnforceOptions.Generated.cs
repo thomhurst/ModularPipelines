@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAccessContextManagerPerimetersDryRunEnforceOptions : GcloudOptions
 {
     /// <summary>
+    /// enforces a     Service Perimeter's dry-run configuration
+    /// </summary>
+    /// <param name="Perimeter">Perimeter resource - The service perimeter to reset. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the perimeter or fully qualified identifier for the perimeter. To set the perimeter attribute: ▸ provide the argument perimeter on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAccessContextManagerPerimetersDryRunEnforceOptions(
+        string Perimeter
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Perimeter);
+        this.Perimeter = Perimeter;
+    }
+
+    public void Deconstruct(out string Perimeter)
+    {
+        Perimeter = this.Perimeter;
+    }
+
+    /// <summary>
+    /// Perimeter resource - The service perimeter to reset. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The ID of the access policy. To set the policy attribute: ▸ provide the argument perimeter on the command line with a fully specified name; ▸ provide the argument --policy on the command line; ▸ set the property access_context_manager/policy.
+    /// </summary>
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
+    public string? Policy { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Perimeter resource - The service perimeter to reset. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the perimeter or fully qualified identifier for the perimeter. To set the perimeter attribute: ▸ provide the argument perimeter on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Perimeter { get; private init; }
 
 }

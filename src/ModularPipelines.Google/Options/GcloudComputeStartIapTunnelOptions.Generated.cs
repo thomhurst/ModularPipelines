@@ -19,10 +19,30 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "start-iap-tunnel")]
-public record GcloudComputeStartIapTunnelOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
-) : GcloudOptions
+public record GcloudComputeStartIapTunnelOptions : GcloudOptions
 {
+    /// <summary>
+    /// starts an IAP TCP forwarding tunnel
+    /// </summary>
+    /// <param name="InstanceName">Name of the instance to operate on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances</param>
+    /// <param name="InstancePort">The name or number of the instance's port to connect to.</param>
+    public GcloudComputeStartIapTunnelOptions(
+        string InstanceName,
+        string InstancePort
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InstanceName);
+        this.InstanceName = InstanceName;
+        global::System.ArgumentNullException.ThrowIfNull(InstancePort);
+        this.InstancePort = InstancePort;
+    }
+
+    public void Deconstruct(out string InstanceName, out string InstancePort)
+    {
+        InstanceName = this.InstanceName;
+        InstancePort = this.InstancePort;
+    }
+
     /// <summary>
     /// Disables the immediate check of the connection.
     /// </summary>
@@ -58,5 +78,17 @@ public record GcloudComputeStartIapTunnelOptions(
     /// </summary>
     [CliOption("--dest-group", Format = OptionFormat.EqualsSeparated)]
     public string? DestGroup { get; set; }
+
+    /// <summary>
+    /// Name of the instance to operate on. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceName { get; private init; }
+
+    /// <summary>
+    /// The name or number of the instance's port to connect to.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstancePort { get; private init; }
 
 }

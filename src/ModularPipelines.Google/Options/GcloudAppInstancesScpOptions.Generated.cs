@@ -22,6 +22,39 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAppInstancesScpOptions : GcloudOptions
 {
     /// <summary>
+    /// SCP from or to the VM of an App Engine Flexible     instance
+    /// </summary>
+    /// <param name="InstanceSrc">Specifies the files to copy.</param>
+    /// <param name="InstanceDest">Specifies a destination for the source files.</param>
+    public GcloudAppInstancesScpOptions(
+        IEnumerable<string> InstanceSrc,
+        string InstanceDest
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstanceSrc);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(InstanceSrc));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstanceSrc));
+            }
+
+            InstanceSrc = materialized;
+        }
+        this.InstanceSrc = InstanceSrc;
+        global::System.ArgumentNullException.ThrowIfNull(InstanceDest);
+        this.InstanceDest = InstanceDest;
+    }
+
+    public void Deconstruct(out IEnumerable<string> InstanceSrc, out string InstanceDest)
+    {
+        InstanceSrc = this.InstanceSrc;
+        InstanceDest = this.InstanceDest;
+    }
+
+    /// <summary>
     /// Enable compression.
     /// </summary>
     [CliFlag("--compress")]
@@ -50,5 +83,17 @@ public record GcloudAppInstancesScpOptions : GcloudOptions
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
+
+    /// <summary>
+    /// Specifies the files to copy.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> InstanceSrc { get; private init; }
+
+    /// <summary>
+    /// Specifies a destination for the source files.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string InstanceDest { get; private init; }
 
 }

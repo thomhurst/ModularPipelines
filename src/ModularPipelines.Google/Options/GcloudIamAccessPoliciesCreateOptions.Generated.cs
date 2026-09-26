@@ -22,6 +22,41 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamAccessPoliciesCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// create AccessPolicy instance
+    /// </summary>
+    /// <param name="AccessPolicy">AccessPolicy resource - Identifier. The resource name of the access policy. The following formats are supported: ◆ projects/{project_id}/locations/{location}/accessPolicies/{policy_id} ◆ projects/{project_number}/locations/{location}/accessPolicies/{policy_id} ◆ folders/{folder_id}/locations/{location}/accessPolicies/{policy_id} ◆ organizations/{organization_id}/locations/{location}/accessPolicies/{policy_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument access_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.accessPolicies, iam.organizations.locations.accessPolicies, iam.projects.locations.accessPolicies]. This must be specified. ID of the accessPolicy or fully qualified identifier for the accessPolicy. To set the access_policy attribute: ▸ provide the argument access_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudIamAccessPoliciesCreateOptions(
+        string AccessPolicy
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AccessPolicy);
+        this.AccessPolicy = AccessPolicy;
+    }
+
+    public void Deconstruct(out string AccessPolicy)
+    {
+        AccessPolicy = this.AccessPolicy;
+    }
+
+    /// <summary>
+    /// AccessPolicy resource - Identifier. The resource name of the access policy. The following formats are supported: ◆ projects/{project_id}/locations/{location}/accessPolicies/{policy_id} ◆ projects/{project_number}/locations/{location}/accessPolicies/{policy_id} ◆ folders/{folder_id}/locations/{location}/accessPolicies/{policy_id} ◆ organizations/{organization_id}/locations/{location}/accessPolicies/{policy_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument access_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.accessPolicies, iam.organizations.locations.accessPolicies, iam.projects.locations.accessPolicies]. This must be specified. The folder id of the accessPolicy resource. To set the folder attribute: ▸ provide the argument access_policy on the command line with a fully specified name; ▸ provide the argument --folder on the command line. Must be specified for resource of type [iam.folders.locations.accessPolicies].
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// AccessPolicy resource - Identifier. The resource name of the access policy. The following formats are supported: ◆ projects/{project_id}/locations/{location}/accessPolicies/{policy_id} ◆ projects/{project_number}/locations/{location}/accessPolicies/{policy_id} ◆ folders/{folder_id}/locations/{location}/accessPolicies/{policy_id} ◆ organizations/{organization_id}/locations/{location}/accessPolicies/{policy_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument access_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.accessPolicies, iam.organizations.locations.accessPolicies, iam.projects.locations.accessPolicies]. This must be specified. The location id of the accessPolicy resource. To set the location attribute: ▸ provide the argument access_policy on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// AccessPolicy resource - Identifier. The resource name of the access policy. The following formats are supported: ◆ projects/{project_id}/locations/{location}/accessPolicies/{policy_id} ◆ projects/{project_number}/locations/{location}/accessPolicies/{policy_id} ◆ folders/{folder_id}/locations/{location}/accessPolicies/{policy_id} ◆ organizations/{organization_id}/locations/{location}/accessPolicies/{policy_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument access_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.accessPolicies, iam.organizations.locations.accessPolicies, iam.projects.locations.accessPolicies]. This must be specified. The organization id of the accessPolicy resource. To set the organization attribute: ▸ provide the argument access_policy on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [iam.organizations.locations.accessPolicies].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
     /// User defined annotations. See https://google.aip.dev/148#annotations for more details such as format and size limitations. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --annotations=string=string JSON Example: --annotations='{"string": "string"}' File Example: --annotations=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
@@ -40,21 +75,27 @@ public record GcloudIamAccessPoliciesCreateOptions : GcloudOptions
     public IEnumerable<string>? DetailsRules { get; set; }
 
     /// <summary>
-    /// Access policy details. The description of the access policy. Must be less than or equal to 63 characters.
+    /// The description of the access policy. Must be less than or equal to 63 characters.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Access policy details. The etag for the access policy. If this is provided on update, it must match the server's etag.
+    /// The etag for the access policy. If this is provided on update, it must match the server's etag.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
 
     /// <summary>
-    /// Access policy details. If set, validate the request and preview the creation, but do not actually post it.
+    /// If set, validate the request and preview the creation, but do not actually post it.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// AccessPolicy resource - Identifier. The resource name of the access policy. The following formats are supported: ◆ projects/{project_id}/locations/{location}/accessPolicies/{policy_id} ◆ projects/{project_number}/locations/{location}/accessPolicies/{policy_id} ◆ folders/{folder_id}/locations/{location}/accessPolicies/{policy_id} ◆ organizations/{organization_id}/locations/{location}/accessPolicies/{policy_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument access_policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations.accessPolicies, iam.organizations.locations.accessPolicies, iam.projects.locations.accessPolicies]. This must be specified. ID of the accessPolicy or fully qualified identifier for the accessPolicy. To set the access_policy attribute: ▸ provide the argument access_policy on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AccessPolicy { get; private init; }
 
 }

@@ -23,15 +23,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudActiveDirectoryDomainsBackupsCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// create a Managed Microsoft     AD domain backup
+    /// </summary>
+    /// <param name="Backup">Backup resource - Name of the Managed Microsoft AD domain backup you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument backup on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudActiveDirectoryDomainsBackupsCreateOptions(
+        string Backup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Backup);
+        this.Backup = Backup;
+    }
+
+    public void Deconstruct(out string Backup)
+    {
+        Backup = this.Backup;
+    }
+
+    /// <summary>
+    /// Backup resource - Name of the Managed Microsoft AD domain backup you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The fully-qualified domain name of the Microsoft Active Directory domain. To set the domain attribute: ▸ provide the argument backup on the command line with a fully specified name; ▸ provide the argument --domain on the command line.
+    /// </summary>
+    [CliOption("--domain", Format = OptionFormat.EqualsSeparated)]
+    public string? Domain { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.
+    /// List of label KEY=VALUE pairs to add. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Backup resource - Name of the Managed Microsoft AD domain backup you want to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument backup on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Backup { get; private init; }
 
 }

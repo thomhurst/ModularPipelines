@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "dns-keys", "describe")]
-public record GcloudDnsDnsKeysDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Key
-) : GcloudOptions
+public record GcloudDnsDnsKeysDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show details about a DNS key resource
+    /// </summary>
+    /// <param name="Zone">The name of the managed-zone the DNSKEY record belongs to</param>
+    /// <param name="KeyId">The DNS key identifier.</param>
+    public GcloudDnsDnsKeysDescribeOptions(
+        string Zone,
+        string KeyId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Zone);
+        this.Zone = Zone;
+        global::System.ArgumentNullException.ThrowIfNull(KeyId);
+        this.KeyId = KeyId;
+    }
+
+    public void Deconstruct(out string Zone, out string KeyId)
+    {
+        Zone = this.Zone;
+        KeyId = this.KeyId;
+    }
+
+    /// <summary>
+    /// The name of the managed-zone the DNSKEY record belongs to
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string Zone { get; private init; }
+
+    /// <summary>
+    /// The DNS key identifier.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string KeyId { get; private init; }
+
 }

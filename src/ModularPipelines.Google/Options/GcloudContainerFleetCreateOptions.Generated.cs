@@ -36,16 +36,16 @@ public record GcloudContainerFleetCreateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Default cluster configurations to apply across the fleet. Binary Authorization config. Configure binary authorization mode for clusters to onboard the fleet, $ gcloud container fleet create \ --binauthz-evaluation-mode=policy-bindings BINAUTHZ_EVALUATION_MODE must be one of: disabled, policy-bindings.
     /// </summary>
     [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
-    public GcloudBinauthzEvaluationMode? BinauthzEvaluationMode { get; set; }
+    public GcloudContainerFleetCreateBinauthzEvaluationMode? BinauthzEvaluationMode { get; set; }
 
     /// <summary>
     /// Default cluster configurations to apply across the fleet. Binary Authorization config. The relative resource name of the Binary Authorization policy to audit and/or enforce. GKE policies have the following format: projects/{project_number}/platforms/gke/policies/{policy_id}.
@@ -57,12 +57,12 @@ public record GcloudContainerFleetCreateOptions : GcloudOptions
     /// Security posture config. To apply standard security posture to clusters in the fleet, $ gcloud container fleet create --security-posture=standard SECURITY_POSTURE must be one of: disabled, standard, enterprise.
     /// </summary>
     [CliOption("--security-posture", Format = OptionFormat.EqualsSeparated)]
-    public GcloudSecurityPosture? SecurityPosture { get; set; }
+    public GcloudContainerFleetCreateSecurityPosture? SecurityPosture { get; set; }
 
     /// <summary>
     /// Security posture config. To apply standard vulnerability scanning to clusters in the fleet, $ gcloud container fleet create \ --workload-vulnerability-scanning=standard WORKLOAD_VULNERABILITY_SCANNING must be one of: disabled, standard, enterprise.
     /// </summary>
     [CliOption("--workload-vulnerability-scanning", Format = OptionFormat.EqualsSeparated)]
-    public GcloudWorkloadVulnerabilityScanning? WorkloadVulnerabilityScanning { get; set; }
+    public GcloudContainerFleetCreateWorkloadVulnerabilityScanning? WorkloadVulnerabilityScanning { get; set; }
 
 }

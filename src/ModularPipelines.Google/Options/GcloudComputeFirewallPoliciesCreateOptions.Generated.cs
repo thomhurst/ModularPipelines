@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,57 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "firewall-policies", "create")]
-public record GcloudComputeFirewallPoliciesCreateOptions : GcloudOptions
+public record GcloudComputeFirewallPoliciesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// create a Compute Engine     organization firewall policy
+    /// </summary>
+    /// <param name="ShortName">A textual name of the firewall policy. The name must be 1-63 characters long, and comply with RFC 1035.</param>
+    public GcloudComputeFirewallPoliciesCreateOptions(
+        string ShortName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ShortName);
+        this.ShortName = ShortName;
+    }
+
+    public void Deconstruct(out string ShortName)
+    {
+        ShortName = this.ShortName;
+    }
+
+    /// <summary>
+    /// A textual name of the firewall policy. The name must be 1-63 characters long, and comply with RFC 1035.
+    /// </summary>
+    [CliOption("--short-name", Format = OptionFormat.EqualsSeparated)]
+    public string ShortName { get; private init; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Folder in which the organization firewall policy is to be created.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization in which the organization firewall policy is to be created.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the organization security policy.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder or Organization must be specified.", [nameof(Folder), nameof(Organization)]);
+        }
+        yield break;
+    }
+
 }

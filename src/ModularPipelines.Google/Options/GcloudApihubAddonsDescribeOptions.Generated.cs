@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apihub", "addons", "describe")]
 public record GcloudApihubAddonsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an Addon
+    /// </summary>
+    /// <param name="Addon">Addon resource - The name of the addon to get. Format: projects/{project}/locations/{location}/addons/{addon}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument addon on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the addon or fully qualified identifier for the addon. To set the addon attribute: ▸ provide the argument addon on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudApihubAddonsDescribeOptions(
+        string Addon
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Addon);
+        this.Addon = Addon;
+    }
+
+    public void Deconstruct(out string Addon)
+    {
+        Addon = this.Addon;
+    }
+
+    /// <summary>
+    /// Addon resource - The name of the addon to get. Format: projects/{project}/locations/{location}/addons/{addon}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument addon on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the addon resource. To set the location attribute: ▸ provide the argument addon on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Addon resource - The name of the addon to get. Format: projects/{project}/locations/{location}/addons/{addon}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument addon on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the addon or fully qualified identifier for the addon. To set the addon attribute: ▸ provide the argument addon on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Addon { get; private init; }
+
 }

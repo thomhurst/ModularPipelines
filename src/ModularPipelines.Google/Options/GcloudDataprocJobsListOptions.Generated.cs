@@ -38,6 +38,6 @@ public record GcloudDataprocJobsListOptions : GcloudOptions
     /// Filter by job state. STATE_FILTER must be one of: active, inactive.
     /// </summary>
     [CliOption("--state-filter", Format = OptionFormat.EqualsSeparated)]
-    public GcloudStateFilter? StateFilter { get; set; }
+    public GcloudDataprocJobsListStateFilter? StateFilter { get; set; }
 
 }

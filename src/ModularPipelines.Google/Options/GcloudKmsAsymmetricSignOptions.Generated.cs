@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,74 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("kms", "asymmetric-sign")]
 public record GcloudKmsAsymmetricSignOptions : GcloudOptions
 {
+    /// <summary>
+    /// sign a user input file using an     asymmetric-signing key version
+    /// </summary>
+    /// <param name="InputFile">Path to the input file to sign.</param>
+    /// <param name="SignatureFile">Path to the signature file to output.</param>
+    public GcloudKmsAsymmetricSignOptions(
+        string InputFile,
+        string SignatureFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(InputFile);
+        this.InputFile = InputFile;
+        global::System.ArgumentNullException.ThrowIfNull(SignatureFile);
+        this.SignatureFile = SignatureFile;
+    }
+
+    public void Deconstruct(out string InputFile, out string SignatureFile)
+    {
+        InputFile = this.InputFile;
+        SignatureFile = this.SignatureFile;
+    }
+
+    /// <summary>
+    /// Path to the input file to sign.
+    /// </summary>
+    [CliOption("--input-file", Format = OptionFormat.EqualsSeparated)]
+    public string InputFile { get; private init; }
+
+    /// <summary>
+    /// Path to the signature file to output.
+    /// </summary>
+    [CliOption("--signature-file", Format = OptionFormat.EqualsSeparated)]
+    public string SignatureFile { get; private init; }
+
+    /// <summary>
+    /// The algorithm to digest the input. DIGEST_ALGORITHM must be one of: external-mu, sha256, sha384, sha512.
+    /// </summary>
+    [CliOption("--digest-algorithm", Format = OptionFormat.EqualsSeparated)]
+    public GcloudKmsAsymmetricSignDigestAlgorithm? DigestAlgorithm { get; set; }
+
+    /// <summary>
+    /// to use for signing.
+    /// </summary>
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
+    public string? Key { get; set; }
+
+    /// <summary>
+    /// Key ring of the key.
+    /// </summary>
+    [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? Keyring { get; set; }
+
+    /// <summary>
+    /// Location of the keyring.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Skip integrity verification on request and response API fields.
+    /// </summary>
+    [CliFlag("--skip-integrity-verification")]
+    public bool? SkipIntegrityVerification { get; set; }
+
+    /// <summary>
+    /// Version to use for signing.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string? Version { get; set; }
+
 }

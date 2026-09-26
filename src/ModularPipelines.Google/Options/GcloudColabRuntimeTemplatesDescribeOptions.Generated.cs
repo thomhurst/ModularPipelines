@@ -21,4 +21,33 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("colab", "runtime-templates", "describe")]
 public record GcloudColabRuntimeTemplatesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a runtime template
+    /// </summary>
+    /// <param name="RuntimeTemplate">Runtime template resource - Unique name of the runtime template to describe. This was optionally provided by setting --runtime-template-id in the create runtime-template command, or was system-generated if unspecified. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the runtime template or fully qualified identifier for the runtime template. To set the name attribute: ▸ provide the argument runtime_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudColabRuntimeTemplatesDescribeOptions(
+        string RuntimeTemplate
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(RuntimeTemplate);
+        this.RuntimeTemplate = RuntimeTemplate;
+    }
+
+    public void Deconstruct(out string RuntimeTemplate)
+    {
+        RuntimeTemplate = this.RuntimeTemplate;
+    }
+
+    /// <summary>
+    /// Runtime template resource - Unique name of the runtime template to describe. This was optionally provided by setting --runtime-template-id in the create runtime-template command, or was system-generated if unspecified. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Cloud region for the runtime template. To set the region attribute: ▸ provide the argument runtime_template on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property colab/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Runtime template resource - Unique name of the runtime template to describe. This was optionally provided by setting --runtime-template-id in the create runtime-template command, or was system-generated if unspecified. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument runtime_template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the runtime template or fully qualified identifier for the runtime template. To set the name attribute: ▸ provide the argument runtime_template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string RuntimeTemplate { get; private init; }
+
 }

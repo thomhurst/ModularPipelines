@@ -21,4 +21,38 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("support", "support-event-subscriptions", "create")]
 public record GcloudSupportSupportEventSubscriptionsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a support event     subscription
+    /// </summary>
+    /// <param name="Organization">Organization ID for the support event subscription.</param>
+    /// <param name="PubSubTopic">The name of the Pub/Sub topic to publish notifications to. Format: projects/{project}/topics/{topic}</param>
+    public GcloudSupportSupportEventSubscriptionsCreateOptions(
+        string Organization,
+        string PubSubTopic
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Organization);
+        this.Organization = Organization;
+        global::System.ArgumentNullException.ThrowIfNull(PubSubTopic);
+        this.PubSubTopic = PubSubTopic;
+    }
+
+    public void Deconstruct(out string Organization, out string PubSubTopic)
+    {
+        Organization = this.Organization;
+        PubSubTopic = this.PubSubTopic;
+    }
+
+    /// <summary>
+    /// Organization ID for the support event subscription.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string Organization { get; private init; }
+
+    /// <summary>
+    /// The name of the Pub/Sub topic to publish notifications to. Format: projects/{project}/topics/{topic}
+    /// </summary>
+    [CliOption("--pub-sub-topic", Format = OptionFormat.EqualsSeparated)]
+    public string PubSubTopic { get; private init; }
+
 }

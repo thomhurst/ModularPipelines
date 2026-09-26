@@ -21,4 +21,50 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("biglake", "iceberg", "catalogs", "failover")]
 public record GcloudBiglakeIcebergCatalogsFailoverOptions : GcloudOptions
 {
+    /// <summary>
+    /// failover a BigLake Iceberg REST     catalog
+    /// </summary>
+    /// <param name="PrimaryReplica">The primary replica region to failover to.</param>
+    /// <param name="Catalog">Catalog resource - The Iceberg Catalog to failover. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▸ provide the argument catalog on the command line.</param>
+    public GcloudBiglakeIcebergCatalogsFailoverOptions(
+        string PrimaryReplica,
+        string Catalog
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PrimaryReplica);
+        this.PrimaryReplica = PrimaryReplica;
+        global::System.ArgumentNullException.ThrowIfNull(Catalog);
+        this.Catalog = Catalog;
+    }
+
+    public void Deconstruct(out string PrimaryReplica, out string Catalog)
+    {
+        PrimaryReplica = this.PrimaryReplica;
+        Catalog = this.Catalog;
+    }
+
+    /// <summary>
+    /// The primary replica region to failover to.
+    /// </summary>
+    [CliOption("--primary-replica", Format = OptionFormat.EqualsSeparated)]
+    public string PrimaryReplica { get; private init; }
+
+    /// <summary>
+    /// If not specified, wait for all data from the source region to replicate to the new primary region before completing the failover, with no data loss. If specified, the failover will be executed immediately, accepting data loss of any data commited after the specified timestamp. This timestamp must be in UTC format, e.g. "2025-10-09T01:13:34.038262Z". See $ gcloud topic datetimes for more information.
+    /// </summary>
+    [CliOption("--conditional-failover-replication-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionalFailoverReplicationTime { get; set; }
+
+    /// <summary>
+    /// If true, the failover will be validated but not executed.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Catalog resource - The Iceberg Catalog to failover. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▸ provide the argument catalog on the command line.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Catalog { get; private init; }
+
 }

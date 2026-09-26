@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "databases", "delete")]
-public record GcloudSqlDatabasesDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Database
-) : GcloudOptions
+public record GcloudSqlDatabasesDeleteOptions : GcloudOptions
 {
+    /// <summary>
+    /// deletes a Cloud SQL database
+    /// </summary>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    /// <param name="Database">Cloud SQL database name.</param>
+    public GcloudSqlDatabasesDeleteOptions(
+        string Instance,
+        string Database
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+    }
+
+    public void Deconstruct(out string Instance, out string Database)
+    {
+        Instance = this.Instance;
+        Database = this.Database;
+    }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string Instance { get; private init; }
+
+    /// <summary>
+    /// Cloud SQL database name.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Database { get; private init; }
+
 }

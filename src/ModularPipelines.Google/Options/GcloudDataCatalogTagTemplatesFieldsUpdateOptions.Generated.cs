@@ -22,15 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataCatalogTagTemplatesFieldsUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// update a Data Catalog tag     template field
+    /// </summary>
+    /// <param name="Field">Tag template field resource - Tag template field to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tag template field or fully qualified identifier for the tag template field. To set the field attribute: ▸ provide the argument field on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDataCatalogTagTemplatesFieldsUpdateOptions(
+        string Field
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Field);
+        this.Field = Field;
+    }
+
+    public void Deconstruct(out string Field)
+    {
+        Field = this.Field;
+    }
+
+    /// <summary>
+    /// Tag template field resource - Tag template field to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location of the tag template field. To set the location attribute: ▸ provide the argument field on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Tag template field resource - Tag template field to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Tag template of the tag template field. To set the tag-template attribute: ▸ provide the argument field on the command line with a fully specified name; ▸ provide the argument --tag-template on the command line.
+    /// </summary>
+    [CliOption("--tag-template", Format = OptionFormat.EqualsSeparated)]
+    public string? TagTemplate { get; set; }
+
+    /// <summary>
     /// Display name of the tag template field.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Comma-separated list of enum values. The list of enum values passed with this flag replaces the existing one in tag template enum field. That means: ◆ the enum values passed to the flag and not present in tag template enum field get created ◆ the enum values present in tag template enum field and missing in the list get removed ◆ the order of the items on the list is preserved Enum values can only be removed from optional enum fields for now.
+    /// Comma-separated list of enum values. The list of enum values passed with this flag replaces the existing one in tag template enum field. That means: ◆ the enum values passed to the flag and not present in tag template enum field get created ◆ the enum values present in tag template enum field and missing in the list get removed ◆ the order of the items on the list is preserved Enum values can only be removed from optional enum fields for now. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--enum-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--enum-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? EnumValues { get; set; }
 
     /// <summary>
@@ -38,5 +67,11 @@ public record GcloudDataCatalogTagTemplatesFieldsUpdateOptions : GcloudOptions
     /// </summary>
     [CliFlag("--required")]
     public bool? Required { get; set; }
+
+    /// <summary>
+    /// Tag template field resource - Tag template field to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument field on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the tag template field or fully qualified identifier for the tag template field. To set the field attribute: ▸ provide the argument field on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Field { get; private init; }
 
 }

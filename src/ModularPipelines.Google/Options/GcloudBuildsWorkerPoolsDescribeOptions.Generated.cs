@@ -19,14 +19,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "worker-pools", "describe")]
-public record GcloudBuildsWorkerPoolsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string WorkerPool
-) : GcloudOptions
+public record GcloudBuildsWorkerPoolsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe a worker pool used by Cloud     Build
+    /// </summary>
+    /// <param name="WorkerPool">The ID of the worker pool to describe.</param>
+    public GcloudBuildsWorkerPoolsDescribeOptions(
+        string WorkerPool
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WorkerPool);
+        this.WorkerPool = WorkerPool;
+    }
+
+    public void Deconstruct(out string WorkerPool)
+    {
+        WorkerPool = this.WorkerPool;
+    }
+
     /// <summary>
     /// The Cloud region where the worker pool is.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// The ID of the worker pool to describe.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string WorkerPool { get; private init; }
 
 }

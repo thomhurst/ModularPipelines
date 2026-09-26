@@ -22,9 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComputeOsConfigPolicyOrchestratorsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a policy     orchestrator
+    /// </summary>
+    /// <param name="PolicyOrchestrator">Policy orchestrator resource - policy orchestrator to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_orchestrator on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [policy_orchestrator_project, policy_orchestrator_folder, policy_orchestrator_organization]. This must be specified. ID of the policy_orchestrator or fully qualified identifier for the policy_orchestrator. To set the policy_orchestrator attribute: ▸ provide the argument policy_orchestrator on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudComputeOsConfigPolicyOrchestratorsDeleteOptions(
+        string PolicyOrchestrator
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PolicyOrchestrator);
+        this.PolicyOrchestrator = PolicyOrchestrator;
+    }
+
+    public void Deconstruct(out string PolicyOrchestrator)
+    {
+        PolicyOrchestrator = this.PolicyOrchestrator;
+    }
+
+    /// <summary>
+    /// Policy orchestrator resource - policy orchestrator to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_orchestrator on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [policy_orchestrator_project, policy_orchestrator_folder, policy_orchestrator_organization]. This must be specified. Folder of the policy_orchestrator. To set the folder attribute: ▸ provide the argument policy_orchestrator on the command line with a fully specified name; ▸ provide the argument --folder on the command line. Must be specified for resource of type [policy_orchestrator_folder].
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Policy orchestrator resource - policy orchestrator to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_orchestrator on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [policy_orchestrator_project, policy_orchestrator_folder, policy_orchestrator_organization]. This must be specified. Organization of the policy_orchestrator. To set the organization attribute: ▸ provide the argument policy_orchestrator on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [policy_orchestrator_organization].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Policy orchestrator resource - policy orchestrator to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument policy_orchestrator on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [policy_orchestrator_project, policy_orchestrator_folder, policy_orchestrator_organization]. This must be specified. ID of the policy_orchestrator or fully qualified identifier for the policy_orchestrator. To set the policy_orchestrator attribute: ▸ provide the argument policy_orchestrator on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyOrchestrator { get; private init; }
 
 }

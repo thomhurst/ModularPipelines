@@ -21,4 +21,27 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "interconnects", "wire-groups", "list")]
 public record GcloudComputeInterconnectsWireGroupsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// list Google Compute Engine     wire groups
+    /// </summary>
+    /// <param name="CrossSiteNetwork">Name of the crossSiteNetwork to operate on.</param>
+    public GcloudComputeInterconnectsWireGroupsListOptions(
+        string CrossSiteNetwork
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(CrossSiteNetwork);
+        this.CrossSiteNetwork = CrossSiteNetwork;
+    }
+
+    public void Deconstruct(out string CrossSiteNetwork)
+    {
+        CrossSiteNetwork = this.CrossSiteNetwork;
+    }
+
+    /// <summary>
+    /// Name of the crossSiteNetwork to operate on.
+    /// </summary>
+    [CliOption("--cross-site-network", Format = OptionFormat.EqualsSeparated)]
+    public string CrossSiteNetwork { get; private init; }
+
 }

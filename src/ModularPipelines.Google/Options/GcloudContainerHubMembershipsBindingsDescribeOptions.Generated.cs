@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "hub", "memberships", "bindings", "describe")]
 public record GcloudContainerHubMembershipsBindingsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// show     Membership-Binding info
+    /// </summary>
+    /// <param name="Binding">Binding resource - The group of arguments defining a Membership Binding. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument BINDING on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the binding or fully qualified identifier for the binding. To set the binding attribute: ▸ provide the argument BINDING on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudContainerHubMembershipsBindingsDescribeOptions(
+        string Binding
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Binding);
+        this.Binding = Binding;
+    }
+
+    public void Deconstruct(out string Binding)
+    {
+        Binding = this.Binding;
+    }
+
+    /// <summary>
+    /// Binding resource - The group of arguments defining a Membership Binding. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument BINDING on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Location for the binding. To set the location attribute: ▸ provide the argument BINDING on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property gkehub/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Binding resource - The group of arguments defining a Membership Binding. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument BINDING on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the binding. To set the membership attribute: ▸ provide the argument BINDING on the command line with a fully specified name; ▸ provide the argument --membership on the command line.
+    /// </summary>
+    [CliOption("--membership", Format = OptionFormat.EqualsSeparated)]
+    public string? Membership { get; set; }
+
+    /// <summary>
+    /// Binding resource - The group of arguments defining a Membership Binding. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument BINDING on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the binding or fully qualified identifier for the binding. To set the binding attribute: ▸ provide the argument BINDING on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Binding { get; private init; }
+
 }

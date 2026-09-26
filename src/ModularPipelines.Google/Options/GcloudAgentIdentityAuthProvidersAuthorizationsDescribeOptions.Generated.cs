@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("agent-identity", "auth-providers", "authorizations", "describe")]
 public record GcloudAgentIdentityAuthProvidersAuthorizationsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an     authorization
+    /// </summary>
+    /// <param name="Authorization">Authorization resource - Name of the resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument authorization on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the authorization or fully qualified identifier for the authorization. To set the authorization attribute: ▸ provide the argument authorization on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudAgentIdentityAuthProvidersAuthorizationsDescribeOptions(
+        string Authorization
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Authorization);
+        this.Authorization = Authorization;
+    }
+
+    public void Deconstruct(out string Authorization)
+    {
+        Authorization = this.Authorization;
+    }
+
+    /// <summary>
+    /// Authorization resource - Name of the resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument authorization on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The authProvider id of the authorization resource. To set the auth-provider attribute: ▸ provide the argument authorization on the command line with a fully specified name; ▸ provide the argument --auth-provider on the command line.
+    /// </summary>
+    [CliOption("--auth-provider", Format = OptionFormat.EqualsSeparated)]
+    public string? AuthProvider { get; set; }
+
+    /// <summary>
+    /// Authorization resource - Name of the resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument authorization on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the authorization resource. To set the location attribute: ▸ provide the argument authorization on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Authorization resource - Name of the resource The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument authorization on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the authorization or fully qualified identifier for the authorization. To set the authorization attribute: ▸ provide the argument authorization on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Authorization { get; private init; }
+
 }

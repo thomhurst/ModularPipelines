@@ -137,6 +137,11 @@ public interface IGcloudCompute
     GcloudComputeImages Images => throw new System.NotSupportedException();
 
     /// <summary>
+    /// gcloud image-views sub-commands.
+    /// </summary>
+    GcloudComputeImageViews ImageViews => throw new System.NotSupportedException();
+
+    /// <summary>
     /// gcloud instance-groups sub-commands.
     /// </summary>
     GcloudComputeInstanceGroups InstanceGroups => throw new System.NotSupportedException();
@@ -448,7 +453,7 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ConnectToSerialPortAsync(GcloudComputeConnectToSerialPortOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ConnectToSerialPortAsync(GcloudComputeConnectToSerialPortOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -458,7 +463,7 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CopyFilesAsync(GcloudComputeCopyFilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> CopyFilesAsync(GcloudComputeCopyFilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -478,7 +483,7 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ScpAsync(GcloudComputeScpOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ScpAsync(GcloudComputeScpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -498,7 +503,7 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SshAsync(GcloudComputeSshOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> SshAsync(GcloudComputeSshOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

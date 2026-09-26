@@ -22,15 +22,44 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDatabaseMigrationMigrationJobsPromoteOptions : GcloudOptions
 {
     /// <summary>
-    /// The migration job objects config. A list of databases to be migrated to the destination instance. Provide databases as a comma separated list. This flag is used only for SQL Server to Cloud SQL SQL Server migrations.
+    /// promote a Database     Migration Service migration job
     /// </summary>
-    [CliOption("--databases-filter", Format = OptionFormat.EqualsSeparated)]
+    /// <param name="MigrationJob">Migration job resource - The migration job to promote. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument migration_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the migration_job or fully qualified identifier for the migration_job. To set the migration_job attribute: ▸ provide the argument migration_job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDatabaseMigrationMigrationJobsPromoteOptions(
+        string MigrationJob
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(MigrationJob);
+        this.MigrationJob = MigrationJob;
+    }
+
+    public void Deconstruct(out string MigrationJob)
+    {
+        MigrationJob = this.MigrationJob;
+    }
+
+    /// <summary>
+    /// Migration job resource - The migration job to promote. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument migration_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the migration_job. To set the region attribute: ▸ provide the argument migration_job on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// The migration job objects config. A list of databases to be migrated to the destination instance. Provide databases as a comma separated list. This flag is used only for SQL Server to Cloud SQL SQL Server migrations. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--databases-filter", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DatabasesFilter { get; set; }
 
     /// <summary>
-    /// The migration job objects config. Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
     /// </summary>
     [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
     public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// Migration job resource - The migration job to promote. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument migration_job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the migration_job or fully qualified identifier for the migration_job. To set the migration_job attribute: ▸ provide the argument migration_job on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string MigrationJob { get; private init; }
 
 }

@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("deploy", "automation-runs", "cancel")]
 public record GcloudDeployAutomationRunsCancelOptions : GcloudOptions
 {
+    /// <summary>
+    /// cancels a Cloud Deploy Automation     Run
+    /// </summary>
+    /// <param name="AutomationRun">Automation run resource - The name of the AutomationRun. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument automation_run on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the automation_run or fully qualified identifier for the automation_run. To set the name attribute: ▸ provide the argument automation_run on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDeployAutomationRunsCancelOptions(
+        string AutomationRun
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(AutomationRun);
+        this.AutomationRun = AutomationRun;
+    }
+
+    public void Deconstruct(out string AutomationRun)
+    {
+        AutomationRun = this.AutomationRun;
+    }
+
+    /// <summary>
+    /// Automation run resource - The name of the AutomationRun. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument automation_run on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The delivery pipeline associated with the automation_run. Alternatively, set the property [deploy/delivery-pipeline]. To set the delivery-pipeline attribute: ▸ provide the argument automation_run on the command line with a fully specified name; ▸ provide the argument --delivery-pipeline on the command line; ▸ set the property deploy/delivery_pipeline.
+    /// </summary>
+    [CliOption("--delivery-pipeline", Format = OptionFormat.EqualsSeparated)]
+    public string? DeliveryPipeline { get; set; }
+
+    /// <summary>
+    /// Automation run resource - The name of the AutomationRun. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument automation_run on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the automation_run. Alternatively, set the property [deploy/region]. To set the region attribute: ▸ provide the argument automation_run on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property deploy/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Automation run resource - The name of the AutomationRun. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument automation_run on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the automation_run or fully qualified identifier for the automation_run. To set the name attribute: ▸ provide the argument automation_run on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string AutomationRun { get; private init; }
+
 }

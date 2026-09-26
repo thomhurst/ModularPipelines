@@ -21,4 +21,44 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("identity", "groups", "memberships", "get-membership-graph")]
 public record GcloudIdentityGroupsMembershipsGetMembershipGraphOptions : GcloudOptions
 {
+    /// <summary>
+    /// get a membership     graph of just a member or both a member and a group
+    /// </summary>
+    /// <param name="Labels">The labels of the groups in the membership graph.</param>
+    /// <param name="MemberEmail">The email address of the member to get the membership graph for.</param>
+    public GcloudIdentityGroupsMembershipsGetMembershipGraphOptions(
+        string Labels,
+        string MemberEmail
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Labels);
+        this.Labels = Labels;
+        global::System.ArgumentNullException.ThrowIfNull(MemberEmail);
+        this.MemberEmail = MemberEmail;
+    }
+
+    public void Deconstruct(out string Labels, out string MemberEmail)
+    {
+        Labels = this.Labels;
+        MemberEmail = this.MemberEmail;
+    }
+
+    /// <summary>
+    /// The labels of the groups in the membership graph.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public string Labels { get; private init; }
+
+    /// <summary>
+    /// The email address of the member to get the membership graph for.
+    /// </summary>
+    [CliOption("--member-email", Format = OptionFormat.EqualsSeparated)]
+    public string MemberEmail { get; private init; }
+
+    /// <summary>
+    /// The email address of the group to constrain the membership graph with.
+    /// </summary>
+    [CliOption("--group-email", Format = OptionFormat.EqualsSeparated)]
+    public string? GroupEmail { get; set; }
+
 }

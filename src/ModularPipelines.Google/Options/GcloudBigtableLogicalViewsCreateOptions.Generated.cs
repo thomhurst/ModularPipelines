@@ -21,4 +21,56 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bigtable", "logical-views", "create")]
 public record GcloudBigtableLogicalViewsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// create a new Bigtable logical view
+    /// </summary>
+    /// <param name="Query">The query of the view.</param>
+    /// <param name="LogicalView">Logical view resource - The logical view to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument logical_view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the logical view or fully qualified identifier for the logical view. To set the name attribute: ▸ provide the argument logical_view on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudBigtableLogicalViewsCreateOptions(
+        string Query,
+        string LogicalView
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Query);
+        this.Query = Query;
+        global::System.ArgumentNullException.ThrowIfNull(LogicalView);
+        this.LogicalView = LogicalView;
+    }
+
+    public void Deconstruct(out string Query, out string LogicalView)
+    {
+        Query = this.Query;
+        LogicalView = this.LogicalView;
+    }
+
+    /// <summary>
+    /// The query of the view.
+    /// </summary>
+    [CliOption("--query", Format = OptionFormat.EqualsSeparated)]
+    public string Query { get; private init; }
+
+    /// <summary>
+    /// Logical view resource - The logical view to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument logical_view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Bigtable instance for the logical view. To set the instance attribute: ▸ provide the argument logical_view on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Whether the view is protected from deletion.
+    /// </summary>
+    [CliOption("--deletion-protection", Format = OptionFormat.EqualsSeparated)]
+    public string? DeletionProtection { get; set; }
+
+    /// <summary>
+    /// Logical view resource - The logical view to create. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument logical_view on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the logical view or fully qualified identifier for the logical view. To set the name attribute: ▸ provide the argument logical_view on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string LogicalView { get; private init; }
+
 }

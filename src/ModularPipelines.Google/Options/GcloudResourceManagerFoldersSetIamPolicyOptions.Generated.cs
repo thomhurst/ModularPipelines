@@ -19,8 +19,40 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "folders", "set-iam-policy")]
-public record GcloudResourceManagerFoldersSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FolderId
-) : GcloudOptions
+public record GcloudResourceManagerFoldersSetIamPolicyOptions : GcloudOptions
 {
+    /// <summary>
+    /// set IAM policy for a     folder
+    /// </summary>
+    /// <param name="FolderId">ID for the folder whose policy you want to set.</param>
+    /// <param name="PolicyFile">JSON or YAML file with the IAM policy.</param>
+    public GcloudResourceManagerFoldersSetIamPolicyOptions(
+        string FolderId,
+        string PolicyFile
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FolderId);
+        this.FolderId = FolderId;
+        global::System.ArgumentNullException.ThrowIfNull(PolicyFile);
+        this.PolicyFile = PolicyFile;
+    }
+
+    public void Deconstruct(out string FolderId, out string PolicyFile)
+    {
+        FolderId = this.FolderId;
+        PolicyFile = this.PolicyFile;
+    }
+
+    /// <summary>
+    /// ID for the folder whose policy you want to set.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string FolderId { get; private init; }
+
+    /// <summary>
+    /// JSON or YAML file with the IAM policy.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PolicyFile { get; private init; }
+
 }

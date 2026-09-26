@@ -19,10 +19,25 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "docker", "images", "describe")]
-public record GcloudArtifactsDockerImagesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
-) : GcloudOptions
+public record GcloudArtifactsDockerImagesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// describe an Artifact Registry     container image
+    /// </summary>
+    /// <param name="Image">A container image. A valid container image has the format of LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE A valid container image that can be referenced by tag or digest, has the format of LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE:tag LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE@sha256:digest</param>
+    public GcloudArtifactsDockerImagesDescribeOptions(
+        string Image
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out string Image)
+    {
+        Image = this.Image;
+    }
+
     /// <summary>
     /// Additional filter to fetch metadata for a given qualified image reference.
     /// </summary>
@@ -70,5 +85,11 @@ public record GcloudArtifactsDockerImagesDescribeOptions(
     /// </summary>
     [CliFlag("--show-sbom-references")]
     public bool? ShowSbomReferences { get; set; }
+
+    /// <summary>
+    /// A container image. A valid container image has the format of LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE A valid container image that can be referenced by tag or digest, has the format of LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE:tag LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE@sha256:digest
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Image { get; private init; }
 
 }

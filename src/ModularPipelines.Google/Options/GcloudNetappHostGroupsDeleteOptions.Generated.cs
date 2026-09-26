@@ -22,9 +22,38 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetappHostGroupsDeleteOptions : GcloudOptions
 {
     /// <summary>
+    /// delete a Cloud NetApp Host Group
+    /// </summary>
+    /// <param name="HostGroup">Host group resource - The Host Group to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument host_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the host_group or fully qualified identifier for the host_group. To set the host_group attribute: ▸ provide the argument host_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudNetappHostGroupsDeleteOptions(
+        string HostGroup
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(HostGroup);
+        this.HostGroup = HostGroup;
+    }
+
+    public void Deconstruct(out string HostGroup)
+    {
+        HostGroup = this.HostGroup;
+    }
+
+    /// <summary>
+    /// Host group resource - The Host Group to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument host_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location of the host_group. To set the location attribute: ▸ provide the argument host_group on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Host group resource - The Host Group to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument host_group on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the host_group or fully qualified identifier for the host_group. To set the host_group attribute: ▸ provide the argument host_group on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string HostGroup { get; private init; }
 
 }

@@ -6,12 +6,12 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -22,20 +22,35 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "patch")]
-public record GcloudSqlInstancesPatchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudSqlInstancesPatchOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// updates the settings of a Cloud SQL instance
+    /// </summary>
+    /// <param name="Instance">Cloud SQL instance ID.</param>
+    public GcloudSqlInstancesPatchOptions(
+        string Instance
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Instance);
+        this.Instance = Instance;
+    }
+
+    public void Deconstruct(out string Instance)
+    {
+        Instance = this.Instance;
+    }
+
     /// <summary>
     /// Activation policy for this instance. This specifies when the instance should be activated and is applicable only when the instance state is RUNNABLE. The default is always. More information on activation policies can be found here: https://cloud.google.com/sql/docs/mysql/start-stop-restart-instance#activation_policy. ACTIVATION_POLICY must be one of: always, never.
     /// </summary>
     [CliOption("--activation-policy", Format = OptionFormat.EqualsSeparated)]
-    public GcloudActivationPolicy? ActivationPolicy { get; set; }
+    public GcloudSqlInstancesPatchActivationPolicy? ActivationPolicy { get; set; }
 
     /// <summary>
-    /// A comma-separated list of the DNS servers to be used for Active Directory. Only available for SQL Server instances. E.g: 10.0.0.1,10.0.0.2
+    /// A comma-separated list of the DNS servers to be used for Active Directory. Only available for SQL Server instances. E.g: 10.0.0.1,10.0.0.2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ActiveDirectoryDnsServers { get; set; }
 
     /// <summary>
@@ -59,7 +74,6 @@ public record GcloudSqlInstancesPatchOptions(
     /// <summary>
     /// The secret manager key storing administrator credentials. Only available for SQL Server instances.
     /// </summary>
-    [SecretValue]
     [CliOption("--active-directory-secret-manager-key", Format = OptionFormat.EqualsSeparated)]
     public string? ActiveDirectorySecretManagerKey { get; set; }
 
@@ -199,7 +213,7 @@ public record GcloudSqlInstancesPatchOptions(
     /// Specifies the edition of Cloud SQL instance. EDITION must be one of: enterprise, enterprise-plus.
     /// </summary>
     [CliOption("--edition", Format = OptionFormat.EqualsSeparated)]
-    public GcloudEdition? Edition { get; set; }
+    public GcloudSqlInstancesPatchEdition? Edition { get; set; }
 
     /// <summary>
     /// Enables auto-upgrade for MySQL 8.0 minor versions. The MySQL version must be 8.0.35 or higher.
@@ -493,7 +507,7 @@ public record GcloudSqlInstancesPatchOptions(
     /// Day of week for maintenance window, in UTC time zone. MAINTENANCE_WINDOW_DAY must be one of: SUN, MON, TUE, WED, THU, FRI, SAT.
     /// </summary>
     [CliOption("--maintenance-window-day", Format = OptionFormat.EqualsSeparated)]
-    public GcloudMaintenanceWindowDay? MaintenanceWindowDay { get; set; }
+    public GcloudSqlInstancesPatchMaintenanceWindowDay? MaintenanceWindowDay { get; set; }
 
     /// <summary>
     /// Hour of day for maintenance window, in UTC time zone.
@@ -522,7 +536,6 @@ public record GcloudSqlInstancesPatchOptions(
     /// <summary>
     /// The complexity of the password. This flag is available only for PostgreSQL. PASSWORD_POLICY_COMPLEXITY must be one of: COMPLEXITY_DEFAULT A combination of lowercase, uppercase, numeric, and non-alphanumeric characters. COMPLEXITY_UNSPECIFIED The default value if COMPLEXITY_DEFAULT is not specified. It implies that complexity check is not enabled.
     /// </summary>
-    [SecretValue]
     [CliOption("--password-policy-complexity", Format = OptionFormat.EqualsSeparated)]
     public string? PasswordPolicyComplexity { get; set; }
 
@@ -541,35 +554,32 @@ public record GcloudSqlInstancesPatchOptions(
     /// <summary>
     /// Minimum number of characters allowed in the password.
     /// </summary>
-    [SecretValue]
     [CliOption("--password-policy-min-length", Format = OptionFormat.EqualsSeparated)]
     public string? PasswordPolicyMinLength { get; set; }
 
     /// <summary>
     /// Minimum interval after which the password can be changed, for example, 2m for 2 minutes. See &lt;a href="/sdk/gcloud/reference/topic/datetimes"&gt; $ gcloud topic datetimes&lt;/a&gt; for information on duration formats. This flag is available only for PostgreSQL.
     /// </summary>
-    [SecretValue]
     [CliOption("--password-policy-password-change-interval", Format = OptionFormat.EqualsSeparated)]
     public string? PasswordPolicyPasswordChangeInterval { get; set; }
 
     /// <summary>
     /// Number of previous passwords that cannot be reused. The valid range is 0 to 100.
     /// </summary>
-    [SecretValue]
     [CliOption("--password-policy-reuse-interval", Format = OptionFormat.EqualsSeparated)]
     public string? PasswordPolicyReuseInterval { get; set; }
 
     /// <summary>
-    /// A comma-separated list of performance capture settings to add to the MySQL instance. The input should be in a format of key=value. Available case-sensitive keys are: enabled (boolean), probing-interval-seconds (integer), probe-threshold (integer), running-threads-threshold (integer), seconds-behind-source-threshold (integer), transaction-duration-threshold (integer), cpu-utilization-threshold-percent (integer), memory-usage-threshold-percent (integer), transaction-lock-wait-threshold-count (integer), semaphore-wait-threshold-count (integer), history-list-length-threshold-count (integer), transaction-kill-threshold-seconds (integer), transaction-kill-type (string), transaction-kill-excluded-user-hosts (string, semicolon-separated list) Example: --performance-capture-config enabled=true,probe-threshold=5, cpu-utilization-threshold-percent=80, transaction-kill-excluded-user-hosts=user1@host1;user2@%, transaction-kill-type=READ_ONLY_TRANSACTIONS
+    /// A comma-separated list of performance capture settings to add to the MySQL instance. The input should be in a format of key=value. Available case-sensitive keys are: enabled (boolean), probing-interval-seconds (integer), probe-threshold (integer), running-threads-threshold (integer), seconds-behind-source-threshold (integer), transaction-duration-threshold (integer), cpu-utilization-threshold-percent (integer), memory-usage-threshold-percent (integer), transaction-lock-wait-threshold-count (integer), semaphore-wait-threshold-count (integer), history-list-length-threshold-count (integer), transaction-kill-threshold-seconds (integer), transaction-kill-type (string), transaction-kill-excluded-user-hosts (string, semicolon-separated list) Example: --performance-capture-config enabled=true,probe-threshold=5, cpu-utilization-threshold-percent=80, transaction-kill-excluded-user-hosts=user1@host1;user2@%, transaction-kill-type=READ_ONLY_TRANSACTIONS Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--performance-capture-config", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--performance-capture-config", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? PerformanceCaptureConfig { get; set; }
 
     /// <summary>
     /// First Generation instances only. The pricing plan for this instance. PRICING_PLAN must be one of: PER_USE, PACKAGE.
     /// </summary>
     [CliOption("--pricing-plan", Format = OptionFormat.EqualsSeparated)]
-    public GcloudPricingPlan? PricingPlan { get; set; }
+    public GcloudSqlInstancesPatchPricingPlan? PricingPlan { get; set; }
 
     /// <summary>
     /// Reconciles the instance's PSA networking configuration. If the instance is already on a PSA network, the DNS zone and records associated with the PSA write endpoint are either added if missing or updated if incorrect.
@@ -599,7 +609,7 @@ public record GcloudSqlInstancesPatchOptions(
     /// Type of replication this instance uses. The default is synchronous. REPLICATION must be one of: synchronous, asynchronous.
     /// </summary>
     [CliOption("--replication", Format = OptionFormat.EqualsSeparated)]
-    public GcloudReplication? Replication { get; set; }
+    public GcloudSqlInstancesPatchReplication? Replication { get; set; }
 
     /// <summary>
     /// mysqld should default to 'REQUIRE X509' for users connecting over IP. Use --require-ssl to enable and --no-require-ssl to disable.
@@ -695,7 +705,7 @@ public record GcloudSqlInstancesPatchOptions(
     /// The storage type for the instance, determined by the selected machine type. STORAGE_TYPE must be one of: SSD, HDD, HYPERDISK_BALANCED.
     /// </summary>
     [CliOption("--storage-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudStorageType? StorageType { get; set; }
+    public GcloudSqlInstancesPatchStorageType? StorageType { get; set; }
 
     /// <summary>
     /// Switches the location of the transaction logs used for PITR from disk to Cloud Storage.
@@ -728,10 +738,32 @@ public record GcloudSqlInstancesPatchOptions(
     public bool? UpgradeSqlNetworkArchitecture { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: A comma-separated list of projects. Each project in this list might be represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be established from specified consumer projects.
+    /// At most one of these can be specified: A comma-separated list of projects. Each project in this list might be represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be established from specified consumer projects. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--allowed-psc-projects", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AllowedPscProjects { get; set; }
+    [CliOption("--allowed-psc-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AllowedPscProjects
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AllowedPscProjectsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AllowedPscProjectsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: This will clear the project allowlist of Private Service Connect, disallowing all projects from creating new Private Service Connect bindings to the instance.
@@ -740,10 +772,32 @@ public record GcloudSqlInstancesPatchOptions(
     public bool? ClearAllowedPscProjects { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: First Generation instances only. List of project IDs for App Engine applications running in the Standard environment that can access this instance. The value given for this argument replaces the existing list.
+    /// At most one of these can be specified: First Generation instances only. List of project IDs for App Engine applications running in the Standard environment that can access this instance. The value given for this argument replaces the existing list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--authorized-gae-apps", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AuthorizedGaeApps { get; set; }
+    [CliOption("--authorized-gae-apps", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AuthorizedGaeApps
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AuthorizedGaeAppsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AuthorizedGaeAppsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Specified to clear the list of App Engine apps that can access this instance.
@@ -752,10 +806,32 @@ public record GcloudSqlInstancesPatchOptions(
     public bool? ClearGaeApps { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: The list of external networks that are allowed to connect to the instance. Specified in CIDR notation, also known as 'slash' notation (e.g. 192.168.100.0/24). The value given for this argument replaces the existing list.
+    /// At most one of these can be specified: The list of external networks that are allowed to connect to the instance. Specified in CIDR notation, also known as 'slash' notation (e.g. 192.168.100.0/24). The value given for this argument replaces the existing list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AuthorizedNetworks { get; set; }
+    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AuthorizedNetworks
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AuthorizedNetworksSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AuthorizedNetworksSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Clear the list of external networks that are allowed to connect to the instance.
@@ -770,10 +846,32 @@ public record GcloudSqlInstancesPatchOptions(
     public bool? ClearConnectionPoolFlags { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Comma-separated list of connection pool flags to set on the instance connection pool. Use an equals sign to separate flag name and value. More information on available flags can be found here: https://cloud.google.com/sql/docs/mysql/managed-connection-pooling#configuration-options for MySQL and https://cloud.google.com/sql/docs/postgres/managed-connection-pooling#configuration-options for PostgreSQL. (e.g., --connection-pool-flags max_pool_size=1000,max_client_connections=20)
+    /// At most one of these can be specified: Comma-separated list of connection pool flags to set on the instance connection pool. Use an equals sign to separate flag name and value. More information on available flags can be found here: https://cloud.google.com/sql/docs/mysql/managed-connection-pooling#configuration-options for MySQL and https://cloud.google.com/sql/docs/postgres/managed-connection-pooling#configuration-options for PostgreSQL. (e.g., --connection-pool-flags max_pool_size=1000,max_client_connections=20) Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--connection-pool-flags", Format = OptionFormat.EqualsSeparated)]
-    public string? ConnectionPoolFlags { get; set; }
+    [CliOption("--connection-pool-flags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? ConnectionPoolFlags
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ConnectionPoolFlagsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __ConnectionPoolFlagsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: This clears the customer specified DNS names.
@@ -782,10 +880,32 @@ public record GcloudSqlInstancesPatchOptions(
     public bool? ClearCustomSubjectAlternativeNames { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: A comma-separated list of DNS names to add to the instance's SSL certificate. A custom SAN is a structured way to add additional DNS names (host names) that are not managed by Cloud SQL to an instance. It allows for hostname verification during establishment of a database connection using the DNS name over SSL/TLS. When you create and/or update an instance, you can add a comma-separated list of up to three DNS names to the server certificate of your instance.
+    /// At most one of these can be specified: A comma-separated list of DNS names to add to the instance's SSL certificate. A custom SAN is a structured way to add additional DNS names (host names) that are not managed by Cloud SQL to an instance. It allows for hostname verification during establishment of a database connection using the DNS name over SSL/TLS. When you create and/or update an instance, you can add a comma-separated list of up to three DNS names to the server certificate of your instance. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--custom-subject-alternative-names", Format = OptionFormat.EqualsSeparated)]
-    public string? CustomSubjectAlternativeNames { get; set; }
+    [CliOption("--custom-subject-alternative-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? CustomSubjectAlternativeNames
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __CustomSubjectAlternativeNamesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __CustomSubjectAlternativeNamesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: Clear the database flags set on the instance. WARNING: Instance will be restarted.
@@ -794,10 +914,32 @@ public record GcloudSqlInstancesPatchOptions(
     public bool? ClearDatabaseFlags { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Comma-separated list of database flags to set on the instance. Use an equals sign to separate flag name and value. Flags without values, like skip_grant_tables, can be written out without a value after, e.g., skip_grant_tables=. Use on/off for booleans. View the Instance Resource API for allowed flags. (e.g., --database-flags max_allowed_packet=55555,skip_grant_tables=,log_output=1)
+    /// At most one of these can be specified: Comma-separated list of database flags to set on the instance. Use an equals sign to separate flag name and value. Flags without values, like skip_grant_tables, can be written out without a value after, e.g., skip_grant_tables=. Use on/off for booleans. View the Instance Resource API for allowed flags. (e.g., --database-flags max_allowed_packet=55555,skip_grant_tables=,log_output=1) Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--database-flags", Format = OptionFormat.EqualsSeparated)]
-    public string? DatabaseFlags { get; set; }
+    [CliOption("--database-flags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? DatabaseFlags
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __DatabaseFlagsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __DatabaseFlagsSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
 
     /// <summary>
     /// At most one of these can be specified: This removes all automatically created connections. Cloud SQL uses these connections to connect to an instance using Private Service Connect.
@@ -836,19 +978,19 @@ public record GcloudSqlInstancesPatchOptions(
     public string? EntraIdTenantId { get; set; }
 
     /// <summary>
-    /// Entraid configuration for the SQL Server instance. At most one of these can be specified: (DEPRECATED) Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.). WARNING: Instance may be restarted. Flag --gce-zone is deprecated and will be removed by release 255.0.0. Use --zone instead.
+    /// At most one of these can be specified: (DEPRECATED) Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.). WARNING: Instance may be restarted. Flag --gce-zone is deprecated and will be removed by release 255.0.0. Use --zone instead.
     /// </summary>
     [CliOption("--gce-zone", Format = OptionFormat.EqualsSeparated)]
     public string? GceZone { get; set; }
 
     /// <summary>
-    /// Entraid configuration for the SQL Server instance. At most one of these can be specified: Or at least one of these can be specified: Preferred secondary Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
+    /// At most one of these can be specified: Or at least one of these can be specified: Preferred secondary Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
     /// </summary>
     [CliOption("--secondary-zone", Format = OptionFormat.EqualsSeparated)]
     public string? SecondaryZone { get; set; }
 
     /// <summary>
-    /// Entraid configuration for the SQL Server instance. At most one of these can be specified: Or at least one of these can be specified: Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.). WARNING: Instance may be restarted.
+    /// At most one of these can be specified: Or at least one of these can be specified: Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.). WARNING: Instance may be restarted.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
@@ -866,75 +1008,135 @@ public record GcloudSqlInstancesPatchOptions(
     public bool? NoAutoScaleDisableScaleIn { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
+    /// Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
     /// </summary>
     [CliFlag("--auto-scale-enabled")]
     public bool? AutoScaleEnabled { get; set; }
 
     /// <summary>
-    /// Negates --auto-scale-enabled. Options for configuring read pool auto scale. Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
+    /// Negates --auto-scale-enabled. Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
     /// </summary>
     [CliFlag("--no-auto-scale-enabled")]
     public bool? NoAutoScaleEnabled { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. The cooldown period for automatic read pool scale-in. Minimum time between scale-in events. Must be an integer value. For example, if the value is 60, then a scale-in event will not be triggered within 60 seconds of the last scale-in event.
+    /// The cooldown period for automatic read pool scale-in. Minimum time between scale-in events. Must be an integer value. For example, if the value is 60, then a scale-in event will not be triggered within 60 seconds of the last scale-in event.
     /// </summary>
     [CliOption("--auto-scale-in-cooldown-seconds", Format = OptionFormat.EqualsSeparated)]
     public int? AutoScaleInCooldownSeconds { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. Maximum number of read pool nodes to be maintained.
+    /// Maximum number of read pool nodes to be maintained.
     /// </summary>
     [CliOption("--auto-scale-max-node-count", Format = OptionFormat.EqualsSeparated)]
     public int? AutoScaleMaxNodeCount { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. Minimum number of read pool nodes to be maintained.
+    /// Minimum number of read pool nodes to be maintained.
     /// </summary>
     [CliOption("--auto-scale-min-node-count", Format = OptionFormat.EqualsSeparated)]
     public int? AutoScaleMinNodeCount { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. The cooldown period for automatic read pool scale-out. Minimum time between scale-out events. Must be an integer value. For example, if the value is 60, then a scale-out event will not be triggered within 60 seconds of the last scale-out event.
+    /// The cooldown period for automatic read pool scale-out. Minimum time between scale-out events. Must be an integer value. For example, if the value is 60, then a scale-out event will not be triggered within 60 seconds of the last scale-out event.
     /// </summary>
     [CliOption("--auto-scale-out-cooldown-seconds", Format = OptionFormat.EqualsSeparated)]
     public int? AutoScaleOutCooldownSeconds { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. Target metrics for read pool auto scaling. Options are: AVERAGE_CPU_UTILIZATION and AVERAGE_DB_CONNECTIONS. Example: --auto-scale-target-metrics=AVERAGE_CPU_UTILIZATION=0.8
+    /// Target metrics for read pool auto scaling. Options are: AVERAGE_CPU_UTILIZATION and AVERAGE_DB_CONNECTIONS. Example: --auto-scale-target-metrics=AVERAGE_CPU_UTILIZATION=0.8 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--auto-scale-target-metrics", Format = OptionFormat.EqualsSeparated)]
-    public string? AutoScaleTargetMetrics { get; set; }
+    [CliOption("--auto-scale-target-metrics", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AutoScaleTargetMetrics { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. At most one of these can be specified: Specified if daily backup should be disabled.
+    /// At most one of these can be specified: Specified if daily backup should be disabled.
     /// </summary>
     [CliFlag("--no-backup")]
     public bool? NoBackup { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. At most one of these can be specified: Or at least one of these can be specified: Choose where to store your backups. Backups are stored in the closest multi-region location to you by default. Only customize if needed. Specify empty string to revert to default.
+    /// At most one of these can be specified: Or at least one of these can be specified: Choose where to store your backups. Backups are stored in the closest multi-region location to you by default. Only customize if needed. Specify empty string to revert to default.
     /// </summary>
     [CliOption("--backup-location", Format = OptionFormat.EqualsSeparated)]
     public string? BackupLocation { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. At most one of these can be specified: Or at least one of these can be specified: Start time of daily backups, specified in the HH:MM format, in the UTC timezone.
+    /// At most one of these can be specified: Or at least one of these can be specified: Start time of daily backups, specified in the HH:MM format, in the UTC timezone.
     /// </summary>
     [CliOption("--backup-start-time", Format = OptionFormat.EqualsSeparated)]
     public string? BackupStartTime { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. At most one of these can be specified: Or at least one of these can be specified: How many backups to keep. The valid range is between 1 and 365. Default value is 7 for Enterprise edition instances. For Enterprise_Plus, default value is 15. Applicable only if --no-backups is not specified.
+    /// At most one of these can be specified: Or at least one of these can be specified: How many backups to keep. The valid range is between 1 and 365. Default value is 7 for Enterprise edition instances. For Enterprise_Plus, default value is 15. Applicable only if --no-backups is not specified.
     /// </summary>
     [CliOption("--retained-backups-count", Format = OptionFormat.EqualsSeparated)]
     public int? RetainedBackupsCount { get; set; }
 
     /// <summary>
-    /// Options for configuring read pool auto scale. At most one of these can be specified: Or at least one of these can be specified: How many days of transaction logs to keep. The valid range is between 1 and 35. Only use this option when point-in-time recovery is enabled. If logs are stored on disk, storage size for transaction logs could increase when the number of days for log retention increases. For Enterprise, default and max retention values are 7 and 7 respectively. For Enterprise_Plus, default and max retention values are 14 and 35.
+    /// At most one of these can be specified: Or at least one of these can be specified: How many days of transaction logs to keep. The valid range is between 1 and 35. Only use this option when point-in-time recovery is enabled. If logs are stored on disk, storage size for transaction logs could increase when the number of days for log retention increases. For Enterprise, default and max retention values are 7 and 7 respectively. For Enterprise_Plus, default and max retention values are 14 and 35.
     /// </summary>
     [CliOption("--retained-transaction-log-days", Format = OptionFormat.EqualsSeparated)]
     public string? RetainedTransactionLogDays { get; set; }
+
+    /// <summary>
+    /// Cloud SQL instance ID.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Instance { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((((object?)AllowedPscProjects is global::System.Collections.Generic.IEnumerable<char> ? (object?)AllowedPscProjects is not string || !string.IsNullOrWhiteSpace(AllowedPscProjects?.ToString()) : ((object?)AllowedPscProjects is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AllowedPscProjects, static item => item is not null) : (AllowedPscProjects is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AllowedPscProjects), static item => item is not null)))) ? 1 : 0) + (ClearAllowedPscProjects == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AllowedPscProjects or ClearAllowedPscProjects may be specified.", [nameof(AllowedPscProjects), nameof(ClearAllowedPscProjects)]);
+        }
+        if ((((object?)AuthorizedGaeApps is global::System.Collections.Generic.IEnumerable<char> ? (object?)AuthorizedGaeApps is not string || !string.IsNullOrWhiteSpace(AuthorizedGaeApps?.ToString()) : ((object?)AuthorizedGaeApps is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AuthorizedGaeApps, static item => item is not null) : (AuthorizedGaeApps is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AuthorizedGaeApps), static item => item is not null)))) ? 1 : 0) + (ClearGaeApps == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AuthorizedGaeApps or ClearGaeApps may be specified.", [nameof(AuthorizedGaeApps), nameof(ClearGaeApps)]);
+        }
+        if ((((object?)AuthorizedNetworks is global::System.Collections.Generic.IEnumerable<char> ? (object?)AuthorizedNetworks is not string || !string.IsNullOrWhiteSpace(AuthorizedNetworks?.ToString()) : ((object?)AuthorizedNetworks is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AuthorizedNetworks, static item => item is not null) : (AuthorizedNetworks is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AuthorizedNetworks), static item => item is not null)))) ? 1 : 0) + (ClearAuthorizedNetworks == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AuthorizedNetworks or ClearAuthorizedNetworks may be specified.", [nameof(AuthorizedNetworks), nameof(ClearAuthorizedNetworks)]);
+        }
+        if ((ClearConnectionPoolFlags == true ? 1 : 0) + (((object?)ConnectionPoolFlags is global::System.Collections.Generic.IEnumerable<char> ? (object?)ConnectionPoolFlags is not string || !string.IsNullOrWhiteSpace(ConnectionPoolFlags?.ToString()) : ((object?)ConnectionPoolFlags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ConnectionPoolFlags, static item => item is not null) : (ConnectionPoolFlags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ConnectionPoolFlags), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearConnectionPoolFlags or ConnectionPoolFlags may be specified.", [nameof(ClearConnectionPoolFlags), nameof(ConnectionPoolFlags)]);
+        }
+        if ((ClearCustomSubjectAlternativeNames == true ? 1 : 0) + (((object?)CustomSubjectAlternativeNames is global::System.Collections.Generic.IEnumerable<char> ? (object?)CustomSubjectAlternativeNames is not string || !string.IsNullOrWhiteSpace(CustomSubjectAlternativeNames?.ToString()) : ((object?)CustomSubjectAlternativeNames is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CustomSubjectAlternativeNames, static item => item is not null) : (CustomSubjectAlternativeNames is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CustomSubjectAlternativeNames), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearCustomSubjectAlternativeNames or CustomSubjectAlternativeNames may be specified.", [nameof(ClearCustomSubjectAlternativeNames), nameof(CustomSubjectAlternativeNames)]);
+        }
+        if ((ClearDatabaseFlags == true ? 1 : 0) + (((object?)DatabaseFlags is global::System.Collections.Generic.IEnumerable<char> ? (object?)DatabaseFlags is not string || !string.IsNullOrWhiteSpace(DatabaseFlags?.ToString()) : ((object?)DatabaseFlags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)DatabaseFlags, static item => item is not null) : (DatabaseFlags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)DatabaseFlags), static item => item is not null)))) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearDatabaseFlags or DatabaseFlags may be specified.", [nameof(ClearDatabaseFlags), nameof(DatabaseFlags)]);
+        }
+        if ((ClearPscAutoConnections == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(PscAutoConnections) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearPscAutoConnections or PscAutoConnections may be specified.", [nameof(ClearPscAutoConnections), nameof(PscAutoConnections)]);
+        }
+        if ((ClearPscNetworkAttachmentUri == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(PscNetworkAttachmentUri) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearPscNetworkAttachmentUri or PscNetworkAttachmentUri may be specified.", [nameof(ClearPscNetworkAttachmentUri), nameof(PscNetworkAttachmentUri)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(EntraIdApplicationId) || !string.IsNullOrWhiteSpace(EntraIdTenantId)) && (!(!string.IsNullOrWhiteSpace(EntraIdApplicationId))))
+        {
+            yield return new ValidationResult("EntraIdApplicationId must be specified when other arguments in this group are specified.", [nameof(EntraIdApplicationId)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(EntraIdApplicationId) || !string.IsNullOrWhiteSpace(EntraIdTenantId)) && (!(!string.IsNullOrWhiteSpace(EntraIdTenantId))))
+        {
+            yield return new ValidationResult("EntraIdTenantId must be specified when other arguments in this group are specified.", [nameof(EntraIdTenantId)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(GceZone) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(SecondaryZone) || !string.IsNullOrWhiteSpace(Zone)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of GceZone or (SecondaryZone or Zone) may be specified.", [nameof(GceZone), nameof(SecondaryZone), nameof(Zone)]);
+        }
+        if ((NoBackup == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(BackupLocation) || !string.IsNullOrWhiteSpace(BackupStartTime) || (object?)RetainedBackupsCount is not null || !string.IsNullOrWhiteSpace(RetainedTransactionLogDays)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of NoBackup or (BackupLocation, BackupStartTime, RetainedBackupsCount, or RetainedTransactionLogDays) may be specified.", [nameof(NoBackup), nameof(BackupLocation), nameof(BackupStartTime), nameof(RetainedBackupsCount), nameof(RetainedTransactionLogDays)]);
+        }
+        yield break;
+    }
 
 }

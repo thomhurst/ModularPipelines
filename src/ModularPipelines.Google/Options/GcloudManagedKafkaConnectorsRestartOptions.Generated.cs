@@ -21,4 +21,39 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("managed-kafka", "connectors", "restart")]
 public record GcloudManagedKafkaConnectorsRestartOptions : GcloudOptions
 {
+    /// <summary>
+    /// restarts a Managed Service for     Apache Kafka connector
+    /// </summary>
+    /// <param name="Connector">Connector resource - Identifies the connector to restart. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connector on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connector or fully qualified identifier for the connector. To set the connector attribute: ▸ provide the argument connector on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudManagedKafkaConnectorsRestartOptions(
+        string Connector
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Connector);
+        this.Connector = Connector;
+    }
+
+    public void Deconstruct(out string Connector)
+    {
+        Connector = this.Connector;
+    }
+
+    /// <summary>
+    /// Connector resource - Identifies the connector to restart. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connector on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The connect cluster name. To set the connect-cluster attribute: ▸ provide the argument connector on the command line with a fully specified name; ▸ provide the argument --connect-cluster on the command line.
+    /// </summary>
+    [CliOption("--connect-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? ConnectCluster { get; set; }
+
+    /// <summary>
+    /// Connector resource - Identifies the connector to restart. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connector on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location of the Managed Service for Apache Kafka resource. See https://cloud.google.com/managed-service-for-apache-kafka/docs/locations for a list of supported locations. To set the location attribute: ▸ provide the argument connector on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Connector resource - Identifies the connector to restart. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument connector on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the connector or fully qualified identifier for the connector. To set the connector attribute: ▸ provide the argument connector on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Connector { get; private init; }
+
 }

@@ -40,6 +40,7 @@ internal partial class Gcloud : IGcloud
         IGcloudApihub apihub,
         IGcloudApp app,
         IGcloudApphub apphub,
+        IGcloudAppTopology appTopology,
         IGcloudArtifacts artifacts,
         IGcloudAsset asset,
         IGcloudAssured assured,
@@ -77,6 +78,7 @@ internal partial class Gcloud : IGcloud
         IGcloudDeploymentManager deploymentManager,
         IGcloudDesignCenter designCenter,
         IGcloudDeveloperConnect developerConnect,
+        IGcloudDeveloperKnowledge developerKnowledge,
         IGcloudDns dns,
         IGcloudDomains domains,
         IGcloudEdgeCache edgeCache,
@@ -174,6 +176,7 @@ internal partial class Gcloud : IGcloud
         Apihub = apihub;
         App = app;
         Apphub = apphub;
+        AppTopology = appTopology;
         Artifacts = artifacts;
         Asset = asset;
         Assured = assured;
@@ -211,6 +214,7 @@ internal partial class Gcloud : IGcloud
         DeploymentManager = deploymentManager;
         DesignCenter = designCenter;
         DeveloperConnect = developerConnect;
+        DeveloperKnowledge = developerKnowledge;
         Dns = dns;
         Domains = domains;
         EdgeCache = edgeCache;
@@ -339,6 +343,9 @@ internal partial class Gcloud : IGcloud
     public IGcloudApphub Apphub { get; }
 
     /// <inheritdoc />
+    public IGcloudAppTopology AppTopology { get; }
+
+    /// <inheritdoc />
     public IGcloudArtifacts Artifacts { get; }
 
     /// <inheritdoc />
@@ -448,6 +455,9 @@ internal partial class Gcloud : IGcloud
 
     /// <inheritdoc />
     public IGcloudDeveloperConnect DeveloperConnect { get; }
+
+    /// <inheritdoc />
+    public IGcloudDeveloperKnowledge DeveloperKnowledge { get; }
 
     /// <inheritdoc />
     public IGcloudDns Dns { get; }

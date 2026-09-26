@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,75 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "applications", "import-iac")]
-public record GcloudDesignCenterSpacesApplicationsImportIacOptions : GcloudOptions
+public record GcloudDesignCenterSpacesApplicationsImportIacOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// import Infrastructure     as Code (IaC) for an Application
+    /// </summary>
+    /// <param name="Application">Application resource - The application to import IaC into IaC. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument APPLICATION on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the application or fully qualified identifier for the application. To set the application attribute: ▸ provide the argument APPLICATION on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    public GcloudDesignCenterSpacesApplicationsImportIacOptions(
+        string Application
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Application);
+        this.Application = Application;
+    }
+
+    public void Deconstruct(out string Application)
+    {
+        Application = this.Application;
+    }
+
+    /// <summary>
+    /// Application resource - The application to import IaC into IaC. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument APPLICATION on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the application. To set the location attribute: ▸ provide the argument APPLICATION on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Application resource - The application to import IaC into IaC. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument APPLICATION on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The ID of the space. To set the space attribute: ▸ provide the argument APPLICATION on the command line with a fully specified name; ▸ provide the argument --space on the command line.
+    /// </summary>
+    [CliOption("--space", Format = OptionFormat.EqualsSeparated)]
+    public string? Space { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The Cloud Storage URI of the Terraform code (e.g., gs://my-bucket/iac).
+    /// </summary>
+    [CliOption("--gcs-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? GcsUri { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a local YAML or JSON file containing the IaC module definition. Use a full or relative path to a local file containing the value of iac_module.
+    /// </summary>
+    [CliOption("--iac-module-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? IacModuleFromFile { get; set; }
+
+    /// <summary>
+    /// If set, partially import valid IaC changes and ignore invalid ones.
+    /// </summary>
+    [CliFlag("--allow-partial-import")]
+    public bool? AllowPartialImport { get; set; }
+
+    /// <summary>
+    /// Validate the IaC without performing the import.
+    /// </summary>
+    [CliFlag("--validate-iac")]
+    public bool? ValidateIac { get; set; }
+
+    /// <summary>
+    /// Application resource - The application to import IaC into IaC. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument APPLICATION on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the application or fully qualified identifier for the application. To set the application attribute: ▸ provide the argument APPLICATION on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Application { get; private init; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(GcsUri) ? 1 : 0) + (!string.IsNullOrWhiteSpace(IacModuleFromFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of GcsUri or IacModuleFromFile must be specified.", [nameof(GcsUri), nameof(IacModuleFromFile)]);
+        }
+        yield break;
+    }
+
 }

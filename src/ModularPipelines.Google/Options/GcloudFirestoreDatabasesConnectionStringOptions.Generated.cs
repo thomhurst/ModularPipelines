@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "databases", "connection-string")]
-public record GcloudFirestoreDatabasesConnectionStringOptions : GcloudOptions
+public record GcloudFirestoreDatabasesConnectionStringOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// prints the mongo connection     string for the given Firestore database
+    /// </summary>
+    /// <param name="Database">The database to operate on. For example, to operate on database foo: $ gcloud firestore databases connection-string --database='foo'</param>
+    public GcloudFirestoreDatabasesConnectionStringOptions(
+        string Database
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Database);
+        this.Database = Database;
+    }
+
+    public void Deconstruct(out string Database)
+    {
+        Database = this.Database;
+    }
+
+    /// <summary>
+    /// The database to operate on. For example, to operate on database foo: $ gcloud firestore databases connection-string --database='foo'
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string Database { get; private init; }
+
+    /// <summary>
+    /// At most one of these can be specified: The auth configuration for the connection string. If connecting from a Google Compute Engine VM, use gce-vm. For short term access using the gcloud CLI's access token, use access-token. For password auth use scram-sha-256. Otherwise, use none and configure auth manually. AUTH must be one of: none, gce-vm, access-token, scram-sha-256.
+    /// </summary>
+    [CliOption("--auth", Format = OptionFormat.EqualsSeparated)]
+    public GcloudFirestoreDatabasesConnectionStringAuth? Auth { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Validate the specified connection string for the current database. This command checks that the connection string is well formed, contains the required parameters, and specifies correct configuration values for the current database.
+    /// </summary>
+    [CliOption("--validate", Format = OptionFormat.EqualsSeparated)]
+    public string? Validate { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (((object?)Auth is not null ? 1 : 0) + (!string.IsNullOrWhiteSpace(Validate) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Auth or Validate may be specified.", [nameof(Auth), nameof(Validate)]);
+        }
+        yield break;
+    }
+
 }
