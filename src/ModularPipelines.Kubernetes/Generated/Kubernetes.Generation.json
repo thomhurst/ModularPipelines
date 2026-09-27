@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "kubectl",
-  "toolVersion": "Client Version: v1.37.0 Kustomize Version: v5.8.1",
+  "toolVersion": "Client Version: v1.37.1 Kustomize Version: v5.8.1",
   "commandTreeSha256": "f55995efa5e41dde54572bc81e38f46e1d9f6e4fe288f44810cfd81e5d642f48",
-  "generatorSourceSha256": "b618ebba785210b052052b4a76870121813d7b3099c74e76c95b99501321ed98"
+  "generatorSourceSha256": "104dc9c13cf5935034567e2a8ad39932b14878b1a44b21553757cdf8d2577431"
 }
