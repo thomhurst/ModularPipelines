@@ -110,7 +110,7 @@ public partial class ExecutionBackendTests
         {
             savedContext = context;
             plannedModule = modules.Single();
-            await Assert.That(() => context.ExecuteModuleAsync(new BackendTestModule(), cancellationToken))
+            await Assert.That(async () => { await context.ExecuteModuleAsync(new BackendTestModule(), cancellationToken); })
                 .Throws<ArgumentException>();
             return [await context.ExecuteModuleAsync(plannedModule, cancellationToken)];
         });
@@ -120,7 +120,7 @@ public partial class ExecutionBackendTests
             .BuildAsync();
 
         await pipeline.RunAsync();
-        await Assert.That(() => savedContext!.ExecuteModuleAsync(plannedModule!))
+        await Assert.That(async () => { await savedContext!.ExecuteModuleAsync(plannedModule!); })
             .Throws<ObjectDisposedException>();
     }
 
@@ -147,7 +147,7 @@ public partial class ExecutionBackendTests
             .ConfigureServices(services => services.AddSingleton<IExecutionBackend>(backend))
             .BuildAsync();
 
-        await Assert.That(() => pipeline.RunAsync(cancellationToken)).Throws<OperationCanceledException>();
+        await Assert.That(async () => { await pipeline.RunAsync(cancellationToken); }).Throws<OperationCanceledException>();
         await Assert.That(requestStarted).IsTrue();
         var dependent = pipeline.Services.GetServices<IModule>().OfType<OrderingDependentModule>().Single();
         await Assert.That(dependent.ExecutionCount).IsEqualTo(0);
@@ -389,7 +389,7 @@ public partial class ExecutionBackendTests
             .ConfigureServices(services => services.AddSingleton<IExecutionBackend>(backend))
             .BuildAsync();
 
-        await Assert.That(() => pipeline.RunAsync(cancellationToken)).Throws<DependencyFailedException>();
+        await Assert.That(async () => { await pipeline.RunAsync(cancellationToken); }).Throws<DependencyFailedException>();
         await Assert.That(dependent.ExecutionCount).IsEqualTo(0);
     }
 

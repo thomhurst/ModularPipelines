@@ -441,7 +441,7 @@ public class SecretValueNormalizationTests
         provider.AddSecrets(provider.GetSecretsInObject(options));
 
         var registeredSecrets = nativeMasker.Invocations
-            .SelectMany(invocation => (IEnumerable<string>) invocation.Arguments[0])
+            .SelectMany(invocation => (IEnumerable<string>?) invocation.Arguments[0] ?? [])
             .ToList();
 
         foreach (var characterSecret in CharacterSecrets)

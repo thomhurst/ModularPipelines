@@ -72,7 +72,7 @@ public class EventHandlerInvokerTests
             LogLevel.Error,
             It.IsAny<EventId>(),
             It.Is<It.IsAnyType>((state, _) =>
-                state.ToString()!.Contains("Start handler FailingHandler failed", StringComparison.Ordinal)),
+                state!.ToString()!.Contains("Start handler FailingHandler failed", StringComparison.Ordinal)),
             It.IsAny<InvalidOperationException>(),
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
     }

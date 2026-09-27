@@ -54,7 +54,7 @@ public class GcloudResourceArgumentTests
     {
         var exception = await Assert.That(() => CreateOptions(optionsType, null!))
             .Throws<TargetInvocationException>();
-        await Assert.That(exception.InnerException).IsTypeOf<ArgumentNullException>();
+        await Assert.That(exception?.InnerException).IsTypeOf<ArgumentNullException>();
     }
 
     private static object CreateOptions(Type optionsType, string resource) =>

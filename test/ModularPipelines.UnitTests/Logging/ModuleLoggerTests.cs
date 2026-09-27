@@ -324,7 +324,7 @@ public class ModuleLoggerTests
             LogLevel.Error,
             It.IsAny<EventId>(),
             It.Is<It.IsAnyType>((state, _) =>
-                state.ToString()!.Contains("buffered output could not be flushed", StringComparison.Ordinal)),
+                state!.ToString()!.Contains("buffered output could not be flushed", StringComparison.Ordinal)),
             It.Is<Exception?>(exception => IsObfuscatedCopyOf(exception, moduleException)),
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
     }
@@ -374,7 +374,7 @@ public class ModuleLoggerTests
             LogLevel.Warning,
             It.IsAny<EventId>(),
             It.Is<It.IsAnyType>((state, _) =>
-                state.ToString()!.Contains("Failed to flush module output", StringComparison.Ordinal)),
+                state!.ToString()!.Contains("Failed to flush module output", StringComparison.Ordinal)),
             providerCancellation,
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
     }
@@ -413,7 +413,7 @@ public class ModuleLoggerTests
             LogLevel.Error,
             It.IsAny<EventId>(),
             It.Is<It.IsAnyType>((state, _) =>
-                state.ToString()!.Contains("buffered output could not be flushed", StringComparison.Ordinal)),
+                state!.ToString()!.Contains("buffered output could not be flushed", StringComparison.Ordinal)),
             It.Is<Exception?>(exception => IsObfuscatedCopyOf(exception, moduleException)),
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
     }

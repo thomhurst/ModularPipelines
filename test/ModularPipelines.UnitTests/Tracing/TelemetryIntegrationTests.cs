@@ -53,7 +53,7 @@ public class TelemetryIntegrationTests
 
     private sealed class CommandModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(
+        protected internal override async Task<CommandResult> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -69,7 +69,7 @@ public class TelemetryIntegrationTests
 
     private sealed class HiddenArgumentsCommandModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(
+        protected internal override async Task<CommandResult> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -88,7 +88,7 @@ public class TelemetryIntegrationTests
 
     private sealed class DefaultLoggingCommandModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(
+        protected internal override async Task<CommandResult> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -103,7 +103,7 @@ public class TelemetryIntegrationTests
 
     private sealed class ManipulatedInputCommandModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(
+        protected internal override async Task<CommandResult> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -123,7 +123,7 @@ public class TelemetryIntegrationTests
 
     private sealed class ThrowingInputManipulatorCommandModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(
+        protected internal override async Task<CommandResult> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -143,7 +143,7 @@ public class TelemetryIntegrationTests
 
     private sealed class InvalidOptionsCommandModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(
+        protected internal override async Task<CommandResult> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {

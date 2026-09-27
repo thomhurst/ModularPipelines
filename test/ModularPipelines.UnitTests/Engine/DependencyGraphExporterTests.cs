@@ -78,20 +78,20 @@ public class DependencyGraphExporterTests
 
     public class SummaryIdentityModuleBase : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>(GetType().Assembly.GetName().Name);
+            Task.FromResult(GetType().Assembly.GetName().Name ?? string.Empty);
     }
 
     private sealed class DependencyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _executions);
-            return Task.FromResult<string?>("dependency");
+            return Task.FromResult<string>("dependency");
         }
     }
 
@@ -156,56 +156,56 @@ public class DependencyGraphExporterTests
 
     private sealed class UnregisteredModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("unregistered");
+            Task.FromResult<string>("unregistered");
     }
 
     [AddRegistrationDependency(typeof(UnregisteredModule))]
     private sealed class InvalidDynamicDependencyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("invalid");
+            Task.FromResult<string>("invalid");
     }
 
     [AddRegistrationDependency(typeof(DependencyModule))]
     private sealed class DynamicDependencyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("dynamic");
+            Task.FromResult<string>("dynamic");
     }
 
     [PlanningCompanion]
     [AddDependencyWhenCompanionPresent(typeof(DependencyModule))]
     private sealed class CompanionAwareDynamicDependencyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("companion-aware");
+            Task.FromResult<string>("companion-aware");
     }
 
     [PlanningPresence]
     private sealed class PresenceDependencyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("presence-dependency");
+            Task.FromResult<string>("presence-dependency");
     }
 
     [DependsOnModulesWithAttribute<PlanningPresenceAttribute>]
     private sealed class AttributePresenceConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("attribute-presence-consumer");
+            Task.FromResult<string>("attribute-presence-consumer");
     }
 
     [AttributeUsage(AttributeTargets.Class)]
@@ -218,10 +218,10 @@ public class DependencyGraphExporterTests
     [StatefulPlanningTarget]
     private sealed class StatefulPlanningTargetModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("stateful-target");
+            Task.FromResult<string>("stateful-target");
     }
 
     [AttributeUsage(AttributeTargets.Class)]
@@ -234,18 +234,18 @@ public class DependencyGraphExporterTests
     [PlanningAttributeValueSelector]
     private sealed class PlanningAttributeValueConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("attribute-value-consumer");
+            Task.FromResult<string>("attribute-value-consumer");
     }
 
     private sealed class OptionalPlanningDependencyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("optional-dependency");
+            Task.FromResult<string>("optional-dependency");
     }
 
     private sealed class OptionalLookupPlanningSkipModule : Module<string>
@@ -259,10 +259,10 @@ public class DependencyGraphExporterTests
                     ? SkipDecision.DoNotSkip
                     : SkipDecision.Skip("Runtime dependency was exposed during planning"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("optional-lookup");
+            Task.FromResult<string>("optional-lookup");
     }
 
     [AttributeUsage(AttributeTargets.Class)]
@@ -281,10 +281,10 @@ public class DependencyGraphExporterTests
     [RuntimeDependencyPredicate]
     private sealed class RuntimePredicateConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("runtime-predicate-consumer");
+            Task.FromResult<string>("runtime-predicate-consumer");
     }
 
     [AttributeUsage(AttributeTargets.Class)]
@@ -298,10 +298,10 @@ public class DependencyGraphExporterTests
     [RuntimeDependencySelector]
     private sealed class RuntimeSelectorConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("runtime-selector-consumer");
+            Task.FromResult<string>("runtime-selector-consumer");
     }
 
     [AttributeUsage(AttributeTargets.Class)]
@@ -316,15 +316,15 @@ public class DependencyGraphExporterTests
     [PlanningSafeDependencySelector]
     private sealed class PlanningSafeSelectorConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("planning-safe-selector-consumer");
+            Task.FromResult<string>("planning-safe-selector-consumer");
     }
 
     private sealed class HistoricalDependencyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("History should satisfy this module.");
@@ -333,7 +333,7 @@ public class DependencyGraphExporterTests
     [ProducesArtifact("graph-output", "graph-output.txt")]
     private sealed class HistoricalArtifactProducerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Graph export must not execute modules.");
@@ -343,7 +343,7 @@ public class DependencyGraphExporterTests
     [ConsumesArtifact(typeof(HistoricalArtifactProducerModule), "graph-output")]
     private sealed class HistoricalArtifactConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Graph export must not execute modules.");
@@ -361,7 +361,7 @@ public class DependencyGraphExporterTests
                 return SkipDecision.DoNotSkip;
             });
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Graph export must not execute modules.");
@@ -375,7 +375,7 @@ public class DependencyGraphExporterTests
         protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => SkipDecision.Skip("consumer is synchronously skipped"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Graph export must not execute modules.");
@@ -384,12 +384,12 @@ public class DependencyGraphExporterTests
     [ModularPipelines.DependsOn<HistoricalDependencyModule>]
     private sealed class HistoricalDependentModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             var dependency = await context.GetModule<HistoricalDependencyModule>();
-            return dependency.ValueOrDefault;
+            return dependency.ValueOrDefault ?? string.Empty;
         }
     }
 
@@ -399,51 +399,51 @@ public class DependencyGraphExporterTests
         protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => SkipDecision.Skip("configured skip"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("invalid-skipped");
+            Task.FromResult<string>("invalid-skipped");
     }
 
     [ModuleCategory("build\r\nrelease")]
     private sealed class LineBreakCategoryModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("line-break");
+            Task.FromResult<string>("line-break");
     }
 
     [ModuleCategory("build\r\n```\r\nrelease")]
     private sealed class MarkdownFenceCategoryModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("markdown-fence");
+            Task.FromResult<string>("markdown-fence");
     }
 
     [ModularPipelines.DependsOnAttribute<DependencyModule>]
     [ModuleCategory(@"build C:\new")]
     private sealed class TargetModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _executions);
-            return Task.FromResult<string?>("target");
+            return Task.FromResult<string>("target");
         }
     }
 
     private sealed class SkippedModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _executions);
-            return Task.FromResult<string?>("skipped");
+            return Task.FromResult<string>("skipped");
         }
     }
 
@@ -456,12 +456,12 @@ public class DependencyGraphExporterTests
     {
         public int Executions { get; private set; }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executions++;
-            return Task.FromResult<string?>("executed");
+            return Task.FromResult<string>("executed");
         }
     }
 
@@ -508,10 +508,10 @@ public class DependencyGraphExporterTests
         protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithCategory("planning");
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("planning-category");
+            Task.FromResult<string>("planning-category");
     }
 
     private sealed class MutableConfigurationStateModule : Module<string>
@@ -532,10 +532,10 @@ public class DependencyGraphExporterTests
             }
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("mutable-state");
+            Task.FromResult<string>("mutable-state");
     }
 
     private sealed class ConfigurationMutationCounter
@@ -656,10 +656,10 @@ public class DependencyGraphExporterTests
                 currentValue is null ? "configured" : currentValue + "-configured");
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult(Environment.GetEnvironmentVariable(EnvironmentVariableName));
+            Task.FromResult(Environment.GetEnvironmentVariable(EnvironmentVariableName) ?? string.Empty);
     }
 
     private sealed class CoreApiConfigurationMutationModule : Module<int>
@@ -705,10 +705,10 @@ public class DependencyGraphExporterTests
                 ? SkipDecision.Skip("first evaluation")
                 : SkipDecision.DoNotSkip;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("static-planning-condition");
+            Task.FromResult<string>("static-planning-condition");
     }
 
     private sealed class ConstructorBoundPlanningConditionModule : Module<string>
@@ -722,10 +722,10 @@ public class DependencyGraphExporterTests
             return SkipDecision.DoNotSkip;
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("constructor-bound-planning-condition");
+            Task.FromResult<string>("constructor-bound-planning-condition");
     }
 
     private sealed class PlanningCallbackConstructorMutationProbe
@@ -781,10 +781,10 @@ public class DependencyGraphExporterTests
                 ? SkipDecision.DoNotSkip
                 : SkipDecision.Skip("runtime state changed"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>(counter.Count.ToString());
+            Task.FromResult<string>(counter.Count.ToString());
     }
 
     private sealed class ConfiguredFallbackFactoryModule(string factoryValue) : Module<string>
@@ -802,10 +802,10 @@ public class DependencyGraphExporterTests
             }
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>(factoryValue);
+            Task.FromResult<string>(factoryValue);
     }
 
     private sealed class FactoryInitializedModule : Module<string>
@@ -820,10 +820,10 @@ public class DependencyGraphExporterTests
             }
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("factory-initialized");
+            Task.FromResult<string>("factory-initialized");
     }
 
     private sealed class FactoryInitializedPlanningCopyModule : Module<string>
@@ -841,10 +841,10 @@ public class DependencyGraphExporterTests
         protected override Module<string> CreatePlanningCopy(IServiceProvider serviceProvider) =>
             new FactoryInitializedPlanningCopyModule { IncludeDependency = IncludeDependency };
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("factory-initialized-planning-copy");
+            Task.FromResult<string>("factory-initialized-planning-copy");
     }
 
     private sealed class SharedMutableFactoryStateModule(List<string> state) : Module<string>
@@ -854,10 +854,10 @@ public class DependencyGraphExporterTests
             state.Add("configured");
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("shared-mutable-state");
+            Task.FromResult<string>("shared-mutable-state");
     }
 
     private readonly record struct StructWrappedState(List<string> Values);
@@ -869,10 +869,10 @@ public class DependencyGraphExporterTests
             state.Values.Add("configured");
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("struct-wrapped-state");
+            Task.FromResult<string>("struct-wrapped-state");
     }
 
     private sealed class OverloadedPlanningCopyModule : Module<string>
@@ -883,23 +883,23 @@ public class DependencyGraphExporterTests
         protected override Module<string> CreatePlanningCopy(IServiceProvider serviceProvider) =>
             new OverloadedPlanningCopyModule();
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("overloaded-planning-copy");
+            Task.FromResult<string>("overloaded-planning-copy");
     }
 
     private sealed class FieldlessStateFactoryModule : Module<string>
     {
         private readonly object _gate = new();
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             lock (_gate)
             {
-                return Task.FromResult<string?>("fieldless-state");
+                return Task.FromResult<string>("fieldless-state");
             }
         }
     }
@@ -936,10 +936,10 @@ public class DependencyGraphExporterTests
             }
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("reference-identity");
+            Task.FromResult<string>("reference-identity");
     }
 
     private sealed class ExternalConfigurationFactoryModule : Module<string>
@@ -952,10 +952,10 @@ public class DependencyGraphExporterTests
             }
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("external-configuration");
+            Task.FromResult<string>("external-configuration");
     }
 
     private sealed class StatefulDirectInterfaceModule : IModule
@@ -1027,10 +1027,10 @@ public class DependencyGraphExporterTests
             }
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("service-backed");
+            Task.FromResult<string>("service-backed");
     }
 
     private class FactorySettingsBase
@@ -1054,10 +1054,10 @@ public class DependencyGraphExporterTests
             }
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("inherited-settings");
+            Task.FromResult<string>("inherited-settings");
     }
 
     private sealed class AliasState
@@ -1076,10 +1076,10 @@ public class DependencyGraphExporterTests
             }
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("alias-topology");
+            Task.FromResult<string>("alias-topology");
     }
 
     private sealed class ArrayShapeFactoryModule(Array state) : Module<string>
@@ -1094,10 +1094,10 @@ public class DependencyGraphExporterTests
             }
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("array-shape");
+            Task.FromResult<string>("array-shape");
     }
 
     private sealed class ComparerBackedFactoryModule(HashSet<string> values) : Module<string>
@@ -1110,10 +1110,10 @@ public class DependencyGraphExporterTests
             }
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("comparer-backed");
+            Task.FromResult<string>("comparer-backed");
     }
 
     private sealed class PrecreatedModuleSettings
@@ -1137,10 +1137,10 @@ public class DependencyGraphExporterTests
                 IncludeDependency = settings.IncludeDependency,
             });
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("precreated");
+            Task.FromResult<string>("precreated");
     }
 
     private sealed class PrecreatedDisposableState : IDisposable
@@ -1153,12 +1153,12 @@ public class DependencyGraphExporterTests
     private sealed class PrecreatedDisposableModule(PrecreatedDisposableState state)
         : Module<string>, IDisposable
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             ObjectDisposedException.ThrowIf(state.IsDisposed, state);
-            return Task.FromResult<string?>("precreated-disposable");
+            return Task.FromResult<string>("precreated-disposable");
         }
 
         public void Dispose() => state.Dispose();
@@ -1174,18 +1174,18 @@ public class DependencyGraphExporterTests
             }
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("capturing-comparer");
+            Task.FromResult<string>("capturing-comparer");
     }
 
     private class FactoryInitializedBaseModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("factory-initialized-base");
+            Task.FromResult<string>("factory-initialized-base");
     }
 
     private sealed class FactoryInitializedDerivedModule : FactoryInitializedBaseModule
@@ -1200,10 +1200,10 @@ public class DependencyGraphExporterTests
             }
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("factory-initialized-derived");
+            Task.FromResult("factory-initialized-derived");
     }
 
     private sealed class ContainerOwnedPlanningModule : Module<string>, IAsyncDisposable
@@ -1217,10 +1217,10 @@ public class DependencyGraphExporterTests
             return ValueTask.CompletedTask;
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("container-owned-planning");
+            Task.FromResult<string>("container-owned-planning");
     }
 
     private sealed class ContainerOwnedPlanningModuleFactory(IServiceProvider serviceProvider)
@@ -1250,10 +1250,10 @@ public class DependencyGraphExporterTests
             }
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("struct-equality");
+            Task.FromResult<string>("struct-equality");
     }
 
     private sealed class ContainerOwnedPlanningState;
@@ -1269,10 +1269,10 @@ public class DependencyGraphExporterTests
     {
         private readonly ContainerOwnedPlanningState _planningState = planningState;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>(_planningState.GetType().Name);
+            Task.FromResult<string>(_planningState.GetType().Name);
     }
 
     private sealed class PlanningFactoryDependency;
@@ -1288,10 +1288,10 @@ public class DependencyGraphExporterTests
             return ValueTask.CompletedTask;
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("container-owned-planning-copy");
+            Task.FromResult<string>("container-owned-planning-copy");
     }
 
     [CountPlanningRegistration]
@@ -1311,10 +1311,10 @@ public class DependencyGraphExporterTests
         protected override Module<string> CreatePlanningCopy(IServiceProvider serviceProvider) =>
             new DisposablePlanningModule();
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("disposable-planning");
+            Task.FromResult<string>("disposable-planning");
     }
 
     private sealed class ThrowingDisposablePlanningModule : Module<string>, IDisposable
@@ -1324,10 +1324,10 @@ public class DependencyGraphExporterTests
 
         public void Dispose() => throw new InvalidOperationException("Planning disposal failed.");
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("throwing-disposable-planning");
+            Task.FromResult<string>("throwing-disposable-planning");
     }
 
     private sealed class ThrowingPlanningScopeService : IDisposable
@@ -1356,10 +1356,10 @@ public class DependencyGraphExporterTests
             }
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("dual-cleanup-failure");
+            Task.FromResult<string>("dual-cleanup-failure");
     }
 
     private sealed class CountPlanningRegistrationAttribute
@@ -1374,10 +1374,10 @@ public class DependencyGraphExporterTests
 
     private sealed class SingletonFactoryModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("singleton-factory");
+            Task.FromResult<string>("singleton-factory");
     }
 
     private sealed class StartupConfiguredModule : Module<string>
@@ -1387,12 +1387,12 @@ public class DependencyGraphExporterTests
                 ? SkipDecision.DoNotSkip
                 : SkipDecision.Skip("startup configuration is not ready"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _executions);
-            return Task.FromResult<string?>("startup-configured");
+            return Task.FromResult<string>("startup-configured");
         }
     }
 
@@ -1406,10 +1406,10 @@ public class DependencyGraphExporterTests
             module.WithSkipWhen(_ => capturedDecision);
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("factory-skip");
+            Task.FromResult<string>("factory-skip");
     }
 
     private sealed class MutableClosureFactorySkipModule(string factoryValue) : Module<string>
@@ -1422,22 +1422,22 @@ public class DependencyGraphExporterTests
                     : SkipDecision.DoNotSkip);
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _executions);
-            return Task.FromResult<string?>(factoryValue);
+            return Task.FromResult<string>(factoryValue);
         }
     }
 
     [CountUnsafeRegistration]
     private sealed class UnsafeRegistrationModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("unsafe-registration");
+            Task.FromResult<string>("unsafe-registration");
     }
 
     private sealed class CountUnsafeRegistrationAttribute
@@ -1458,10 +1458,10 @@ public class DependencyGraphExporterTests
     [CancelPlanningRegistration]
     private sealed class CancelPlanningModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("cancel-planning");
+            Task.FromResult<string>("cancel-planning");
     }
 
     private sealed class CancelPlanningRegistrationAttribute
@@ -1483,12 +1483,12 @@ public class DependencyGraphExporterTests
             module.WithSkipWhen(_ => decisions.Dequeue());
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _executions);
-            return Task.FromResult<string?>(factoryValue);
+            return Task.FromResult<string>(factoryValue);
         }
     }
 
@@ -1509,12 +1509,12 @@ public class DependencyGraphExporterTests
             module.WithSkipWhen(_ => counter.NextDecision());
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _executions);
-            return Task.FromResult<string?>(factoryValue);
+            return Task.FromResult<string>(factoryValue);
         }
     }
 
@@ -1531,10 +1531,10 @@ public class DependencyGraphExporterTests
                     : SkipDecision.DoNotSkip;
             });
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("runtime-bound-factory-skip");
+            Task.FromResult<string>("runtime-bound-factory-skip");
     }
 
     private sealed class RuntimeBoundMethodGroupFactorySkipModule(bool shouldSkip) : Module<string>
@@ -1547,10 +1547,10 @@ public class DependencyGraphExporterTests
             module.WithSkipWhen(target.ShouldSkip);
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("runtime-bound-method-group-factory-skip");
+            Task.FromResult<string>("runtime-bound-method-group-factory-skip");
 
         private sealed class RuntimeBoundSkipTarget(
             RuntimeBoundMethodGroupFactorySkipModule module,
@@ -1576,10 +1576,10 @@ public class DependencyGraphExporterTests
             module.WithSkipWhen(target.ShouldSkip);
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("runtime-bound-collection-factory-skip");
+            Task.FromResult<string>("runtime-bound-collection-factory-skip");
 
         private sealed class RuntimeBoundCollectionSkipTarget(
             IReadOnlyList<IModule> modules,
@@ -1609,10 +1609,10 @@ public class DependencyGraphExporterTests
                     : SkipDecision.DoNotSkip;
             });
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("runtime-bound-async-factory-skip");
+            Task.FromResult<string>("runtime-bound-async-factory-skip");
     }
 
     private sealed class ConfigurationThrowingDisposableFactoryModule : Module<string>, IDisposable
@@ -1634,10 +1634,10 @@ public class DependencyGraphExporterTests
             }
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("configuration-throwing-disposable");
+            Task.FromResult<string>("configuration-throwing-disposable");
     }
 
     [AttributeUsage(AttributeTargets.Class)]
@@ -1670,10 +1670,10 @@ public class DependencyGraphExporterTests
                 ? SkipDecision.Skip("first evaluation")
                 : SkipDecision.Skip("later evaluation");
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>(factoryValue);
+            Task.FromResult<string>(factoryValue);
     }
 
     [AttributeUsage(AttributeTargets.Class)]
@@ -1762,57 +1762,57 @@ public class DependencyGraphExporterTests
     [AsyncPlanningCondition]
     private sealed class AsyncAttributeConditionModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("async-attribute-condition");
+            Task.FromResult<string>("async-attribute-condition");
     }
 
     [CustomGenericCondition<AlwaysSkipCondition>]
     private sealed class CustomGenericAttributeConditionModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("custom-generic-attribute-condition");
+            Task.FromResult<string>("custom-generic-attribute-condition");
     }
 
     [AsyncPlanningCondition]
     [SkipIf<AlwaysSkipCondition>]
     private sealed class SafeSkipWithAsyncAttributeModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("safe-skip-with-async-attribute");
+            Task.FromResult<string>("safe-skip-with-async-attribute");
     }
 
     [SingleUseCondition]
     private sealed class SingleUseConditionModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("single-use");
+            Task.FromResult<string>("single-use");
     }
 
     [DeferredStatefulCondition]
     private sealed class DeferredStatefulConditionModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("deferred-stateful-condition");
+            Task.FromResult<string>("deferred-stateful-condition");
     }
 
     [RunIf<NeverRunCondition>]
     [DeferredAnyCondition]
     private sealed class SafeFalseAnyWithDeferredAnyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("safe-false-any-with-deferred-any");
+            Task.FromResult<string>("safe-false-any-with-deferred-any");
     }
 
     [PlanningAlternativeCondition(false)]
@@ -1820,20 +1820,20 @@ public class DependencyGraphExporterTests
     [DeferredAnyCondition]
     private sealed class SafeFalseAnyGroupWithDeferredAnyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("safe-false-any-group-with-deferred-any");
+            Task.FromResult<string>("safe-false-any-group-with-deferred-any");
     }
 
     [PlanningAlternativeCondition(false)]
     [DeferredPlanningAlternativeCondition]
     private sealed class SafeFalseAnyGroupWithDeferredAlternativeModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("safe-false-any-group-with-deferred-alternative");
+            Task.FromResult<string>("safe-false-any-group-with-deferred-alternative");
     }
 
     private sealed class SingleUseConfigurationFactoryModule : Module<string>
@@ -1846,64 +1846,64 @@ public class DependencyGraphExporterTests
             }
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("single-use-configuration");
+            Task.FromResult<string>("single-use-configuration");
     }
 
     [AddStartupDependency(typeof(DependencyModule))]
     private sealed class StartupDynamicDependencyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("startup-dynamic");
+            Task.FromResult<string>("startup-dynamic");
     }
 
     [RunIf<StartupStateCondition>]
     private sealed class StartupConditionModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _executions);
-            return Task.FromResult<string?>("startup-condition");
+            return Task.FromResult<string>("startup-condition");
         }
     }
 
     [RunIf<NeverRunCondition>]
     private sealed class ConditionSkippedModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _executions);
-            return Task.FromResult<string?>("condition-skipped");
+            return Task.FromResult<string>("condition-skipped");
         }
     }
 
     [ModularPipelines.DependsOn<ConditionSkippedModule>]
     private sealed class DependentOnConditionSkippedModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _executions);
-            return Task.FromResult<string?>("dependent");
+            return Task.FromResult<string>("dependent");
         }
     }
 
     [ModularPipelines.DependsOn<DependentOnConditionSkippedModule>]
     private sealed class DownstreamOfConditionSkippedModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("downstream");
+            Task.FromResult<string>("downstream");
     }
 
     private sealed class ConfiguredSkippedModule : Module<string>
@@ -1911,19 +1911,19 @@ public class DependencyGraphExporterTests
         protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => SkipDecision.Skip("configured skip"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("configured-skipped");
+            Task.FromResult<string>("configured-skipped");
     }
 
     [ModularPipelines.DependsOn<ConfiguredSkippedModule>]
     private sealed class DependentOnConfiguredSkippedModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("dependent");
+            Task.FromResult<string>("dependent");
     }
 
     [ModularPipelines.DependsOn<DependencyModule>]
@@ -1936,10 +1936,10 @@ public class DependencyGraphExporterTests
                 return SkipDecision.DoNotSkip;
             });
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("result-dependent");
+            Task.FromResult<string>("result-dependent");
     }
 
     private sealed class AsyncConfiguredSkipModule : Module<string>
@@ -1952,10 +1952,10 @@ public class DependencyGraphExporterTests
                 return SkipDecision.DoNotSkip;
             });
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("async-configured");
+            Task.FromResult<string>("async-configured");
     }
 
     private sealed class SynchronouslySkippedBeforeAsyncModule : Module<string>
@@ -1969,10 +1969,10 @@ public class DependencyGraphExporterTests
                 return SkipDecision.DoNotSkip;
             });
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("mixed-configured");
+            Task.FromResult<string>("mixed-configured");
     }
 
     private sealed class SynchronouslySkippedAfterAsyncModule : Module<string>
@@ -1986,28 +1986,28 @@ public class DependencyGraphExporterTests
             })
             .WithSkipWhen(_ => SkipDecision.Skip("synchronous short circuit"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("mixed-configured");
+            Task.FromResult<string>("mixed-configured");
     }
 
     [ModularPipelines.DependsOn<SynchronouslySkippedBeforeAsyncModule>]
     private sealed class DependentOnSynchronouslySkippedBeforeAsyncModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("dependent");
+            Task.FromResult<string>("dependent");
     }
 
     [ModularPipelines.DependsOn<ResultDependentConfiguredSkipModule>]
     private sealed class DependentOnUnresolvedSkipModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("dependent");
+            Task.FromResult<string>("dependent");
     }
 
     private sealed class FixedEstimatedTimeProvider : IModuleEstimatedTimeProvider
@@ -2395,10 +2395,10 @@ public class DependencyGraphExporterTests
             }
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("external-helper-configuration");
+            Task.FromResult<string>("external-helper-configuration");
     }
 
     [Test]

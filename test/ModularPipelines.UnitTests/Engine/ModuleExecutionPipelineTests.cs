@@ -151,7 +151,7 @@ public class ModuleExecutionPipelineTests
         logger.Verify(x => x.Log(
             LogLevel.Warning,
             It.IsAny<EventId>(),
-            It.Is<It.IsAnyType>((state, _) => state.ToString()!
+            It.Is<It.IsAnyType>((state, _) => state!.ToString()!
                 .Contains("did not complete within the cancellation grace period", StringComparison.Ordinal)),
             null,
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
@@ -317,13 +317,13 @@ public class ModuleExecutionPipelineTests
         logger.Verify(x => x.Log(
             LogLevel.Trace,
             It.IsAny<EventId>(),
-            It.Is<It.IsAnyType>((state, _) => state.ToString()!.StartsWith("No module timeout configured.")),
+            It.Is<It.IsAnyType>((state, _) => state!.ToString()!.StartsWith("No module timeout configured.")),
             null,
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
         logger.Verify(x => x.Log(
             LogLevel.Debug,
             It.IsAny<EventId>(),
-            It.Is<It.IsAnyType>((state, _) => state.ToString()!.StartsWith("No module timeout configured.")),
+            It.Is<It.IsAnyType>((state, _) => state!.ToString()!.StartsWith("No module timeout configured.")),
             null,
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Never);
     }
@@ -382,7 +382,7 @@ public class ModuleExecutionPipelineTests
         logger.Verify(x => x.Log(
             LogLevel.Information,
             It.IsAny<EventId>(),
-            It.Is<It.IsAnyType>((state, _) => state.ToString() == expectedMessage),
+            It.Is<It.IsAnyType>((state, _) => state!.ToString() == expectedMessage),
             null,
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
         logger.Verify(x => x.SetStatus(ModuleStatus.Skipped), Times.Once);

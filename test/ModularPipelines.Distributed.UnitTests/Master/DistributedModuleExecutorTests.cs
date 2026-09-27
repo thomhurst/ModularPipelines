@@ -1866,7 +1866,7 @@ public class DistributedModuleExecutorTests
                 logger => logger.Log(
                     LogLevel.Warning,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((state, _) => state.ToString()!.Contains("No files matched pattern")),
+                    It.Is<It.IsAnyType>((state, _) => state!.ToString()!.Contains("No files matched pattern")),
                     null,
                     It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
                 Times.Once);
@@ -1959,7 +1959,7 @@ public class DistributedModuleExecutorTests
                 logger => logger.Log(
                     LogLevel.Error,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((state, _) => state.ToString()!.Contains("Failed to upload artifacts for")),
+                    It.Is<It.IsAnyType>((state, _) => state!.ToString()!.Contains("Failed to upload artifacts for")),
                     It.IsAny<Exception>(),
                     It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
                 Times.Once);
@@ -1967,7 +1967,7 @@ public class DistributedModuleExecutorTests
                 logger => logger.Log(
                     It.IsAny<LogLevel>(),
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((state, _) => state.ToString()!.Contains("Failed to upload artifacts for")),
+                    It.Is<It.IsAnyType>((state, _) => state!.ToString()!.Contains("Failed to upload artifacts for")),
                     It.IsAny<Exception>(),
                     It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
                 Times.Never);

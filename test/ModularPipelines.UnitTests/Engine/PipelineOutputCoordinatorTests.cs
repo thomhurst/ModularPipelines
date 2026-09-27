@@ -211,7 +211,7 @@ public class PipelineOutputCoordinatorTests
 
     [Test]
     [Timeout(30_000)]
-    public async Task RunningScope_PeriodicallyFlushesInProgressOutput()
+    public async Task RunningScope_PeriodicallyFlushesInProgressOutput(CancellationToken cancellationToken)
     {
         for (var iteration = 0; iteration < 25; iteration++)
         {
@@ -255,7 +255,7 @@ public class PipelineOutputCoordinatorTests
 
             var scope = await coordinator.InitializeAsync();
             timeProvider.Advance(TimeSpan.FromSeconds(1));
-            await flushObserved.Task;
+            await flushObserved.Task.WaitAsync(cancellationToken);
             await scope.DisposeAsync();
 
             consoleCoordinator.Verify(

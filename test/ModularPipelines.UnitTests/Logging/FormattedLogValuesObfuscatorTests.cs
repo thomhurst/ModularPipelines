@@ -95,7 +95,7 @@ public class FormattedLogValuesObfuscatorTests
             .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
             .Returns((string? value, object? _) => (value ?? string.Empty).Replace(secret, "********", StringComparison.Ordinal));
 
-        var obfuscatedState = new FormattedLogValuesObfuscator(secretObfuscator.Object).TryObfuscateValues(state);
+        var obfuscatedState = new FormattedLogValuesObfuscator(secretObfuscator.Object).TryObfuscateValues(state!);
         var properties = ((IReadOnlyList<KeyValuePair<string, object?>>) obfuscatedState)
             .ToDictionary(x => x.Key, x => x.Value);
 
@@ -122,7 +122,7 @@ public class FormattedLogValuesObfuscatorTests
             .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
             .Returns((string? value, object? _) => value == "secret" ? "********" : value ?? string.Empty);
 
-        var obfuscatedState = new FormattedLogValuesObfuscator(secretObfuscator.Object).TryObfuscateValues(state);
+        var obfuscatedState = new FormattedLogValuesObfuscator(secretObfuscator.Object).TryObfuscateValues(state!);
         var properties = ((IReadOnlyList<KeyValuePair<string, object?>>) obfuscatedState)
             .ToDictionary(x => x.Key, x => x.Value);
 
@@ -146,7 +146,7 @@ public class FormattedLogValuesObfuscatorTests
             .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
             .Returns((string? value, object? _) => value == secret.ToString() ? "********" : value ?? string.Empty);
 
-        var obfuscatedState = new FormattedLogValuesObfuscator(secretObfuscator.Object).TryObfuscateValues(state);
+        var obfuscatedState = new FormattedLogValuesObfuscator(secretObfuscator.Object).TryObfuscateValues(state!);
         var properties = ((IReadOnlyList<KeyValuePair<string, object?>>) obfuscatedState)
             .ToDictionary(x => x.Key, x => x.Value);
 
