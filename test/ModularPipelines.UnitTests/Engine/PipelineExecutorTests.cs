@@ -3,6 +3,7 @@ using ModularPipelines.Distributed;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Enums;
+using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -104,7 +105,7 @@ public class PipelineExecutorTests
             ownsEntirePlan: false,
             backendResults: [claimedResult],
             executionBackendContext: context.Object,
-            summaryFactory: summaryFactory,
+            summaryFactory: summaryFactory.Object,
             metricsCollector: metrics);
 
         await executor.ExecuteAsync(
@@ -121,6 +122,61 @@ public class PipelineExecutorTests
             await Assert.That(summarizedModules![0]).IsSameReferenceAs(claimed);
             await Assert.That(timeline.Status).IsEqualTo(ModuleStatus.Succeeded);
             await Assert.That(timeline.ExecutionDuration).IsEqualTo(TimeSpan.FromSeconds(2));
+        }
+    }
+
+    [Test]
+    public async Task Partial_Backend_Summary_Metrics_Cover_Only_Reported_Modules_Including_Rejected_Claims()
+    {
+        var claimed = new UnexecutedModule();
+        var unclaimed = new OtherUnexecutedModule();
+        ModuleResult<string> rejectedClaim = new ModuleResult<string>.Failure(
+            new InvalidOperationException("Schema mismatch."))
+        {
+            Name = claimed.GetType().Name,
+            TypeName = claimed.GetType().FullName,
+            StartTime = default,
+            EndTime = default,
+            Duration = TimeSpan.Zero,
+            Status = ModuleStatus.Failed,
+        };
+        ModuleCompletionSourceApplicator.TryApply(claimed, rejectedClaim);
+        var metrics = new MetricsCollector();
+        metrics.RecordModuleInitialized(typeof(OtherUnexecutedModule), ModulePriority.Normal, ExecutionHint.Default);
+        var parallelLimitProvider = new Mock<IParallelLimitProvider>();
+        parallelLimitProvider.Setup(x => x.GetMaxDegreeOfParallelism()).Returns(1);
+        var context = new Mock<IExecutionBackendContext>();
+        context
+            .Setup(x => x.TryApplyResult(It.IsAny<IModule>(), It.IsAny<IModuleResult>()))
+            .Returns(false);
+        var executor = CreateExecutor(
+            Mock.Of<ISecondaryExceptionContainer>(),
+            Mock.Of<IExceptionRethrowService>(),
+            new PipelineOptions { FailureMode = FailureMode.ContinueOnFailure, ThrowOnPipelineFailure = false },
+            ownsEntirePlan: false,
+            backendResults: [rejectedClaim],
+            executionBackendContext: context.Object,
+            summaryFactory: new PipelineSummaryFactory(
+                new ModuleResultRegistry(),
+                metrics,
+                parallelLimitProvider.Object),
+            metricsCollector: metrics);
+
+        var summary = await executor.ExecuteAsync(
+            [claimed, unclaimed],
+            new OrganizedModules(
+                [new RunnableModule(claimed, TimeSpan.Zero), new RunnableModule(unclaimed, TimeSpan.Zero)],
+                []));
+
+        var timeline = summary.ModuleTimelines!.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(summary.Metrics!.TotalModules).IsEqualTo(1);
+            await Assert.That(summary.Metrics.FailedModules).IsEqualTo(1);
+            await Assert.That(summary.Metrics.PendingModules).IsEqualTo(0);
+            await Assert.That(timeline.ModuleName).IsEqualTo(nameof(UnexecutedModule));
+            await Assert.That(timeline.Status).IsEqualTo(ModuleStatus.Failed);
+            await Assert.That(timeline.ExecutionDuration).IsNull();
         }
     }
 
@@ -162,7 +218,7 @@ public class PipelineExecutorTests
             ownsEntirePlan: false,
             backendResults: [reportedFailure],
             executionBackendContext: context.Object,
-            summaryFactory: summaryFactory,
+            summaryFactory: summaryFactory.Object,
             metricsCollector: new MetricsCollector());
 
         await executor.ExecuteAsync(
@@ -314,7 +370,7 @@ public class PipelineExecutorTests
         bool ownsEntirePlan = true,
         IReadOnlyList<IModuleResult>? backendResults = null,
         IExecutionBackendContext? executionBackendContext = null,
-        Mock<IPipelineSummaryFactory>? summaryFactory = null,
+        IPipelineSummaryFactory? summaryFactory = null,
         IMetricsCollector? metricsCollector = null)
     {
         var executionBackend = new Mock<IExecutionBackend>();
@@ -337,14 +393,15 @@ public class PipelineExecutorTests
 
         if (summaryFactory is null)
         {
-            summaryFactory = new Mock<IPipelineSummaryFactory>();
-            summaryFactory
+            var defaultSummaryFactory = new Mock<IPipelineSummaryFactory>();
+            defaultSummaryFactory
                 .Setup(x => x.Create(
                     It.IsAny<IReadOnlyList<IModule>>(),
                     It.IsAny<TimeSpan>(),
                     It.IsAny<DateTimeOffset>(),
                     It.IsAny<DateTimeOffset>()))
                 .Returns(new PipelineSummary([], [], TimeSpan.Zero, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow));
+            summaryFactory = defaultSummaryFactory.Object;
         }
 
         var contextFactory = new Mock<IExecutionBackendContextFactory>();
@@ -364,7 +421,7 @@ public class PipelineExecutorTests
             NullLogger<PipelineExecutor>.Instance,
             exceptionRethrowService,
             secondaryExceptions,
-            summaryFactory.Object,
+            summaryFactory,
             Microsoft.Extensions.Options.Options.Create(options),
             metricsCollector);
     }

@@ -173,12 +173,24 @@ internal class PipelineExecutor : IPipelineExecutor
     /// </summary>
     private void RecordClaimedModuleMetrics(IModule module, IModuleResult result)
     {
-        if (_metricsCollector is null || result.StartTime == default)
+        if (_metricsCollector is null)
         {
             return;
         }
 
         var moduleType = module.GetType();
+        if (result.StartTime == default)
+        {
+            // A claim rejected before it ran has no execution window; count its status only.
+            _metricsCollector.RecordModuleCompleted(
+                moduleType,
+                DateTimeOffset.UtcNow,
+                result.ExceptionOrDefault is null,
+                result.Status == ModuleStatus.Skipped,
+                result.Status);
+            return;
+        }
+
         var endTime = result.EndTime < result.StartTime ? result.StartTime : result.EndTime;
         _metricsCollector.RecordModuleStarted(moduleType, result.StartTime);
         _metricsCollector.RecordModuleCompleted(

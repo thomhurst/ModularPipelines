@@ -73,10 +73,23 @@ internal class MetricsCollector : IMetricsCollector
         data.StartTime = reportedStart > dispatchTime ? reportedStart : dispatchTime;
     }
 
-    public PipelineMetrics ComputeMetrics(DateTimeOffset pipelineStart, DateTimeOffset pipelineEnd, int maxParallelism)
+    public PipelineMetrics ComputeMetrics(DateTimeOffset pipelineStart, DateTimeOffset pipelineEnd, int maxParallelism) =>
+        ComputeMetrics(pipelineStart, pipelineEnd, maxParallelism, _moduleMetrics.Values.ToList());
+
+    public PipelineMetrics ComputeMetrics(
+        DateTimeOffset pipelineStart,
+        DateTimeOffset pipelineEnd,
+        int maxParallelism,
+        IReadOnlyCollection<Type> moduleTypes) =>
+        ComputeMetrics(pipelineStart, pipelineEnd, maxParallelism, GetModuleData(moduleTypes));
+
+    private static PipelineMetrics ComputeMetrics(
+        DateTimeOffset pipelineStart,
+        DateTimeOffset pipelineEnd,
+        int maxParallelism,
+        IReadOnlyList<ModuleMetricsData> moduleData)
     {
         var wallClockDuration = pipelineEnd - pipelineStart;
-        var moduleData = _moduleMetrics.Values.ToList();
 
         // Calculate total module execution time (sequential equivalent)
         var totalModuleExecutionTime = TimeSpan.Zero;
@@ -162,9 +175,20 @@ internal class MetricsCollector : IMetricsCollector
         };
     }
 
-    public IReadOnlyList<ModuleTimeline> GetTimelines()
+    public IReadOnlyList<ModuleTimeline> GetTimelines() => GetTimelines(_moduleMetrics.Values);
+
+    public IReadOnlyList<ModuleTimeline> GetTimelines(IReadOnlyCollection<Type> moduleTypes) =>
+        GetTimelines(GetModuleData(moduleTypes));
+
+    private List<ModuleMetricsData> GetModuleData(IReadOnlyCollection<Type> moduleTypes) =>
+        [.. moduleTypes
+            .Distinct()
+            .Select(moduleType => _moduleMetrics.TryGetValue(moduleType, out var data) ? data : null)
+            .OfType<ModuleMetricsData>()];
+
+    private static List<ModuleTimeline> GetTimelines(IEnumerable<ModuleMetricsData> moduleData)
     {
-        return _moduleMetrics.Values
+        return [.. moduleData
             .Select(data => new ModuleTimeline
             {
                 ModuleName = data.ModuleType.Name,
@@ -183,8 +207,7 @@ internal class MetricsCollector : IMetricsCollector
                 WasSuccessful = data.WasSuccessful,
                 Status = data.Status,
             })
-            .OrderBy(t => t.StartTime ?? DateTimeOffset.MaxValue)
-            .ToList();
+            .OrderBy(t => t.StartTime ?? DateTimeOffset.MaxValue)];
     }
 
     /// <summary>
@@ -215,18 +238,18 @@ internal class MetricsCollector : IMetricsCollector
         var busyTicks = 0L;
         var weightedTicks = 0.0;
         var previousTime = changes[0].Time;
-        foreach (var change in changes)
+        foreach (var (time, delta) in changes)
         {
-            var elapsedTicks = (change.Time - previousTime).Ticks;
+            var elapsedTicks = (time - previousTime).Ticks;
             if (running > 0)
             {
                 busyTicks += elapsedTicks;
                 weightedTicks += (double) running * elapsedTicks;
             }
 
-            running += change.Delta;
+            running += delta;
             peak = Math.Max(peak, running);
-            previousTime = change.Time;
+            previousTime = time;
         }
 
         return (peak, busyTicks > 0 ? weightedTicks / busyTicks : 1.0);

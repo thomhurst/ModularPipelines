@@ -886,7 +886,7 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
-    public async Task StatusShownInGroupHeader_AfterIncrementalOutput_StillRendersCompletionHeader()
+    public async Task StatusShownInGroupHeader_AfterIncrementalOutput_RendersCompletionHeaderWithoutEmptyGroup()
     {
         var writer = new StringWriter();
         var loggerControl = new SynchronousLoggerControl(writer);
@@ -921,7 +921,8 @@ public class ModuleOutputBufferTests
         var completionOutput = writer.ToString()[beforeCompletion..];
         using (Assert.Multiple())
         {
-            await Assert.That(completionOutput).Contains("::group::");
+            await Assert.That(completionOutput).DoesNotContain("::group::");
+            await Assert.That(completionOutput).DoesNotContain("::endgroup::");
             await Assert.That(completionOutput).Contains("(continued)");
             await Assert.That(completionOutput).DoesNotContain("completed successfully");
             await Assert.That(providerLogger.Messages).IsEquivalentTo(["Module completed successfully"]);

@@ -57,7 +57,21 @@ internal interface IMetricsCollector
     PipelineMetrics ComputeMetrics(DateTimeOffset pipelineStart, DateTimeOffset pipelineEnd, int maxParallelism);
 
     /// <summary>
+    /// Computes aggregate metrics from the data collected for the specified modules only.
+    /// </summary>
+    PipelineMetrics ComputeMetrics(
+        DateTimeOffset pipelineStart,
+        DateTimeOffset pipelineEnd,
+        int maxParallelism,
+        IReadOnlyCollection<Type> moduleTypes);
+
+    /// <summary>
     /// Gets timeline information for all modules.
     /// </summary>
     IReadOnlyList<ModuleTimeline> GetTimelines();
+
+    /// <summary>
+    /// Gets timeline information for the specified modules only.
+    /// </summary>
+    IReadOnlyList<ModuleTimeline> GetTimelines(IReadOnlyCollection<Type> moduleTypes);
 }
