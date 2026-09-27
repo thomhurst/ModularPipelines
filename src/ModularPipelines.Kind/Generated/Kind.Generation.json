@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "kind",
-  "toolVersion": "kind version 0.34.0-alpha+aa74c7f3e55dba",
+  "toolVersion": "kind version 0.34.0-alpha+dd00511b043a27",
   "commandTreeSha256": "a31e4891e1c87ea5e6da505fb24f5fd2529e7fd0762e6ecd515001187472577b",
-  "generatorSourceSha256": "b618ebba785210b052052b4a76870121813d7b3099c74e76c95b99501321ed98"
+  "generatorSourceSha256": "104dc9c13cf5935034567e2a8ad39932b14878b1a44b21553757cdf8d2577431"
 }
