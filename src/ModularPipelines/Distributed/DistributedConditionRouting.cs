@@ -23,10 +23,10 @@ internal sealed class DistributedConditionRouting(
                             && _roleDetector.DetectRole() == DistributedRole.Worker;
 
     // The role queries stay pure so run reporting and ignored-result handling always see the
-    // real cross-process role. Only operating-system condition deferral is suppressed while
+    // real cross-process role. Only capability condition deferral is suppressed while
     // the master locally executes an assignment it already routed to itself; otherwise that
     // module would be deferred a second time.
-    public bool ShouldDeferOperatingSystemConditions => IsMaster
+    public bool ShouldDeferCapabilityConditions => IsMaster
                                                         && !DistributedAssignmentExecutionScope.IsActive;
 
     private bool IsDistributedExecution => _options.Enabled

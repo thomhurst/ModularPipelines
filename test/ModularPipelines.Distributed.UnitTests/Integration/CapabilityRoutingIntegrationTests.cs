@@ -12,7 +12,7 @@ public class CapabilityRoutingIntegrationTests
 
         var assignment = new ModuleAssignment(
             ModuleId: "Docker.Module",
-            RequiredCapabilities: ["docker"],
+            RequiredCapabilities: CapabilityRequirement.AllOf("docker"),
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false));
 
@@ -33,7 +33,7 @@ public class CapabilityRoutingIntegrationTests
 
         var assignment = new ModuleAssignment(
             ModuleId: "Docker.Module",
-            RequiredCapabilities: ["docker"],
+            RequiredCapabilities: CapabilityRequirement.AllOf("docker"),
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false));
 
@@ -48,7 +48,7 @@ public class CapabilityRoutingIntegrationTests
     }
 
     [Test]
-    public async Task CapabilityMatcher_Validates_Worker_Assignments()
+    public async Task Requirement_Validates_Worker_Assignments()
     {
         var dockerWorker = new WorkerRegistration(
             WorkerIndex: 1,
@@ -62,22 +62,48 @@ public class CapabilityRoutingIntegrationTests
 
         var dockerAssignment = new ModuleAssignment(
             ModuleId: "Docker.Module",
-            RequiredCapabilities: ["docker"],
+            RequiredCapabilities: CapabilityRequirement.AllOf("docker"),
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false));
 
         var plainAssignment = new ModuleAssignment(
             ModuleId: "Plain.Module",
-            RequiredCapabilities: [],
+            RequiredCapabilities: CapabilityRequirement.None,
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false));
 
         // Docker worker can execute both
-        await Assert.That(CapabilityMatcher.CanExecute(dockerAssignment, dockerWorker)).IsTrue();
-        await Assert.That(CapabilityMatcher.CanExecute(plainAssignment, dockerWorker)).IsTrue();
+        await Assert.That(dockerAssignment.RequiredCapabilities.IsSatisfiedBy(dockerWorker.Capabilities)).IsTrue();
+        await Assert.That(plainAssignment.RequiredCapabilities.IsSatisfiedBy(dockerWorker.Capabilities)).IsTrue();
 
         // Plain worker can only execute plain assignment
-        await Assert.That(CapabilityMatcher.CanExecute(dockerAssignment, plainWorker)).IsFalse();
-        await Assert.That(CapabilityMatcher.CanExecute(plainAssignment, plainWorker)).IsTrue();
+        await Assert.That(dockerAssignment.RequiredCapabilities.IsSatisfiedBy(plainWorker.Capabilities)).IsFalse();
+        await Assert.That(plainAssignment.RequiredCapabilities.IsSatisfiedBy(plainWorker.Capabilities)).IsTrue();
+    }
+
+    [Test]
+    public async Task Alternative_Requirement_Routes_To_Any_Matching_Worker()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+
+        var assignment = new ModuleAssignment(
+            ModuleId: "Unix.Module",
+            RequiredCapabilities: CapabilityRequirement.AnyOf(Capability.Linux, Capability.MacOS),
+            AssignedAt: DateTimeOffset.UtcNow,
+            Configuration: new ModuleAssignmentOptions(null, false));
+
+        await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
+
+        using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(300));
+        var windowsResult = await coordinator.DequeueModuleAsync(
+            new HashSet<Capability> { Capability.Windows }, cts.Token);
+        var macResult = await coordinator.DequeueModuleAsync(
+            new HashSet<Capability> { Capability.MacOS }, CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(windowsResult).IsNull();
+            await Assert.That(macResult?.ModuleId).IsEqualTo("Unix.Module");
+        }
     }
 }

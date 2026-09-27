@@ -34,6 +34,10 @@ public class DistributedOptions
     /// </summary>
     public bool RequireExplicitRunId { get; set; }
 
+    /// <summary>
+    /// Gets or sets capabilities this instance advertises in addition to those detected by registered
+    /// <see cref="ICapabilityProvider"/> services. The current operating system is detected automatically.
+    /// </summary>
     public IReadOnlyList<Capability> Capabilities { get; set; } = [];
 
     public TimeSpan CapabilityTimeout { get; set; } = TimeSpan.FromMinutes(5);
@@ -55,8 +59,6 @@ public class DistributedOptions
     /// with the workers currently available even when the configured minimum was not reached.
     /// </summary>
     public int MinimumWorkerCount { get; set; }
-
-    public bool AutoDetectOsCapability { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the default timeout for waiting for a distributed module result.

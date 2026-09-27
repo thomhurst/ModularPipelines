@@ -22,7 +22,7 @@ builder.AddDistributedMode(o =>
 
 ### Auto-Detected OS Capability
 
-By default, `AutoDetectOsCapability` is `true`, which automatically adds the current operating system as a capability:
+Every instance automatically advertises its current operating system; no configuration is needed:
 
 - Windows runners advertise `Capability.Windows`
 - Linux runners advertise `Capability.Linux`
@@ -31,9 +31,42 @@ By default, `AutoDetectOsCapability` is `true`, which automatically adds the cur
 
 Attribute arguments must be compile-time constants, so use the corresponding `Capability.Names` values. For example, modules with `[RequiresCapability(Capability.Names.Linux)]` only run on Linux workers without extra configuration.
 
-### Auto-Detected OS from Platform Conditions
+### Detecting Custom Capabilities
 
-When a module has a `[RunIf<OnLinux>]`, `[RunIf<OnWindows>]`, `[RunIf<OnMacOS>]`, or `[RunIf<OnFreeBSD>]` attribute, the framework automatically adds the corresponding OS capability requirement to its assignment. This keeps the attribute set DRY — you don't need to add both `[RunIf<OnLinux>]` and `[RequiresCapability(Capability.Names.Linux)]` to the same module.
+The OS capability comes from a built-in `ICapabilityProvider`. Register your own providers to detect other capabilities at startup. The master and every worker advertise the union of all providers and `DistributedOptions.Capabilities`:
+
+```csharp
+public sealed class GpuCapabilityProvider : ICapabilityProvider
+{
+    public Task<IEnumerable<Capability>> GetCapabilitiesAsync(CancellationToken cancellationToken) =>
+        Task.FromResult<IEnumerable<Capability>>(
+            File.Exists("/dev/nvidia0") ? [Capability.Gpu] : []);
+}
+
+builder.Services.AddSingleton<ICapabilityProvider, GpuCapabilityProvider>();
+```
+
+Docker and GPU support are not detected automatically, because the presence of a binary or device does not prove the capability is usable. Advertise them explicitly or with a provider.
+
+### Routing from Run Conditions
+
+`OnLinux`, `OnWindows`, `OnMacOS`, and `OnFreeBSD` implement `ICapabilityCondition`. When a module uses one of them in `[RunIf]`, `[RunIfAll]`, `[RunIfAny]`, or a `ConditionGroup`, the framework translates the condition into a capability requirement instead of evaluating it on the master. This keeps the attribute set DRY — you don't need to add both `[RunIf<OnLinux>]` and `[RequiresCapability(Capability.Names.Linux)]` to the same module.
+
+- `[RunIf<OnLinux>]` requires `linux`.
+- `[RunIfAny<OnLinux, OnMacOS>]` and `[RunIf<OnUnix>]` require `linux` **or** `macos`.
+- `[RunIfAll<OnLinux, OnGpu>]` requires `linux` **and** the custom condition's capability.
+
+Implement `ICapabilityCondition` to make your own conditions routable:
+
+```csharp
+public sealed class OnGpu : ICapabilityCondition
+{
+    public Capability Capability => Capability.Gpu;
+
+    public Task<bool> EvaluateAsync(IPipelineContext context) =>
+        Task.FromResult(File.Exists("/dev/nvidia0"));
+}
+```
 
 ```csharp
 // The "linux" capability is auto-detected — no [RequiresCapability] needed
@@ -84,6 +117,17 @@ public class LinuxDockerModule : Module<string>
 }
 ```
 
+### Alternative Capabilities
+
+Use `[RequiresAnyCapability]` when any one of several capabilities is enough. Each attribute adds one group of alternatives, and every group must be satisfied:
+
+```csharp
+// Runs on a Linux or macOS worker that also has Docker
+[RequiresAnyCapability(Capability.Names.Linux, Capability.Names.MacOS)]
+[RequiresCapability(Capability.Names.Docker)]
+public class UnixDockerModule : Module<string> { ... }
+```
+
 ### No Capabilities
 
 Modules without `[RequiresCapability]` can run on any worker. They have no routing restrictions.
@@ -93,9 +137,10 @@ Modules without `[RequiresCapability]` can run on any worker. They have no routi
 The matching logic is straightforward:
 
 1. If a module has **no** required capabilities, it can run on **any** worker.
-2. If a module has required capabilities, **all** of them must be present in the worker's capability set.
+2. A module's requirement is a `CapabilityRequirement`: a list of clauses. Every clause must be satisfied, and a worker satisfies a clause when it advertises **at least one** of the clause's capabilities. For example, `docker & (linux | macos)`.
 3. Capability matching is **case-insensitive**.
-4. If no worker with the required capabilities is available, only that module waits in the queue. After `CapabilityTimeout`, it fails with a routing error that lists the missing route instead of waiting for the module-result timeout.
+4. A worker runs one operating system, so a module whose requirements need two different operating systems is skipped as impossible.
+5. If no worker with the required capabilities is available, only that module waits in the queue. After `CapabilityTimeout`, it fails with a routing error that lists the missing route instead of waiting for the module-result timeout.
 
 ## Example: Mixed Pipeline
 

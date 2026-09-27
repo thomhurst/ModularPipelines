@@ -81,7 +81,7 @@ public class DependencyResultPropagationTests
 
         var assignment = new ModuleAssignment(
             ModuleId: typeof(ConsumerModule).FullName!,
-            RequiredCapabilities: [],
+            RequiredCapabilities: CapabilityRequirement.None,
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false),
             DependencyResultReferences:
@@ -258,7 +258,7 @@ public class DependencyResultPropagationTests
         // Arrange — assignment with null DependencyResults (backwards compat)
         var assignment = new ModuleAssignment(
             ModuleId: typeof(IndependentModule).FullName!,
-            RequiredCapabilities: [],
+            RequiredCapabilities: CapabilityRequirement.None,
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false),
             DependencyResultReferences: null);

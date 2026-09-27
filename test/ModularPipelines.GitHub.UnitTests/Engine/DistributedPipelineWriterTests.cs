@@ -101,6 +101,32 @@ public class DistributedPipelineWriterTests : TestBase
     }
 
     [Test]
+    public async Task GeneratesRunnersForAlternativeOperatingSystemConditions()
+    {
+        var outputPath = new FilePath(Path.Combine(
+            FilePath.GetNewTemporaryFilePath().Path,
+            "distributed.yml"));
+
+        await TestPipelineBuilder.Create()
+            .AddModule<UnixConditionModule>()
+            .AddModule<FreeBsdOrDockerModule>()
+            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            {
+                OutputPath = outputPath,
+                ExtraWorkers = 0,
+            })
+            .RunAsync();
+
+        var yaml = (await outputPath.ReadAsync()).ReplaceLineEndings("\n");
+        var runners = yaml.Split('\n')
+            .Select(line => line.Trim())
+            .Where(line => line.StartsWith("os:", StringComparison.Ordinal));
+
+        await Assert.That(runners).IsEquivalentTo(
+            ["os: ubuntu-latest", "os: ubuntu-latest", "os: macos-latest"]);
+    }
+
+    [Test]
     public async Task RejectsUnsupportedOperatingSystemConditions()
     {
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
@@ -150,7 +176,7 @@ public class DistributedPipelineWriterTests : TestBase
         protected override bool Result => true;
     }
 
-    [RequiresCapability("operating-system:windows|macos")]
+    [RequiresAnyCapability("windows", "macos")]
     private sealed class MacOrWindowsModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
@@ -170,6 +196,19 @@ public class DistributedPipelineWriterTests : TestBase
 
     [RunIf<OnMacOS>]
     private sealed class MacConditionModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RunIf<OnUnix>]
+    private sealed class UnixConditionModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    // A worker can satisfy this through docker, so no FreeBSD runner is needed.
+    [RequiresAnyCapability("freebsd", "docker")]
+    private sealed class FreeBsdOrDockerModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }

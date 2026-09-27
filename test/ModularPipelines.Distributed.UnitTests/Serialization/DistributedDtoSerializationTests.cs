@@ -8,7 +8,7 @@ public class DistributedDtoSerializationTests
     {
         var expected = new ModuleAssignment(
             "BuildModule",
-            ["Docker"],
+            CapabilityRequirement.AllOf("Docker"),
             DateTimeOffset.UtcNow,
             new ModuleAssignmentOptions(TimeSpan.FromMilliseconds(1234), false),
             [new DependencyResultReference("DependencyModule", IsAvailable: true)])
@@ -21,11 +21,11 @@ public class DistributedDtoSerializationTests
         var actual = JsonSerializer.Deserialize<ModuleAssignment>(json);
 
         await Assert.That(actual).IsNotNull();
-        await Assert.That(json).Contains("\"RequiredCapabilities\":[");
+        await Assert.That(json).Contains("\"RequiredCapabilities\":[[\"Docker\"]]");
         await Assert.That(json).Contains("\"ModuleId\":\"BuildModule\"");
         await Assert.That(json).DoesNotContain("MatrixTarget");
         await Assert.That(actual!.EnqueuedAt).IsEqualTo(expected.EnqueuedAt);
-        await Assert.That(actual.RequiredCapabilities).Contains((Capability) "Docker");
+        await Assert.That(actual.RequiredCapabilities).IsEqualTo(expected.RequiredCapabilities);
         await Assert.That(actual.SatisfiedConditionGroups).Contains("Conditions.CrossPlatform");
         await Assert.That(actual.Configuration.Timeout).IsEqualTo(TimeSpan.FromMilliseconds(1234));
         await Assert.That(actual.DependencyResultReferences).IsEquivalentTo(expected.DependencyResultReferences!);

@@ -8,7 +8,7 @@ internal interface IExecutionLocationContext
 
     bool IsWorker { get; }
 
-    bool ShouldDeferOperatingSystemConditions { get; }
+    bool ShouldDeferCapabilityConditions { get; }
 
     bool IsRoutingPrepared(IModule module);
 

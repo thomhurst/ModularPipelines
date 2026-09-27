@@ -46,6 +46,26 @@ public readonly struct Capability : IEquatable<Capability>
     /// <summary>GPU capability.</summary>
     public static Capability Gpu { get; } = new(Names.Gpu);
 
+    /// <summary>
+    /// Gets the operating-system capabilities. A worker advertises at most one of them.
+    /// </summary>
+    internal static IReadOnlyList<Capability> OperatingSystems { get; } = [Windows, Linux, MacOS, FreeBSD];
+
+    /// <summary>
+    /// Gets the capability for the operating system this process runs on, when it is known.
+    /// </summary>
+    internal static Capability? CurrentOperatingSystem =>
+        OperatingSystem.IsWindows() ? Windows
+        : OperatingSystem.IsLinux() ? Linux
+        : OperatingSystem.IsMacOS() ? MacOS
+        : OperatingSystem.IsFreeBSD() ? FreeBSD
+        : null;
+
+    /// <summary>
+    /// Gets whether this capability identifies an operating system.
+    /// </summary>
+    internal bool IsOperatingSystem => OperatingSystems.Contains(this);
+
     /// <inheritdoc />
     public bool Equals(Capability other) =>
         StringComparer.OrdinalIgnoreCase.Equals(Name, other.Name);

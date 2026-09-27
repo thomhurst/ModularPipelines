@@ -2034,7 +2034,7 @@ public class DistributedModuleExecutorTests
         var assignment = publisher.CreateAssignment(module);
 
         // Assert — "linux" capability auto-detected from [RunIf<OnLinux>]
-        await Assert.That(assignment.RequiredCapabilities).Contains("linux");
+        await Assert.That(assignment.RequiredCapabilities).IsEqualTo(CapabilityRequirement.AllOf(Capability.Linux));
     }
 
     [Test]
@@ -2048,17 +2048,9 @@ public class DistributedModuleExecutorTests
         var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         var assignment = publisher.CreateAssignment(new UnixModule());
-        var requiredCapability = assignment.RequiredCapabilities.Single();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Linux))
-                .Contains(requiredCapability);
-            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.MacOS))
-                .Contains(requiredCapability);
-            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Windows))
-                .DoesNotContain(requiredCapability);
-        }
+        await Assert.That(assignment.RequiredCapabilities)
+            .IsEqualTo(CapabilityRequirement.AnyOf(Capability.Linux, Capability.MacOS));
     }
 
     [Test]
@@ -2072,17 +2064,9 @@ public class DistributedModuleExecutorTests
         var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         var assignment = publisher.CreateAssignment(new GroupedOperatingSystemModule());
-        var requiredCapability = assignment.RequiredCapabilities.Single();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Linux))
-                .Contains(requiredCapability);
-            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Windows))
-                .Contains(requiredCapability);
-            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.MacOS))
-                .DoesNotContain(requiredCapability);
-        }
+        await Assert.That(assignment.RequiredCapabilities)
+            .IsEqualTo(CapabilityRequirement.AnyOf(Capability.Linux, Capability.Windows));
     }
 
     [Test]
@@ -2097,8 +2081,7 @@ public class DistributedModuleExecutorTests
 
         var assignment = publisher.CreateAssignment(new MixedGroupedOperatingSystemModule());
 
-        await Assert.That(assignment.RequiredCapabilities)
-            .DoesNotContain(OperatingSystemConditions.Linux);
+        await Assert.That(assignment.RequiredCapabilities.IsSatisfiedBy([Capability.Windows])).IsTrue();
     }
 
     [Test]
@@ -2113,8 +2096,7 @@ public class DistributedModuleExecutorTests
 
         var assignment = publisher.CreateAssignment(new MixedWorkerGroupedOperatingSystemModule());
 
-        await Assert.That(assignment.RequiredCapabilities)
-            .DoesNotContain(OperatingSystemConditions.Linux);
+        await Assert.That(assignment.RequiredCapabilities.IsSatisfiedBy([Capability.Windows])).IsTrue();
     }
 
     [Test]
@@ -2150,8 +2132,7 @@ public class DistributedModuleExecutorTests
             module,
             CancellationToken.None);
 
-        await Assert.That(assignment.RequiredCapabilities)
-            .DoesNotContain(OperatingSystemConditions.Linux);
+        await Assert.That(assignment.RequiredCapabilities.IsSatisfiedBy([Capability.Windows])).IsTrue();
         conditionHandler.Verify(handler => handler.PrepareExecutionRoutingAsync(
             module,
             CancellationToken.None));
@@ -2334,7 +2315,7 @@ public class DistributedModuleExecutorTests
         var assignment = new ModuleAssignment(
             typeof(AlwaysRunDistributedModule).FullName!,
 
-            [],
+            CapabilityRequirement.None,
             DateTimeOffset.UtcNow,
             new ModuleAssignmentOptions(null, AlwaysRun: true))
         {
@@ -3130,7 +3111,6 @@ public class DistributedModuleExecutorTests
         {
             TotalInstances = 3,
             CapabilityTimeout = TimeSpan.FromMilliseconds(100),
-            AutoDetectOsCapability = false,
         };
 
         var coordinator = new Mock<IDistributedMasterCoordinator>();
@@ -3205,7 +3185,6 @@ public class DistributedModuleExecutorTests
         {
             TotalInstances = 2,
             CapabilityTimeout = TimeSpan.FromMilliseconds(150),
-            AutoDetectOsCapability = false,
         };
         var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(c => c.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
@@ -3248,7 +3227,6 @@ public class DistributedModuleExecutorTests
         {
             TotalInstances = 2,
             CapabilityTimeout = TimeSpan.FromMilliseconds(300),
-            AutoDetectOsCapability = false,
         };
         var registrationQueryCount = 0;
         IReadOnlyList<WorkerRegistration> capableWorkers =

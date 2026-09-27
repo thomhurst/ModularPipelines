@@ -490,7 +490,7 @@ public class ModuleConditionHandlerTests
         {
             await Assert.That(executionLocation.IsMaster).IsTrue();
             await Assert.That(executionLocation.IsWorker).IsFalse();
-            await Assert.That(executionLocation.ShouldDeferOperatingSystemConditions).IsFalse();
+            await Assert.That(executionLocation.ShouldDeferCapabilityConditions).IsFalse();
         }
     }
 
@@ -510,7 +510,7 @@ public class ModuleConditionHandlerTests
         {
             await Assert.That(executionLocation.IsWorker).IsTrue();
             await Assert.That(executionLocation.IsMaster).IsFalse();
-            await Assert.That(executionLocation.ShouldDeferOperatingSystemConditions).IsFalse();
+            await Assert.That(executionLocation.ShouldDeferCapabilityConditions).IsFalse();
         }
     }
 

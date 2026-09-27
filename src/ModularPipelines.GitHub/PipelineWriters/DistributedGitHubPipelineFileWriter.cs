@@ -1,6 +1,7 @@
 using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Distributed;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
 using YamlDotNet.Serialization.NamingConventions;
@@ -9,9 +10,6 @@ namespace ModularPipelines.GitHub.PipelineWriters;
 
 internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipelineFileWriter
 {
-    private const string Linux = "linux";
-    private const string Windows = "windows";
-    private const string MacOS = "macos";
     private const string ValidateRetryScopeCommand = """
         if [ "${{ needs.initialize.outputs.run-identifier }}" != "${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" ]; then
           echo "::error::Distributed workflows require 'Re-run all jobs'; partial retries cannot recreate the worker matrix."
@@ -19,15 +17,13 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
         fi
         """;
 
-    private static readonly IReadOnlyDictionary<string, string> RunnerByOperatingSystem =
-        new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-        {
-            [Linux] = "ubuntu-latest",
-            [Windows] = "windows-latest",
-            [MacOS] = "macos-latest",
-        };
-
-    private static readonly string[] OperatingSystemOrder = [Linux, Windows, MacOS];
+    // Ordered by preference; the matrix provisions runners in this order.
+    private static readonly (Capability OperatingSystem, string Runner)[] Runners =
+    [
+        (Capability.Linux, "ubuntu-latest"),
+        (Capability.Windows, "windows-latest"),
+        (Capability.MacOS, "macos-latest"),
+    ];
 
     private readonly DistributedWorkflowOptions _options;
     private readonly IReadOnlyList<IModule> _modules;
@@ -151,13 +147,12 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
     private IReadOnlyList<MatrixEntry> BuildMatrix()
     {
         var requiredOperatingSystems = _modules
-            .SelectMany(module => GetRequiredCapabilities(module.GetType()))
-            .SelectMany(ParseOperatingSystems)
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            .SelectMany(module => GetRequiredOperatingSystems(module.GetType()))
+            .ToHashSet();
 
-        var runners = OperatingSystemOrder
-            .Where(requiredOperatingSystems.Contains)
-            .Select(operatingSystem => RunnerByOperatingSystem[operatingSystem])
+        var runners = Runners
+            .Where(runner => requiredOperatingSystems.Contains(runner.OperatingSystem))
+            .Select(static runner => runner.Runner)
             .Concat(Enumerable.Repeat(_options.DefaultRunner, _options.ExtraWorkers));
 
         return new[] { _options.DefaultRunner }
@@ -166,36 +161,32 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
             .ToArray();
     }
 
-    private static IEnumerable<string> GetRequiredCapabilities(Type moduleType)
+    private static IEnumerable<Capability> GetRequiredOperatingSystems(Type moduleType)
     {
-        var declaredCapabilities = moduleType
-            .GetCustomAttributes<RequiresCapabilityAttribute>(inherit: true)
-            .SelectMany(attribute => attribute.Capabilities);
-        var operatingSystemConditions = moduleType
-            .GetCustomAttributes(inherit: true)
-            .OfType<IConditionAttribute>()
-            .SelectMany(OperatingSystemConditions.GetTargets);
-
-        return declaredCapabilities.Concat(operatingSystemConditions);
-    }
-
-    private static IEnumerable<string> ParseOperatingSystems(string capability)
-    {
-        if (!OperatingSystemConditions.TryGetCapabilityRoute(capability, out var route))
+        var requirement = CapabilityConditions.GetModuleRequirement(moduleType, includeConditionalRoutes: true);
+        if (!requirement.IsSatisfiable)
         {
+            // The pipeline skips modules that no worker can satisfy, so they need no runner.
             return [];
         }
 
-        var supportedOperatingSystems = route.OperatingSystems
-            .Where(RunnerByOperatingSystem.ContainsKey)
-            .ToArray();
-        if (supportedOperatingSystems.Length == 0)
+        var operatingSystems = new List<Capability>();
+        foreach (var clause in requirement.Clauses.Where(static clause => clause.Any(static capability => capability.IsOperatingSystem)))
         {
-            throw new InvalidOperationException(
-                $"Distributed GitHub workflows do not support the required operating-system capability '{capability}'.");
+            var supportedOperatingSystems = clause
+                .Where(capability => Runners.Any(runner => runner.OperatingSystem == capability))
+                .ToArray();
+            if (supportedOperatingSystems.Length == 0
+                && clause.All(static capability => capability.IsOperatingSystem))
+            {
+                throw new InvalidOperationException(
+                    $"Distributed GitHub workflows do not support the required operating-system capability '{string.Join(" | ", clause)}'.");
+            }
+
+            operatingSystems.AddRange(supportedOperatingSystems);
         }
 
-        return supportedOperatingSystems;
+        return operatingSystems;
     }
 
     private string BuildRunCommand()

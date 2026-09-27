@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
 using ModularPipelines.Distributed.Artifacts;
-using ModularPipelines.Distributed.Capabilities;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Engine;
@@ -46,7 +45,8 @@ internal class DistributedModuleExecutor(
     IModuleCacheResultRepository? cacheResultRepository = null,
     IOptions<PipelineOptions>? pipelineOptions = null,
     DistributedCacheHitTracker? cacheHitTracker = null,
-    IEnumerable<IModule>? registeredModules = null) : IExecutionBackend
+    IEnumerable<IModule>? registeredModules = null,
+    IEnumerable<ICapabilityProvider>? capabilityProviders = null) : IExecutionBackend
 {
     private readonly IReadOnlyList<IModule> _registeredModules = registeredModules?.ToArray() ?? [];
 
@@ -133,7 +133,11 @@ internal class DistributedModuleExecutor(
             var registrationDeadline = DateTimeOffset.UtcNow + options.CapabilityTimeout;
             await WaitForMinimumWorkersAsync(registrationDeadline, executionCts.Token)
                 .ConfigureAwait(false);
-            var masterCapabilities = BuildCapabilities(options);
+            var masterCapabilities = await LocalCapabilities.ResolveAsync(
+                    options,
+                    capabilityProviders,
+                    executionCts.Token)
+                .ConfigureAwait(false);
 
             scheduler = _schedulerFactory.Create();
             scheduler.InitializeModules(modules, estimatedDurations);
@@ -1084,7 +1088,7 @@ internal class DistributedModuleExecutor(
         IReadOnlySet<Capability> masterCapabilities,
         CancellationToken cancellationToken)
     {
-        if (CapabilityMatcher.CanExecute(assignment, masterCapabilities))
+        if (assignment.RequiredCapabilities.IsSatisfiedBy(masterCapabilities))
         {
             return;
         }
@@ -1097,7 +1101,7 @@ internal class DistributedModuleExecutor(
             workers = await _masterCoordinator.GetRegisteredWorkersAsync(cancellationToken)
                 .ConfigureAwait(false);
             ValidateWorkerSchemas(workers);
-            if (workers.Any(worker => CapabilityMatcher.CanExecute(assignment, worker)))
+            if (workers.Any(worker => assignment.RequiredCapabilities.IsSatisfiedBy(worker.Capabilities)))
             {
                 return;
             }
@@ -1125,17 +1129,6 @@ internal class DistributedModuleExecutor(
         {
             PipelineSchemaVersionValidator.Validate(schema, worker.PipelineSchemaVersion, $"worker {worker.WorkerIndex}");
         }
-    }
-
-    private static HashSet<Capability> BuildCapabilities(DistributedOptions options)
-    {
-        var capabilities = new HashSet<Capability>(options.Capabilities);
-        if (options.AutoDetectOsCapability)
-        {
-            capabilities.UnionWith(OsCapabilityDetector.Detect());
-        }
-
-        return capabilities;
     }
 
     private static async Task DelayUntilNextWorkerCheckAsync(
@@ -1275,9 +1268,9 @@ internal class DistributedModuleExecutor(
 
 internal sealed class DistributedRoutingException(
     ModuleId moduleId,
-    IReadOnlyCollection<Capability> requiredCapabilities,
+    CapabilityRequirement requiredCapabilities,
     int registeredWorkerCount)
     : InvalidOperationException(
         $"No execution route is available for distributed module {moduleId}. " +
-        $"Required capabilities: [{string.Join(", ", requiredCapabilities)}]. " +
+        $"Required capabilities: {requiredCapabilities}. " +
         $"Registered external workers: {registeredWorkerCount}.");
