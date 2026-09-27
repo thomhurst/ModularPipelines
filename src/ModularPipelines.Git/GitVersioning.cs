@@ -1,6 +1,6 @@
-using ModularPipelines.Context;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Models;
@@ -32,7 +32,7 @@ internal class GitVersioning : IGitVersioning
     private readonly ICommandContext _command;
     private readonly IModuleLoggerAccessor _moduleLoggerAccessor;
 
-    private readonly FolderPath _temporaryFolder;
+    private readonly IFileSystemProvider _fileSystemProvider;
 
     /// <summary>
     /// Async mutex to ensure single-threaded access to GitVersion tool installation and execution.
@@ -50,7 +50,7 @@ internal class GitVersioning : IGitVersioning
         _gitInformation = gitInformation;
         _command = command;
         _moduleLoggerAccessor = moduleLoggerAccessor;
-        _temporaryFolder = FolderPath.CreateTemporaryFolder(fileSystemProvider);
+        _fileSystemProvider = fileSystemProvider;
     }
 
     public async Task<GitVersionInformation> GetVersioningInformationAsync(
@@ -68,40 +68,75 @@ internal class GitVersioning : IGitVersioning
             var repositoryInfo = await _gitInformation.GetInfoAsync(cancellationToken).ConfigureAwait(false)
                 ?? throw new InvalidOperationException("Git repository information is unavailable.");
 
-            await _command.ExecuteCommandLineToolAsync(new CommandLineToolOptions("dotnet")
+            // The tool is only needed until the version has been computed and cached.
+            var temporaryFolder = FolderPath.CreateTemporaryFolder(_fileSystemProvider);
+            try
             {
-                Arguments =
-                [
-                    "tool",
-                    "install",
-                    "--tool-path", _temporaryFolder.Path,
-                    "GitVersion.Tool",
-                    "--version", "6.*"
-                ],
-            }, cancellationToken: cancellationToken).ConfigureAwait(false);
-
-            await TryWriteConfigurationFileAsync(repositoryInfo.Root, cancellationToken).ConfigureAwait(false);
-
-            var gitVersionOutput = await _command.ExecuteCommandLineToolAsync(
-                new CommandLineToolOptions(Path.Combine(_temporaryFolder, "dotnet-gitversion"))
-                {
-                    Arguments =
-                    [
-                        "/output", "json"
-                    ],
-                },
-                new CommandExecutionOptions
-                {
-                    WorkingDirectory = repositoryInfo.Root.Path,
-                },
-                cancellationToken).ConfigureAwait(false);
-
-            return _prefetchedGitVersionInformation ??=
-                JsonSerializer.Deserialize<GitVersionInformation>(gitVersionOutput.StandardOutput)!;
+                return _prefetchedGitVersionInformation = await ComputeVersioningInformationAsync(
+                        repositoryInfo.Root,
+                        temporaryFolder,
+                        cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            finally
+            {
+                TryDeleteTemporaryFolder(temporaryFolder);
+            }
         }
         finally
         {
             _semaphoreSlim.Release();
+        }
+    }
+
+    private async Task<GitVersionInformation> ComputeVersioningInformationAsync(
+        FolderPath repositoryRoot,
+        FolderPath temporaryFolder,
+        CancellationToken cancellationToken)
+    {
+        await _command.ExecuteCommandLineToolAsync(new CommandLineToolOptions("dotnet")
+        {
+            Arguments =
+            [
+                "tool",
+                "install",
+                "--tool-path", temporaryFolder.Path,
+                "GitVersion.Tool",
+                "--version", "6.*"
+            ],
+        }, cancellationToken: cancellationToken).ConfigureAwait(false);
+
+        await TryWriteConfigurationFileAsync(repositoryRoot, cancellationToken).ConfigureAwait(false);
+
+        var gitVersionOutput = await _command.ExecuteCommandLineToolAsync(
+            new CommandLineToolOptions(Path.Combine(temporaryFolder, "dotnet-gitversion"))
+            {
+                Arguments =
+                [
+                    "/output", "json"
+                ],
+            },
+            new CommandExecutionOptions
+            {
+                WorkingDirectory = repositoryRoot.Path,
+            },
+            cancellationToken).ConfigureAwait(false);
+
+        return JsonSerializer.Deserialize<GitVersionInformation>(gitVersionOutput.StandardOutput)!;
+    }
+
+    private void TryDeleteTemporaryFolder(FolderPath temporaryFolder)
+    {
+        try
+        {
+            temporaryFolder.Delete();
+        }
+        catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+        {
+            _moduleLoggerAccessor.Logger.LogDebug(
+                exception,
+                "Could not delete GitVersion tool folder {Path}",
+                temporaryFolder.Path);
         }
     }
 
