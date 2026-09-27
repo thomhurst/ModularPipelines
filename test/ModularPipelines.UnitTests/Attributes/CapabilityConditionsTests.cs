@@ -106,6 +106,13 @@ public class CapabilityConditionsTests
             CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
+    private sealed class LinuxOnCiGroup : ConditionGroup, IPlanningRunCondition
+    {
+        public override IReadOnlyList<IRunCondition> Conditions => [new OnLinux(), new OnCI()];
+
+        public override ConditionLogic Logic => ConditionLogic.All;
+    }
+
     private sealed class OnGpu : ICapabilityCondition
     {
         public Capability Capability => Capability.Gpu;
@@ -212,6 +219,25 @@ public class CapabilityConditionsTests
     }
 
     [Test]
+    public async Task Mixed_And_Conditions_Keep_Capability_Members()
+    {
+        using (Assert.Multiple())
+        {
+            // Every AND member must hold, so the GPU requirement stays; the worker evaluates OnCI.
+            var route = CapabilityConditions.GetRoute(new RunIfAllAttribute<OnGpu, OnCI>());
+            await Assert.That(route?.Requirement).IsEqualTo(CapabilityRequirement.AllOf(Capability.Gpu));
+            await Assert.That(route?.IsConditional).IsEqualTo(false);
+
+            var groupRoute = CapabilityConditions.GetRoute(new RunIfAttribute<LinuxOnCiGroup>());
+            await Assert.That(groupRoute?.Requirement).IsEqualTo(CapabilityRequirement.AllOf(Capability.Linux));
+
+            // An OR alternative without a capability can hold anywhere, so it keeps the route conditional.
+            var alternativeRoute = CapabilityConditions.GetRoute(new RunIfAnyAttribute<LinuxOnCiGroup, OnCI>());
+            await Assert.That(alternativeRoute?.IsConditional).IsEqualTo(true);
+        }
+    }
+
+    [Test]
     public async Task Module_Requirement_Combines_Attributes_And_Conditions()
     {
         var requirement = CapabilityConditions.GetModuleRequirement(typeof(DeclaredAndConditionalModule));
@@ -250,10 +276,10 @@ public class CapabilityConditionsTests
     {
         using (Assert.Multiple())
         {
-            await Assert.That(CapabilityConditions.HasOnlyPlanningLocalAlternatives(
+            await Assert.That(CapabilityConditions.CanRequireRoute(
                     new RunIfAnyAttribute<OnLinux, OnCI>()))
                 .IsTrue();
-            await Assert.That(CapabilityConditions.HasOnlyPlanningLocalAlternatives(
+            await Assert.That(CapabilityConditions.CanRequireRoute(
                     new RunIfAnyAttribute<OnLinux, WorkerOnlyCondition>()))
                 .IsFalse();
         }

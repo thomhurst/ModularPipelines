@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Distributed;
+using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
 
 namespace ModularPipelines;
@@ -37,7 +38,7 @@ internal static class CapabilityConditions
         Func<Type, bool>? isConditionalRouteRequired = null)
     {
         var requirement = GetDeclaredRequirement(moduleType);
-        foreach (var (groupType, route) in GetConditionRoutes(moduleType))
+        foreach (var (groupType, route, _) in GetConditionRoutes(moduleType))
         {
             if (isConditionGroupSatisfied?.Invoke(groupType) == true
                 || (route.IsConditional && isConditionalRouteRequired?.Invoke(groupType) != true))
@@ -53,8 +54,11 @@ internal static class CapabilityConditions
 
     /// <summary>
     /// Returns the capability routes of a module's run conditions, keyed by condition group type.
+    /// <c>CanBeRequired</c> is true for mandatory routes and for conditional routes whose local
+    /// alternatives the master can evaluate, so the master may make the route mandatory at run time.
     /// </summary>
-    public static IEnumerable<(Type ConditionGroupType, CapabilityRoute Route)> GetConditionRoutes(Type moduleType)
+    public static IEnumerable<(Type ConditionGroupType, CapabilityRoute Route, bool CanBeRequired)> GetConditionRoutes(
+        Type moduleType)
     {
         var conditionAttributes = moduleType.GetCustomAttributes(inherit: true).OfType<IConditionAttribute>().ToArray();
         foreach (var attribute in conditionAttributes.Where(static attribute =>
@@ -62,7 +66,7 @@ internal static class CapabilityConditions
         {
             if (GetRoute(attribute) is { } route)
             {
-                yield return (attribute.GetType(), route);
+                yield return (attribute.GetType(), route, !route.IsConditional || CanRequireRoute(attribute));
             }
         }
 
@@ -70,28 +74,33 @@ internal static class CapabilityConditions
                      .OfType<IGroupedConditionAttribute>()
                      .GroupBy(static attribute => attribute.ConditionGroupType))
         {
-            if (GetRoute(alternatives) is { } route)
+            var alternativeArray = alternatives.ToArray();
+            if (GetRoute(alternativeArray) is { } route)
             {
-                yield return (alternatives.Key, route);
+                yield return (alternatives.Key, route, !route.IsConditional || CanRequireRoute(alternativeArray));
             }
         }
     }
 
     /// <summary>
-    /// Returns whether an attribute is built only from capability conditions.
-    /// </summary>
-    public static bool IsCapabilityOnly(IConditionAttribute attribute) =>
-        GetRequirement(attribute.GetType(), attribute.Logic) is not null;
-
-    /// <summary>
     /// Returns whether every non-capability alternative of a mixed <see cref="RunIfAnyAttribute"/> is
-    /// planning-safe, so the master can evaluate all of them before deciding the capability route.
+    /// planning-safe, so the master can evaluate all of them and, when all are false, require the
+    /// capability route.
     /// </summary>
-    public static bool HasOnlyPlanningLocalAlternatives(IConditionAttribute attribute) =>
+    public static bool CanRequireRoute(IConditionAttribute attribute) =>
         attribute is RunIfAnyAttribute
         && attribute.GetType().GetGenericArguments()
             .Where(static type => GetConditionRequirement(type) is null)
             .All(static type => typeof(IPlanningRunCondition).IsAssignableFrom(type));
+
+    /// <summary>
+    /// Returns whether every alternative of a condition group either carries a capability requirement or
+    /// is a planning-safe condition the master evaluates, so the master can require the group's route.
+    /// </summary>
+    public static bool CanRequireRoute(IReadOnlyCollection<IGroupedConditionAttribute> alternatives) =>
+        alternatives.All(static attribute =>
+            GetRequirement(attribute.GetType(), attribute.Logic) is not null
+            || (GetRoute(attribute) is null && ModuleConditionHandler.IsPlanningConditionAttribute(attribute)));
 
     /// <summary>
     /// Returns the requirement declared by <see cref="RequiresCapabilityAttribute"/> and
@@ -260,15 +269,27 @@ internal static class CapabilityConditions
             return null;
         }
 
-        var requirements = conditionTypes.Select(GetConditionRequirement).ToArray();
-        if (requirements.Any(static requirement => requirement is null))
+        return Combine(conditionTypes.Select(GetConditionRequirement), logic);
+    }
+
+    /// <summary>
+    /// Combines member requirements into a necessary capability requirement, or <c>null</c> when the
+    /// members impose none. AND keeps the capabilities of its capability members, because every member
+    /// must hold; the selected worker evaluates the other members. OR has a requirement only when every
+    /// alternative has one, because a non-capability alternative could hold on any worker.
+    /// </summary>
+    private static CapabilityRequirement? Combine(IEnumerable<CapabilityRequirement?> requirements, ConditionLogic logic)
+    {
+        var requirementArray = requirements.ToArray();
+        if (logic == ConditionLogic.All)
         {
-            return null;
+            var capabilityRequirements = requirementArray.OfType<CapabilityRequirement>().ToArray();
+            return capabilityRequirements.Length == 0
+                ? null
+                : capabilityRequirements.Aggregate(CapabilityRequirement.None, static (left, right) => left.And(right));
         }
 
-        return logic == ConditionLogic.All
-            ? requirements.Aggregate(CapabilityRequirement.None, static (left, right) => left.And(right!))
-            : OrAll(requirements);
+        return requirementArray.Any(static requirement => requirement is null) ? null : OrAll(requirementArray);
     }
 
     [UnconditionalSuppressMessage(
@@ -297,15 +318,7 @@ internal static class CapabilityConditions
             return null;
         }
 
-        var requirements = group.Conditions.Select(GetConditionRequirement).ToArray();
-        if (requirements.Any(static requirement => requirement is null))
-        {
-            return null;
-        }
-
-        return group.Logic == ConditionLogic.All
-            ? requirements.Aggregate(CapabilityRequirement.None, static (left, right) => left.And(right!))
-            : OrAll(requirements);
+        return Combine(group.Conditions.Select(GetConditionRequirement), group.Logic);
     }
 
     private static CapabilityRequirement? OrAll(IEnumerable<CapabilityRequirement?> requirements) =>

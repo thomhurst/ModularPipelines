@@ -654,6 +654,31 @@ public class DistributedWorkPublisherTests
     }
 
     [Test]
+    public async Task CreateAssignment_Lets_Workers_Skip_Contradictory_Required_Conditional_Routes()
+    {
+        // Both local alternatives were false on the master, so both routes became required and
+        // contradict each other. The assignment must not fail: any worker claims it and skips it.
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(ConflictingConditionalMixedAlternativeModule));
+        var routingOptions = Microsoft.Extensions.Options.Options.Create(new DistributedOptions());
+        var conditionRouting = new DistributedConditionRouting(
+            routingOptions,
+            new ModularPipelines.Distributed.Configuration.RoleDetector(routingOptions));
+        var module = new ConflictingConditionalMixedAlternativeModule();
+        conditionRouting.MarkConditionalRouteRequired(module, typeof(RunIfAnyAttribute<OnLinux, FalseCondition>));
+        conditionRouting.MarkConditionalRouteRequired(module, typeof(RunIfAnyAttribute<OnWindows, FalseCondition>));
+        var publisher = new DistributedWorkPublisher(
+            new InMemoryDistributedCoordinator(),
+            typeRegistry,
+            new ModuleResultRegistry(),
+            executionLocationContext: conditionRouting);
+
+        var assignment = publisher.CreateAssignment(module);
+
+        await Assert.That(assignment.RequiredCapabilities).IsEqualTo(CapabilityRequirement.None);
+    }
+
+    [Test]
     public async Task CreateAssignment_Includes_Multiple_DependencyResultReferences()
     {
         // Arrange

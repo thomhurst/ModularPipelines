@@ -1,5 +1,6 @@
 using ModularPipelines.Attributes;
 using ModularPipelines;
+using ModularPipelines.Context;
 using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.GitHub.PipelineWriters;
 using ModularPipelines.TestHelpers;
@@ -170,6 +171,43 @@ public class DistributedPipelineWriterTests : TestBase
     }
 
     [Test]
+    public async Task RejectsUnsupportedConditionalOperatingSystemRoutes()
+    {
+        // OnCI is planning-safe; when it is false the master requires a FreeBSD worker.
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            TestPipelineBuilder.Create()
+                .AddModule<FreeBsdOrCiModule>()
+                .WriteDistributedWorkflow(new DistributedWorkflowOptions
+                {
+                    OutputPath = FilePath.GetNewTemporaryFilePath(),
+                    ExtraWorkers = 0,
+                })
+                .RunAsync());
+
+        await Assert.That(exception!.Message).Contains("freebsd");
+    }
+
+    [Test]
+    public async Task AllowsUnsupportedConditionalRouteWithWorkerOnlyAlternative()
+    {
+        // A worker-only alternative may hold on any worker, so the route never becomes mandatory.
+        var outputPath = new FilePath(Path.Combine(
+            FilePath.GetNewTemporaryFilePath().Path,
+            "distributed.yml"));
+
+        await TestPipelineBuilder.Create()
+            .AddModule<FreeBsdOrWorkerOnlyModule>()
+            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            {
+                OutputPath = outputPath,
+                ExtraWorkers = 0,
+            })
+            .RunAsync();
+
+        await Assert.That(await outputPath.ReadAsync()).DoesNotContain("freebsd");
+    }
+
+    [Test]
     public async Task QuotesPortablePipelineProjectPath()
     {
         var outputPath = new FilePath(Path.Combine(
@@ -252,6 +290,23 @@ public class DistributedPipelineWriterTests : TestBase
     private sealed class FreeBsdOrDockerModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
+    }
+
+    [RunIfAny<OnFreeBSD, OnCI>]
+    private sealed class FreeBsdOrCiModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RunIfAny<OnFreeBSD, WorkerOnlyCondition>]
+    private sealed class FreeBsdOrWorkerOnlyModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    private sealed class WorkerOnlyCondition : IRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
     }
 
     [RunIf<OnFreeBSD>]

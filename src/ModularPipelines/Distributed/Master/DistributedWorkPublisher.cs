@@ -49,10 +49,21 @@ internal class DistributedWorkPublisher(
         var moduleType = module.GetType();
         var moduleId = ModuleId.FromType(moduleType);
 
+        bool IsConditionGroupSatisfied(Type conditionGroupType) =>
+            _executionLocationContext?.IsConditionGroupSatisfied(module, conditionGroupType) == true;
+
         var requiredCapabilities = CapabilityConditions.GetModuleRequirement(
             moduleType,
-            conditionGroupType => _executionLocationContext?.IsConditionGroupSatisfied(module, conditionGroupType) == true,
+            IsConditionGroupSatisfied,
             conditionGroupType => _executionLocationContext?.IsConditionalRouteRequired(module, conditionGroupType) == true);
+        if (!requiredCapabilities.IsSatisfiable)
+        {
+            // Required conditional routes can contradict each other, for example when the local
+            // alternatives of RunIfAny<OnLinux, X> and RunIfAny<OnWindows, X> are both false. No worker
+            // can run the module, so let any worker claim it: its own condition evaluation skips it.
+            requiredCapabilities = CapabilityConditions.GetModuleRequirement(moduleType, IsConditionGroupSatisfied);
+        }
+
         if (!requiredCapabilities.IsSatisfiable)
         {
             throw new InvalidOperationException(

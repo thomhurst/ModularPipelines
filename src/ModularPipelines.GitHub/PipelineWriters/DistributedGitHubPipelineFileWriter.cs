@@ -194,11 +194,33 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
                 $"'{string.Join(" | ", allowedOperatingSystems)}'.");
         }
 
+        // The master makes a conditional route mandatory when every local alternative is false, so a
+        // route that can become mandatory must also be reachable on a supported runner.
+        var conditionRoutes = CapabilityConditions.GetConditionRoutes(moduleType).ToArray();
+        foreach (var clause in conditionRoutes
+                     .Where(static route => route.Route.IsConditional && route.CanBeRequired)
+                     .SelectMany(static route => route.Route.Requirement.Clauses)
+                     .Where(static clause => clause.All(static capability => capability.IsOperatingSystem)))
+        {
+            var compatibleOperatingSystems = clause
+                .Where(operatingSystem => allowedOperatingSystems?.Contains(operatingSystem) != false)
+                .ToArray();
+
+            // An incompatible route makes the module impossible, and a worker then skips it.
+            if (compatibleOperatingSystems.Length > 0
+                && !compatibleOperatingSystems.Any(operatingSystem =>
+                    Runners.Any(runner => runner.OperatingSystem == operatingSystem)))
+            {
+                throw new InvalidOperationException(
+                    "Distributed GitHub workflows do not support the required operating-system capability " +
+                    $"'{string.Join(" | ", compatibleOperatingSystems)}'.");
+            }
+        }
+
         // Provision every compatible operating system the module can use, including alternatives the
         // master may route to at run time when a mixed condition's local alternatives are false.
         var mentionedOperatingSystems = requirement.Clauses
-            .Concat(CapabilityConditions.GetConditionRoutes(moduleType)
-                .SelectMany(static route => route.Route.Requirement.Clauses))
+            .Concat(conditionRoutes.SelectMany(static route => route.Route.Requirement.Clauses))
             .SelectMany(static clause => clause)
             .Where(static capability => capability.IsOperatingSystem)
             .ToHashSet();

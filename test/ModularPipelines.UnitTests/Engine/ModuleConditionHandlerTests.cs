@@ -23,6 +23,24 @@ public class ModuleConditionHandlerTests
     private static int _workerOnlyEvaluationCount;
 
     [Test]
+    public async Task Distributed_Master_Defers_Foreign_Os_In_Mixed_And_Condition()
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+        IModule module = OperatingSystem.IsWindows()
+            ? new LinuxAndPlanningTrueModule()
+            : new WindowsAndPlanningTrueModule();
+
+        var result = await handler.ShouldIgnore(module);
+
+        await Assert.That(result.ShouldIgnore).IsFalse();
+    }
+
+    [Test]
     public async Task Distributed_Master_Does_Not_Filter_Foreign_Os_Module()
     {
         var handler = CreateHandler(new DistributedOptions
@@ -802,6 +820,22 @@ public class ModuleConditionHandlerTests
         return OperatingSystem.IsWindows()
             ? new LinuxMixedGenericAlternativeModule()
             : new WindowsMixedGenericAlternativeModule();
+    }
+
+    [RunIfAll<OnLinux, PlanningTrueCondition>]
+    private sealed class LinuxAndPlanningTrueModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIfAll<OnWindows, PlanningTrueCondition>]
+    private sealed class WindowsAndPlanningTrueModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
     [RunIfAny<OnLinux, PlanningFalseCondition>]

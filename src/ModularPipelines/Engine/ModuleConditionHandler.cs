@@ -418,7 +418,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             : null;
     }
 
-    private static bool IsPlanningConditionAttribute(IConditionAttribute attribute)
+    internal static bool IsPlanningConditionAttribute(IConditionAttribute attribute)
         => IsPlanningConditionAttribute(attribute.GetType());
 
     private static bool IsPlanningConditionAttribute(Type attributeType)
@@ -918,7 +918,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         {
             executionLocationContext.MarkConditionGroupSatisfied(module, attribute.GetType());
         }
-        else if (CapabilityConditions.HasOnlyPlanningLocalAlternatives(attribute))
+        else if (CapabilityConditions.CanRequireRoute(attribute))
         {
             // Every local alternative is false, so only the capability alternatives can satisfy it.
             executionLocationContext.MarkConditionalRouteRequired(module, attribute.GetType());
@@ -954,8 +954,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         {
             executionLocationContext.MarkConditionGroupSatisfied(module, conditionGroupType);
         }
-        else if (alternatives.All(attribute => CapabilityConditions.IsCapabilityOnly(attribute)
-                                               || localAlternatives.Contains(attribute)))
+        else if (CapabilityConditions.CanRequireRoute(alternatives))
         {
             // Every local alternative is false, so only the capability alternatives can satisfy it.
             executionLocationContext.MarkConditionalRouteRequired(module, conditionGroupType);
