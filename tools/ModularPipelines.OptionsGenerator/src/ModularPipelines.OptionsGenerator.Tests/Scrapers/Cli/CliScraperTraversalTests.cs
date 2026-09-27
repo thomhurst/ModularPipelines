@@ -1190,7 +1190,7 @@ public partial class CliScraperTraversalTests
                   -r, --recursive
                           Run recursively
                 """,
-            ["stage --help"] = stageHelp,
+            ["help stage"] = stageHelp,
             ["stage download --help"] = stageHelp,
             ["stage publish --help"] = stageHelp,
         });
@@ -1201,7 +1201,7 @@ public partial class CliScraperTraversalTests
         await Assert.That(commands.Select(command => command.FullCommand))
             .IsEquivalentTo(["pnpm stage", "pnpm stage download", "pnpm stage publish"]);
         await Assert.That(executor.Arguments)
-            .IsEquivalentTo(["--help", "stage --help", "stage download --help", "stage publish --help"]);
+            .IsEquivalentTo(["--help", "help stage", "stage download --help", "stage publish --help"]);
         await Assert.That(commands.SelectMany(command => command.PositionalArguments)).IsEmpty();
         await Assert.That(commands.SelectMany(command => command.UsagePositionalArguments)).IsEmpty();
         await Assert.That(commands.Single(command => command.FullCommand == "pnpm stage publish").Options
@@ -1211,6 +1211,44 @@ public partial class CliScraperTraversalTests
                 ("--dry-run", "bool?", true),
                 ("--json", "bool?", true),
             ]);
+    }
+
+    [Test]
+    public async Task PnpmTraversal_Reads_Script_Shortcut_Help_Through_The_Help_Command()
+    {
+        // pnpm 12 executes `pnpm test --help` as the test script and fails outside a package.
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Experimental package manager for node.js
+
+                Usage: pnpm [OPTIONS] <COMMAND>
+
+                Commands:
+                  test    Runs a package's "test" script, if one was provided
+                """,
+            ["help test"] = """
+                Runs a package's "test" script, if one was provided
+
+                Usage: pnpm test [OPTIONS] [ARGS]...
+
+                Arguments:
+                  [ARGS]...
+                          Arguments passed to the script, verbatim
+
+                Options:
+                  -r, --recursive
+                          Run the script in every workspace package
+                """,
+        });
+        var scraper = new TestPnpmCliScraper(executor);
+
+        var commands = await ScrapeAsync(scraper);
+
+        await Assert.That(executor.Arguments).IsEquivalentTo(["--help", "help test"]);
+        await Assert.That(commands.Single(command => command.FullCommand == "pnpm test").Options
+                .Select(option => option.SwitchName))
+            .IsEquivalentTo(["--recursive"]);
     }
 
     [Test]
@@ -1227,7 +1265,7 @@ public partial class CliScraperTraversalTests
                 Commands:
                   audit    Checks for known security issues
                 """,
-            ["audit --help"] = """
+            ["help audit"] = """
                 Checks for known security issues with the installed packages
 
                 Usage: pnpm audit [OPTIONS] [PARAMS]...
