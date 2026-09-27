@@ -8,7 +8,7 @@ foreach ($endpoint in @('', ' ', 'private-endpoint')) {
             $masterMatrix = $result.matrix | ConvertFrom-Json
             $workerMatrix = $result.worker_matrix | ConvertFrom-Json
             $instances = @($masterMatrix.include) + @($workerMatrix.include)
-            $expectedCount = if ($distributed) { 4 } else { 1 }
+            $expectedCount = if ($distributed) { 6 } else { 1 }
             if ($result.distributed -ne $distributed.ToString().ToLowerInvariant() -or
                 $instances.Count -ne $expectedCount -or $result.run_identifier -ne '123-2') {
                 throw 'Incorrect secretless/trusted matrix routing.'
@@ -21,7 +21,7 @@ foreach ($endpoint in @('', ' ', 'private-endpoint')) {
                 throw 'The primary or shared instance count is invalid.'
             }
 
-            if ($distributed -and (@($instances.os) -join ',') -ne 'ubuntu-latest,ubuntu-latest,windows-latest,macos-latest') {
+            if ($distributed -and (@($instances.os) -join ',') -ne 'ubuntu-latest,ubuntu-latest,windows-latest,macos-latest,ubuntu-latest,ubuntu-latest') {
                 throw 'Distributed mode lost a required operating system.'
             }
 

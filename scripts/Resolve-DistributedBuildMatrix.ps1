@@ -16,7 +16,7 @@ if ($RunId -notmatch '^\d+$' -or $RunAttempt -notmatch '^[1-9]\d*$') {
 $distributed = $AllowDistributed -eq 'true' -and
     -not [string]::IsNullOrWhiteSpace($RedisEndpoint) -and
     -not [string]::IsNullOrWhiteSpace($RedisKey)
-$runners = @(if ($distributed) { @('ubuntu-latest', 'ubuntu-latest', 'windows-latest', 'macos-latest') } else { @('ubuntu-latest') })
+$runners = @(if ($distributed) { @('ubuntu-latest', 'ubuntu-latest', 'windows-latest', 'macos-latest', 'ubuntu-latest', 'ubuntu-latest') } else { @('ubuntu-latest') })
 $instances = @(for ($index = 0; $index -lt $runners.Count; $index++) {
     @{ instance = $index; os = $runners[$index]; total = $runners.Count }
 })
