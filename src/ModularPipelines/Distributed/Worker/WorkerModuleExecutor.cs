@@ -185,7 +185,7 @@ internal class WorkerModuleExecutor(
                 await _coordinator.WaitForCancellationAsync(executionCts.Token);
                 if (!executionCts.IsCancellationRequested)
                 {
-                    _logger.LogInformation("Master requested distributed cancellation");
+                    _logger.LogInformation("Coordinator requested distributed cancellation");
                     await executionCts.CancelAsync();
                 }
 
@@ -266,14 +266,14 @@ internal class WorkerModuleExecutor(
         var resolved = _typeRegistry.Resolve(assignment.ModuleId);
         if (resolved is null)
         {
-            _logger.LogError("Cannot resolve module type: {ModuleId}. Publishing failure to prevent master hang.", assignment.ModuleId);
+            _logger.LogError("Cannot resolve module type: {ModuleId}. Publishing failure to prevent coordinator hang.", assignment.ModuleId);
             await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, instanceIndex, _coordinator, _logger, executionTimer).ConfigureAwait(false);
             return;
         }
 
         if (!moduleLookup.TryGetValue(assignment.ModuleId, out var module))
         {
-            _logger.LogError("Module instance not found: {ModuleId}. Publishing failure to prevent master hang.", assignment.ModuleId);
+            _logger.LogError("Module instance not found: {ModuleId}. Publishing failure to prevent coordinator hang.", assignment.ModuleId);
             await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, instanceIndex, _coordinator, _logger, executionTimer).ConfigureAwait(false);
             return;
         }
@@ -470,7 +470,7 @@ internal class WorkerModuleExecutor(
         catch (Exception publishException)
         {
             _logger.LogCritical(publishException,
-                "Failed to publish failure result for module {Module} — master may hang waiting for this result",
+                "Failed to publish failure result for module {Module} — coordinator may hang waiting for this result",
                 assignment.ModuleId);
         }
     }

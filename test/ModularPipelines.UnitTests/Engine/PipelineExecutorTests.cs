@@ -68,6 +68,62 @@ public class PipelineExecutorTests
     }
 
     [Test]
+    public async Task Partial_Backend_Summarizes_Only_Claimed_Modules_With_Reported_Metrics()
+    {
+        var claimed = new UnexecutedModule();
+        var unclaimed = new OtherUnexecutedModule();
+        var start = DateTimeOffset.UtcNow.AddMinutes(-1);
+        var claimedResult = CreateResult(claimed, "claimed") with
+        {
+            StartTime = start,
+            EndTime = start.AddSeconds(2),
+            Duration = TimeSpan.FromSeconds(2),
+        };
+        ModuleCompletionSourceApplicator.TryApply(claimed, claimedResult);
+        var context = new Mock<IExecutionBackendContext>();
+        context
+            .Setup(x => x.TryApplyResult(It.IsAny<IModule>(), It.IsAny<IModuleResult>()))
+            .Returns(false);
+        IReadOnlyList<IModule>? summarizedModules = null;
+        var summaryFactory = new Mock<IPipelineSummaryFactory>();
+        summaryFactory
+            .Setup(x => x.Create(
+                It.IsAny<IReadOnlyList<IModule>>(),
+                It.IsAny<TimeSpan>(),
+                It.IsAny<DateTimeOffset>(),
+                It.IsAny<DateTimeOffset>()))
+            .Callback<IReadOnlyList<IModule>, TimeSpan, DateTimeOffset, DateTimeOffset>(
+                (modules, _, _, _) => summarizedModules = modules)
+            .Returns(new PipelineSummary([], [], TimeSpan.Zero, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow));
+        var metrics = new MetricsCollector();
+        var executor = CreateExecutor(
+            Mock.Of<ISecondaryExceptionContainer>(),
+            Mock.Of<IExceptionRethrowService>(),
+            new PipelineOptions { FailureMode = FailureMode.ContinueOnFailure },
+            ownsEntirePlan: false,
+            backendResults: [claimedResult],
+            executionBackendContext: context.Object,
+            summaryFactory: summaryFactory,
+            metricsCollector: metrics);
+
+        await executor.ExecuteAsync(
+            [claimed, unclaimed],
+            new OrganizedModules(
+                [new RunnableModule(claimed, TimeSpan.Zero), new RunnableModule(unclaimed, TimeSpan.Zero)],
+                []));
+
+        var timeline = metrics.GetTimelines().Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(summarizedModules).IsNotNull();
+            await Assert.That(summarizedModules!).HasSingleItem();
+            await Assert.That(summarizedModules![0]).IsSameReferenceAs(claimed);
+            await Assert.That(timeline.Status).IsEqualTo(ModuleStatus.Succeeded);
+            await Assert.That(timeline.ExecutionDuration).IsEqualTo(TimeSpan.FromSeconds(2));
+        }
+    }
+
+    [Test]
     public async Task Plan_Owning_Backend_Requires_Results_For_The_Entire_Plan()
     {
         var executor = CreateExecutor(
@@ -201,7 +257,9 @@ public class PipelineExecutorTests
         PipelineOptions options,
         bool ownsEntirePlan = true,
         IReadOnlyList<IModuleResult>? backendResults = null,
-        IExecutionBackendContext? executionBackendContext = null)
+        IExecutionBackendContext? executionBackendContext = null,
+        Mock<IPipelineSummaryFactory>? summaryFactory = null,
+        IMetricsCollector? metricsCollector = null)
     {
         var executionBackend = new Mock<IExecutionBackend>();
         executionBackend.SetupGet(x => x.OwnsEntirePlan).Returns(ownsEntirePlan);
@@ -221,14 +279,17 @@ public class PipelineExecutorTests
             .Setup(x => x.OnPipelineEndAsync(It.IsAny<PipelineSummary>()))
             .Returns(Task.CompletedTask);
 
-        var summaryFactory = new Mock<IPipelineSummaryFactory>();
-        summaryFactory
-            .Setup(x => x.Create(
-                It.IsAny<IReadOnlyList<IModule>>(),
-                It.IsAny<TimeSpan>(),
-                It.IsAny<DateTimeOffset>(),
-                It.IsAny<DateTimeOffset>()))
-            .Returns(new PipelineSummary([], [], TimeSpan.Zero, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow));
+        if (summaryFactory is null)
+        {
+            summaryFactory = new Mock<IPipelineSummaryFactory>();
+            summaryFactory
+                .Setup(x => x.Create(
+                    It.IsAny<IReadOnlyList<IModule>>(),
+                    It.IsAny<TimeSpan>(),
+                    It.IsAny<DateTimeOffset>(),
+                    It.IsAny<DateTimeOffset>()))
+                .Returns(new PipelineSummary([], [], TimeSpan.Zero, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow));
+        }
 
         var contextFactory = new Mock<IExecutionBackendContextFactory>();
         contextFactory.Setup(factory => factory.Create(
@@ -248,7 +309,8 @@ public class PipelineExecutorTests
             exceptionRethrowService,
             secondaryExceptions,
             summaryFactory.Object,
-            Microsoft.Extensions.Options.Options.Create(options));
+            Microsoft.Extensions.Options.Options.Create(options),
+            metricsCollector);
     }
 
     private static ModuleResult<string> CreateResult(IModule module, string value)
@@ -266,6 +328,14 @@ public class PipelineExecutorTests
     }
 
     private sealed class UnexecutedModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("This module must remain unexecuted.");
+    }
+
+    private sealed class OtherUnexecutedModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,

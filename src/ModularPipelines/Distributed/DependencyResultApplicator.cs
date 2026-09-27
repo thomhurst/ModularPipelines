@@ -160,7 +160,7 @@ internal static class DependencyResultApplicator
             if (logger.IsEnabled(LogLevel.Critical))
             {
                 logger.LogCritical(ex,
-                    "Failed to publish resolution failure for {Module} — master may hang waiting for this result",
+                    "Failed to publish resolution failure for {Module} — coordinator may hang waiting for this result",
                     assignment.ModuleId);
             }
         }

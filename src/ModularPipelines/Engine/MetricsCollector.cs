@@ -58,6 +58,13 @@ internal class MetricsCollector : IMetricsCollector
         data.Status = status;
     }
 
+    public void RecordModuleExecutionWindow(Type moduleType, DateTimeOffset startTime, DateTimeOffset endTime)
+    {
+        var data = _moduleMetrics.GetOrAdd(moduleType, _ => new ModuleMetricsData { ModuleType = moduleType });
+        data.StartTime = startTime;
+        data.EndTime = endTime;
+    }
+
     public void RecordConcurrencySnapshot(int currentConcurrency, DateTimeOffset time)
     {
         _concurrencySnapshots.Add(new ConcurrencySnapshot(currentConcurrency, time));

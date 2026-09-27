@@ -45,6 +45,12 @@ internal interface IMetricsCollector
     void RecordModuleCompleted(Type moduleType, DateTimeOffset time, bool success, bool skipped, ModuleStatus status);
 
     /// <summary>
+    /// Replaces a completed module's recorded start and end times with the execution window
+    /// reported by the process that ran it, excluding dispatch and queue time.
+    /// </summary>
+    void RecordModuleExecutionWindow(Type moduleType, DateTimeOffset startTime, DateTimeOffset endTime);
+
+    /// <summary>
     /// Records a snapshot of current concurrency.
     /// </summary>
     void RecordConcurrencySnapshot(int currentConcurrency, DateTimeOffset time);
