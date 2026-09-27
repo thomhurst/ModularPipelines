@@ -7,22 +7,14 @@ Not every worker can execute every module. Some modules need Docker, others need
 Workers advertise typed `Capability` values when they register with the coordinator. Built-in values provide discoverable names, while implicit string conversion still supports custom capabilities.
 
 ```
-builder.AddDistributedMode(o =>
-
-{
-
-    o.InstanceIndex = 1;
-
-    o.TotalInstances = 4;
-
-    o.Capabilities = [Capability.Docker, Capability.Gpu, "high-memory"];
-
-});
+builder.AddCapabilities(Capability.Docker, Capability.Gpu, "high-memory");
 ```
+
+`AddCapabilities` works with or without distributed mode. `DistributedOptions.Capabilities` is equivalent when you already configure `AddDistributedMode`.
 
 ### Auto-Detected OS Capability[​](#auto-detected-os-capability "Direct link to Auto-Detected OS Capability")
 
-By default, `AutoDetectOsCapability` is `true`, which automatically adds the current operating system as a capability:
+Every instance always advertises its current operating system; no configuration is needed:
 
 * Windows runners advertise `Capability.Windows`
 * Linux runners advertise `Capability.Linux`
@@ -31,9 +23,55 @@ By default, `AutoDetectOsCapability` is `true`, which automatically adds the cur
 
 Attribute arguments must be compile-time constants, so use the corresponding `Capability.Names` values. For example, modules with `[RequiresCapability(Capability.Names.Linux)]` only run on Linux workers without extra configuration.
 
-### Auto-Detected OS from Platform Conditions[​](#auto-detected-os-from-platform-conditions "Direct link to Auto-Detected OS from Platform Conditions")
+### Detecting Custom Capabilities[​](#detecting-custom-capabilities "Direct link to Detecting Custom Capabilities")
 
-When a module has a `[RunIf<OnLinux>]`, `[RunIf<OnWindows>]`, `[RunIf<OnMacOS>]`, or `[RunIf<OnFreeBSD>]` attribute, the framework automatically adds the corresponding OS capability requirement to its assignment. This keeps the attribute set DRY — you don't need to add both `[RunIf<OnLinux>]` and `[RequiresCapability(Capability.Names.Linux)]` to the same module.
+The OS capability comes from a built-in `ICapabilityProvider`. Register your own providers to detect other capabilities at startup. Each process's capabilities are the union of all providers, `AddCapabilities`, and `DistributedOptions.Capabilities`. Providers run once per process:
+
+```
+public sealed class GpuCapabilityProvider : ICapabilityProvider
+
+{
+
+    public Task<IEnumerable<Capability>> GetCapabilitiesAsync(CancellationToken cancellationToken) =>
+
+        Task.FromResult<IEnumerable<Capability>>(
+
+            File.Exists("/dev/nvidia0") ? [Capability.Gpu] : []);
+
+}
+
+
+
+builder.AddCapabilityProvider<GpuCapabilityProvider>();
+```
+
+Docker and GPU support are not detected automatically, because the presence of a binary or device does not prove the capability is usable. Advertise them explicitly or with a provider.
+
+### Routing from Run Conditions[​](#routing-from-run-conditions "Direct link to Routing from Run Conditions")
+
+`OnLinux`, `OnWindows`, `OnMacOS`, and `OnFreeBSD` implement `ICapabilityCondition`. When a module uses one of them in `[RunIf]`, `[RunIfAll]`, `[RunIfAny]`, or a `ConditionGroup`, the framework translates the condition into a capability requirement instead of evaluating it on the master. This keeps the attribute set DRY — you don't need to add both `[RunIf<OnLinux>]` and `[RequiresCapability(Capability.Names.Linux)]` to the same module.
+
+* `[RunIf<OnLinux>]` requires `linux`.
+* `[RunIfAny<OnLinux, OnMacOS>]` and `[RunIf<OnUnix>]` require `linux` **or** `macos`.
+* `[RunIfAll<OnLinux, OnGpu>]` requires `linux` **and** the custom condition's capability.
+
+Implement `ICapabilityCondition` to make your own conditions routable:
+
+```
+public sealed class OnGpu : ICapabilityCondition
+
+{
+
+    public Capability Capability => Capability.Gpu;
+
+
+
+    public Task<bool> EvaluateAsync(IPipelineContext context) =>
+
+        Task.FromResult(File.Exists("/dev/nvidia0"));
+
+}
+```
 
 ```
 // The "linux" capability is auto-detected — no [RequiresCapability] needed
@@ -113,6 +151,38 @@ public class LinuxDockerModule : Module<string>
 }
 ```
 
+### Alternative Capabilities[​](#alternative-capabilities "Direct link to Alternative Capabilities")
+
+Use `[RequiresAnyCapability]` when any one of several capabilities is enough. Each attribute adds one group of alternatives, and every group must be satisfied:
+
+```
+// Runs on a Linux or macOS worker that also has Docker
+
+[RequiresAnyCapability(Capability.Names.Linux, Capability.Names.MacOS)]
+
+[RequiresCapability(Capability.Names.Docker)]
+
+public class UnixDockerModule : Module<string> { ... }
+```
+
+### Running Without Distributed Mode[​](#running-without-distributed-mode "Direct link to Running Without Distributed Mode")
+
+Capability requirements apply everywhere, just like `[RunIf<OnLinux>]`. When a module would run locally (a normal single-machine run, a worker, or the master running its own share of the work), and this machine's capabilities do not satisfy the module's `[RequiresCapability]` or `[RequiresAnyCapability]` requirement, the module is **skipped** and the skip reason names the missing capabilities. In distributed mode the master instead routes the module to a worker that satisfies it.
+
+```
+// Skipped on a machine that has not declared docker
+
+[RequiresCapability(Capability.Names.Docker)]
+
+public class DockerBuildModule : Module<string> { ... }
+
+
+
+// Runs locally once docker is declared
+
+builder.AddCapabilities(Capability.Docker);
+```
+
 ### No Capabilities[​](#no-capabilities "Direct link to No Capabilities")
 
 Modules without `[RequiresCapability]` can run on any worker. They have no routing restrictions.
@@ -122,9 +192,10 @@ Modules without `[RequiresCapability]` can run on any worker. They have no routi
 The matching logic is straightforward:
 
 1. If a module has **no** required capabilities, it can run on **any** worker.
-2. If a module has required capabilities, **all** of them must be present in the worker's capability set.
+2. A module's requirement is a `CapabilityRequirement`: a list of clauses. Every clause must be satisfied, and a worker satisfies a clause when it advertises **at least one** of the clause's capabilities. For example, `docker & (linux | macos)`.
 3. Capability matching is **case-insensitive**.
-4. If no worker with the required capabilities is available, only that module waits in the queue. After `CapabilityTimeout`, it fails with a routing error that lists the missing route instead of waiting for the module-result timeout.
+4. A worker runs one operating system, so a module whose requirements need two different operating systems is skipped as impossible. This applies whether the conflict comes from run conditions (`[RunIf<OnLinux>]` with `[RunIf<OnWindows>]`) or declared capabilities (`[RequiresCapability(Capability.Names.Linux, Capability.Names.Windows)]`).
+5. If no worker with the required capabilities is available, only that module waits in the queue. After `CapabilityTimeout`, it fails with a routing error that lists the missing route instead of waiting for the module-result timeout.
 
 ## Example: Mixed Pipeline[​](#example-mixed-pipeline "Direct link to Example: Mixed Pipeline")
 
