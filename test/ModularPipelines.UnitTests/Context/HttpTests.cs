@@ -88,13 +88,14 @@ public class HttpTests : TestBase
             Logging = HttpLoggingOptions.None,
             Timeout = useRequestTimeout ? timeout : null,
         });
-        var stream = await response.Content.ReadAsStreamAsync();
-        var readTask = stream.ReadAsync(new byte[1]).AsTask();
-
         try
         {
-            await Assert.ThrowsAsync<OperationCanceledException>(
-                async () => await readTask.WaitAsync(TestHostSettings.DefaultTestTimeout));
+            // A slow runner can reach the timeout before the body stream opens; either step must cancel.
+            await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+            {
+                var stream = await response.Content.ReadAsStreamAsync();
+                await stream.ReadAsync(new byte[1]).AsTask().WaitAsync(TestHostSettings.DefaultTestTimeout);
+            });
         }
         finally
         {
@@ -129,13 +130,14 @@ public class HttpTests : TestBase
             HttpClient = useCustomClient ? httpClient : null,
             Logging = HttpLoggingOptions.None,
         });
-        var stream = response.Content.ReadAsStream();
-        var readTask = stream.ReadAsync(new byte[1]).AsTask();
-
         try
         {
-            await Assert.ThrowsAsync<OperationCanceledException>(
-                async () => await readTask.WaitAsync(TestHostSettings.DefaultTestTimeout));
+            // A slow runner can reach the timeout before the body stream opens; either step must cancel.
+            await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+            {
+                var stream = response.Content.ReadAsStream();
+                await stream.ReadAsync(new byte[1]).AsTask().WaitAsync(TestHostSettings.DefaultTestTimeout);
+            });
         }
         finally
         {
@@ -204,13 +206,14 @@ public class HttpTests : TestBase
             Logging = HttpLoggingOptions.None,
             Timeout = timeout,
         });
-        var stream = response.Content.ReadAsStream();
-        var readTask = stream.ReadAsync(new byte[1]).AsTask();
-
         try
         {
-            await Assert.ThrowsAsync<OperationCanceledException>(
-                async () => await readTask.WaitAsync(TestHostSettings.DefaultTestTimeout));
+            // A slow runner can reach the timeout before the body stream opens; either step must cancel.
+            await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+            {
+                var stream = response.Content.ReadAsStream();
+                await stream.ReadAsync(new byte[1]).AsTask().WaitAsync(TestHostSettings.DefaultTestTimeout);
+            });
         }
         finally
         {
