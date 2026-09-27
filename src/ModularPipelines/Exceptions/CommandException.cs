@@ -58,7 +58,7 @@ public class CommandException : PipelineException
     /// <param name="message">The message that describes the command failure.</param>
     /// <param name="result">The result of the failed command.</param>
     /// <param name="innerException">The inner exception that caused this command failure.</param>
-    protected CommandException(string message, CommandResult result, Exception? innerException = null)
+    protected CommandException(string message, CommandResult result, Exception? innerException)
         : base(message, innerException)
     {
         Result = result;
