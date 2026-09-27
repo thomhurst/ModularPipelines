@@ -130,7 +130,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     /// </summary>
     /// <remarks>
     /// Each planning-safe condition is evaluated at most once, lazily, with run-condition short-circuiting.
-    /// A group is marked satisfied only when it holds whatever worker-only conditions return.
+    /// A group is marked satisfied only when it holds without consulting any worker-only condition.
     /// </remarks>
     private async Task<FormulaValue> PrepareConditionRoutingAsync(
         IModule module,
@@ -139,11 +139,15 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         CancellationToken cancellationToken)
     {
         var values = new Dictionary<object, bool>(ReferenceEqualityComparer.Instance);
-        async Task<bool?> EvaluatePlanningAtomAsync(ConditionAtom atom, bool workerOnlyValue)
+        var consultedWorkerOnlyCondition = false;
+        async Task<bool?> EvaluatePlanningAtomAsync(ConditionAtom atom)
         {
             if (!atom.IsPlanning)
             {
-                return workerOnlyValue;
+                // A worker-only condition may hold on the worker, so it constrains nothing here. Treating it
+                // as true also short-circuits an OR exactly where a worker would stop.
+                consultedWorkerOnlyCondition = true;
+                return true;
             }
 
             if (!values.TryGetValue(atom.Key, out var value))
@@ -161,19 +165,12 @@ internal class ModuleConditionHandler : IModuleConditionHandler
                      .ForConditionGroups([.. attributes.All, .. attributes.Any])
                      .Where(static group => group.Formula.Capabilities.Any()))
         {
-            FormulaValue value;
-            if ((await formula.EvaluateAsync(atom => EvaluatePlanningAtomAsync(atom, workerOnlyValue: false))
-                    .ConfigureAwait(false)).Kind == FormulaValueKind.True)
+            consultedWorkerOnlyCondition = false;
+            var value = await formula.EvaluateAsync(EvaluatePlanningAtomAsync).ConfigureAwait(false);
+            if (value.Kind == FormulaValueKind.True && !consultedWorkerOnlyCondition)
             {
-                // A local alternative holds, so the worker need not re-evaluate this group.
+                // Local conditions alone satisfy the group, so the worker need not re-evaluate it.
                 _executionLocationContext.MarkConditionGroupSatisfied(module, conditionGroupType);
-                value = FormulaValue.True;
-            }
-            else
-            {
-                // A worker-only condition may still hold on the worker, so it constrains nothing here.
-                value = await formula.EvaluateAsync(atom => EvaluatePlanningAtomAsync(atom, workerOnlyValue: true))
-                    .ConfigureAwait(false);
             }
 
             result = FormulaValue.And(result, value);

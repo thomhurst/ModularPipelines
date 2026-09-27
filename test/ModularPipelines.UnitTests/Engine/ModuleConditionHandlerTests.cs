@@ -779,6 +779,34 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    public async Task Distributed_Master_Routing_Stops_Where_A_Worker_Only_Alternative_May_Hold()
+    {
+        _workerOnlyEvaluationCount = 0;
+        var executionLocation = CreateExecutionLocationContext(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+        var handler = CreateHandler(new DistributedOptions(), executionLocationContext: executionLocation);
+        var module = new WorkerOnlyBeforeThrowingModule();
+
+        // A worker stops after a true worker-only alternative, so the master must not evaluate the throwing one.
+        await handler.PrepareExecutionRoutingAsync(module);
+        executionLocation.TryGetPreparedConditionValue(module, out var value);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(value.Kind).IsEqualTo(FormulaValueKind.True);
+            await Assert.That(_workerOnlyEvaluationCount).IsEqualTo(0);
+            await Assert.That(executionLocation.IsConditionGroupSatisfied(
+                    module,
+                    typeof(RunIfAnyAttribute<WorkerOnlyRunCondition, ThrowingPlanningCondition, OnWindows>)))
+                .IsFalse();
+        }
+    }
+
+    [Test]
     public async Task Distributed_Master_Finds_No_Route_When_Required_Alternatives_Contradict()
     {
         var executionLocation = CreateExecutionLocationContext(new DistributedOptions
@@ -1194,6 +1222,14 @@ public class ModuleConditionHandlerTests
     [RunIfAny<OnLinux, CountingPlanningFalseCondition>]
     [RunIfAny<PlanningTrueCondition, ThrowingPlanningCondition, OnWindows>]
     private sealed class ShortCircuitRoutingModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIfAny<WorkerOnlyRunCondition, ThrowingPlanningCondition, OnWindows>]
+    private sealed class WorkerOnlyBeforeThrowingModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
