@@ -827,6 +827,14 @@ public abstract partial class CliScraperBase : ICliScraper
         }).Where(group => group.Arguments.Count > 0 || group.Groups.Count > 0)];
 
     /// <summary>
+    /// Gets the arguments that print help for a command: everything after the tool name, plus --help.
+    /// </summary>
+    protected virtual string GetHelpArguments(string[] commandPath) =>
+        commandPath.Length > 1
+            ? string.Join(" ", commandPath.Skip(1)) + " --help"
+            : "--help";
+
+    /// <summary>
     /// Gets help text for a command, using cache if available.
     /// Uses ExecutablePath for execution.
     /// </summary>
@@ -846,15 +854,10 @@ public abstract partial class CliScraperBase : ICliScraper
             return cached;
         }
 
-        // Build the arguments: everything after the tool name, plus --help
-        var args = commandPath.Length > 1
-            ? string.Join(" ", commandPath.Skip(1)) + " --help"
-            : "--help";
-
         var result = await ExecuteAndRecordHelpCommandAsync(
             commandPath,
             ExecutablePath,
-            args,
+            GetHelpArguments(commandPath),
             cancellationToken);
 
         if (!ShouldAcceptHelpResult(commandPath, result))
