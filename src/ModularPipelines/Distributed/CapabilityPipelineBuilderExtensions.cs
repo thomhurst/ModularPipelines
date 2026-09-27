@@ -17,9 +17,9 @@ public static class CapabilityPipelineBuilderExtensions
     /// <summary>
     /// Declares capabilities this process provides, in addition to the detected operating system.
     /// </summary>
-    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="builder">The pipeline builder to configure.</param>
     /// <param name="capabilities">The capabilities to advertise.</param>
-    /// <returns>The pipeline builder.</returns>
+    /// <returns>The same pipeline builder, for chaining.</returns>
     public static PipelineBuilder AddCapabilities(this PipelineBuilder builder, params Capability[] capabilities)
     {
         ArgumentNullException.ThrowIfNull(builder);
@@ -37,8 +37,8 @@ public static class CapabilityPipelineBuilderExtensions
     /// Registers a provider that detects capabilities this process provides.
     /// </summary>
     /// <typeparam name="TProvider">The provider type.</typeparam>
-    /// <param name="builder">The pipeline builder.</param>
-    /// <returns>The pipeline builder.</returns>
+    /// <param name="builder">The pipeline builder to configure.</param>
+    /// <returns>The same pipeline builder, for chaining.</returns>
     public static PipelineBuilder AddCapabilityProvider<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TProvider>(
         this PipelineBuilder builder)
         where TProvider : class, ICapabilityProvider
