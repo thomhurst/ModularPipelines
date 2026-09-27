@@ -75,7 +75,7 @@ public record BrewBundleInstallOptions : BrewOptions
     public bool? Force { get; set; }
 
     /// <summary>
-    /// Perform cleanup after installing dependencies without asking. Enabled by default if $HOMEBREW_BUNDLE_FORCE_INSTALL_CLEANUP is set and --global is passed.
+    /// Perform cleanup after installing dependencies without asking.
     /// </summary>
     [CliFlag("--force-cleanup")]
     public bool? ForceCleanup { get; set; }

@@ -634,7 +634,7 @@ public partial interface IBrew
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Symlink all of formula's installed files into Homebrew's prefix. This is done automatically when you install formulae but can be useful for manual installations.
+    /// Symlink all of formula's installed files or cask's binaries, manpages and shell completions into Homebrew's prefix. This is done automatically when you install formulae and casks but can be useful for manual installations.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1067,7 +1067,7 @@ public partial interface IBrew
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Remove symlinks for formula from Homebrew's prefix. This can be useful for temporarily disabling a formula: brew unlink formula &amp;&amp; commands &amp;&amp; brew link formula
+    /// Remove symlinks for formula or cask from Homebrew's prefix. This can be useful for temporarily disabling a formula: brew unlink formula &amp;&amp; commands &amp;&amp; brew link formula
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1197,7 +1197,7 @@ public partial interface IBrew
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Verify the build provenance of bottles using GitHub's attestation tools. This is done by first fetching the given bottles and then verifying their provenance.
+    /// Verify the build provenance of bottles using GitHub's attestation tools. This is done by first fetching the given bottles and then verifying their provenance for homebrew/core and third-party taps that provide attestations.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

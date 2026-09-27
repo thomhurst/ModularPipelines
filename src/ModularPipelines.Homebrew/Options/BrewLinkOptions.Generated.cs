@@ -13,7 +13,7 @@ using ModularPipelines.Homebrew.Options;
 namespace ModularPipelines.Homebrew.Options;
 
 /// <summary>
-/// Symlink all of formula's installed files into Homebrew's prefix. This is done automatically when you install formulae but can be useful for manual installations.
+/// Symlink all of formula's installed files or cask's binaries, manpages and shell completions into Homebrew's prefix. This is done automatically when you install formulae and casks but can be useful for manual installations.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Homebrew.Options;
 public record BrewLinkOptions : BrewOptions
 {
     /// <summary>
-    /// Symlink all of formula's installed files into Homebrew's prefix. This is done automatically when you install formulae but can be useful for manual installations.
+    /// Symlink all of formula's installed files or cask's binaries, manpages and shell completions into Homebrew's prefix. This is done automatically when you install formulae and casks but can be useful for manual installations.
     /// </summary>
     /// <param name="InstalledFormula">The installed_formula operand.</param>
     public BrewLinkOptions(
@@ -61,7 +61,7 @@ public record BrewLinkOptions : BrewOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Allow keg-only formulae to be linked.
+    /// Allow keg-only formulae to be linked. When linking casks, overwrite existing symlinks originally from the same cask.
     /// </summary>
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
@@ -71,6 +71,18 @@ public record BrewLinkOptions : BrewOptions
     /// </summary>
     [CliFlag("--HEAD")]
     public bool? Head { get; set; }
+
+    /// <summary>
+    /// Treat all named arguments as formulae.
+    /// </summary>
+    [CliFlag("--formula")]
+    public bool? Formula { get; set; }
+
+    /// <summary>
+    /// Treat all named arguments as casks.
+    /// </summary>
+    [CliFlag("--cask")]
+    public bool? Cask { get; set; }
 
     /// <summary>
     /// Display any debugging information.

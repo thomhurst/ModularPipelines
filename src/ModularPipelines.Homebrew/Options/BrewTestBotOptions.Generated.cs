@@ -45,7 +45,7 @@ public record BrewTestBotOptions : BrewOptions
     public bool? BuildFromSource { get; set; }
 
     /// <summary>
-    /// Build dependents from source rather than testing bottles.
+    /// Build a limited set of dependents from source in addition to testing bottles. Up to 10 per formula per shard, prioritising popular dependents in a sharded group.
     /// </summary>
     [CliFlag("--build-dependents-from-source")]
     public bool? BuildDependentsFromSource { get; set; }

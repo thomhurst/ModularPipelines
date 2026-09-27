@@ -116,7 +116,7 @@ public record BrewBumpCaskPrOptions : BrewOptions
     public string? Sha256 { get; set; }
 
     /// <summary>
-    /// Use the specified GitHub organization for forking.
+    /// Use the specified GitHub organisation for forking.
     /// </summary>
     [CliOption("--fork-org", Format = OptionFormat.EqualsSeparated)]
     public string? ForkOrg { get; set; }

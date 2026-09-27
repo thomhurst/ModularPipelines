@@ -13,7 +13,7 @@ using ModularPipelines.Homebrew.Options;
 namespace ModularPipelines.Homebrew.Options;
 
 /// <summary>
-/// Remove symlinks for formula from Homebrew's prefix. This can be useful for temporarily disabling a formula: brew unlink formula &amp;&amp; commands &amp;&amp; brew link formula
+/// Remove symlinks for formula or cask from Homebrew's prefix. This can be useful for temporarily disabling a formula: brew unlink formula &amp;&amp; commands &amp;&amp; brew link formula
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Homebrew.Options;
 public record BrewUnlinkOptions : BrewOptions
 {
     /// <summary>
-    /// Remove symlinks for formula from Homebrew's prefix. This can be useful for temporarily disabling a formula: brew unlink formula &amp;&amp; commands &amp;&amp; brew link formula
+    /// Remove symlinks for formula or cask from Homebrew's prefix. This can be useful for temporarily disabling a formula: brew unlink formula &amp;&amp; commands &amp;&amp; brew link formula
     /// </summary>
     /// <param name="InstalledFormula">The installedformula operand.</param>
     public BrewUnlinkOptions(
@@ -53,6 +53,18 @@ public record BrewUnlinkOptions : BrewOptions
     /// </summary>
     [CliFlag("--dry-run", ShortForm = "-n")]
     public bool? DryRun { get; set; }
+
+    /// <summary>
+    /// Treat all named arguments as formulae.
+    /// </summary>
+    [CliFlag("--formula")]
+    public bool? Formula { get; set; }
+
+    /// <summary>
+    /// Treat all named arguments as casks.
+    /// </summary>
+    [CliFlag("--cask")]
+    public bool? Cask { get; set; }
 
     /// <summary>
     /// Display any debugging information.
