@@ -2,7 +2,8 @@ namespace ModularPipelines.Attributes;
 
 /// <summary>
 /// Declares alternative capabilities for a module. In distributed mode, the module will only be
-/// assigned to workers that advertise at least one of them.
+/// assigned to workers that advertise at least one of them. When the module would run locally
+/// without any of them, it is skipped.
 /// Multiple attributes create AND logic between their alternatives.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]

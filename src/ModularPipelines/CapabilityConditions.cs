@@ -16,6 +16,7 @@ namespace ModularPipelines;
 internal static class CapabilityConditions
 {
     private static readonly ConcurrentDictionary<Type, CapabilityRequirement?> ConditionRequirements = new();
+    private static readonly ConcurrentDictionary<Type, CapabilityRequirement> DeclaredRequirements = new();
 
     /// <summary>
     /// Returns every capability requirement declared by a module type: explicit
@@ -34,21 +35,8 @@ internal static class CapabilityConditions
         Func<Type, bool>? isConditionGroupSatisfied = null,
         bool includeConditionalRoutes = false)
     {
-        var attributes = moduleType.GetCustomAttributes(inherit: true);
-        var requirement = CapabilityRequirement.AllOf(
-        [
-            .. attributes.OfType<RequiresCapabilityAttribute>()
-                .SelectMany(static attribute => attribute.Capabilities)
-                .Select(static name => new Capability(name)),
-        ]);
-
-        foreach (var attribute in attributes.OfType<RequiresAnyCapabilityAttribute>())
-        {
-            requirement = requirement.And(CapabilityRequirement.AnyOf(
-                [.. attribute.Capabilities.Select(static name => new Capability(name))]));
-        }
-
-        var conditionAttributes = attributes.OfType<IConditionAttribute>().ToArray();
+        var requirement = GetDeclaredRequirement(moduleType);
+        var conditionAttributes = moduleType.GetCustomAttributes(inherit: true).OfType<IConditionAttribute>().ToArray();
         foreach (var attribute in conditionAttributes.Where(static attribute =>
                      attribute is not IGroupedConditionAttribute))
         {
@@ -70,6 +58,31 @@ internal static class CapabilityConditions
 
         return requirement;
     }
+
+    /// <summary>
+    /// Returns the requirement declared by <see cref="RequiresCapabilityAttribute"/> and
+    /// <see cref="RequiresAnyCapabilityAttribute"/> on a module type. Unlike run conditions, these
+    /// attributes do not evaluate themselves, so the pipeline checks them against local capabilities.
+    /// </summary>
+    public static CapabilityRequirement GetDeclaredRequirement(Type moduleType) =>
+        DeclaredRequirements.GetOrAdd(moduleType, static type =>
+        {
+            // Only construct capability attributes: planning must not construct unrelated attributes.
+            var requirement = CapabilityRequirement.AllOf(
+            [
+                .. type.GetCustomAttributes<RequiresCapabilityAttribute>(inherit: true)
+                    .SelectMany(static attribute => attribute.Capabilities)
+                    .Select(static name => new Capability(name)),
+            ]);
+
+            foreach (var attribute in type.GetCustomAttributes<RequiresAnyCapabilityAttribute>(inherit: true))
+            {
+                requirement = requirement.And(CapabilityRequirement.AnyOf(
+                    [.. attribute.Capabilities.Select(static name => new Capability(name))]));
+            }
+
+            return requirement;
+        });
 
     /// <summary>
     /// Returns the route for one condition attribute, or <c>null</c> when it has no capability condition.

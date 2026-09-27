@@ -46,7 +46,7 @@ internal class DistributedModuleExecutor(
     IOptions<PipelineOptions>? pipelineOptions = null,
     DistributedCacheHitTracker? cacheHitTracker = null,
     IEnumerable<IModule>? registeredModules = null,
-    IEnumerable<ICapabilityProvider>? capabilityProviders = null) : IExecutionBackend
+    LocalCapabilityRegistry? localCapabilities = null) : IExecutionBackend
 {
     private readonly IReadOnlyList<IModule> _registeredModules = registeredModules?.ToArray() ?? [];
 
@@ -133,9 +133,9 @@ internal class DistributedModuleExecutor(
             var registrationDeadline = DateTimeOffset.UtcNow + options.CapabilityTimeout;
             await WaitForMinimumWorkersAsync(registrationDeadline, executionCts.Token)
                 .ConfigureAwait(false);
-            var masterCapabilities = await LocalCapabilities.ResolveAsync(
+            var masterCapabilities = await LocalCapabilities.GetAsync(
+                    localCapabilities,
                     options,
-                    capabilityProviders,
                     executionCts.Token)
                 .ConfigureAwait(false);
 

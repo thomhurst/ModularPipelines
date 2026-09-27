@@ -37,6 +37,8 @@ public class DistributedOptions
     /// <summary>
     /// Gets or sets capabilities this instance advertises in addition to those detected by registered
     /// <see cref="ICapabilityProvider"/> services. The current operating system is detected automatically.
+    /// Use <see cref="CapabilityPipelineBuilderExtensions.AddCapabilities"/> to declare capabilities
+    /// without enabling distributed mode.
     /// </summary>
     public IReadOnlyList<Capability> Capabilities { get; set; } = [];
 

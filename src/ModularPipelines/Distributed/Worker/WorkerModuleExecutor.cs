@@ -33,7 +33,7 @@ internal class WorkerModuleExecutor(
     ArtifactLifecycleManager? artifactLifecycleManager,
     ILogger<WorkerModuleExecutor> logger,
     IExecutionLocationContext? executionLocationContext = null,
-    IEnumerable<ICapabilityProvider>? capabilityProviders = null) : IExecutionBackend
+    LocalCapabilityRegistry? localCapabilities = null) : IExecutionBackend
 {
     private readonly IHostApplicationLifetime _lifetime = lifetime;
     private readonly IDistributedWorkerCoordinator _coordinator = coordinator;
@@ -83,7 +83,7 @@ internal class WorkerModuleExecutor(
 
         var moduleLookup = DependencyResultApplicator.BuildModuleLookup(availableModules);
         var dependencyResultCache = new DependencyResultCache(_coordinator, cancellationToken);
-        var capabilities = await LocalCapabilities.ResolveAsync(options, capabilityProviders, cancellationToken)
+        var capabilities = await LocalCapabilities.GetAsync(localCapabilities, options, cancellationToken)
             .ConfigureAwait(false);
         var maxConcurrency = DistributedWorkerPool.GetMaxConcurrency(
             _parallelLimitProvider,
@@ -223,7 +223,7 @@ internal class WorkerModuleExecutor(
         }
     }
 
-    private async Task RegisterWorkerAsync(int instanceIndex, HashSet<Capability> capabilities, CancellationToken cancellationToken)
+    private async Task RegisterWorkerAsync(int instanceIndex, IReadOnlySet<Capability> capabilities, CancellationToken cancellationToken)
     {
         var registration = new WorkerRegistration(
             WorkerIndex: instanceIndex,

@@ -1529,6 +1529,7 @@ ModularPipelines.Distributed.Capability.Capability(string! name) -> void
 ModularPipelines.Distributed.Capability.Equals(ModularPipelines.Distributed.Capability other) -> bool
 ModularPipelines.Distributed.Capability.Name.get -> string!
 ModularPipelines.Distributed.Capability.Names
+ModularPipelines.Distributed.CapabilityPipelineBuilderExtensions
 ModularPipelines.Distributed.CapabilityRequirement
 ModularPipelines.Distributed.CapabilityRequirement.And(ModularPipelines.Distributed.CapabilityRequirement! other) -> ModularPipelines.Distributed.CapabilityRequirement!
 ModularPipelines.Distributed.CapabilityRequirement.Clauses.get -> System.Collections.Generic.IReadOnlyList<System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.Capability>!>!
@@ -2868,6 +2869,8 @@ static ModularPipelines.Distributed.Capability.implicit operator ModularPipeline
 static ModularPipelines.Distributed.Capability.implicit operator string!(ModularPipelines.Distributed.Capability capability) -> string!
 static ModularPipelines.Distributed.Capability.operator !=(ModularPipelines.Distributed.Capability left, ModularPipelines.Distributed.Capability right) -> bool
 static ModularPipelines.Distributed.Capability.operator ==(ModularPipelines.Distributed.Capability left, ModularPipelines.Distributed.Capability right) -> bool
+static ModularPipelines.Distributed.CapabilityPipelineBuilderExtensions.AddCapabilities(this ModularPipelines.PipelineBuilder! builder, params ModularPipelines.Distributed.Capability[]! capabilities) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.CapabilityPipelineBuilderExtensions.AddCapabilityProvider<TProvider>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.CapabilityRequirement.AllOf(params ModularPipelines.Distributed.Capability[]! capabilities) -> ModularPipelines.Distributed.CapabilityRequirement!
 static ModularPipelines.Distributed.CapabilityRequirement.AnyOf(params ModularPipelines.Distributed.Capability[]! capabilities) -> ModularPipelines.Distributed.CapabilityRequirement!
 static ModularPipelines.Distributed.CapabilityRequirement.Create(System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<ModularPipelines.Distributed.Capability>!>! clauses) -> ModularPipelines.Distributed.CapabilityRequirement!

@@ -12,13 +12,10 @@ Not every worker can execute every module. Some modules need Docker, others need
 Workers advertise typed `Capability` values when they register with the coordinator. Built-in values provide discoverable names, while implicit string conversion still supports custom capabilities.
 
 ```csharp
-builder.AddDistributedMode(o =>
-{
-    o.InstanceIndex = 1;
-    o.TotalInstances = 4;
-    o.Capabilities = [Capability.Docker, Capability.Gpu, "high-memory"];
-});
+builder.AddCapabilities(Capability.Docker, Capability.Gpu, "high-memory");
 ```
+
+`AddCapabilities` works with or without distributed mode. `DistributedOptions.Capabilities` is equivalent when you already configure `AddDistributedMode`.
 
 ### Auto-Detected OS Capability
 
@@ -33,7 +30,7 @@ Attribute arguments must be compile-time constants, so use the corresponding `Ca
 
 ### Detecting Custom Capabilities
 
-The OS capability comes from a built-in `ICapabilityProvider`. Register your own providers to detect other capabilities at startup. The master and every worker advertise the union of all providers and `DistributedOptions.Capabilities`:
+The OS capability comes from a built-in `ICapabilityProvider`. Register your own providers to detect other capabilities at startup. Each process's capabilities are the union of all providers, `AddCapabilities`, and `DistributedOptions.Capabilities`. Providers run once per process:
 
 ```csharp
 public sealed class GpuCapabilityProvider : ICapabilityProvider
@@ -43,7 +40,7 @@ public sealed class GpuCapabilityProvider : ICapabilityProvider
             File.Exists("/dev/nvidia0") ? [Capability.Gpu] : []);
 }
 
-builder.Services.AddSingleton<ICapabilityProvider, GpuCapabilityProvider>();
+builder.AddCapabilityProvider<GpuCapabilityProvider>();
 ```
 
 Docker and GPU support are not detected automatically, because the presence of a binary or device does not prove the capability is usable. Advertise them explicitly or with a provider.
@@ -126,6 +123,19 @@ Use `[RequiresAnyCapability]` when any one of several capabilities is enough. Ea
 [RequiresAnyCapability(Capability.Names.Linux, Capability.Names.MacOS)]
 [RequiresCapability(Capability.Names.Docker)]
 public class UnixDockerModule : Module<string> { ... }
+```
+
+### Running Without Distributed Mode
+
+Capability requirements apply everywhere, just like `[RunIf<OnLinux>]`. When a module would run locally (a normal single-machine run, a worker, or the master running its own share of the work), and this machine's capabilities do not satisfy the module's `[RequiresCapability]` or `[RequiresAnyCapability]` requirement, the module is **skipped** and the skip reason names the missing capabilities. In distributed mode the master instead routes the module to a worker that satisfies it.
+
+```csharp
+// Skipped on a machine that has not declared docker
+[RequiresCapability(Capability.Names.Docker)]
+public class DockerBuildModule : Module<string> { ... }
+
+// Runs locally once docker is declared
+builder.AddCapabilities(Capability.Docker);
 ```
 
 ### No Capabilities

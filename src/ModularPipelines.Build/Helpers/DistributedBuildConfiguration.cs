@@ -53,6 +53,8 @@ internal static class DistributedBuildConfiguration
         var countText = getEnvironmentVariable("MODULARPIPELINES_TOTAL_INSTANCES");
         if (string.IsNullOrWhiteSpace(indexText) && string.IsNullOrWhiteSpace(countText))
         {
+            // A standalone run is its own master, so it owns master-only modules.
+            builder.AddCapabilities(new Capability(MasterCapability));
             return true;
         }
 
@@ -68,7 +70,13 @@ internal static class DistributedBuildConfiguration
         if (count == 1 || string.IsNullOrWhiteSpace(endpoint) || string.IsNullOrWhiteSpace(password))
         {
             // Secretless matrix jobs must not each repeat the standalone pipeline.
-            return index == 0;
+            if (index != 0)
+            {
+                return false;
+            }
+
+            builder.AddCapabilities(new Capability(MasterCapability));
+            return true;
         }
 
         var runId = getEnvironmentVariable("MODULARPIPELINES_RUN_ID");

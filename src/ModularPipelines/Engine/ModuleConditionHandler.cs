@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Distributed;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Models;
@@ -19,6 +20,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     private readonly IPipelineContextProvider _pipelineContextProvider;
     private readonly IModuleMetadataRegistry _metadataRegistry;
     private readonly IExecutionLocationContext _executionLocationContext;
+    private readonly LocalCapabilityRegistry? _localCapabilities;
     private readonly ConditionalWeakTable<IModule, ConditionEvaluation> _conditionEvaluations = new();
     private readonly ConcurrentDictionary<Type, Lazy<ConditionAttributes>> _conditionAttributes = new();
 
@@ -26,12 +28,14 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         IOptions<PipelineOptions> pipelineOptions,
         IPipelineContextProvider pipelineContextProvider,
         IModuleMetadataRegistry metadataRegistry,
-        IExecutionLocationContext executionLocationContext)
+        IExecutionLocationContext executionLocationContext,
+        LocalCapabilityRegistry? localCapabilities = null)
     {
         _pipelineOptions = pipelineOptions;
         _pipelineContextProvider = pipelineContextProvider;
         _metadataRegistry = metadataRegistry;
         _executionLocationContext = executionLocationContext;
+        _localCapabilities = localCapabilities;
     }
 
     public async Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnore(IModule module, CancellationToken cancellationToken = default)
@@ -199,6 +203,11 @@ internal class ModuleConditionHandler : IModuleConditionHandler
                 IsResolved: true);
         }
 
+        if (await EvaluateCapabilityRequirement(module, cancellationToken).ConfigureAwait(false) is { } capabilitySkip)
+        {
+            return new PlanningConditionResult(true, capabilitySkip, IsResolved: true);
+        }
+
         return await EvaluatePlanningConditions(
                 CreatePlanningConditionAttributes(module.GetType()),
                 _pipelineContextProvider.GetModuleContext(),
@@ -219,7 +228,11 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             return categoryResult;
         }
 
-        var moduleType = module.GetType();
+        if (await EvaluateCapabilityRequirement(module, cancellationToken).ConfigureAwait(false) is { } capabilitySkip)
+        {
+            return (true, capabilitySkip);
+        }
+
         var conditionResult = await IsRunnableCondition(
                 module,
                 cancellationToken,
@@ -232,6 +245,37 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
     private (bool ShouldIgnore, SkipDecision? SkipDecision) EvaluateCategoryConditions(IModule module)
         => EvaluateCategoryConditions(module, _metadataRegistry);
+
+    /// <summary>
+    /// Skips a module whose declared capability requirement this process cannot satisfy.
+    /// The distributed master routes such modules to a capable worker instead.
+    /// </summary>
+    private async Task<SkipDecision?> EvaluateCapabilityRequirement(
+        IModule module,
+        CancellationToken cancellationToken)
+    {
+        if (_localCapabilities is null || _executionLocationContext.ShouldDeferCapabilityConditions)
+        {
+            return null;
+        }
+
+        var requirement = CapabilityConditions.GetDeclaredRequirement(module.GetType());
+        if (requirement.IsEmpty)
+        {
+            return null;
+        }
+
+        var capabilities = await _localCapabilities.GetAsync(cancellationToken).ConfigureAwait(false);
+        if (requirement.IsSatisfiedBy(capabilities))
+        {
+            return null;
+        }
+
+        return SkipDecision.Skip(
+            $"Requires capabilities {requirement}, but this machine provides " +
+            $"[{string.Join(", ", capabilities.Select(static capability => capability.Name).Order(StringComparer.OrdinalIgnoreCase))}]. " +
+            "Declare capabilities with AddCapabilities(...) or register an ICapabilityProvider.");
+    }
 
     private (bool ShouldIgnore, SkipDecision? SkipDecision) EvaluateCategoryConditions(
         IModule module,

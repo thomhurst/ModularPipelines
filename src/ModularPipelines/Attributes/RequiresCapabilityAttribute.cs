@@ -3,6 +3,7 @@ namespace ModularPipelines.Attributes;
 /// <summary>
 /// Declares capabilities that a module requires to execute.
 /// In distributed mode, the module will only be assigned to workers that advertise every capability.
+/// When the module would run locally without them, it is skipped.
 /// Multiple attributes and multiple values within one attribute both create AND logic.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]

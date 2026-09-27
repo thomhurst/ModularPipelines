@@ -623,10 +623,92 @@ public class ModuleConditionHandlerTests
         await Assert.That(_conditionEvaluationCount).IsEqualTo(2);
     }
 
+    [Test]
+    public async Task Standalone_Execution_Skips_Module_Missing_Declared_Capability()
+    {
+        var handler = CreateHandler(
+            new DistributedOptions(),
+            localCapabilities: CreateLocalCapabilities());
+
+        var result = await handler.ShouldIgnore(new DockerModule());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ShouldIgnore).IsTrue();
+            await Assert.That(result.SkipDecision?.Reason).Contains("docker");
+            await Assert.That(result.SkipDecision?.Reason).Contains("AddCapabilities");
+        }
+    }
+
+    [Test]
+    public async Task Standalone_Execution_Runs_Module_With_Declared_Capability()
+    {
+        var handler = CreateHandler(
+            new DistributedOptions(),
+            localCapabilities: CreateLocalCapabilities(Capability.Docker));
+
+        var result = await handler.ShouldIgnore(new DockerModule());
+
+        await Assert.That(result.ShouldIgnore).IsFalse();
+    }
+
+    [Test]
+    public async Task Standalone_Execution_Matches_Alternative_Capability_With_Current_Os()
+    {
+        var handler = CreateHandler(
+            new DistributedOptions(),
+            localCapabilities: CreateLocalCapabilities());
+
+        var result = await handler.ShouldIgnore(new AnyOperatingSystemModule());
+
+        await Assert.That(result.ShouldIgnore).IsFalse();
+    }
+
+    [Test]
+    public async Task Standalone_Planning_Skips_Module_Missing_Declared_Capability()
+    {
+        var handler = CreateHandler(
+            new DistributedOptions(),
+            localCapabilities: CreateLocalCapabilities());
+
+        var result = await handler.ShouldIgnoreForGraphPlanning(
+            new DockerModule(),
+            Mock.Of<IModuleMetadataRegistry>());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ShouldIgnore).IsTrue();
+            await Assert.That(result.IsResolved).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Distributed_Master_Does_Not_Skip_Module_Missing_Declared_Capability()
+    {
+        var handler = CreateHandler(
+            new DistributedOptions
+            {
+                Enabled = true,
+                InstanceIndex = 0,
+                TotalInstances = 3,
+            },
+            localCapabilities: CreateLocalCapabilities());
+
+        var result = await handler.ShouldIgnore(new DockerModule());
+
+        await Assert.That(result.ShouldIgnore).IsFalse();
+    }
+
+    private static LocalCapabilityRegistry CreateLocalCapabilities(params Capability[] capabilities) =>
+        new(
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions { Capabilities = capabilities }),
+            [new OperatingSystemCapabilityProvider()]);
+
     private static ModuleConditionHandler CreateHandler(
         DistributedOptions distributedOptions,
         IPipelineContext? pipelineContext = null,
-        IExecutionLocationContext? executionLocationContext = null)
+        IExecutionLocationContext? executionLocationContext = null,
+        LocalCapabilityRegistry? localCapabilities = null)
     {
         var contextProvider = new Mock<IPipelineContextProvider>();
         contextProvider
@@ -641,7 +723,8 @@ public class ModuleConditionHandlerTests
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
             contextProvider.Object,
             metadataRegistry,
-            executionLocationContext ?? CreateExecutionLocationContext(distributedOptions));
+            executionLocationContext ?? CreateExecutionLocationContext(distributedOptions),
+            localCapabilities);
     }
 
     private static DistributedConditionRouting CreateExecutionLocationContext(
@@ -663,6 +746,26 @@ public class ModuleConditionHandlerTests
         return OperatingSystem.IsWindows()
             ? new LinuxMixedGenericAlternativeModule()
             : new WindowsMixedGenericAlternativeModule();
+    }
+
+    [RequiresCapability(Capability.Names.Docker)]
+    private sealed class DockerModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RequiresAnyCapability(
+        Capability.Names.Windows,
+        Capability.Names.Linux,
+        Capability.Names.MacOS,
+        Capability.Names.FreeBSD)]
+    private sealed class AnyOperatingSystemModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
     [RunIf<OnLinux>]

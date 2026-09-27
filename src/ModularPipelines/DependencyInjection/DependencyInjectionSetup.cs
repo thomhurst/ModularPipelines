@@ -423,6 +423,7 @@ internal static class DependencyInjectionSetup
         services.TryAddSingleton<RoleDetector>();
         services.TryAddSingleton<DistributedWorkPublisher>();
         services.TryAddEnumerable(ServiceDescriptor.Singleton<ICapabilityProvider, OperatingSystemCapabilityProvider>());
+        services.TryAddSingleton<LocalCapabilityRegistry>();
         services.TryAddSingleton<DistributedResultCollector>();
         services.TryAddSingleton(static serviceProvider =>
             ActivatorUtilities.CreateInstance<DistributedModuleExecutor>(serviceProvider));
