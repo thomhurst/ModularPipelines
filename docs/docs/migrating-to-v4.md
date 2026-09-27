@@ -363,15 +363,22 @@ if (result is ModuleResult<BuildOutput>.Success { Value: var output })
     // Use output.
 }
 
-// A required value: throws for failure, skip, or null.
-var requiredOutput = result.Value;
+// A successful result: throws for failure or skip, but can return null.
+var successfulOutput = result.Value;
+
+// Require a non-null value at runtime explicitly.
+var requiredOutput = result.Value
+    ?? throw new InvalidOperationException("BuildModule returned no output.");
 
 // Optional data: preserves the absence of a value.
 var optionalOutput = result.ValueOrDefault;
 ```
 
 Do not turn every `.ValueOrDefault` into `.Value`: the latter deliberately changes failure and
-null handling. When matching a **typed** result, use `ModuleResult<T>.Failure` and
+skip handling. `Value` returns a successful result's value unchanged, including null. Non-nullable
+annotations do not enforce a runtime check: nullable-oblivious code, F#, or `null!` can still supply
+null even for `Module<BuildOutput>`. Use an explicit check when null must be rejected.
+When matching a **typed** result, use `ModuleResult<T>.Failure` and
 `ModuleResult<T>.Skipped`, rather than the non-generic variants.
 
 ### Metadata and statuses
@@ -415,6 +422,16 @@ var failures = summary.GetFailedModuleResults();
 // V4
 var results = summary.Results;
 var failures = summary.Results.Where(result => result.ExceptionOrDefault is not null);
+```
+
+Like V3's `GetFailedModuleResults()`, this query includes ignored failures: their results still
+contain exceptions. A result with `Status == ModuleStatus.FailureIgnored` does not make the pipeline
+fail. Use `summary.Status` for the pipeline outcome instead of treating `failures.Any()` as a
+pipeline-failure decision. To list only exceptions that count toward failure, exclude ignored results:
+
+```csharp
+var unignoredFailures = summary.Results.Where(result =>
+    result.ExceptionOrDefault is not null && result.Status != ModuleStatus.FailureIgnored);
 ```
 
 `summary.Modules` and `summary.GetModule<T>()` are removed. Retrieve dependencies inside a
@@ -526,8 +543,10 @@ public sealed class TokenRequirement : PipelineRequirement
 }
 ```
 
-Use `RequirementDecision.Passed` / `.Failed(reason)` instead of the old protected `Pass`, `Fail`,
-and `When` helpers. `RequirementDecision.Of` and implicit string/task conversions are removed;
+The protected `Pass()`, `Fail(reason)`, and `When(condition, failureReason)` helpers remain available
+in `PipelineRequirement` subclasses; keep existing calls when migrating the override.
+`RequirementDecision.Passed` / `.Failed(reason)` are alternatives, including for classes that
+implement `IPipelineRequirement` directly. `RequirementDecision.Of` and implicit string/task conversions are removed;
 the bool conversion remains. Replace the `Success` property with `IsSatisfied` for the outcome.
 
 Rename `Require.CIEnvironment(...)` to `Require.Ci(...)`. Asynchronous factory conditions now
@@ -1097,6 +1116,11 @@ rg -n 'ModularPipelines\.FileSystem\.(File|Folder)|WorkingDirectory\s*=|SkipDeci
 
 - Do not globally replace `.Value`, `.Status`, `.Get`, `.Build`, `File`, `Folder`, or `token:`.
   Resolve the receiver/type first. Keep successful-result `Value` and `ValueOrDefault` semantics distinct.
+  `Value` does not reject a successful null; retain or add explicit null checks where required.
+- Preserve `PipelineRequirement.Pass`, `Fail`, and `When` helper calls in derived requirements;
+  only their evaluation override needs migration to `EvaluateAsync`.
+- Do not infer pipeline failure from the presence of any result exception. Ignored failures retain
+  exceptions; use `summary.Status` for the pipeline outcome.
 - Do not replace every `Task` with `ValueTask`. Only the changed configuration callback contracts need
   that adaptation; module execution and lifecycle hooks still use `Task`.
 - Do not turn a required dependency into optional merely to make validation pass.
