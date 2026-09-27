@@ -67,6 +67,7 @@ internal static class BuildOutputArchive
 
     public static async Task RestoreAsync(string repositoryRoot, CancellationToken cancellationToken)
     {
+        var root = Path.TrimEndingDirectorySeparator(Path.GetFullPath(repositoryRoot));
         var temporary = Directory.CreateTempSubdirectory("modularpipelines-build-output-");
         try
         {
@@ -77,10 +78,12 @@ internal static class BuildOutputArchive
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 var relativePath = Path.GetRelativePath(temporary.FullName, file);
-                var destination = Path.Combine(repositoryRoot, relativePath);
+                var destination = Path.Combine(root, relativePath);
                 // Reject existing links before copying into the checkout. TAR extraction
                 // already validates archive paths and link targets inside the fresh directory.
-                for (var path = destination; path is not null; path = Path.GetDirectoryName(path))
+                // Only paths below the root are checked: its ancestors belong to the host, and
+                // system paths such as macOS's /var -> /private/var are legitimately links.
+                for (var path = destination; path is not null && path.Length > root.Length; path = Path.GetDirectoryName(path))
                 {
                     if (new FileInfo(path).LinkTarget is not null
                         || ((File.Exists(path) || Directory.Exists(path))

@@ -703,7 +703,9 @@ jobs:
           }
           Write-Output "::endgroup::"
 
-          # Match the pipeline test runner's diagnostics, without coverage (collected on Linux).
+          # Match the pipeline test runner: its diagnostics without coverage (collected on Linux),
+          # and no GitHub Actions detection, which switches console rendering to styled output.
+          Remove-Item Env:GITHUB_ACTIONS, Env:GITHUB_STEP_SUMMARY -ErrorAction SilentlyContinue
           dotnet run --project test/ModularPipelines.UnitTests/ModularPipelines.UnitTests.csproj -c Release --framework net10.0 --no-build -- `
             --hangdump --hangdump-filename 'hangdump-{pname}-{pid}-{time}.dmp' --hangdump-timeout 20m `
             --report-trx --report-trx-filename test-results.trx
