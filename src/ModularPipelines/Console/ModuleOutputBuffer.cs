@@ -822,7 +822,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
             var failedLoggers = WriteToFallbackLoggers(logEvent, providerLoggers, console);
             if (failedLoggers.Count > 0)
             {
-                failedStructuredDeliveries.Add(new StructuredDeliveryRetry(logEvent, failedLoggers));
+                failedStructuredDeliveries.Add(
+                    new StructuredDeliveryRetry(logEvent, failedLoggers, HasConsoleCopy: false));
             }
 
             return 1;
@@ -945,8 +946,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
             var retry = structuredDeliveryRetries[index];
             if (WriteToFallbackLoggers(retry.LogEvent, retry.Loggers, console).Count > 0)
             {
-                console.WriteLine(
-                    "Structured delivery was abandoned after 2 failed attempts; the direct console copy was retained.");
+                console.WriteLine(retry.HasConsoleCopy
+                    ? "Structured delivery was abandoned after 2 failed attempts; the direct console copy was retained."
+                    : "Structured delivery was abandoned after 2 failed attempts; the event was not written to the console, so the failing logging provider did not receive it.");
             }
         }
     }
@@ -967,7 +969,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
 
     private readonly record struct StructuredDeliveryRetry(
         IBufferedLogEvent LogEvent,
-        IReadOnlyList<ILogger> Loggers);
+        IReadOnlyList<ILogger> Loggers,
+        bool HasConsoleCopy = true);
 
     private void RestoreUnrenderedOutputs(List<BufferedOutput> outputs, int renderedCount)
     {

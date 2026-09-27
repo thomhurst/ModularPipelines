@@ -559,6 +559,18 @@ public class SpectreResultsPrinterTests
     }
 
     [Test]
+    public async Task SummaryEntries_LoggedWithoutResultsAreMasked()
+    {
+        var logger = new CollectingLogger();
+        var summaryLogger = new SummaryLogger(logger, secretObfuscator: new ReplacingObfuscator("hunter2"));
+        summaryLogger.KeyValue("Deploy", "Token", "hunter2");
+
+        summaryLogger.WriteLogs();
+
+        await Assert.That(logger.Messages).IsEquivalentTo(["[Deploy] Token: **********"]);
+    }
+
+    [Test]
     public async Task SummaryEntries_AreLoggedWhenRenderingFails()
     {
         var logger = new CollectingLogger();

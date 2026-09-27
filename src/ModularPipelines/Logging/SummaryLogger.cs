@@ -196,7 +196,6 @@ internal class SummaryLogger : IInternalSummaryLogger
             {
                 foreach (var logger in nonConsoleLoggers)
                 {
-                    // These loggers bypass the secret-masking logging pipeline.
                     Log(logger, entry, _secretObfuscator);
                 }
             }
@@ -204,7 +203,7 @@ internal class SummaryLogger : IInternalSummaryLogger
 
         foreach (var entry in pendingEntries)
         {
-            Log(_logger, entry, secretObfuscator: null);
+            Log(_logger, entry, _secretObfuscator);
         }
     }
 
@@ -222,6 +221,8 @@ internal class SummaryLogger : IInternalSummaryLogger
             ? $"[{entry.Category}] {entry.Message}"
             : entry.Message;
 
+        // Summary loggers are plain framework loggers outside the secret-masking module logging
+        // pipeline, so every entry is masked here.
         if (secretObfuscator is not null)
         {
             message = secretObfuscator.Obfuscate(message, null);

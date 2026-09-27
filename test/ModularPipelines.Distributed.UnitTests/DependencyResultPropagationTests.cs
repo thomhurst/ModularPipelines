@@ -253,6 +253,38 @@ public class DependencyResultPropagationTests
     }
 
     [Test]
+    public async Task Schema_Rejection_Is_Recorded_Before_Publication_Fails()
+    {
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(IndependentModule));
+        var coordinator = new Mock<IDistributedWorkerCoordinator>();
+        coordinator
+            .Setup(x => x.PublishResultAsync(It.IsAny<SerializedModuleResult>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("Publication failed."));
+        var assignment = new ModuleAssignment(
+            ModuleId: typeof(IndependentModule).FullName!,
+            RequiredCapabilities: [],
+            AssignedAt: DateTimeOffset.UtcNow,
+            Configuration: new ModuleAssignmentOptions(null, false))
+        {
+            PipelineSchemaVersion = "different-build",
+        };
+        PipelineSchemaMismatchException? recorded = null;
+
+        await Assert.That(() => DependencyResultApplicator.RejectSchemaMismatchAsync(
+                assignment,
+                typeRegistry,
+                new ModuleResultSerializer(typeRegistry),
+                coordinator.Object,
+                workerIndex: 1,
+                new DistributedModuleExecutionTimer(DateTimeOffset.UtcNow),
+                exception => recorded = exception))
+            .Throws<InvalidOperationException>();
+
+        await Assert.That(recorded).IsNotNull();
+    }
+
+    [Test]
     public async Task Null_Dependency_Result_References_Does_Not_Crash()
     {
         // Arrange — assignment with null DependencyResults (backwards compat)

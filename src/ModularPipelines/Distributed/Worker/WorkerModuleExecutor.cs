@@ -259,9 +259,10 @@ internal class WorkerModuleExecutor(
     {
         var executionTimer = new DistributedModuleExecutionTimer(claimedAt);
         if (await DependencyResultApplicator.RejectSchemaMismatchAsync(assignment, _typeRegistry, _serializer,
-                _coordinator, instanceIndex, executionTimer).ConfigureAwait(false) is { } schemaMismatch)
+                _coordinator, instanceIndex, executionTimer,
+                schemaMismatch => RecordRejectedClaim(assignment, moduleLookup, schemaMismatch, executedModules))
+                .ConfigureAwait(false))
         {
-            RecordRejectedClaim(assignment, moduleLookup, schemaMismatch, executedModules);
             return;
         }
         var resolved = _typeRegistry.Resolve(assignment.ModuleId);

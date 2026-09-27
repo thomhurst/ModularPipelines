@@ -886,6 +886,63 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task StatusShownInGroupHeader_AbandonedRetry_DoesNotClaimConsoleCopy()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var failingProvider = new ThrowingStatusLogger();
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        buffer.AddLogEvent(new BufferedLogEvent<string>(
+            LogLevel.Information,
+            ModuleLogEvents.StatusShownInGroupHeader,
+            "Module completed successfully",
+            "Module completed successfully",
+            null,
+            static (state, _) => state,
+            new PassthroughSecretObfuscator()));
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete,
+            [failingProvider]);
+        if (buffer.HasStructuredDeliveryRetries)
+        {
+            await buffer.FlushToAsync(
+                writer,
+                new GitHubActionsFormatter(),
+                loggerControl,
+                loggerControl,
+                OutputFlushKind.Complete,
+                [failingProvider]);
+        }
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(writer.ToString()).Contains("abandoned after 2 failed attempts");
+            await Assert.That(writer.ToString()).DoesNotContain("console copy was retained");
+        }
+    }
+
+    private sealed class ThrowingStatusLogger : ILogger
+    {
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => null;
+
+        public bool IsEnabled(LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter) =>
+            throw new ProviderDeliveryException([this], [new InvalidOperationException("Provider failed.")]);
+    }
+
+    [Test]
     public async Task StatusShownInGroupHeader_StillReachesExclusiveSink()
     {
         var writer = new StringWriter();
