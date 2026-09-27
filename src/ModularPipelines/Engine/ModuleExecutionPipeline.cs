@@ -39,6 +39,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     private readonly IDirectHookInvoker _directHookInvoker;
     private readonly IModuleConditionHandler _moduleConditionHandler;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
+    private readonly bool _groupHeadersShowStatus;
 
     public ModuleExecutionPipeline(
         IModuleResultRepository resultRepository,
@@ -46,7 +47,8 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         IDirectHookInvoker directHookInvoker,
         IModuleConditionHandler moduleConditionHandler,
         IOptions<PipelineOptions> pipelineOptions,
-        IModuleCacheResultRepository? cacheResultRepository = null)
+        IModuleCacheResultRepository? cacheResultRepository = null,
+        IBuildSystemFormatterProvider? buildSystemFormatterProvider = null)
     {
         _resultRepository = resultRepository;
         _cacheResultRepository = cacheResultRepository;
@@ -54,6 +56,11 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         _directHookInvoker = directHookInvoker;
         _moduleConditionHandler = moduleConditionHandler;
         _pipelineOptions = pipelineOptions;
+
+        // Module output groups are headed "<Module> ✓ (<duration>)" when the build system supports
+        // collapsible blocks, so a trailing "completed successfully" line would only repeat it.
+        _groupHeadersShowStatus = buildSystemFormatterProvider?.GetFormatter()
+            .GetStartBlockCommand(nameof(ModuleExecutionPipeline)) is not null;
     }
 
     public async Task<ModuleResult<T>> ExecuteAsync<T>(
@@ -222,7 +229,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                         afterHookInvoked)
                     .ConfigureAwait(false);
 
-                LogModuleStatus(executionContext, logger);
+                LogModuleStatus(executionContext, logger, _groupHeadersShowStatus);
             }
             finally
             {
@@ -910,25 +917,30 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         public void RecordAttempt() => Interlocked.Increment(ref _moduleAttemptCount);
     }
 
-    private static void LogModuleStatus(ModuleExecutionContext executionContext, ILogger logger)
+    internal static void LogModuleStatus(
+        ModuleExecutionContext executionContext,
+        ILogger logger,
+        bool groupHeadersShowStatus)
     {
         var moduleName = executionContext.ModuleType.Name;
         var message = StatusDisplayProvider.FormatStatusMessage(moduleName, executionContext.Status);
 
+        // The group header already shows these outcomes; keep them for Debug-level sinks only.
+        var informationLevel = groupHeadersShowStatus ? LogLevel.Debug : LogLevel.Information;
         var logLevel = executionContext.Status switch
         {
             ModuleStatus.NotStarted => LogLevel.Warning,
             ModuleStatus.Running => LogLevel.Error,
-            ModuleStatus.Succeeded => LogLevel.Information,
+            ModuleStatus.Succeeded => informationLevel,
             ModuleStatus.Failed => LogLevel.Error,
             ModuleStatus.TimedOut => LogLevel.Error,
-            ModuleStatus.Skipped => LogLevel.Information,
+            ModuleStatus.Skipped => informationLevel,
             ModuleStatus.Unknown => LogLevel.Error,
             ModuleStatus.FailureIgnored => LogLevel.Warning,
             ModuleStatus.Cancelled => LogLevel.Error,
             ModuleStatus.DependencyFailed => LogLevel.Error,
-            ModuleStatus.RestoredFromHistory => LogLevel.Information,
-            ModuleStatus.RestoredFromCache => LogLevel.Information,
+            ModuleStatus.RestoredFromHistory => informationLevel,
+            ModuleStatus.RestoredFromCache => informationLevel,
             _ => LogLevel.Error,
         };
 

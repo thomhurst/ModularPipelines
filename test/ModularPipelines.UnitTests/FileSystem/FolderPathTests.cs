@@ -124,6 +124,24 @@ public class FolderPathTests : TestBase
     }
 
     [Test]
+    public async Task File_Operations_Are_Not_Logged_At_Information()
+    {
+        var stringBuilder = new StringBuilder();
+
+        await TestPipelineBuilder.Create()
+            .ConfigureServices(collection =>
+            {
+                collection
+                    .AddSingleton<ILogger<ReadFileModule>>(
+                        new StringLogger<ReadFileModule>(stringBuilder, LogLevel.Information))
+                    .AddModule<ReadFileModule>();
+            })
+            .RunAsync();
+
+        await Assert.That(stringBuilder.ToString()).DoesNotContain("Reading File:");
+    }
+
+    [Test]
     public async Task FindFolder()
     {
         var data = new FolderPath(Path.Combine(TestContext.OutputDirectory!, "Data"));

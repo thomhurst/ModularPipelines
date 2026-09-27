@@ -24,6 +24,7 @@ internal class SummaryLogger : IInternalSummaryLogger
     private readonly List<SummaryLogEntry> _entries = [];
     private readonly object _lock = new();
     private string? _cachedOutput;
+    private int _displayedCount;
 
     public SummaryLogger(ILogger<SummaryLogger> logger)
     {
@@ -146,12 +147,23 @@ internal class SummaryLogger : IInternalSummaryLogger
     }
 
     /// <inheritdoc />
+    public IReadOnlyList<SummaryLogEntry> TakeEntriesForDisplay()
+    {
+        lock (_lock)
+        {
+            _displayedCount = _entries.Count;
+            return _entries.ToList();
+        }
+    }
+
+    /// <inheritdoc />
     public void WriteLogs()
     {
         List<SummaryLogEntry> entriesCopy;
         lock (_lock)
         {
-            entriesCopy = new List<SummaryLogEntry>(_entries);
+            // Entries already rendered in the results output are not logged a second time.
+            entriesCopy = _entries.Skip(_displayedCount).ToList();
         }
 
         foreach (var entry in entriesCopy)

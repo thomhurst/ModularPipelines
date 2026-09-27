@@ -571,4 +571,38 @@ public class ModuleExecutionPipelineTests
 
         return await executionTask;
     }
+
+    [Test]
+    [Arguments(ModuleStatus.Succeeded, true, LogLevel.Debug)]
+    [Arguments(ModuleStatus.Skipped, true, LogLevel.Debug)]
+    [Arguments(ModuleStatus.RestoredFromCache, true, LogLevel.Debug)]
+    [Arguments(ModuleStatus.Succeeded, false, LogLevel.Information)]
+    [Arguments(ModuleStatus.Skipped, false, LogLevel.Information)]
+    [Arguments(ModuleStatus.Failed, true, LogLevel.Error)]
+    [Arguments(ModuleStatus.FailureIgnored, true, LogLevel.Warning)]
+    public async Task ModuleStatus_IsLoggedAtDebug_OnlyWhenGroupHeaderShowsIt(
+        ModuleStatus status,
+        bool groupHeadersShowStatus,
+        LogLevel expectedLevel)
+    {
+        var module = new SuccessfulModule();
+        var executionContext = new ModuleExecutionContext(module, module.GetType())
+        {
+            Status = status,
+        };
+        var logger = new Mock<ILogger>();
+
+        ModuleExecutionPipeline.LogModuleStatus(executionContext, logger.Object, groupHeadersShowStatus);
+
+        logger.Verify(
+            x => x.Log(
+                expectedLevel,
+                It.IsAny<EventId>(),
+                It.IsAny<It.IsAnyType>(),
+                It.IsAny<Exception?>(),
+                It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
+            Times.Once);
+        await Assert.That(logger.Invocations.Count(invocation => invocation.Method.Name == nameof(ILogger.Log)))
+            .IsEqualTo(1);
+    }
 }

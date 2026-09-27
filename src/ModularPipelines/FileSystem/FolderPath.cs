@@ -761,7 +761,7 @@ public class FolderPath : IEquatable<FolderPath>
     /// </summary>
     private static void LogFolderOperation(string messageTemplate, object? arg1)
     {
-        ModuleLogger.Current.LogInformation(messageTemplate, arg1);
+        ModuleLogger.Current.LogDebug(messageTemplate, arg1);
     }
 
     /// <summary>
@@ -769,7 +769,7 @@ public class FolderPath : IEquatable<FolderPath>
     /// </summary>
     private static void LogFolderOperationWithDestination(string messageTemplate, object? source, object? destination)
     {
-        ModuleLogger.Current.LogInformation(messageTemplate, source, destination);
+        ModuleLogger.Current.LogDebug(messageTemplate, source, destination);
     }
 
     /// <summary>
@@ -777,7 +777,7 @@ public class FolderPath : IEquatable<FolderPath>
     /// </summary>
     private static void LogFolderOperationWithExpression(string messageTemplate, object? path, object? expression)
     {
-        ModuleLogger.Current.LogInformation(messageTemplate, path, expression);
+        ModuleLogger.Current.LogDebug(messageTemplate, path, expression);
     }
 
     /// <summary>

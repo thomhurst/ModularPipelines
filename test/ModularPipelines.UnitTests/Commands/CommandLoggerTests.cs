@@ -159,12 +159,10 @@ public class CommandLoggerTests : TestBase
             await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}> ********");
         }
 
-        // New compact format: output is shown inline with → for short output, or ↳ for multi-line
+        // Every captured or streamed output line is prefixed with ↳
         if (logOutput)
         {
-            // Output can be inline (→) or on separate line (↳)
-            var hasInlineOutput = logFile.Contains("→") || logFile.Contains("↳");
-            await Assert.That(hasInlineOutput).IsTrue();
+            await Assert.That(logFile).Contains("↳");
         }
 
         // New compact format: error is shown with ✗ prefix
@@ -238,7 +236,6 @@ public class CommandLoggerTests : TestBase
         // Silent verbosity should not log any command-related output
         // Check for absence of command execution patterns (other pipeline logs may still appear)
         await Assert.That(logFile).DoesNotContain($"{Environment.CurrentDirectory}>");
-        await Assert.That(logFile).DoesNotContain("→");
         await Assert.That(logFile).DoesNotContain("↳");
         await Assert.That(logFile).DoesNotContain("exit ");
         await Assert.That(logFile).DoesNotContain("Working Directory:");
@@ -255,7 +252,6 @@ public class CommandLoggerTests : TestBase
         // New compact format: command line includes working directory and command
         await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
         // Minimal doesn't show output, exit code, or duration
-        await Assert.That(logFile).DoesNotContain("→");
         await Assert.That(logFile).DoesNotContain("↳");
         await Assert.That(logFile).DoesNotContain("exit ");
         await Assert.That(Regex.IsMatch(logFile, @"\[\d+m?s")).IsFalse();
@@ -272,7 +268,7 @@ public class CommandLoggerTests : TestBase
         // New compact format: command line includes working directory and command
         await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
         // Fast commands inline output; slower commands may begin streaming under load.
-        await Assert.That(Regex.Matches(logFile, "(?:→|↳) Hello").Count).IsEqualTo(1);
+        await Assert.That(Regex.Matches(logFile, "↳ Hello").Count).IsEqualTo(1);
         // Normal doesn't show exit code or duration
         await Assert.That(logFile).DoesNotContain("exit ");
         await Assert.That(Regex.IsMatch(logFile, @"\[\d+m?s")).IsFalse();
@@ -289,7 +285,7 @@ public class CommandLoggerTests : TestBase
         // New compact format: all info on one line
         await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
         // Output is logged exactly once, inline or streamed if startup exceeds the deferral.
-        await Assert.That(Regex.Matches(logFile, "(?:→|↳) Hello").Count).IsEqualTo(1);
+        await Assert.That(Regex.Matches(logFile, "↳ Hello").Count).IsEqualTo(1);
         // Exit code and duration shown inline
         await Assert.That(logFile).Contains("exit ");
         await Assert.That(Regex.IsMatch(logFile, @"\[\d+m?s")).IsTrue();
@@ -306,7 +302,7 @@ public class CommandLoggerTests : TestBase
         // New compact format: all info on one line
         await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
         // Output is logged exactly once, inline or streamed if startup exceeds the deferral.
-        await Assert.That(Regex.Matches(logFile, "(?:→|↳) Hello").Count).IsEqualTo(1);
+        await Assert.That(Regex.Matches(logFile, "↳ Hello").Count).IsEqualTo(1);
         // Exit code and duration shown inline
         await Assert.That(logFile).Contains("exit ");
         await Assert.That(Regex.IsMatch(logFile, @"\[\d+m?s")).IsTrue();
@@ -324,7 +320,7 @@ public class CommandLoggerTests : TestBase
             maxCapturedOutputLength: 4);
 
         var logFile = await File.ReadAllTextAsync(file);
-        await Assert.That(Regex.Matches(logFile, $"(?:→|↳) {output}").Count).IsEqualTo(1);
+        await Assert.That(Regex.Matches(logFile, $"↳ {output}").Count).IsEqualTo(1);
         await Assert.That(logFile).DoesNotContain("truncated");
     }
 

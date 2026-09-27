@@ -493,7 +493,7 @@ public class FilePath : IEquatable<FilePath>
     /// </summary>
     private static void LogFileOperation(string messageTemplate, object? arg1)
     {
-        ModuleLogger.Current.LogInformation(messageTemplate, arg1);
+        ModuleLogger.Current.LogDebug(messageTemplate, arg1);
     }
 
     /// <summary>
@@ -501,6 +501,6 @@ public class FilePath : IEquatable<FilePath>
     /// </summary>
     private static void LogFileOperationWithDestination(string messageTemplate, object? source, object? destination)
     {
-        ModuleLogger.Current.LogInformation(messageTemplate, source, destination);
+        ModuleLogger.Current.LogDebug(messageTemplate, source, destination);
     }
 }

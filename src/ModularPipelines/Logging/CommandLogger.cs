@@ -13,6 +13,10 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 {
     internal const int MaximumInlineOutputLength = 100;
 
+    private const string OutputLinePrefix = "  ↳ ";
+    private const string ErrorLinePrefix = "  ✗ ";
+    private const string ErrorContinuationIndent = "    ";
+
     private readonly IModuleLoggerAccessor _moduleLoggerAccessor;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly ISecretObfuscator _secretObfuscator;
@@ -78,7 +82,7 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
             standardError);
         var isSuccess = exitCode == 0;
 
-        LogCapturedOutput(effectiveOptions, outputToLog.Trim(), isSuccess);
+        LogCapturedOutput(effectiveOptions, outputToLog);
         LogCapturedError(effectiveOptions, errorToLog, exitCode);
         LogCommandStatus(effectiveOptions, inputToLog, isSuccess, exitCode, runTime);
     }
@@ -161,20 +165,27 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
             return;
         }
 
-        var obfuscatedOutput = ObfuscateLogValue(line);
+        // Blank lines (for example MSBuild's section spacing) would only render as a bare marker.
+        if (string.IsNullOrWhiteSpace(line))
+        {
+            return;
+        }
+
+        var obfuscatedOutput = ObfuscateLogValue(line.TrimEnd());
         Logger.LogInformation(
-            isError ? "  ↳ {CommandError}" : "  ↳ {CommandOutput}",
+            isError ? OutputLinePrefix + "{CommandError}" : OutputLinePrefix + "{CommandOutput}",
             obfuscatedOutput);
     }
 
-    private static bool ShouldInlineOutput(CommandLoggingOptions options, string output)
-    {
-        return !string.IsNullOrEmpty(output)
-               && !output.Contains('\n')
-               && output.Length <= MaximumInlineOutputLength
-               && options.Verbosity >= CommandLogVerbosity.Normal
-               && options.ShowStandardOutput;
-    }
+    /// <summary>
+    /// Splits captured output into non-blank lines so each one carries the same marker as
+    /// streamed output.
+    /// </summary>
+    internal static IEnumerable<string> GetOutputLines(string output) =>
+        output
+            .Split('\n')
+            .Select(static line => line.TrimEnd())
+            .Where(static line => !string.IsNullOrWhiteSpace(line));
 
     private static (string Output, string Error) ManipulateOutput(
         Func<string, string>? manipulator,
@@ -225,17 +236,8 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 
     private void LogCapturedOutput(
         CommandLoggingOptions options,
-        string output,
-        bool isSuccess)
+        string output)
     {
-        if (isSuccess && ShouldInlineOutput(options, output))
-        {
-            Logger.LogInformation(
-                "  → {CommandOutput}",
-                ObfuscateLogValue(output));
-            return;
-        }
-
         if (string.IsNullOrWhiteSpace(output)
             || options.Verbosity < CommandLogVerbosity.Normal
             || !options.ShowStandardOutput)
@@ -243,7 +245,14 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
             return;
         }
 
-        Logger.LogInformation("  ↳ {CommandOutput}", ObfuscateLogValue(output));
+        // Obfuscate before splitting so secrets that span lines are still masked.
+        var obfuscatedOutput = _secretObfuscator.Obfuscate(output, null);
+        foreach (var line in GetOutputLines(obfuscatedOutput))
+        {
+            Logger.LogInformation(
+                OutputLinePrefix + "{CommandOutput}",
+                new PreObfuscatedLogValue(line));
+        }
     }
 
     private void LogCapturedError(
@@ -259,7 +268,12 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
             return;
         }
 
-        Logger.LogWarning("  ✗ {CommandError}", ObfuscateLogValue(error));
+        // Standard error stays one warning so build systems raise a single annotation for it;
+        // continuation lines are indented to align under the first.
+        var errorText = string.Join(
+            Environment.NewLine + ErrorContinuationIndent,
+            GetOutputLines(_secretObfuscator.Obfuscate(error, null)));
+        Logger.LogWarning(ErrorLinePrefix + "{CommandError}", new PreObfuscatedLogValue(errorText));
     }
 
     private void LogCommandStatus(

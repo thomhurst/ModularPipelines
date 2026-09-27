@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Reporting;
@@ -16,11 +17,14 @@ namespace ModularPipelines.Helpers;
 /// Handles all console rendering for pipeline execution results.
 /// </summary>
 [ExcludeFromCodeCoverage]
-internal class SpectreResultsPrinter(IOptions<PipelineOptions> options) : IResultsPrinter
+internal class SpectreResultsPrinter(
+    IOptions<PipelineOptions> options,
+    IInternalSummaryLogger summaryLogger) : IResultsPrinter
 {
     private const int MaxStackFrames = 5;
 
     private readonly IOptions<PipelineOptions> _options = options;
+    private readonly IInternalSummaryLogger _summaryLogger = summaryLogger;
 
     public void PrintResults(PipelineSummary pipelineSummary)
     {
@@ -43,6 +47,8 @@ internal class SpectreResultsPrinter(IOptions<PipelineOptions> options) : IResul
         {
             PrintFailedModules(pipelineSummary);
         }
+
+        PrintSummaryEntries(_summaryLogger.TakeEntriesForDisplay());
 
         // Print execution metrics if available
         PrintMetrics(pipelineSummary);
@@ -368,10 +374,63 @@ internal class SpectreResultsPrinter(IOptions<PipelineOptions> options) : IResul
         return $"[{color}]{sign}{delta.Value.Duration().ToDisplayString()}[/]";
     }
 
+    private static void PrintSummaryEntries(IReadOnlyList<SummaryLogEntry> entries)
+    {
+        if (entries.Count == 0)
+        {
+            return;
+        }
+
+        System.Console.WriteLine();
+        foreach (var line in CreateSummaryEntryLines(entries))
+        {
+            AnsiConsole.MarkupLine(line);
+        }
+    }
+
+    /// <summary>
+    /// Formats entries written through <see cref="ISummaryLogger"/> as markup lines, grouping
+    /// categorized entries under their category before uncategorized entries.
+    /// </summary>
+    internal static IReadOnlyList<string> CreateSummaryEntryLines(IReadOnlyList<SummaryLogEntry> entries)
+    {
+        var lines = new List<string> { "[bold]Summary[/]" };
+        var groups = entries
+            .GroupBy(static entry => entry.Category ?? string.Empty, StringComparer.Ordinal)
+            .OrderBy(static group => string.IsNullOrEmpty(group.Key) ? 1 : 0)
+            .ThenBy(static group => group.Key, StringComparer.Ordinal);
+
+        foreach (var group in groups)
+        {
+            var indent = "  ";
+            if (!string.IsNullOrEmpty(group.Key))
+            {
+                lines.Add($"  [dim]{SpectreMarkupEscaper.Escape(group.Key)}[/]");
+                indent = "    ";
+            }
+
+            lines.AddRange(group.Select(entry => indent + FormatSummaryEntry(entry)));
+        }
+
+        return lines;
+    }
+
+    private static string FormatSummaryEntry(SummaryLogEntry entry)
+    {
+        var message = SpectreMarkupEscaper.Escape(entry.Message);
+        return entry.Level switch
+        {
+            SummaryLogLevel.Success => $"[green]✓[/] {message}",
+            SummaryLogLevel.Warning => $"[yellow]⚠ {message}[/]",
+            SummaryLogLevel.Error => $"[red]✗ {message}[/]",
+            _ => message,
+        };
+    }
+
     private static void PrintMetrics(PipelineSummary pipelineSummary)
     {
         var metrics = pipelineSummary.Metrics;
-        if (metrics == null)
+        if (!ShouldPrintMetrics(metrics))
         {
             return;
         }
@@ -380,6 +439,16 @@ internal class SpectreResultsPrinter(IOptions<PipelineOptions> options) : IResul
 
         AnsiConsole.Write(CreateMetricsPanel(metrics));
     }
+
+    /// <summary>
+    /// Parallelism metrics only carry information when modules actually overlapped and saved time.
+    /// Sequential runs and distributed workers otherwise print misleading values such as a
+    /// sub-1x speedup or a negative saving.
+    /// </summary>
+    internal static bool ShouldPrintMetrics([NotNullWhen(true)] PipelineMetrics? metrics) =>
+        metrics is not null
+        && metrics.PeakConcurrency > 1
+        && metrics.TotalModuleExecutionTime > metrics.WallClockDuration;
 
     private static void PrintDistributedSummary(DistributedRunReport? report)
     {
