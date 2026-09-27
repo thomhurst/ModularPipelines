@@ -115,47 +115,75 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             return;
         }
 
-        await PrepareAnyConditionRoutingAsync(
-                module,
-                attributes.Any,
-                pipelineContext,
-                _executionLocationContext,
-                cancellationToken)
-            .ConfigureAwait(false);
         _executionLocationContext.SetPreparedConditionValue(
             module,
-            await EvaluateRoutingFormulaAsync(module, attributes, pipelineContext, cancellationToken)
+            await PrepareConditionRoutingAsync(module, attributes, pipelineContext, cancellationToken)
                 .ConfigureAwait(false));
         _executionLocationContext.MarkRoutingPrepared(module);
     }
 
     /// <summary>
-    /// Evaluates the module's condition formula with the master's values for planning-safe conditions.
-    /// The result is the capability requirement of the worker that must run the module, or false when
-    /// no worker can satisfy the module's conditions. Worker-only conditions stay unconstrained.
+    /// Evaluates the module's capability-bearing condition groups with the master's values for
+    /// planning-safe conditions. Returns the capability requirement of the worker that must run the
+    /// module, or false when no worker can satisfy its conditions. Other mandatory conditions already
+    /// hold (see <see cref="CanPrepareRequiredConditionRoutingAsync"/>), and workers evaluate the rest.
     /// </summary>
-    private async Task<FormulaValue> EvaluateRoutingFormulaAsync(
+    /// <remarks>
+    /// Each planning-safe condition is evaluated at most once, lazily, with run-condition short-circuiting.
+    /// A group is marked satisfied only when it holds whatever worker-only conditions return.
+    /// </remarks>
+    private async Task<FormulaValue> PrepareConditionRoutingAsync(
         IModule module,
         ConditionAttributes attributes,
         IPipelineContext pipelineContext,
         CancellationToken cancellationToken)
     {
-        var formula = ConditionFormula.ForModule(
-            [.. attributes.All, .. attributes.Any],
-            conditionGroupType => _executionLocationContext.IsConditionGroupSatisfied(module, conditionGroupType));
-        if (formula is null)
-        {
-            return FormulaValue.True;
-        }
-
         var values = new Dictionary<ConditionAtom, bool>(ReferenceEqualityComparer.Instance);
-        foreach (var atom in formula.Atoms.Where(static atom => atom.IsPlanning))
+        async Task<bool?> EvaluatePlanningAtomAsync(ConditionAtom atom, bool workerOnlyValue)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            values[atom] = await atom.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false);
+            if (!atom.IsPlanning)
+            {
+                return workerOnlyValue;
+            }
+
+            if (!values.TryGetValue(atom, out var value))
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                value = await atom.EvaluateConditionAsync(pipelineContext, cancellationToken).ConfigureAwait(false);
+                values[atom] = value;
+            }
+
+            return value;
         }
 
-        return formula.Evaluate(atom => !values.TryGetValue(atom, out var value) || value);
+        var result = FormulaValue.True;
+        foreach (var (conditionGroupType, formula) in ConditionFormula
+                     .ForConditionGroups([.. attributes.All, .. attributes.Any])
+                     .Where(static group => group.Formula.Capabilities.Any()))
+        {
+            FormulaValue value;
+            if ((await formula.EvaluateAsync(atom => EvaluatePlanningAtomAsync(atom, workerOnlyValue: false))
+                    .ConfigureAwait(false)).Kind == FormulaValueKind.True)
+            {
+                // A local alternative holds, so the worker need not re-evaluate this group.
+                _executionLocationContext.MarkConditionGroupSatisfied(module, conditionGroupType);
+                value = FormulaValue.True;
+            }
+            else
+            {
+                // A worker-only condition may still hold on the worker, so it constrains nothing here.
+                value = await formula.EvaluateAsync(atom => EvaluatePlanningAtomAsync(atom, workerOnlyValue: true))
+                    .ConfigureAwait(false);
+            }
+
+            result = FormulaValue.And(result, value);
+            if (result.Kind == FormulaValueKind.False)
+            {
+                break;
+            }
+        }
+
+        return result;
     }
 
     private static async Task<bool> CanPrepareSkipConditionRoutingAsync(
@@ -878,110 +906,6 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         }
 
         return null;
-    }
-
-    private static async Task PrepareAnyConditionRoutingAsync(
-        IModule module,
-        IReadOnlyList<IConditionAttribute> attributes,
-        IPipelineContext pipelineContext,
-        IExecutionLocationContext executionLocationContext,
-        CancellationToken cancellationToken)
-    {
-        var evaluatedGroups = new HashSet<Type>();
-        foreach (var attribute in attributes)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            if (attribute is not IGroupedConditionAttribute groupedAttribute)
-            {
-                if (!await PrepareUngroupedAnyConditionRoutingAsync(
-                        module,
-                        attribute,
-                        pipelineContext,
-                        executionLocationContext,
-                        cancellationToken)
-                    .ConfigureAwait(false))
-                {
-                    return;
-                }
-
-                continue;
-            }
-
-            if (!evaluatedGroups.Add(groupedAttribute.ConditionGroupType))
-            {
-                continue;
-            }
-
-            var alternatives = attributes
-                .OfType<IGroupedConditionAttribute>()
-                .Where(candidate => candidate.ConditionGroupType == groupedAttribute.ConditionGroupType)
-                .ToArray();
-            if (!await PrepareGroupedAnyConditionRoutingAsync(
-                    module,
-                    groupedAttribute.ConditionGroupType,
-                    alternatives,
-                    pipelineContext,
-                    executionLocationContext,
-                    cancellationToken)
-                .ConfigureAwait(false))
-            {
-                return;
-            }
-        }
-    }
-
-    private static async Task<bool> PrepareUngroupedAnyConditionRoutingAsync(
-        IModule module,
-        IConditionAttribute attribute,
-        IPipelineContext pipelineContext,
-        IExecutionLocationContext executionLocationContext,
-        CancellationToken cancellationToken)
-    {
-        if (CapabilityConditions.GetRoute(attribute) is null)
-        {
-            return IsPlanningConditionAttribute(attribute)
-                   && await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false);
-        }
-
-        if (await AnyConditionMatches(
-                CapabilityConditions.GetLocalAlternatives(attribute),
-                pipelineContext,
-                cancellationToken)
-            .ConfigureAwait(false))
-        {
-            executionLocationContext.MarkConditionGroupSatisfied(module, attribute.GetType());
-        }
-        return true;
-    }
-
-    private static async Task<bool> PrepareGroupedAnyConditionRoutingAsync(
-        IModule module,
-        Type conditionGroupType,
-        IReadOnlyList<IGroupedConditionAttribute> alternatives,
-        IPipelineContext pipelineContext,
-        IExecutionLocationContext executionLocationContext,
-        CancellationToken cancellationToken)
-    {
-        if (CapabilityConditions.GetRoute(alternatives) is null)
-        {
-            return alternatives.All(IsPlanningConditionAttribute)
-                   && await AnyConditionMatches(alternatives, pipelineContext, cancellationToken)
-                       .ConfigureAwait(false);
-        }
-
-        var localAlternatives = alternatives
-            .Where(attribute => CapabilityConditions.GetRoute(attribute) is null
-                                && IsPlanningConditionAttribute(attribute))
-            .ToArray();
-        if (await AnyConditionMatches(
-                localAlternatives,
-                pipelineContext,
-                cancellationToken)
-            .ConfigureAwait(false))
-        {
-            executionLocationContext.MarkConditionGroupSatisfied(module, conditionGroupType);
-        }
-        return true;
     }
 
     private static async Task<SkipDecision?> EvaluateUngroupedAnyCondition(

@@ -2644,6 +2644,11 @@ public class DistributedModuleExecutorTests
         await executor.ExecuteAsync([module]);
 
         cache.Verify(c => c.DiscardFingerprint(module), Times.Once());
+        scheduler.Verify(s => s.MarkModuleCompleted(
+            typeof(CachedModuleWithConflictingCapabilities),
+            true,
+            null,
+            ModuleStatus.Skipped));
         await Assert.That(resultRegistry.GetResult(module.GetType())?.Status)
             .IsEqualTo(ModuleStatus.Skipped);
     }

@@ -19,28 +19,38 @@ internal abstract class ConditionFormula
     public abstract IEnumerable<ConditionAtom> Atoms { get; }
 
     /// <summary>
+    /// Gets the capabilities named by this formula's capability conditions.
+    /// </summary>
+    public abstract IEnumerable<Capability> Capabilities { get; }
+
+    /// <summary>
     /// Evaluates the formula. <paramref name="atomValue"/> returns an ordinary condition's value, or
     /// <c>null</c> to leave it out: it then neither constrains an AND nor satisfies an OR, which projects
     /// the formula onto its capability conditions.
     /// </summary>
-    public abstract FormulaValue Evaluate(Func<ConditionAtom, bool?> atomValue);
+    public FormulaValue Evaluate(Func<ConditionAtom, bool?> atomValue) =>
+        EvaluateAsync(atom => Task.FromResult(atomValue(atom))).GetAwaiter().GetResult();
 
     /// <summary>
-    /// Builds the formula of a module's non-skip condition attributes, or <c>null</c> when they impose
-    /// nothing. Grouped attributes become one OR per group. Groups the master already satisfied are left out.
+    /// Evaluates the formula left to right with the short-circuiting of run condition evaluation: an AND
+    /// stops at its first false member and an OR at its first true member, so later conditions are not
+    /// evaluated.
     /// </summary>
-    public static ConditionFormula? ForModule(
-        IEnumerable<IConditionAttribute> attributes,
-        Func<Type, bool>? isConditionGroupSatisfied = null)
+    public abstract Task<FormulaValue> EvaluateAsync(Func<ConditionAtom, Task<bool?>> atomValue);
+
+    /// <summary>
+    /// Builds one formula per condition group of a module's non-skip condition attributes, keyed by the
+    /// group type the master marks as satisfied. Ungrouped attributes are their own group.
+    /// </summary>
+    public static IEnumerable<(Type ConditionGroupType, ConditionFormula Formula)> ForConditionGroups(
+        IEnumerable<IConditionAttribute> attributes)
     {
         var attributeArray = attributes.ToArray();
-        var formulas = new List<ConditionFormula>();
         foreach (var attribute in attributeArray.Where(static attribute => attribute is not IGroupedConditionAttribute))
         {
-            if (isConditionGroupSatisfied?.Invoke(attribute.GetType()) != true
-                && ForAttribute(attribute) is { } formula)
+            if (ForAttribute(attribute) is { } formula)
             {
-                formulas.Add(formula);
+                yield return (attribute.GetType(), formula);
             }
         }
 
@@ -48,13 +58,36 @@ internal abstract class ConditionFormula
                      .OfType<IGroupedConditionAttribute>()
                      .GroupBy(static attribute => attribute.ConditionGroupType))
         {
-            if (isConditionGroupSatisfied?.Invoke(alternatives.Key) != true)
-            {
-                formulas.Add(new OrFormula([.. alternatives.Select(ForAlternative)]));
-            }
+            yield return (alternatives.Key, new OrFormula([.. alternatives.Select(ForAlternative)]));
         }
+    }
 
-        return formulas.Count == 0 ? null : new AndFormula(formulas);
+    /// <summary>
+    /// Builds the formula of a module's non-skip condition attributes, or <c>null</c> when they impose
+    /// nothing. Groups the master already satisfied are left out.
+    /// </summary>
+    public static ConditionFormula? ForModule(
+        IEnumerable<IConditionAttribute> attributes,
+        Func<Type, bool>? isConditionGroupSatisfied = null)
+    {
+        var formulas = ForConditionGroups(attributes)
+            .Where(group => isConditionGroupSatisfied?.Invoke(group.ConditionGroupType) != true)
+            .Select(static group => group.Formula)
+            .ToArray();
+        return formulas.Length == 0 ? null : new AndFormula(formulas);
+    }
+
+    /// <summary>
+    /// Builds the formula of the condition groups that contain a capability condition, which are the only
+    /// groups that affect routing, or <c>null</c> when there are none.
+    /// </summary>
+    public static ConditionFormula? ForRouting(IEnumerable<IConditionAttribute> attributes)
+    {
+        var formulas = ForConditionGroups(attributes)
+            .Select(static group => group.Formula)
+            .Where(static formula => formula.Capabilities.Any())
+            .ToArray();
+        return formulas.Length == 0 ? null : new AndFormula(formulas);
     }
 
     /// <summary>
@@ -131,34 +164,31 @@ internal abstract class ConditionFormula
     {
         public override IEnumerable<ConditionAtom> Atoms => [];
 
-        public override FormulaValue Evaluate(Func<ConditionAtom, bool?> atomValue) =>
-            FormulaValue.Of(CapabilityRequirement.AllOf(capability));
+        public override IEnumerable<Capability> Capabilities => [capability];
+
+        public override Task<FormulaValue> EvaluateAsync(Func<ConditionAtom, Task<bool?>> atomValue) =>
+            Task.FromResult(FormulaValue.Of(CapabilityRequirement.AllOf(capability)));
     }
 
     private sealed class AndFormula(IReadOnlyList<ConditionFormula> members) : ConditionFormula
     {
         public override IEnumerable<ConditionAtom> Atoms => members.SelectMany(static member => member.Atoms);
 
-        public override FormulaValue Evaluate(Func<ConditionAtom, bool?> atomValue)
+        public override IEnumerable<Capability> Capabilities => members.SelectMany(static member => member.Capabilities);
+
+        public override async Task<FormulaValue> EvaluateAsync(Func<ConditionAtom, Task<bool?>> atomValue)
         {
-            var values = members.Select(member => member.Evaluate(atomValue)).ToArray();
-            if (values.Any(static value => value.Kind == FormulaValueKind.False))
+            var result = FormulaValue.True;
+            foreach (var member in members)
             {
-                return FormulaValue.False;
+                result = FormulaValue.And(result, await member.EvaluateAsync(atomValue).ConfigureAwait(false));
+                if (result.Kind == FormulaValueKind.False)
+                {
+                    break;
+                }
             }
 
-            var requirements = values
-                .Where(static value => value.Kind == FormulaValueKind.Requirement)
-                .Select(static value => value.Requirement!)
-                .ToArray();
-            if (requirements.Length > 0)
-            {
-                return FormulaValue.Of(requirements.Aggregate(CapabilityRequirement.None, static (left, right) => left.And(right)));
-            }
-
-            return values.All(static value => value.Kind == FormulaValueKind.True)
-                ? FormulaValue.True
-                : FormulaValue.Unknown;
+            return result;
         }
     }
 
@@ -166,26 +196,21 @@ internal abstract class ConditionFormula
     {
         public override IEnumerable<ConditionAtom> Atoms => members.SelectMany(static member => member.Atoms);
 
-        public override FormulaValue Evaluate(Func<ConditionAtom, bool?> atomValue)
+        public override IEnumerable<Capability> Capabilities => members.SelectMany(static member => member.Capabilities);
+
+        public override async Task<FormulaValue> EvaluateAsync(Func<ConditionAtom, Task<bool?>> atomValue)
         {
-            var values = members.Select(member => member.Evaluate(atomValue)).ToArray();
-            if (values.Any(static value => value.Kind == FormulaValueKind.True))
+            var result = FormulaValue.False;
+            foreach (var member in members)
             {
-                return FormulaValue.True;
+                result = FormulaValue.Or(result, await member.EvaluateAsync(atomValue).ConfigureAwait(false));
+                if (result.Kind == FormulaValueKind.True)
+                {
+                    break;
+                }
             }
 
-            var requirements = values
-                .Where(static value => value.Kind == FormulaValueKind.Requirement)
-                .Select(static value => value.Requirement!)
-                .ToArray();
-            if (requirements.Length > 0)
-            {
-                return FormulaValue.Of(requirements.Aggregate(static (left, right) => left.Or(right)));
-            }
-
-            return values.All(static value => value.Kind == FormulaValueKind.False)
-                ? FormulaValue.False
-                : FormulaValue.Unknown;
+            return result;
         }
     }
 }
@@ -205,11 +230,13 @@ internal sealed class ConditionAtom(
 
     public override IEnumerable<ConditionAtom> Atoms => [this];
 
-    public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
+    public override IEnumerable<Capability> Capabilities => [];
+
+    public Task<bool> EvaluateConditionAsync(IPipelineContext context, CancellationToken cancellationToken) =>
         evaluate(context, cancellationToken);
 
-    public override FormulaValue Evaluate(Func<ConditionAtom, bool?> atomValue) =>
-        atomValue(this) switch
+    public override async Task<FormulaValue> EvaluateAsync(Func<ConditionAtom, Task<bool?>> atomValue) =>
+        await atomValue(this).ConfigureAwait(false) switch
         {
             true => FormulaValue.True,
             false => FormulaValue.False,
@@ -252,4 +279,30 @@ internal readonly record struct FormulaValue(FormulaValueKind Kind, CapabilityRe
 
     public static FormulaValue Of(CapabilityRequirement requirement) =>
         requirement.IsSatisfiable ? new(FormulaValueKind.Requirement, requirement) : False;
+
+    /// <summary>
+    /// Combines two conjuncts. An unknown conjunct imposes nothing, but two unknowns stay unknown.
+    /// </summary>
+    public static FormulaValue And(FormulaValue left, FormulaValue right) => (left.Kind, right.Kind) switch
+    {
+        (FormulaValueKind.False, _) or (_, FormulaValueKind.False) => False,
+        (FormulaValueKind.Requirement, FormulaValueKind.Requirement) => Of(left.Requirement!.And(right.Requirement!)),
+        (FormulaValueKind.Requirement, _) => left,
+        (_, FormulaValueKind.Requirement) => right,
+        (FormulaValueKind.True, FormulaValueKind.True) => True,
+        _ => Unknown,
+    };
+
+    /// <summary>
+    /// Combines two disjuncts. An unknown disjunct satisfies nothing, but two unknowns stay unknown.
+    /// </summary>
+    public static FormulaValue Or(FormulaValue left, FormulaValue right) => (left.Kind, right.Kind) switch
+    {
+        (FormulaValueKind.True, _) or (_, FormulaValueKind.True) => True,
+        (FormulaValueKind.Requirement, FormulaValueKind.Requirement) => Of(left.Requirement!.Or(right.Requirement!)),
+        (FormulaValueKind.Requirement, _) => left,
+        (_, FormulaValueKind.Requirement) => right,
+        (FormulaValueKind.False, FormulaValueKind.False) => False,
+        _ => Unknown,
+    };
 }

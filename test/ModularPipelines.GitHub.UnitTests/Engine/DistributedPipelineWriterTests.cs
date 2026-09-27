@@ -205,6 +205,27 @@ public class DistributedPipelineWriterTests : TestBase
     }
 
     [Test]
+    public async Task ProvisionsConditionalRunnersWhenConditionCombinationsAreCapped()
+    {
+        // Eleven planning-safe conditions exceed the enumeration limit; when they are false at run time,
+        // the master requires Windows, so the workflow must still provision a Windows runner.
+        var outputPath = new FilePath(Path.Combine(
+            FilePath.GetNewTemporaryFilePath().Path,
+            "distributed.yml"));
+
+        await TestPipelineBuilder.Create()
+            .AddModule<ManyConditionalWindowsRoutesModule>()
+            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            {
+                OutputPath = outputPath,
+                ExtraWorkers = 0,
+            })
+            .RunAsync();
+
+        await Assert.That(await outputPath.ReadAsync()).Contains("windows-latest");
+    }
+
+    [Test]
     public async Task AllowsUnsupportedConditionalRouteWithWorkerOnlyAlternative()
     {
         // A worker-only alternative may hold on any worker, so the route never becomes mandatory.
@@ -312,6 +333,22 @@ public class DistributedPipelineWriterTests : TestBase
     [RequiresAnyCapability("linux", "freebsd")]
     [RequiresAnyCapability("windows", "freebsd")]
     private sealed class FreeBsdIntersectionModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    private sealed class ManyConditionalWindowsRoutesModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }

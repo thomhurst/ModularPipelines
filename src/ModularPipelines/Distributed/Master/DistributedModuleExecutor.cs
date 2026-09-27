@@ -432,8 +432,11 @@ internal class DistributedModuleExecutor(
         {
             _logger.LogInformation("Skipping distributed module {Module}: {Reason}", moduleType.Name, exception.Message);
             var skipped = RegisterSkippedResult(module, moduleType, exception.SkipDecision, context);
-            await CompleteCollectedResultAsync(skipped, moduleType, scheduler, cts, requestFailureCancellation)
-                .ConfigureAwait(false);
+            moduleState.Result = skipped;
+            scheduler.MarkModuleCompleted(
+                moduleType,
+                success: true,
+                statusOverride: skipped?.Status ?? ModuleStatus.Skipped);
             return null;
         }
         catch (Exception exception)

@@ -21,6 +21,7 @@ public class ModuleConditionHandlerTests
     private static int _deferredDiscoveryConditionConstructions;
     private static int _mixedAlternativeEvaluationCount;
     private static int _workerOnlyEvaluationCount;
+    private static int _routingEvaluationCount;
 
     [Test]
     public async Task Distributed_Master_Defers_Foreign_Os_In_Mixed_And_Condition()
@@ -754,6 +755,30 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    public async Task Distributed_Master_Routing_Short_Circuits_And_Evaluates_Each_Condition_Once()
+    {
+        _routingEvaluationCount = 0;
+        var executionLocation = CreateExecutionLocationContext(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+        var handler = CreateHandler(new DistributedOptions(), executionLocationContext: executionLocation);
+        var module = new ShortCircuitRoutingModule();
+
+        // CountingFalse is evaluated once; ThrowingPlanning follows a true alternative and never runs.
+        await handler.PrepareExecutionRoutingAsync(module);
+        executionLocation.TryGetPreparedConditionValue(module, out var value);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(_routingEvaluationCount).IsEqualTo(1);
+            await Assert.That(value.Requirement).IsEqualTo(CapabilityRequirement.AllOf(Capability.Linux));
+        }
+    }
+
+    [Test]
     public async Task Distributed_Master_Finds_No_Route_When_Required_Alternatives_Contradict()
     {
         var executionLocation = CreateExecutionLocationContext(new DistributedOptions
@@ -1164,6 +1189,30 @@ public class ModuleConditionHandlerTests
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIfAny<OnLinux, CountingPlanningFalseCondition>]
+    [RunIfAny<PlanningTrueCondition, ThrowingPlanningCondition, OnWindows>]
+    private sealed class ShortCircuitRoutingModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    private sealed class CountingPlanningFalseCondition : IPlanningRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context)
+        {
+            Interlocked.Increment(ref _routingEvaluationCount);
+            return Task.FromResult(false);
+        }
+    }
+
+    private sealed class ThrowingPlanningCondition : IPlanningRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context) =>
+            throw new InvalidOperationException("Evaluated past a true alternative.");
     }
 
     private sealed class PlanningTrueCondition : IPlanningRunCondition

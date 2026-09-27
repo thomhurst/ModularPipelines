@@ -18,7 +18,7 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
         """;
 
     // Ordered by preference; the matrix provisions runners in this order.
-    // Beyond this many planning-safe conditions per module, runner planning stops enumerating outcomes.
+    // Beyond this many planning-safe conditions per module, runner planning provisions conservatively.
     private const int MaximumEnumeratedConditions = 10;
 
     private static readonly (Capability OperatingSystem, string Runner)[] Runners =
@@ -166,10 +166,16 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
 
     private static IEnumerable<Capability> GetRequiredOperatingSystems(Type moduleType)
     {
-        var formula = ConditionFormula.ForModule(
+        var formula = ConditionFormula.ForRouting(
             moduleType.GetCustomAttributes(inherit: true).OfType<IConditionAttribute>());
+        var planningAtoms = formula?.Atoms.Where(static atom => atom.IsPlanning).Distinct().ToArray() ?? [];
+        if (formula is not null && planningAtoms.Length > MaximumEnumeratedConditions)
+        {
+            return GetConservativeOperatingSystems(moduleType, formula);
+        }
+
         var operatingSystems = new HashSet<Capability>();
-        foreach (var conditionValue in GetPossibleConditionValues(formula))
+        foreach (var conditionValue in GetPossibleConditionValues(formula, planningAtoms))
         {
             // Each outcome of the master's planning-safe conditions is a requirement the master may stamp.
             if (CapabilityConditions.Combine(moduleType, conditionValue) is not { } requirement
@@ -189,10 +195,41 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
     }
 
     /// <summary>
+    /// Plans runners without enumerating outcomes: provisions every operating system the conditions or
+    /// declarations name that every outcome still allows, so no reachable requirement lacks a runner.
+    /// </summary>
+    private static IEnumerable<Capability> GetConservativeOperatingSystems(Type moduleType, ConditionFormula formula)
+    {
+        // Conditions are monotone, so the all-true outcome needs the least; every outcome needs at least that.
+        if (CapabilityConditions.Combine(moduleType, formula.Evaluate(static _ => true)) is not { } leastRequirement)
+        {
+            return [];
+        }
+
+        var allowedOperatingSystems = GetAllowedOperatingSystems(leastRequirement.Clauses);
+        if (allowedOperatingSystems is not null)
+        {
+            EnsureSupported(allowedOperatingSystems);
+        }
+
+        var namedOperatingSystems = formula.Capabilities
+            .Concat(CapabilityConditions.GetDeclaredRequirement(moduleType).Clauses.SelectMany(static clause => clause))
+            .Where(static capability => capability.IsOperatingSystem)
+            .ToHashSet();
+
+        return Runners
+            .Select(static runner => runner.OperatingSystem)
+            .Where(operatingSystem => namedOperatingSystems.Contains(operatingSystem)
+                                      && allowedOperatingSystems?.Contains(operatingSystem) != false);
+    }
+
+    /// <summary>
     /// Returns the formula's value for every combination of its planning-safe conditions, which the
     /// master evaluates at run time. Worker-only conditions stay unconstrained.
     /// </summary>
-    private static IEnumerable<FormulaValue> GetPossibleConditionValues(ConditionFormula? formula)
+    private static IEnumerable<FormulaValue> GetPossibleConditionValues(
+        ConditionFormula? formula,
+        IReadOnlyList<ConditionAtom> planningAtoms)
     {
         if (formula is null)
         {
@@ -200,18 +237,7 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
             yield break;
         }
 
-        var planningAtoms = formula.Atoms
-            .Where(static atom => atom.IsPlanning)
-            .Distinct()
-            .ToArray();
-        if (planningAtoms.Length > MaximumEnumeratedConditions)
-        {
-            // Too many combinations: plan for what the conditions need whatever they return.
-            yield return formula.Evaluate(static _ => true);
-            yield break;
-        }
-
-        for (var combination = 0; combination < 1 << planningAtoms.Length; combination++)
+        for (var combination = 0; combination < 1 << planningAtoms.Count; combination++)
         {
             var values = planningAtoms
                 .Select((atom, index) => (atom, value: (combination & (1 << index)) != 0))
