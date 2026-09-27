@@ -13,7 +13,7 @@ using ModularPipelines.Homebrew.Options;
 namespace ModularPipelines.Homebrew.Options;
 
 /// <summary>
-/// Verify the build provenance of bottles using GitHub's attestation tools. This is done by first fetching the given bottles and then verifying their provenance.
+/// Verify the build provenance of bottles using GitHub's attestation tools. This is done by first fetching the given bottles and then verifying their provenance for homebrew/core and third-party taps that provide attestations.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Homebrew.Options;
 public record BrewVerifyOptions : BrewOptions
 {
     /// <summary>
-    /// Verify the build provenance of bottles using GitHub's attestation tools. This is done by first fetching the given bottles and then verifying their provenance.
+    /// Verify the build provenance of bottles using GitHub's attestation tools. This is done by first fetching the given bottles and then verifying their provenance for homebrew/core and third-party taps that provide attestations.
     /// </summary>
     /// <param name="Formula">The formula operand.</param>
     public BrewVerifyOptions(

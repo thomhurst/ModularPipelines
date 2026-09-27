@@ -75,7 +75,7 @@ public record BrewBumpFormulaPrOptions : BrewOptions
     public string? Mirror { get; set; }
 
     /// <summary>
-    /// Use the specified GitHub organization for forking.
+    /// Use the specified GitHub organisation for forking.
     /// </summary>
     [CliOption("--fork-org", Format = OptionFormat.EqualsSeparated)]
     public string? ForkOrg { get; set; }
