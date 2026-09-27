@@ -56,7 +56,6 @@ public class WorkerModuleExecutorTests
             new ModuleMetadataRegistry(new ModuleAttributeEventService()),
             Microsoft.Extensions.Options.Options.Create(new DistributedOptions
             {
-                AutoDetectOsCapability = false,
                 WorkerHeartbeatInterval = TimeSpan.FromMilliseconds(1),
             }),
             Mock.Of<IParallelLimitProvider>(

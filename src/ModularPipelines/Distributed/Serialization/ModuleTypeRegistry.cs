@@ -9,7 +9,8 @@ namespace ModularPipelines.Distributed.Serialization;
 
 internal class ModuleTypeRegistry
 {
-    private const string WireSchemaVersion = "4";
+    // 5: ModuleAssignment.RequiredCapabilities became a CapabilityRequirement (array of clauses).
+    private const string WireSchemaVersion = "5";
     private readonly Lock _schemaLock = new();
     private string? _schemaVersion;
     private readonly ConcurrentDictionary<ModuleId, (Type ModuleType, Type ResultType)> _registry = new();

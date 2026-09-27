@@ -234,7 +234,7 @@ public class SignalRIntegrationTests
             // Enqueue work via master state (simulating master coordinator)
             var moduleAssignment = new ModuleAssignment(
                 ModuleId: "MyModule",
-                RequiredCapabilities: [],
+                RequiredCapabilities: CapabilityRequirement.None,
                 AssignedAt: DateTimeOffset.UtcNow,
                 Configuration: new ModuleAssignmentOptions(null, false));
 
@@ -322,19 +322,19 @@ public class SignalRIntegrationTests
             // Enqueue 3 modules with different capability requirements
             var windowsModule = new ModuleAssignment(
                 "WindowsBuildModule",
-                ["windows"],
+                CapabilityRequirement.AllOf("windows"),
                 DateTimeOffset.UtcNow,
                 new ModuleAssignmentOptions(null, false));
 
             var dockerModule = new ModuleAssignment(
                 "DockerBuildModule",
-                ["linux", "docker"],
+                CapabilityRequirement.AllOf("linux", "docker"),
                 DateTimeOffset.UtcNow,
                 new ModuleAssignmentOptions(null, false));
 
             var genericModule = new ModuleAssignment(
                 "GenericModule",
-                [],
+                CapabilityRequirement.None,
                 DateTimeOffset.UtcNow,
                 new ModuleAssignmentOptions(null, false));
 
@@ -447,7 +447,7 @@ public class SignalRIntegrationTests
             firstDelivery.TrySetResult();
         });
         var registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow);
-        var assignment = new ModuleAssignment("CompletedModule", [],
+        var assignment = new ModuleAssignment("CompletedModule", CapabilityRequirement.None,
             DateTimeOffset.UtcNow, new ModuleAssignmentOptions(null, false));
         var waiter = new TaskCompletionSource<SerializedModuleResult>(TaskCreationOptions.RunContinuationsAsynchronously);
         state.ResultWaiters[assignment.ModuleId] = waiter;
@@ -502,7 +502,7 @@ public class SignalRIntegrationTests
             var deliveries = 0;
             using var subscription = connection.On<ModuleAssignment>(HubMethodNames.ReceiveAssignment,
                 _ => Interlocked.Increment(ref deliveries));
-            var assignment = new ModuleAssignment("CompletedModule", [],
+            var assignment = new ModuleAssignment("CompletedModule", CapabilityRequirement.None,
                 DateTimeOffset.UtcNow, new ModuleAssignmentOptions(null, false));
             var waiter = new TaskCompletionSource<SerializedModuleResult>(TaskCreationOptions.RunContinuationsAsynchronously);
             state.ResultWaiters[assignment.ModuleId] = waiter;
@@ -665,7 +665,7 @@ public class SignalRIntegrationTests
                 resultTasks[moduleName] = tcs;
 
                 masterState.PendingAssignments.Enqueue(new ModuleAssignment(
-                    moduleName, [],
+                    moduleName, CapabilityRequirement.None,
                     DateTimeOffset.UtcNow, new ModuleAssignmentOptions(null, false)));
             }
 
@@ -707,7 +707,7 @@ public class SignalRIntegrationTests
         if (!worker.TryAssign(new ModuleAssignment(
                 moduleId,
 
-                [],
+                CapabilityRequirement.None,
                 DateTimeOffset.UtcNow,
                 new ModuleAssignmentOptions(null, false))))
         {

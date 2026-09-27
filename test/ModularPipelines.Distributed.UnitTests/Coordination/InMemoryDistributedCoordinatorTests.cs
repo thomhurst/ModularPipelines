@@ -57,6 +57,13 @@ public class InMemoryDistributedCoordinatorTests
     }
 
     [Test]
+    public async Task Claim_Matches_Alternative_Capabilities()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        await DistributedCoordinatorContract.ClaimMatchesAlternativeCapabilitiesAsync(coordinator);
+    }
+
+    [Test]
     public async Task SignalCompletion_CausesDequeueToReturnNull()
     {
         var coordinator = new InMemoryDistributedCoordinator();
@@ -123,7 +130,7 @@ public class InMemoryDistributedCoordinatorTests
 
         var dockerAssignment = new ModuleAssignment(
             ModuleId: "Docker.Module",
-            RequiredCapabilities: ["docker"],
+            RequiredCapabilities: CapabilityRequirement.AllOf("docker"),
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false));
 
@@ -206,7 +213,7 @@ public class InMemoryDistributedCoordinatorTests
         return new ModuleAssignment(
             ModuleId: moduleId,
 
-            RequiredCapabilities: requiredCapabilities?.ToArray() ?? [],
+            RequiredCapabilities: requiredCapabilities is null ? CapabilityRequirement.None : CapabilityRequirement.AllOf([.. requiredCapabilities]),
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false))
         {

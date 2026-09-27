@@ -2,7 +2,7 @@ namespace ModularPipelines.Distributed;
 
 public record ModuleAssignment(
     ModuleId ModuleId,
-    IReadOnlyList<Capability> RequiredCapabilities,
+    CapabilityRequirement RequiredCapabilities,
     DateTimeOffset AssignedAt,
     ModuleAssignmentOptions Configuration,
     IReadOnlyList<DependencyResultReference>? DependencyResultReferences = null)

@@ -1,5 +1,6 @@
 using ModularPipelines.Attributes;
 using ModularPipelines;
+using ModularPipelines.Context;
 using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.GitHub.PipelineWriters;
 using ModularPipelines.TestHelpers;
@@ -101,6 +102,59 @@ public class DistributedPipelineWriterTests : TestBase
     }
 
     [Test]
+    public async Task GeneratesRunnersForAlternativeOperatingSystemConditions()
+    {
+        var outputPath = new FilePath(Path.Combine(
+            FilePath.GetNewTemporaryFilePath().Path,
+            "distributed.yml"));
+
+        await TestPipelineBuilder.Create()
+            .AddModule<UnixConditionModule>()
+            .AddModule<FreeBsdOrDockerModule>()
+            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            {
+                OutputPath = outputPath,
+                ExtraWorkers = 0,
+            })
+            .RunAsync();
+
+        var yaml = (await outputPath.ReadAsync()).ReplaceLineEndings("\n");
+        var runners = yaml.Split('\n')
+            .Select(line => line.Trim())
+            .Where(line => line.StartsWith("os:", StringComparison.Ordinal));
+
+        await Assert.That(runners).IsEquivalentTo(
+            ["os: ubuntu-latest", "os: ubuntu-latest", "os: macos-latest"]);
+    }
+
+    [Test]
+    public async Task ExcludesRunnersThatConflictWithMandatoryOperatingSystems()
+    {
+        var outputPath = new FilePath(Path.Combine(
+            FilePath.GetNewTemporaryFilePath().Path,
+            "distributed.yml"));
+
+        await TestPipelineBuilder.Create()
+            .AddModule<WindowsWithConditionalLinuxModule>()
+            .AddModule<LinuxWithMacOrDockerModule>()
+            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            {
+                OutputPath = outputPath,
+                ExtraWorkers = 0,
+            })
+            .RunAsync();
+
+        var yaml = (await outputPath.ReadAsync()).ReplaceLineEndings("\n");
+        var runners = yaml.Split('\n')
+            .Select(line => line.Trim())
+            .Where(line => line.StartsWith("os:", StringComparison.Ordinal));
+
+        // Windows is mandatory for the first module and Linux for the second, so no macOS runner.
+        await Assert.That(runners).IsEquivalentTo(
+            ["os: ubuntu-latest", "os: ubuntu-latest", "os: windows-latest"]);
+    }
+
+    [Test]
     public async Task RejectsUnsupportedOperatingSystemConditions()
     {
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
@@ -114,6 +168,139 @@ public class DistributedPipelineWriterTests : TestBase
                 .RunAsync());
 
         await Assert.That(exception!.Message).Contains("freebsd");
+    }
+
+    [Test]
+    public async Task RejectsUnsupportedConditionalOperatingSystemRoutes()
+    {
+        // OnCI is planning-safe; when it is false the master requires a FreeBSD worker.
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            TestPipelineBuilder.Create()
+                .AddModule<FreeBsdOrCiModule>()
+                .WriteDistributedWorkflow(new DistributedWorkflowOptions
+                {
+                    OutputPath = FilePath.GetNewTemporaryFilePath(),
+                    ExtraWorkers = 0,
+                })
+                .RunAsync());
+
+        await Assert.That(exception!.Message).Contains("freebsd");
+    }
+
+    [Test]
+    public async Task RejectsOperatingSystemClausesThatOnlyUnsupportedRunnersSatisfyTogether()
+    {
+        // Each clause lists a supported OS, but only FreeBSD satisfies both.
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            TestPipelineBuilder.Create()
+                .AddModule<FreeBsdIntersectionModule>()
+                .WriteDistributedWorkflow(new DistributedWorkflowOptions
+                {
+                    OutputPath = FilePath.GetNewTemporaryFilePath(),
+                    ExtraWorkers = 0,
+                })
+                .RunAsync());
+
+        await Assert.That(exception!.Message).Contains("freebsd");
+    }
+
+    [Test]
+    public async Task ProvisionsConditionalRunnersAcrossManyConditions()
+    {
+        // Eleven planning-safe conditions; when they are false at run time,
+        // the master requires Windows, so the workflow must still provision a Windows runner.
+        var outputPath = new FilePath(Path.Combine(
+            FilePath.GetNewTemporaryFilePath().Path,
+            "distributed.yml"));
+
+        await TestPipelineBuilder.Create()
+            .AddModule<ManyConditionalWindowsRoutesModule>()
+            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            {
+                OutputPath = outputPath,
+                ExtraWorkers = 0,
+            })
+            .RunAsync();
+
+        await Assert.That(await outputPath.ReadAsync()).Contains("windows-latest");
+    }
+
+    [Test]
+    public async Task RejectsUnsupportedConditionalRoutesAcrossManyConditions()
+    {
+        // With every OnCI false at run time the master requires FreeBSD, which no runner supports.
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            TestPipelineBuilder.Create()
+                .AddModule<ManyConditionalFreeBsdRoutesModule>()
+                .WriteDistributedWorkflow(new DistributedWorkflowOptions
+                {
+                    OutputPath = FilePath.GetNewTemporaryFilePath(),
+                    ExtraWorkers = 0,
+                })
+                .RunAsync());
+
+        await Assert.That(exception!.Message).Contains("freebsd");
+    }
+
+    [Test]
+    public async Task TreatsRepeatedConditionsAsOneValue()
+    {
+        // Every OnCI reads the same setting: when true nothing is required, and when false the module needs
+        // FreeBSD and Windows at once and is skipped. No FreeBSD-only outcome exists, so generation succeeds.
+        var outputPath = new FilePath(Path.Combine(
+            FilePath.GetNewTemporaryFilePath().Path,
+            "distributed.yml"));
+
+        await TestPipelineBuilder.Create()
+            .AddModule<CorrelatedConflictingRoutesModule>()
+            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            {
+                OutputPath = outputPath,
+                ExtraWorkers = 0,
+            })
+            .RunAsync();
+
+        await Assert.That(await outputPath.ReadAsync()).DoesNotContain("windows-latest");
+    }
+
+    [Test]
+    public async Task KeepsAlternativeRoutesInLargeConditionGroups()
+    {
+        // The group needs Linux or FreeBSD when OnCI is false; Linux has a runner, so generation succeeds.
+        var outputPath = new FilePath(Path.Combine(
+            FilePath.GetNewTemporaryFilePath().Path,
+            "distributed.yml"));
+
+        await TestPipelineBuilder.Create()
+            .AddModule<LargeAlternativeGroupModule>()
+            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            {
+                OutputPath = outputPath,
+                ExtraWorkers = 0,
+            })
+            .RunAsync();
+
+        await Assert.That(await outputPath.ReadAsync()).Contains("ubuntu-latest");
+    }
+
+    [Test]
+    public async Task AllowsUnsupportedConditionalRouteWithWorkerOnlyAlternative()
+    {
+        // A worker-only alternative may hold on any worker, so the route never becomes mandatory.
+        var outputPath = new FilePath(Path.Combine(
+            FilePath.GetNewTemporaryFilePath().Path,
+            "distributed.yml"));
+
+        await TestPipelineBuilder.Create()
+            .AddModule<FreeBsdOrWorkerOnlyModule>()
+            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            {
+                OutputPath = outputPath,
+                ExtraWorkers = 0,
+            })
+            .RunAsync();
+
+        await Assert.That(await outputPath.ReadAsync()).DoesNotContain("freebsd");
     }
 
     [Test]
@@ -150,7 +337,7 @@ public class DistributedPipelineWriterTests : TestBase
         protected override bool Result => true;
     }
 
-    [RequiresCapability("operating-system:windows|macos")]
+    [RequiresAnyCapability("windows", "macos")]
     private sealed class MacOrWindowsModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
@@ -172,6 +359,120 @@ public class DistributedPipelineWriterTests : TestBase
     private sealed class MacConditionModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
+    }
+
+    [RequiresCapability("windows")]
+    [RunIfAny<OnLinux, OnCI>]
+    private sealed class WindowsWithConditionalLinuxModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RequiresCapability("linux")]
+    [RequiresAnyCapability("macos", "docker")]
+    private sealed class LinuxWithMacOrDockerModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RunIf<OnUnix>]
+    private sealed class UnixConditionModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    // A worker can satisfy this through docker, so no FreeBSD runner is needed.
+    [RequiresAnyCapability("freebsd", "docker")]
+    private sealed class FreeBsdOrDockerModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RequiresAnyCapability("linux", "freebsd")]
+    [RequiresAnyCapability("windows", "freebsd")]
+    private sealed class FreeBsdIntersectionModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    private sealed class ManyConditionalWindowsRoutesModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    private sealed class ManyConditionalFreeBsdRoutesModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    private sealed class CorrelatedConflictingRoutesModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RunIf<LinuxFreeBsdOrManyCiGroup>]
+    private sealed class LargeAlternativeGroupModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    private sealed class LinuxFreeBsdOrManyCiGroup : ConditionGroup, IPlanningRunCondition
+    {
+        public override IReadOnlyList<IRunCondition> Conditions =>
+            [new OnLinux(), new OnFreeBSD(), .. Enumerable.Range(0, 13).Select(static _ => new OnCI())];
+
+        public override ConditionLogic Logic => ConditionLogic.Any;
+    }
+
+    [RunIfAny<OnFreeBSD, OnCI>]
+    private sealed class FreeBsdOrCiModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RunIfAny<OnFreeBSD, WorkerOnlyCondition>]
+    private sealed class FreeBsdOrWorkerOnlyModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    private sealed class WorkerOnlyCondition : IRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
     }
 
     [RunIf<OnFreeBSD>]

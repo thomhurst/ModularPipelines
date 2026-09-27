@@ -113,6 +113,12 @@ public record PnpmPkgGetOptions : PnpmOptions
     public PnpmPkgGetLoglevel? Loglevel { get; set; }
 
     /// <summary>
+    /// Disable dependency and download progress output
+    /// </summary>
+    [CliFlag("--no-progress")]
+    public bool? NoProgress { get; set; }
+
+    /// <summary>
     /// Stream a recursive command's script output as it arrives, one prefixed line at a time
     /// </summary>
     [CliFlag("--stream")]

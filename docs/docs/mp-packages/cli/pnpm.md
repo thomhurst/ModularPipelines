@@ -71,6 +71,7 @@ public class RunCommandModule : Module<CommandResult>
 | `pnpm cache list` | `PnpmCacheListOptions` |
 | `pnpm cache list-registries` | `PnpmCacheListRegistriesOptions` |
 | `pnpm cache path` | `PnpmCachePathOptions` |
+| `pnpm cache prune` | `PnpmCachePruneOptions` |
 | `pnpm cache view` | `PnpmCacheViewOptions` |
 | `pnpm cat-file` | `PnpmCatFileOptions` |
 | `pnpm cat-index` | `PnpmCatIndexOptions` |
@@ -127,6 +128,7 @@ public class RunCommandModule : Module<CommandResult>
 | `pnpm prune` | `PnpmPruneOptions` |
 | `pnpm publish` | `PnpmPublishOptions` |
 | `pnpm purge` | `PnpmPurgeOptions` |
+| `pnpm rb` | `PnpmRbOptions` |
 | `pnpm rebuild` | `PnpmRebuildOptions` |
 | `pnpm recursive` | `PnpmRecursiveOptions` |
 | `pnpm remove` | `PnpmRemoveOptions` |
@@ -151,6 +153,8 @@ public class RunCommandModule : Module<CommandResult>
 | `pnpm store path` | `PnpmStorePathOptions` |
 | `pnpm store prune` | `PnpmStorePruneOptions` |
 | `pnpm store status` | `PnpmStoreStatusOptions` |
+| `pnpm tasks` | `PnpmTasksOptions` |
+| `pnpm tasks status` | `PnpmTasksStatusOptions` |
 | `pnpm team` | `PnpmTeamOptions` |
 | `pnpm test` | `PnpmTestOptions` |
 | `pnpm token` | `PnpmTokenOptions` |

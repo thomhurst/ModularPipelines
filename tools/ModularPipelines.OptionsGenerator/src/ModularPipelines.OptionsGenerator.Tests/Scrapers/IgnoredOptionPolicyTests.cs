@@ -139,7 +139,10 @@ public class IgnoredOptionPolicyTests
         {
             ["--help"] = rootHelp,
             [$"{commandName} --help"] = commandHelp,
-            [$"help {commandName}"] = "OPTIONS\n    The fixture options accept one value each.\n",
+            // pnpm reads top-level command help through its help command.
+            [$"help {commandName}"] = tool == "pnpm"
+                ? commandHelp
+                : "OPTIONS\n    The fixture options accept one value each.\n",
         });
         var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
         ICliScraper scraper = tool switch

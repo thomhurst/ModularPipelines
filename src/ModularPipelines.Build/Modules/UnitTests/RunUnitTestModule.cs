@@ -58,13 +58,33 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
         var testProject = repositoryInfo.Root
             .GetFiles(file => file.Name.Equals(TestProjectFileName, StringComparison.OrdinalIgnoreCase))
             .Single();
-        var trxFile = GetTrxFile(testProject);
         // Static instrumentation of large generated assemblies can outlast MTP's startup
         // handshake timeout. Dynamic instrumentation is supported on our Linux x64 runners;
         // other architectures retain the collector's default instrumentation settings.
-        string[] coverageSettingsArguments = RuntimeInformation.ProcessArchitecture == Architecture.X64
-            ? ["--coverage-settings", repositoryInfo.Root.GetFile("test/coverage-linux-x64.config").Path]
-            : [];
+        string[] coverageArguments = RuntimeInformation.ProcessArchitecture == Architecture.X64
+            ? ["--coverage", "--coverage-output-format", "cobertura",
+                "--coverage-settings", repositoryInfo.Root.GetFile("test/coverage-linux-x64.config").Path]
+            : ["--coverage", "--coverage-output-format", "cobertura"];
+
+        return await RunTestProjectAsync(
+            context,
+            testProject,
+            pipelineSettings.Value.TestFramework,
+            coverageArguments,
+            cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Runs an already-built test project and renders its failures and skipped tests.
+    /// </summary>
+    internal static async Task<CommandResult> RunTestProjectAsync(
+        IModuleContext context,
+        FilePath testProject,
+        string testFramework,
+        IReadOnlyList<string> coverageArguments,
+        CancellationToken cancellationToken)
+    {
+        var trxFile = GetTrxFile(testProject, testFramework);
 
         if (trxFile.Exists)
         {
@@ -77,12 +97,10 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
             {
                 Project = testProject.Path,
                 NoBuild = true,
-                Framework = pipelineSettings.Value.TestFramework,
+                Framework = testFramework,
                 Arguments =
                 [
-                    "--coverage",
-                    "--coverage-output-format", "cobertura",
-                    .. coverageSettingsArguments,
+                    .. coverageArguments,
                     "--hangdump",
                     "--hangdump-filename", HangDumpFileName,
                     "--hangdump-timeout", "20m",
@@ -126,10 +144,10 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
         }
     }
 
-    private FilePath GetTrxFile(FilePath testProject)
+    private static FilePath GetTrxFile(FilePath testProject, string testFramework)
     {
         return testProject.Folder!
-            .GetFolder($"bin/Release/{pipelineSettings.Value.TestFramework}/TestResults")
+            .GetFolder($"bin/Release/{testFramework}/TestResults")
             .GetFile(TrxFileName);
     }
 
@@ -269,7 +287,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
             : $"{summary[..(MaximumFailureMessageLength - 3)]}...";
     }
 
-    private static IEnumerable<string> GetNonEmptyLines(string? value)
+    private static string[] GetNonEmptyLines(string? value)
     {
         return (value ?? string.Empty)
             .Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);

@@ -67,6 +67,16 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
         };
 
     /// <summary>
+    /// pnpm 12 runs script shortcuts such as test, start and stop instead of printing their
+    /// help for --help, and fails outside a package. The help command documents every
+    /// top-level command without a project, but rejects nested paths, which keep --help.
+    /// </summary>
+    protected override string GetHelpArguments(string[] commandPath) =>
+        commandPath.Length == 2
+            ? $"help {commandPath[1]}"
+            : base.GetHelpArguments(commandPath);
+
+    /// <summary>
     /// Skip utility commands.
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)

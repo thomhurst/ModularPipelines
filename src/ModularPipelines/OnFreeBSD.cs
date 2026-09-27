@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Context;
+using ModularPipelines.Distributed;
 
 namespace ModularPipelines;
 
@@ -13,8 +14,11 @@ namespace ModularPipelines;
 /// </code>
 /// </example>
 [ExcludeFromCodeCoverage]
-public sealed class OnFreeBSD : IPlanningRunCondition
+public sealed class OnFreeBSD : ICapabilityCondition
 {
+    /// <inheritdoc />
+    public Capability Capability => Capability.FreeBSD;
+
     /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineContext context)
         => Task.FromResult(OperatingSystem.IsFreeBSD());

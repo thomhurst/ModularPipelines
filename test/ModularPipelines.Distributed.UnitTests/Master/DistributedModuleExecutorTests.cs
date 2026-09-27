@@ -519,7 +519,7 @@ public class DistributedModuleExecutorTests
             Microsoft.Extensions.Options.Options.Create(pipelineOptions ?? new PipelineOptions()),
             cacheHitTracker,
             registeredModules,
-            metricsCollector);
+            metricsCollector: metricsCollector);
     }
 
     private static IServiceScopeFactory NewModuleLoggerScopeFactory(IInternalModuleLogger? moduleLogger = null)
@@ -1686,6 +1686,53 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
+    public async Task Late_AlwaysRun_Module_Without_A_Route_Is_Skipped()
+    {
+        var module = new DistributedModule();
+        var scheduler = CreateMockScheduler(new ModuleState(module, typeof(DistributedModule)));
+        scheduler.Setup(x => x.CancelPendingModules()).Returns([]);
+        var unroutableModule = new CachedModuleWithConflictingCapabilities();
+        var unroutableState = new ModuleState(unroutableModule, typeof(CachedModuleWithConflictingCapabilities));
+        var coordinator = new InMemoryDistributedCoordinator();
+        var trackingCoordinator = new ResultTrackingCoordinator(coordinator);
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DistributedModule));
+        typeRegistry.Register(typeof(CachedModuleWithConflictingCapabilities));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var serializedFailure = serializer.Serialize(
+            CreateTypedFailureResult(module, new Exception("pipeline failed")),
+            ModuleId.FromType(typeof(DistributedModule)),
+            workerIndex: 1);
+        var alwaysRunHandler = new Mock<IAlwaysRunHandler>();
+        alwaysRunHandler.Setup(x => x.WaitForAlwaysRunModulesAsync(
+                scheduler.Object,
+                It.IsAny<IReadOnlyList<IModule>>(),
+                It.IsAny<Func<ModuleState, Task>>()))
+            .Returns((IModuleScheduler _, IReadOnlyList<IModule> _, Func<ModuleState, Task> startLate) =>
+                startLate(unroutableState));
+        var resultRegistry = new ModuleResultRegistry();
+        var executor = CreateExecutor(
+            scheduler,
+            resultRegistry: resultRegistry,
+            coordinator: trackingCoordinator,
+            resultCollector: new DistributedResultCollector(trackingCoordinator, serializer),
+            alwaysRunHandler: alwaysRunHandler.Object);
+
+        var executionTask = executor.ExecuteAsync([module]);
+        await trackingCoordinator.WaitForResultStartedAsync(typeof(DistributedModule)).WaitAsync(TestHostSettings.DefaultTestTimeout);
+        await coordinator.PublishResultAsync(serializedFailure, CancellationToken.None);
+        await executionTask.WaitAsync(TestHostSettings.DefaultTestTimeout);
+
+        scheduler.Verify(s => s.MarkModuleCompleted(
+            typeof(CachedModuleWithConflictingCapabilities),
+            true,
+            null,
+            ModuleStatus.Skipped));
+        await Assert.That(resultRegistry.GetResult(typeof(CachedModuleWithConflictingCapabilities))?.Status)
+            .IsEqualTo(ModuleStatus.Skipped);
+    }
+
+    [Test]
     public async Task FailFast_Skips_Queued_NonAlwaysRun_Master_Assignments()
     {
         var failedModule = new DistributedModule();
@@ -2036,7 +2083,7 @@ public class DistributedModuleExecutorTests
         var assignment = publisher.CreateAssignment(module);
 
         // Assert — "linux" capability auto-detected from [RunIf<OnLinux>]
-        await Assert.That(assignment.RequiredCapabilities).Contains("linux");
+        await Assert.That(assignment.RequiredCapabilities).IsEqualTo(CapabilityRequirement.AllOf(Capability.Linux));
     }
 
     [Test]
@@ -2050,17 +2097,9 @@ public class DistributedModuleExecutorTests
         var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         var assignment = publisher.CreateAssignment(new UnixModule());
-        var requiredCapability = assignment.RequiredCapabilities.Single();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Linux))
-                .Contains(requiredCapability);
-            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.MacOS))
-                .Contains(requiredCapability);
-            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Windows))
-                .DoesNotContain(requiredCapability);
-        }
+        await Assert.That(assignment.RequiredCapabilities)
+            .IsEqualTo(CapabilityRequirement.AnyOf(Capability.Linux, Capability.MacOS));
     }
 
     [Test]
@@ -2074,17 +2113,9 @@ public class DistributedModuleExecutorTests
         var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         var assignment = publisher.CreateAssignment(new GroupedOperatingSystemModule());
-        var requiredCapability = assignment.RequiredCapabilities.Single();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Linux))
-                .Contains(requiredCapability);
-            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Windows))
-                .Contains(requiredCapability);
-            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.MacOS))
-                .DoesNotContain(requiredCapability);
-        }
+        await Assert.That(assignment.RequiredCapabilities)
+            .IsEqualTo(CapabilityRequirement.AnyOf(Capability.Linux, Capability.Windows));
     }
 
     [Test]
@@ -2099,8 +2130,7 @@ public class DistributedModuleExecutorTests
 
         var assignment = publisher.CreateAssignment(new MixedGroupedOperatingSystemModule());
 
-        await Assert.That(assignment.RequiredCapabilities)
-            .DoesNotContain(OperatingSystemConditions.Linux);
+        await Assert.That(assignment.RequiredCapabilities.IsSatisfiedBy([Capability.Windows])).IsTrue();
     }
 
     [Test]
@@ -2115,8 +2145,7 @@ public class DistributedModuleExecutorTests
 
         var assignment = publisher.CreateAssignment(new MixedWorkerGroupedOperatingSystemModule());
 
-        await Assert.That(assignment.RequiredCapabilities)
-            .DoesNotContain(OperatingSystemConditions.Linux);
+        await Assert.That(assignment.RequiredCapabilities.IsSatisfiedBy([Capability.Windows])).IsTrue();
     }
 
     [Test]
@@ -2152,8 +2181,7 @@ public class DistributedModuleExecutorTests
             module,
             CancellationToken.None);
 
-        await Assert.That(assignment.RequiredCapabilities)
-            .DoesNotContain(OperatingSystemConditions.Linux);
+        await Assert.That(assignment.RequiredCapabilities.IsSatisfiedBy([Capability.Windows])).IsTrue();
         conditionHandler.Verify(handler => handler.PrepareExecutionRoutingAsync(
             module,
             CancellationToken.None));
@@ -2336,7 +2364,7 @@ public class DistributedModuleExecutorTests
         var assignment = new ModuleAssignment(
             typeof(AlwaysRunDistributedModule).FullName!,
 
-            [],
+            CapabilityRequirement.None,
             DateTimeOffset.UtcNow,
             new ModuleAssignmentOptions(null, AlwaysRun: true))
         {
@@ -2690,7 +2718,7 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    public async Task Cache_Miss_With_Assignment_Creation_Failure_Discards_Fingerprint()
+    public async Task Cache_Miss_With_Unroutable_Assignment_Skips_And_Discards_Fingerprint()
     {
         var module = new CachedModuleWithConflictingCapabilities();
         var moduleState = new ModuleState(module, typeof(CachedModuleWithConflictingCapabilities));
@@ -2711,8 +2739,13 @@ public class DistributedModuleExecutorTests
         await executor.ExecuteAsync([module]);
 
         cache.Verify(c => c.DiscardFingerprint(module), Times.Once());
+        scheduler.Verify(s => s.MarkModuleCompleted(
+            typeof(CachedModuleWithConflictingCapabilities),
+            true,
+            null,
+            ModuleStatus.Skipped));
         await Assert.That(resultRegistry.GetResult(module.GetType())?.Status)
-            .IsEqualTo(ModuleStatus.Failed);
+            .IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]
@@ -3178,7 +3211,6 @@ public class DistributedModuleExecutorTests
         {
             TotalInstances = 3,
             CapabilityTimeout = TimeSpan.FromMilliseconds(100),
-            AutoDetectOsCapability = false,
         };
 
         var coordinator = new Mock<IDistributedMasterCoordinator>();
@@ -3253,7 +3285,6 @@ public class DistributedModuleExecutorTests
         {
             TotalInstances = 2,
             CapabilityTimeout = TimeSpan.FromMilliseconds(150),
-            AutoDetectOsCapability = false,
         };
         var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(c => c.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
@@ -3296,7 +3327,6 @@ public class DistributedModuleExecutorTests
         {
             TotalInstances = 2,
             CapabilityTimeout = TimeSpan.FromMilliseconds(300),
-            AutoDetectOsCapability = false,
         };
         var registrationQueryCount = 0;
         IReadOnlyList<WorkerRegistration> capableWorkers =

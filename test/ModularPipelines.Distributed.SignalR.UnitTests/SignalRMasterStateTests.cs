@@ -88,7 +88,7 @@ public class SignalRMasterStateTests
             };
             state.Registrations[i] = new WorkerRegistration(i, [], DateTimeOffset.UtcNow);
             state.PendingAssignments.Enqueue(new ModuleAssignment(
-                $"Module{i}", [],
+                $"Module{i}", CapabilityRequirement.None,
                 DateTimeOffset.UtcNow, new ModuleAssignmentOptions(null, false)));
             state.ResultWaiters[$"Module{i}"] = new TaskCompletionSource<SerializedModuleResult>();
         }));
@@ -134,7 +134,7 @@ public class SignalRMasterStateTests
             1,
             new ModuleAssignment(
                 "TestModule",
-                [],
+                CapabilityRequirement.None,
                 DateTimeOffset.UtcNow,
                 new ModuleAssignmentOptions(null, false)));
 
@@ -421,7 +421,7 @@ public class SignalRMasterStateTests
     {
         return new ModuleAssignment(
             "TestModule",
-            [],
+            CapabilityRequirement.None,
             DateTimeOffset.UtcNow,
             new ModuleAssignmentOptions(null, false));
     }

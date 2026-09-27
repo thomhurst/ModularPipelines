@@ -5,7 +5,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed.Artifacts;
-using ModularPipelines.Distributed.Capabilities;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
@@ -33,7 +32,8 @@ internal class WorkerModuleExecutor(
     IServiceScopeFactory serviceScopeFactory,
     ArtifactLifecycleManager? artifactLifecycleManager,
     ILogger<WorkerModuleExecutor> logger,
-    IExecutionLocationContext? executionLocationContext = null) : IExecutionBackend
+    IExecutionLocationContext? executionLocationContext = null,
+    LocalCapabilityRegistry? localCapabilities = null) : IExecutionBackend
 {
     private readonly IHostApplicationLifetime _lifetime = lifetime;
     private readonly IDistributedWorkerCoordinator _coordinator = coordinator;
@@ -83,7 +83,8 @@ internal class WorkerModuleExecutor(
 
         var moduleLookup = DependencyResultApplicator.BuildModuleLookup(availableModules);
         var dependencyResultCache = new DependencyResultCache(_coordinator, cancellationToken);
-        var capabilities = BuildCapabilities(options);
+        var capabilities = await LocalCapabilities.GetAsync(localCapabilities, options, cancellationToken)
+            .ConfigureAwait(false);
         var maxConcurrency = DistributedWorkerPool.GetMaxConcurrency(
             _parallelLimitProvider,
             options);
@@ -222,18 +223,7 @@ internal class WorkerModuleExecutor(
         }
     }
 
-    private static HashSet<Capability> BuildCapabilities(DistributedOptions options)
-    {
-        var capabilities = new HashSet<Capability>(options.Capabilities);
-        if (options.AutoDetectOsCapability)
-        {
-            capabilities.UnionWith(OsCapabilityDetector.Detect());
-        }
-
-        return capabilities;
-    }
-
-    private async Task RegisterWorkerAsync(int instanceIndex, HashSet<Capability> capabilities, CancellationToken cancellationToken)
+    private async Task RegisterWorkerAsync(int instanceIndex, IReadOnlySet<Capability> capabilities, CancellationToken cancellationToken)
     {
         var registration = new WorkerRegistration(
             WorkerIndex: instanceIndex,

@@ -1,9 +1,9 @@
 {
   "formatVersion": 1,
   "toolName": "pnpm",
-  "toolVersion": "12.5.1",
-  "commandCount": 103,
-  "commandTreeSha256": "ed0aa4ad19ed65abb387f2af96478f8f91f9e15f197104835663fac5ba17c2d1",
+  "toolVersion": "12.6.0",
+  "commandCount": 107,
+  "commandTreeSha256": "2daf3e39c7594890a41e4a182379b32690d8f4c568a06e06d6c4330285fb8daf",
   "commands": [
     "pnpm access",
     "pnpm add",
@@ -15,6 +15,7 @@
     "pnpm cache list",
     "pnpm cache list-registries",
     "pnpm cache path",
+    "pnpm cache prune",
     "pnpm cache view",
     "pnpm cat-file",
     "pnpm cat-index",
@@ -71,6 +72,7 @@
     "pnpm prune",
     "pnpm publish",
     "pnpm purge",
+    "pnpm rb",
     "pnpm rebuild",
     "pnpm recursive",
     "pnpm remove",
@@ -95,6 +97,8 @@
     "pnpm store path",
     "pnpm store prune",
     "pnpm store status",
+    "pnpm tasks",
+    "pnpm tasks status",
     "pnpm team",
     "pnpm test",
     "pnpm token",
@@ -113,7 +117,8 @@
     "pnpm cache",
     "pnpm config",
     "pnpm pkg",
-    "pnpm store"
+    "pnpm store",
+    "pnpm tasks"
   ],
   "exclusions": [
     {

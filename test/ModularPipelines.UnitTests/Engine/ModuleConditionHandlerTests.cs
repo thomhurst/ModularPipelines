@@ -21,6 +21,25 @@ public class ModuleConditionHandlerTests
     private static int _deferredDiscoveryConditionConstructions;
     private static int _mixedAlternativeEvaluationCount;
     private static int _workerOnlyEvaluationCount;
+    private static int _routingEvaluationCount;
+
+    [Test]
+    public async Task Distributed_Master_Defers_Foreign_Os_In_Mixed_And_Condition()
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+        IModule module = OperatingSystem.IsWindows()
+            ? new LinuxAndPlanningTrueModule()
+            : new WindowsAndPlanningTrueModule();
+
+        var result = await handler.ShouldIgnore(module);
+
+        await Assert.That(result.ShouldIgnore).IsFalse();
+    }
 
     [Test]
     public async Task Distributed_Master_Does_Not_Filter_Foreign_Os_Module()
@@ -490,7 +509,7 @@ public class ModuleConditionHandlerTests
         {
             await Assert.That(executionLocation.IsMaster).IsTrue();
             await Assert.That(executionLocation.IsWorker).IsFalse();
-            await Assert.That(executionLocation.ShouldDeferOperatingSystemConditions).IsFalse();
+            await Assert.That(executionLocation.ShouldDeferCapabilityConditions).IsFalse();
         }
     }
 
@@ -510,7 +529,7 @@ public class ModuleConditionHandlerTests
         {
             await Assert.That(executionLocation.IsWorker).IsTrue();
             await Assert.That(executionLocation.IsMaster).IsFalse();
-            await Assert.That(executionLocation.ShouldDeferOperatingSystemConditions).IsFalse();
+            await Assert.That(executionLocation.ShouldDeferCapabilityConditions).IsFalse();
         }
     }
 
@@ -623,10 +642,213 @@ public class ModuleConditionHandlerTests
         await Assert.That(_conditionEvaluationCount).IsEqualTo(2);
     }
 
+    [Test]
+    public async Task Standalone_Execution_Skips_Module_Missing_Declared_Capability()
+    {
+        var handler = CreateHandler(
+            new DistributedOptions(),
+            localCapabilities: CreateLocalCapabilities());
+
+        var result = await handler.ShouldIgnore(new DockerModule());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ShouldIgnore).IsTrue();
+            await Assert.That(result.SkipDecision?.Reason).Contains("docker");
+            await Assert.That(result.SkipDecision?.Reason).Contains("AddCapabilities");
+        }
+    }
+
+    [Test]
+    public async Task Standalone_Execution_Runs_Module_With_Declared_Capability()
+    {
+        var handler = CreateHandler(
+            new DistributedOptions(),
+            localCapabilities: CreateLocalCapabilities(Capability.Docker));
+
+        var result = await handler.ShouldIgnore(new DockerModule());
+
+        await Assert.That(result.ShouldIgnore).IsFalse();
+    }
+
+    [Test]
+    public async Task Standalone_Execution_Matches_Alternative_Capability_With_Current_Os()
+    {
+        var handler = CreateHandler(
+            new DistributedOptions(),
+            localCapabilities: CreateLocalCapabilities());
+
+        var result = await handler.ShouldIgnore(new AnyOperatingSystemModule());
+
+        await Assert.That(result.ShouldIgnore).IsFalse();
+    }
+
+    [Test]
+    public async Task Standalone_Planning_Skips_Module_Missing_Declared_Capability()
+    {
+        var handler = CreateHandler(
+            new DistributedOptions(),
+            localCapabilities: CreateLocalCapabilities());
+
+        var result = await handler.ShouldIgnoreForGraphPlanning(
+            new DockerModule(),
+            Mock.Of<IModuleMetadataRegistry>());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ShouldIgnore).IsTrue();
+            await Assert.That(result.IsResolved).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Distributed_Master_Does_Not_Skip_Module_Missing_Declared_Capability()
+    {
+        var handler = CreateHandler(
+            new DistributedOptions
+            {
+                Enabled = true,
+                InstanceIndex = 0,
+                TotalInstances = 3,
+            },
+            localCapabilities: CreateLocalCapabilities());
+
+        var result = await handler.ShouldIgnore(new DockerModule());
+
+        await Assert.That(result.ShouldIgnore).IsFalse();
+    }
+
+    [Test]
+    public async Task Distributed_Master_Requires_Capability_Route_When_Local_Alternatives_Fail()
+    {
+        var executionLocation = CreateExecutionLocationContext(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+        var handler = CreateHandler(new DistributedOptions(), executionLocationContext: executionLocation);
+        var failedModule = new LinuxOrPlanningFalseModule();
+        var matchedModule = new MixedPlanningAlternativeModule();
+        var workerOnlyModule = new MixedWorkerOnlyAlternativeModule();
+
+        await handler.PrepareExecutionRoutingAsync(failedModule);
+        await handler.PrepareExecutionRoutingAsync(matchedModule);
+        await handler.PrepareExecutionRoutingAsync(workerOnlyModule);
+
+        executionLocation.TryGetPreparedConditionValue(failedModule, out var failedValue);
+        executionLocation.TryGetPreparedConditionValue(matchedModule, out var matchedValue);
+        executionLocation.TryGetPreparedConditionValue(workerOnlyModule, out var workerOnlyValue);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(failedValue.Requirement).IsEqualTo(CapabilityRequirement.AllOf(Capability.Linux));
+            await Assert.That(matchedValue.Kind).IsEqualTo(FormulaValueKind.True);
+            await Assert.That(executionLocation.IsConditionGroupSatisfied(
+                    matchedModule,
+                    typeof(RunIfAnyAttribute<OnLinux, PlanningTrueCondition>)))
+                .IsTrue();
+
+            // A worker-only alternative may still be true on a worker, so the master must not require Linux.
+            await Assert.That(workerOnlyValue.Kind).IsEqualTo(FormulaValueKind.True);
+        }
+    }
+
+    [Test]
+    public async Task Distributed_Master_Routing_Short_Circuits_And_Evaluates_Each_Condition_Once()
+    {
+        _routingEvaluationCount = 0;
+        var executionLocation = CreateExecutionLocationContext(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+        var handler = CreateHandler(new DistributedOptions(), executionLocationContext: executionLocation);
+        var module = new ShortCircuitRoutingModule();
+
+        // CountingFalse is evaluated once; ThrowingPlanning follows a true alternative and never runs.
+        await handler.PrepareExecutionRoutingAsync(module);
+        executionLocation.TryGetPreparedConditionValue(module, out var value);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(_routingEvaluationCount).IsEqualTo(1);
+            await Assert.That(value.Requirement).IsEqualTo(CapabilityRequirement.AllOf(Capability.Linux));
+        }
+    }
+
+    [Test]
+    public async Task Distributed_Master_Routing_Stops_Where_A_Worker_Only_Alternative_May_Hold()
+    {
+        _workerOnlyEvaluationCount = 0;
+        var executionLocation = CreateExecutionLocationContext(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+        var handler = CreateHandler(new DistributedOptions(), executionLocationContext: executionLocation);
+        var module = new WorkerOnlyBeforeThrowingModule();
+
+        // A worker stops after a true worker-only alternative, so the master must not evaluate the throwing one.
+        await handler.PrepareExecutionRoutingAsync(module);
+        executionLocation.TryGetPreparedConditionValue(module, out var value);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(value.Kind).IsEqualTo(FormulaValueKind.True);
+            await Assert.That(_workerOnlyEvaluationCount).IsEqualTo(0);
+            await Assert.That(executionLocation.IsConditionGroupSatisfied(
+                    module,
+                    typeof(RunIfAnyAttribute<WorkerOnlyRunCondition, ThrowingPlanningCondition, OnWindows>)))
+                .IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Distributed_Master_Finds_No_Route_When_Required_Alternatives_Contradict()
+    {
+        var executionLocation = CreateExecutionLocationContext(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+        var handler = CreateHandler(new DistributedOptions(), executionLocationContext: executionLocation);
+        var module = new LinuxOrFalseAndWindowsOrFalseModule();
+
+        await handler.PrepareExecutionRoutingAsync(module);
+        executionLocation.TryGetPreparedConditionValue(module, out var value);
+
+        await Assert.That(value.Kind).IsEqualTo(FormulaValueKind.False);
+    }
+
+    [Test]
+    public async Task Distributed_Master_Skips_Module_With_Conflicting_Declared_Capabilities()
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+
+        var result = await handler.ShouldIgnoreByCategory(new ConflictingDeclaredOsModule());
+
+        await Assert.That(result.ShouldIgnore).IsTrue();
+    }
+
+    private static LocalCapabilityRegistry CreateLocalCapabilities(params Capability[] capabilities) =>
+        new(
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions { Capabilities = capabilities }),
+            [new OperatingSystemCapabilityProvider()]);
+
     private static ModuleConditionHandler CreateHandler(
         DistributedOptions distributedOptions,
         IPipelineContext? pipelineContext = null,
-        IExecutionLocationContext? executionLocationContext = null)
+        IExecutionLocationContext? executionLocationContext = null,
+        LocalCapabilityRegistry? localCapabilities = null)
     {
         var contextProvider = new Mock<IPipelineContextProvider>();
         contextProvider
@@ -641,7 +863,8 @@ public class ModuleConditionHandlerTests
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
             contextProvider.Object,
             metadataRegistry,
-            executionLocationContext ?? CreateExecutionLocationContext(distributedOptions));
+            executionLocationContext ?? CreateExecutionLocationContext(distributedOptions),
+            localCapabilities);
     }
 
     private static DistributedConditionRouting CreateExecutionLocationContext(
@@ -663,6 +886,67 @@ public class ModuleConditionHandlerTests
         return OperatingSystem.IsWindows()
             ? new LinuxMixedGenericAlternativeModule()
             : new WindowsMixedGenericAlternativeModule();
+    }
+
+    [RunIfAll<OnLinux, PlanningTrueCondition>]
+    private sealed class LinuxAndPlanningTrueModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIfAll<OnWindows, PlanningTrueCondition>]
+    private sealed class WindowsAndPlanningTrueModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIfAny<OnLinux, PlanningFalseCondition>]
+    [RunIfAny<OnWindows, PlanningFalseCondition>]
+    private sealed class LinuxOrFalseAndWindowsOrFalseModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIfAny<OnLinux, PlanningFalseCondition>]
+    private sealed class LinuxOrPlanningFalseModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RequiresCapability(Capability.Names.Linux, Capability.Names.Windows)]
+    private sealed class ConflictingDeclaredOsModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RequiresCapability(Capability.Names.Docker)]
+    private sealed class DockerModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RequiresAnyCapability(
+        Capability.Names.Windows,
+        Capability.Names.Linux,
+        Capability.Names.MacOS,
+        Capability.Names.FreeBSD)]
+    private sealed class AnyOperatingSystemModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
     [RunIf<OnLinux>]
@@ -933,6 +1217,38 @@ public class ModuleConditionHandlerTests
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIfAny<OnLinux, CountingPlanningFalseCondition>]
+    [RunIfAny<PlanningTrueCondition, ThrowingPlanningCondition, OnWindows>]
+    private sealed class ShortCircuitRoutingModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIfAny<WorkerOnlyRunCondition, ThrowingPlanningCondition, OnWindows>]
+    private sealed class WorkerOnlyBeforeThrowingModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    private sealed class CountingPlanningFalseCondition : IPlanningRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context)
+        {
+            Interlocked.Increment(ref _routingEvaluationCount);
+            return Task.FromResult(false);
+        }
+    }
+
+    private sealed class ThrowingPlanningCondition : IPlanningRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context) =>
+            throw new InvalidOperationException("Evaluated past a true alternative.");
     }
 
     private sealed class PlanningTrueCondition : IPlanningRunCondition

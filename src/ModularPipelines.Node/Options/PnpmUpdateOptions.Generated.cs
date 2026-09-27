@@ -47,6 +47,12 @@ public record PnpmUpdateOptions : PnpmOptions
     public bool? NoOptional { get; set; }
 
     /// <summary>
+    /// Also update packages in "peerDependencies"
+    /// </summary>
+    [CliFlag("--peer")]
+    public bool? Peer { get; set; }
+
+    /// <summary>
     /// CPU architectures whose platform-specific optional dependencies should be installed. Repeat or comma-separate for multiple values
     /// </summary>
     [CliOption("--cpu")]
@@ -249,6 +255,12 @@ public record PnpmUpdateOptions : PnpmOptions
     /// </summary>
     [CliOption("--loglevel")]
     public PnpmUpdateLoglevel? Loglevel { get; set; }
+
+    /// <summary>
+    /// Disable dependency and download progress output
+    /// </summary>
+    [CliFlag("--no-progress")]
+    public bool? NoProgress { get; set; }
 
     /// <summary>
     /// Stream a recursive command's script output as it arrives, one prefixed line at a time

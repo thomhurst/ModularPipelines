@@ -49,6 +49,13 @@ public class RedisDistributedCoordinatorContractTests
     }
 
     [Test]
+    public Task Claim_Matches_Alternative_Capabilities()
+    {
+        return RunContractAsync((coordinator, _) =>
+            DistributedCoordinatorContract.ClaimMatchesAlternativeCapabilitiesAsync(coordinator));
+    }
+
+    [Test]
     public Task Final_Metrics_Keep_Worker_Registration_After_Heartbeat_Expires()
     {
         return RunContractAsync((coordinator, _) =>

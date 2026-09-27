@@ -1,6 +1,7 @@
 using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Distributed;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
 using YamlDotNet.Serialization.NamingConventions;
@@ -9,9 +10,6 @@ namespace ModularPipelines.GitHub.PipelineWriters;
 
 internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipelineFileWriter
 {
-    private const string Linux = "linux";
-    private const string Windows = "windows";
-    private const string MacOS = "macos";
     private const string ValidateRetryScopeCommand = """
         if [ "${{ needs.initialize.outputs.run-identifier }}" != "${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" ]; then
           echo "::error::Distributed workflows require 'Re-run all jobs'; partial retries cannot recreate the worker matrix."
@@ -19,15 +17,18 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
         fi
         """;
 
-    private static readonly IReadOnlyDictionary<string, string> RunnerByOperatingSystem =
-        new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-        {
-            [Linux] = "ubuntu-latest",
-            [Windows] = "windows-latest",
-            [MacOS] = "macos-latest",
-        };
+    // Ordered by preference; the matrix provisions runners in this order.
+    // Beyond this many distinct planning-safe conditions in one connected set of condition groups, runner
+    // planning validates only the requirement every outcome shares.
+    private const int MaximumEnumeratedConditions = 12;
+    private const string UnrestrictedKey = "*";
 
-    private static readonly string[] OperatingSystemOrder = [Linux, Windows, MacOS];
+    private static readonly (Capability OperatingSystem, string Runner)[] Runners =
+    [
+        (Capability.Linux, "ubuntu-latest"),
+        (Capability.Windows, "windows-latest"),
+        (Capability.MacOS, "macos-latest"),
+    ];
 
     private readonly DistributedWorkflowOptions _options;
     private readonly IReadOnlyList<IModule> _modules;
@@ -151,13 +152,12 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
     private IReadOnlyList<MatrixEntry> BuildMatrix()
     {
         var requiredOperatingSystems = _modules
-            .SelectMany(module => GetRequiredCapabilities(module.GetType()))
-            .SelectMany(ParseOperatingSystems)
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            .SelectMany(module => GetRequiredOperatingSystems(module.GetType()))
+            .ToHashSet();
 
-        var runners = OperatingSystemOrder
-            .Where(requiredOperatingSystems.Contains)
-            .Select(operatingSystem => RunnerByOperatingSystem[operatingSystem])
+        var runners = Runners
+            .Where(runner => requiredOperatingSystems.Contains(runner.OperatingSystem))
+            .Select(static runner => runner.Runner)
             .Concat(Enumerable.Repeat(_options.DefaultRunner, _options.ExtraWorkers));
 
         return new[] { _options.DefaultRunner }
@@ -166,36 +166,194 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
             .ToArray();
     }
 
-    private static IEnumerable<string> GetRequiredCapabilities(Type moduleType)
+    private static IEnumerable<Capability> GetRequiredOperatingSystems(Type moduleType)
     {
-        var declaredCapabilities = moduleType
-            .GetCustomAttributes<RequiresCapabilityAttribute>(inherit: true)
-            .SelectMany(attribute => attribute.Capabilities);
-        var operatingSystemConditions = moduleType
-            .GetCustomAttributes(inherit: true)
-            .OfType<IConditionAttribute>()
-            .SelectMany(OperatingSystemConditions.GetTargets);
+        // A module's requirement is the AND of its declarations and its condition groups. Groups that share
+        // no planning-safe condition are independent, so enumerate each connected set of groups separately
+        // and fold the operating systems they allow; null means unrestricted. There are only a few distinct
+        // OS sets, so the fold stays small however many groups there are.
+        var reachable = new Dictionary<string, HashSet<Capability>?> { [UnrestrictedKey] = null };
+        var candidates = new HashSet<Capability>();
+        foreach (var outcomes in GetOperatingSystemOutcomes(moduleType, candidates))
+        {
+            var next = new Dictionary<string, HashSet<Capability>?>();
+            foreach (var current in reachable.Values)
+            {
+                foreach (var outcome in outcomes)
+                {
+                    var combined = Intersect(current, outcome);
+                    if (combined is not { Count: 0 })
+                    {
+                        next[GetKey(combined)] = combined;
+                    }
+                }
+            }
 
-        return declaredCapabilities.Concat(operatingSystemConditions);
+            reachable = next;
+        }
+
+        // Every reachable outcome the master may stamp needs a supported runner; impossible ones are skipped,
+        // and unrestricted ones run on the default runner.
+        var operatingSystems = new HashSet<Capability>();
+        foreach (var allowedOperatingSystems in reachable.Values.OfType<HashSet<Capability>>())
+        {
+            EnsureSupported(allowedOperatingSystems);
+            operatingSystems.UnionWith(allowedOperatingSystems);
+        }
+
+        // Candidates from sets too large to enumerate are provisioned when any reachable outcome allows them.
+        operatingSystems.UnionWith(candidates.Where(candidate =>
+            reachable.Values.Any(allowed => allowed?.Contains(candidate) != false)));
+
+        return Runners
+            .Select(static runner => runner.OperatingSystem)
+            .Where(operatingSystems.Contains);
     }
 
-    private static IEnumerable<string> ParseOperatingSystems(string capability)
+    /// <summary>
+    /// Returns, for the module's declarations and each connected set of capability-bearing condition groups,
+    /// the operating systems each possible outcome allows. Outcomes where the set is false are left out
+    /// because the module is then skipped.
+    /// </summary>
+    /// <param name="moduleType">The module type.</param>
+    /// <param name="candidates">
+    /// Receives operating systems of sets with more than <see cref="MaximumEnumeratedConditions"/> distinct
+    /// planning-safe conditions. Such a set contributes only its least requirement, which every outcome
+    /// needs and which is validated, and its named operating systems are provisioned without validation.
+    /// </param>
+    private static IEnumerable<IReadOnlyList<HashSet<Capability>?>> GetOperatingSystemOutcomes(
+        Type moduleType,
+        HashSet<Capability> candidates)
     {
-        if (!OperatingSystemConditions.TryGetCapabilityRoute(capability, out var route))
+        yield return [GetAllowedOperatingSystems(CapabilityConditions.GetDeclaredRequirement(moduleType).Clauses)];
+
+        var attributes = moduleType.GetCustomAttributes(inherit: true).OfType<IConditionAttribute>();
+        var groups = ConditionFormula.ForConditionGroups(attributes)
+            .Select(static group => group.Formula)
+            .Where(static formula => formula.Capabilities.Any())
+            .ToArray();
+        foreach (var component in GetConnectedGroups(groups))
         {
-            return [];
+            var keys = component
+                .SelectMany(static formula => formula.Atoms)
+                .Where(static atom => atom.IsPlanning)
+                .Select(static atom => atom.Key)
+                .Distinct()
+                .ToArray();
+            if (keys.Length > MaximumEnumeratedConditions)
+            {
+                // Conditions are monotone, so the all-true outcome needs the least and every outcome needs it.
+                if (Evaluate(component, static _ => true).RequirementOrNone is not { } leastRequirement)
+                {
+                    yield return [];
+                    continue;
+                }
+
+                candidates.UnionWith(component
+                    .SelectMany(static formula => formula.Capabilities)
+                    .Where(static capability => capability.IsOperatingSystem));
+                yield return [GetAllowedOperatingSystems(leastRequirement.Clauses)];
+                continue;
+            }
+
+            var outcomes = new List<HashSet<Capability>?>();
+            for (var combination = 0; combination < 1 << keys.Length; combination++)
+            {
+                var values = keys
+                    .Select((key, index) => (key, value: (combination & (1 << index)) != 0))
+                    .ToDictionary(static pair => pair.key, static pair => pair.value, ReferenceEqualityComparer.Instance);
+
+                // Worker-only conditions may hold on the worker, so they constrain nothing.
+                if (Evaluate(component, atom => !values.TryGetValue(atom.Key, out var value) || value).RequirementOrNone is
+                    { } requirement)
+                {
+                    outcomes.Add(GetAllowedOperatingSystems(requirement.Clauses));
+                }
+            }
+
+            yield return outcomes;
+        }
+    }
+
+    private static FormulaValue Evaluate(IEnumerable<ConditionFormula> formulas, Func<ConditionAtom, bool?> atomValue) =>
+        formulas.Aggregate(
+            FormulaValue.True,
+            (result, formula) => FormulaValue.And(result, formula.Evaluate(atomValue)));
+
+    /// <summary>
+    /// Partitions condition groups into sets connected by shared planning-safe conditions.
+    /// </summary>
+    private static IEnumerable<IReadOnlyList<ConditionFormula>> GetConnectedGroups(IReadOnlyList<ConditionFormula> groups)
+    {
+        var components = new List<(HashSet<object> Keys, List<ConditionFormula> Groups)>();
+        foreach (var group in groups)
+        {
+            var keys = group.Atoms
+                .Where(static atom => atom.IsPlanning)
+                .Select(static atom => atom.Key)
+                .ToHashSet(ReferenceEqualityComparer.Instance);
+            var merged = (Keys: keys, Groups: new List<ConditionFormula> { group });
+            foreach (var component in components.Where(component => component.Keys.Overlaps(keys)).ToArray())
+            {
+                merged.Keys.UnionWith(component.Keys);
+                merged.Groups.AddRange(component.Groups);
+                components.Remove(component);
+            }
+
+            components.Add(merged);
         }
 
-        var supportedOperatingSystems = route.OperatingSystems
-            .Where(RunnerByOperatingSystem.ContainsKey)
-            .ToArray();
-        if (supportedOperatingSystems.Length == 0)
+        return components.Select(static component => (IReadOnlyList<ConditionFormula>) component.Groups);
+    }
+
+    private static HashSet<Capability>? Intersect(HashSet<Capability>? left, HashSet<Capability>? right)
+    {
+        if (left is null || right is null)
+        {
+            return left ?? right;
+        }
+
+        var intersection = new HashSet<Capability>(left);
+        intersection.IntersectWith(right);
+        return intersection;
+    }
+
+    private static string GetKey(HashSet<Capability>? operatingSystems) =>
+        operatingSystems is null
+            ? UnrestrictedKey
+            : string.Join('|', operatingSystems.Select(static capability => capability.Name).Order(StringComparer.OrdinalIgnoreCase));
+
+    /// <summary>
+    /// Returns the operating systems allowed by clauses that list only operating systems, or
+    /// <c>null</c> when no clause restricts the operating system.
+    /// </summary>
+    private static HashSet<Capability>? GetAllowedOperatingSystems(IEnumerable<IReadOnlyList<Capability>> clauses)
+    {
+        HashSet<Capability>? allowedOperatingSystems = null;
+        foreach (var clause in clauses.Where(static clause =>
+                     clause.All(static capability => capability.IsOperatingSystem)))
+        {
+            if (allowedOperatingSystems is null)
+            {
+                allowedOperatingSystems = [.. clause];
+            }
+            else
+            {
+                allowedOperatingSystems.IntersectWith(clause);
+            }
+        }
+
+        return allowedOperatingSystems;
+    }
+
+    private static void EnsureSupported(IReadOnlyCollection<Capability> operatingSystems)
+    {
+        if (!Runners.Any(runner => operatingSystems.Contains(runner.OperatingSystem)))
         {
             throw new InvalidOperationException(
-                $"Distributed GitHub workflows do not support the required operating-system capability '{capability}'.");
+                "Distributed GitHub workflows do not support the required operating-system capability " +
+                $"'{string.Join(" | ", operatingSystems)}'.");
         }
-
-        return supportedOperatingSystems;
     }
 
     private string BuildRunCommand()

@@ -423,7 +423,7 @@ public class DistributedPipelineHubTests
     {
         return new ModuleAssignment(
             moduleId,
-            [],
+            CapabilityRequirement.None,
             DateTimeOffset.UtcNow,
             new ModuleAssignmentOptions(null, false));
     }

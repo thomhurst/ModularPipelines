@@ -1,7 +1,6 @@
 using System.Collections.Concurrent;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed;
-using ModularPipelines.Distributed.Capabilities;
 
 namespace ModularPipelines.Distributed.Coordination;
 
@@ -69,7 +68,7 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
                             break;
                         }
 
-                        if (CapabilityMatcher.CanExecute(assignment, workerCapabilities))
+                        if (assignment.RequiredCapabilities.IsSatisfiedBy(workerCapabilities))
                         {
                             RestoreSkippedAssignments(skippedAssignments);
                             return assignment;
@@ -270,12 +269,12 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
         {
             var eligibleWorkerCount = workers.Count == 0
                 ? int.MaxValue
-                : workers.Count(worker => CapabilityMatcher.CanExecute(assignment, worker));
+                : workers.Count(worker => assignment.RequiredCapabilities.IsSatisfiedBy(worker.Capabilities));
 
             return new AssignmentQueuePriority(
                 assignment.Priority,
                 eligibleWorkerCount,
-                assignment.RequiredCapabilities.Count,
+                assignment.RequiredCapabilities.Clauses.Count,
                 assignment.CriticalPathWeight.Ticks,
                 sequence);
         }

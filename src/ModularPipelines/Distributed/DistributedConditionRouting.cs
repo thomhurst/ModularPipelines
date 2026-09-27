@@ -14,6 +14,7 @@ internal sealed class DistributedConditionRouting(
     private readonly DistributedOptions _options = options.Value;
     private readonly RoleDetector _roleDetector = roleDetector;
     private readonly ConditionalWeakTable<IModule, HashSet<Type>> _locallySatisfiedGroups = new();
+    private readonly ConditionalWeakTable<IModule, StrongBox<FormulaValue>> _preparedConditionValues = new();
     private readonly ConditionalWeakTable<IModule, object> _preparedModules = new();
 
     public bool IsMaster => IsDistributedExecution
@@ -23,10 +24,10 @@ internal sealed class DistributedConditionRouting(
                             && _roleDetector.DetectRole() == DistributedRole.Worker;
 
     // The role queries stay pure so run reporting and ignored-result handling always see the
-    // real cross-process role. Only operating-system condition deferral is suppressed while
+    // real cross-process role. Only capability condition deferral is suppressed while
     // the master locally executes an assignment it already routed to itself; otherwise that
     // module would be deferred a second time.
-    public bool ShouldDeferOperatingSystemConditions => IsMaster
+    public bool ShouldDeferCapabilityConditions => IsMaster
                                                         && !DistributedAssignmentExecutionScope.IsActive;
 
     private bool IsDistributedExecution => _options.Enabled
@@ -57,6 +58,21 @@ internal sealed class DistributedConditionRouting(
         {
             return groups.Contains(conditionGroupType);
         }
+    }
+
+    public void SetPreparedConditionValue(IModule module, FormulaValue value) =>
+        _preparedConditionValues.AddOrUpdate(module, new StrongBox<FormulaValue>(value));
+
+    public bool TryGetPreparedConditionValue(IModule module, out FormulaValue value)
+    {
+        if (_preparedConditionValues.TryGetValue(module, out var box))
+        {
+            value = box.Value;
+            return true;
+        }
+
+        value = default;
+        return false;
     }
 
     public IReadOnlyList<string> GetSatisfiedConditionGroupNames(IModule module)

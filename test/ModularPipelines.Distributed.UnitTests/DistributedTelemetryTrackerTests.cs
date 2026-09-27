@@ -11,7 +11,7 @@ public class DistributedTelemetryTrackerTests
             new ModuleAssignment(
                 "Example.BuildModule",
 
-                [],
+                CapabilityRequirement.None,
                 pipelineStart,
                 new ModuleAssignmentOptions(null, false),
                 [new DependencyResultReference("Example.DependencyModule", IsAvailable: true)])

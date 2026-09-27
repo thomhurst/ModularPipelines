@@ -21,7 +21,7 @@ public record PipelineSettings
     public string GitHubProductHeader { get; init; } = "ModularPipelinesBuild";
 
     /// <summary>
-    /// The default number of retry attempts for modules. Defaults to 3.
+    /// The default number of retry attempts for modules. Defaults to 0 (no retries).
     /// </summary>
-    public int DefaultRetryCount { get; init; } = 3;
+    public int DefaultRetryCount { get; init; }
 }
