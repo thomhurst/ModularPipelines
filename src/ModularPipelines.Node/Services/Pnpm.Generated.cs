@@ -123,6 +123,15 @@ internal partial class Pnpm : IPnpm
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> CachePruneAsync(
+        PnpmCachePruneOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmCachePruneOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> CacheViewAsync(
         PnpmCacheViewOptions options,
         CommandExecutionOptions? executionOptions = null,
@@ -627,6 +636,15 @@ internal partial class Pnpm : IPnpm
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> RbAsync(
+        PnpmRbOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmRbOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> RebuildAsync(
         PnpmRebuildOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -840,6 +858,24 @@ internal partial class Pnpm : IPnpm
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmStoreStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> TasksAsync(
+        PnpmTasksOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmTasksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> TasksStatusAsync(
+        PnpmTasksStatusOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PnpmTasksStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

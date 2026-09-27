@@ -135,10 +135,28 @@ public record PnpmAddOptions : PnpmOptions
     public bool? IgnorePnpmfile { get; set; }
 
     /// <summary>
+    /// Add available `@types` packages to `devDependencies` for packages without bundled types
+    /// </summary>
+    [CliFlag("--save-types")]
+    public bool? SaveTypes { get; set; }
+
+    /// <summary>
+    /// Do not add `@types` packages automatically
+    /// </summary>
+    [CliFlag("--no-save-types")]
+    public bool? NoSaveTypes { get; set; }
+
+    /// <summary>
     /// Saved dependencies will be configured with an exact version rather than using the default semver range operator
     /// </summary>
     [CliFlag("--save-exact", ShortForm = "-E")]
     public bool? SaveExact { get; set; }
+
+    /// <summary>
+    /// Save the resolved version with a `~` range prefix. Equivalent to `--save-prefix=~`
+    /// </summary>
+    [CliFlag("--tilde")]
+    public bool? Tilde { get; set; }
 
     /// <summary>
     /// The prefix of the saved version range: `^` (default), `~`, `=` for an explicit exact pin, or empty for a bare exact version
@@ -181,6 +199,18 @@ public record PnpmAddOptions : PnpmOptions
     /// </summary>
     [CliFlag("--ignore-workspace-root-check")]
     public bool? IgnoreWorkspaceRootCheck { get; set; }
+
+    /// <summary>
+    /// Deduplicate compatible dependency versions during installation
+    /// </summary>
+    [CliFlag("--auto-dedupe")]
+    public bool? AutoDedupe { get; set; }
+
+    /// <summary>
+    /// Disable automatic deduplication configured in pnpm-workspace.yaml
+    /// </summary>
+    [CliFlag("--no-auto-dedupe")]
+    public bool? NoAutoDedupe { get; set; }
 
     /// <summary>
     /// Package names allowed to run lifecycle (build) scripts during this install, appended to `allowBuilds`. Prefix a name with `!` to deny its scripts instead. May be repeated
@@ -301,6 +331,12 @@ public record PnpmAddOptions : PnpmOptions
     /// </summary>
     [CliOption("--loglevel")]
     public PnpmAddLoglevel? Loglevel { get; set; }
+
+    /// <summary>
+    /// Disable dependency and download progress output
+    /// </summary>
+    [CliFlag("--no-progress")]
+    public bool? NoProgress { get; set; }
 
     /// <summary>
     /// Stream a recursive command's script output as it arrives, one prefixed line at a time

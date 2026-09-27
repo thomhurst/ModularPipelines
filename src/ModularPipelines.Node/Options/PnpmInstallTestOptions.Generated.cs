@@ -15,7 +15,7 @@ using ModularPipelines.Node.Enums;
 namespace ModularPipelines.Node.Options;
 
 /// <summary>
-/// Runs a `pnpm install` followed immediately by a `pnpm test`. It takes exactly the same arguments as `pnpm install`
+/// Runs a `pnpm install` followed immediately by a `pnpm test`. Accepts the same arguments as `pnpm install`, plus `--no-bail` to continue running workspace tests after a failure
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -153,6 +153,18 @@ public record PnpmInstallTestOptions : PnpmOptions
     /// </summary>
     [CliFlag("--ignore-manifest-check")]
     public bool? IgnoreManifestCheck { get; set; }
+
+    /// <summary>
+    /// Deduplicate compatible dependency versions during installation
+    /// </summary>
+    [CliFlag("--auto-dedupe")]
+    public bool? AutoDedupe { get; set; }
+
+    /// <summary>
+    /// Disable automatic deduplication configured in pnpm-workspace.yaml
+    /// </summary>
+    [CliFlag("--no-auto-dedupe")]
+    public bool? NoAutoDedupe { get; set; }
 
     /// <summary>
     /// Fold every per-branch lockfile (`pnpm-lock.&lt;branch&gt;.yaml`, written under the `gitBranchLockfile` setting) into `pnpm-lock.yaml` and delete them
@@ -339,6 +351,12 @@ public record PnpmInstallTestOptions : PnpmOptions
     /// </summary>
     [CliOption("--loglevel")]
     public PnpmInstallTestLoglevel? Loglevel { get; set; }
+
+    /// <summary>
+    /// Disable dependency and download progress output
+    /// </summary>
+    [CliFlag("--no-progress")]
+    public bool? NoProgress { get; set; }
 
     /// <summary>
     /// Stream a recursive command's script output as it arrives, one prefixed line at a time

@@ -155,6 +155,18 @@ public record PnpmPipelineOptions : PnpmOptions
     public bool? IgnoreManifestCheck { get; set; }
 
     /// <summary>
+    /// Deduplicate compatible dependency versions during installation
+    /// </summary>
+    [CliFlag("--auto-dedupe")]
+    public bool? AutoDedupe { get; set; }
+
+    /// <summary>
+    /// Disable automatic deduplication configured in pnpm-workspace.yaml
+    /// </summary>
+    [CliFlag("--no-auto-dedupe")]
+    public bool? NoAutoDedupe { get; set; }
+
+    /// <summary>
     /// Fold every per-branch lockfile (`pnpm-lock.&lt;branch&gt;.yaml`, written under the `gitBranchLockfile` setting) into `pnpm-lock.yaml` and delete them
     /// </summary>
     [CliFlag("--merge-git-branch-lockfiles")]
@@ -405,6 +417,12 @@ public record PnpmPipelineOptions : PnpmOptions
     /// </summary>
     [CliOption("--loglevel")]
     public PnpmPipelineLoglevel? Loglevel { get; set; }
+
+    /// <summary>
+    /// Disable dependency and download progress output
+    /// </summary>
+    [CliFlag("--no-progress")]
+    public bool? NoProgress { get; set; }
 
     /// <summary>
     /// Stream a recursive command's script output as it arrives, one prefixed line at a time
