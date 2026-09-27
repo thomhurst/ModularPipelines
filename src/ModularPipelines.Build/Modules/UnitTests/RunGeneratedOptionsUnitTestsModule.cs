@@ -9,101 +9,118 @@ public abstract class RunGeneratedOptionsUnitTestsModule(
     IOptions<PipelineSettings> pipelineSettings)
     : RunUnitTestModule(pipelineSettings)
 {
+    private const string TypeNamePrefix = "Run";
+    private const string TypeNameSuffix = "UnitTestsModule";
+
     protected override string TestProjectFileName =>
-        $"ModularPipelines.{GetType().Name}.UnitTests.csproj";
+        $"ModularPipelines.{GetIntegrationName(GetType())}.UnitTests.csproj";
+
+    private static string GetIntegrationName(Type moduleType)
+    {
+        var name = moduleType.Name;
+        if (!name.StartsWith(TypeNamePrefix, StringComparison.Ordinal)
+            || !name.EndsWith(TypeNameSuffix, StringComparison.Ordinal))
+        {
+            throw new InvalidOperationException(
+                $"Generated options test module '{name}' must be named '{TypeNamePrefix}<Integration>{TypeNameSuffix}'.");
+        }
+
+        return name[TypeNamePrefix.Length..^TypeNameSuffix.Length];
+    }
 }
 
 public static class GeneratedOptionsUnitTestProjects
 {
     public static Type[] ModuleTypes { get; } =
     [
-        .. typeof(GeneratedOptionsUnitTestProjects)
-            .GetNestedTypes()
-            .Where(type => type.IsAssignableTo(typeof(RunGeneratedOptionsUnitTestsModule)))
-            .OrderBy(type => type.Name),
+        .. typeof(RunGeneratedOptionsUnitTestsModule).Assembly
+            .GetTypes()
+            .Where(type => type is { IsAbstract: false, IsClass: true }
+                && type.IsAssignableTo(typeof(RunGeneratedOptionsUnitTestsModule)))
+            .OrderBy(type => type.Name, StringComparer.Ordinal),
     ];
-
-    public sealed class AmazonWebServices(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Buildah(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Chocolatey(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class DotNet(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Flux(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Flyway(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Git(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Go(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Google(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Grype(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Helm(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Homebrew(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Kind(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Kubernetes(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Minikube(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Newman(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Packer(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Podman(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Pulumi(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Python(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Rust(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Skopeo(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Syft(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Terraform(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Vault(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class WinGet(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Yarn(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
-
-    public sealed class Yq(IOptions<PipelineSettings> pipelineSettings)
-        : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
 }
+
+public sealed class RunAmazonWebServicesUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunBuildahUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunChocolateyUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunDotNetUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunFluxUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunFlywayUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunGitUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunGoUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunGoogleUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunGrypeUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunHelmUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunHomebrewUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunKindUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunKubernetesUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunMinikubeUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunNewmanUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunPackerUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunPodmanUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunPulumiUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunPythonUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunRustUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunSkopeoUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunSyftUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunTerraformUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunVaultUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunWinGetUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunYarnUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
+
+public sealed class RunYqUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    : RunGeneratedOptionsUnitTestsModule(pipelineSettings);
