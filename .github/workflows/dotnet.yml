@@ -521,7 +521,9 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
+      # Windows and macOS workers only build the core tests, which restore their own graph.
       - name: Restore
+        if: runner.os == 'Linux'
         shell: bash
         run: |
           while IFS= read -r SOLUTION || [[ -n "$SOLUTION" ]]
@@ -658,14 +660,13 @@ jobs:
           - macos-latest
       fail-fast: false
     runs-on: ${{ matrix.os }}
-    # Full macOS compilation can exceed an hour; match the cooperating runner budget.
     timeout-minutes: 90
     env:
       MSBUILDDISABLENODEREUSE: "1"
       DOTNET_gcServer: "0"
 
-    # Compile only: running ModularPipelines.Build while it builds the listed solutions
-    # would lock its own executable on Windows (MSB3027).
+    # Build and test the core library only; Linux covers the integrations. Running
+    # ModularPipelines.Build here would lock its own executable on Windows (MSB3027).
     steps:
       - name: Require fast-fail success
         if: needs.fast-fail.result != 'success'
@@ -687,7 +688,7 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
-      - name: Restore and build solutions
+      - name: Build and test core
         shell: pwsh
         run: |
           # Match the compiler GC configuration used by the macOS distributed worker.
@@ -695,26 +696,30 @@ jobs:
             Remove-Item Env:DOTNET_gcServer, Env:COMPlus_gcServer -ErrorAction SilentlyContinue
           }
 
-          $solutions = Get-Content BuildSolutions.txt |
-            ForEach-Object { $_.Trim() } |
-            Where-Object { $_ -and -not $_.StartsWith('#') }
-
-          foreach ($solution in $solutions) {
-            Write-Output "::group::Restore $solution"
-            dotnet restore $solution /m:1
-            if ($LASTEXITCODE -ne 0) {
-              exit $LASTEXITCODE
-            }
-            Write-Output "::endgroup::"
-
-            Write-Output "::group::Build $solution"
-            # Bound compiler memory while compiling large generated integrations.
-            dotnet build $solution -c Release --no-restore /m:1 -p:UseSharedCompilation=false
-            if ($LASTEXITCODE -ne 0) {
-              exit $LASTEXITCODE
-            }
-            Write-Output "::endgroup::"
+          Write-Output "::group::Build ModularPipelines.Tests.slnf"
+          dotnet build ModularPipelines.Tests.slnf -c Release -p:UseSharedCompilation=false
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
           }
+          Write-Output "::endgroup::"
+
+          # Match the pipeline test runner: its diagnostics without coverage (collected on Linux),
+          # and no GitHub Actions detection, which switches console rendering to styled output.
+          Remove-Item Env:GITHUB_ACTIONS, Env:GITHUB_STEP_SUMMARY -ErrorAction SilentlyContinue
+          dotnet run --project test/ModularPipelines.UnitTests/ModularPipelines.UnitTests.csproj -c Release --framework net10.0 --no-build -- `
+            --hangdump --hangdump-filename 'hangdump-{pname}-{pid}-{time}.dmp' --hangdump-timeout 20m `
+            --report-trx --report-trx-filename test-results.trx
+          exit $LASTEXITCODE
+      - name: Upload core test diagnostics
+        if: always() && needs.fast-fail.result == 'success'
+        uses: actions/upload-artifact@v7
+        with:
+          name: core-test-diagnostics-${{ matrix.os }}-${{ github.run_attempt }}
+          path: |
+            **/TestResults/*.trx
+            **/*.dmp
+          if-no-files-found: ignore
+          retention-days: 7
 
   generated-integration:
     name: generated integration (${{ needs.fast-fail.outputs.integration_package }})

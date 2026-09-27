@@ -1,6 +1,7 @@
 using System.Formats.Tar;
 using System.IO.Compression;
 using ModularPipelines.Build.Helpers;
+using ModularPipelines.UnitTests.Attributes;
 
 namespace ModularPipelines.UnitTests.Build;
 
@@ -93,6 +94,53 @@ public class BuildOutputArchiveTests
     }
 
     [Test]
+    [LinuxOnlyTest]
+    public async Task Restore_Allows_Links_Above_The_Repository_Root()
+    {
+        // macOS temporary directories live under /var, which links to /private/var.
+        var parent = Directory.CreateTempSubdirectory("build-archive-linked-parent-");
+        var link = Path.Combine(Path.GetTempPath(), $"build-archive-link-{Guid.NewGuid():N}");
+        try
+        {
+            Directory.CreateSymbolicLink(link, parent.FullName);
+            var repository = Directory.CreateDirectory(Path.Combine(link, "repository")).FullName;
+            await WriteArchiveAsync(repository, "Project/bin/output.dll", [1, 2, 3]);
+
+            await BuildOutputArchive.RestoreAsync(repository, CancellationToken.None);
+
+            await Assert.That(await File.ReadAllBytesAsync(Path.Combine(repository, "Project", "bin", "output.dll")))
+                .IsEquivalentTo(new byte[] { 1, 2, 3 });
+        }
+        finally
+        {
+            Directory.Delete(link);
+            parent.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    [LinuxOnlyTest]
+    public async Task Restore_Rejects_Links_Inside_The_Repository()
+    {
+        var repository = Directory.CreateTempSubdirectory("build-archive-inner-link-");
+        var outside = Directory.CreateTempSubdirectory("build-archive-link-target-");
+        try
+        {
+            Directory.CreateSymbolicLink(Path.Combine(repository.FullName, "Project"), outside.FullName);
+            await WriteArchiveAsync(repository.FullName, "Project/bin/output.dll", [1, 2, 3]);
+
+            await Assert.That(() => BuildOutputArchive.RestoreAsync(repository.FullName, CancellationToken.None))
+                .Throws<IOException>();
+            await Assert.That(Directory.EnumerateFileSystemEntries(outside.FullName)).IsEmpty();
+        }
+        finally
+        {
+            repository.Delete(recursive: true);
+            outside.Delete(recursive: true);
+        }
+    }
+
+    [Test]
     public async Task Missing_Test_Project_Fails_Before_Publishing()
     {
         var repository = Directory.CreateTempSubdirectory("build-archive-missing-");
@@ -105,5 +153,16 @@ public class BuildOutputArchiveTests
         {
             repository.Delete(recursive: true);
         }
+    }
+
+    private static async Task WriteArchiveAsync(string repository, string entryName, byte[] content)
+    {
+        await using var archive = File.Create(Path.Combine(repository, BuildOutputArchive.FileName));
+        await using var compressed = new GZipStream(archive, CompressionLevel.Fastest);
+        await using var writer = new TarWriter(compressed);
+        await writer.WriteEntryAsync(new PaxTarEntry(TarEntryType.RegularFile, entryName)
+        {
+            DataStream = new MemoryStream(content),
+        });
     }
 }

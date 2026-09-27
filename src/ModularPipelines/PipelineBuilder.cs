@@ -38,6 +38,8 @@ namespace ModularPipelines;
 /// </remarks>
 public sealed class PipelineBuilder
 {
+    private const string ReloadConfigOnChangeKey = "hostBuilder:reloadConfigOnChange";
+
     private readonly IHostBuilder _hostBuilder;
     private readonly ServiceRegistrationOrder _serviceRegistrationOrder;
     private readonly OrderedServiceCollection _services;
@@ -93,6 +95,21 @@ public sealed class PipelineBuilder
         };
 
         _hostBuilder = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args);
+
+        // The default host watches its appsettings files for reloads. A pipeline is a single run,
+        // so a reload is never observed, but each watcher costs: on macOS every FileSystemWatcher
+        // shares one FSEvents run loop, and reload callbacks block thread-pool threads. Disable
+        // reloading unless the host configuration sets it explicitly.
+        _hostBuilder.ConfigureHostConfiguration(configuration =>
+        {
+            if (configuration.Build()[ReloadConfigOnChangeKey] is null)
+            {
+                configuration.AddInMemoryCollection(new Dictionary<string, string?>
+                {
+                    [ReloadConfigOnChangeKey] = bool.FalseString,
+                });
+            }
+        });
 
         // Add default configuration sources
         _configuration.AddEnvironmentVariables();

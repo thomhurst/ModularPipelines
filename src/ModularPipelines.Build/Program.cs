@@ -43,8 +43,8 @@ builder.Services.Configure<CodeCovSettings>(builder.Configuration.GetSection("Co
 
 builder
     .AddModule<BuildSolutionsModule>()
-    .AddModule<BuildSolutionOnWindowsModule>()
-    .AddModule<BuildSolutionOnMacOSModule>()
+    .AddModule<BuildAndTestCoreOnWindowsModule>()
+    .AddModule<BuildAndTestCoreOnMacOSModule>()
     .AddModule<RunCoreUnitTestsModule>()
     .AddModule<RunAnsibleUnitTestsModule>()
     .AddModule<RunArgoCdUnitTestsModule>()
