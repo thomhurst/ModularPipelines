@@ -725,7 +725,7 @@ internal class DistributedModuleExecutor(
             pipelineCancellationToken,
             workerCancellationToken);
         var dependencyResultCache = new DependencyResultCache(_workerCoordinator, workerCancellationToken);
-        _logger.LogInformation(
+        _logger.LogDebug(
             "Master worker loop starting {MaxConcurrency} concurrent execution slot(s)",
             maxConcurrency);
         await DistributedWorkerPool.RunAsync(
@@ -791,7 +791,7 @@ internal class DistributedModuleExecutor(
             return;
         }
 
-        _logger.LogInformation("Master executing module {Module} locally",
+        _logger.LogDebug("Master executing module {Module} locally",
             assignment.ModuleId);
 
         var executionCancellationToken = assignment.Configuration.AlwaysRun
