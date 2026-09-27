@@ -339,7 +339,7 @@ public class SignalRMasterCoordinatorTests
         // Enqueue a module requiring "linux"
         var assignment = new ModuleAssignment(
             "LinuxModule",
-            ["linux"],
+            CapabilityRequirement.AllOf("linux"),
             DateTimeOffset.UtcNow,
             new ModuleAssignmentOptions(null, false));
 
@@ -442,7 +442,7 @@ public class SignalRMasterCoordinatorTests
         // Enqueue a module requiring "linux" — no match
         var assignment = new ModuleAssignment(
             "LinuxModule",
-            ["linux"],
+            CapabilityRequirement.AllOf("linux"),
             DateTimeOffset.UtcNow,
             new ModuleAssignmentOptions(null, false));
 
@@ -456,7 +456,7 @@ public class SignalRMasterCoordinatorTests
     {
         return new ModuleAssignment(
             moduleId,
-            [],
+            CapabilityRequirement.None,
             DateTimeOffset.UtcNow,
             new ModuleAssignmentOptions(null, false));
     }

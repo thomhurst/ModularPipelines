@@ -108,7 +108,7 @@ internal class SignalRMasterCoordinator : IDistributedMasterCoordinator
                 continue;
             }
 
-            if (!CapabilityMatcher.CanExecute(assignment, workerCapabilities))
+            if (!assignment.RequiredCapabilities.IsSatisfiedBy(workerCapabilities))
             {
                 // Re-enqueue — master can't handle this module
                 _state.PendingAssignments.Enqueue(assignment);
@@ -250,7 +250,7 @@ internal class SignalRMasterCoordinator : IDistributedMasterCoordinator
             var worker = kvp.Value;
 
             // Check capability match
-            if (!CapabilityMatcher.CanExecute(assignment, worker.Registration))
+            if (!assignment.RequiredCapabilities.IsSatisfiedBy(worker.Registration.Capabilities))
             {
                 continue;
             }

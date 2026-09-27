@@ -272,7 +272,6 @@ public class WorkerModuleExecutorTests
             MsOptions.Create(new DistributedOptions
             {
                 InstanceIndex = 1,
-                AutoDetectOsCapability = false,
                 MaxParallelism = 2,
             }),
             pipeline.Services.GetRequiredService<IParallelLimitProvider>(),
@@ -363,7 +362,7 @@ public class WorkerModuleExecutorTests
             modules, typeRegistry, serializer, runner.Object, registry,
             pipeline.Services.GetRequiredService<IModuleDependencyRegistry>(),
             pipeline.Services.GetRequiredService<IModuleMetadataRegistry>(),
-            MsOptions.Create(new DistributedOptions { InstanceIndex = 1, AutoDetectOsCapability = false, MaxParallelism = 1 }),
+            MsOptions.Create(new DistributedOptions { InstanceIndex = 1, MaxParallelism = 1 }),
             pipeline.Services.GetRequiredService<IParallelLimitProvider>(),
             pipeline.Services.GetRequiredService<IServiceScopeFactory>(), null,
             NullLogger<WorkerModuleExecutor>.Instance);
@@ -440,7 +439,7 @@ public class WorkerModuleExecutorTests
         var assignment = new ModuleAssignment(
             ModuleId.FromType(typeof(TModule)),
 
-            [],
+            CapabilityRequirement.None,
             DateTimeOffset.UtcNow,
             new ModuleAssignmentOptions(null, false))
         {
@@ -463,7 +462,6 @@ public class WorkerModuleExecutorTests
             MsOptions.Create(new DistributedOptions
             {
                 InstanceIndex = 1,
-                AutoDetectOsCapability = false,
             }),
             pipeline.Services.GetRequiredService<IParallelLimitProvider>(),
             pipeline.Services.GetRequiredService<IServiceScopeFactory>(),
@@ -489,7 +487,7 @@ public class WorkerModuleExecutorTests
 
     private static ModuleAssignment CreateAssignment(IModule module, ModuleTypeRegistry registry) => new(
         ModuleId.FromType(module.GetType()),
-        [],
+        CapabilityRequirement.None,
         DateTimeOffset.UtcNow,
         new ModuleAssignmentOptions(null, false))
     {

@@ -1,15 +1,15 @@
 namespace ModularPipelines.Attributes;
 
 /// <summary>
-/// Declares capabilities that a module requires to execute.
-/// In distributed mode, the module will only be assigned to workers that advertise every capability.
-/// When the module would run locally without them, it is skipped.
-/// Multiple attributes and multiple values within one attribute both create AND logic.
+/// Declares alternative capabilities for a module. In distributed mode, the module will only be
+/// assigned to workers that advertise at least one of them. When the module would run locally
+/// without any of them, it is skipped.
+/// Multiple attributes create AND logic between their alternatives.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class RequiresCapabilityAttribute : Attribute
+public sealed class RequiresAnyCapabilityAttribute : Attribute
 {
-    public RequiresCapabilityAttribute(params string[] capabilities)
+    public RequiresAnyCapabilityAttribute(params string[] capabilities)
     {
         ArgumentNullException.ThrowIfNull(capabilities);
         if (capabilities.Length == 0 || capabilities.Any(string.IsNullOrWhiteSpace))

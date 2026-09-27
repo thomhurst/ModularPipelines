@@ -8,7 +8,7 @@ internal interface IExecutionLocationContext
 
     bool IsWorker { get; }
 
-    bool ShouldDeferOperatingSystemConditions { get; }
+    bool ShouldDeferCapabilityConditions { get; }
 
     bool IsRoutingPrepared(IModule module);
 
@@ -17,6 +17,13 @@ internal interface IExecutionLocationContext
     bool IsConditionGroupSatisfied(IModule module, Type conditionGroupType);
 
     void MarkConditionGroupSatisfied(IModule module, Type conditionGroupType);
+
+    /// <summary>
+    /// Records the module's condition formula as evaluated by the master while preparing routing.
+    /// </summary>
+    void SetPreparedConditionValue(IModule module, FormulaValue value);
+
+    bool TryGetPreparedConditionValue(IModule module, out FormulaValue value);
 
     IReadOnlyList<string> GetSatisfiedConditionGroupNames(IModule module);
 

@@ -189,6 +189,39 @@ public class DistributedWorkPublisherTests
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
+    [RequiresAnyCapability(Capability.Names.Linux, Capability.Names.MacOS)]
+    [RequiresCapability(Capability.Names.Docker)]
+    private sealed class AlternativeCapabilitiesModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RequiresCapability(Capability.Names.Linux)]
+    [RunIfAny<OnLinux, OnMacOS>]
+    private sealed class NarrowedOperatingSystemModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIfAll<OnLinux, OnGpu>]
+    private sealed class CustomCapabilityConditionModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    private sealed class OnGpu : ICapabilityCondition
+    {
+        public Capability Capability => Capability.Gpu;
+
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
+    }
+
     [RequiresCapability(Capability.Names.Linux, Capability.Names.Docker)]
     private sealed class MultipleCapabilitiesModule : Module<string>
     {
@@ -438,7 +471,31 @@ public class DistributedWorkPublisherTests
 
         var assignment = publisher.CreateAssignment(new MixedGenericAlternativeModule());
 
-        await Assert.That(assignment.RequiredCapabilities).DoesNotContain("linux");
+        await Assert.That(assignment.RequiredCapabilities).IsEqualTo(CapabilityRequirement.None);
+    }
+
+    [Test]
+    public async Task CreateAssignment_Uses_Master_Prepared_Requirement()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(MixedGenericAlternativeModule));
+        var routingOptions = Microsoft.Extensions.Options.Options.Create(new DistributedOptions());
+        var conditionRouting = new DistributedConditionRouting(
+            routingOptions,
+            new ModularPipelines.Distributed.Configuration.RoleDetector(routingOptions));
+        var module = new MixedGenericAlternativeModule();
+        conditionRouting.SetPreparedConditionValue(module, FormulaValue.Of(CapabilityRequirement.AllOf(Capability.Linux)));
+        var publisher = new DistributedWorkPublisher(
+            coordinator,
+            typeRegistry,
+            new ModuleResultRegistry(),
+            executionLocationContext: conditionRouting);
+
+        var assignment = publisher.CreateAssignment(module);
+
+        await Assert.That(assignment.RequiredCapabilities)
+            .IsEqualTo(CapabilityRequirement.AllOf(Capability.Linux));
     }
 
     [Test]
@@ -452,7 +509,7 @@ public class DistributedWorkPublisherTests
 
         var assignment = publisher.CreateAssignment(new MixedWorkerOnlyAlternativeModule());
 
-        await Assert.That(assignment.RequiredCapabilities).DoesNotContain("linux");
+        await Assert.That(assignment.RequiredCapabilities).IsEqualTo(CapabilityRequirement.None);
     }
 
     [Test]
@@ -465,17 +522,8 @@ public class DistributedWorkPublisherTests
         var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         var assignment = publisher.CreateAssignment(new CustomUnixConditionGroupModule());
-        var requiredCapability = assignment.RequiredCapabilities.Single();
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Linux))
-                .Contains(requiredCapability);
-            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.MacOS))
-                .Contains(requiredCapability);
-            await Assert.That(OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.Windows))
-                .DoesNotContain(requiredCapability);
-        }
+        await Assert.That(assignment.RequiredCapabilities)
+            .IsEqualTo(CapabilityRequirement.AnyOf(Capability.Linux, Capability.MacOS));
     }
 
     [Test]
@@ -489,7 +537,7 @@ public class DistributedWorkPublisherTests
 
         var assignment = publisher.CreateAssignment(new WorkerOnlyConditionGroupModule());
 
-        await Assert.That(assignment.RequiredCapabilities).IsEmpty();
+        await Assert.That(assignment.RequiredCapabilities.IsEmpty).IsTrue();
     }
 
     [Test]
@@ -507,7 +555,50 @@ public class DistributedWorkPublisherTests
         var assignment = publisher.CreateAssignment(new MultipleCapabilitiesModule());
 
         await Assert.That(assignment.RequiredCapabilities)
-            .IsEquivalentTo([Capability.Linux, Capability.Docker]);
+            .IsEqualTo(CapabilityRequirement.AllOf(Capability.Linux, Capability.Docker));
+    }
+
+    [Test]
+    public async Task CreateAssignment_Combines_Alternative_And_Required_Capabilities()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(AlternativeCapabilitiesModule));
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, new ModuleResultRegistry());
+
+        var assignment = publisher.CreateAssignment(new AlternativeCapabilitiesModule());
+
+        await Assert.That(assignment.RequiredCapabilities).IsEqualTo(
+            CapabilityRequirement.AnyOf(Capability.Linux, Capability.MacOS)
+                .And(CapabilityRequirement.AllOf(Capability.Docker)));
+    }
+
+    [Test]
+    public async Task CreateAssignment_Narrows_Condition_Alternatives_With_Explicit_Capability()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(NarrowedOperatingSystemModule));
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, new ModuleResultRegistry());
+
+        var assignment = publisher.CreateAssignment(new NarrowedOperatingSystemModule());
+
+        await Assert.That(assignment.RequiredCapabilities)
+            .IsEqualTo(CapabilityRequirement.AllOf(Capability.Linux));
+    }
+
+    [Test]
+    public async Task CreateAssignment_Routes_Custom_Capability_Condition()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(CustomCapabilityConditionModule));
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, new ModuleResultRegistry());
+
+        var assignment = publisher.CreateAssignment(new CustomCapabilityConditionModule());
+
+        await Assert.That(assignment.RequiredCapabilities)
+            .IsEqualTo(CapabilityRequirement.AllOf(Capability.Linux, Capability.Gpu));
     }
 
     [Test]
@@ -540,11 +631,8 @@ public class DistributedWorkPublisherTests
         var assignment = publisher.CreateAssignment(
             new ConflictingMixedGenericAlternativeModule());
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(assignment.RequiredCapabilities).Contains("windows");
-            await Assert.That(assignment.RequiredCapabilities).DoesNotContain("linux");
-        }
+        await Assert.That(assignment.RequiredCapabilities)
+            .IsEqualTo(CapabilityRequirement.AllOf(Capability.Windows));
     }
 
     [Test]
@@ -562,11 +650,32 @@ public class DistributedWorkPublisherTests
         var assignment = publisher.CreateAssignment(
             new ConflictingConditionalMixedAlternativeModule());
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(assignment.RequiredCapabilities).DoesNotContain("windows");
-            await Assert.That(assignment.RequiredCapabilities).DoesNotContain("linux");
-        }
+        await Assert.That(assignment.RequiredCapabilities).IsEqualTo(CapabilityRequirement.None);
+    }
+
+    [Test]
+    public async Task CreateAssignment_Rejects_Module_The_Master_Found_Unroutable()
+    {
+        // Both local alternatives were false on the master, so the module needs Linux and Windows.
+        // It must be skipped rather than dispatched to a worker that could re-evaluate the alternatives.
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(ConflictingConditionalMixedAlternativeModule));
+        var routingOptions = Microsoft.Extensions.Options.Options.Create(new DistributedOptions());
+        var conditionRouting = new DistributedConditionRouting(
+            routingOptions,
+            new ModularPipelines.Distributed.Configuration.RoleDetector(routingOptions));
+        var module = new ConflictingConditionalMixedAlternativeModule();
+        conditionRouting.SetPreparedConditionValue(module, FormulaValue.False);
+        var publisher = new DistributedWorkPublisher(
+            new InMemoryDistributedCoordinator(),
+            typeRegistry,
+            new ModuleResultRegistry(),
+            executionLocationContext: conditionRouting);
+
+        var exception = Assert.Throws<UnsatisfiableModuleRequirementException>(() =>
+            publisher.CreateAssignment(module));
+
+        await Assert.That(exception.SkipDecision.ShouldSkip).IsTrue();
     }
 
     [Test]

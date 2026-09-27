@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
-using ModularPipelines.Distributed.Capabilities;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Options;

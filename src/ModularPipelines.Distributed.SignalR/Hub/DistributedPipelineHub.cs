@@ -283,7 +283,7 @@ internal class DistributedPipelineHub(
             }
 
             // Check capability match
-            if (!CapabilityMatcher.CanExecute(assignment, workerState.Registration))
+            if (!assignment.RequiredCapabilities.IsSatisfiedBy(workerState.Registration.Capabilities))
             {
                 // Re-enqueue — this worker can't handle it
                 state.PendingAssignments.Enqueue(assignment);

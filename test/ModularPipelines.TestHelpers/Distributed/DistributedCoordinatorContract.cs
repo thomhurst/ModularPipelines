@@ -83,7 +83,7 @@ public static class DistributedCoordinatorContract
         await coordinator.EnqueueModuleAsync(
             CreateAssignment("Contract.Common") with
             {
-                RequiredCapabilities = ["common"],
+                RequiredCapabilities = CapabilityRequirement.AllOf("common"),
                 CriticalPathWeight = TimeSpan.FromMinutes(10),
             },
             CancellationToken.None);
@@ -91,7 +91,7 @@ public static class DistributedCoordinatorContract
         await coordinator.EnqueueModuleAsync(
             CreateAssignment("Contract.Linux") with
             {
-                RequiredCapabilities = ["linux"],
+                RequiredCapabilities = CapabilityRequirement.AllOf("linux"),
                 CriticalPathWeight = TimeSpan.FromMinutes(1),
             },
             CancellationToken.None);
@@ -109,6 +109,38 @@ public static class DistributedCoordinatorContract
             CancellationToken.None);
 
         await Assert.That(claimed!.ModuleId).IsEqualTo("Contract.Linux");
+    }
+
+    public static async Task ClaimMatchesAlternativeCapabilitiesAsync(
+        IDistributedMasterCoordinator coordinator)
+    {
+        await coordinator.EnqueueModuleAsync(
+            CreateAssignment("Contract.Windows") with
+            {
+                RequiredCapabilities = CapabilityRequirement.AllOf(Capability.Windows),
+            },
+            CancellationToken.None);
+
+        await coordinator.EnqueueModuleAsync(
+            CreateAssignment("Contract.Unix") with
+            {
+                RequiredCapabilities = CapabilityRequirement.AnyOf(Capability.Linux, Capability.MacOS)
+                    .And(CapabilityRequirement.AllOf(Capability.Docker)),
+            },
+            CancellationToken.None);
+
+        var macClaim = await coordinator.DequeueModuleAsync(
+            new HashSet<Capability> { Capability.MacOS, Capability.Docker },
+            CancellationToken.None);
+        var windowsClaim = await coordinator.DequeueModuleAsync(
+            new HashSet<Capability> { Capability.Windows, Capability.Docker },
+            CancellationToken.None);
+
+        await Assert.That(macClaim!.ModuleId).IsEqualTo("Contract.Unix");
+        await Assert.That(macClaim.RequiredCapabilities).IsEqualTo(
+            CapabilityRequirement.AnyOf(Capability.Linux, Capability.MacOS)
+                .And(CapabilityRequirement.AllOf(Capability.Docker)));
+        await Assert.That(windowsClaim!.ModuleId).IsEqualTo("Contract.Windows");
     }
 
     public static async Task FinalMetricsKeepRegistrationAfterHeartbeatExpiresAsync(
@@ -166,7 +198,7 @@ public static class DistributedCoordinatorContract
     {
         return new ModuleAssignment(
             ModuleId: new ModuleId(moduleId),
-            RequiredCapabilities: [],
+            RequiredCapabilities: CapabilityRequirement.None,
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false));
     }

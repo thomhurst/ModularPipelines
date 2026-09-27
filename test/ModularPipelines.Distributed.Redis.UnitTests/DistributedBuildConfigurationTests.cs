@@ -17,6 +17,7 @@ public class DistributedBuildConfigurationTests
 
         await Assert.That(DistributedBuildConfiguration.Configure(builder, environment.GetValueOrDefault)).IsTrue();
         await Assert.That(builder.Services.Any(service => service.ServiceType == typeof(IConnectionMultiplexer))).IsFalse();
+        await Assert.That(await GetProvidedCapabilitiesAsync(builder)).Contains(new Capability("ci-master"));
     }
 
     [Test]
@@ -33,6 +34,8 @@ public class DistributedBuildConfigurationTests
 
             await Assert.That(DistributedBuildConfiguration.Configure(builder, environment.GetValueOrDefault)).IsEqualTo(shouldRun);
             await Assert.That(builder.Services.Any(service => service.ServiceType == typeof(IConnectionMultiplexer))).IsFalse();
+            await Assert.That((await GetProvidedCapabilitiesAsync(builder)).Contains(new Capability("ci-master")))
+                .IsEqualTo(shouldRun);
         }
     }
 
@@ -101,6 +104,18 @@ public class DistributedBuildConfigurationTests
 
         await Assert.That(() => DistributedBuildConfiguration.Configure(builder, environment.GetValueOrDefault))
             .Throws<InvalidOperationException>();
+    }
+
+    private static async Task<IReadOnlyList<Capability>> GetProvidedCapabilitiesAsync(PipelineBuilder builder)
+    {
+        await using var services = builder.Services.BuildServiceProvider();
+        var capabilities = new List<Capability>();
+        foreach (var provider in services.GetServices<ICapabilityProvider>())
+        {
+            capabilities.AddRange(await provider.GetCapabilitiesAsync(CancellationToken.None));
+        }
+
+        return capabilities;
     }
 
     private static Dictionary<string, string?> CreateEnvironment(string? index, string? count) => new()

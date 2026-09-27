@@ -477,7 +477,7 @@ public class RedisDistributedCoordinatorTests
     {
         return new ModuleAssignment(
             ModuleId: new ModuleId(moduleId),
-            RequiredCapabilities: requiredCapabilities?.ToArray() ?? [],
+            RequiredCapabilities: requiredCapabilities is null ? CapabilityRequirement.None : CapabilityRequirement.AllOf([.. requiredCapabilities]),
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentOptions(null, false));
     }

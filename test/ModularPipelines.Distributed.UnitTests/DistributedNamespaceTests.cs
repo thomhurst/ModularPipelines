@@ -8,7 +8,8 @@ public class DistributedNamespaceTests
         Type[] types =
         [
             typeof(DistributedPipelineBuilderExtensions),
-            typeof(CapabilityMatcher),
+            typeof(CapabilityRequirement),
+            typeof(ICapabilityProvider),
             typeof(IMasterDiscovery),
         ];
 

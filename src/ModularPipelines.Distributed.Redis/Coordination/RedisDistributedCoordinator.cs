@@ -336,11 +336,16 @@ for i = 1, #worker_entries, 2 do
 end
 
 local function supports(required, available)
-    for _, req in ipairs(required) do
+    for _, clause in ipairs(required) do
         local found = false
-        for _, cap in ipairs(available) do
-            if string.lower(req) == string.lower(cap) then
-                found = true
+        for _, req in ipairs(clause) do
+            for _, cap in ipairs(available) do
+                if string.lower(req) == string.lower(cap) then
+                    found = true
+                    break
+                end
+            end
+            if found then
                 break
             end
         end

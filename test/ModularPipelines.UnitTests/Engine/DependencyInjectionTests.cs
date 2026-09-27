@@ -5,6 +5,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Cmd;
 using ModularPipelines.Cmd.Extensions;
 using ModularPipelines.DependencyInjection;
+using ModularPipelines.Distributed;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Modules;
 using Moq;
@@ -29,6 +30,21 @@ public class DependencyInjectionTests
         {
             services.GetRequiredService(serviceDescriptor.ServiceType);
         }
+    }
+
+    [Test]
+    public async Task CurrentOperatingSystemCapabilityIsRegisteredByDefault()
+    {
+        await using var pipeline = await TestPipelineBuilder.Create()
+            .AddModule<TestModule1>()
+            .BuildAsync();
+
+        var capabilities = await LocalCapabilities.ResolveAsync(
+            new DistributedOptions(),
+            pipeline.Services.GetServices<ICapabilityProvider>(),
+            CancellationToken.None);
+
+        await Assert.That(capabilities).IsEquivalentTo([Capability.CurrentOperatingSystem!.Value]);
     }
 
     [Test]

@@ -275,7 +275,7 @@ public class DistributedWorkerPoolTests
     private static ModuleAssignment CreateAssignment(string name) => new(
         name,
 
-        [],
+        CapabilityRequirement.None,
         DateTimeOffset.UtcNow,
         new ModuleAssignmentOptions(null, false));
 

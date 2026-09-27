@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
 using ModularPipelines.Distributed.Artifacts;
-using ModularPipelines.Distributed.Capabilities;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Engine;
@@ -46,7 +45,8 @@ internal class DistributedModuleExecutor(
     IModuleCacheResultRepository? cacheResultRepository = null,
     IOptions<PipelineOptions>? pipelineOptions = null,
     DistributedCacheHitTracker? cacheHitTracker = null,
-    IEnumerable<IModule>? registeredModules = null) : IExecutionBackend
+    IEnumerable<IModule>? registeredModules = null,
+    LocalCapabilityRegistry? localCapabilities = null) : IExecutionBackend
 {
     private readonly IReadOnlyList<IModule> _registeredModules = registeredModules?.ToArray() ?? [];
 
@@ -133,7 +133,11 @@ internal class DistributedModuleExecutor(
             var registrationDeadline = DateTimeOffset.UtcNow + options.CapabilityTimeout;
             await WaitForMinimumWorkersAsync(registrationDeadline, executionCts.Token)
                 .ConfigureAwait(false);
-            var masterCapabilities = BuildCapabilities(options);
+            var masterCapabilities = await LocalCapabilities.GetAsync(
+                    localCapabilities,
+                    options,
+                    executionCts.Token)
+                .ConfigureAwait(false);
 
             scheduler = _schedulerFactory.Create();
             scheduler.InitializeModules(modules, estimatedDurations);
@@ -424,6 +428,11 @@ internal class DistributedModuleExecutor(
         {
             return null;
         }
+        catch (UnsatisfiableModuleRequirementException exception)
+        {
+            CompleteUnroutableModule(moduleState, scheduler, exception, context);
+            return null;
+        }
         catch (Exception exception)
         {
             _logger.LogError(
@@ -632,12 +641,22 @@ internal class DistributedModuleExecutor(
     {
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
-        var assignment = await _publisher.CreateAssignmentAsync(
-                module,
-                _lifetime.ApplicationStopping,
-                moduleState.Priority,
-                moduleState.CriticalPathWeight)
-            .ConfigureAwait(false);
+        ModuleAssignment assignment;
+        try
+        {
+            assignment = await _publisher.CreateAssignmentAsync(
+                    module,
+                    _lifetime.ApplicationStopping,
+                    moduleState.Priority,
+                    moduleState.CriticalPathWeight)
+                .ConfigureAwait(false);
+        }
+        catch (UnsatisfiableModuleRequirementException exception)
+        {
+            CompleteUnroutableModule(moduleState, scheduler, exception, context);
+            return;
+        }
+
         if (!scheduler.MarkModuleStarted(moduleType))
         {
             return;
@@ -1084,7 +1103,7 @@ internal class DistributedModuleExecutor(
         IReadOnlySet<Capability> masterCapabilities,
         CancellationToken cancellationToken)
     {
-        if (CapabilityMatcher.CanExecute(assignment, masterCapabilities))
+        if (assignment.RequiredCapabilities.IsSatisfiedBy(masterCapabilities))
         {
             return;
         }
@@ -1097,7 +1116,7 @@ internal class DistributedModuleExecutor(
             workers = await _masterCoordinator.GetRegisteredWorkersAsync(cancellationToken)
                 .ConfigureAwait(false);
             ValidateWorkerSchemas(workers);
-            if (workers.Any(worker => CapabilityMatcher.CanExecute(assignment, worker)))
+            if (workers.Any(worker => assignment.RequiredCapabilities.IsSatisfiedBy(worker.Capabilities)))
             {
                 return;
             }
@@ -1125,17 +1144,6 @@ internal class DistributedModuleExecutor(
         {
             PipelineSchemaVersionValidator.Validate(schema, worker.PipelineSchemaVersion, $"worker {worker.WorkerIndex}");
         }
-    }
-
-    private static HashSet<Capability> BuildCapabilities(DistributedOptions options)
-    {
-        var capabilities = new HashSet<Capability>(options.Capabilities);
-        if (options.AutoDetectOsCapability)
-        {
-            capabilities.UnionWith(OsCapabilityDetector.Detect());
-        }
-
-        return capabilities;
     }
 
     private static async Task DelayUntilNextWorkerCheckAsync(
@@ -1224,6 +1232,39 @@ internal class DistributedModuleExecutor(
         IExecutionBackendContext context) =>
         context.TryApplyResult(module, result) ? result : GetCompletedResult(module);
 
+    /// <summary>
+    /// Completes a module no worker can run as skipped, both in the result registry and on the scheduler.
+    /// </summary>
+    private void CompleteUnroutableModule(
+        ModuleState moduleState,
+        IModuleScheduler scheduler,
+        UnsatisfiableModuleRequirementException exception,
+        IExecutionBackendContext context)
+    {
+        var moduleType = moduleState.ModuleType;
+        _logger.LogInformation("Skipping distributed module {Module}: {Reason}", moduleType.Name, exception.Message);
+        var skipped = RegisterSkippedResult(moduleState.Module, moduleType, exception.SkipDecision, context);
+        moduleState.Result = skipped;
+        scheduler.MarkModuleCompleted(
+            moduleType,
+            success: true,
+            statusOverride: skipped?.Status ?? ModuleStatus.Skipped);
+    }
+
+    private IModuleResult? RegisterSkippedResult(
+        IModule module,
+        Type moduleType,
+        SkipDecision skipDecision,
+        IExecutionBackendContext context)
+    {
+        var executionContext = new ModuleExecutionContext(module, moduleType)
+        {
+            Status = ModuleStatus.Skipped,
+            SkipResult = skipDecision,
+        };
+        return ApplyResult(module, ModuleResultFactory.CreateSkipped(module.ResultType, executionContext), context);
+    }
+
     private IModuleResult? RegisterFailureResult(
         IModule module,
         Type moduleType,
@@ -1275,9 +1316,9 @@ internal class DistributedModuleExecutor(
 
 internal sealed class DistributedRoutingException(
     ModuleId moduleId,
-    IReadOnlyCollection<Capability> requiredCapabilities,
+    CapabilityRequirement requiredCapabilities,
     int registeredWorkerCount)
     : InvalidOperationException(
         $"No execution route is available for distributed module {moduleId}. " +
-        $"Required capabilities: [{string.Join(", ", requiredCapabilities)}]. " +
+        $"Required capabilities: {requiredCapabilities}. " +
         $"Registered external workers: {registeredWorkerCount}.");

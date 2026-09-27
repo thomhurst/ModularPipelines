@@ -46,7 +46,6 @@ builder.AddDistributedMode(o =>
     o.CapabilityTimeout = TimeSpan.FromMinutes(5);
     o.MinimumWorkerCount = 0;
     o.ModuleResultTimeout = TimeSpan.FromMinutes(45);
-    o.AutoDetectOsCapability = true;
 });
 ```
 
@@ -56,13 +55,12 @@ builder.AddDistributedMode(o =>
 | `InstanceIndex` | `int` | `0` | This instance's unique index. With `Role == Auto`, `0` selects master and values above `0` select worker. |
 | `TotalInstances` | `int` | `1` | Total number of instances (master + workers). |
 | `MaxParallelism` | `int?` | `null` | Optional per-node concurrency limit. It can lower, but cannot raise, the pipeline's global `Concurrency.MaxParallelism` limit. |
-| `Capabilities` | `IReadOnlyList<Capability>` | `[]` | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values. |
+| `Capabilities` | `IReadOnlyList<Capability>` | `[]` | Capabilities this instance advertises in addition to those detected by registered `ICapabilityProvider` services, including the current OS. Built-in values are available from `Capability`; strings convert implicitly for custom values. |
 | `RunId` | `string` | `MODULARPIPELINES_RUN_ID` or generated for one instance | Identifier shared by every process in this pipeline run. Multi-instance runs fail fast when neither source is configured. |
 | `RequireExplicitRunId` | `bool` | `false` | Reject generated single-instance IDs. Shared Redis backends enable this automatically. S3 artifact-store registrations also require an explicit shared `RunId`, including for single-instance configurations. Custom backends opt in with `builder.RequireExplicitRunId()`. |
 | `CapabilityTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(5)` | Registration grace period before an assignment with no capable worker fails with an explicit routing error. |
 | `MinimumWorkerCount` | `int` | `0` | Number of external workers required before dispatch starts. Keep zero for immediate dispatch; set `TotalInstances - 1` for the former full-worker barrier. |
 | `ModuleResultTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(45)` | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely. |
-| `AutoDetectOsCapability` | `bool` | `true` | Automatically add the current OS as a capability (`"windows"`, `"linux"`, `"macos"`, or `"freebsd"`). |
 
 ### Configuration from appsettings.json
 
