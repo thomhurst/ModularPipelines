@@ -1,9 +1,11 @@
+using Kevlar;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Modules.UnitTests;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -18,6 +20,7 @@ namespace ModularPipelines.Build.Modules;
 /// prove that the core library compiles and passes its tests there; compiling the large
 /// generated integrations on these runners dominated the distributed critical path.
 /// </remarks>
+[ExecutionHint(ExecutionHint.CpuBound)]
 public abstract class BuildAndTestCoreOnPlatformModule(IOptions<PipelineSettings> pipelineSettings) : Module<CommandResult[]>
 {
     private const string CoreTestSolution = "ModularPipelines.Tests.slnf";
@@ -27,8 +30,11 @@ public abstract class BuildAndTestCoreOnPlatformModule(IOptions<PipelineSettings
     // 15 minutes below the job timeout.
     private static readonly TimeSpan BuildTimeout = TimeSpan.FromMinutes(75);
 
+    // Like the Linux test modules, never retry: a rerun could mask a flaky failure
+    // and repeat the whole build within the job's timeout.
     protected override void Configure(ModuleConfigurationBuilder module) => module
-        .WithTimeout(BuildTimeout);
+        .WithTimeout(BuildTimeout)
+        .WithShield(Shield.Retry(0));
 
     protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

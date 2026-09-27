@@ -703,8 +703,21 @@ jobs:
           }
           Write-Output "::endgroup::"
 
-          dotnet run --project test/ModularPipelines.UnitTests/ModularPipelines.UnitTests.csproj -c Release --framework net10.0 --no-build
+          # Match the pipeline test runner's diagnostics, without coverage (collected on Linux).
+          dotnet run --project test/ModularPipelines.UnitTests/ModularPipelines.UnitTests.csproj -c Release --framework net10.0 --no-build -- `
+            --hangdump --hangdump-filename 'hangdump-{pname}-{pid}-{time}.dmp' --hangdump-timeout 20m `
+            --report-trx --report-trx-filename test-results.trx
           exit $LASTEXITCODE
+      - name: Upload core test diagnostics
+        if: always() && needs.fast-fail.result == 'success'
+        uses: actions/upload-artifact@v7
+        with:
+          name: core-test-diagnostics-${{ matrix.os }}-${{ github.run_attempt }}
+          path: |
+            **/TestResults/*.trx
+            **/*.dmp
+          if-no-files-found: ignore
+          retention-days: 7
 
   generated-integration:
     name: generated integration (${{ needs.fast-fail.outputs.integration_package }})
