@@ -171,49 +171,24 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
             return [];
         }
 
-        // Clauses that list only operating systems restrict which runner can execute the module.
-        HashSet<Capability>? allowedOperatingSystems = null;
-        foreach (var clause in requirement.Clauses.Where(static clause =>
-                     clause.All(static capability => capability.IsOperatingSystem)))
+        var allowedOperatingSystems = GetAllowedOperatingSystems(requirement.Clauses);
+        if (allowedOperatingSystems is not null)
         {
-            if (allowedOperatingSystems is null)
-            {
-                allowedOperatingSystems = [.. clause];
-            }
-            else
-            {
-                allowedOperatingSystems.IntersectWith(clause);
-            }
-        }
-
-        if (allowedOperatingSystems is not null
-            && !Runners.Any(runner => allowedOperatingSystems.Contains(runner.OperatingSystem)))
-        {
-            throw new InvalidOperationException(
-                "Distributed GitHub workflows do not support the required operating-system capability " +
-                $"'{string.Join(" | ", allowedOperatingSystems)}'.");
+            EnsureSupported(allowedOperatingSystems);
         }
 
         // The master makes a conditional route mandatory when every local alternative is false, so a
-        // route that can become mandatory must also be reachable on a supported runner.
+        // route that can become mandatory must also be reachable on a supported runner. A route that
+        // conflicts with the mandatory operating systems makes the module impossible, and a worker skips it.
         var conditionRoutes = CapabilityConditions.GetConditionRoutes(moduleType).ToArray();
-        foreach (var clause in conditionRoutes
+        foreach (var clause in GetOperatingSystemClauses(conditionRoutes
                      .Where(static route => route.Route.IsConditional && route.CanBeRequired)
-                     .SelectMany(static route => route.Route.Requirement.Clauses)
-                     .Where(static clause => clause.All(static capability => capability.IsOperatingSystem)))
+                     .SelectMany(static route => route.Route.Requirement.Clauses)))
         {
-            var compatibleOperatingSystems = clause
-                .Where(operatingSystem => allowedOperatingSystems?.Contains(operatingSystem) != false)
-                .ToArray();
-
-            // An incompatible route makes the module impossible, and a worker then skips it.
-            if (compatibleOperatingSystems.Length > 0
-                && !compatibleOperatingSystems.Any(operatingSystem =>
-                    Runners.Any(runner => runner.OperatingSystem == operatingSystem)))
+            var compatibleOperatingSystems = clause.Where(operatingSystem => IsAllowed(allowedOperatingSystems, operatingSystem)).ToArray();
+            if (compatibleOperatingSystems.Length > 0)
             {
-                throw new InvalidOperationException(
-                    "Distributed GitHub workflows do not support the required operating-system capability " +
-                    $"'{string.Join(" | ", compatibleOperatingSystems)}'.");
+                EnsureSupported(compatibleOperatingSystems);
             }
         }
 
@@ -228,7 +203,46 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
         return Runners
             .Select(static runner => runner.OperatingSystem)
             .Where(operatingSystem => mentionedOperatingSystems.Contains(operatingSystem)
-                                      && allowedOperatingSystems?.Contains(operatingSystem) != false);
+                                      && IsAllowed(allowedOperatingSystems, operatingSystem));
+    }
+
+    /// <summary>
+    /// Returns the operating systems allowed by clauses that list only operating systems, or
+    /// <c>null</c> when no clause restricts the operating system.
+    /// </summary>
+    private static HashSet<Capability>? GetAllowedOperatingSystems(IEnumerable<IReadOnlyList<Capability>> clauses)
+    {
+        HashSet<Capability>? allowedOperatingSystems = null;
+        foreach (var clause in GetOperatingSystemClauses(clauses))
+        {
+            if (allowedOperatingSystems is null)
+            {
+                allowedOperatingSystems = [.. clause];
+            }
+            else
+            {
+                allowedOperatingSystems.IntersectWith(clause);
+            }
+        }
+
+        return allowedOperatingSystems;
+    }
+
+    private static bool IsAllowed(HashSet<Capability>? allowedOperatingSystems, Capability operatingSystem) =>
+        allowedOperatingSystems?.Contains(operatingSystem) != false;
+
+    private static IEnumerable<IReadOnlyList<Capability>> GetOperatingSystemClauses(
+        IEnumerable<IReadOnlyList<Capability>> clauses) =>
+        clauses.Where(static clause => clause.All(static capability => capability.IsOperatingSystem));
+
+    private static void EnsureSupported(IReadOnlyCollection<Capability> operatingSystems)
+    {
+        if (!Runners.Any(runner => operatingSystems.Contains(runner.OperatingSystem)))
+        {
+            throw new InvalidOperationException(
+                "Distributed GitHub workflows do not support the required operating-system capability " +
+                $"'{string.Join(" | ", operatingSystems)}'.");
+        }
     }
 
     private string BuildRunCommand()
