@@ -92,7 +92,6 @@ internal class ModuleStateTracker : IModuleStateTracker
         // create a race condition where another thread could start a conflicting module.
         var needsReschedule = false;
         DateTimeOffset? executionStartTime = null;
-        var executingCount = 0;
         var result = false;
 
         _stateLock.EnterWriteLock();
@@ -135,7 +134,6 @@ internal class ModuleStateTracker : IModuleStateTracker
 
                 // Capture data for metrics recording outside lock
                 executionStartTime = state.ExecutionStartTime;
-                executingCount = _executingModules.Count;
                 result = true;
             }
         }
@@ -154,7 +152,6 @@ internal class ModuleStateTracker : IModuleStateTracker
         if (executionStartTime.HasValue)
         {
             _metricsCollector.RecordModuleStarted(moduleType, executionStartTime.Value);
-            _metricsCollector.RecordConcurrencySnapshot(executingCount, executionStartTime.Value);
         }
 
         return result;
@@ -231,7 +228,6 @@ internal class ModuleStateTracker : IModuleStateTracker
 
         // Record metrics outside lock to prevent lock recursion
         _metricsCollector.RecordModuleCompleted(moduleType, completionTime, success, wasSkipped, status);
-        _metricsCollector.RecordConcurrencySnapshot(executingCount, completionTime);
 
         var lockKeys = state.RequiredLockKeys.Length == 0
             ? "(none)"

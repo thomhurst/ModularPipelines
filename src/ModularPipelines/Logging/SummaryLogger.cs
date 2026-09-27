@@ -1,5 +1,6 @@
 using System.Text;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Console;
 
 namespace ModularPipelines.Logging;
 
@@ -21,14 +22,18 @@ namespace ModularPipelines.Logging;
 internal class SummaryLogger : IInternalSummaryLogger
 {
     private readonly ILogger<SummaryLogger> _logger;
+    private readonly INonSpectreLoggerFactory? _nonConsoleLoggerFactory;
     private readonly List<SummaryLogEntry> _entries = [];
     private readonly object _lock = new();
     private string? _cachedOutput;
     private int _displayedCount;
 
-    public SummaryLogger(ILogger<SummaryLogger> logger)
+    public SummaryLogger(
+        ILogger<SummaryLogger> logger,
+        INonSpectreLoggerFactory? nonConsoleLoggerFactory = null)
     {
         _logger = logger;
+        _nonConsoleLoggerFactory = nonConsoleLoggerFactory;
     }
 
     /// <inheritdoc />
@@ -147,41 +152,69 @@ internal class SummaryLogger : IInternalSummaryLogger
     }
 
     /// <inheritdoc />
-    public IReadOnlyList<SummaryLogEntry> TakeEntriesForDisplay()
+    public IReadOnlyList<SummaryLogEntry> GetEntriesForDisplay()
     {
         lock (_lock)
         {
-            _displayedCount = _entries.Count;
             return _entries.ToList();
+        }
+    }
+
+    /// <inheritdoc />
+    public void MarkDisplayed(int count)
+    {
+        lock (_lock)
+        {
+            _displayedCount = Math.Clamp(count, _displayedCount, _entries.Count);
         }
     }
 
     /// <inheritdoc />
     public void WriteLogs()
     {
-        List<SummaryLogEntry> entriesCopy;
+        List<SummaryLogEntry> displayedEntries;
+        List<SummaryLogEntry> pendingEntries;
         lock (_lock)
         {
-            // Entries already rendered in the results output are not logged a second time.
-            entriesCopy = _entries.Skip(_displayedCount).ToList();
+            displayedEntries = _entries.Take(_displayedCount).ToList();
+            pendingEntries = _entries.Skip(_displayedCount).ToList();
         }
 
-        foreach (var entry in entriesCopy)
+        // Entries rendered in the results output still reach file, telemetry, and build-system
+        // providers; only the console, which already shows them, is skipped.
+        if (displayedEntries.Count > 0 && _nonConsoleLoggerFactory is not null)
         {
-            var logLevel = entry.Level switch
+            var nonConsoleLoggers = _nonConsoleLoggerFactory.CreateLoggers(typeof(SummaryLogger).FullName!);
+            foreach (var entry in displayedEntries)
             {
-                SummaryLogLevel.Error => LogLevel.Error,
-                SummaryLogLevel.Warning => LogLevel.Warning,
-                SummaryLogLevel.Success => LogLevel.Information,
-                _ => LogLevel.Information,
-            };
-
-            var message = entry.Category != null
-                ? $"[{entry.Category}] {entry.Message}"
-                : entry.Message;
-
-            _logger.Log(logLevel, "{Value}", message);
+                foreach (var logger in nonConsoleLoggers)
+                {
+                    Log(logger, entry);
+                }
+            }
         }
+
+        foreach (var entry in pendingEntries)
+        {
+            Log(_logger, entry);
+        }
+    }
+
+    private static void Log(ILogger logger, SummaryLogEntry entry)
+    {
+        var logLevel = entry.Level switch
+        {
+            SummaryLogLevel.Error => LogLevel.Error,
+            SummaryLogLevel.Warning => LogLevel.Warning,
+            SummaryLogLevel.Success => LogLevel.Information,
+            _ => LogLevel.Information,
+        };
+
+        var message = entry.Category != null
+            ? $"[{entry.Category}] {entry.Message}"
+            : entry.Message;
+
+        logger.Log(logLevel, "{Value}", message);
     }
 
     private void AddEntry(SummaryLogLevel level, string message, string? category)

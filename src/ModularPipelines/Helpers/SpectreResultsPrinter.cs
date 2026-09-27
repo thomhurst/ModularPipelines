@@ -8,6 +8,7 @@ using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Reporting;
+using ModularPipelines.Secrets;
 using Spectre.Console;
 
 namespace ModularPipelines.Helpers;
@@ -19,12 +20,14 @@ namespace ModularPipelines.Helpers;
 [ExcludeFromCodeCoverage]
 internal class SpectreResultsPrinter(
     IOptions<PipelineOptions> options,
-    IInternalSummaryLogger summaryLogger) : IResultsPrinter
+    IInternalSummaryLogger summaryLogger,
+    ISecretObfuscator secretObfuscator) : IResultsPrinter
 {
     private const int MaxStackFrames = 5;
 
     private readonly IOptions<PipelineOptions> _options = options;
     private readonly IInternalSummaryLogger _summaryLogger = summaryLogger;
+    private readonly ISecretObfuscator _secretObfuscator = secretObfuscator;
 
     public void PrintResults(PipelineSummary pipelineSummary)
     {
@@ -48,7 +51,9 @@ internal class SpectreResultsPrinter(
             PrintFailedModules(pipelineSummary);
         }
 
-        PrintSummaryEntries(_summaryLogger.TakeEntriesForDisplay());
+        var summaryEntries = _summaryLogger.GetEntriesForDisplay();
+        PrintSummaryEntries(summaryEntries, _secretObfuscator);
+        _summaryLogger.MarkDisplayed(summaryEntries.Count);
 
         // Print execution metrics if available
         PrintMetrics(pipelineSummary);
@@ -374,7 +379,9 @@ internal class SpectreResultsPrinter(
         return $"[{color}]{sign}{delta.Value.Duration().ToDisplayString()}[/]";
     }
 
-    private static void PrintSummaryEntries(IReadOnlyList<SummaryLogEntry> entries)
+    private static void PrintSummaryEntries(
+        IReadOnlyList<SummaryLogEntry> entries,
+        ISecretObfuscator secretObfuscator)
     {
         if (entries.Count == 0)
         {
@@ -382,7 +389,7 @@ internal class SpectreResultsPrinter(
         }
 
         System.Console.WriteLine();
-        foreach (var line in CreateSummaryEntryLines(entries))
+        foreach (var line in CreateSummaryEntryLines(entries, secretObfuscator))
         {
             AnsiConsole.MarkupLine(line);
         }
@@ -392,8 +399,13 @@ internal class SpectreResultsPrinter(
     /// Formats entries written through <see cref="ISummaryLogger"/> as markup lines, grouping
     /// categorized entries under their category before uncategorized entries.
     /// </summary>
-    internal static IReadOnlyList<string> CreateSummaryEntryLines(IReadOnlyList<SummaryLogEntry> entries)
+    internal static IReadOnlyList<string> CreateSummaryEntryLines(
+        IReadOnlyList<SummaryLogEntry> entries,
+        ISecretObfuscator secretObfuscator)
     {
+        // AnsiConsole writes to the real console, bypassing the masking console writer.
+        string Mask(string value) => SpectreMarkupEscaper.Escape(secretObfuscator.Obfuscate(value, null));
+
         var lines = new List<string> { "[bold]Summary[/]" };
         var groups = entries
             .GroupBy(static entry => entry.Category ?? string.Empty, StringComparer.Ordinal)
@@ -405,20 +417,19 @@ internal class SpectreResultsPrinter(
             var indent = "  ";
             if (!string.IsNullOrEmpty(group.Key))
             {
-                lines.Add($"  [dim]{SpectreMarkupEscaper.Escape(group.Key)}[/]");
+                lines.Add($"  [dim]{Mask(group.Key)}[/]");
                 indent = "    ";
             }
 
-            lines.AddRange(group.Select(entry => indent + FormatSummaryEntry(entry)));
+            lines.AddRange(group.Select(entry => indent + FormatSummaryEntry(entry.Level, Mask(entry.Message))));
         }
 
         return lines;
     }
 
-    private static string FormatSummaryEntry(SummaryLogEntry entry)
+    private static string FormatSummaryEntry(SummaryLogLevel level, string message)
     {
-        var message = SpectreMarkupEscaper.Escape(entry.Message);
-        return entry.Level switch
+        return level switch
         {
             SummaryLogLevel.Success => $"[green]✓[/] {message}",
             SummaryLogLevel.Warning => $"[yellow]⚠ {message}[/]",

@@ -278,6 +278,8 @@ internal class WorkerModuleExecutor(
             return;
         }
 
+        // A claimed module belongs in this worker's summary whether it succeeds or fails.
+        executedModules.Enqueue(module);
         try
         {
             if (assignment.DependencyResultReferences is { Count: > 0 })
@@ -293,7 +295,6 @@ internal class WorkerModuleExecutor(
             }
 
             await ExecuteAndPublishAsync(assignment, module, instanceIndex, executionTimer, cancellationToken).ConfigureAwait(false);
-            executedModules.Enqueue(module);
         }
         catch (Exception ex)
         {
@@ -439,6 +440,9 @@ internal class WorkerModuleExecutor(
                         Status = exception is OperationCanceledException ? ModuleStatus.Cancelled : ModuleStatus.Failed,
                         Exception = exception,
                     });
+
+            // Record the failure locally too, so this worker's summary reports the module.
+            new ExecutionBackendContext(_resultRegistry).TryApplyResult(module, terminalResult);
             SerializedModuleResult serialized;
             try
             {

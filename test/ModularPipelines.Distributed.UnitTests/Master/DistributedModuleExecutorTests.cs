@@ -2558,7 +2558,7 @@ public class DistributedModuleExecutorTests
     // =================================================================
 
     [Test]
-    public async Task Skipped_Worker_Result_Completes_Scheduler_With_Skipped_Status_And_Reported_Window()
+    public async Task Skipped_Worker_Result_Completes_Scheduler_With_Skipped_Status_And_Reported_Duration()
     {
         var module = new DistributedModule();
         var moduleState = new ModuleState(module, typeof(DistributedModule));
@@ -2597,10 +2597,9 @@ public class DistributedModuleExecutorTests
             s => s.MarkModuleCompleted(typeof(DistributedModule), true, null, ModuleStatus.Skipped),
             Times.Once());
         metrics.Verify(
-            m => m.RecordModuleExecutionWindow(
+            m => m.RecordReportedExecutionDuration(
                 typeof(DistributedModule),
-                It.Is<DateTimeOffset>(time => time == workerStart),
-                It.Is<DateTimeOffset>(time => time == workerEnd)),
+                TimeSpan.FromMilliseconds(523)),
             Times.Once());
     }
 

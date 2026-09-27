@@ -382,7 +382,14 @@ public class WorkerModuleExecutorTests
             releaseFirst.TrySetResult();
         }
 
-        await run.WaitAsync(cancellationToken);
+        var returned = await run.WaitAsync(cancellationToken);
+        await Assert.That(returned.Select(result => result.TypeName).Order())
+            .IsEquivalentTo(modules.Select(module => module.GetType().FullName!).Order());
+        foreach (var result in returned)
+        {
+            await Assert.That(result.ExceptionOrDefault).IsNotNull();
+        }
+
         await Assert.That(published.Select(result => result.ModuleId.Value).Order())
             .IsEquivalentTo(modules.Select(module => ModuleId.FromType(module.GetType()).Value).Order());
         foreach (var result in published)

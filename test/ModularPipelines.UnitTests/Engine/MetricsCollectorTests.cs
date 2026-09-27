@@ -296,4 +296,79 @@ public class MetricsCollectorTests : TestBase
 
         return moduleTypes.Current;
     }
+
+    [Test]
+    public async Task Concurrency_IsTimeWeightedOverBusyTime()
+    {
+        var collector = new MetricsCollector();
+        var start = DateTimeOffset.UnixEpoch;
+        Record(collector, typeof(QuickModule1), start, start.AddSeconds(10));
+        Record(collector, typeof(QuickModule2), start, start.AddSeconds(10));
+
+        var metrics = collector.ComputeMetrics(start, start.AddSeconds(10), maxParallelism: 4);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(metrics.PeakConcurrency).IsEqualTo(2);
+            await Assert.That(metrics.AverageConcurrency).IsEqualTo(2.0);
+            await Assert.That(metrics.Efficiency).IsEqualTo(1.0);
+        }
+    }
+
+    [Test]
+    public async Task Concurrency_IgnoresZeroLengthWindows()
+    {
+        var collector = new MetricsCollector();
+        var start = DateTimeOffset.UnixEpoch;
+        Record(collector, typeof(QuickModule1), start, start.AddSeconds(4));
+        Record(collector, typeof(QuickModule2), start.AddSeconds(2), start.AddSeconds(2));
+
+        var metrics = collector.ComputeMetrics(start, start.AddSeconds(4), maxParallelism: 4);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(metrics.PeakConcurrency).IsEqualTo(1);
+            await Assert.That(metrics.AverageConcurrency).IsEqualTo(1.0);
+        }
+    }
+
+    [Test]
+    public async Task ReportedExecutionDuration_KeepsEndTimeAndLocalClock()
+    {
+        var collector = new MetricsCollector();
+        var queued = DateTimeOffset.UnixEpoch;
+        var dispatched = queued.AddSeconds(1);
+        var collected = queued.AddSeconds(30);
+        collector.RecordModuleQueued(typeof(QuickModule1), queued);
+        Record(collector, typeof(QuickModule1), dispatched, collected);
+
+        collector.RecordReportedExecutionDuration(typeof(QuickModule1), TimeSpan.FromSeconds(5));
+        var timeline = collector.GetTimelines().Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(timeline.StartTime).IsEqualTo(collected.AddSeconds(-5));
+            await Assert.That(timeline.EndTime).IsEqualTo(collected);
+            await Assert.That(timeline.ExecutionDuration).IsEqualTo(TimeSpan.FromSeconds(5));
+            await Assert.That(timeline.QueueWaitTime).IsEqualTo(TimeSpan.FromSeconds(25));
+        }
+    }
+
+    [Test]
+    public async Task ReportedExecutionDuration_NeverStartsBeforeDispatch()
+    {
+        var collector = new MetricsCollector();
+        var dispatched = DateTimeOffset.UnixEpoch;
+        Record(collector, typeof(QuickModule1), dispatched, dispatched.AddSeconds(2));
+
+        collector.RecordReportedExecutionDuration(typeof(QuickModule1), TimeSpan.FromSeconds(10));
+
+        await Assert.That(collector.GetTimelines().Single().StartTime).IsEqualTo(dispatched);
+    }
+
+    private static void Record(MetricsCollector collector, Type moduleType, DateTimeOffset start, DateTimeOffset end)
+    {
+        collector.RecordModuleStarted(moduleType, start);
+        collector.RecordModuleCompleted(moduleType, end, success: true, skipped: false, ModuleStatus.Succeeded);
+    }
 }

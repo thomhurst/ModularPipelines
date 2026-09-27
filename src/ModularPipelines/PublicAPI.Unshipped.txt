@@ -1718,6 +1718,7 @@ ModularPipelines.Events.IPipelineEventHandler.OnPipelineStartAsync(ModularPipeli
 ModularPipelines.Events.IPlanningSafeModuleRegistrationHandler
 ModularPipelines.Exceptions.CommandException.CommandException(ModularPipelines.CommandResult! result) -> void
 ModularPipelines.Exceptions.CommandException.CommandException(ModularPipelines.CommandResult! result, System.Exception? innerException) -> void
+ModularPipelines.Exceptions.CommandException.CommandException(string! message, ModularPipelines.CommandResult! result) -> void
 ModularPipelines.Exceptions.CommandException.CommandException(string! message, ModularPipelines.CommandResult! result, System.Exception? innerException) -> void
 ModularPipelines.Exceptions.CommandException.Result.get -> ModularPipelines.CommandResult!
 ModularPipelines.Exceptions.DependencyFailedException.FailingModuleType.get -> System.Type!

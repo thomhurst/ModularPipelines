@@ -11,7 +11,6 @@ namespace ModularPipelines.Engine;
 internal class MetricsCollector : IMetricsCollector
 {
     private readonly ConcurrentDictionary<Type, ModuleMetricsData> _moduleMetrics = new();
-    private readonly ConcurrentBag<ConcurrencySnapshot> _concurrencySnapshots = new();
     private DateTimeOffset? _pipelineStartTime;
 
     public void SetPipelineStartTime(DateTimeOffset time)
@@ -58,16 +57,20 @@ internal class MetricsCollector : IMetricsCollector
         data.Status = status;
     }
 
-    public void RecordModuleExecutionWindow(Type moduleType, DateTimeOffset startTime, DateTimeOffset endTime)
+    public void RecordReportedExecutionDuration(Type moduleType, TimeSpan duration)
     {
-        var data = _moduleMetrics.GetOrAdd(moduleType, _ => new ModuleMetricsData { ModuleType = moduleType });
-        data.StartTime = startTime;
-        data.EndTime = endTime;
-    }
+        if (!_moduleMetrics.TryGetValue(moduleType, out var data)
+            || data.StartTime is not { } dispatchTime
+            || data.EndTime is not { } endTime
+            || duration < TimeSpan.Zero)
+        {
+            return;
+        }
 
-    public void RecordConcurrencySnapshot(int currentConcurrency, DateTimeOffset time)
-    {
-        _concurrencySnapshots.Add(new ConcurrencySnapshot(currentConcurrency, time));
+        // Keep every timestamp on this process's clock: the module ends when its result is
+        // collected and starts one reported duration earlier, never before it was dispatched.
+        var reportedStart = endTime - duration;
+        data.StartTime = reportedStart > dispatchTime ? reportedStart : dispatchTime;
     }
 
     public PipelineMetrics ComputeMetrics(DateTimeOffset pipelineStart, DateTimeOffset pipelineEnd, int maxParallelism)
@@ -130,10 +133,7 @@ internal class MetricsCollector : IMetricsCollector
             ? totalModuleExecutionTime.TotalMilliseconds / wallClockDuration.TotalMilliseconds
             : 1.0;
 
-        // Calculate concurrency metrics
-        var snapshots = _concurrencySnapshots.ToList();
-        var peakConcurrency = snapshots.Count > 0 ? snapshots.Max(s => s.Concurrency) : 1;
-        var averageConcurrency = snapshots.Count > 0 ? snapshots.Average(s => s.Concurrency) : 1.0;
+        var (peakConcurrency, averageConcurrency) = ComputeConcurrency(moduleData);
 
         // Calculate efficiency (average concurrency vs peak achievable given dependencies)
         // Peak concurrency represents the actual maximum parallelism the dependency graph allows,
@@ -187,6 +187,51 @@ internal class MetricsCollector : IMetricsCollector
             .ToList();
     }
 
+    /// <summary>
+    /// Sweeps module execution windows to find the peak number of modules running at once and
+    /// the average number running, weighted by time, while any module was running.
+    /// </summary>
+    private static (int Peak, double Average) ComputeConcurrency(IReadOnlyList<ModuleMetricsData> moduleData)
+    {
+        // Ends sort before starts at the same instant so back-to-back modules do not overlap.
+        var changes = moduleData
+            .Where(static data => data.StartTime.HasValue && data.EndTime > data.StartTime)
+            .SelectMany(static data => new[]
+            {
+                (Time: data.StartTime!.Value, Delta: 1),
+                (Time: data.EndTime!.Value, Delta: -1),
+            })
+            .OrderBy(static change => change.Time)
+            .ThenBy(static change => change.Delta)
+            .ToList();
+
+        if (changes.Count == 0)
+        {
+            return (1, 1.0);
+        }
+
+        var peak = 0;
+        var running = 0;
+        var busyTicks = 0L;
+        var weightedTicks = 0.0;
+        var previousTime = changes[0].Time;
+        foreach (var change in changes)
+        {
+            var elapsedTicks = (change.Time - previousTime).Ticks;
+            if (running > 0)
+            {
+                busyTicks += elapsedTicks;
+                weightedTicks += (double) running * elapsedTicks;
+            }
+
+            running += change.Delta;
+            peak = Math.Max(peak, running);
+            previousTime = change.Time;
+        }
+
+        return (peak, busyTicks > 0 ? weightedTicks / busyTicks : 1.0);
+    }
+
     private static TimeSpan? CalculateDependencyWaitTime(ModuleMetricsData data)
     {
         // Time from pipeline start to when module became ready
@@ -227,6 +272,4 @@ internal class MetricsCollector : IMetricsCollector
         public bool WasSkipped { get; set; }
         public ModuleStatus Status { get; set; }
     }
-
-    private record ConcurrencySnapshot(int Concurrency, DateTimeOffset Time);
 }

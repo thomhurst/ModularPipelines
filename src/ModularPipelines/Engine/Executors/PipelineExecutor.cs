@@ -142,7 +142,6 @@ internal class PipelineExecutor : IPipelineExecutor
 
         if (!_executionBackend.OwnsEntirePlan)
         {
-            RecordClaimedModuleConcurrency(results);
             return executedModules;
         }
 
@@ -180,31 +179,6 @@ internal class PipelineExecutor : IPipelineExecutor
             result.ExceptionOrDefault is null,
             result.Status == ModuleStatus.Skipped,
             result.Status);
-    }
-
-    private void RecordClaimedModuleConcurrency(IReadOnlyList<IModuleResult> results)
-    {
-        if (_metricsCollector is null)
-        {
-            return;
-        }
-
-        // Ends sort before starts at the same instant so back-to-back modules do not overlap.
-        var events = results
-            .Where(static result => result.StartTime != default)
-            .SelectMany(static result => new[]
-            {
-                (Time: result.StartTime, Delta: 1),
-                (Time: result.EndTime < result.StartTime ? result.StartTime : result.EndTime, Delta: -1),
-            })
-            .OrderBy(static change => change.Time)
-            .ThenBy(static change => change.Delta);
-        var concurrency = 0;
-        foreach (var change in events)
-        {
-            concurrency += change.Delta;
-            _metricsCollector.RecordConcurrencySnapshot(concurrency, change.Time);
-        }
     }
 
     /// <summary>

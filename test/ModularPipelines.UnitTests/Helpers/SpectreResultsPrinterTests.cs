@@ -6,7 +6,9 @@ using ModularPipelines.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Console;
 using ModularPipelines.Options;
+using ModularPipelines.Secrets;
 using Moq;
 using Spectre.Console;
 using Spectre.Console.Rendering;
@@ -497,6 +499,73 @@ public class SpectreResultsPrinterTests
         await Assert.That(logger.Messages).IsEquivalentTo(["[Version] Generated Version Number: 1.2.3"]);
     }
 
+    [Test]
+    public async Task SummaryEntries_MaskRegisteredSecrets()
+    {
+        var summaryLogger = new SummaryLogger(NullLogger<SummaryLogger>.Instance);
+        summaryLogger.KeyValue("hunter2-category", "Token", "hunter2");
+
+        var output = PrintResults(CreateFailedSummary(), summaryLogger, new ReplacingObfuscator("hunter2"));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).DoesNotContain("hunter2");
+            await Assert.That(output).Contains("Token: **********");
+            await Assert.That(output).Contains("**********-category");
+        }
+    }
+
+    [Test]
+    public async Task SummaryEntries_DisplayedInResultsStillReachNonConsoleProviders()
+    {
+        var consoleLogger = new CollectingLogger();
+        var fileLogger = new CollectingLogger();
+        var factory = new Mock<INonSpectreLoggerFactory>();
+        factory.Setup(f => f.CreateLoggers(typeof(SummaryLogger).FullName!)).Returns([fileLogger]);
+        var summaryLogger = new SummaryLogger(consoleLogger, factory.Object);
+        summaryLogger.Warning("Deploy", "Slow rollout");
+
+        PrintResults(CreateFailedSummary(), summaryLogger);
+        summaryLogger.WriteLogs();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(consoleLogger.Messages).IsEmpty();
+            await Assert.That(fileLogger.Messages).IsEquivalentTo(["[Deploy] Slow rollout"]);
+        }
+    }
+
+    [Test]
+    public async Task SummaryEntries_AreLoggedWhenRenderingFails()
+    {
+        var logger = new CollectingLogger();
+        var summaryLogger = new SummaryLogger(logger);
+        summaryLogger.Information("important");
+
+        await Assert.That(() => PrintResults(CreateFailedSummary(), summaryLogger, new ThrowingObfuscator()))
+            .Throws<InvalidOperationException>();
+        summaryLogger.WriteLogs();
+
+        await Assert.That(logger.Messages).IsEquivalentTo(["important"]);
+    }
+
+    private sealed class PassThroughObfuscator : ISecretObfuscator
+    {
+        public string Obfuscate(string? input, object? optionsObject) => input ?? string.Empty;
+    }
+
+    private sealed class ReplacingObfuscator(string secret) : ISecretObfuscator
+    {
+        public string Obfuscate(string? input, object? optionsObject) =>
+            (input ?? string.Empty).Replace(secret, "**********", StringComparison.Ordinal);
+    }
+
+    private sealed class ThrowingObfuscator : ISecretObfuscator
+    {
+        public string Obfuscate(string? input, object? optionsObject) =>
+            throw new InvalidOperationException("Rendering failed.");
+    }
+
     private sealed class CollectingLogger : Microsoft.Extensions.Logging.ILogger<SummaryLogger>
     {
         public List<string> Messages { get; } = [];
@@ -557,7 +626,10 @@ public class SpectreResultsPrinterTests
             ]);
     }
 
-    private static string PrintResults(PipelineSummary summary, SummaryLogger? summaryLogger = null)
+    private static string PrintResults(
+        PipelineSummary summary,
+        SummaryLogger? summaryLogger = null,
+        ISecretObfuscator? secretObfuscator = null)
     {
         using var writer = new StringWriter();
         var originalAnsiConsole = AnsiConsole.Console;
@@ -573,7 +645,8 @@ public class SpectreResultsPrinterTests
 
             var printer = new SpectreResultsPrinter(
                 Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
-                summaryLogger ?? new SummaryLogger(NullLogger<SummaryLogger>.Instance));
+                summaryLogger ?? new SummaryLogger(NullLogger<SummaryLogger>.Instance),
+                secretObfuscator ?? new PassThroughObfuscator());
 
             printer.PrintResults(summary);
             return writer.ToString();

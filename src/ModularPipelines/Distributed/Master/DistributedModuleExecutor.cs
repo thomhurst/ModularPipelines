@@ -1235,8 +1235,9 @@ internal class DistributedModuleExecutor(
             : result.Status;
 
     /// <summary>
-    /// Replaces the coordinator's dispatch-to-collection window with the execution window the
-    /// executing process reported, so the summary shows module run time rather than queue wait.
+    /// Shortens the coordinator's dispatch-to-collection window to the execution time the executing
+    /// process reported, so the summary shows module run time rather than queue wait. Only the
+    /// reported duration is used; worker timestamps come from another clock.
     /// </summary>
     private void RecordReportedExecutionWindow(Type moduleType, IModuleResult? result)
     {
@@ -1248,7 +1249,7 @@ internal class DistributedModuleExecutor(
             return;
         }
 
-        _metricsCollector.RecordModuleExecutionWindow(moduleType, result.StartTime, result.EndTime);
+        _metricsCollector.RecordReportedExecutionDuration(moduleType, result.EndTime - result.StartTime);
     }
 
     private static IModuleResult? GetCompletedResult(IModule module)

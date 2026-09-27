@@ -32,7 +32,7 @@ context.Summary.KeyValue("Version", "Generated Version Number", version);
 context.Summary.Success("Deploy", "Deployed to production");
 ```
 
-Entries appear in a **Summary** section of the final results output, grouped by category. If results are not printed (for example `Console.PrintResults` is `false`), the entries are written to the logger instead.
+Entries appear in a **Summary** section of the final results output, grouped by category, with registered secrets masked. They are also written to every other configured logging provider (for example file or telemetry sinks) at the end of the run. If results are not printed (for example `Console.PrintResults` is `false`), the entries are written to the console logger instead.
 
 ## Interfering with Console Progress 
 If you have an interactive terminal, then a progress dialog will be displayed, and constantly updated with the progress of all your modules.
@@ -92,7 +92,7 @@ the correct module buffer, ordering, and masking rules apply.
 
 When you execute CLI commands (e.g., `dotnet build`, `docker run`), ModularPipelines logs the command execution details. You can control what gets logged using `CommandLoggingOptions`.
 
-Command output is logged one line at a time, each prefixed with `↳`, whether it is streamed while the command runs or captured when it finishes. Blank output lines are omitted. Standard error from a failed command is logged as a single warning prefixed with `✗`.
+Command output is logged one line at a time, each prefixed with `↳`, whether it is streamed while the command runs or captured when it finishes. Blank output lines are omitted. Streamed standard error lines are logged the same way, because many tools write progress to standard error. When output is captured instead of streamed (for example with an output manipulator), standard error from a failed command is logged as a single warning prefixed with `✗`.
 
 ### Verbosity Levels
 
