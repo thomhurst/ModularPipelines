@@ -1716,7 +1716,8 @@ ModularPipelines.Events.IPipelineEventHandler
 ModularPipelines.Events.IPipelineEventHandler.OnPipelineEndAsync(ModularPipelines.IPipelineContext! context, ModularPipelines.Models.PipelineSummary! pipelineSummary) -> System.Threading.Tasks.Task!
 ModularPipelines.Events.IPipelineEventHandler.OnPipelineStartAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task!
 ModularPipelines.Events.IPlanningSafeModuleRegistrationHandler
-ModularPipelines.Exceptions.CommandException.CommandException(ModularPipelines.CommandResult! result, System.Exception? innerException = null) -> void
+ModularPipelines.Exceptions.CommandException.CommandException(ModularPipelines.CommandResult! result) -> void
+ModularPipelines.Exceptions.CommandException.CommandException(ModularPipelines.CommandResult! result, System.Exception? innerException) -> void
 ModularPipelines.Exceptions.CommandException.CommandException(string! message, ModularPipelines.CommandResult! result, System.Exception? innerException) -> void
 ModularPipelines.Exceptions.CommandException.Result.get -> ModularPipelines.CommandResult!
 ModularPipelines.Exceptions.DependencyFailedException.FailingModuleType.get -> System.Type!

@@ -37,8 +37,17 @@ public class CommandException : PipelineException
     /// Initialises a new instance of the <see cref="CommandException"/> class.
     /// </summary>
     /// <param name="result">The result of the failed command.</param>
+    public CommandException(CommandResult result)
+        : this(result, null)
+    {
+    }
+
+    /// <summary>
+    /// Initialises a new instance of the <see cref="CommandException"/> class.
+    /// </summary>
+    /// <param name="result">The result of the failed command.</param>
     /// <param name="innerException">The inner exception that caused this command failure.</param>
-    public CommandException(CommandResult result, Exception? innerException = null)
+    public CommandException(CommandResult result, Exception? innerException)
         : this($"Command failed with exit code {result.ExitCode}.", result, innerException)
     {
     }
