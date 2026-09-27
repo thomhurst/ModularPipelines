@@ -54,12 +54,30 @@ public readonly struct Capability : IEquatable<Capability>
     /// <summary>
     /// Gets the capability for the operating system this process runs on, when it is known.
     /// </summary>
-    internal static Capability? CurrentOperatingSystem =>
-        OperatingSystem.IsWindows() ? Windows
-        : OperatingSystem.IsLinux() ? Linux
-        : OperatingSystem.IsMacOS() ? MacOS
-        : OperatingSystem.IsFreeBSD() ? FreeBSD
-        : null;
+    internal static Capability? CurrentOperatingSystem
+    {
+        get
+        {
+            // Return explicitly: a bare null in a conditional would bind to the implicit string
+            // conversion and throw on an unrecognized platform.
+            if (OperatingSystem.IsWindows())
+            {
+                return Windows;
+            }
+
+            if (OperatingSystem.IsLinux())
+            {
+                return Linux;
+            }
+
+            if (OperatingSystem.IsMacOS())
+            {
+                return MacOS;
+            }
+
+            return OperatingSystem.IsFreeBSD() ? FreeBSD : (Capability?) null;
+        }
+    }
 
     /// <summary>
     /// Gets whether this capability identifies an operating system.
