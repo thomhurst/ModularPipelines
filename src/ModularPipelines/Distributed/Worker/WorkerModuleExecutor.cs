@@ -100,7 +100,7 @@ internal class WorkerModuleExecutor(
         var executedModules = new ConcurrentQueue<IModule>();
         try
         {
-            _logger.LogInformation(
+            _logger.LogDebug(
                 "Worker {Index} starting {MaxConcurrency} concurrent execution slot(s)",
                 options.InstanceIndex,
                 maxConcurrency);
@@ -108,7 +108,7 @@ internal class WorkerModuleExecutor(
                 token => _coordinator.DequeueModuleAsync(capabilities, token),
                 async (assignment, claimedAt, token) =>
                 {
-                    _logger.LogInformation("Worker {Index} executing module {Module}",
+                    _logger.LogDebug("Worker {Index} executing module {Module}",
                         options.InstanceIndex, assignment.ModuleId);
                     await ExecuteAssignmentAsync(
                         assignment,
