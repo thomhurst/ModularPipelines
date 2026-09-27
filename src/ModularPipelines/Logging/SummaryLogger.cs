@@ -1,6 +1,7 @@
 using System.Text;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Console;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Logging;
 
@@ -23,6 +24,7 @@ internal class SummaryLogger : IInternalSummaryLogger
 {
     private readonly ILogger<SummaryLogger> _logger;
     private readonly INonSpectreLoggerFactory? _nonConsoleLoggerFactory;
+    private readonly ISecretObfuscator? _secretObfuscator;
     private readonly List<SummaryLogEntry> _entries = [];
     private readonly object _lock = new();
     private string? _cachedOutput;
@@ -30,10 +32,12 @@ internal class SummaryLogger : IInternalSummaryLogger
 
     public SummaryLogger(
         ILogger<SummaryLogger> logger,
-        INonSpectreLoggerFactory? nonConsoleLoggerFactory = null)
+        INonSpectreLoggerFactory? nonConsoleLoggerFactory = null,
+        ISecretObfuscator? secretObfuscator = null)
     {
         _logger = logger;
         _nonConsoleLoggerFactory = nonConsoleLoggerFactory;
+        _secretObfuscator = secretObfuscator;
     }
 
     /// <inheritdoc />
@@ -181,26 +185,30 @@ internal class SummaryLogger : IInternalSummaryLogger
         }
 
         // Entries rendered in the results output still reach file, telemetry, and build-system
-        // providers; only the console, which already shows them, is skipped.
+        // providers. Console providers, which would print them a second time, are skipped.
         if (displayedEntries.Count > 0 && _nonConsoleLoggerFactory is not null)
         {
-            var nonConsoleLoggers = _nonConsoleLoggerFactory.CreateLoggers(typeof(SummaryLogger).FullName!);
+            var nonConsoleLoggers = _nonConsoleLoggerFactory
+                .CreateLoggers(typeof(SummaryLogger).FullName!)
+                .Where(static logger => logger is not ISynchronousConsoleLogger)
+                .ToList();
             foreach (var entry in displayedEntries)
             {
                 foreach (var logger in nonConsoleLoggers)
                 {
-                    Log(logger, entry);
+                    // These loggers bypass the secret-masking logging pipeline.
+                    Log(logger, entry, _secretObfuscator);
                 }
             }
         }
 
         foreach (var entry in pendingEntries)
         {
-            Log(_logger, entry);
+            Log(_logger, entry, secretObfuscator: null);
         }
     }
 
-    private static void Log(ILogger logger, SummaryLogEntry entry)
+    private static void Log(ILogger logger, SummaryLogEntry entry, ISecretObfuscator? secretObfuscator)
     {
         var logLevel = entry.Level switch
         {
@@ -213,6 +221,11 @@ internal class SummaryLogger : IInternalSummaryLogger
         var message = entry.Category != null
             ? $"[{entry.Category}] {entry.Message}"
             : entry.Message;
+
+        if (secretObfuscator is not null)
+        {
+            message = secretObfuscator.Obfuscate(message, null);
+        }
 
         logger.Log(logLevel, "{Value}", message);
     }

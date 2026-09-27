@@ -536,6 +536,29 @@ public class SpectreResultsPrinterTests
     }
 
     [Test]
+    public async Task SummaryEntries_RedispatchSkipsConsoleProvidersAndMasksSecrets()
+    {
+        var fileLogger = new CollectingLogger();
+        var consoleLogger = new CollectingConsoleLogger();
+        var factory = new Mock<INonSpectreLoggerFactory>();
+        factory.Setup(f => f.CreateLoggers(typeof(SummaryLogger).FullName!)).Returns([fileLogger, consoleLogger]);
+        var summaryLogger = new SummaryLogger(
+            new CollectingLogger(),
+            factory.Object,
+            new ReplacingObfuscator("hunter2"));
+        summaryLogger.KeyValue("Deploy", "Token", "hunter2");
+
+        PrintResults(CreateFailedSummary(), summaryLogger);
+        summaryLogger.WriteLogs();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(fileLogger.Messages).IsEquivalentTo(["[Deploy] Token: **********"]);
+            await Assert.That(consoleLogger.Messages).IsEmpty();
+        }
+    }
+
+    [Test]
     public async Task SummaryEntries_AreLoggedWhenRenderingFails()
     {
         var logger = new CollectingLogger();
@@ -547,6 +570,23 @@ public class SpectreResultsPrinterTests
         summaryLogger.WriteLogs();
 
         await Assert.That(logger.Messages).IsEquivalentTo(["important"]);
+    }
+
+    private sealed class CollectingConsoleLogger : Microsoft.Extensions.Logging.ILogger, ISynchronousConsoleLogger
+    {
+        public List<string> Messages { get; } = [];
+
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => null;
+
+        public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            Microsoft.Extensions.Logging.LogLevel logLevel,
+            Microsoft.Extensions.Logging.EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter) => Messages.Add(formatter(state, exception));
     }
 
     private sealed class PassThroughObfuscator : ISecretObfuscator

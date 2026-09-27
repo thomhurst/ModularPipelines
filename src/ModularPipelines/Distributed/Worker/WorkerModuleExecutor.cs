@@ -259,8 +259,9 @@ internal class WorkerModuleExecutor(
     {
         var executionTimer = new DistributedModuleExecutionTimer(claimedAt);
         if (await DependencyResultApplicator.RejectSchemaMismatchAsync(assignment, _typeRegistry, _serializer,
-                _coordinator, instanceIndex, executionTimer).ConfigureAwait(false))
+                _coordinator, instanceIndex, executionTimer).ConfigureAwait(false) is { } schemaMismatch)
         {
+            RecordRejectedClaim(assignment, moduleLookup, schemaMismatch, executedModules);
             return;
         }
         var resolved = _typeRegistry.Resolve(assignment.ModuleId);
@@ -302,6 +303,33 @@ internal class WorkerModuleExecutor(
                 assignment.ModuleId, instanceIndex);
             await PublishFailureAsync(assignment, resolved.Value.ResultType, module, ex, instanceIndex, executionTimer).ConfigureAwait(false);
         }
+    }
+
+    /// <summary>
+    /// Records a claim rejected before execution as a local failure, so this worker's results and
+    /// summary include it. A claim whose module has no instance in this process cannot be recorded.
+    /// </summary>
+    private void RecordRejectedClaim(
+        ModuleAssignment assignment,
+        Dictionary<ModuleId, IModule> moduleLookup,
+        Exception exception,
+        ConcurrentQueue<IModule> executedModules)
+    {
+        if (!moduleLookup.TryGetValue(assignment.ModuleId, out var module))
+        {
+            return;
+        }
+
+        var failure = ModuleResultFactory.CreateException(
+            module.ResultType,
+            exception,
+            new ModuleExecutionContext(module, module.GetType())
+            {
+                Status = ModuleStatus.Failed,
+                Exception = exception,
+            });
+        new ExecutionBackendContext(_resultRegistry).TryApplyResult(module, failure);
+        executedModules.Enqueue(module);
     }
 
     private async Task ExecuteAndPublishAsync(

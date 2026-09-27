@@ -12,7 +12,7 @@ namespace ModularPipelines.Distributed;
 /// </summary>
 internal static class DependencyResultApplicator
 {
-    public static async Task<bool> RejectSchemaMismatchAsync(
+    public static async Task<PipelineSchemaMismatchException?> RejectSchemaMismatchAsync(
         ModuleAssignment assignment,
         ModuleTypeRegistry registry,
         ModuleResultSerializer serializer,
@@ -24,7 +24,7 @@ internal static class DependencyResultApplicator
         {
             PipelineSchemaVersionValidator.Validate(
                 registry.GetPipelineSchemaVersion(), assignment.PipelineSchemaVersion, "master assignment");
-            return false;
+            return null;
         }
         catch (PipelineSchemaMismatchException exception)
         {
@@ -33,7 +33,7 @@ internal static class DependencyResultApplicator
                 ExecutionTelemetry = executionTimer.CreateTelemetry(),
             };
             await DistributedFailurePublisher.PublishAsync(coordinator, failure).ConfigureAwait(false);
-            return true;
+            return exception;
         }
     }
 

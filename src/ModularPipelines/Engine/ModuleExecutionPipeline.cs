@@ -229,7 +229,12 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                         afterHookInvoked)
                     .ConfigureAwait(false);
 
-                LogModuleStatus(executionContext, logger, _groupHeadersShowStatus);
+                // A module without other output gets no group header, so the results table is then
+                // the only other place its outcome appears.
+                LogModuleStatus(
+                    executionContext,
+                    logger,
+                    _groupHeadersShowStatus && _pipelineOptions.Value.Console.PrintResults);
             }
             finally
             {

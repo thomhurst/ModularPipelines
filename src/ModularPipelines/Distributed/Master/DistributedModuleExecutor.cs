@@ -818,7 +818,7 @@ internal class DistributedModuleExecutor(
     {
         var executionTimer = new DistributedModuleExecutionTimer(claimedAt);
         if (await DependencyResultApplicator.RejectSchemaMismatchAsync(assignment, _typeRegistry, _serializer,
-                _workerCoordinator, _options.Value.InstanceIndex, executionTimer).ConfigureAwait(false))
+                _workerCoordinator, _options.Value.InstanceIndex, executionTimer).ConfigureAwait(false) is not null)
         {
             return;
         }

@@ -215,6 +215,11 @@ public class WorkerModuleExecutorTests
         await Assert.That(result?.Status).IsEqualTo(ModuleStatus.Failed);
         await Assert.That(result!.ExceptionOrDefault!.Message).Contains("schema mismatch");
         await Assert.That(result.ExceptionOrDefault.Message).Contains("master assignment");
+
+        // The rejected claim is recorded locally so the worker's own summary reports it.
+        var localResult = ((IModule) module).AsInternal().ResultTask;
+        await Assert.That(localResult.IsCompletedSuccessfully).IsTrue();
+        await Assert.That(localResult.Result.ExceptionOrDefault).IsTypeOf<PipelineSchemaMismatchException>();
     }
 
     [Test]
@@ -383,7 +388,7 @@ public class WorkerModuleExecutorTests
         }
 
         var returned = await run.WaitAsync(cancellationToken);
-        await Assert.That(returned.Select(result => result.TypeName).Order())
+        await Assert.That(returned.Select(result => result.TypeName ?? string.Empty).Order())
             .IsEquivalentTo(modules.Select(module => module.GetType().FullName!).Order());
         foreach (var result in returned)
         {
