@@ -930,25 +930,30 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         var moduleName = executionContext.ModuleType.Name;
         var message = StatusDisplayProvider.FormatStatusMessage(moduleName, executionContext.Status);
 
-        // The group header already shows these outcomes; keep them for Debug-level sinks only.
-        var informationLevel = groupHeadersShowStatus ? LogLevel.Debug : LogLevel.Information;
         var logLevel = executionContext.Status switch
         {
             ModuleStatus.NotStarted => LogLevel.Warning,
             ModuleStatus.Running => LogLevel.Error,
-            ModuleStatus.Succeeded => informationLevel,
+            ModuleStatus.Succeeded => LogLevel.Information,
             ModuleStatus.Failed => LogLevel.Error,
             ModuleStatus.TimedOut => LogLevel.Error,
-            ModuleStatus.Skipped => informationLevel,
+            ModuleStatus.Skipped => LogLevel.Information,
             ModuleStatus.Unknown => LogLevel.Error,
             ModuleStatus.FailureIgnored => LogLevel.Warning,
             ModuleStatus.Cancelled => LogLevel.Error,
             ModuleStatus.DependencyFailed => LogLevel.Error,
-            ModuleStatus.RestoredFromHistory => informationLevel,
-            ModuleStatus.RestoredFromCache => informationLevel,
+            ModuleStatus.RestoredFromHistory => LogLevel.Information,
+            ModuleStatus.RestoredFromCache => LogLevel.Information,
             _ => LogLevel.Error,
         };
 
-        logger.LogStatus(logLevel, message);
+        // The group header already shows these outcomes, so the console skips them while other
+        // logging providers still receive them at their normal level.
+        var shownInGroupHeader = groupHeadersShowStatus
+            && executionContext.Status is ModuleStatus.Succeeded
+                or ModuleStatus.Skipped
+                or ModuleStatus.RestoredFromHistory
+                or ModuleStatus.RestoredFromCache;
+        logger.LogStatus(logLevel, message, shownInGroupHeader);
     }
 }

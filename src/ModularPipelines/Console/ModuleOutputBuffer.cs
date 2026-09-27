@@ -814,6 +814,20 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
             return 1;
         }
 
+        if (IsHiddenFromConsole(logEvent, fallbackLoggers))
+        {
+            var providerLoggers = fallbackLoggers
+                .Where(static fallbackLogger => fallbackLogger is not ISynchronousConsoleLogger)
+                .ToList();
+            var failedLoggers = WriteToFallbackLoggers(logEvent, providerLoggers, console);
+            if (failedLoggers.Count > 0)
+            {
+                failedStructuredDeliveries.Add(new StructuredDeliveryRetry(logEvent, failedLoggers));
+            }
+
+            return 1;
+        }
+
         if (writeStructuredLogsDirectly)
         {
             WriteStructuredLogDirectly(
@@ -1003,6 +1017,14 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
         return $"{_moduleName} {completionMarker}{continuationText} ({durationText})";
     }
 
+    /// <summary>
+    /// A status already shown in the group header skips the console. A user-supplied exclusive
+    /// sink owns all delivery, so it still receives the event unchanged.
+    /// </summary>
+    private static bool IsHiddenFromConsole(IBufferedLogEvent logEvent, IReadOnlyList<ILogger> fallbackLoggers) =>
+        logEvent.IsShownInGroupHeader
+        && !fallbackLoggers.OfType<IExclusiveStructuredLogSink>().Any();
+
     private static bool ProducesConsoleOutput(
         BufferedOutput output,
         Func<LogLevel, bool> isStructuredLogEnabled,
@@ -1024,6 +1046,11 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
         }
 
         if (output.LogEvent is not { } logEvent)
+        {
+            return false;
+        }
+
+        if (IsHiddenFromConsole(logEvent, fallbackLoggers))
         {
             return false;
         }
@@ -1231,6 +1258,12 @@ internal interface IBufferedLogEvent
 {
     LogLevel Level { get; }
 
+    /// <summary>
+    /// Gets a value indicating whether the console output group header already shows this event,
+    /// so it is delivered only to non-console logging providers.
+    /// </summary>
+    bool IsShownInGroupHeader => false;
+
     ModuleOutputStream Stream => ModuleOutputStream.StandardOutput;
 
     void WriteTo(ILogger logger);
@@ -1261,6 +1294,8 @@ internal sealed class BufferedLogEvent<TState>(
         LazyThreadSafetyMode.ExecutionAndPublication);
 
     public LogLevel Level => level;
+
+    public bool IsShownInGroupHeader => ModuleLogEvents.IsStatusShownInGroupHeader(eventId);
 
     public ModuleOutputStream Stream { get; } = GetStream(obfuscatedState);
 

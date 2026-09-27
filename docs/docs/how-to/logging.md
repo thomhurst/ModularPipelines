@@ -20,7 +20,7 @@ When writing through `context.Logger`, logs are grouped by the current module.
 Since modules may run in parallel, grouping keeps each module's structured, rich, and
 plain console output together and readable.
 
-On build systems that support collapsible sections (GitHub Actions, Azure Pipelines, GitLab, TeamCity) and in the local console, each group is headed with the module name, its outcome and its duration, for example `BuildModule ✓ (12s 40ms)`. The separate "completed successfully" and "skipped" status lines are then logged at `Debug` level; build systems without group headers still log them at `Information`.
+On build systems that support collapsible sections (GitHub Actions, Azure Pipelines, GitLab, TeamCity) and in the local console, each group is headed with the module name, its outcome and its duration, for example `BuildModule ✓ (12s 40ms)`. When the results table is printed, the separate "completed successfully" and "skipped" status lines are then not repeated on the console; other logging providers, such as file or telemetry sinks, still receive them at `Information`. Build systems without group headers, and runs with `Console.PrintResults` set to `false`, still show them on the console.
 
 File system operations such as reading, writing, copying and searching files and folders are logged at `Debug` level.
 

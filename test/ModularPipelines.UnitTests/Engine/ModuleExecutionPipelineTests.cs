@@ -573,17 +573,18 @@ public class ModuleExecutionPipelineTests
     }
 
     [Test]
-    [Arguments(ModuleStatus.Succeeded, true, LogLevel.Debug)]
-    [Arguments(ModuleStatus.Skipped, true, LogLevel.Debug)]
-    [Arguments(ModuleStatus.RestoredFromCache, true, LogLevel.Debug)]
-    [Arguments(ModuleStatus.Succeeded, false, LogLevel.Information)]
-    [Arguments(ModuleStatus.Skipped, false, LogLevel.Information)]
-    [Arguments(ModuleStatus.Failed, true, LogLevel.Error)]
-    [Arguments(ModuleStatus.FailureIgnored, true, LogLevel.Warning)]
-    public async Task ModuleStatus_IsLoggedAtDebug_OnlyWhenGroupHeaderShowsIt(
+    [Arguments(ModuleStatus.Succeeded, true, LogLevel.Information, true)]
+    [Arguments(ModuleStatus.Skipped, true, LogLevel.Information, true)]
+    [Arguments(ModuleStatus.RestoredFromCache, true, LogLevel.Information, true)]
+    [Arguments(ModuleStatus.Succeeded, false, LogLevel.Information, false)]
+    [Arguments(ModuleStatus.Skipped, false, LogLevel.Information, false)]
+    [Arguments(ModuleStatus.Failed, true, LogLevel.Error, false)]
+    [Arguments(ModuleStatus.FailureIgnored, true, LogLevel.Warning, false)]
+    public async Task ModuleStatus_IsMarkedShownInGroupHeader_OnlyWhenHeaderShowsIt(
         ModuleStatus status,
         bool groupHeadersShowStatus,
-        LogLevel expectedLevel)
+        LogLevel expectedLevel,
+        bool expectShownInGroupHeader)
     {
         var module = new SuccessfulModule();
         var executionContext = new ModuleExecutionContext(module, module.GetType())
@@ -594,10 +595,13 @@ public class ModuleExecutionPipelineTests
 
         ModuleExecutionPipeline.LogModuleStatus(executionContext, logger.Object, groupHeadersShowStatus);
 
+        var expectedEventId = expectShownInGroupHeader
+            ? ModuleLogEvents.StatusShownInGroupHeader
+            : ModuleLogEvents.Status;
         logger.Verify(
             x => x.Log(
                 expectedLevel,
-                It.IsAny<EventId>(),
+                expectedEventId,
                 It.IsAny<It.IsAnyType>(),
                 It.IsAny<Exception?>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),

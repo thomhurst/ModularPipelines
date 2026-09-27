@@ -852,6 +852,89 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task StatusShownInGroupHeader_ReachesProvidersButNotConsole()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var providerLogger = new StatusRecordingLogger();
+        var consoleProviderLogger = new StatusRecordingConsoleLogger();
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        buffer.AddLogEvent(new BufferedLogEvent<string>(
+            LogLevel.Information,
+            ModuleLogEvents.StatusShownInGroupHeader,
+            "Module completed successfully",
+            "Module completed successfully",
+            null,
+            static (state, _) => state,
+            new PassthroughSecretObfuscator()));
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete,
+            [providerLogger, consoleProviderLogger]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(providerLogger.Messages).IsEquivalentTo(["Module completed successfully"]);
+            await Assert.That(consoleProviderLogger.Messages).IsEmpty();
+            await Assert.That(loggerControl.LogCallCount).IsEqualTo(0);
+            await Assert.That(writer.ToString()).DoesNotContain("completed successfully");
+        }
+    }
+
+    [Test]
+    public async Task StatusShownInGroupHeader_StillReachesExclusiveSink()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var exclusiveSink = new StatusRecordingExclusiveSink();
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        buffer.AddLogEvent(new BufferedLogEvent<string>(
+            LogLevel.Information,
+            ModuleLogEvents.StatusShownInGroupHeader,
+            "Module completed successfully",
+            "Module completed successfully",
+            null,
+            static (state, _) => state,
+            new PassthroughSecretObfuscator()));
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete,
+            [exclusiveSink]);
+
+        // The user-supplied sink owns delivery, so the event is not rerouted or dropped.
+        await Assert.That(exclusiveSink.Messages.Count + loggerControl.LogCallCount).IsEqualTo(1);
+    }
+
+    private class StatusRecordingLogger : ILogger
+    {
+        public List<string> Messages { get; } = [];
+
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => null;
+
+        public bool IsEnabled(LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter) => Messages.Add(formatter(state, exception));
+    }
+
+    private sealed class StatusRecordingConsoleLogger : StatusRecordingLogger, ISynchronousConsoleLogger;
+
+    private sealed class StatusRecordingExclusiveSink : StatusRecordingLogger, IExclusiveStructuredLogSink;
+
+    [Test]
     public async Task LogEventAddedAfterCompletion_IsIgnored()
     {
         var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
