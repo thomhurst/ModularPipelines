@@ -699,6 +699,62 @@ public class ModuleConditionHandlerTests
         await Assert.That(result.ShouldIgnore).IsFalse();
     }
 
+    [Test]
+    public async Task Distributed_Master_Requires_Capability_Route_When_Local_Alternatives_Fail()
+    {
+        var executionLocation = CreateExecutionLocationContext(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+        var handler = CreateHandler(new DistributedOptions(), executionLocationContext: executionLocation);
+        var failedModule = new LinuxOrPlanningFalseModule();
+        var matchedModule = new MixedPlanningAlternativeModule();
+        var workerOnlyModule = new MixedWorkerOnlyAlternativeModule();
+
+        await handler.PrepareExecutionRoutingAsync(failedModule);
+        await handler.PrepareExecutionRoutingAsync(matchedModule);
+        await handler.PrepareExecutionRoutingAsync(workerOnlyModule);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(executionLocation.IsConditionalRouteRequired(
+                    failedModule,
+                    typeof(RunIfAnyAttribute<OnLinux, PlanningFalseCondition>)))
+                .IsTrue();
+            await Assert.That(executionLocation.IsConditionalRouteRequired(
+                    matchedModule,
+                    typeof(RunIfAnyAttribute<OnLinux, PlanningTrueCondition>)))
+                .IsFalse();
+            await Assert.That(executionLocation.IsConditionGroupSatisfied(
+                    matchedModule,
+                    typeof(RunIfAnyAttribute<OnLinux, PlanningTrueCondition>)))
+                .IsTrue();
+
+            // A worker-only alternative may still be true on a worker, so the master must not require Linux.
+            await Assert.That(executionLocation.IsConditionalRouteRequired(
+                    workerOnlyModule,
+                    typeof(RunIfAnyAttribute<OnLinux, WorkerOnlyRunCondition>)))
+                .IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Distributed_Master_Skips_Module_With_Conflicting_Declared_Capabilities()
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+
+        var result = await handler.ShouldIgnoreByCategory(new ConflictingDeclaredOsModule());
+
+        await Assert.That(result.ShouldIgnore).IsTrue();
+    }
+
     private static LocalCapabilityRegistry CreateLocalCapabilities(params Capability[] capabilities) =>
         new(
             Microsoft.Extensions.Options.Options.Create(new DistributedOptions { Capabilities = capabilities }),
@@ -746,6 +802,22 @@ public class ModuleConditionHandlerTests
         return OperatingSystem.IsWindows()
             ? new LinuxMixedGenericAlternativeModule()
             : new WindowsMixedGenericAlternativeModule();
+    }
+
+    [RunIfAny<OnLinux, PlanningFalseCondition>]
+    private sealed class LinuxOrPlanningFalseModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RequiresCapability(Capability.Names.Linux, Capability.Names.Windows)]
+    private sealed class ConflictingDeclaredOsModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
     [RequiresCapability(Capability.Names.Docker)]

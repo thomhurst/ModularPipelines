@@ -103,14 +103,14 @@ public sealed class CapabilityRequirement : IEquatable<CapabilityRequirement>
             normalizedClauses.Add(capabilities);
         }
 
+        // Compare clauses by their capabilities, not their display text: custom names may contain " | ".
         // A clause that contains a smaller clause adds no constraint: drop it.
         var distinctClauses = normalizedClauses
-            .DistinctBy(static clause => Format(clause), StringComparer.OrdinalIgnoreCase)
+            .Distinct(ClauseComparer.Instance)
             .ToArray();
         var minimalClauses = distinctClauses
             .Where(clause => !distinctClauses.Any(other => other.Length < clause.Length && IsSubset(other, clause)))
-            .OrderBy(static clause => clause.Length)
-            .ThenBy(static clause => Format(clause), StringComparer.OrdinalIgnoreCase)
+            .Order(ClauseComparer.Instance)
             .Select(static clause => (IReadOnlyList<Capability>) Array.AsReadOnly(clause))
             .ToArray();
 
@@ -195,6 +195,45 @@ public sealed class CapabilityRequirement : IEquatable<CapabilityRequirement>
 
     private static bool IsSubset(IReadOnlyCollection<Capability> candidate, IReadOnlyCollection<Capability> clause) =>
         candidate.Count <= clause.Count && candidate.All(clause.Contains);
+
+    private sealed class ClauseComparer : IComparer<Capability[]>, IEqualityComparer<Capability[]>
+    {
+        public static ClauseComparer Instance { get; } = new();
+
+        public int Compare(Capability[]? left, Capability[]? right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return 0;
+            }
+
+            if (left is null || right is null)
+            {
+                return left is null ? -1 : 1;
+            }
+
+            var result = left.Length.CompareTo(right.Length);
+            for (var index = 0; result == 0 && index < left.Length; index++)
+            {
+                result = StringComparer.OrdinalIgnoreCase.Compare(left[index].Name, right[index].Name);
+            }
+
+            return result;
+        }
+
+        public bool Equals(Capability[]? left, Capability[]? right) => Compare(left, right) == 0;
+
+        public int GetHashCode(Capability[] clause)
+        {
+            var hash = default(HashCode);
+            foreach (var capability in clause)
+            {
+                hash.Add(capability);
+            }
+
+            return hash.ToHashCode();
+        }
+    }
 
     private static int CompareNames(string left, string right)
     {

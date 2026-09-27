@@ -51,7 +51,8 @@ internal class DistributedWorkPublisher(
 
         var requiredCapabilities = CapabilityConditions.GetModuleRequirement(
             moduleType,
-            conditionGroupType => _executionLocationContext?.IsConditionGroupSatisfied(module, conditionGroupType) == true);
+            conditionGroupType => _executionLocationContext?.IsConditionGroupSatisfied(module, conditionGroupType) == true,
+            conditionGroupType => _executionLocationContext?.IsConditionalRouteRequired(module, conditionGroupType) == true);
         if (!requiredCapabilities.IsSatisfiable)
         {
             throw new InvalidOperationException(

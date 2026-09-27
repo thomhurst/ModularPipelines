@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
 namespace ModularPipelines.Distributed;
@@ -42,10 +43,13 @@ internal sealed class LocalCapabilityRegistry
 
     public LocalCapabilityRegistry(
         IOptions<DistributedOptions> options,
-        IEnumerable<ICapabilityProvider> providers)
+        IEnumerable<ICapabilityProvider> providers,
+        IHostApplicationLifetime? lifetime = null)
     {
+        // The shared probe outlives any one caller's token, so stop it when the pipeline stops.
+        var stopping = lifetime?.ApplicationStopping ?? CancellationToken.None;
         _capabilities = new Lazy<Task<HashSet<Capability>>>(
-            () => LocalCapabilities.ResolveAsync(options.Value, providers, CancellationToken.None));
+            () => LocalCapabilities.ResolveAsync(options.Value, providers, stopping));
     }
 
     public async Task<IReadOnlySet<Capability>> GetAsync(CancellationToken cancellationToken) =>

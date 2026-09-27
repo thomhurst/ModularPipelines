@@ -475,6 +475,30 @@ public class DistributedWorkPublisherTests
     }
 
     [Test]
+    public async Task CreateAssignment_Requires_Conditional_Route_When_Local_Alternatives_Failed()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(MixedGenericAlternativeModule));
+        var routingOptions = Microsoft.Extensions.Options.Options.Create(new DistributedOptions());
+        var conditionRouting = new DistributedConditionRouting(
+            routingOptions,
+            new ModularPipelines.Distributed.Configuration.RoleDetector(routingOptions));
+        var module = new MixedGenericAlternativeModule();
+        conditionRouting.MarkConditionalRouteRequired(module, typeof(RunIfAnyAttribute<OnLinux, FalseCondition>));
+        var publisher = new DistributedWorkPublisher(
+            coordinator,
+            typeRegistry,
+            new ModuleResultRegistry(),
+            executionLocationContext: conditionRouting);
+
+        var assignment = publisher.CreateAssignment(module);
+
+        await Assert.That(assignment.RequiredCapabilities)
+            .IsEqualTo(CapabilityRequirement.AllOf(Capability.Linux));
+    }
+
+    [Test]
     public async Task CreateAssignment_Leaves_Worker_Only_Mixed_Alternative_Unrestricted()
     {
         var coordinator = new InMemoryDistributedCoordinator();

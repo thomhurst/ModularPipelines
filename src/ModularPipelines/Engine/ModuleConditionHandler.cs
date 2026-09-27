@@ -918,6 +918,11 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         {
             executionLocationContext.MarkConditionGroupSatisfied(module, attribute.GetType());
         }
+        else if (CapabilityConditions.HasOnlyPlanningLocalAlternatives(attribute))
+        {
+            // Every local alternative is false, so only the capability alternatives can satisfy it.
+            executionLocationContext.MarkConditionalRouteRequired(module, attribute.GetType());
+        }
 
         return true;
     }
@@ -948,6 +953,12 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             .ConfigureAwait(false))
         {
             executionLocationContext.MarkConditionGroupSatisfied(module, conditionGroupType);
+        }
+        else if (alternatives.All(attribute => CapabilityConditions.IsCapabilityOnly(attribute)
+                                               || localAlternatives.Contains(attribute)))
+        {
+            // Every local alternative is false, so only the capability alternatives can satisfy it.
+            executionLocationContext.MarkConditionalRouteRequired(module, conditionGroupType);
         }
 
         return true;

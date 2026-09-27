@@ -76,6 +76,28 @@ public class CapabilityConditionsTests
             CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
+    [RequiresCapability(Capability.Names.Linux, Capability.Names.Windows)]
+    private sealed class ConflictingDeclaredModule : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(true);
+    }
+
+    [RequiresCapability(Capability.Names.Linux)]
+    [RunIfAny<OnWindows, OnMacOS>]
+    private sealed class DeclaredConflictsWithConditionModule : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(true);
+    }
+
+    private sealed class WorkerOnlyCondition : IRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+    }
+
     [RunIfAny<OnLinux, OnCI>]
     private sealed class MixedAlternativeModule : Module<bool>
     {
@@ -210,7 +232,7 @@ public class CapabilityConditionsTests
     }
 
     [Test]
-    public async Task Module_Requirement_Includes_Conditional_Routes_Only_On_Request()
+    public async Task Module_Requirement_Includes_Conditional_Routes_Only_When_Required()
     {
         using (Assert.Multiple())
         {
@@ -218,8 +240,37 @@ public class CapabilityConditionsTests
                 .IsTrue();
             await Assert.That(CapabilityConditions.GetModuleRequirement(
                     typeof(MixedAlternativeModule),
-                    includeConditionalRoutes: true))
+                    isConditionalRouteRequired: static _ => true))
                 .IsEqualTo(CapabilityRequirement.AllOf(Capability.Linux));
+        }
+    }
+
+    [Test]
+    public async Task Mixed_Alternative_Local_Conditions_Report_Planning_Safety()
+    {
+        using (Assert.Multiple())
+        {
+            await Assert.That(CapabilityConditions.HasOnlyPlanningLocalAlternatives(
+                    new RunIfAnyAttribute<OnLinux, OnCI>()))
+                .IsTrue();
+            await Assert.That(CapabilityConditions.HasOnlyPlanningLocalAlternatives(
+                    new RunIfAnyAttribute<OnLinux, WorkerOnlyCondition>()))
+                .IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Declared_Capabilities_Participate_In_Contradiction_Checks()
+    {
+        using (Assert.Multiple())
+        {
+            await Assert.That(CapabilityConditions.HasImpossibleCombination(typeof(ConflictingDeclaredModule)))
+                .IsTrue();
+            await Assert.That(CapabilityConditions.HasImpossibleCombination(
+                    typeof(DeclaredConflictsWithConditionModule)))
+                .IsTrue();
+            await Assert.That(CapabilityConditions.HasImpossibleCombination(typeof(DeclaredAndConditionalModule)))
+                .IsFalse();
         }
     }
 

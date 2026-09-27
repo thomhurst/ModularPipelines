@@ -19,7 +19,7 @@ builder.AddCapabilities(Capability.Docker, Capability.Gpu, "high-memory");
 
 ### Auto-Detected OS Capability
 
-Every instance automatically advertises its current operating system; no configuration is needed:
+Every instance always advertises its current operating system; no configuration is needed:
 
 - Windows runners advertise `Capability.Windows`
 - Linux runners advertise `Capability.Linux`
@@ -149,7 +149,7 @@ The matching logic is straightforward:
 1. If a module has **no** required capabilities, it can run on **any** worker.
 2. A module's requirement is a `CapabilityRequirement`: a list of clauses. Every clause must be satisfied, and a worker satisfies a clause when it advertises **at least one** of the clause's capabilities. For example, `docker & (linux | macos)`.
 3. Capability matching is **case-insensitive**.
-4. A worker runs one operating system, so a module whose requirements need two different operating systems is skipped as impossible.
+4. A worker runs one operating system, so a module whose requirements need two different operating systems is skipped as impossible. This applies whether the conflict comes from run conditions (`[RunIf<OnLinux>]` with `[RunIf<OnWindows>]`) or declared capabilities (`[RequiresCapability(Capability.Names.Linux, Capability.Names.Windows)]`).
 5. If no worker with the required capabilities is available, only that module waits in the queue. After `CapabilityTimeout`, it fails with a routing error that lists the missing route instead of waiting for the module-result timeout.
 
 ## Example: Mixed Pipeline

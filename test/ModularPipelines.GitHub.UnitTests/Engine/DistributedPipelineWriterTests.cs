@@ -127,6 +127,33 @@ public class DistributedPipelineWriterTests : TestBase
     }
 
     [Test]
+    public async Task ExcludesRunnersThatConflictWithMandatoryOperatingSystems()
+    {
+        var outputPath = new FilePath(Path.Combine(
+            FilePath.GetNewTemporaryFilePath().Path,
+            "distributed.yml"));
+
+        await TestPipelineBuilder.Create()
+            .AddModule<WindowsWithConditionalLinuxModule>()
+            .AddModule<LinuxWithMacOrDockerModule>()
+            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            {
+                OutputPath = outputPath,
+                ExtraWorkers = 0,
+            })
+            .RunAsync();
+
+        var yaml = (await outputPath.ReadAsync()).ReplaceLineEndings("\n");
+        var runners = yaml.Split('\n')
+            .Select(line => line.Trim())
+            .Where(line => line.StartsWith("os:", StringComparison.Ordinal));
+
+        // Windows is mandatory for the first module and Linux for the second, so no macOS runner.
+        await Assert.That(runners).IsEquivalentTo(
+            ["os: ubuntu-latest", "os: ubuntu-latest", "os: windows-latest"]);
+    }
+
+    [Test]
     public async Task RejectsUnsupportedOperatingSystemConditions()
     {
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
@@ -196,6 +223,20 @@ public class DistributedPipelineWriterTests : TestBase
 
     [RunIf<OnMacOS>]
     private sealed class MacConditionModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RequiresCapability("windows")]
+    [RunIfAny<OnLinux, OnCI>]
+    private sealed class WindowsWithConditionalLinuxModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RequiresCapability("linux")]
+    [RequiresAnyCapability("macos", "docker")]
+    private sealed class LinuxWithMacOrDockerModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }

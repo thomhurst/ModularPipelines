@@ -14,6 +14,7 @@ internal sealed class DistributedConditionRouting(
     private readonly DistributedOptions _options = options.Value;
     private readonly RoleDetector _roleDetector = roleDetector;
     private readonly ConditionalWeakTable<IModule, HashSet<Type>> _locallySatisfiedGroups = new();
+    private readonly ConditionalWeakTable<IModule, HashSet<Type>> _requiredConditionalRoutes = new();
     private readonly ConditionalWeakTable<IModule, object> _preparedModules = new();
 
     public bool IsMaster => IsDistributedExecution
@@ -49,6 +50,28 @@ internal sealed class DistributedConditionRouting(
     public bool IsConditionGroupSatisfied(IModule module, Type conditionGroupType)
     {
         if (!_locallySatisfiedGroups.TryGetValue(module, out var groups))
+        {
+            return false;
+        }
+
+        lock (groups)
+        {
+            return groups.Contains(conditionGroupType);
+        }
+    }
+
+    public void MarkConditionalRouteRequired(IModule module, Type conditionGroupType)
+    {
+        var groups = _requiredConditionalRoutes.GetOrCreateValue(module);
+        lock (groups)
+        {
+            groups.Add(conditionGroupType);
+        }
+    }
+
+    public bool IsConditionalRouteRequired(IModule module, Type conditionGroupType)
+    {
+        if (!_requiredConditionalRoutes.TryGetValue(module, out var groups))
         {
             return false;
         }

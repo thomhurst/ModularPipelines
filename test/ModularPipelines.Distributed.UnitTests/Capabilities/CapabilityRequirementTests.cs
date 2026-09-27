@@ -98,6 +98,20 @@ public class CapabilityRequirementTests
     }
 
     [Test]
+    public async Task Clauses_Are_Compared_By_Capability_Not_Display_Text()
+    {
+        // Both clauses display as "a | b", but one needs the custom "a | b" capability.
+        var requirement = CapabilityRequirement.Create([["a | b"], ["a", "b"]]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(requirement.Clauses.Count).IsEqualTo(2);
+            await Assert.That(requirement.IsSatisfiedBy(["a"])).IsFalse();
+            await Assert.That(requirement.IsSatisfiedBy(["a | b", "a"])).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Empty_Clause_Is_Rejected()
     {
         await Assert.That(() => CapabilityRequirement.AnyOf())
@@ -193,6 +207,42 @@ public class CapabilityRequirementTests
 
         await Assert.That(capabilities).IsEquivalentTo(
             [Capability.Gpu, Capability.Docker, Capability.CurrentOperatingSystem!.Value]);
+    }
+
+    [Test]
+    public async Task Registry_Probes_Providers_Once_With_The_Application_Stopping_Token()
+    {
+        using var stopping = new CancellationTokenSource();
+        var lifetime = new Moq.Mock<Microsoft.Extensions.Hosting.IHostApplicationLifetime>();
+        lifetime.Setup(x => x.ApplicationStopping).Returns(stopping.Token);
+        var provider = new RecordingCapabilityProvider();
+        var registry = new LocalCapabilityRegistry(
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
+            [provider],
+            lifetime.Object);
+
+        await registry.GetAsync(CancellationToken.None);
+        await registry.GetAsync(CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(provider.Calls).IsEqualTo(1);
+            await Assert.That(provider.Token).IsEqualTo(stopping.Token);
+        }
+    }
+
+    private sealed class RecordingCapabilityProvider : ICapabilityProvider
+    {
+        public int Calls { get; private set; }
+
+        public CancellationToken Token { get; private set; }
+
+        public Task<IEnumerable<Capability>> GetCapabilitiesAsync(CancellationToken cancellationToken)
+        {
+            Calls++;
+            Token = cancellationToken;
+            return Task.FromResult<IEnumerable<Capability>>([Capability.Gpu]);
+        }
     }
 
     private sealed class FixedCapabilityProvider(params Capability[] capabilities) : ICapabilityProvider
