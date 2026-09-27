@@ -28,6 +28,12 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     public string? Branch { get; set; }
 
     /// <summary>
+    /// Cache dependencies between deployments
+    /// </summary>
+    [CliFlag("--cache")]
+    public bool? Cache { get; set; }
+
+    /// <summary>
     /// Source commit hash
     /// </summary>
     [CliOption("--commit", Format = OptionFormat.EqualsSeparated)]
@@ -38,6 +44,12 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     /// </summary>
     [CliFlag("--delete-after-destroy")]
     public bool? DeleteAfterDestroy { get; set; }
+
+    /// <summary>
+    /// Run updates for pushed tags (cannot be enabled together with --push-to-deploy)
+    /// </summary>
+    [CliFlag("--deploy-tags")]
+    public bool? DeployTags { get; set; }
 
     /// <summary>
     /// Set a plaintext environment variable (repeatable, KEY=VALUE)
@@ -64,10 +76,56 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     public string? Folder { get; set; }
 
     /// <summary>
+    /// Git source: personal access token (pass --remove-git-auth to remove stored credentials)
+    /// </summary>
+    [SecretValue]
+    [CliOption("--git-auth-access-token", Format = OptionFormat.EqualsSeparated)]
+    public string? GitAuthAccessToken { get; set; }
+
+    /// <summary>
+    /// Git source: basic auth password
+    /// </summary>
+    [SecretValue]
+    [CliOption("--git-auth-password", Format = OptionFormat.EqualsSeparated)]
+    public string? GitAuthPassword { get; set; }
+
+    /// <summary>
+    /// Git source: PEM-encoded SSH private key, key material and not a path
+    /// </summary>
+    [SecretValue]
+    [CliOption("--git-auth-ssh-private-key", Format = OptionFormat.EqualsSeparated)]
+    public string? GitAuthSshPrivateKey { get; set; }
+
+    /// <summary>
+    /// Git source: password for the SSH private key
+    /// </summary>
+    [SecretValue]
+    [CliOption("--git-auth-ssh-private-key-password", Format = OptionFormat.EqualsSeparated)]
+    public string? GitAuthSshPrivateKeyPassword { get; set; }
+
+    /// <summary>
+    /// Git source: path to a PEM-encoded SSH private key file (mutually exclusive with --git-auth-ssh-private-key)
+    /// </summary>
+    [CliOption("--git-auth-ssh-private-key-path", Format = OptionFormat.EqualsSeparated)]
+    public string? GitAuthSshPrivateKeyPath { get; set; }
+
+    /// <summary>
+    /// Git source: basic auth username
+    /// </summary>
+    [CliOption("--git-auth-username", Format = OptionFormat.EqualsSeparated)]
+    public string? GitAuthUsername { get; set; }
+
+    /// <summary>
     /// Git source: full repository URL (mutually exclusive with --repo)
     /// </summary>
     [CliOption("--git-url", Format = OptionFormat.EqualsSeparated)]
     public string? GitUrl { get; set; }
+
+    /// <summary>
+    /// Version control integration ID; only needed to choose between several integrations for the same provider. List them with: pulumi api ListAllVCSIntegrations -F orgName=&lt;org&gt;
+    /// </summary>
+    [CliOption("--installation-id", Format = OptionFormat.EqualsSeparated)]
+    public string? InstallationId { get; set; }
 
     /// <summary>
     /// AWS OIDC: assume-role session duration (e.g. 30m, 1h)
@@ -178,10 +236,16 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     public bool? PreviewPrs { get; set; }
 
     /// <summary>
-    /// Run updates for pushed commits
+    /// Run updates for pushed commits (cannot be enabled together with --deploy-tags)
     /// </summary>
     [CliFlag("--push-to-deploy")]
     public bool? PushToDeploy { get; set; }
+
+    /// <summary>
+    /// Remediate the stack when a drift detection run finds drift
+    /// </summary>
+    [CliFlag("--remediate-if-drift-detected")]
+    public bool? RemediateIfDriftDetected { get; set; }
 
     /// <summary>
     /// Remove every environment variable
@@ -194,6 +258,12 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     /// </summary>
     [CliOption("--remove-env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveEnv { get; set; }
+
+    /// <summary>
+    /// Remove the stored git credentials, whichever authentication mode they use
+    /// </summary>
+    [CliFlag("--remove-git-auth")]
+    public bool? RemoveGitAuth { get; set; }
 
     /// <summary>
     /// AWS OIDC: remove the entire configuration
@@ -218,6 +288,12 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     /// </summary>
     [CliOption("--repo", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
+
+    /// <summary>
+    /// GitHub only: replace the labels that trigger a PR review stack (repeatable); empty string clears them
+    /// </summary>
+    [CliOption("--review-stack-label", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ReviewStackLabel { get; set; }
 
     /// <summary>
     /// Deployment runner pool ID; empty string clears it to the Pulumi-hosted pool
@@ -255,6 +331,18 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     /// </summary>
     [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string? Stack { get; set; }
+
+    /// <summary>
+    /// Replace the tag filter list (repeatable; pass once per filter); empty string clears it
+    /// </summary>
+    [CliOption("--tag-filter", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? TagFilter { get; set; }
+
+    /// <summary>
+    /// Template source URL, e.g. registry://templates/source/acme/vpc; empty string clears it
+    /// </summary>
+    [CliOption("--template-source-url", Format = OptionFormat.EqualsSeparated)]
+    public string? TemplateSourceUrl { get; set; }
 
     /// <summary>
     /// Version control provider: github, gitlab, azure_devops, bitbucket or custom

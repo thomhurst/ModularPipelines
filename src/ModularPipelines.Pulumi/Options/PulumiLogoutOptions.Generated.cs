@@ -33,6 +33,12 @@ public record PulumiLogoutOptions : PulumiOptions
     public string? CloudUrl { get; set; }
 
     /// <summary>
+    /// Also delete the key that encrypts stored credentials from the OS credential store. Encrypted credentials in every other PULUMI_HOME, PULUMI_CREDENTIALS_PATH and the agent credentials file become unreadable. Requires --all
+    /// </summary>
+    [CliFlag("--delete-credentials-key")]
+    public bool? DeleteCredentialsKey { get; set; }
+
+    /// <summary>
     /// Log out of local-only mode (an alias for file://~)
     /// </summary>
     [CliOption("--local", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
