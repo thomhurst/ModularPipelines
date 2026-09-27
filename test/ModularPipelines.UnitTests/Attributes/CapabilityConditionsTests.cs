@@ -113,6 +113,13 @@ public class CapabilityConditionsTests
         public override ConditionLogic Logic => ConditionLogic.All;
     }
 
+    private sealed class LinuxOrWindowsSkipGroup : ConditionGroup, IPlanningRunCondition
+    {
+        public override IReadOnlyList<IRunCondition> Conditions => [new OnLinux(), new OnWindows()];
+
+        public override ConditionLogic Logic => ConditionLogic.Skip;
+    }
+
     private sealed class GpuOrCiGroup : ConditionGroup, IPlanningRunCondition
     {
         public override IReadOnlyList<IRunCondition> Conditions => [new OnGpu(), new OnCI()];
@@ -326,6 +333,16 @@ public class CapabilityConditionsTests
         var formula = ConditionFormula.ForAttribute(new RunIfAnyAttribute<OnLinux, WorkerOnlyCondition>())!;
 
         await Assert.That(formula.Atoms.Single().IsPlanning).IsFalse();
+    }
+
+    [Test]
+    public async Task Skip_Logic_Condition_Group_Routes_Like_Any()
+    {
+        // ConditionGroup evaluates Skip logic as any-of.
+        var route = CapabilityConditions.GetRoute(new RunIfAttribute<LinuxOrWindowsSkipGroup>());
+
+        await Assert.That(route?.Requirement)
+            .IsEqualTo(CapabilityRequirement.AnyOf(Capability.Linux, Capability.Windows));
     }
 
     [Test]

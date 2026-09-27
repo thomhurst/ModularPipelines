@@ -257,13 +257,16 @@ internal static class CapabilityConditions
         }
 
         if (condition is not (ConditionGroup group and IPlanningRunCondition)
-            || group.Logic is not (ConditionLogic.All or ConditionLogic.Any)
+            || group.Logic is not (ConditionLogic.All or ConditionLogic.Any or ConditionLogic.Skip)
             || group.Conditions.Count == 0)
         {
             return null;
         }
 
-        return Combine(group.Conditions.Select(GetConditionRequirement), group.Logic);
+        // ConditionGroup evaluates Skip logic as any-of, so it routes like Any.
+        return Combine(
+            group.Conditions.Select(GetConditionRequirement),
+            group.Logic == ConditionLogic.All ? ConditionLogic.All : ConditionLogic.Any);
     }
 
     private static CapabilityRequirement? OrAll(IEnumerable<CapabilityRequirement?> requirements) =>

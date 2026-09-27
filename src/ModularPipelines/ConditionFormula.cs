@@ -123,10 +123,13 @@ internal abstract class ConditionFormula
             return ForCondition(condition, isPlanning: true);
         }
 
+        // A condition type has a parameterless constructor and no per-use state, so every occurrence of it
+        // evaluates alike: key the atom by the type so occurrences share one value.
         return new ConditionAtom(
             isPlanning,
             (context, cancellationToken) =>
-                ((IRunCondition) Activator.CreateInstance(conditionType)!).EvaluateAsync(context, cancellationToken));
+                ((IRunCondition) Activator.CreateInstance(conditionType)!).EvaluateAsync(context, cancellationToken),
+            conditionType);
     }
 
     private static ConditionFormula ForCondition(IRunCondition condition, bool isPlanning)
@@ -136,7 +139,8 @@ internal abstract class ConditionFormula
             return new CapabilityFormula(capabilityCondition.Capability);
         }
 
-        if (condition is ConditionGroup { Logic: ConditionLogic.All or ConditionLogic.Any, Conditions.Count: > 0 } group
+        // ConditionGroup evaluates Skip logic as any-of, so only All is an AND.
+        if (condition is ConditionGroup { Conditions.Count: > 0 } group
             && condition is IPlanningRunCondition)
         {
             // A planning-safe group vouches for evaluating its members during planning.
@@ -203,13 +207,20 @@ internal abstract class ConditionFormula
 }
 
 /// <summary>
-/// An ordinary run condition inside a <see cref="ConditionFormula"/>. Atoms compare by reference, so
-/// one formula instance maps each condition occurrence to one value.
+/// An ordinary run condition inside a <see cref="ConditionFormula"/>. Values are assigned by
+/// <see cref="Key"/>, so repeated occurrences of one stateless condition type agree.
 /// </summary>
 internal sealed class ConditionAtom(
     bool isPlanning,
-    Func<IPipelineContext, CancellationToken, Task<bool>> evaluate) : ConditionFormula
+    Func<IPipelineContext, CancellationToken, Task<bool>> evaluate,
+    object? key = null) : ConditionFormula
 {
+    /// <summary>
+    /// Gets the identity of the condition this atom evaluates. Occurrences of the same stateless condition
+    /// type share a key and therefore a value; other atoms are their own key.
+    /// </summary>
+    public object Key => key ?? this;
+
     /// <summary>
     /// Gets whether the condition is safe to evaluate on the master during planning.
     /// </summary>

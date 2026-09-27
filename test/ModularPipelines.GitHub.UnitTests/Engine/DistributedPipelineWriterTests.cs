@@ -243,6 +243,47 @@ public class DistributedPipelineWriterTests : TestBase
     }
 
     [Test]
+    public async Task TreatsRepeatedConditionsAsOneValue()
+    {
+        // Every OnCI reads the same setting: when true nothing is required, and when false the module needs
+        // FreeBSD and Windows at once and is skipped. No FreeBSD-only outcome exists, so generation succeeds.
+        var outputPath = new FilePath(Path.Combine(
+            FilePath.GetNewTemporaryFilePath().Path,
+            "distributed.yml"));
+
+        await TestPipelineBuilder.Create()
+            .AddModule<CorrelatedConflictingRoutesModule>()
+            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            {
+                OutputPath = outputPath,
+                ExtraWorkers = 0,
+            })
+            .RunAsync();
+
+        await Assert.That(await outputPath.ReadAsync()).DoesNotContain("windows-latest");
+    }
+
+    [Test]
+    public async Task KeepsAlternativeRoutesInLargeConditionGroups()
+    {
+        // The group needs Linux or FreeBSD when OnCI is false; Linux has a runner, so generation succeeds.
+        var outputPath = new FilePath(Path.Combine(
+            FilePath.GetNewTemporaryFilePath().Path,
+            "distributed.yml"));
+
+        await TestPipelineBuilder.Create()
+            .AddModule<LargeAlternativeGroupModule>()
+            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            {
+                OutputPath = outputPath,
+                ExtraWorkers = 0,
+            })
+            .RunAsync();
+
+        await Assert.That(await outputPath.ReadAsync()).Contains("ubuntu-latest");
+    }
+
+    [Test]
     public async Task AllowsUnsupportedConditionalRouteWithWorkerOnlyAlternative()
     {
         // A worker-only alternative may hold on any worker, so the route never becomes mandatory.
@@ -384,6 +425,37 @@ public class DistributedPipelineWriterTests : TestBase
     private sealed class ManyConditionalFreeBsdRoutesModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
+    }
+
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnWindows, OnCI>]
+    private sealed class CorrelatedConflictingRoutesModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RunIf<LinuxFreeBsdOrManyCiGroup>]
+    private sealed class LargeAlternativeGroupModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    private sealed class LinuxFreeBsdOrManyCiGroup : ConditionGroup, IPlanningRunCondition
+    {
+        public override IReadOnlyList<IRunCondition> Conditions =>
+            [new OnLinux(), new OnFreeBSD(), .. Enumerable.Range(0, 13).Select(static _ => new OnCI())];
+
+        public override ConditionLogic Logic => ConditionLogic.Any;
     }
 
     [RunIfAny<OnFreeBSD, OnCI>]

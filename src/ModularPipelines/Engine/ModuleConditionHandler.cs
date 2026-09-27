@@ -138,7 +138,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         IPipelineContext pipelineContext,
         CancellationToken cancellationToken)
     {
-        var values = new Dictionary<ConditionAtom, bool>(ReferenceEqualityComparer.Instance);
+        var values = new Dictionary<object, bool>(ReferenceEqualityComparer.Instance);
         async Task<bool?> EvaluatePlanningAtomAsync(ConditionAtom atom, bool workerOnlyValue)
         {
             if (!atom.IsPlanning)
@@ -146,11 +146,11 @@ internal class ModuleConditionHandler : IModuleConditionHandler
                 return workerOnlyValue;
             }
 
-            if (!values.TryGetValue(atom, out var value))
+            if (!values.TryGetValue(atom.Key, out var value))
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 value = await atom.EvaluateConditionAsync(pipelineContext, cancellationToken).ConfigureAwait(false);
-                values[atom] = value;
+                values[atom.Key] = value;
             }
 
             return value;
