@@ -16,4 +16,15 @@ internal interface IPipelineSummaryFactory
         TimeSpan totalDuration,
         DateTimeOffset start,
         DateTimeOffset end);
+
+    /// <summary>
+    /// Creates a summary from the results a backend reported, rather than the result registry.
+    /// Used for a backend that runs only a claimed subset of the plan.
+    /// </summary>
+    PipelineSummary Create(
+        IReadOnlyList<IModule> modules,
+        IReadOnlyList<IModuleResult> results,
+        TimeSpan totalDuration,
+        DateTimeOffset start,
+        DateTimeOffset end);
 }

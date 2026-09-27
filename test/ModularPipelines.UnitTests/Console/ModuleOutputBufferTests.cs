@@ -886,6 +886,49 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task StatusShownInGroupHeader_AfterIncrementalOutput_StillRendersCompletionHeader()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var providerLogger = new StatusRecordingLogger();
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        buffer.WriteLine("early output");
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental,
+            [providerLogger]);
+        buffer.AddLogEvent(new BufferedLogEvent<string>(
+            LogLevel.Information,
+            ModuleLogEvents.StatusShownInGroupHeader,
+            "Module completed successfully",
+            "Module completed successfully",
+            null,
+            static (state, _) => state,
+            new PassthroughSecretObfuscator()));
+        var beforeCompletion = writer.ToString().Length;
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete,
+            [providerLogger]);
+
+        var completionOutput = writer.ToString()[beforeCompletion..];
+        using (Assert.Multiple())
+        {
+            await Assert.That(completionOutput).Contains("::group::");
+            await Assert.That(completionOutput).Contains("(continued)");
+            await Assert.That(completionOutput).DoesNotContain("completed successfully");
+            await Assert.That(providerLogger.Messages).IsEquivalentTo(["Module completed successfully"]);
+        }
+    }
+
+    [Test]
     public async Task StatusShownInGroupHeader_AbandonedRetry_DoesNotClaimConsoleCopy()
     {
         var writer = new StringWriter();

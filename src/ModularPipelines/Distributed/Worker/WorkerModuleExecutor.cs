@@ -491,6 +491,10 @@ internal class WorkerModuleExecutor(
                         Status = ModuleStatus.Failed,
                         Exception = serializationException,
                     });
+
+                // The module's completed result cannot change, so report the failure the
+                // coordinator receives through this worker's own results instead.
+                _resultRegistry.RegisterResult(module.GetType(), failure);
                 serialized = _serializer.Serialize(
                     failure,
                     assignment.ModuleId,

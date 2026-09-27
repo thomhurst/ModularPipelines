@@ -57,6 +57,7 @@ internal class PipelineExecutor : IPipelineExecutor
 
         PipelineSummary pipelineSummary;
         List<IModule> executedModules = [];
+        IReadOnlyList<IModuleResult> backendResults = [];
         try
         {
             var estimatedDurations = organizedModules.RunnableModules.ToDictionary(
@@ -75,6 +76,7 @@ internal class PipelineExecutor : IPipelineExecutor
                         _engineCancellationToken.Token)
                     .ConfigureAwait(false);
                 executedModules = ApplyBackendResults(runnableModules, results);
+                backendResults = results;
             }
             finally
             {
@@ -89,12 +91,10 @@ internal class PipelineExecutor : IPipelineExecutor
             var end = DateTimeOffset.UtcNow;
 
             // A backend that runs only a claimed subset (a distributed worker) summarizes the
-            // modules it executed; the coordinator reports the whole plan.
-            pipelineSummary = _pipelineSummaryFactory.Create(
-                _executionBackend.OwnsEntirePlan ? organizedModules.AllModules : executedModules,
-                stopWatch.Elapsed,
-                start,
-                end);
+            // outcomes it reported for the modules it executed; the coordinator reports the whole plan.
+            pipelineSummary = _executionBackend.OwnsEntirePlan
+                ? _pipelineSummaryFactory.Create(organizedModules.AllModules, stopWatch.Elapsed, start, end)
+                : _pipelineSummaryFactory.Create(executedModules, backendResults, stopWatch.Elapsed, start, end);
 
             await _pipelineSetupExecutor.OnPipelineEndAsync(pipelineSummary).ConfigureAwait(false);
         }
@@ -132,6 +132,14 @@ internal class PipelineExecutor : IPipelineExecutor
             }
 
             var resultTask = matchingModule.AsInternal().ResultTask;
+            if (!_executionBackend.OwnsEntirePlan && resultTask.IsCompletedSuccessfully)
+            {
+                // A partial backend may report a different outcome than the module's completed
+                // local result, for example a success it could not publish. The completed result
+                // stays as it is, and the summary follows the reported outcome.
+                continue;
+            }
+
             if (!resultTask.IsCompletedSuccessfully
                 || !ReferenceEquals(resultTask.Result, result))
             {

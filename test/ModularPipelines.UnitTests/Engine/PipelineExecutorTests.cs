@@ -89,11 +89,12 @@ public class PipelineExecutorTests
         summaryFactory
             .Setup(x => x.Create(
                 It.IsAny<IReadOnlyList<IModule>>(),
+                It.IsAny<IReadOnlyList<IModuleResult>>(),
                 It.IsAny<TimeSpan>(),
                 It.IsAny<DateTimeOffset>(),
                 It.IsAny<DateTimeOffset>()))
-            .Callback<IReadOnlyList<IModule>, TimeSpan, DateTimeOffset, DateTimeOffset>(
-                (modules, _, _, _) => summarizedModules = modules)
+            .Callback<IReadOnlyList<IModule>, IReadOnlyList<IModuleResult>, TimeSpan, DateTimeOffset, DateTimeOffset>(
+                (modules, _, _, _, _) => summarizedModules = modules)
             .Returns(new PipelineSummary([], [], TimeSpan.Zero, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow));
         var metrics = new MetricsCollector();
         var executor = CreateExecutor(
@@ -120,6 +121,61 @@ public class PipelineExecutorTests
             await Assert.That(summarizedModules![0]).IsSameReferenceAs(claimed);
             await Assert.That(timeline.Status).IsEqualTo(ModuleStatus.Succeeded);
             await Assert.That(timeline.ExecutionDuration).IsEqualTo(TimeSpan.FromSeconds(2));
+        }
+    }
+
+    [Test]
+    public async Task Partial_Backend_Summary_Follows_Reported_Outcome_Over_Completed_Local_Result()
+    {
+        var module = new UnexecutedModule();
+        ModuleCompletionSourceApplicator.TryApply(module, CreateResult(module, "local success"));
+        ModuleResult<string> reportedFailure = new ModuleResult<string>.Failure(
+            new InvalidOperationException("Result could not be serialized."))
+        {
+            Name = module.GetType().Name,
+            TypeName = module.GetType().FullName,
+            StartTime = DateTimeOffset.UtcNow,
+            EndTime = DateTimeOffset.UtcNow,
+            Duration = TimeSpan.Zero,
+            Status = ModuleStatus.Failed,
+        };
+        var context = new Mock<IExecutionBackendContext>();
+        context
+            .Setup(x => x.TryApplyResult(It.IsAny<IModule>(), It.IsAny<IModuleResult>()))
+            .Returns(false);
+        IReadOnlyList<IModuleResult>? summarizedResults = null;
+        var summaryFactory = new Mock<IPipelineSummaryFactory>();
+        summaryFactory
+            .Setup(x => x.Create(
+                It.IsAny<IReadOnlyList<IModule>>(),
+                It.IsAny<IReadOnlyList<IModuleResult>>(),
+                It.IsAny<TimeSpan>(),
+                It.IsAny<DateTimeOffset>(),
+                It.IsAny<DateTimeOffset>()))
+            .Callback<IReadOnlyList<IModule>, IReadOnlyList<IModuleResult>, TimeSpan, DateTimeOffset, DateTimeOffset>(
+                (_, results, _, _, _) => summarizedResults = results)
+            .Returns(new PipelineSummary([], [], TimeSpan.Zero, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow));
+        var executor = CreateExecutor(
+            Mock.Of<ISecondaryExceptionContainer>(),
+            Mock.Of<IExceptionRethrowService>(),
+            new PipelineOptions { FailureMode = FailureMode.ContinueOnFailure },
+            ownsEntirePlan: false,
+            backendResults: [reportedFailure],
+            executionBackendContext: context.Object,
+            summaryFactory: summaryFactory,
+            metricsCollector: new MetricsCollector());
+
+        await executor.ExecuteAsync(
+            [module],
+            new OrganizedModules([new RunnableModule(module, TimeSpan.Zero)], []));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(summarizedResults).IsNotNull();
+            await Assert.That(summarizedResults!).HasSingleItem();
+            await Assert.That(summarizedResults![0]).IsSameReferenceAs(reportedFailure);
+            await Assert.That(((IModule) module).AsInternal().ResultTask.Result.Status)
+                .IsEqualTo(ModuleStatus.Succeeded);
         }
     }
 

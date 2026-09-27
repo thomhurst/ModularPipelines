@@ -30,10 +30,24 @@ internal class PipelineSummaryFactory : IPipelineSummaryFactory
         DateTimeOffset start,
         DateTimeOffset end)
     {
-        var results = _resultRegistry.GetCompletedResults(allModules);
-
-        return new PipelineSummary(
+        return Create(
             allModules,
+            _resultRegistry.GetCompletedResults(allModules),
+            totalDuration,
+            start,
+            end);
+    }
+
+    /// <inheritdoc />
+    public PipelineSummary Create(
+        IReadOnlyList<IModule> modules,
+        IReadOnlyList<IModuleResult> results,
+        TimeSpan totalDuration,
+        DateTimeOffset start,
+        DateTimeOffset end)
+    {
+        return new PipelineSummary(
+            modules,
             results,
             totalDuration,
             start,

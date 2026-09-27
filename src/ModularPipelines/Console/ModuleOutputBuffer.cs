@@ -580,7 +580,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
                                       || outputs.Any(output => ProducesConsoleOutput(
                                           output,
                                           isStructuredLogEnabled,
-                                          fallbackLoggers));
+                                          fallbackLoggers))
+                                      || NeedsCompletionHeaderForHiddenStatus(flushKind, outputs);
             isContinuation = _hasRenderedIncrementalOutput;
             _outputs.RemoveRange(0, flushableOutputCount);
             _structuredDeliveryRetries.Clear();
@@ -590,6 +591,15 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
             return true;
         }
     }
+
+    /// <summary>
+    /// A module whose earlier output was already rendered needs its "(continued)" completion
+    /// header even when the only remaining output is a status that the header replaces.
+    /// </summary>
+    private bool NeedsCompletionHeaderForHiddenStatus(OutputFlushKind flushKind, List<BufferedOutput> outputs) =>
+        flushKind is OutputFlushKind.Complete
+        && _hasRenderedIncrementalOutput
+        && outputs.Any(static output => output.LogEvent?.IsShownInGroupHeader == true);
 
     private int GetFlushableOutputCount(OutputFlushKind flushKind)
     {
