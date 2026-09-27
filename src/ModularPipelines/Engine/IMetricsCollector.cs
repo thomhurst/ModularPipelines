@@ -45,9 +45,11 @@ internal interface IMetricsCollector
     void RecordModuleCompleted(Type moduleType, DateTimeOffset time, bool success, bool skipped, ModuleStatus status);
 
     /// <summary>
-    /// Records a snapshot of current concurrency.
+    /// Moves a completed module's recorded start time so its duration matches the execution time
+    /// reported by the process that ran it, excluding dispatch and queue time. The recorded end
+    /// time is kept, so all timestamps stay on this process's clock.
     /// </summary>
-    void RecordConcurrencySnapshot(int currentConcurrency, DateTimeOffset time);
+    void RecordReportedExecutionDuration(Type moduleType, TimeSpan duration);
 
     /// <summary>
     /// Computes aggregate metrics from collected data.
@@ -55,7 +57,21 @@ internal interface IMetricsCollector
     PipelineMetrics ComputeMetrics(DateTimeOffset pipelineStart, DateTimeOffset pipelineEnd, int maxParallelism);
 
     /// <summary>
+    /// Computes aggregate metrics from the data collected for the specified modules only.
+    /// </summary>
+    PipelineMetrics ComputeMetrics(
+        DateTimeOffset pipelineStart,
+        DateTimeOffset pipelineEnd,
+        int maxParallelism,
+        IReadOnlyCollection<Type> moduleTypes);
+
+    /// <summary>
     /// Gets timeline information for all modules.
     /// </summary>
     IReadOnlyList<ModuleTimeline> GetTimelines();
+
+    /// <summary>
+    /// Gets timeline information for the specified modules only.
+    /// </summary>
+    IReadOnlyList<ModuleTimeline> GetTimelines(IReadOnlyCollection<Type> moduleTypes);
 }

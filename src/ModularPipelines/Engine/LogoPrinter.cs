@@ -6,7 +6,10 @@ using Spectre.Console;
 namespace ModularPipelines.Engine;
 
 [ExcludeFromCodeCoverage]
-internal sealed class LogoPrinter(IOptions<PipelineOptions> options, IAnsiConsole console) : ILogoPrinter
+internal sealed class LogoPrinter(
+    IOptions<PipelineOptions> options,
+    IAnsiConsole console,
+    IExecutionLocationContext? executionLocationContext = null) : ILogoPrinter
 {
     private const string LargeAsciiLogo = """"""""
 
@@ -37,7 +40,8 @@ internal sealed class LogoPrinter(IOptions<PipelineOptions> options, IAnsiConsol
 
     public void PrintLogo()
     {
-        if (!_options.Value.Console.PrintLogo)
+        // Distributed workers share the coordinator's run; only the coordinator prints the banner.
+        if (!_options.Value.Console.PrintLogo || executionLocationContext?.IsWorker == true)
         {
             return;
         }

@@ -61,7 +61,6 @@ builder
     .AddModule<RunNerdbankGitVersioningUnitTestsModule>()
     .AddModule<RunNodeUnitTestsModule>()
     .AddModule<RunOpenTelemetryUnitTestsModule>()
-    .AddModule<RunOptionsGeneratorUnitTestsModule>()
     .AddModule<RunShellcheckUnitTestsModule>()
     .AddModule<RunSnykUnitTestsModule>()
     .AddModule<RunSonarScannerUnitTestsModule>()
@@ -86,6 +85,14 @@ builder
     .AddModule<FormatMarkdownModule>()
     .AddModule<PrintGitInformationModule>()
     .AddModule<PushVersionTagModule>();
+
+// The fast-fail job already ran the OptionsGenerator tests. Registering the module would
+// either rerun them or report a pass it never produced; skipping it would cascade through
+// RunAllUnitTestsModule, which requires every unit test module.
+if (!FastFailValidation.IsComplete(Environment.GetEnvironmentVariable))
+{
+    builder.AddModule<RunOptionsGeneratorUnitTestsModule>();
+}
 
 if (!DistributedBuildConfiguration.Configure(builder, Environment.GetEnvironmentVariable))
 {

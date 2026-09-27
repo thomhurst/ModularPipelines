@@ -1,5 +1,7 @@
 using System.Text;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Console;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Logging;
 
@@ -21,13 +23,21 @@ namespace ModularPipelines.Logging;
 internal class SummaryLogger : IInternalSummaryLogger
 {
     private readonly ILogger<SummaryLogger> _logger;
+    private readonly INonSpectreLoggerFactory? _nonConsoleLoggerFactory;
+    private readonly ISecretObfuscator? _secretObfuscator;
     private readonly List<SummaryLogEntry> _entries = [];
     private readonly object _lock = new();
     private string? _cachedOutput;
+    private int _displayedCount;
 
-    public SummaryLogger(ILogger<SummaryLogger> logger)
+    public SummaryLogger(
+        ILogger<SummaryLogger> logger,
+        INonSpectreLoggerFactory? nonConsoleLoggerFactory = null,
+        ISecretObfuscator? secretObfuscator = null)
     {
         _logger = logger;
+        _nonConsoleLoggerFactory = nonConsoleLoggerFactory;
+        _secretObfuscator = secretObfuscator;
     }
 
     /// <inheritdoc />
@@ -146,30 +156,79 @@ internal class SummaryLogger : IInternalSummaryLogger
     }
 
     /// <inheritdoc />
-    public void WriteLogs()
+    public IReadOnlyList<SummaryLogEntry> GetEntriesForDisplay()
     {
-        List<SummaryLogEntry> entriesCopy;
         lock (_lock)
         {
-            entriesCopy = new List<SummaryLogEntry>(_entries);
+            return _entries.ToList();
         }
+    }
 
-        foreach (var entry in entriesCopy)
+    /// <inheritdoc />
+    public void MarkDisplayed(int count)
+    {
+        lock (_lock)
         {
-            var logLevel = entry.Level switch
-            {
-                SummaryLogLevel.Error => LogLevel.Error,
-                SummaryLogLevel.Warning => LogLevel.Warning,
-                SummaryLogLevel.Success => LogLevel.Information,
-                _ => LogLevel.Information,
-            };
-
-            var message = entry.Category != null
-                ? $"[{entry.Category}] {entry.Message}"
-                : entry.Message;
-
-            _logger.Log(logLevel, "{Value}", message);
+            _displayedCount = Math.Clamp(count, _displayedCount, _entries.Count);
         }
+    }
+
+    /// <inheritdoc />
+    public void WriteLogs()
+    {
+        List<SummaryLogEntry> displayedEntries;
+        List<SummaryLogEntry> pendingEntries;
+        lock (_lock)
+        {
+            displayedEntries = _entries.Take(_displayedCount).ToList();
+            pendingEntries = _entries.Skip(_displayedCount).ToList();
+        }
+
+        // Entries rendered in the results output still reach file, telemetry, and build-system
+        // providers. Console providers, which would print them a second time, are skipped.
+        if (displayedEntries.Count > 0 && _nonConsoleLoggerFactory is not null)
+        {
+            var nonConsoleLoggers = _nonConsoleLoggerFactory
+                .CreateLoggers(typeof(SummaryLogger).FullName!)
+                .Where(static logger => logger is not ISynchronousConsoleLogger)
+                .ToList();
+            foreach (var entry in displayedEntries)
+            {
+                foreach (var logger in nonConsoleLoggers)
+                {
+                    Log(logger, entry, _secretObfuscator);
+                }
+            }
+        }
+
+        foreach (var entry in pendingEntries)
+        {
+            Log(_logger, entry, _secretObfuscator);
+        }
+    }
+
+    private static void Log(ILogger logger, SummaryLogEntry entry, ISecretObfuscator? secretObfuscator)
+    {
+        var logLevel = entry.Level switch
+        {
+            SummaryLogLevel.Error => LogLevel.Error,
+            SummaryLogLevel.Warning => LogLevel.Warning,
+            SummaryLogLevel.Success => LogLevel.Information,
+            _ => LogLevel.Information,
+        };
+
+        var message = entry.Category != null
+            ? $"[{entry.Category}] {entry.Message}"
+            : entry.Message;
+
+        // Summary loggers are plain framework loggers outside the secret-masking module logging
+        // pipeline, so every entry is masked here.
+        if (secretObfuscator is not null)
+        {
+            message = secretObfuscator.Obfuscate(message, null);
+        }
+
+        logger.Log(logLevel, "{Value}", message);
     }
 
     private void AddEntry(SummaryLogLevel level, string message, string? category)

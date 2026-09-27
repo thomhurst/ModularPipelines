@@ -390,6 +390,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
                 out var outputs,
                 out var structuredDeliveryRetries,
                 out var shouldRenderOutputGroup,
+                out var isHeaderOnly,
                 out var isContinuation,
                 out var exception))
         {
@@ -427,6 +428,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
                     isContinuation,
                     outputs,
                     shouldRenderOutputGroup,
+                    isHeaderOnly,
                     effectiveFallbackLoggers,
                     failedStructuredDeliveries,
                     ref renderedCount,
@@ -536,6 +538,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
         out List<BufferedOutput> outputs,
         out List<StructuredDeliveryRetry> structuredDeliveryRetries,
         out bool shouldRenderOutputGroup,
+        out bool isHeaderOnly,
         out bool isContinuation,
         out Exception? exception)
     {
@@ -546,6 +549,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
                 outputs = null!;
                 structuredDeliveryRetries = null!;
                 shouldRenderOutputGroup = false;
+                isHeaderOnly = false;
                 isContinuation = false;
                 exception = null;
                 return false;
@@ -569,6 +573,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
                 outputs = null!;
                 structuredDeliveryRetries = null!;
                 shouldRenderOutputGroup = false;
+                isHeaderOnly = false;
                 isContinuation = false;
                 exception = null;
                 return false;
@@ -576,11 +581,13 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
 
             outputs = _outputs.GetRange(0, flushableOutputCount);
             structuredDeliveryRetries = [.. _structuredDeliveryRetries];
-            shouldRenderOutputGroup = needsExceptionHeader
-                                      || outputs.Any(output => ProducesConsoleOutput(
-                                          output,
-                                          isStructuredLogEnabled,
-                                          fallbackLoggers));
+            var hasGroupBody = needsExceptionHeader
+                               || outputs.Any(output => ProducesConsoleOutput(
+                                   output,
+                                   isStructuredLogEnabled,
+                                   fallbackLoggers));
+            isHeaderOnly = !hasGroupBody && NeedsCompletionHeaderForHiddenStatus(flushKind, outputs);
+            shouldRenderOutputGroup = hasGroupBody || isHeaderOnly;
             isContinuation = _hasRenderedIncrementalOutput;
             _outputs.RemoveRange(0, flushableOutputCount);
             _structuredDeliveryRetries.Clear();
@@ -590,6 +597,16 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
             return true;
         }
     }
+
+    /// <summary>
+    /// A module whose earlier output was already rendered needs its "(continued)" completion
+    /// header even when the only remaining output is a status that the header replaces. That
+    /// header renders as a plain line, because a collapsible group would have no body.
+    /// </summary>
+    private bool NeedsCompletionHeaderForHiddenStatus(OutputFlushKind flushKind, List<BufferedOutput> outputs) =>
+        flushKind is OutputFlushKind.Complete
+        && _hasRenderedIncrementalOutput
+        && outputs.Any(static output => output.LogEvent?.IsShownInGroupHeader == true);
 
     private int GetFlushableOutputCount(OutputFlushKind flushKind)
     {
@@ -610,6 +627,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
         bool isContinuation,
         List<BufferedOutput> outputs,
         bool shouldRenderOutputGroup,
+        bool isHeaderOnly,
         IReadOnlyList<ILogger> fallbackLoggers,
         List<StructuredDeliveryRetry> failedStructuredDeliveries,
         ref int renderedCount,
@@ -635,6 +653,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
                 isContinuation,
                 outputs,
                 shouldRenderOutputGroup,
+                isHeaderOnly,
                 fallbackLoggers,
                 failedStructuredDeliveries,
                 writeStructuredLogsDirectly: true,
@@ -656,6 +675,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
                 isContinuation,
                 outputs,
                 shouldRenderOutputGroup,
+                isHeaderOnly,
                 fallbackLoggers,
                 failedStructuredDeliveries,
                 writeStructuredLogsDirectly: false,
@@ -675,6 +695,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
         bool isContinuation,
         List<BufferedOutput> outputs,
         bool shouldRenderOutputGroup,
+        bool isHeaderOnly,
         IReadOnlyList<ILogger> fallbackLoggers,
         List<StructuredDeliveryRetry> failedStructuredDeliveries,
         bool writeStructuredLogsDirectly,
@@ -689,6 +710,12 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
         var endCommand = shouldRenderOutputGroup
             ? formatter.GetEndBlockCommand(header)
             : null;
+        if (isHeaderOnly && endCommand is not null)
+        {
+            // A collapsible group without a body adds an empty section, so write its header only.
+            startCommand = header;
+            endCommand = null;
+        }
         var groupStarted = false;
         var flushCompleted = false;
 
@@ -814,6 +841,21 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
             return 1;
         }
 
+        if (IsHiddenFromConsole(logEvent, fallbackLoggers))
+        {
+            var providerLoggers = fallbackLoggers
+                .Where(static fallbackLogger => fallbackLogger is not ISynchronousConsoleLogger)
+                .ToList();
+            var failedLoggers = WriteToFallbackLoggers(logEvent, providerLoggers, console);
+            if (failedLoggers.Count > 0)
+            {
+                failedStructuredDeliveries.Add(
+                    new StructuredDeliveryRetry(logEvent, failedLoggers, HasConsoleCopy: false));
+            }
+
+            return 1;
+        }
+
         if (writeStructuredLogsDirectly)
         {
             WriteStructuredLogDirectly(
@@ -931,8 +973,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
             var retry = structuredDeliveryRetries[index];
             if (WriteToFallbackLoggers(retry.LogEvent, retry.Loggers, console).Count > 0)
             {
-                console.WriteLine(
-                    "Structured delivery was abandoned after 2 failed attempts; the direct console copy was retained.");
+                console.WriteLine(retry.HasConsoleCopy
+                    ? "Structured delivery was abandoned after 2 failed attempts; the direct console copy was retained."
+                    : "Structured delivery was abandoned after 2 failed attempts; the event was not written to the console, so the failing logging provider did not receive it.");
             }
         }
     }
@@ -953,7 +996,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
 
     private readonly record struct StructuredDeliveryRetry(
         IBufferedLogEvent LogEvent,
-        IReadOnlyList<ILogger> Loggers);
+        IReadOnlyList<ILogger> Loggers,
+        bool HasConsoleCopy = true);
 
     private void RestoreUnrenderedOutputs(List<BufferedOutput> outputs, int renderedCount)
     {
@@ -1003,6 +1047,14 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
         return $"{_moduleName} {completionMarker}{continuationText} ({durationText})";
     }
 
+    /// <summary>
+    /// A status already shown in the group header skips the console. A user-supplied exclusive
+    /// sink owns all delivery, so it still receives the event unchanged.
+    /// </summary>
+    private static bool IsHiddenFromConsole(IBufferedLogEvent logEvent, IReadOnlyList<ILogger> fallbackLoggers) =>
+        logEvent.IsShownInGroupHeader
+        && !fallbackLoggers.OfType<IExclusiveStructuredLogSink>().Any();
+
     private static bool ProducesConsoleOutput(
         BufferedOutput output,
         Func<LogLevel, bool> isStructuredLogEnabled,
@@ -1024,6 +1076,11 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
         }
 
         if (output.LogEvent is not { } logEvent)
+        {
+            return false;
+        }
+
+        if (IsHiddenFromConsole(logEvent, fallbackLoggers))
         {
             return false;
         }
@@ -1231,6 +1288,12 @@ internal interface IBufferedLogEvent
 {
     LogLevel Level { get; }
 
+    /// <summary>
+    /// Gets a value indicating whether the console output group header already shows this event,
+    /// so it is delivered only to non-console logging providers.
+    /// </summary>
+    bool IsShownInGroupHeader => false;
+
     ModuleOutputStream Stream => ModuleOutputStream.StandardOutput;
 
     void WriteTo(ILogger logger);
@@ -1261,6 +1324,8 @@ internal sealed class BufferedLogEvent<TState>(
         LazyThreadSafetyMode.ExecutionAndPublication);
 
     public LogLevel Level => level;
+
+    public bool IsShownInGroupHeader => ModuleLogEvents.IsStatusShownInGroupHeader(eventId);
 
     public ModuleOutputStream Stream { get; } = GetStream(obfuscatedState);
 

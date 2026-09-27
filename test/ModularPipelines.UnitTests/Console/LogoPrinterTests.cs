@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using ModularPipelines.Engine;
 using ModularPipelines.Options;
+using Moq;
 using Spectre.Console;
 
 namespace ModularPipelines.UnitTests.Console;
@@ -35,6 +36,29 @@ public partial class LogoPrinterTests
         var logLine = text.Split('\n').Single(line => line.Contains("[INFO]", StringComparison.Ordinal));
         await Assert.That(logLine.TrimEnd('\r'))
             .IsEqualTo("[INFO] Build System: GitHubActions (detected from GITHUB_ACTIONS)");
+    }
+
+    [Test]
+    public async Task Distributed_Worker_Does_Not_Print_Logo()
+    {
+        using var output = new StringWriter(CultureInfo.InvariantCulture);
+        var console = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(output),
+            Ansi = AnsiSupport.No,
+            Interactive = InteractionSupport.No,
+        });
+        console.Profile.Width = 160;
+        var location = new Mock<IExecutionLocationContext>();
+        location.SetupGet(x => x.IsWorker).Returns(true);
+        var printer = new LogoPrinter(
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
+            console,
+            location.Object);
+
+        printer.PrintLogo();
+
+        await Assert.That(output.ToString()).IsEmpty();
     }
 
     [GeneratedRegex(@"\x1B\[[0-?]*[ -/]*[@-~]")]

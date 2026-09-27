@@ -55,4 +55,29 @@ public class DependencyPrinterTests
         consoleWriter.Verify(x => x.Write(tree), Times.Once);
         consoleWriter.Verify(x => x.WriteLine(It.IsAny<string>()), Times.Never);
     }
+
+    [Test]
+    public void PrintDependencyChains_Skips_Distributed_Worker()
+    {
+        var chainProvider = new Mock<IDependencyChainProvider>();
+        chainProvider.SetupGet(x => x.ModuleDependencyModels).Returns([new ModuleDependencyModel(new TestModule())]);
+        var consoleWriter = new Mock<IConsoleWriter>();
+        var formatterProvider = new Mock<IBuildSystemFormatterProvider>();
+        formatterProvider.Setup(x => x.GetFormatter()).Returns(Mock.Of<IBuildSystemFormatter>());
+        var location = new Mock<IExecutionLocationContext>();
+        location.SetupGet(x => x.IsWorker).Returns(true);
+
+        var printer = new DependencyPrinter(
+            chainProvider.Object,
+            consoleWriter.Object,
+            Mock.Of<IBuildSystemCommandWriter>(),
+            formatterProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
+            Mock.Of<IDependencyTreeFormatter>(),
+            location.Object);
+
+        printer.PrintDependencyChains();
+
+        consoleWriter.VerifyNoOtherCalls();
+    }
 }

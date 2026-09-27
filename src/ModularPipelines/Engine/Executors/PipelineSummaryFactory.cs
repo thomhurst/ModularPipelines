@@ -30,15 +30,32 @@ internal class PipelineSummaryFactory : IPipelineSummaryFactory
         DateTimeOffset start,
         DateTimeOffset end)
     {
-        var results = _resultRegistry.GetCompletedResults(allModules);
-
-        return new PipelineSummary(
+        return Create(
             allModules,
+            _resultRegistry.GetCompletedResults(allModules),
+            totalDuration,
+            start,
+            end);
+    }
+
+    /// <inheritdoc />
+    public PipelineSummary Create(
+        IReadOnlyList<IModule> modules,
+        IReadOnlyList<IModuleResult> results,
+        TimeSpan totalDuration,
+        DateTimeOffset start,
+        DateTimeOffset end)
+    {
+        // Scope metrics to the reported modules: the collector also holds planned modules this
+        // backend never claimed.
+        var moduleTypes = modules.Select(module => module.GetType()).ToArray();
+        return new PipelineSummary(
+            modules,
             results,
             totalDuration,
             start,
             end,
-            _metricsCollector.ComputeMetrics(start, end, _parallelLimitProvider.GetMaxDegreeOfParallelism()),
-            _metricsCollector.GetTimelines());
+            _metricsCollector.ComputeMetrics(start, end, _parallelLimitProvider.GetMaxDegreeOfParallelism(), moduleTypes),
+            _metricsCollector.GetTimelines(moduleTypes));
     }
 }

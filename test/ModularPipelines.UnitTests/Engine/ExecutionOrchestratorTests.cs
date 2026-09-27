@@ -317,7 +317,7 @@ public class ExecutionOrchestratorTests
             LogLevel.Error,
             It.IsAny<EventId>(),
             It.Is<It.IsAnyType>((state, _) =>
-                state.ToString()!.Contains(
+                state!.ToString()!.Contains(
                     nameof(InvalidOperationException),
                     StringComparison.Ordinal)),
             teardownException,

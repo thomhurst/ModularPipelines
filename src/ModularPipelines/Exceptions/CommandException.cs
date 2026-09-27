@@ -37,8 +37,17 @@ public class CommandException : PipelineException
     /// Initialises a new instance of the <see cref="CommandException"/> class.
     /// </summary>
     /// <param name="result">The result of the failed command.</param>
+    public CommandException(CommandResult result)
+        : this(result, null)
+    {
+    }
+
+    /// <summary>
+    /// Initialises a new instance of the <see cref="CommandException"/> class.
+    /// </summary>
+    /// <param name="result">The result of the failed command.</param>
     /// <param name="innerException">The inner exception that caused this command failure.</param>
-    public CommandException(CommandResult result, Exception? innerException = null)
+    public CommandException(CommandResult result, Exception? innerException)
         : this($"Command failed with exit code {result.ExitCode}.", result, innerException)
     {
     }
@@ -57,8 +66,18 @@ public class CommandException : PipelineException
     /// </summary>
     /// <param name="message">The message that describes the command failure.</param>
     /// <param name="result">The result of the failed command.</param>
+    protected CommandException(string message, CommandResult result)
+        : this(message, result, null)
+    {
+    }
+
+    /// <summary>
+    /// Initialises a new instance of the <see cref="CommandException"/> class with a custom message.
+    /// </summary>
+    /// <param name="message">The message that describes the command failure.</param>
+    /// <param name="result">The result of the failed command.</param>
     /// <param name="innerException">The inner exception that caused this command failure.</param>
-    protected CommandException(string message, CommandResult result, Exception? innerException = null)
+    protected CommandException(string message, CommandResult result, Exception? innerException)
         : base(message, innerException)
     {
         Result = result;

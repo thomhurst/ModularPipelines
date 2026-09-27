@@ -10,10 +10,10 @@ public class PipelineLifecycleTests
 {
     private sealed class LifecycleModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("lifecycle");
+            Task.FromResult<string>("lifecycle");
     }
 
     private sealed class ThrowingInitializer : IInitializer

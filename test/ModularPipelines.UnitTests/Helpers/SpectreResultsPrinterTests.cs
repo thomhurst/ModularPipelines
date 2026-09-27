@@ -2,9 +2,13 @@ using ModularPipelines.Reporting;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
+using ModularPipelines.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Console;
 using ModularPipelines.Options;
+using ModularPipelines.Secrets;
 using Moq;
 using Spectre.Console;
 using Spectre.Console.Rendering;
@@ -385,7 +389,253 @@ public class SpectreResultsPrinterTests
         }
     }
 
-    private static PipelineSummary CreateFailedSummary()
+    [Test]
+    [Arguments(1, 10, 4)]
+    [Arguments(4, 4, 4)]
+    [Arguments(4, 3, 4)]
+    public async Task Metrics_AreOmittedWhenModulesDidNotOverlapOrSaveTime(
+        int peakConcurrency,
+        int totalSeconds,
+        int wallClockSeconds)
+    {
+        var metrics = new PipelineMetrics
+        {
+            ParallelismFactor = (double) totalSeconds / wallClockSeconds,
+            PeakConcurrency = peakConcurrency,
+            TotalModuleExecutionTime = TimeSpan.FromSeconds(totalSeconds),
+            WallClockDuration = TimeSpan.FromSeconds(wallClockSeconds),
+        };
+
+        await Assert.That(SpectreResultsPrinter.ShouldPrintMetrics(metrics)).IsFalse();
+    }
+
+    [Test]
+    public async Task Metrics_ArePrintedWhenParallelModulesSavedTime()
+    {
+        var metrics = new PipelineMetrics
+        {
+            ParallelismFactor = 2.5,
+            PeakConcurrency = 4,
+            TotalModuleExecutionTime = TimeSpan.FromSeconds(10),
+            WallClockDuration = TimeSpan.FromSeconds(4),
+        };
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(SpectreResultsPrinter.ShouldPrintMetrics(metrics)).IsTrue();
+            await Assert.That(SpectreResultsPrinter.ShouldPrintMetrics(null)).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task SequentialRun_DoesNotPrintMetrics()
+    {
+        var summary = CreateFailedSummary(new PipelineMetrics
+        {
+            ParallelismFactor = 0.9,
+            PeakConcurrency = 1,
+            TotalModuleExecutionTime = TimeSpan.FromSeconds(4),
+            WallClockDuration = TimeSpan.FromSeconds(5),
+        });
+
+        var output = PrintResults(summary);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).DoesNotContain("Speedup:");
+            await Assert.That(output).DoesNotContain("Saved:");
+        }
+    }
+
+    [Test]
+    public async Task SummaryEntries_ArePrintedInResultsAndNotLoggedAgain()
+    {
+        var logger = new CollectingLogger();
+        var summaryLogger = new SummaryLogger(logger);
+        summaryLogger.KeyValue("Version", "Generated Version Number", "1.2.3");
+        summaryLogger.Success("Deployed [prod]");
+
+        var output = PrintResults(CreateFailedSummary(), summaryLogger);
+        summaryLogger.WriteLogs();
+
+        var table = output.IndexOf(nameof(FailedModule), StringComparison.Ordinal);
+        var heading = output.IndexOf("Summary", table, StringComparison.Ordinal);
+        var category = output.IndexOf("Version", heading, StringComparison.Ordinal);
+        var entry = output.IndexOf("Generated Version Number: 1.2.3", category, StringComparison.Ordinal);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(heading).IsGreaterThan(table);
+            await Assert.That(category).IsGreaterThan(heading);
+            await Assert.That(entry).IsGreaterThan(category);
+            await Assert.That(output).Contains("✓ Deployed [prod]");
+            await Assert.That(logger.Messages).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task SummaryEntries_AddedAfterResultsAreStillLogged()
+    {
+        var logger = new CollectingLogger();
+        var summaryLogger = new SummaryLogger(logger);
+        summaryLogger.Information("before");
+
+        PrintResults(CreateFailedSummary(), summaryLogger);
+        summaryLogger.Information("after");
+        summaryLogger.WriteLogs();
+
+        await Assert.That(logger.Messages).IsEquivalentTo(["after"]);
+    }
+
+    [Test]
+    public async Task SummaryEntries_AreLoggedWhenResultsAreNotPrinted()
+    {
+        var logger = new CollectingLogger();
+        var summaryLogger = new SummaryLogger(logger);
+        summaryLogger.KeyValue("Version", "Generated Version Number", "1.2.3");
+
+        summaryLogger.WriteLogs();
+
+        await Assert.That(logger.Messages).IsEquivalentTo(["[Version] Generated Version Number: 1.2.3"]);
+    }
+
+    [Test]
+    public async Task SummaryEntries_MaskRegisteredSecrets()
+    {
+        var summaryLogger = new SummaryLogger(NullLogger<SummaryLogger>.Instance);
+        summaryLogger.KeyValue("hunter2-category", "Token", "hunter2");
+
+        var output = PrintResults(CreateFailedSummary(), summaryLogger, new ReplacingObfuscator("hunter2"));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).DoesNotContain("hunter2");
+            await Assert.That(output).Contains("Token: **********");
+            await Assert.That(output).Contains("**********-category");
+        }
+    }
+
+    [Test]
+    public async Task SummaryEntries_DisplayedInResultsStillReachNonConsoleProviders()
+    {
+        var consoleLogger = new CollectingLogger();
+        var fileLogger = new CollectingLogger();
+        var factory = new Mock<INonSpectreLoggerFactory>();
+        factory.Setup(f => f.CreateLoggers(typeof(SummaryLogger).FullName!)).Returns([fileLogger]);
+        var summaryLogger = new SummaryLogger(consoleLogger, factory.Object);
+        summaryLogger.Warning("Deploy", "Slow rollout");
+
+        PrintResults(CreateFailedSummary(), summaryLogger);
+        summaryLogger.WriteLogs();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(consoleLogger.Messages).IsEmpty();
+            await Assert.That(fileLogger.Messages).IsEquivalentTo(["[Deploy] Slow rollout"]);
+        }
+    }
+
+    [Test]
+    public async Task SummaryEntries_RedispatchSkipsConsoleProvidersAndMasksSecrets()
+    {
+        var fileLogger = new CollectingLogger();
+        var consoleLogger = new CollectingConsoleLogger();
+        var factory = new Mock<INonSpectreLoggerFactory>();
+        factory.Setup(f => f.CreateLoggers(typeof(SummaryLogger).FullName!)).Returns([fileLogger, consoleLogger]);
+        var summaryLogger = new SummaryLogger(
+            new CollectingLogger(),
+            factory.Object,
+            new ReplacingObfuscator("hunter2"));
+        summaryLogger.KeyValue("Deploy", "Token", "hunter2");
+
+        PrintResults(CreateFailedSummary(), summaryLogger);
+        summaryLogger.WriteLogs();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(fileLogger.Messages).IsEquivalentTo(["[Deploy] Token: **********"]);
+            await Assert.That(consoleLogger.Messages).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task SummaryEntries_LoggedWithoutResultsAreMasked()
+    {
+        var logger = new CollectingLogger();
+        var summaryLogger = new SummaryLogger(logger, secretObfuscator: new ReplacingObfuscator("hunter2"));
+        summaryLogger.KeyValue("Deploy", "Token", "hunter2");
+
+        summaryLogger.WriteLogs();
+
+        await Assert.That(logger.Messages).IsEquivalentTo(["[Deploy] Token: **********"]);
+    }
+
+    [Test]
+    public async Task SummaryEntries_AreLoggedWhenRenderingFails()
+    {
+        var logger = new CollectingLogger();
+        var summaryLogger = new SummaryLogger(logger);
+        summaryLogger.Information("important");
+
+        await Assert.That(() => PrintResults(CreateFailedSummary(), summaryLogger, new ThrowingObfuscator()))
+            .Throws<InvalidOperationException>();
+        summaryLogger.WriteLogs();
+
+        await Assert.That(logger.Messages).IsEquivalentTo(["important"]);
+    }
+
+    private sealed class CollectingConsoleLogger : Microsoft.Extensions.Logging.ILogger, ISynchronousConsoleLogger
+    {
+        public List<string> Messages { get; } = [];
+
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => null;
+
+        public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            Microsoft.Extensions.Logging.LogLevel logLevel,
+            Microsoft.Extensions.Logging.EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter) => Messages.Add(formatter(state, exception));
+    }
+
+    private sealed class PassThroughObfuscator : ISecretObfuscator
+    {
+        public string Obfuscate(string? input, object? optionsObject) => input ?? string.Empty;
+    }
+
+    private sealed class ReplacingObfuscator(string secret) : ISecretObfuscator
+    {
+        public string Obfuscate(string? input, object? optionsObject) =>
+            (input ?? string.Empty).Replace(secret, "**********", StringComparison.Ordinal);
+    }
+
+    private sealed class ThrowingObfuscator : ISecretObfuscator
+    {
+        public string Obfuscate(string? input, object? optionsObject) =>
+            throw new InvalidOperationException("Rendering failed.");
+    }
+
+    private sealed class CollectingLogger : Microsoft.Extensions.Logging.ILogger<SummaryLogger>
+    {
+        public List<string> Messages { get; } = [];
+
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => null;
+
+        public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            Microsoft.Extensions.Logging.LogLevel logLevel,
+            Microsoft.Extensions.Logging.EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter) => Messages.Add(formatter(state, exception));
+    }
+
+    private static PipelineSummary CreateFailedSummary(PipelineMetrics? metrics = null)
     {
         var start = new DateTimeOffset(2026, 7, 27, 12, 0, 0, TimeSpan.Zero);
         var end = start.AddSeconds(5);
@@ -406,11 +656,11 @@ public class SpectreResultsPrinterTests
             end - start,
             start,
             end,
-            new PipelineMetrics
+            metrics ?? new PipelineMetrics
             {
-                ParallelismFactor = 1,
-                PeakConcurrency = 1,
-                TotalModuleExecutionTime = end - start,
+                ParallelismFactor = 1.6,
+                PeakConcurrency = 2,
+                TotalModuleExecutionTime = TimeSpan.FromSeconds(8),
                 WallClockDuration = end - start,
                 TotalModules = 1,
                 FailedModules = 1,
@@ -428,7 +678,10 @@ public class SpectreResultsPrinterTests
             ]);
     }
 
-    private static string PrintResults(PipelineSummary summary)
+    private static string PrintResults(
+        PipelineSummary summary,
+        SummaryLogger? summaryLogger = null,
+        ISecretObfuscator? secretObfuscator = null)
     {
         using var writer = new StringWriter();
         var originalAnsiConsole = AnsiConsole.Console;
@@ -443,7 +696,9 @@ public class SpectreResultsPrinterTests
             });
 
             var printer = new SpectreResultsPrinter(
-                Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+                Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
+                summaryLogger ?? new SummaryLogger(NullLogger<SummaryLogger>.Instance),
+                secretObfuscator ?? new PassThroughObfuscator());
 
             printer.PrintResults(summary);
             return writer.ToString();

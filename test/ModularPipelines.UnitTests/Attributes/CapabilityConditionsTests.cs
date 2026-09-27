@@ -190,7 +190,7 @@ public class CapabilityConditionsTests
         {
             await Assert.That(route?.Requirement)
                 .IsEqualTo(CapabilityRequirement.AnyOf(Capability.Linux, Capability.MacOS));
-            await Assert.That(route?.IsConditional).IsEqualTo(false);
+            await Assert.That(route?.IsConditional).IsFalse();
         }
     }
 
@@ -203,7 +203,7 @@ public class CapabilityConditionsTests
         using (Assert.Multiple())
         {
             await Assert.That(route?.Requirement).IsEqualTo(CapabilityRequirement.AllOf(Capability.Linux));
-            await Assert.That(route?.IsConditional).IsEqualTo(true);
+            await Assert.That(route?.IsConditional).IsTrue();
             await Assert.That(CapabilityConditions.GetLocalAlternatives(attribute)).IsEquivalentTo([typeof(OnCI)]);
         }
     }
@@ -247,14 +247,14 @@ public class CapabilityConditionsTests
             // Every AND member must hold, so the GPU requirement stays; the worker evaluates OnCI.
             var route = CapabilityConditions.GetRoute(new RunIfAllAttribute<OnGpu, OnCI>());
             await Assert.That(route?.Requirement).IsEqualTo(CapabilityRequirement.AllOf(Capability.Gpu));
-            await Assert.That(route?.IsConditional).IsEqualTo(false);
+            await Assert.That(route?.IsConditional).IsFalse();
 
             var groupRoute = CapabilityConditions.GetRoute(new RunIfAttribute<LinuxOnCiGroup>());
             await Assert.That(groupRoute?.Requirement).IsEqualTo(CapabilityRequirement.AllOf(Capability.Linux));
 
             // An OR alternative without a capability can hold anywhere, so it keeps the route conditional.
             var alternativeRoute = CapabilityConditions.GetRoute(new RunIfAnyAttribute<LinuxOnCiGroup, OnCI>());
-            await Assert.That(alternativeRoute?.IsConditional).IsEqualTo(true);
+            await Assert.That(alternativeRoute?.IsConditional).IsTrue();
         }
     }
 
@@ -353,7 +353,7 @@ public class CapabilityConditionsTests
         using (Assert.Multiple())
         {
             await Assert.That(route?.Requirement).IsEqualTo(CapabilityRequirement.AllOf(Capability.Gpu));
-            await Assert.That(route?.IsConditional).IsEqualTo(true);
+            await Assert.That(route?.IsConditional).IsTrue();
         }
     }
 

@@ -21,6 +21,9 @@ public class S3ArtifactStoreTests
             "run123");
     }
 
+    [After(Test)]
+    public void Cleanup() => _store.Dispose();
+
     [Test]
     public async Task Upload_CallsPutObjectAsync()
     {

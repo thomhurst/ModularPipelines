@@ -21,6 +21,7 @@ internal class PipelineExecutor : IPipelineExecutor
     private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
     private readonly IPipelineSummaryFactory _pipelineSummaryFactory;
     private readonly IOptions<PipelineOptions> _options;
+    private readonly IMetricsCollector? _metricsCollector;
 
     public PipelineExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
@@ -32,7 +33,8 @@ internal class PipelineExecutor : IPipelineExecutor
         IExceptionRethrowService exceptionRethrowService,
         ISecondaryExceptionContainer secondaryExceptionContainer,
         IPipelineSummaryFactory pipelineSummaryFactory,
-        IOptions<PipelineOptions> options)
+        IOptions<PipelineOptions> options,
+        IMetricsCollector? metricsCollector = null)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _executionBackend = executionBackend;
@@ -44,6 +46,7 @@ internal class PipelineExecutor : IPipelineExecutor
         _secondaryExceptionContainer = secondaryExceptionContainer;
         _pipelineSummaryFactory = pipelineSummaryFactory;
         _options = options;
+        _metricsCollector = metricsCollector;
     }
 
     public async Task<PipelineSummary> ExecuteAsync(List<IModule> runnableModules,
@@ -53,6 +56,8 @@ internal class PipelineExecutor : IPipelineExecutor
         var stopWatch = Stopwatch.StartNew();
 
         PipelineSummary pipelineSummary;
+        List<IModule> executedModules = [];
+        IReadOnlyList<IModuleResult> backendResults = [];
         try
         {
             var estimatedDurations = organizedModules.RunnableModules.ToDictionary(
@@ -70,7 +75,8 @@ internal class PipelineExecutor : IPipelineExecutor
                         context ?? _executionBackendContext,
                         _engineCancellationToken.Token)
                     .ConfigureAwait(false);
-                ApplyBackendResults(runnableModules, results);
+                executedModules = ApplyBackendResults(runnableModules, results);
+                backendResults = results;
             }
             finally
             {
@@ -84,11 +90,11 @@ internal class PipelineExecutor : IPipelineExecutor
         {
             var end = DateTimeOffset.UtcNow;
 
-            pipelineSummary = _pipelineSummaryFactory.Create(
-                organizedModules.AllModules,
-                stopWatch.Elapsed,
-                start,
-                end);
+            // A backend that runs only a claimed subset (a distributed worker) summarizes the
+            // outcomes it reported for the modules it executed; the coordinator reports the whole plan.
+            pipelineSummary = _executionBackend.OwnsEntirePlan
+                ? _pipelineSummaryFactory.Create(organizedModules.AllModules, stopWatch.Elapsed, start, end)
+                : _pipelineSummaryFactory.Create(executedModules, backendResults, stopWatch.Elapsed, start, end);
 
             await _pipelineSetupExecutor.OnPipelineEndAsync(pipelineSummary).ConfigureAwait(false);
         }
@@ -105,20 +111,35 @@ internal class PipelineExecutor : IPipelineExecutor
         return pipelineSummary;
     }
 
-    private void ApplyBackendResults(
+    private List<IModule> ApplyBackendResults(
         IReadOnlyList<IModule> modules,
         IReadOnlyList<IModuleResult> results)
     {
+        var executedModules = new List<IModule>(results.Count);
         foreach (var result in results)
         {
             var matchingModule = FindModuleOwningResult(modules, result)
                                  ?? FindModuleByTypeName(modules, result);
+            executedModules.Add(matchingModule);
+            if (!_executionBackend.OwnsEntirePlan)
+            {
+                RecordClaimedModuleMetrics(matchingModule, result);
+            }
+
             if (_executionBackendContext.TryApplyResult(matchingModule, result))
             {
                 continue;
             }
 
             var resultTask = matchingModule.AsInternal().ResultTask;
+            if (!_executionBackend.OwnsEntirePlan && resultTask.IsCompletedSuccessfully)
+            {
+                // A partial backend may report a different outcome than the module's completed
+                // local result, for example a success it could not publish. The completed result
+                // stays as it is, and the summary follows the reported outcome.
+                continue;
+            }
+
             if (!resultTask.IsCompletedSuccessfully
                 || !ReferenceEquals(resultTask.Result, result))
             {
@@ -129,7 +150,7 @@ internal class PipelineExecutor : IPipelineExecutor
 
         if (!_executionBackend.OwnsEntirePlan)
         {
-            return;
+            return executedModules;
         }
 
         var incompleteModules = modules
@@ -142,6 +163,42 @@ internal class PipelineExecutor : IPipelineExecutor
                 "Execution backend completed without results for: "
                 + string.Join(", ", incompleteModules));
         }
+
+        return executedModules;
+    }
+
+    /// <summary>
+    /// Records a claimed module's reported execution window and status. Backends that run only a
+    /// claimed subset bypass the scheduler, which otherwise records these metrics.
+    /// </summary>
+    private void RecordClaimedModuleMetrics(IModule module, IModuleResult result)
+    {
+        if (_metricsCollector is null)
+        {
+            return;
+        }
+
+        var moduleType = module.GetType();
+        if (result.StartTime == default)
+        {
+            // A claim rejected before it ran has no execution window; count its status only.
+            _metricsCollector.RecordModuleCompleted(
+                moduleType,
+                DateTimeOffset.UtcNow,
+                result.ExceptionOrDefault is null,
+                result.Status == ModuleStatus.Skipped,
+                result.Status);
+            return;
+        }
+
+        var endTime = result.EndTime < result.StartTime ? result.StartTime : result.EndTime;
+        _metricsCollector.RecordModuleStarted(moduleType, result.StartTime);
+        _metricsCollector.RecordModuleCompleted(
+            moduleType,
+            endTime,
+            result.ExceptionOrDefault is null,
+            result.Status == ModuleStatus.Skipped,
+            result.Status);
     }
 
     /// <summary>

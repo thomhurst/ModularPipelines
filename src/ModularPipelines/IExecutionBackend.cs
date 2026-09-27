@@ -21,6 +21,8 @@ public interface IExecutionBackend
     /// </summary>
     /// <remarks>
     /// Return <see langword="false"/> when this process executes only a claimed subset of the plan.
+    /// Such a backend must return a result for every module it claimed, whether it succeeded or
+    /// failed; those results form this process's pipeline summary.
     /// </remarks>
     bool OwnsEntirePlan { get; }
 
@@ -36,8 +38,9 @@ public interface IExecutionBackend
     /// <param name="cancellationToken">A token that requests pipeline cancellation.</param>
     /// <returns>
     /// The completed module results. Each returned result must provide its module's fully qualified
-    /// type name through <see cref="IModuleResult.TypeName"/>. Results already applied through
-    /// <paramref name="context"/> may be omitted.
+    /// type name through <see cref="IModuleResult.TypeName"/>. A backend that
+    /// <see cref="OwnsEntirePlan"/> may omit results already applied through
+    /// <paramref name="context"/>; any other backend must return the result of every module it claimed.
     /// </returns>
     Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
         IReadOnlyList<IModule> modules,

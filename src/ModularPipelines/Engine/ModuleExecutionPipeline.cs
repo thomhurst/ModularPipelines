@@ -39,6 +39,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     private readonly IDirectHookInvoker _directHookInvoker;
     private readonly IModuleConditionHandler _moduleConditionHandler;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
+    private readonly bool _groupHeadersShowStatus;
 
     public ModuleExecutionPipeline(
         IModuleResultRepository resultRepository,
@@ -46,7 +47,8 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         IDirectHookInvoker directHookInvoker,
         IModuleConditionHandler moduleConditionHandler,
         IOptions<PipelineOptions> pipelineOptions,
-        IModuleCacheResultRepository? cacheResultRepository = null)
+        IModuleCacheResultRepository? cacheResultRepository = null,
+        IBuildSystemFormatterProvider? buildSystemFormatterProvider = null)
     {
         _resultRepository = resultRepository;
         _cacheResultRepository = cacheResultRepository;
@@ -54,6 +56,11 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         _directHookInvoker = directHookInvoker;
         _moduleConditionHandler = moduleConditionHandler;
         _pipelineOptions = pipelineOptions;
+
+        // Module output groups are headed "<Module> ✓ (<duration>)" when the build system supports
+        // collapsible blocks, so a trailing "completed successfully" line would only repeat it.
+        _groupHeadersShowStatus = buildSystemFormatterProvider?.GetFormatter()
+            .GetStartBlockCommand(nameof(ModuleExecutionPipeline)) is not null;
     }
 
     public async Task<ModuleResult<T>> ExecuteAsync<T>(
@@ -222,7 +229,12 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                         afterHookInvoked)
                     .ConfigureAwait(false);
 
-                LogModuleStatus(executionContext, logger);
+                // A module without other output gets no group header, so the results table is then
+                // the only other place its outcome appears.
+                LogModuleStatus(
+                    executionContext,
+                    logger,
+                    _groupHeadersShowStatus && _pipelineOptions.Value.Console.PrintResults);
             }
             finally
             {
@@ -910,7 +922,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         public void RecordAttempt() => Interlocked.Increment(ref _moduleAttemptCount);
     }
 
-    private static void LogModuleStatus(ModuleExecutionContext executionContext, ILogger logger)
+    internal static void LogModuleStatus(
+        ModuleExecutionContext executionContext,
+        ILogger logger,
+        bool groupHeadersShowStatus)
     {
         var moduleName = executionContext.ModuleType.Name;
         var message = StatusDisplayProvider.FormatStatusMessage(moduleName, executionContext.Status);
@@ -932,6 +947,13 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             _ => LogLevel.Error,
         };
 
-        logger.LogStatus(logLevel, message);
+        // The group header already shows these outcomes, so the console skips them while other
+        // logging providers still receive them at their normal level.
+        var shownInGroupHeader = groupHeadersShowStatus
+            && executionContext.Status is ModuleStatus.Succeeded
+                or ModuleStatus.Skipped
+                or ModuleStatus.RestoredFromHistory
+                or ModuleStatus.RestoredFromCache;
+        logger.LogStatus(logLevel, message, shownInGroupHeader);
     }
 }

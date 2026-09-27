@@ -18,7 +18,8 @@ internal static class DependencyResultApplicator
         ModuleResultSerializer serializer,
         IDistributedWorkerCoordinator coordinator,
         int workerIndex,
-        DistributedModuleExecutionTimer executionTimer)
+        DistributedModuleExecutionTimer executionTimer,
+        Action<PipelineSchemaMismatchException>? recordRejection = null)
     {
         try
         {
@@ -28,6 +29,8 @@ internal static class DependencyResultApplicator
         }
         catch (PipelineSchemaMismatchException exception)
         {
+            // Record the rejection before publishing, which can fail or time out.
+            recordRejection?.Invoke(exception);
             var failure = serializer.SerializeFailure(assignment.ModuleId, exception, workerIndex) with
             {
                 ExecutionTelemetry = executionTimer.CreateTelemetry(),
@@ -160,7 +163,7 @@ internal static class DependencyResultApplicator
             if (logger.IsEnabled(LogLevel.Critical))
             {
                 logger.LogCritical(ex,
-                    "Failed to publish resolution failure for {Module} — master may hang waiting for this result",
+                    "Failed to publish resolution failure for {Module} — coordinator may hang waiting for this result",
                     assignment.ModuleId);
             }
         }

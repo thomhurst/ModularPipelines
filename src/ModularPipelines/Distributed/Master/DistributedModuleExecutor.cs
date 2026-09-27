@@ -46,7 +46,8 @@ internal class DistributedModuleExecutor(
     IOptions<PipelineOptions>? pipelineOptions = null,
     DistributedCacheHitTracker? cacheHitTracker = null,
     IEnumerable<IModule>? registeredModules = null,
-    LocalCapabilityRegistry? localCapabilities = null) : IExecutionBackend
+    LocalCapabilityRegistry? localCapabilities = null,
+    IMetricsCollector? metricsCollector = null) : IExecutionBackend
 {
     private readonly IReadOnlyList<IModule> _registeredModules = registeredModules?.ToArray() ?? [];
 
@@ -75,6 +76,7 @@ internal class DistributedModuleExecutor(
     private readonly IModuleCacheResultRepository? _cacheResultRepository = cacheResultRepository;
     private readonly IOptions<PipelineOptions>? _pipelineOptions = pipelineOptions;
     private readonly DistributedCacheHitTracker _cacheHitTracker = cacheHitTracker ?? new();
+    private readonly IMetricsCollector? _metricsCollector = metricsCollector;
 
     public bool OwnsEntirePlan => true;
 
@@ -493,7 +495,7 @@ internal class DistributedModuleExecutor(
         {
             _logger.LogWarning(
                 exception,
-                "Could not restore module {Module} from cache on the master; dispatching normally",
+                "Could not restore module {Module} from cache on the coordinator; dispatching normally",
                 moduleType.Name);
             return false;
         }
@@ -521,7 +523,7 @@ internal class DistributedModuleExecutor(
         {
             _cacheHitTracker.Record(acceptedResult);
             _logger.LogInformation(
-                "Restored module {Module} from cache on the master; distributed dispatch avoided",
+                "Restored module {Module} from cache on the coordinator; distributed dispatch avoided",
                 moduleType.Name);
         }
 
@@ -737,7 +739,7 @@ internal class DistributedModuleExecutor(
         CancellationToken pipelineCancellationToken,
         CancellationToken workerCancellationToken)
     {
-        _logger.LogInformation("Master worker loop started with capabilities: {Capabilities}",
+        _logger.LogInformation("Coordinator worker loop started with capabilities: {Capabilities}",
             string.Join(", ", capabilities));
 
         using var dequeueCancellationCts = CancellationTokenSource.CreateLinkedTokenSource(
@@ -745,7 +747,7 @@ internal class DistributedModuleExecutor(
             workerCancellationToken);
         var dependencyResultCache = new DependencyResultCache(_workerCoordinator, workerCancellationToken);
         _logger.LogDebug(
-            "Master worker loop starting {MaxConcurrency} concurrent execution slot(s)",
+            "Coordinator worker loop starting {MaxConcurrency} concurrent execution slot(s)",
             maxConcurrency);
         await DistributedWorkerPool.RunAsync(
             DequeueForMasterAsync,
@@ -753,7 +755,7 @@ internal class DistributedModuleExecutor(
                 assignment, claimedAt, modules, moduleLookup, dependencyResultCache,
                 pipelineCancellationToken, workerCancellationToken),
             maxConcurrency,
-            exception => _logger.LogError(exception, "Master worker loop encountered an error"),
+            exception => _logger.LogError(exception, "Coordinator worker loop encountered an error"),
             workerCancellationToken).ConfigureAwait(false);
 
         async Task<ModuleAssignment?> DequeueForMasterAsync(CancellationToken token)
@@ -803,14 +805,14 @@ internal class DistributedModuleExecutor(
         if (pipelineCancellationToken.IsCancellationRequested && !assignment.Configuration.AlwaysRun)
         {
             _logger.LogInformation(
-                "Master skipping cancelled module {Module}",
+                "Coordinator skipping cancelled module {Module}",
                 assignment.ModuleId);
             await ExecuteAssignmentAsync(assignment, claimedAt, modules, moduleLookup, dependencyResultCache,
                 pipelineCancellationToken).ConfigureAwait(false);
             return;
         }
 
-        _logger.LogDebug("Master executing module {Module} locally",
+        _logger.LogDebug("Coordinator executing module {Module} locally",
             assignment.ModuleId);
 
         var executionCancellationToken = assignment.Configuration.AlwaysRun
@@ -842,14 +844,14 @@ internal class DistributedModuleExecutor(
         var resolved = _typeRegistry.Resolve(assignment.ModuleId);
         if (resolved is null)
         {
-            _logger.LogError("Cannot resolve module type: {Type}. Publishing failure to prevent master hang.", assignment.ModuleId);
+            _logger.LogError("Cannot resolve module type: {Type}. Publishing failure to prevent coordinator hang.", assignment.ModuleId);
             await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, _options.Value.InstanceIndex, _workerCoordinator, _logger, executionTimer).ConfigureAwait(false);
             return;
         }
 
         if (!moduleLookup.TryGetValue(assignment.ModuleId, out var module))
         {
-            _logger.LogError("Module instance not found: {Type}. Publishing failure to prevent master hang.", assignment.ModuleId);
+            _logger.LogError("Module instance not found: {Type}. Publishing failure to prevent coordinator hang.", assignment.ModuleId);
             await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, _options.Value.InstanceIndex, _workerCoordinator, _logger, executionTimer).ConfigureAwait(false);
             return;
         }
@@ -873,12 +875,12 @@ internal class DistributedModuleExecutor(
         }
         catch (OperationCanceledException ex) when (WorkerCancellationClassifier.IsExpected(ex, cancellationToken))
         {
-            _logger.LogDebug(ex, "Module {Module} execution cancelled on master", assignment.ModuleId);
+            _logger.LogDebug(ex, "Module {Module} execution cancelled on coordinator", assignment.ModuleId);
             await PublishFailureAsync(assignment, resolved.Value.ResultType, module, ex, executionTimer).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Module {Module} execution failed on master", assignment.ModuleId);
+            _logger.LogError(ex, "Module {Module} execution failed on coordinator", assignment.ModuleId);
             await PublishFailureAsync(assignment, resolved.Value.ResultType, module, ex, executionTimer).ConfigureAwait(false);
         }
     }
@@ -1046,7 +1048,7 @@ internal class DistributedModuleExecutor(
 
         try
         {
-            _logger.LogInformation("Distributing module {Module} to workers", moduleType.Name);
+            _logger.LogDebug("Distributing module {Module} to workers", moduleType.Name);
             await _publisher.PublishAsync(assignment, lifecycleToken).ConfigureAwait(false);
             await EnsureAssignmentHasExecutionRouteAsync(
                     assignment,
@@ -1082,7 +1084,10 @@ internal class DistributedModuleExecutor(
         catch (OperationCanceledException exception)
         {
             var result = RegisterFailureResult(module, moduleType, exception, ModuleStatus.Cancelled, context);
-            scheduler.MarkModuleCompleted(moduleType, result is not null && result.ExceptionOrDefault is null);
+            scheduler.MarkModuleCompleted(
+                moduleType,
+                result is not null && result.ExceptionOrDefault is null,
+                statusOverride: GetTerminalStatus(result));
         }
         catch (Exception ex)
         {
@@ -1200,6 +1205,7 @@ internal class DistributedModuleExecutor(
 
         await CompleteCollectedResultAsync(result, moduleType, scheduler, pipelineCts,
             requestFailureCancellation).ConfigureAwait(false);
+        RecordReportedExecutionWindow(moduleType, result);
     }
 
     private async Task CompleteCollectedResultAsync(
@@ -1211,13 +1217,47 @@ internal class DistributedModuleExecutor(
         Exception? schedulerException = null)
     {
         var success = result is not null && result.ExceptionOrDefault is null;
-        scheduler.MarkModuleCompleted(moduleType, success, success ? null : schedulerException);
+        scheduler.MarkModuleCompleted(
+            moduleType,
+            success,
+            success ? null : schedulerException,
+            GetTerminalStatus(result));
         if (!success)
         {
             _logger.LogError("Distributed module {Module} failed on worker — cancelling pipeline", moduleType.Name);
             requestFailureCancellation();
             await pipelineCts.CancelAsync().ConfigureAwait(false);
         }
+    }
+
+    /// <summary>
+    /// Returns the collected result's status so the summary reports skipped, ignored, and other
+    /// outcomes as they happened; non-terminal statuses fall back to the scheduler's inference.
+    /// </summary>
+    private static ModuleStatus? GetTerminalStatus(IModuleResult? result) =>
+        result?.Status is null
+            or ModuleStatus.NotStarted
+            or ModuleStatus.Running
+            or ModuleStatus.Unknown
+            ? null
+            : result.Status;
+
+    /// <summary>
+    /// Shortens the coordinator's dispatch-to-collection window to the execution time the executing
+    /// process reported, so the summary shows module run time rather than queue wait. Only the
+    /// reported duration is used; worker timestamps come from another clock.
+    /// </summary>
+    private void RecordReportedExecutionWindow(Type moduleType, IModuleResult? result)
+    {
+        if (_metricsCollector is null
+            || result is null
+            || result.StartTime == default
+            || result.EndTime < result.StartTime)
+        {
+            return;
+        }
+
+        _metricsCollector.RecordReportedExecutionDuration(moduleType, result.EndTime - result.StartTime);
     }
 
     private static IModuleResult? GetCompletedResult(IModule module)

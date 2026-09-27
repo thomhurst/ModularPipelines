@@ -298,7 +298,7 @@ public class OutputCoordinatorTests
         using (Assert.Multiple())
         {
             await Assert.That(directLoggers).HasSingleItem();
-            await Assert.That(directLoggers[0]).IsAssignableTo<IDirectStructuredLogSink>();
+            await Assert.That(directLoggers![0]).IsAssignableTo<IDirectStructuredLogSink>();
             await Assert.That(output.ToString()).Contains("single delivery");
             await Assert.That(CountOccurrences(output.ToString(), "single delivery")).IsEqualTo(1);
         }
@@ -341,7 +341,7 @@ public class OutputCoordinatorTests
 
     [Test]
     [Timeout(30_000)]
-    public async Task Completion_IsQueuedWhileIncrementalFlushOwnsOutput()
+    public async Task Completion_IsQueuedWhileIncrementalFlushOwnsOutput(CancellationToken cancellationToken)
     {
         for (var iteration = 0; iteration < 25; iteration++)
         {
@@ -350,11 +350,12 @@ public class OutputCoordinatorTests
 
             var incrementalFlush = coordinator.EnqueueAndFlushAsync(
                 buffer,
-                OutputFlushKind.Incremental);
-            await buffer.IncrementalFlushStarted.Task;
+                OutputFlushKind.Incremental,
+                cancellationToken);
+            await buffer.IncrementalFlushStarted.Task.WaitAsync(cancellationToken);
 
             buffer.MarkComplete();
-            var completionFlush = coordinator.OnModuleCompletedAsync(buffer, buffer.ModuleType);
+            var completionFlush = coordinator.OnModuleCompletedAsync(buffer, buffer.ModuleType, cancellationToken);
 
             buffer.ReleaseIncrementalFlush.TrySetResult();
             await incrementalFlush;

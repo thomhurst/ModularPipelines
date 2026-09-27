@@ -171,58 +171,58 @@ public class ArtifactContractTests
     [ProducesArtifact("declared-output", "unused.txt")]
     private sealed class DeclaredProducerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("produced");
+            Task.FromResult<string>("produced");
     }
 
     [ProducesArtifact("ambient-logging-output", ".modular-pipelines-ambient-logging/missing.txt")]
     private sealed class AmbientArtifactLoggingProducerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("produced");
+            Task.FromResult<string>("produced");
     }
 
     [ModularPipelines.DependsOn<AmbientArtifactLoggingProducerModule>]
     [ConsumesArtifact(typeof(AmbientArtifactLoggingProducerModule), "ambient-logging-output")]
     private sealed class AmbientArtifactLoggingConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("consumed");
+            Task.FromResult<string>("consumed");
     }
 
     [ConsumesArtifact(typeof(DeclaredProducerModule), "missing-output")]
     private sealed class MissingArtifactConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("consumed");
+            Task.FromResult<string>("consumed");
     }
 
     [ProducesArtifact("duplicate-output", "first.txt")]
     [ProducesArtifact("duplicate-output", "second.txt")]
     private sealed class DuplicateArtifactProducerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("produced");
+            Task.FromResult<string>("produced");
     }
 
     [ModularPipelines.DependsOn<DuplicateArtifactProducerModule>]
     [ConsumesArtifact(typeof(DuplicateArtifactProducerModule), "duplicate-output")]
     private sealed class DuplicateArtifactConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("consumed");
+            Task.FromResult<string>("consumed");
     }
 
     private sealed class AlwaysSkipArtifactCondition : IRunCondition
@@ -235,7 +235,7 @@ public class ArtifactContractTests
     [ConsumesArtifact(typeof(DeclaredProducerModule), "missing-output")]
     private sealed class AttributeSkippedInvalidArtifactConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Skipped consumer must not execute");
@@ -247,7 +247,7 @@ public class ArtifactContractTests
         protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => SkipDecision.Skip("consumer skipped"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Skipped consumer must not execute");
@@ -256,7 +256,7 @@ public class ArtifactContractTests
     [SkipIf<AlwaysSkipArtifactCondition>]
     private sealed class SkippedArtifactValidationDependencyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Skipped dependency must not execute");
@@ -267,7 +267,7 @@ public class ArtifactContractTests
     [ConsumesArtifact(typeof(DeclaredProducerModule), "missing-output")]
     private sealed class DependencySkippedInvalidArtifactConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Dependency-skipped consumer must not execute");
@@ -277,7 +277,7 @@ public class ArtifactContractTests
     [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "missing-output")]
     private sealed class InvalidSkippedArtifactConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Dependency-skipped consumer must not execute");
@@ -311,38 +311,38 @@ public class ArtifactContractTests
     [ConsumesArtifact(typeof(DeclaredProducerModule), "declared-output")]
     private sealed class UnorderedArtifactConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("consumed");
+            Task.FromResult<string>("consumed");
     }
 
     [ModularPipelines.DependsOn<DeclaredProducerModule>(Optional = true)]
     [ConsumesArtifact(typeof(DeclaredProducerModule), "declared-output")]
     private sealed class OptionalArtifactConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("consumed");
+            Task.FromResult<string>("consumed");
     }
 
     [ConsumesArtifact(typeof(UnregisteredProducerModule), "unregistered-output")]
     private sealed class UnregisteredProducerConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("consumed");
+            Task.FromResult<string>("consumed");
     }
 
     [ProducesArtifact("unregistered-output", "unused.txt")]
     private sealed class UnregisteredProducerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("produced");
+            Task.FromResult<string>("produced");
     }
 
     [ProducesArtifact("local-output", ProducedFile)]
@@ -353,7 +353,7 @@ public class ArtifactContractTests
         protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithCacheKeyPart("local-producer-v1");
 
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -374,7 +374,7 @@ public class ArtifactContractTests
                 ? SkipDecision.Skip("mutable condition requested a skip")
                 : SkipDecision.DoNotSkip);
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Invalid consumer must fail validation");
@@ -391,10 +391,10 @@ public class ArtifactContractTests
                 ? SkipDecision.Skip("mutable consumer skipped")
                 : SkipDecision.DoNotSkip);
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("consumed");
+            Task.FromResult<string>("consumed");
     }
 
     [ModularPipelines.DependsOn<LocalProducerModule>]
@@ -403,7 +403,7 @@ public class ArtifactContractTests
     {
         public static string? ConsumedContent { get; set; }
 
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -417,7 +417,7 @@ public class ArtifactContractTests
     [ProducesArtifact("after-hook-output", AfterHookProducedFile)]
     private sealed class AfterHookArtifactProducerModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -443,7 +443,7 @@ public class ArtifactContractTests
         RestorePath = AfterHookRestoreDirectory)]
     private sealed class AfterHookArtifactConsumerModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             await File.ReadAllTextAsync(
@@ -486,12 +486,12 @@ public class ArtifactContractTests
                 ? SkipDecision.DoNotSkip
                 : SkipDecision.Skip("producer is not ready"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executed = true;
-            return Task.FromResult<string?>("consumed");
+            return Task.FromResult<string>("consumed");
         }
     }
 
@@ -500,12 +500,12 @@ public class ArtifactContractTests
     {
         public static bool IsReady { get; set; }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             IsReady = true;
-            return Task.FromResult<string?>("ready");
+            return Task.FromResult<string>("ready");
         }
     }
 
@@ -520,12 +520,12 @@ public class ArtifactContractTests
                 ? SkipDecision.DoNotSkip
                 : SkipDecision.Skip("producer path is not ready"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executed = true;
-            return Task.FromResult<string?>("consumed");
+            return Task.FromResult<string>("consumed");
         }
     }
 
@@ -533,12 +533,12 @@ public class ArtifactContractTests
     {
         public static bool IsReady { get; set; }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             IsReady = true;
-            return Task.FromResult<string?>("ready");
+            return Task.FromResult<string>("ready");
         }
     }
 
@@ -552,12 +552,12 @@ public class ArtifactContractTests
                 ? SkipDecision.DoNotSkip
                 : SkipDecision.Skip("shared dependency state is not ready"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executed = true;
-            return Task.FromResult<string?>("shared sibling");
+            return Task.FromResult<string>("shared sibling");
         }
     }
 
@@ -571,12 +571,12 @@ public class ArtifactContractTests
                 ? SkipDecision.DoNotSkip
                 : SkipDecision.Skip("dependency state is not ready"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executed = true;
-            return Task.FromResult<string?>("intermediate");
+            return Task.FromResult<string>("intermediate");
         }
     }
 
@@ -588,7 +588,7 @@ public class ArtifactContractTests
     {
         public static bool Executed { get; set; }
 
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -607,19 +607,19 @@ public class ArtifactContractTests
     {
         public static bool Executed { get; set; }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executed = true;
-            return Task.FromResult<string?>("consumed");
+            return Task.FromResult<string>("consumed");
         }
     }
 
     [ProducesArtifact("multiple-output", MultipleProducedPattern)]
     private sealed class MultipleDirectoryProducerModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -655,7 +655,7 @@ public class ArtifactContractTests
     {
         public static string? ConsumedContent { get; set; }
 
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -675,7 +675,7 @@ public class ArtifactContractTests
     [ProducesArtifact("cache-only", CacheOnlyFile)]
     private sealed class CacheOnlyProducerModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -688,10 +688,10 @@ public class ArtifactContractTests
     [ProducesArtifact("missing-runtime", MissingRuntimeFile)]
     private sealed class MissingRuntimeProducerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("produced");
+            Task.FromResult<string>("produced");
     }
 
     [ProducesArtifact("pending-skip-runtime", MissingRuntimeFile)]
@@ -699,12 +699,12 @@ public class ArtifactContractTests
     {
         public static TaskCompletionSource Executed { get; set; } = CreateSignal();
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executed.TrySetResult();
-            return Task.FromResult<string?>("produced");
+            return Task.FromResult<string>("produced");
         }
     }
 
@@ -712,7 +712,7 @@ public class ArtifactContractTests
     {
         public static TaskCompletionSource Release { get; set; } = CreateSignal();
 
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -731,12 +731,12 @@ public class ArtifactContractTests
         protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => SkipDecision.Skip("consumer skipped"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executed = true;
-            return Task.FromResult<string?>("consumed");
+            return Task.FromResult<string>("consumed");
         }
     }
 
@@ -746,12 +746,12 @@ public class ArtifactContractTests
     {
         public static bool Executed { get; set; }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executed = true;
-            return Task.FromResult<string?>("consumed");
+            return Task.FromResult<string>("consumed");
         }
     }
 
@@ -760,7 +760,7 @@ public class ArtifactContractTests
     {
         public static TaskCompletionSource Release { get; set; } = CreateSignal();
 
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -775,12 +775,12 @@ public class ArtifactContractTests
     {
         public static bool Executed { get; set; }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executed = true;
-            return Task.FromResult<string?>("consumed");
+            return Task.FromResult<string>("consumed");
         }
     }
 
@@ -793,12 +793,12 @@ public class ArtifactContractTests
         protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithIgnoreFailures();
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executed = true;
-            return Task.FromResult<string?>("consumed");
+            return Task.FromResult<string>("consumed");
         }
     }
 
@@ -808,7 +808,7 @@ public class ArtifactContractTests
         protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => SkipDecision.Skip("producer skipped"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Skipped producer must not execute");
@@ -820,12 +820,12 @@ public class ArtifactContractTests
     {
         public static bool Executed { get; set; }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executed = true;
-            return Task.FromResult<string?>("consumed");
+            return Task.FromResult<string>("consumed");
         }
     }
 
@@ -838,12 +838,12 @@ public class ArtifactContractTests
         protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => SkipDecision.Skip("consumer skipped"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executed = true;
-            return Task.FromResult<string?>("consumed");
+            return Task.FromResult<string>("consumed");
         }
     }
 
@@ -862,12 +862,12 @@ public class ArtifactContractTests
                 return SkipDecision.Skip("consumer skipped");
             });
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executed = true;
-            return Task.FromResult<string?>("consumed");
+            return Task.FromResult<string>("consumed");
         }
     }
 
@@ -878,12 +878,12 @@ public class ArtifactContractTests
     {
         public static bool Executed { get; set; }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executed = true;
-            return Task.FromResult<string?>("consumed");
+            return Task.FromResult<string>("consumed");
         }
     }
 
@@ -892,7 +892,7 @@ public class ArtifactContractTests
         protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => SkipDecision.Skip("blocker skipped"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Skipped blocker must not execute");
@@ -905,7 +905,7 @@ public class ArtifactContractTests
         protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => SkipDecision.Skip("producer skipped"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Skipped producer must not execute");
@@ -920,12 +920,12 @@ public class ArtifactContractTests
     {
         public static bool Executed { get; set; }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executed = true;
-            return Task.FromResult<string?>("consumed");
+            return Task.FromResult<string>("consumed");
         }
     }
 
@@ -936,12 +936,12 @@ public class ArtifactContractTests
     {
         public static bool Executed { get; set; }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executed = true;
-            return Task.FromResult<string?>("consumed");
+            return Task.FromResult<string>("consumed");
         }
     }
 
@@ -950,7 +950,7 @@ public class ArtifactContractTests
         protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => SkipDecision.Skip("history-backed dependency skipped"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("History-backed dependency must not execute");
@@ -961,7 +961,7 @@ public class ArtifactContractTests
     [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "skipped-runtime")]
     private sealed class HistoryBackedDependencyArtifactConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Artifact consumer must cascade-skip");
@@ -971,12 +971,12 @@ public class ArtifactContractTests
     {
         public static bool IsReady { get; set; }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             IsReady = true;
-            return Task.FromResult<string?>("ready");
+            return Task.FromResult<string>("ready");
         }
     }
 
@@ -992,12 +992,12 @@ public class ArtifactContractTests
                 ? SkipDecision.DoNotSkip
                 : SkipDecision.Skip("dependency state is not ready"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executed = true;
-            return Task.FromResult<string?>("consumed");
+            return Task.FromResult<string>("consumed");
         }
     }
 
@@ -1011,7 +1011,7 @@ public class ArtifactContractTests
                 ? SkipDecision.DoNotSkip
                 : SkipDecision.Skip("dependency state is not ready"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Invalid consumer must fail validation");
@@ -1024,7 +1024,7 @@ public class ArtifactContractTests
         "dependency-ordered")]
     private sealed class FixedPointArtifactConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Fixed-point consumer must cascade-skip");
@@ -1033,10 +1033,10 @@ public class ArtifactContractTests
     [ModularPipelines.DependsOn<DependencyOrderedSkippedArtifactProducerModule>]
     private sealed class UnrelatedHistoryDependentModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("used history dependency");
+            Task.FromResult<string>("used history dependency");
     }
 
     [ModularPipelines.DependsOn<SkippedArtifactProducerModule>]
@@ -1044,7 +1044,7 @@ public class ArtifactContractTests
     [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "skipped-runtime")]
     private sealed class OscillatingFirstArtifactConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Oscillating consumer must cascade-skip");
@@ -1057,7 +1057,7 @@ public class ArtifactContractTests
         "dependency-ordered")]
     private sealed class OscillatingSecondArtifactConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Oscillating consumer must cascade-skip");
@@ -1066,17 +1066,17 @@ public class ArtifactContractTests
     [ModularPipelines.DependsOn<SkippedArtifactProducerModule>]
     private sealed class UnrelatedFirstHistoryDependentModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("used first history dependency");
+            Task.FromResult<string>("used first history dependency");
     }
 
     [ModularPipelines.DependsOn<SkippedArtifactProducerModule>]
     [ConsumesArtifact(typeof(DeclaredProducerModule), "missing-output")]
     private sealed class PreservedProducerInvalidArtifactConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Invalid consumer must fail validation");
@@ -1085,7 +1085,7 @@ public class ArtifactContractTests
     [ModularPipelines.DependsOn<SkippedArtifactBlockerModule>]
     private sealed class TransitiveSkippedArtifactIntermediateModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Dependency-skipped intermediate must not execute");
@@ -1100,12 +1100,12 @@ public class ArtifactContractTests
     {
         public static bool Executed { get; set; }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executed = true;
-            return Task.FromResult<string?>("consumed");
+            return Task.FromResult<string>("consumed");
         }
     }
 
@@ -1115,7 +1115,7 @@ public class ArtifactContractTests
         protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithIgnoreFailures();
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Producer failed");
@@ -1130,12 +1130,12 @@ public class ArtifactContractTests
     {
         public static bool Executed { get; set; }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Executed = true;
-            return Task.FromResult<string?>("consumed");
+            return Task.FromResult<string>("consumed");
         }
     }
 
@@ -1236,7 +1236,7 @@ public class ArtifactContractTests
     {
         public static string Root { get; set; } = string.Empty;
 
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -1257,7 +1257,7 @@ public class ArtifactContractTests
     {
         public static string? ConsumedContent { get; set; }
 
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -1275,7 +1275,7 @@ public class ArtifactContractTests
 
         public static string Content { get; set; } = string.Empty;
 
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -1301,7 +1301,7 @@ public class ArtifactContractTests
 
         public static string? ConsumedContent { get; set; }
 
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {

@@ -71,7 +71,7 @@ public class RunReportTests
 
     private sealed class CommandModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -87,7 +87,7 @@ public class RunReportTests
         private const string RegisteredSecret = "report-secret-value";
         private readonly ISecretRegistry _secretRegistry = secretRegistry;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -101,7 +101,7 @@ public class RunReportTests
         protected override void Configure(ModuleConfigurationBuilder module) => module
             .WithSkipWhen(_ => SkipDecision.Skip("report skip reason"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Skipped module must not execute");
@@ -109,31 +109,31 @@ public class RunReportTests
 
     private sealed class SuccessfulModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("success");
+            Task.FromResult<string>("success");
     }
 
     private sealed class OutputExcerptModule(ISecretRegistry secretRegistry) : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             secretRegistry.AddSecret("module-output-secret");
             context.Logger.LogInformation("{CommandOutput}", "stdout module-output-secret");
             context.Logger.LogInformation("{CommandError}", "stderr module-output-secret");
-            return Task.FromResult<string?>("success");
+            return Task.FromResult<string>("success");
         }
     }
 
     private sealed class GenericModule<T> : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>(typeof(T).FullName);
+            Task.FromResult(typeof(T).FullName ?? typeof(T).Name);
     }
 
     private sealed class ThrowingEndHook(ISecretRegistry secretRegistry) : IPipelineEventHandler
@@ -195,9 +195,9 @@ public class RunReportTests
 
     public class DuplicateModuleBase : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
-            CancellationToken cancellationToken) => Task.FromResult<string?>(null);
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
     private sealed class DuplicateAssemblyLoadContext(string name = "duplicate-report-context")
@@ -4119,7 +4119,7 @@ public class RunReportTests
         };
         try
         {
-            return ModuleResult<string>.CreateSuccess(null, context);
+            return ModuleResult<string>.CreateSuccess(string.Empty, context);
         }
         finally
         {

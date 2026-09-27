@@ -468,7 +468,8 @@ public class DistributedModuleExecutorTests
         PipelineOptions? pipelineOptions = null,
         IParallelLimitProvider? parallelLimitProvider = null,
         IEnumerable<IModule>? registeredModules = null,
-        CancellationToken applicationStopping = default)
+        CancellationToken applicationStopping = default,
+        IMetricsCollector? metricsCollector = null)
     {
         var lifetime = new Mock<IHostApplicationLifetime>();
         lifetime.Setup(l => l.ApplicationStopping).Returns(applicationStopping);
@@ -517,7 +518,8 @@ public class DistributedModuleExecutorTests
             cacheResultRepository,
             Microsoft.Extensions.Options.Options.Create(pipelineOptions ?? new PipelineOptions()),
             cacheHitTracker,
-            registeredModules);
+            registeredModules,
+            metricsCollector: metricsCollector);
     }
 
     private static IServiceScopeFactory NewModuleLoggerScopeFactory(IInternalModuleLogger? moduleLogger = null)
@@ -1350,7 +1352,7 @@ public class DistributedModuleExecutorTests
         await Assert.That(registeredResult.Status).IsEqualTo(ModuleStatus.TimedOut);
         await Assert.That(coordinator.ResultWaitTokens[typeof(DistributedModule).FullName!].IsCancellationRequested).IsTrue();
         scheduler.Verify(
-            instance => instance.MarkModuleCompleted(typeof(DistributedModule), false, null, null),
+            instance => instance.MarkModuleCompleted(typeof(DistributedModule), false, null, ModuleStatus.TimedOut),
             Times.Once());
     }
 
@@ -1911,7 +1913,7 @@ public class DistributedModuleExecutorTests
                 logger => logger.Log(
                     LogLevel.Warning,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((state, _) => state.ToString()!.Contains("No files matched pattern")),
+                    It.Is<It.IsAnyType>((state, _) => state!.ToString()!.Contains("No files matched pattern")),
                     null,
                     It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
                 Times.Once);
@@ -2004,7 +2006,7 @@ public class DistributedModuleExecutorTests
                 logger => logger.Log(
                     LogLevel.Error,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((state, _) => state.ToString()!.Contains("Failed to upload artifacts for")),
+                    It.Is<It.IsAnyType>((state, _) => state!.ToString()!.Contains("Failed to upload artifacts for")),
                     It.IsAny<Exception>(),
                     It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
                 Times.Once);
@@ -2012,7 +2014,7 @@ public class DistributedModuleExecutorTests
                 logger => logger.Log(
                     It.IsAny<LogLevel>(),
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((state, _) => state.ToString()!.Contains("Failed to upload artifacts for")),
+                    It.Is<It.IsAnyType>((state, _) => state!.ToString()!.Contains("Failed to upload artifacts for")),
                     It.IsAny<Exception>(),
                     It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
                 Times.Never);
@@ -2584,6 +2586,52 @@ public class DistributedModuleExecutorTests
     // =================================================================
 
     [Test]
+    public async Task Skipped_Worker_Result_Completes_Scheduler_With_Skipped_Status_And_Reported_Duration()
+    {
+        var module = new DistributedModule();
+        var moduleState = new ModuleState(module, typeof(DistributedModule));
+        var scheduler = CreateMockScheduler(moduleState);
+        var coordinator = new InMemoryDistributedCoordinator();
+        var noDequeue = new ResultTrackingCoordinator(coordinator);
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DistributedModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var metrics = new Mock<IMetricsCollector>();
+        var executor = CreateExecutor(scheduler,
+            coordinator: noDequeue,
+            resultCollector: new DistributedResultCollector(noDequeue, serializer),
+            metricsCollector: metrics.Object);
+        var workerStart = DateTimeOffset.UtcNow.AddMinutes(-2);
+        var workerEnd = workerStart.AddMilliseconds(523);
+        var skipped = ModuleResultFactory.CreateSkipped(
+            ((IModule) module).ResultType,
+            new ModuleExecutionContext(module, typeof(DistributedModule))
+            {
+                SkipResult = SkipDecision.Skip("Not needed"),
+                Status = ModuleStatus.Skipped,
+                StartTime = workerStart,
+                EndTime = workerEnd,
+                Duration = workerEnd - workerStart,
+            });
+
+        var executionTask = executor.ExecuteAsync([module]);
+        await noDequeue.ResultWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+        await coordinator.PublishResultAsync(
+            serializer.Serialize(skipped, ModuleId.FromType(typeof(DistributedModule)), 1),
+            CancellationToken.None);
+        await executionTask;
+
+        scheduler.Verify(
+            s => s.MarkModuleCompleted(typeof(DistributedModule), true, null, ModuleStatus.Skipped),
+            Times.Once());
+        metrics.Verify(
+            m => m.RecordReportedExecutionDuration(
+                typeof(DistributedModule),
+                TimeSpan.FromMilliseconds(523)),
+            Times.Once());
+    }
+
+    [Test]
     public async Task Distributed_Module_Marks_Scheduler_Started_And_Completed()
     {
         // Arrange
@@ -2612,7 +2660,7 @@ public class DistributedModuleExecutorTests
 
         // Assert
         scheduler.Verify(s => s.MarkModuleStarted(typeof(DistributedModule)), Times.Once());
-        scheduler.Verify(s => s.MarkModuleCompleted(typeof(DistributedModule), true, null, null), Times.Once());
+        scheduler.Verify(s => s.MarkModuleCompleted(typeof(DistributedModule), true, null, ModuleStatus.Succeeded), Times.Once());
     }
 
     [Test]
@@ -2732,7 +2780,7 @@ public class DistributedModuleExecutorTests
 
         scheduler.Verify(s => s.MarkModuleStarted(typeof(DistributedModule)), Times.Exactly(2));
         scheduler.Verify(
-            s => s.MarkModuleCompleted(typeof(DistributedModule), true, null, null),
+            s => s.MarkModuleCompleted(typeof(DistributedModule), true, null, ModuleStatus.Succeeded),
             Times.Once());
     }
 
@@ -2791,7 +2839,7 @@ public class DistributedModuleExecutorTests
         await Assert.That(resultRegistry.GetResult(typeof(DistributedModule)))
             .IsSameReferenceAs(moduleResult);
         scheduler.Verify(
-            s => s.MarkModuleCompleted(typeof(DistributedModule), false, null, null),
+            s => s.MarkModuleCompleted(typeof(DistributedModule), false, null, ModuleStatus.Cancelled),
             Times.Once());
     }
 
@@ -2843,7 +2891,7 @@ public class DistributedModuleExecutorTests
             c => c.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()),
             Times.Never());
         scheduler.Verify(
-            s => s.MarkModuleCompleted(typeof(DistributedModule), false, publishException, null),
+            s => s.MarkModuleCompleted(typeof(DistributedModule), false, publishException, ModuleStatus.Failed),
             Times.Once());
     }
 
@@ -2890,7 +2938,7 @@ public class DistributedModuleExecutorTests
             c => c.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()),
             Times.Never());
         scheduler.Verify(
-            s => s.MarkModuleCompleted(typeof(ShortTimeoutDistributedModule), false, null, null),
+            s => s.MarkModuleCompleted(typeof(ShortTimeoutDistributedModule), false, null, ModuleStatus.TimedOut),
             Times.Once());
         coordinator.Verify(
             c => c.BroadcastCancellationAsync(CancellationToken.None),

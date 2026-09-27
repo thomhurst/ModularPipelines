@@ -17,19 +17,19 @@ public class GitHubMarkdownSummaryGeneratorTests
 
     private sealed class DependencyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("dependency");
+            Task.FromResult("dependency");
     }
 
     [ModularPipelines.DependsOnAttribute<DependencyModule>]
     private sealed class TargetModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("target");
+            Task.FromResult("target");
     }
 
     private sealed class SingleUseSkipConditionModule : Module<string>
@@ -39,10 +39,10 @@ public class GitHubMarkdownSummaryGeneratorTests
                 ? SkipDecision.DoNotSkip
                 : throw new InvalidOperationException("Skip condition evaluated twice"));
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("executed");
+            Task.FromResult("executed");
     }
 
     private sealed class OversizedDependencyGraphRenderer : IDependencyGraphExporter

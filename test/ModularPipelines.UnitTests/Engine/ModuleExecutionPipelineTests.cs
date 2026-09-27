@@ -151,7 +151,7 @@ public class ModuleExecutionPipelineTests
         logger.Verify(x => x.Log(
             LogLevel.Warning,
             It.IsAny<EventId>(),
-            It.Is<It.IsAnyType>((state, _) => state.ToString()!
+            It.Is<It.IsAnyType>((state, _) => state!.ToString()!
                 .Contains("did not complete within the cancellation grace period", StringComparison.Ordinal)),
             null,
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
@@ -317,13 +317,13 @@ public class ModuleExecutionPipelineTests
         logger.Verify(x => x.Log(
             LogLevel.Trace,
             It.IsAny<EventId>(),
-            It.Is<It.IsAnyType>((state, _) => state.ToString()!.StartsWith("No module timeout configured.")),
+            It.Is<It.IsAnyType>((state, _) => state!.ToString()!.StartsWith("No module timeout configured.")),
             null,
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
         logger.Verify(x => x.Log(
             LogLevel.Debug,
             It.IsAny<EventId>(),
-            It.Is<It.IsAnyType>((state, _) => state.ToString()!.StartsWith("No module timeout configured.")),
+            It.Is<It.IsAnyType>((state, _) => state!.ToString()!.StartsWith("No module timeout configured.")),
             null,
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Never);
     }
@@ -382,7 +382,7 @@ public class ModuleExecutionPipelineTests
         logger.Verify(x => x.Log(
             LogLevel.Information,
             It.IsAny<EventId>(),
-            It.Is<It.IsAnyType>((state, _) => state.ToString() == expectedMessage),
+            It.Is<It.IsAnyType>((state, _) => state!.ToString() == expectedMessage),
             null,
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
         logger.Verify(x => x.SetStatus(ModuleStatus.Skipped), Times.Once);
@@ -570,5 +570,43 @@ public class ModuleExecutionPipelineTests
             CancellationToken.None);
 
         return await executionTask;
+    }
+
+    [Test]
+    [Arguments(ModuleStatus.Succeeded, true, LogLevel.Information, true)]
+    [Arguments(ModuleStatus.Skipped, true, LogLevel.Information, true)]
+    [Arguments(ModuleStatus.RestoredFromCache, true, LogLevel.Information, true)]
+    [Arguments(ModuleStatus.Succeeded, false, LogLevel.Information, false)]
+    [Arguments(ModuleStatus.Skipped, false, LogLevel.Information, false)]
+    [Arguments(ModuleStatus.Failed, true, LogLevel.Error, false)]
+    [Arguments(ModuleStatus.FailureIgnored, true, LogLevel.Warning, false)]
+    public async Task ModuleStatus_IsMarkedShownInGroupHeader_OnlyWhenHeaderShowsIt(
+        ModuleStatus status,
+        bool groupHeadersShowStatus,
+        LogLevel expectedLevel,
+        bool expectShownInGroupHeader)
+    {
+        var module = new SuccessfulModule();
+        var executionContext = new ModuleExecutionContext(module, module.GetType())
+        {
+            Status = status,
+        };
+        var logger = new Mock<ILogger>();
+
+        ModuleExecutionPipeline.LogModuleStatus(executionContext, logger.Object, groupHeadersShowStatus);
+
+        var expectedEventId = expectShownInGroupHeader
+            ? ModuleLogEvents.StatusShownInGroupHeader
+            : ModuleLogEvents.Status;
+        logger.Verify(
+            x => x.Log(
+                expectedLevel,
+                expectedEventId,
+                It.IsAny<It.IsAnyType>(),
+                It.IsAny<Exception?>(),
+                It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
+            Times.Once);
+        await Assert.That(logger.Invocations.Count(invocation => invocation.Method.Name == nameof(ILogger.Log)))
+            .IsEqualTo(1);
     }
 }

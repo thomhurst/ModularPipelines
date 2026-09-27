@@ -20,6 +20,20 @@ When writing through `context.Logger`, logs are grouped by the current module.
 Since modules may run in parallel, grouping keeps each module's structured, rich, and
 plain console output together and readable.
 
+On build systems that support collapsible sections (GitHub Actions, Azure Pipelines, GitLab, TeamCity) and in the local console, each group is headed with the module name, its outcome and its duration, for example `BuildModule ✓ (12s 40ms)`. When the results table is printed, the separate "completed successfully" and "skipped" status lines are then not repeated on the console; other logging providers, such as file or telemetry sinks, still receive them at `Information`. Build systems without group headers, and runs with `Console.PrintResults` set to `false`, still show them on the console.
+
+File system operations such as reading, writing, copying and searching files and folders are logged at `Debug` level.
+
+## Summary Entries
+Use `context.Summary` to record facts worth reading after the run, such as a generated version or a deployment URL:
+
+```csharp
+context.Summary.KeyValue("Version", "Generated Version Number", version);
+context.Summary.Success("Deploy", "Deployed to production");
+```
+
+Entries appear in a **Summary** section of the final results output, grouped by category, with registered secrets masked. They are also written to every other configured logging provider (for example file or telemetry sinks) at the end of the run. If results are not printed (for example `Console.PrintResults` is `false`), the entries are written to the console logger instead.
+
 ## Interfering with Console Progress 
 If you have an interactive terminal, then a progress dialog will be displayed, and constantly updated with the progress of all your modules.
 Module output is buffered while this display is active so it does not overwrite the progress dialog.
@@ -77,6 +91,8 @@ the correct module buffer, ordering, and masking rules apply.
 ## Command Logging
 
 When you execute CLI commands (e.g., `dotnet build`, `docker run`), ModularPipelines logs the command execution details. You can control what gets logged using `CommandLoggingOptions`.
+
+Command output is logged one line at a time, each prefixed with `↳`, whether it is streamed while the command runs or captured when it finishes. Blank output lines are omitted. Streamed standard error lines are logged the same way, because many tools write progress to standard error. When output is captured instead of streamed (for example with an output manipulator), standard error from a failed command is logged as a single warning prefixed with `✗`.
 
 ### Verbosity Levels
 

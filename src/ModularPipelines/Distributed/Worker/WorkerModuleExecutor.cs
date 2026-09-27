@@ -186,7 +186,7 @@ internal class WorkerModuleExecutor(
                 await _coordinator.WaitForCancellationAsync(executionCts.Token);
                 if (!executionCts.IsCancellationRequested)
                 {
-                    _logger.LogInformation("Master requested distributed cancellation");
+                    _logger.LogInformation("Coordinator requested distributed cancellation");
                     await executionCts.CancelAsync();
                 }
 
@@ -249,25 +249,29 @@ internal class WorkerModuleExecutor(
     {
         var executionTimer = new DistributedModuleExecutionTimer(claimedAt);
         if (await DependencyResultApplicator.RejectSchemaMismatchAsync(assignment, _typeRegistry, _serializer,
-                _coordinator, instanceIndex, executionTimer).ConfigureAwait(false))
+                _coordinator, instanceIndex, executionTimer,
+                schemaMismatch => RecordRejectedClaim(assignment, moduleLookup, schemaMismatch, executedModules))
+                .ConfigureAwait(false))
         {
             return;
         }
         var resolved = _typeRegistry.Resolve(assignment.ModuleId);
         if (resolved is null)
         {
-            _logger.LogError("Cannot resolve module type: {ModuleId}. Publishing failure to prevent master hang.", assignment.ModuleId);
+            _logger.LogError("Cannot resolve module type: {ModuleId}. Publishing failure to prevent coordinator hang.", assignment.ModuleId);
             await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, instanceIndex, _coordinator, _logger, executionTimer).ConfigureAwait(false);
             return;
         }
 
         if (!moduleLookup.TryGetValue(assignment.ModuleId, out var module))
         {
-            _logger.LogError("Module instance not found: {ModuleId}. Publishing failure to prevent master hang.", assignment.ModuleId);
+            _logger.LogError("Module instance not found: {ModuleId}. Publishing failure to prevent coordinator hang.", assignment.ModuleId);
             await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, instanceIndex, _coordinator, _logger, executionTimer).ConfigureAwait(false);
             return;
         }
 
+        // A claimed module belongs in this worker's summary whether it succeeds or fails.
+        executedModules.Enqueue(module);
         try
         {
             if (assignment.DependencyResultReferences is { Count: > 0 })
@@ -283,7 +287,6 @@ internal class WorkerModuleExecutor(
             }
 
             await ExecuteAndPublishAsync(assignment, module, instanceIndex, executionTimer, cancellationToken).ConfigureAwait(false);
-            executedModules.Enqueue(module);
         }
         catch (Exception ex)
         {
@@ -291,6 +294,33 @@ internal class WorkerModuleExecutor(
                 assignment.ModuleId, instanceIndex);
             await PublishFailureAsync(assignment, resolved.Value.ResultType, module, ex, instanceIndex, executionTimer).ConfigureAwait(false);
         }
+    }
+
+    /// <summary>
+    /// Records a claim rejected before execution as a local failure, so this worker's results and
+    /// summary include it. A claim whose module has no instance in this process cannot be recorded.
+    /// </summary>
+    private void RecordRejectedClaim(
+        ModuleAssignment assignment,
+        Dictionary<ModuleId, IModule> moduleLookup,
+        Exception exception,
+        ConcurrentQueue<IModule> executedModules)
+    {
+        if (!moduleLookup.TryGetValue(assignment.ModuleId, out var module))
+        {
+            return;
+        }
+
+        var failure = ModuleResultFactory.CreateException(
+            module.ResultType,
+            exception,
+            new ModuleExecutionContext(module, module.GetType())
+            {
+                Status = ModuleStatus.Failed,
+                Exception = exception,
+            });
+        new ExecutionBackendContext(_resultRegistry).TryApplyResult(module, failure);
+        executedModules.Enqueue(module);
     }
 
     private async Task ExecuteAndPublishAsync(
@@ -429,6 +459,9 @@ internal class WorkerModuleExecutor(
                         Status = exception is OperationCanceledException ? ModuleStatus.Cancelled : ModuleStatus.Failed,
                         Exception = exception,
                     });
+
+            // Record the failure locally too, so this worker's summary reports the module.
+            new ExecutionBackendContext(_resultRegistry).TryApplyResult(module, terminalResult);
             SerializedModuleResult serialized;
             try
             {
@@ -448,6 +481,10 @@ internal class WorkerModuleExecutor(
                         Status = ModuleStatus.Failed,
                         Exception = serializationException,
                     });
+
+                // The module's completed result cannot change, so report the failure the
+                // coordinator receives through this worker's own results instead.
+                _resultRegistry.RegisterResult(module.GetType(), failure);
                 serialized = _serializer.Serialize(
                     failure,
                     assignment.ModuleId,
@@ -460,7 +497,7 @@ internal class WorkerModuleExecutor(
         catch (Exception publishException)
         {
             _logger.LogCritical(publishException,
-                "Failed to publish failure result for module {Module} — master may hang waiting for this result",
+                "Failed to publish failure result for module {Module} — coordinator may hang waiting for this result",
                 assignment.ModuleId);
         }
     }

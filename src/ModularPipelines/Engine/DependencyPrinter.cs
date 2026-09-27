@@ -14,13 +14,15 @@ internal class DependencyPrinter : IDependencyPrinter
     private readonly IBuildSystemFormatter _formatter;
     private readonly IOptions<PipelineOptions> _options;
     private readonly IDependencyTreeFormatter _treeFormatter;
+    private readonly IExecutionLocationContext? _executionLocationContext;
 
     public DependencyPrinter(IDependencyChainProvider dependencyChainProvider,
         IConsoleWriter consoleWriter,
         IBuildSystemCommandWriter commandWriter,
         IBuildSystemFormatterProvider formatterProvider,
         IOptions<PipelineOptions> options,
-        IDependencyTreeFormatter treeFormatter)
+        IDependencyTreeFormatter treeFormatter,
+        IExecutionLocationContext? executionLocationContext = null)
     {
         _dependencyChainProvider = dependencyChainProvider;
         _consoleWriter = consoleWriter;
@@ -28,11 +30,13 @@ internal class DependencyPrinter : IDependencyPrinter
         _formatter = formatterProvider.GetFormatter();
         _options = options;
         _treeFormatter = treeFormatter;
+        _executionLocationContext = executionLocationContext;
     }
 
     public void PrintDependencyChains()
     {
-        if (!_options.Value.Console.PrintDependencyChains)
+        // Distributed workers share the coordinator's plan; only the coordinator prints it.
+        if (!_options.Value.Console.PrintDependencyChains || _executionLocationContext?.IsWorker == true)
         {
             return;
         }

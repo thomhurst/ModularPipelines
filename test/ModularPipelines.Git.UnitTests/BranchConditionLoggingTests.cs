@@ -45,7 +45,7 @@ public class BranchConditionLoggingTests
         var result = await new RunIfBranchAttribute("main").EvaluateAsync(context);
         var logMessage = logger.Invocations
             .Single(x => x.Method.Name == nameof(ILogger.Log))
-            .Arguments[2]
+            .Arguments[2]?
             .ToString();
 
         await Assert.That(result).IsFalse();

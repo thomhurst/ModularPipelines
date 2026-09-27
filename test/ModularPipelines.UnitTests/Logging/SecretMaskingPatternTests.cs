@@ -108,7 +108,7 @@ public class SecretMaskingPatternTests
             LogLevel.Warning,
             It.IsAny<EventId>(),
             It.Is<It.IsAnyType>((state, _) =>
-                state.ToString()!.Contains("length 2", StringComparison.Ordinal)
+                state!.ToString()!.Contains("length 2", StringComparison.Ordinal)
                 && !state.ToString()!.Contains("qz", StringComparison.Ordinal)),
             null,
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
