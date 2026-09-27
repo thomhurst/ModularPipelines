@@ -18,8 +18,9 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
         """;
 
     // Ordered by preference; the matrix provisions runners in this order.
-    // Beyond this many planning-safe conditions per module, runner planning provisions conservatively.
-    private const int MaximumEnumeratedConditions = 10;
+    // Beyond this many planning-safe conditions in one condition group, runner planning provisions conservatively.
+    private const int MaximumEnumeratedGroupConditions = 12;
+    private const string UnrestrictedKey = "*";
 
     private static readonly (Capability OperatingSystem, string Runner)[] Runners =
     [
@@ -166,25 +167,34 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
 
     private static IEnumerable<Capability> GetRequiredOperatingSystems(Type moduleType)
     {
-        var formula = ConditionFormula.ForRouting(
-            moduleType.GetCustomAttributes(inherit: true).OfType<IConditionAttribute>());
-        var planningAtoms = formula?.Atoms.Where(static atom => atom.IsPlanning).Distinct().ToArray() ?? [];
-        if (formula is not null && planningAtoms.Length > MaximumEnumeratedConditions)
+        // A module's requirement is the AND of its declarations and its condition groups, and each group
+        // has its own conditions. Enumerate each group's outcomes separately and fold the operating
+        // systems they allow; null means unrestricted. There are only a few distinct OS sets, so the fold
+        // stays small however many groups there are.
+        var reachable = new Dictionary<string, HashSet<Capability>?> { [UnrestrictedKey] = null };
+        foreach (var outcomes in GetOperatingSystemOutcomes(moduleType))
         {
-            return GetConservativeOperatingSystems(moduleType, formula);
-        }
-
-        var operatingSystems = new HashSet<Capability>();
-        foreach (var conditionValue in GetPossibleConditionValues(formula, planningAtoms))
-        {
-            // Each outcome of the master's planning-safe conditions is a requirement the master may stamp.
-            if (CapabilityConditions.Combine(moduleType, conditionValue) is not { } requirement
-                || GetAllowedOperatingSystems(requirement.Clauses) is not { } allowedOperatingSystems)
+            var next = new Dictionary<string, HashSet<Capability>?>();
+            foreach (var current in reachable.Values)
             {
-                // Impossible outcomes are skipped, and unrestricted ones run on the default runner.
-                continue;
+                foreach (var outcome in outcomes)
+                {
+                    var combined = Intersect(current, outcome);
+                    if (combined is not { Count: 0 })
+                    {
+                        next[GetKey(combined)] = combined;
+                    }
+                }
             }
 
+            reachable = next;
+        }
+
+        // Every reachable outcome the master may stamp needs a supported runner; impossible ones are skipped,
+        // and unrestricted ones run on the default runner.
+        var operatingSystems = new HashSet<Capability>();
+        foreach (var allowedOperatingSystems in reachable.Values.OfType<HashSet<Capability>>())
+        {
             EnsureSupported(allowedOperatingSystems);
             operatingSystems.UnionWith(allowedOperatingSystems);
         }
@@ -195,56 +205,72 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
     }
 
     /// <summary>
-    /// Plans runners without enumerating outcomes: provisions every operating system the conditions or
-    /// declarations name that every outcome still allows, so no reachable requirement lacks a runner.
+    /// Returns, for the module's declarations and each capability-bearing condition group, the operating
+    /// systems each possible outcome allows. Outcomes where the group is false are left out because the
+    /// module is then skipped.
     /// </summary>
-    private static IEnumerable<Capability> GetConservativeOperatingSystems(Type moduleType, ConditionFormula formula)
+    private static IEnumerable<IReadOnlyList<HashSet<Capability>?>> GetOperatingSystemOutcomes(Type moduleType)
     {
-        // Conditions are monotone, so the all-true outcome needs the least; every outcome needs at least that.
-        if (CapabilityConditions.Combine(moduleType, formula.Evaluate(static _ => true)) is not { } leastRequirement)
+        yield return [GetAllowedOperatingSystems(CapabilityConditions.GetDeclaredRequirement(moduleType).Clauses)];
+
+        var attributes = moduleType.GetCustomAttributes(inherit: true).OfType<IConditionAttribute>();
+        foreach (var (_, formula) in ConditionFormula.ForConditionGroups(attributes))
         {
-            return [];
+            if (!formula.Capabilities.Any())
+            {
+                continue;
+            }
+
+            var planningAtoms = formula.Atoms.Where(static atom => atom.IsPlanning).Distinct().ToArray();
+            if (planningAtoms.Length > MaximumEnumeratedGroupConditions)
+            {
+                // Too many combinations: any named operating system may be required on its own.
+                yield return
+                [
+                    null,
+                    .. formula.Capabilities
+                        .Where(static capability => capability.IsOperatingSystem)
+                        .Distinct()
+                        .Select(static operatingSystem => new HashSet<Capability> { operatingSystem }),
+                ];
+                continue;
+            }
+
+            var outcomes = new List<HashSet<Capability>?>();
+            for (var combination = 0; combination < 1 << planningAtoms.Length; combination++)
+            {
+                var values = planningAtoms
+                    .Select((atom, index) => (atom, value: (combination & (1 << index)) != 0))
+                    .ToDictionary(static pair => pair.atom, static pair => pair.value);
+
+                // Worker-only conditions may hold on the worker, so they constrain nothing.
+                if (formula.Evaluate(atom => !values.TryGetValue(atom, out var value) || value).RequirementOrNone is
+                    { } requirement)
+                {
+                    outcomes.Add(GetAllowedOperatingSystems(requirement.Clauses));
+                }
+            }
+
+            yield return outcomes;
         }
-
-        var allowedOperatingSystems = GetAllowedOperatingSystems(leastRequirement.Clauses);
-        if (allowedOperatingSystems is not null)
-        {
-            EnsureSupported(allowedOperatingSystems);
-        }
-
-        var namedOperatingSystems = formula.Capabilities
-            .Concat(CapabilityConditions.GetDeclaredRequirement(moduleType).Clauses.SelectMany(static clause => clause))
-            .Where(static capability => capability.IsOperatingSystem)
-            .ToHashSet();
-
-        return Runners
-            .Select(static runner => runner.OperatingSystem)
-            .Where(operatingSystem => namedOperatingSystems.Contains(operatingSystem)
-                                      && allowedOperatingSystems?.Contains(operatingSystem) != false);
     }
 
-    /// <summary>
-    /// Returns the formula's value for every combination of its planning-safe conditions, which the
-    /// master evaluates at run time. Worker-only conditions stay unconstrained.
-    /// </summary>
-    private static IEnumerable<FormulaValue> GetPossibleConditionValues(
-        ConditionFormula? formula,
-        IReadOnlyList<ConditionAtom> planningAtoms)
+    private static HashSet<Capability>? Intersect(HashSet<Capability>? left, HashSet<Capability>? right)
     {
-        if (formula is null)
+        if (left is null || right is null)
         {
-            yield return FormulaValue.True;
-            yield break;
+            return left ?? right;
         }
 
-        for (var combination = 0; combination < 1 << planningAtoms.Count; combination++)
-        {
-            var values = planningAtoms
-                .Select((atom, index) => (atom, value: (combination & (1 << index)) != 0))
-                .ToDictionary(static pair => pair.atom, static pair => pair.value);
-            yield return formula.Evaluate(atom => !values.TryGetValue(atom, out var value) || value);
-        }
+        var intersection = new HashSet<Capability>(left);
+        intersection.IntersectWith(right);
+        return intersection;
     }
+
+    private static string GetKey(HashSet<Capability>? operatingSystems) =>
+        operatingSystems is null
+            ? UnrestrictedKey
+            : string.Join('|', operatingSystems.Select(static capability => capability.Name).Order(StringComparer.OrdinalIgnoreCase));
 
     /// <summary>
     /// Returns the operating systems allowed by clauses that list only operating systems, or

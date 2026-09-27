@@ -78,19 +78,6 @@ internal abstract class ConditionFormula
     }
 
     /// <summary>
-    /// Builds the formula of the condition groups that contain a capability condition, which are the only
-    /// groups that affect routing, or <c>null</c> when there are none.
-    /// </summary>
-    public static ConditionFormula? ForRouting(IEnumerable<IConditionAttribute> attributes)
-    {
-        var formulas = ForConditionGroups(attributes)
-            .Select(static group => group.Formula)
-            .Where(static formula => formula.Capabilities.Any())
-            .ToArray();
-        return formulas.Length == 0 ? null : new AndFormula(formulas);
-    }
-
-    /// <summary>
     /// Builds the formula of one condition attribute, or <c>null</c> for skip conditions, which never
     /// require a capability.
     /// </summary>

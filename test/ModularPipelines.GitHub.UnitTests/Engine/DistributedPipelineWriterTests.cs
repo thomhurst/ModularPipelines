@@ -205,9 +205,9 @@ public class DistributedPipelineWriterTests : TestBase
     }
 
     [Test]
-    public async Task ProvisionsConditionalRunnersWhenConditionCombinationsAreCapped()
+    public async Task ProvisionsConditionalRunnersAcrossManyConditions()
     {
-        // Eleven planning-safe conditions exceed the enumeration limit; when they are false at run time,
+        // Eleven planning-safe conditions; when they are false at run time,
         // the master requires Windows, so the workflow must still provision a Windows runner.
         var outputPath = new FilePath(Path.Combine(
             FilePath.GetNewTemporaryFilePath().Path,
@@ -223,6 +223,23 @@ public class DistributedPipelineWriterTests : TestBase
             .RunAsync();
 
         await Assert.That(await outputPath.ReadAsync()).Contains("windows-latest");
+    }
+
+    [Test]
+    public async Task RejectsUnsupportedConditionalRoutesAcrossManyConditions()
+    {
+        // With every OnCI false at run time the master requires FreeBSD, which no runner supports.
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            TestPipelineBuilder.Create()
+                .AddModule<ManyConditionalFreeBsdRoutesModule>()
+                .WriteDistributedWorkflow(new DistributedWorkflowOptions
+                {
+                    OutputPath = FilePath.GetNewTemporaryFilePath(),
+                    ExtraWorkers = 0,
+                })
+                .RunAsync());
+
+        await Assert.That(exception!.Message).Contains("freebsd");
     }
 
     [Test]
@@ -349,6 +366,22 @@ public class DistributedPipelineWriterTests : TestBase
     [RunIfAny<OnWindows, OnCI>]
     [RunIfAny<OnWindows, OnCI>]
     private sealed class ManyConditionalWindowsRoutesModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    [RunIfAny<OnFreeBSD, OnCI>]
+    private sealed class ManyConditionalFreeBsdRoutesModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }
