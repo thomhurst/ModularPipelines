@@ -430,13 +430,7 @@ internal class DistributedModuleExecutor(
         }
         catch (UnsatisfiableModuleRequirementException exception)
         {
-            _logger.LogInformation("Skipping distributed module {Module}: {Reason}", moduleType.Name, exception.Message);
-            var skipped = RegisterSkippedResult(module, moduleType, exception.SkipDecision, context);
-            moduleState.Result = skipped;
-            scheduler.MarkModuleCompleted(
-                moduleType,
-                success: true,
-                statusOverride: skipped?.Status ?? ModuleStatus.Skipped);
+            CompleteUnroutableModule(moduleState, scheduler, exception, context);
             return null;
         }
         catch (Exception exception)
@@ -647,12 +641,22 @@ internal class DistributedModuleExecutor(
     {
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
-        var assignment = await _publisher.CreateAssignmentAsync(
-                module,
-                _lifetime.ApplicationStopping,
-                moduleState.Priority,
-                moduleState.CriticalPathWeight)
-            .ConfigureAwait(false);
+        ModuleAssignment assignment;
+        try
+        {
+            assignment = await _publisher.CreateAssignmentAsync(
+                    module,
+                    _lifetime.ApplicationStopping,
+                    moduleState.Priority,
+                    moduleState.CriticalPathWeight)
+                .ConfigureAwait(false);
+        }
+        catch (UnsatisfiableModuleRequirementException exception)
+        {
+            CompleteUnroutableModule(moduleState, scheduler, exception, context);
+            return;
+        }
+
         if (!scheduler.MarkModuleStarted(moduleType))
         {
             return;
@@ -1227,6 +1231,25 @@ internal class DistributedModuleExecutor(
         IModuleResult result,
         IExecutionBackendContext context) =>
         context.TryApplyResult(module, result) ? result : GetCompletedResult(module);
+
+    /// <summary>
+    /// Completes a module no worker can run as skipped, both in the result registry and on the scheduler.
+    /// </summary>
+    private void CompleteUnroutableModule(
+        ModuleState moduleState,
+        IModuleScheduler scheduler,
+        UnsatisfiableModuleRequirementException exception,
+        IExecutionBackendContext context)
+    {
+        var moduleType = moduleState.ModuleType;
+        _logger.LogInformation("Skipping distributed module {Module}: {Reason}", moduleType.Name, exception.Message);
+        var skipped = RegisterSkippedResult(moduleState.Module, moduleType, exception.SkipDecision, context);
+        moduleState.Result = skipped;
+        scheduler.MarkModuleCompleted(
+            moduleType,
+            success: true,
+            statusOverride: skipped?.Status ?? ModuleStatus.Skipped);
+    }
 
     private IModuleResult? RegisterSkippedResult(
         IModule module,

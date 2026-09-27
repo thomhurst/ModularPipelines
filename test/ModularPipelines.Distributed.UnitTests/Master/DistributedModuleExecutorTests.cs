@@ -1684,6 +1684,53 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
+    public async Task Late_AlwaysRun_Module_Without_A_Route_Is_Skipped()
+    {
+        var module = new DistributedModule();
+        var scheduler = CreateMockScheduler(new ModuleState(module, typeof(DistributedModule)));
+        scheduler.Setup(x => x.CancelPendingModules()).Returns([]);
+        var unroutableModule = new CachedModuleWithConflictingCapabilities();
+        var unroutableState = new ModuleState(unroutableModule, typeof(CachedModuleWithConflictingCapabilities));
+        var coordinator = new InMemoryDistributedCoordinator();
+        var trackingCoordinator = new ResultTrackingCoordinator(coordinator);
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DistributedModule));
+        typeRegistry.Register(typeof(CachedModuleWithConflictingCapabilities));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var serializedFailure = serializer.Serialize(
+            CreateTypedFailureResult(module, new Exception("pipeline failed")),
+            ModuleId.FromType(typeof(DistributedModule)),
+            workerIndex: 1);
+        var alwaysRunHandler = new Mock<IAlwaysRunHandler>();
+        alwaysRunHandler.Setup(x => x.WaitForAlwaysRunModulesAsync(
+                scheduler.Object,
+                It.IsAny<IReadOnlyList<IModule>>(),
+                It.IsAny<Func<ModuleState, Task>>()))
+            .Returns((IModuleScheduler _, IReadOnlyList<IModule> _, Func<ModuleState, Task> startLate) =>
+                startLate(unroutableState));
+        var resultRegistry = new ModuleResultRegistry();
+        var executor = CreateExecutor(
+            scheduler,
+            resultRegistry: resultRegistry,
+            coordinator: trackingCoordinator,
+            resultCollector: new DistributedResultCollector(trackingCoordinator, serializer),
+            alwaysRunHandler: alwaysRunHandler.Object);
+
+        var executionTask = executor.ExecuteAsync([module]);
+        await trackingCoordinator.WaitForResultStartedAsync(typeof(DistributedModule)).WaitAsync(TestHostSettings.DefaultTestTimeout);
+        await coordinator.PublishResultAsync(serializedFailure, CancellationToken.None);
+        await executionTask.WaitAsync(TestHostSettings.DefaultTestTimeout);
+
+        scheduler.Verify(s => s.MarkModuleCompleted(
+            typeof(CachedModuleWithConflictingCapabilities),
+            true,
+            null,
+            ModuleStatus.Skipped));
+        await Assert.That(resultRegistry.GetResult(typeof(CachedModuleWithConflictingCapabilities))?.Status)
+            .IsEqualTo(ModuleStatus.Skipped);
+    }
+
+    [Test]
     public async Task FailFast_Skips_Queued_NonAlwaysRun_Master_Assignments()
     {
         var failedModule = new DistributedModule();
