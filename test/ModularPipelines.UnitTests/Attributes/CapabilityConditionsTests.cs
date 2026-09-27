@@ -106,6 +106,20 @@ public class CapabilityConditionsTests
             CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
+    private sealed class LinuxAndCiGroup : ConditionGroup, IPlanningRunCondition
+    {
+        public override IReadOnlyList<IRunCondition> Conditions => [new OnLinux(), new OnCI()];
+
+        public override ConditionLogic Logic => ConditionLogic.All;
+    }
+
+    private sealed class GpuOrCiGroup : ConditionGroup, IPlanningRunCondition
+    {
+        public override IReadOnlyList<IRunCondition> Conditions => [new OnGpu(), new OnCI()];
+
+        public override ConditionLogic Logic => ConditionLogic.Any;
+    }
+
     private sealed class LinuxOnCiGroup : ConditionGroup, IPlanningRunCondition
     {
         public override IReadOnlyList<IRunCondition> Conditions => [new OnLinux(), new OnCI()];
@@ -258,30 +272,71 @@ public class CapabilityConditionsTests
     }
 
     [Test]
-    public async Task Module_Requirement_Includes_Conditional_Routes_Only_When_Required()
+    public async Task Static_Module_Requirement_Needs_Only_What_Every_Outcome_Needs()
     {
+        // OnCI could be true, so without evaluating it the module needs no capability.
+        await Assert.That(CapabilityConditions.GetModuleRequirement(typeof(MixedAlternativeModule))!.IsEmpty)
+            .IsTrue();
+    }
+
+    [Test]
+    public async Task Formula_Uses_Known_Condition_Values()
+    {
+        var formula = ConditionFormula.ForAttribute(new RunIfAnyAttribute<OnLinux, OnCI>())!;
+        var ci = formula.Atoms.Single();
+
         using (Assert.Multiple())
         {
-            await Assert.That(CapabilityConditions.GetModuleRequirement(typeof(MixedAlternativeModule)).IsEmpty)
-                .IsTrue();
-            await Assert.That(CapabilityConditions.GetModuleRequirement(
-                    typeof(MixedAlternativeModule),
-                    isConditionalRouteRequired: static _ => true))
+            await Assert.That(ci.IsPlanning).IsTrue();
+            await Assert.That(formula.Evaluate(_ => false).Requirement)
                 .IsEqualTo(CapabilityRequirement.AllOf(Capability.Linux));
+            await Assert.That(formula.Evaluate(_ => true).Kind).IsEqualTo(FormulaValueKind.True);
         }
     }
 
     [Test]
-    public async Task Mixed_Alternative_Local_Conditions_Report_Planning_Safety()
+    public async Task Formula_Drops_Branches_That_Are_False_On_The_Master()
     {
+        // (linux AND false) OR windows must route to Windows, not to Linux or Windows.
+        var formula = ConditionFormula.ForAttribute(new RunIfAnyAttribute<LinuxAndCiGroup, OnWindows>())!;
+
+        await Assert.That(formula.Evaluate(_ => false).Requirement)
+            .IsEqualTo(CapabilityRequirement.AllOf(Capability.Windows));
+    }
+
+    [Test]
+    public async Task Formula_Is_False_When_Master_Values_Contradict()
+    {
+        var formula = ConditionFormula.ForModule(
+        [
+            new RunIfAnyAttribute<OnLinux, OnCI>(),
+            new RunIfAnyAttribute<OnWindows, OnCI>(),
+        ])!;
+
         using (Assert.Multiple())
         {
-            await Assert.That(CapabilityConditions.CanRequireRoute(
-                    new RunIfAnyAttribute<OnLinux, OnCI>()))
-                .IsTrue();
-            await Assert.That(CapabilityConditions.CanRequireRoute(
-                    new RunIfAnyAttribute<OnLinux, WorkerOnlyCondition>()))
-                .IsFalse();
+            await Assert.That(formula.Evaluate(_ => false).Kind).IsEqualTo(FormulaValueKind.False);
+            await Assert.That(formula.Evaluate(_ => true).Kind).IsEqualTo(FormulaValueKind.True);
+        }
+    }
+
+    [Test]
+    public async Task Worker_Only_Conditions_Are_Not_Evaluated_On_The_Master()
+    {
+        var formula = ConditionFormula.ForAttribute(new RunIfAnyAttribute<OnLinux, WorkerOnlyCondition>())!;
+
+        await Assert.That(formula.Atoms.Single().IsPlanning).IsFalse();
+    }
+
+    [Test]
+    public async Task Mixed_Or_Condition_Group_Routes_Its_Capability_Branch()
+    {
+        var route = CapabilityConditions.GetRoute(new RunIfAttribute<GpuOrCiGroup>());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(route?.Requirement).IsEqualTo(CapabilityRequirement.AllOf(Capability.Gpu));
+            await Assert.That(route?.IsConditional).IsEqualTo(true);
         }
     }
 

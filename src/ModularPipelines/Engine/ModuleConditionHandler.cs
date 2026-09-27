@@ -122,7 +122,40 @@ internal class ModuleConditionHandler : IModuleConditionHandler
                 _executionLocationContext,
                 cancellationToken)
             .ConfigureAwait(false);
+        _executionLocationContext.SetPreparedConditionValue(
+            module,
+            await EvaluateRoutingFormulaAsync(module, attributes, pipelineContext, cancellationToken)
+                .ConfigureAwait(false));
         _executionLocationContext.MarkRoutingPrepared(module);
+    }
+
+    /// <summary>
+    /// Evaluates the module's condition formula with the master's values for planning-safe conditions.
+    /// The result is the capability requirement of the worker that must run the module, or false when
+    /// no worker can satisfy the module's conditions. Worker-only conditions stay unconstrained.
+    /// </summary>
+    private async Task<FormulaValue> EvaluateRoutingFormulaAsync(
+        IModule module,
+        ConditionAttributes attributes,
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken)
+    {
+        var formula = ConditionFormula.ForModule(
+            [.. attributes.All, .. attributes.Any],
+            conditionGroupType => _executionLocationContext.IsConditionGroupSatisfied(module, conditionGroupType));
+        if (formula is null)
+        {
+            return FormulaValue.True;
+        }
+
+        var values = new Dictionary<ConditionAtom, bool>(ReferenceEqualityComparer.Instance);
+        foreach (var atom in formula.Atoms.Where(static atom => atom.IsPlanning))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            values[atom] = await atom.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false);
+        }
+
+        return formula.Evaluate(atom => !values.TryGetValue(atom, out var value) || value);
     }
 
     private static async Task<bool> CanPrepareSkipConditionRoutingAsync(
@@ -918,12 +951,6 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         {
             executionLocationContext.MarkConditionGroupSatisfied(module, attribute.GetType());
         }
-        else if (CapabilityConditions.CanRequireRoute(attribute))
-        {
-            // Every local alternative is false, so only the capability alternatives can satisfy it.
-            executionLocationContext.MarkConditionalRouteRequired(module, attribute.GetType());
-        }
-
         return true;
     }
 
@@ -954,12 +981,6 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         {
             executionLocationContext.MarkConditionGroupSatisfied(module, conditionGroupType);
         }
-        else if (CapabilityConditions.CanRequireRoute(alternatives))
-        {
-            // Every local alternative is false, so only the capability alternatives can satisfy it.
-            executionLocationContext.MarkConditionalRouteRequired(module, conditionGroupType);
-        }
-
         return true;
     }
 

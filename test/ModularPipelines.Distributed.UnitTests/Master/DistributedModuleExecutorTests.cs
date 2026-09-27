@@ -2623,7 +2623,7 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    public async Task Cache_Miss_With_Assignment_Creation_Failure_Discards_Fingerprint()
+    public async Task Cache_Miss_With_Unroutable_Assignment_Skips_And_Discards_Fingerprint()
     {
         var module = new CachedModuleWithConflictingCapabilities();
         var moduleState = new ModuleState(module, typeof(CachedModuleWithConflictingCapabilities));
@@ -2645,7 +2645,7 @@ public class DistributedModuleExecutorTests
 
         cache.Verify(c => c.DiscardFingerprint(module), Times.Once());
         await Assert.That(resultRegistry.GetResult(module.GetType())?.Status)
-            .IsEqualTo(ModuleStatus.Failed);
+            .IsEqualTo(ModuleStatus.Skipped);
     }
 
     [Test]

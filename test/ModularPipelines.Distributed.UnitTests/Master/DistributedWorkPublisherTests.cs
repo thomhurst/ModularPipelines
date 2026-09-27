@@ -475,7 +475,7 @@ public class DistributedWorkPublisherTests
     }
 
     [Test]
-    public async Task CreateAssignment_Requires_Conditional_Route_When_Local_Alternatives_Failed()
+    public async Task CreateAssignment_Uses_Master_Prepared_Requirement()
     {
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
@@ -485,7 +485,7 @@ public class DistributedWorkPublisherTests
             routingOptions,
             new ModularPipelines.Distributed.Configuration.RoleDetector(routingOptions));
         var module = new MixedGenericAlternativeModule();
-        conditionRouting.MarkConditionalRouteRequired(module, typeof(RunIfAnyAttribute<OnLinux, FalseCondition>));
+        conditionRouting.SetPreparedConditionValue(module, FormulaValue.Of(CapabilityRequirement.AllOf(Capability.Linux)));
         var publisher = new DistributedWorkPublisher(
             coordinator,
             typeRegistry,
@@ -654,10 +654,10 @@ public class DistributedWorkPublisherTests
     }
 
     [Test]
-    public async Task CreateAssignment_Lets_Workers_Skip_Contradictory_Required_Conditional_Routes()
+    public async Task CreateAssignment_Rejects_Module_The_Master_Found_Unroutable()
     {
-        // Both local alternatives were false on the master, so both routes became required and
-        // contradict each other. The assignment must not fail: any worker claims it and skips it.
+        // Both local alternatives were false on the master, so the module needs Linux and Windows.
+        // It must be skipped rather than dispatched to a worker that could re-evaluate the alternatives.
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(ConflictingConditionalMixedAlternativeModule));
         var routingOptions = Microsoft.Extensions.Options.Options.Create(new DistributedOptions());
@@ -665,17 +665,17 @@ public class DistributedWorkPublisherTests
             routingOptions,
             new ModularPipelines.Distributed.Configuration.RoleDetector(routingOptions));
         var module = new ConflictingConditionalMixedAlternativeModule();
-        conditionRouting.MarkConditionalRouteRequired(module, typeof(RunIfAnyAttribute<OnLinux, FalseCondition>));
-        conditionRouting.MarkConditionalRouteRequired(module, typeof(RunIfAnyAttribute<OnWindows, FalseCondition>));
+        conditionRouting.SetPreparedConditionValue(module, FormulaValue.False);
         var publisher = new DistributedWorkPublisher(
             new InMemoryDistributedCoordinator(),
             typeRegistry,
             new ModuleResultRegistry(),
             executionLocationContext: conditionRouting);
 
-        var assignment = publisher.CreateAssignment(module);
+        var exception = Assert.Throws<UnsatisfiableModuleRequirementException>(() =>
+            publisher.CreateAssignment(module));
 
-        await Assert.That(assignment.RequiredCapabilities).IsEqualTo(CapabilityRequirement.None);
+        await Assert.That(exception.SkipDecision.ShouldSkip).IsTrue();
     }
 
     [Test]

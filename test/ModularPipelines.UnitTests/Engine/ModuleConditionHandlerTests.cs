@@ -735,27 +735,40 @@ public class ModuleConditionHandlerTests
         await handler.PrepareExecutionRoutingAsync(matchedModule);
         await handler.PrepareExecutionRoutingAsync(workerOnlyModule);
 
+        executionLocation.TryGetPreparedConditionValue(failedModule, out var failedValue);
+        executionLocation.TryGetPreparedConditionValue(matchedModule, out var matchedValue);
+        executionLocation.TryGetPreparedConditionValue(workerOnlyModule, out var workerOnlyValue);
+
         using (Assert.Multiple())
         {
-            await Assert.That(executionLocation.IsConditionalRouteRequired(
-                    failedModule,
-                    typeof(RunIfAnyAttribute<OnLinux, PlanningFalseCondition>)))
-                .IsTrue();
-            await Assert.That(executionLocation.IsConditionalRouteRequired(
-                    matchedModule,
-                    typeof(RunIfAnyAttribute<OnLinux, PlanningTrueCondition>)))
-                .IsFalse();
+            await Assert.That(failedValue.Requirement).IsEqualTo(CapabilityRequirement.AllOf(Capability.Linux));
+            await Assert.That(matchedValue.Kind).IsEqualTo(FormulaValueKind.True);
             await Assert.That(executionLocation.IsConditionGroupSatisfied(
                     matchedModule,
                     typeof(RunIfAnyAttribute<OnLinux, PlanningTrueCondition>)))
                 .IsTrue();
 
             // A worker-only alternative may still be true on a worker, so the master must not require Linux.
-            await Assert.That(executionLocation.IsConditionalRouteRequired(
-                    workerOnlyModule,
-                    typeof(RunIfAnyAttribute<OnLinux, WorkerOnlyRunCondition>)))
-                .IsFalse();
+            await Assert.That(workerOnlyValue.Kind).IsEqualTo(FormulaValueKind.True);
         }
+    }
+
+    [Test]
+    public async Task Distributed_Master_Finds_No_Route_When_Required_Alternatives_Contradict()
+    {
+        var executionLocation = CreateExecutionLocationContext(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+        var handler = CreateHandler(new DistributedOptions(), executionLocationContext: executionLocation);
+        var module = new LinuxOrFalseAndWindowsOrFalseModule();
+
+        await handler.PrepareExecutionRoutingAsync(module);
+        executionLocation.TryGetPreparedConditionValue(module, out var value);
+
+        await Assert.That(value.Kind).IsEqualTo(FormulaValueKind.False);
     }
 
     [Test]
@@ -832,6 +845,15 @@ public class ModuleConditionHandlerTests
 
     [RunIfAll<OnWindows, PlanningTrueCondition>]
     private sealed class WindowsAndPlanningTrueModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
+    }
+
+    [RunIfAny<OnLinux, PlanningFalseCondition>]
+    [RunIfAny<OnWindows, PlanningFalseCondition>]
+    private sealed class LinuxOrFalseAndWindowsOrFalseModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,

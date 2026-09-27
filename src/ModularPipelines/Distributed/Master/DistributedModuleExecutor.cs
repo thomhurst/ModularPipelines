@@ -428,6 +428,14 @@ internal class DistributedModuleExecutor(
         {
             return null;
         }
+        catch (UnsatisfiableModuleRequirementException exception)
+        {
+            _logger.LogInformation("Skipping distributed module {Module}: {Reason}", moduleType.Name, exception.Message);
+            var skipped = RegisterSkippedResult(module, moduleType, exception.SkipDecision, context);
+            await CompleteCollectedResultAsync(skipped, moduleType, scheduler, cts, requestFailureCancellation)
+                .ConfigureAwait(false);
+            return null;
+        }
         catch (Exception exception)
         {
             _logger.LogError(
@@ -1216,6 +1224,20 @@ internal class DistributedModuleExecutor(
         IModuleResult result,
         IExecutionBackendContext context) =>
         context.TryApplyResult(module, result) ? result : GetCompletedResult(module);
+
+    private IModuleResult? RegisterSkippedResult(
+        IModule module,
+        Type moduleType,
+        SkipDecision skipDecision,
+        IExecutionBackendContext context)
+    {
+        var executionContext = new ModuleExecutionContext(module, moduleType)
+        {
+            Status = ModuleStatus.Skipped,
+            SkipResult = skipDecision,
+        };
+        return ApplyResult(module, ModuleResultFactory.CreateSkipped(module.ResultType, executionContext), context);
+    }
 
     private IModuleResult? RegisterFailureResult(
         IModule module,

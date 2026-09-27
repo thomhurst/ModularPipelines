@@ -188,6 +188,23 @@ public class DistributedPipelineWriterTests : TestBase
     }
 
     [Test]
+    public async Task RejectsOperatingSystemClausesThatOnlyUnsupportedRunnersSatisfyTogether()
+    {
+        // Each clause lists a supported OS, but only FreeBSD satisfies both.
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            TestPipelineBuilder.Create()
+                .AddModule<FreeBsdIntersectionModule>()
+                .WriteDistributedWorkflow(new DistributedWorkflowOptions
+                {
+                    OutputPath = FilePath.GetNewTemporaryFilePath(),
+                    ExtraWorkers = 0,
+                })
+                .RunAsync());
+
+        await Assert.That(exception!.Message).Contains("freebsd");
+    }
+
+    [Test]
     public async Task AllowsUnsupportedConditionalRouteWithWorkerOnlyAlternative()
     {
         // A worker-only alternative may hold on any worker, so the route never becomes mandatory.
@@ -288,6 +305,13 @@ public class DistributedPipelineWriterTests : TestBase
     // A worker can satisfy this through docker, so no FreeBSD runner is needed.
     [RequiresAnyCapability("freebsd", "docker")]
     private sealed class FreeBsdOrDockerModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RequiresAnyCapability("linux", "freebsd")]
+    [RequiresAnyCapability("windows", "freebsd")]
+    private sealed class FreeBsdIntersectionModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }

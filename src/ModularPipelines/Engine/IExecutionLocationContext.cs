@@ -19,12 +19,11 @@ internal interface IExecutionLocationContext
     void MarkConditionGroupSatisfied(IModule module, Type conditionGroupType);
 
     /// <summary>
-    /// Records that the master evaluated every non-capability alternative of a condition group as false,
-    /// so the module must be routed to a worker that satisfies the group's capability alternatives.
+    /// Records the module's condition formula as evaluated by the master while preparing routing.
     /// </summary>
-    void MarkConditionalRouteRequired(IModule module, Type conditionGroupType);
+    void SetPreparedConditionValue(IModule module, FormulaValue value);
 
-    bool IsConditionalRouteRequired(IModule module, Type conditionGroupType);
+    bool TryGetPreparedConditionValue(IModule module, out FormulaValue value);
 
     IReadOnlyList<string> GetSatisfiedConditionGroupNames(IModule module);
 

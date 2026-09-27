@@ -49,25 +49,17 @@ internal class DistributedWorkPublisher(
         var moduleType = module.GetType();
         var moduleId = ModuleId.FromType(moduleType);
 
-        bool IsConditionGroupSatisfied(Type conditionGroupType) =>
-            _executionLocationContext?.IsConditionGroupSatisfied(module, conditionGroupType) == true;
-
-        var requiredCapabilities = CapabilityConditions.GetModuleRequirement(
-            moduleType,
-            IsConditionGroupSatisfied,
-            conditionGroupType => _executionLocationContext?.IsConditionalRouteRequired(module, conditionGroupType) == true);
-        if (!requiredCapabilities.IsSatisfiable)
+        // Prefer the requirement the master derived from its own condition values while preparing
+        // routing; without preparation, require only what the conditions need whatever they return.
+        var requiredCapabilities = _executionLocationContext?.TryGetPreparedConditionValue(module, out var preparedValue) == true
+            ? CapabilityConditions.Combine(moduleType, preparedValue)
+            : CapabilityConditions.GetModuleRequirement(
+                moduleType,
+                conditionGroupType =>
+                    _executionLocationContext?.IsConditionGroupSatisfied(module, conditionGroupType) == true);
+        if (requiredCapabilities is null)
         {
-            // Required conditional routes can contradict each other, for example when the local
-            // alternatives of RunIfAny<OnLinux, X> and RunIfAny<OnWindows, X> are both false. No worker
-            // can run the module, so let any worker claim it: its own condition evaluation skips it.
-            requiredCapabilities = CapabilityConditions.GetModuleRequirement(moduleType, IsConditionGroupSatisfied);
-        }
-
-        if (!requiredCapabilities.IsSatisfiable)
-        {
-            throw new InvalidOperationException(
-                $"The module has incompatible operating-system requirements: {requiredCapabilities}.");
+            throw new UnsatisfiableModuleRequirementException(moduleType);
         }
 
         var config = module.Configuration;
@@ -130,4 +122,17 @@ internal class DistributedWorkPublisher(
 
         return references;
     }
+}
+
+/// <summary>
+/// Thrown when no worker can satisfy a module's run conditions and capability requirements, so the
+/// module must be skipped instead of dispatched.
+/// </summary>
+internal sealed class UnsatisfiableModuleRequirementException(Type moduleType)
+    : InvalidOperationException(
+        $"No worker can run {moduleType.Name}: its capability requirements and run conditions are " +
+        "incompatible (incompatible operating-system requirements or a condition that is false on the master).")
+{
+    public SkipDecision SkipDecision { get; } = SkipDecision.Skip(
+        "No worker can satisfy the module's capability requirements and run conditions");
 }

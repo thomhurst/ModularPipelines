@@ -20,87 +20,34 @@ internal static class CapabilityConditions
     private static readonly ConcurrentDictionary<Type, CapabilityRequirement> DeclaredRequirements = new();
 
     /// <summary>
-    /// Returns every capability requirement declared by a module type: explicit
-    /// <see cref="RequiresCapabilityAttribute"/> and <see cref="RequiresAnyCapabilityAttribute"/>
-    /// declarations, plus routes derived from capability run conditions.
+    /// Returns the capability requirement of a module type without evaluating any ordinary condition:
+    /// explicit <see cref="RequiresCapabilityAttribute"/> and <see cref="RequiresAnyCapabilityAttribute"/>
+    /// declarations plus the capabilities its run conditions need whatever the ordinary conditions return.
+    /// Returns <c>null</c> when no worker can satisfy them.
     /// </summary>
     /// <param name="moduleType">The module type.</param>
     /// <param name="isConditionGroupSatisfied">
     /// Returns whether the master already satisfied a condition group locally, so it needs no route.
     /// </param>
-    /// <param name="isConditionalRouteRequired">
-    /// Returns whether the master evaluated every non-capability alternative of a condition group as
-    /// false, so the group's conditional capability route becomes mandatory.
-    /// </param>
-    public static CapabilityRequirement GetModuleRequirement(
+    public static CapabilityRequirement? GetModuleRequirement(
         Type moduleType,
-        Func<Type, bool>? isConditionGroupSatisfied = null,
-        Func<Type, bool>? isConditionalRouteRequired = null)
+        Func<Type, bool>? isConditionGroupSatisfied = null)
     {
-        var requirement = GetDeclaredRequirement(moduleType);
-        foreach (var (groupType, route, _) in GetConditionRoutes(moduleType))
-        {
-            if (isConditionGroupSatisfied?.Invoke(groupType) == true
-                || (route.IsConditional && isConditionalRouteRequired?.Invoke(groupType) != true))
-            {
-                continue;
-            }
-
-            requirement = requirement.And(route.Requirement);
-        }
-
-        return requirement;
+        var formula = ConditionFormula.ForModule(
+            moduleType.GetCustomAttributes(inherit: true).OfType<IConditionAttribute>(),
+            isConditionGroupSatisfied);
+        return Combine(moduleType, formula?.Evaluate(static _ => true) ?? FormulaValue.True);
     }
 
     /// <summary>
-    /// Returns the capability routes of a module's run conditions, keyed by condition group type.
-    /// <c>CanBeRequired</c> is true for mandatory routes and for conditional routes whose local
-    /// alternatives the master can evaluate, so the master may make the route mandatory at run time.
+    /// Combines a module's declared requirement with the value of its condition formula, or returns
+    /// <c>null</c> when no worker can satisfy both.
     /// </summary>
-    public static IEnumerable<(Type ConditionGroupType, CapabilityRoute Route, bool CanBeRequired)> GetConditionRoutes(
-        Type moduleType)
-    {
-        var conditionAttributes = moduleType.GetCustomAttributes(inherit: true).OfType<IConditionAttribute>().ToArray();
-        foreach (var attribute in conditionAttributes.Where(static attribute =>
-                     attribute is not IGroupedConditionAttribute))
-        {
-            if (GetRoute(attribute) is { } route)
-            {
-                yield return (attribute.GetType(), route, !route.IsConditional || CanRequireRoute(attribute));
-            }
-        }
-
-        foreach (var alternatives in conditionAttributes
-                     .OfType<IGroupedConditionAttribute>()
-                     .GroupBy(static attribute => attribute.ConditionGroupType))
-        {
-            var alternativeArray = alternatives.ToArray();
-            if (GetRoute(alternativeArray) is { } route)
-            {
-                yield return (alternatives.Key, route, !route.IsConditional || CanRequireRoute(alternativeArray));
-            }
-        }
-    }
-
-    /// <summary>
-    /// Returns whether every non-capability alternative of a mixed <see cref="RunIfAnyAttribute"/> is
-    /// planning-safe, so the master can evaluate all of them and, when all are false, require the
-    /// capability route.
-    /// </summary>
-    public static bool CanRequireRoute(IConditionAttribute attribute) =>
-        attribute is RunIfAnyAttribute
-        && attribute.GetType().GetGenericArguments()
-            .Where(static type => GetConditionRequirement(type) is null)
-            .All(static type => typeof(IPlanningRunCondition).IsAssignableFrom(type));
-
-    /// <summary>
-    /// Returns whether every alternative of a condition group either carries a capability requirement or
-    /// is a planning-safe condition the master evaluates, so the master can require the group's route.
-    /// </summary>
-    public static bool CanRequireRoute(IReadOnlyCollection<IGroupedConditionAttribute> alternatives) =>
-        alternatives.All(static attribute =>
-            GetRequirement(attribute.GetType(), attribute.Logic) is not null
-            || (GetRoute(attribute) is null && ModuleConditionHandler.IsPlanningConditionAttribute(attribute)));
+    public static CapabilityRequirement? Combine(Type moduleType, FormulaValue conditionValue) =>
+        conditionValue.RequirementOrNone is { } conditionRequirement
+        && GetDeclaredRequirement(moduleType).And(conditionRequirement) is { IsSatisfiable: true } requirement
+            ? requirement
+            : null;
 
     /// <summary>
     /// Returns the requirement declared by <see cref="RequiresCapabilityAttribute"/> and
@@ -129,7 +76,8 @@ internal static class CapabilityConditions
 
     /// <summary>
     /// Returns the route for one condition attribute, or <c>null</c> when it has no capability condition.
-    /// A mixed <see cref="RunIfAnyAttribute"/> returns a conditional route for its capability alternatives.
+    /// An attribute whose ordinary conditions can satisfy it without a capability returns a conditional
+    /// route for its capability branches.
     /// </summary>
     public static CapabilityRoute? GetRoute(IConditionAttribute attribute)
     {
@@ -139,13 +87,10 @@ internal static class CapabilityConditions
             return new CapabilityRoute(requirement, IsConditional: false);
         }
 
-        if (attribute is not RunIfAnyAttribute)
-        {
-            return null;
-        }
-
-        var routable = OrAll(attribute.GetType().GetGenericArguments().Select(GetConditionRequirement));
-        return routable is { IsSatisfiable: true }
+        // Mixed alternatives, such as RunIfAny<OnLinux, OnCI> or a ConditionGroup of OnGpu OR OnCI, still
+        // route to their capability branches when the ordinary branches turn out false.
+        return ConditionFormula.ForAttribute(attribute)?.Evaluate(static _ => null) is
+        { Kind: FormulaValueKind.Requirement, Requirement: { } routable }
             ? new CapabilityRoute(routable, IsConditional: true)
             : null;
     }

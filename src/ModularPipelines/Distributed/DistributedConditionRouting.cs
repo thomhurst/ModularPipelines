@@ -14,7 +14,7 @@ internal sealed class DistributedConditionRouting(
     private readonly DistributedOptions _options = options.Value;
     private readonly RoleDetector _roleDetector = roleDetector;
     private readonly ConditionalWeakTable<IModule, HashSet<Type>> _locallySatisfiedGroups = new();
-    private readonly ConditionalWeakTable<IModule, HashSet<Type>> _requiredConditionalRoutes = new();
+    private readonly ConditionalWeakTable<IModule, StrongBox<FormulaValue>> _preparedConditionValues = new();
     private readonly ConditionalWeakTable<IModule, object> _preparedModules = new();
 
     public bool IsMaster => IsDistributedExecution
@@ -60,26 +60,19 @@ internal sealed class DistributedConditionRouting(
         }
     }
 
-    public void MarkConditionalRouteRequired(IModule module, Type conditionGroupType)
-    {
-        var groups = _requiredConditionalRoutes.GetOrCreateValue(module);
-        lock (groups)
-        {
-            groups.Add(conditionGroupType);
-        }
-    }
+    public void SetPreparedConditionValue(IModule module, FormulaValue value) =>
+        _preparedConditionValues.AddOrUpdate(module, new StrongBox<FormulaValue>(value));
 
-    public bool IsConditionalRouteRequired(IModule module, Type conditionGroupType)
+    public bool TryGetPreparedConditionValue(IModule module, out FormulaValue value)
     {
-        if (!_requiredConditionalRoutes.TryGetValue(module, out var groups))
+        if (_preparedConditionValues.TryGetValue(module, out var box))
         {
-            return false;
+            value = box.Value;
+            return true;
         }
 
-        lock (groups)
-        {
-            return groups.Contains(conditionGroupType);
-        }
+        value = default;
+        return false;
     }
 
     public IReadOnlyList<string> GetSatisfiedConditionGroupNames(IModule module)

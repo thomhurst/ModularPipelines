@@ -18,6 +18,9 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
         """;
 
     // Ordered by preference; the matrix provisions runners in this order.
+    // Beyond this many planning-safe conditions per module, runner planning stops enumerating outcomes.
+    private const int MaximumEnumeratedConditions = 10;
+
     private static readonly (Capability OperatingSystem, string Runner)[] Runners =
     [
         (Capability.Linux, "ubuntu-latest"),
@@ -163,47 +166,58 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
 
     private static IEnumerable<Capability> GetRequiredOperatingSystems(Type moduleType)
     {
-        // Mandatory requirements match what the master stamps onto the assignment.
-        var requirement = CapabilityConditions.GetModuleRequirement(moduleType);
-        if (!requirement.IsSatisfiable)
+        var formula = ConditionFormula.ForModule(
+            moduleType.GetCustomAttributes(inherit: true).OfType<IConditionAttribute>());
+        var operatingSystems = new HashSet<Capability>();
+        foreach (var conditionValue in GetPossibleConditionValues(formula))
         {
-            // The pipeline skips modules that no worker can satisfy, so they need no runner.
-            return [];
-        }
-
-        var allowedOperatingSystems = GetAllowedOperatingSystems(requirement.Clauses);
-        if (allowedOperatingSystems is not null)
-        {
-            EnsureSupported(allowedOperatingSystems);
-        }
-
-        // The master makes a conditional route mandatory when every local alternative is false, so a
-        // route that can become mandatory must also be reachable on a supported runner. A route that
-        // conflicts with the mandatory operating systems makes the module impossible, and a worker skips it.
-        var conditionRoutes = CapabilityConditions.GetConditionRoutes(moduleType).ToArray();
-        foreach (var clause in GetOperatingSystemClauses(conditionRoutes
-                     .Where(static route => route.Route.IsConditional && route.CanBeRequired)
-                     .SelectMany(static route => route.Route.Requirement.Clauses)))
-        {
-            var compatibleOperatingSystems = clause.Where(operatingSystem => IsAllowed(allowedOperatingSystems, operatingSystem)).ToArray();
-            if (compatibleOperatingSystems.Length > 0)
+            // Each outcome of the master's planning-safe conditions is a requirement the master may stamp.
+            if (CapabilityConditions.Combine(moduleType, conditionValue) is not { } requirement
+                || GetAllowedOperatingSystems(requirement.Clauses) is not { } allowedOperatingSystems)
             {
-                EnsureSupported(compatibleOperatingSystems);
+                // Impossible outcomes are skipped, and unrestricted ones run on the default runner.
+                continue;
             }
-        }
 
-        // Provision every compatible operating system the module can use, including alternatives the
-        // master may route to at run time when a mixed condition's local alternatives are false.
-        var mentionedOperatingSystems = requirement.Clauses
-            .Concat(conditionRoutes.SelectMany(static route => route.Route.Requirement.Clauses))
-            .SelectMany(static clause => clause)
-            .Where(static capability => capability.IsOperatingSystem)
-            .ToHashSet();
+            EnsureSupported(allowedOperatingSystems);
+            operatingSystems.UnionWith(allowedOperatingSystems);
+        }
 
         return Runners
             .Select(static runner => runner.OperatingSystem)
-            .Where(operatingSystem => mentionedOperatingSystems.Contains(operatingSystem)
-                                      && IsAllowed(allowedOperatingSystems, operatingSystem));
+            .Where(operatingSystems.Contains);
+    }
+
+    /// <summary>
+    /// Returns the formula's value for every combination of its planning-safe conditions, which the
+    /// master evaluates at run time. Worker-only conditions stay unconstrained.
+    /// </summary>
+    private static IEnumerable<FormulaValue> GetPossibleConditionValues(ConditionFormula? formula)
+    {
+        if (formula is null)
+        {
+            yield return FormulaValue.True;
+            yield break;
+        }
+
+        var planningAtoms = formula.Atoms
+            .Where(static atom => atom.IsPlanning)
+            .Distinct()
+            .ToArray();
+        if (planningAtoms.Length > MaximumEnumeratedConditions)
+        {
+            // Too many combinations: plan for what the conditions need whatever they return.
+            yield return formula.Evaluate(static _ => true);
+            yield break;
+        }
+
+        for (var combination = 0; combination < 1 << planningAtoms.Length; combination++)
+        {
+            var values = planningAtoms
+                .Select((atom, index) => (atom, value: (combination & (1 << index)) != 0))
+                .ToDictionary(static pair => pair.atom, static pair => pair.value);
+            yield return formula.Evaluate(atom => !values.TryGetValue(atom, out var value) || value);
+        }
     }
 
     /// <summary>
@@ -213,7 +227,8 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
     private static HashSet<Capability>? GetAllowedOperatingSystems(IEnumerable<IReadOnlyList<Capability>> clauses)
     {
         HashSet<Capability>? allowedOperatingSystems = null;
-        foreach (var clause in GetOperatingSystemClauses(clauses))
+        foreach (var clause in clauses.Where(static clause =>
+                     clause.All(static capability => capability.IsOperatingSystem)))
         {
             if (allowedOperatingSystems is null)
             {
@@ -227,13 +242,6 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
 
         return allowedOperatingSystems;
     }
-
-    private static bool IsAllowed(HashSet<Capability>? allowedOperatingSystems, Capability operatingSystem) =>
-        allowedOperatingSystems?.Contains(operatingSystem) != false;
-
-    private static IEnumerable<IReadOnlyList<Capability>> GetOperatingSystemClauses(
-        IEnumerable<IReadOnlyList<Capability>> clauses) =>
-        clauses.Where(static clause => clause.All(static capability => capability.IsOperatingSystem));
 
     private static void EnsureSupported(IReadOnlyCollection<Capability> operatingSystems)
     {
