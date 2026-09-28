@@ -1,293 +1,68 @@
-using System.Collections.Concurrent;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Logging;
-using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.SignalR.Hub;
+using ModularPipelines.Distributed.SignalR.Server;
 
 namespace ModularPipelines.Distributed.SignalR.Coordination;
 
 /// <summary>
-/// Master-side <see cref="IDistributedMasterCoordinator"/> backed by SignalR.
-/// Push model: tries to assign work to idle workers immediately, queues otherwise.
+/// Master-side <see cref="IDistributedMasterCoordinator"/> backed by SignalR. Work, leases, results
+/// and cancellation live in the in-memory coordinator; workers reach it through the hub by pulling
+/// leases, so ordering, lease expiry and per-worker parallelism match every other backend.
 /// </summary>
-internal class SignalRMasterCoordinator : IDistributedMasterCoordinator
+internal sealed class SignalRMasterCoordinator(
+    InMemoryDistributedCoordinator coordinator,
+    MasterServerHost? serverHost = null) : IDistributedMasterCoordinator, IAsyncDisposable
 {
-    private readonly IHubContext<DistributedPipelineHub> _hubContext;
-    private readonly SignalRMasterState _state;
-    private readonly ILogger<SignalRMasterCoordinator> _logger;
+    public Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken cancellationToken) =>
+        coordinator.EnqueueModuleAsync(assignment, cancellationToken);
 
-    public SignalRMasterCoordinator(
-        IHubContext<DistributedPipelineHub> hubContext,
-        SignalRMasterState state,
-        ILogger<SignalRMasterCoordinator> logger)
+    public Task<bool> WithdrawAssignmentAsync(ModuleId moduleId, CancellationToken cancellationToken) =>
+        coordinator.WithdrawAssignmentAsync(moduleId, cancellationToken);
+
+    public Task<IReadOnlyList<ModuleLease>> GetActiveLeasesAsync(CancellationToken cancellationToken) =>
+        coordinator.GetActiveLeasesAsync(cancellationToken);
+
+    public Task<IReadOnlyList<ModuleId>> RequeueExpiredLeasesAsync(CancellationToken cancellationToken) =>
+        coordinator.RequeueExpiredLeasesAsync(cancellationToken);
+
+    public Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken cancellationToken) =>
+        coordinator.GetRegisteredWorkersAsync(cancellationToken);
+
+    public Task<IReadOnlyList<WorkerStatus>> GetWorkerStatusesAsync(CancellationToken cancellationToken) =>
+        coordinator.GetWorkerStatusesAsync(cancellationToken);
+
+    public Task SignalCompletionAsync(CancellationToken cancellationToken) =>
+        coordinator.SignalCompletionAsync(cancellationToken);
+
+    public Task BroadcastCancellationAsync(DistributedCancellationReason reason, CancellationToken cancellationToken) =>
+        coordinator.BroadcastCancellationAsync(reason, cancellationToken);
+
+    public Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken) =>
+        coordinator.RegisterWorkerAsync(registration, cancellationToken);
+
+    public Task<ModuleLease?> DequeueModuleAsync(
+        WorkerId workerId,
+        IReadOnlySet<Capability> workerCapabilities,
+        CancellationToken cancellationToken) =>
+        coordinator.DequeueModuleAsync(workerId, workerCapabilities, cancellationToken);
+
+    public Task PublishResultAsync(SerializedModuleResult result, ModuleLease? lease, CancellationToken cancellationToken) =>
+        coordinator.PublishResultAsync(result, lease, cancellationToken);
+
+    public Task<SerializedModuleResult> WaitForResultAsync(ModuleId moduleId, CancellationToken cancellationToken) =>
+        coordinator.WaitForResultAsync(moduleId, cancellationToken);
+
+    public Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken) =>
+        coordinator.SendHeartbeatAsync(status, cancellationToken);
+
+    public Task<DistributedCancellationReason> WaitForCancellationAsync(CancellationToken cancellationToken) =>
+        coordinator.WaitForCancellationAsync(cancellationToken);
+
+    public async ValueTask DisposeAsync()
     {
-        _hubContext = hubContext;
-        _state = state;
-        _logger = logger;
-    }
-
-    /// <summary>
-    /// Exposes internal state for the hub to access.
-    /// </summary>
-    internal SignalRMasterState State => _state;
-
-    public async Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
-    {
-        // Pre-create the result waiter
-        _state.ResultWaiters.GetOrAdd(assignment.ModuleId,
-            _ => new TaskCompletionSource<SerializedModuleResult>(TaskCreationOptions.RunContinuationsAsynchronously));
-
-        // Try to push directly to an idle worker with matching capabilities
-        var assigned = await TryPushToIdleWorker(assignment);
-        if (!assigned)
+        if (serverHost is not null)
         {
-            // No idle worker available — queue for later
-            _state.PendingAssignments.Enqueue(assignment);
-            _state.WorkAvailable.Release();
-            _logger.LogDebug("Queued {Module} — no idle worker with matching capabilities", assignment.ModuleId);
+            await serverHost.DisposeAsync().ConfigureAwait(false);
         }
-    }
-
-    public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> workerCapabilities, CancellationToken cancellationToken)
-    {
-        // The master's worker loop dequeues from the pending queue.
-        // Uses a semaphore signal instead of polling to avoid busy-waiting.
-        while (!cancellationToken.IsCancellationRequested)
-        {
-            if (_state.IsCompleted && _state.PendingAssignments.IsEmpty)
-            {
-                return null;
-            }
-
-            // Try scanning existing items first (before waiting)
-            var found = TryScanPendingQueue(workerCapabilities);
-            if (found is not null)
-            {
-                return found;
-            }
-
-            try
-            {
-                await _state.WorkAvailable.WaitAsync(cancellationToken);
-            }
-            catch (OperationCanceledException)
-            {
-                return null;
-            }
-
-            if (_state.IsCompleted && _state.PendingAssignments.IsEmpty)
-            {
-                return null;
-            }
-
-            found = TryScanPendingQueue(workerCapabilities);
-            if (found is not null)
-            {
-                return found;
-            }
-        }
-
-        return null;
-    }
-
-    private ModuleAssignment? TryScanPendingQueue(IReadOnlySet<Capability> workerCapabilities)
-    {
-        var pendingCount = _state.PendingAssignments.Count;
-        for (var i = 0; i < pendingCount; i++)
-        {
-            if (!_state.PendingAssignments.TryDequeue(out var assignment))
-            {
-                break;
-            }
-
-            // Skip work whose result already arrived (e.g. a disconnect re-enqueue that
-            // raced the original worker's result) so it isn't executed a second time.
-            if (_state.ResultWaiters.TryGetValue(assignment.ModuleId, out var existingWaiter)
-                && existingWaiter.Task.IsCompleted)
-            {
-                continue;
-            }
-
-            if (!assignment.RequiredCapabilities.IsSatisfiedBy(workerCapabilities))
-            {
-                // Re-enqueue — master can't handle this module
-                _state.PendingAssignments.Enqueue(assignment);
-                continue;
-            }
-
-            if (!_state.TryClaimRedispatch(assignment))
-            {
-                continue;
-            }
-
-            return assignment;
-        }
-
-        return null;
-    }
-
-    public async Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken)
-    {
-        // Master receives results through the hub's PublishResult method.
-        // This is called when the master itself produces a result (e.g., modules executed locally by the master's worker loop).
-        foreach (var worker in await _state.CompleteResultAsync(result, cancellationToken).ConfigureAwait(false))
-        {
-            worker.TryCompleteAssignment(result.ModuleId);
-        }
-    }
-
-    public async Task<SerializedModuleResult> WaitForResultAsync(ModuleId moduleId, CancellationToken cancellationToken)
-    {
-        var tcs = _state.ResultWaiters.GetOrAdd(moduleId,
-            _ => new TaskCompletionSource<SerializedModuleResult>(TaskCreationOptions.RunContinuationsAsynchronously));
-
-        return await tcs.Task.WaitAsync(cancellationToken).ConfigureAwait(false);
-    }
-
-    public Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
-    {
-        // Workers register through the hub. This is for the interface contract.
-        _state.Registrations[registration.WorkerIndex] = registration;
-        var initialStatus = new WorkerStatus(registration.WorkerIndex)
-        {
-            RunId = registration.RunId,
-        };
-        _state.WorkerStatuses.AddOrUpdate(
-            registration.WorkerIndex,
-            initialStatus,
-            (_, currentStatus) => string.Equals(
-                currentStatus.RunId,
-                registration.RunId,
-                StringComparison.Ordinal)
-                ? currentStatus
-                : initialStatus);
-        _state.Heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
-        return Task.CompletedTask;
-    }
-
-    public Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken)
-    {
-        _state.WorkerStatuses[status.WorkerIndex] = status;
-        _state.Heartbeats[status.WorkerIndex] = DateTimeOffset.UtcNow;
-
-        return Task.CompletedTask;
-    }
-
-    public Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken cancellationToken)
-    {
-        var oldestLiveHeartbeat = DateTimeOffset.UtcNow - _state.WorkerTimeout;
-        IReadOnlyList<WorkerRegistration> workers =
-        [
-            .. _state.Registrations.Values.Where(worker =>
-                WorkerStatus.IsLive(
-                    _state.WorkerStatuses.GetValueOrDefault(worker.WorkerIndex),
-                    _state.Heartbeats.TryGetValue(worker.WorkerIndex, out var heartbeat)
-                    && heartbeat >= oldestLiveHeartbeat)),
-        ];
-        return Task.FromResult(workers);
-    }
-
-    public Task<IReadOnlyList<WorkerStatus>> GetWorkerStatusesAsync(CancellationToken cancellationToken)
-    {
-        IReadOnlyList<WorkerStatus> statuses = [.. _state.WorkerStatuses.Values];
-        return Task.FromResult(statuses);
-    }
-
-    public async Task SignalCompletionAsync(CancellationToken cancellationToken)
-    {
-        _state.IsCompleted = true;
-
-        // Wake any waiting dequeue loop
-        _state.WorkAvailable.Release();
-
-        // Cancel any pending result waiters
-        foreach (var kvp in _state.ResultWaiters)
-        {
-            kvp.Value.TrySetCanceled();
-        }
-
-        // Broadcast completion to all workers
-        try
-        {
-            await _hubContext.Clients.All.SendAsync(HubMethodNames.SignalCompletion, cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogWarning(ex, "Failed to broadcast completion signal to workers");
-        }
-    }
-
-    public async Task BroadcastCancellationAsync(CancellationToken cancellationToken)
-    {
-        _state.CancellationRequested.TrySetResult();
-        try
-        {
-            await _hubContext.Clients.All.SendAsync(
-                    HubMethodNames.BroadcastCancellation,
-                    cancellationToken)
-                .ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogWarning(ex, "Failed to broadcast cancellation signal to workers");
-        }
-    }
-
-    public Task WaitForCancellationAsync(CancellationToken cancellationToken) =>
-        _state.CancellationRequested.Task.WaitAsync(cancellationToken);
-
-    private async Task<bool> TryPushToIdleWorker(ModuleAssignment assignment)
-    {
-        // Don't dispatch work whose result already arrived.
-        if (_state.ResultWaiters.TryGetValue(assignment.ModuleId, out var existingWaiter)
-            && existingWaiter.Task.IsCompleted)
-        {
-            return true;
-        }
-
-        foreach (var kvp in _state.Workers)
-        {
-            var worker = kvp.Value;
-
-            // Check capability match
-            if (!assignment.RequiredCapabilities.IsSatisfiedBy(worker.Registration.Capabilities))
-            {
-                continue;
-            }
-
-            // Try to claim this worker
-            if (worker.TryAssign(assignment))
-            {
-                _logger.LogDebug("Pushing {Module} to worker {Index}",
-                    assignment.ModuleId, worker.Registration.WorkerIndex);
-
-                using var deliveryFence =
-                    await _state.EnterAssignmentDeliveryFenceAsync(assignment.ModuleId).ConfigureAwait(false);
-                if (!_state.TryClaimRedispatch(assignment, worker))
-                {
-                    worker.TryCompleteAssignment(assignment.ModuleId);
-                    continue;
-                }
-
-                try
-                {
-                    await _hubContext.Clients.Client(worker.ConnectionId)
-                        .SendAsync(HubMethodNames.ReceiveAssignment, assignment);
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogWarning(ex, "Failed to push assignment to worker {Index}, marking idle",
-                        worker.Registration.WorkerIndex);
-                    worker.TryCompleteAssignment(assignment.ModuleId);
-                    if (!_state.TryReturnRedispatchToQueue(assignment, worker))
-                    {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
     }
 }

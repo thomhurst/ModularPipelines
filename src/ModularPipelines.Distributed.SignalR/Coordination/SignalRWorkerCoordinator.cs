@@ -1,4 +1,4 @@
-using System.Threading.Channels;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed.SignalR.Hub;
@@ -6,313 +6,225 @@ using ModularPipelines.Distributed.SignalR.Hub;
 namespace ModularPipelines.Distributed.SignalR.Coordination;
 
 /// <summary>
-/// Worker-side <see cref="IDistributedWorkerCoordinator"/> backed by a SignalR <see cref="HubConnection"/> to the master.
-/// Receives work assignments via <c>ReceiveAssignment</c> callback and publishes results via hub invocations.
+/// Worker-side <see cref="IDistributedWorkerCoordinator"/> backed by a SignalR <see cref="HubConnection"/>.
 /// </summary>
-internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
+/// <remarks>
+/// Every operation is a worker-to-master invocation, so nothing the master sends can be missed while
+/// the worker is disconnected. After an automatic reconnect the worker registers again under the
+/// same session and retries interrupted invocations; its heartbeats then renew the leases it still
+/// holds. When the connection closes for good, <see cref="DequeueModuleAsync"/> returns
+/// <see langword="null"/> so the worker stops, and other operations fail.
+/// </remarks>
+internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, IAsyncDisposable
 {
     private readonly HubConnection _connection;
     private readonly ILogger<SignalRWorkerCoordinator> _logger;
-    private readonly Channel<ModuleAssignment> _assignmentChannel;
-    private readonly TaskCompletionSource _cancellationRequested = new(
-        TaskCreationOptions.RunContinuationsAsynchronously);
-    private readonly Lock _reconnectLock = new();
-
-    private WorkerRegistration? _lastRegistration;
-    private ModuleAssignment? _inFlightAssignment;
-    private TaskCompletionSource<bool> _connectionTransition = new(
-        TaskCreationOptions.RunContinuationsAsynchronously);
-    private long _connectionGeneration;
-    private bool _reconnecting;
-    private bool _lastReconnectSucceeded;
-    private volatile bool _awaitingAssignment;
+    private readonly Lock _stateLock = new();
+    private TaskCompletionSource<bool> _ready = CreateReadySignal(completed: true);
+    private WorkerRegistration? _registration;
+    private long _generation;
 
     public SignalRWorkerCoordinator(HubConnection connection, ILogger<SignalRWorkerCoordinator> logger)
     {
         _connection = connection;
         _logger = logger;
-        _assignmentChannel = Channel.CreateUnbounded<ModuleAssignment>(new UnboundedChannelOptions
-        {
-            SingleReader = true,
-            SingleWriter = false,
-        });
-
-        // Register callbacks for master -> worker methods
-        _connection.On<ModuleAssignment>(HubMethodNames.ReceiveAssignment, OnReceiveAssignment);
-        _connection.On(HubMethodNames.SignalCompletion, OnSignalCompletion);
-        _connection.On(
-            HubMethodNames.BroadcastCancellation,
-            () => _cancellationRequested.TrySetResult());
-
-        // Automatic reconnect gives us a new connection id, and the master drops the old
-        // connection (re-queuing its in-flight work). Re-register under the new connection
-        // and ask for work again so the master resumes dispatching to us; otherwise a
-        // reconnected worker is orphaned and sits idle.
         _connection.Reconnecting += OnReconnectingAsync;
         _connection.Reconnected += OnReconnectedAsync;
         _connection.Closed += OnClosedAsync;
     }
 
-    public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> workerCapabilities, CancellationToken cancellationToken)
+    public async Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
+    {
+        Volatile.Write(ref _registration, registration);
+        await InvokeAsync(
+                token => _connection.InvokeAsync(HubMethodNames.RegisterWorker, registration, token),
+                cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    public async Task<ModuleLease?> DequeueModuleAsync(
+        WorkerId workerId,
+        IReadOnlySet<Capability> workerCapabilities,
+        CancellationToken cancellationToken)
     {
         try
         {
-            // Mark that we're waiting for an assignment. Used by the reconnect handler to
-            // decide whether to re-request work: if we're mid-execution (not awaiting), a
-            // reconnect must NOT request new work or the master would dispatch the module
-            // it already re-tracked for us, running it twice.
-            _awaitingAssignment = true;
-
-            // Request work from master
-            await _connection.InvokeAsync(HubMethodNames.RequestWork, workerCapabilities, cancellationToken)
+            return await InvokeAsync(
+                    token => _connection.InvokeAsync<ModuleLease?>(HubMethodNames.DequeueModule, token),
+                    cancellationToken)
                 .ConfigureAwait(false);
-
-            // Wait for assignment via the channel (populated by ReceiveAssignment callback)
-            if (await _assignmentChannel.Reader.WaitToReadAsync(cancellationToken).ConfigureAwait(false))
-            {
-                if (_assignmentChannel.Reader.TryRead(out var assignment))
-                {
-                    _awaitingAssignment = false;
-                    return assignment;
-                }
-            }
-
-            return null; // Channel completed = no more work
         }
-        catch (OperationCanceledException)
+        catch (MasterConnectionClosedException)
         {
+            // The master is gone; there is no more work this worker can claim.
+            _logger.LogWarning("Connection to the master closed; the worker stops claiming work");
             return null;
         }
-        finally
-        {
-            _awaitingAssignment = false;
-        }
     }
 
-    public async Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken)
-    {
-        while (true)
-        {
-            var connectionGeneration = await WaitForRegistrationAsync(cancellationToken).ConfigureAwait(false);
+    public Task PublishResultAsync(SerializedModuleResult result, ModuleLease? lease, CancellationToken cancellationToken) =>
+        InvokeAsync(
+            token => _connection.InvokeAsync(HubMethodNames.PublishResult, result, lease, token),
+            cancellationToken);
 
-            try
-            {
-                await _connection.InvokeAsync(HubMethodNames.PublishResult, result, cancellationToken)
-                    .ConfigureAwait(false);
-                break;
-            }
-            catch (Exception ex) when (CanRetryHubInvocation(ex, connectionGeneration, cancellationToken))
-            {
-                if (!await WaitForReconnectAsync(connectionGeneration, cancellationToken).ConfigureAwait(false))
-                {
-                    throw;
-                }
-            }
-        }
-
-        var assignment = Volatile.Read(ref _inFlightAssignment);
-        if (assignment?.ModuleId == result.ModuleId)
-        {
-            Interlocked.CompareExchange(ref _inFlightAssignment, null, assignment);
-        }
-    }
-
-    private async Task<long> WaitForRegistrationAsync(CancellationToken cancellationToken)
-    {
-        long connectionGeneration;
-        Task<bool>? registration;
-        lock (_reconnectLock)
-        {
-            connectionGeneration = _connectionGeneration;
-            registration = _reconnecting ? _connectionTransition.Task : null;
-        }
-
-        if (registration is not null
-            && !await registration.WaitAsync(cancellationToken).ConfigureAwait(false))
-        {
-            throw new InvalidOperationException("Worker registration failed after reconnecting to the master.");
-        }
-
-        return connectionGeneration;
-    }
-
-    private bool CanRetryHubInvocation(
-        Exception exception,
-        long connectionGeneration,
-        CancellationToken cancellationToken) =>
-        !cancellationToken.IsCancellationRequested
-        && (exception is not Microsoft.AspNetCore.SignalR.HubException
-            || HasReconnectSince(connectionGeneration));
-
-    public async Task<SerializedModuleResult> WaitForResultAsync(
-        ModuleId moduleId,
-        CancellationToken cancellationToken)
-    {
-        while (true)
-        {
-            var connectionGeneration = await WaitForRegistrationAsync(cancellationToken).ConfigureAwait(false);
-            try
-            {
-                return await _connection.InvokeAsync<SerializedModuleResult>(
-                        HubMethodNames.WaitForResult,
-                        moduleId,
-                        cancellationToken)
-                    .ConfigureAwait(false);
-            }
-            catch (Exception ex) when (CanRetryHubInvocation(ex, connectionGeneration, cancellationToken))
-            {
-                if (!await WaitForReconnectAsync(connectionGeneration, cancellationToken)
-                        .ConfigureAwait(false))
-                {
-                    throw;
-                }
-            }
-        }
-    }
-
-    public async Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
-    {
-        _lastRegistration = registration;
-        await _connection.InvokeAsync(
-            HubMethodNames.RegisterWorker,
-            registration,
-            Volatile.Read(ref _inFlightAssignment)?.ModuleId,
-            cancellationToken).ConfigureAwait(false);
-        if (_logger.IsEnabled(LogLevel.Information))
-        {
-            _logger.LogInformation("Worker {Index} registered with master via SignalR", registration.WorkerIndex);
-        }
-    }
+    public Task<SerializedModuleResult> WaitForResultAsync(ModuleId moduleId, CancellationToken cancellationToken) =>
+        InvokeAsync(
+            token => _connection.InvokeAsync<SerializedModuleResult>(HubMethodNames.WaitForResult, moduleId, token),
+            cancellationToken);
 
     public Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken) =>
-        _connection.InvokeAsync(HubMethodNames.Heartbeat, status, cancellationToken);
+        InvokeAsync(
+            token => _connection.InvokeAsync(HubMethodNames.Heartbeat, status, token),
+            cancellationToken);
 
-    public Task WaitForCancellationAsync(CancellationToken cancellationToken) =>
-        _cancellationRequested.Task.WaitAsync(cancellationToken);
+    public Task<DistributedCancellationReason> WaitForCancellationAsync(CancellationToken cancellationToken) =>
+        InvokeAsync(
+            token => _connection.InvokeAsync<DistributedCancellationReason>(HubMethodNames.WaitForCancellation, token),
+            cancellationToken);
+
+    public async ValueTask DisposeAsync()
+    {
+        _connection.Reconnecting -= OnReconnectingAsync;
+        _connection.Reconnected -= OnReconnectedAsync;
+        _connection.Closed -= OnClosedAsync;
+        await _connection.DisposeAsync().ConfigureAwait(false);
+        lock (_stateLock)
+        {
+            _ready.TrySetResult(false);
+        }
+    }
+
+    private async Task InvokeAsync(Func<CancellationToken, Task> invoke, CancellationToken cancellationToken) =>
+        await InvokeAsync(
+                async token =>
+                {
+                    await invoke(token).ConfigureAwait(false);
+                    return true;
+                },
+                cancellationToken)
+            .ConfigureAwait(false);
+
+    private async Task<T> InvokeAsync<T>(Func<CancellationToken, Task<T>> invoke, CancellationToken cancellationToken)
+    {
+        while (true)
+        {
+            var generation = await WaitUntilReadyAsync(cancellationToken).ConfigureAwait(false);
+            try
+            {
+                return await invoke(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception exception) when (
+                exception is not HubException
+                && !cancellationToken.IsCancellationRequested
+                && ConnectionChangedSince(generation))
+            {
+                // The connection dropped mid-invocation; wait for re-registration and retry.
+                _logger.LogDebug(exception, "Master invocation interrupted by a reconnect; retrying");
+            }
+        }
+    }
+
+    private async Task<long> WaitUntilReadyAsync(CancellationToken cancellationToken)
+    {
+        Task<bool> ready;
+        long generation;
+        lock (_stateLock)
+        {
+            ready = _ready.Task;
+            generation = _generation;
+        }
+
+        if (!await ready.WaitAsync(cancellationToken).ConfigureAwait(false))
+        {
+            throw new MasterConnectionClosedException();
+        }
+
+        return generation;
+    }
+
+    private bool ConnectionChangedSince(long generation)
+    {
+        lock (_stateLock)
+        {
+            return generation != _generation
+                   || !_ready.Task.IsCompleted
+                   || _connection.State != HubConnectionState.Connected;
+        }
+    }
 
     private Task OnReconnectingAsync(Exception? exception)
     {
-        lock (_reconnectLock)
+        lock (_stateLock)
         {
-            _reconnecting = true;
-            if (_connectionTransition.Task.IsCompleted)
+            _generation++;
+            if (_ready.Task.IsCompleted)
             {
-                _connectionTransition = new TaskCompletionSource<bool>(
-                    TaskCreationOptions.RunContinuationsAsynchronously);
+                _ready = CreateReadySignal(completed: false);
             }
         }
 
+        _logger.LogWarning(exception, "Lost the connection to the master; reconnecting");
         return Task.CompletedTask;
     }
 
     private async Task OnReconnectedAsync(string? connectionId)
     {
-        TaskCompletionSource<bool> connectionTransition;
-        lock (_reconnectLock)
+        var registration = Volatile.Read(ref _registration);
+        var registered = true;
+        if (registration is not null)
         {
-            connectionTransition = _connectionTransition;
+            try
+            {
+                // Same registration, same session: the master treats it as a reconnect.
+                await _connection.InvokeAsync(HubMethodNames.RegisterWorker, registration).ConfigureAwait(false);
+                _logger.LogInformation("Reconnected to the master; worker {WorkerId} registered again", registration.WorkerId);
+            }
+            catch (Exception exception)
+            {
+                registered = false;
+                _logger.LogError(exception, "Worker {WorkerId} could not register again after reconnecting", registration.WorkerId);
+            }
         }
 
-        var registration = _lastRegistration;
-        var registered = false;
-        try
+        lock (_stateLock)
         {
-            if (registration is null)
-            {
-                registered = true;
-                return;
-            }
-
-            _logger.LogWarning(
-                "Reconnected to master (connection {ConnectionId}); re-registering worker {Index}",
-                connectionId, registration.WorkerIndex);
-
-            await _connection.InvokeAsync(
-                HubMethodNames.RegisterWorker,
-                registration,
-                Volatile.Read(ref _inFlightAssignment)?.ModuleId).ConfigureAwait(false);
-
-            // Only re-request work if we're idle and waiting for an assignment. If we're
-            // mid-execution, the master restored our in-flight module on re-registration;
-            // requesting work now would make it dispatch that module again (double run).
-            if (_awaitingAssignment)
-            {
-                await _connection.InvokeAsync(HubMethodNames.RequestWork, registration.Capabilities)
-                    .ConfigureAwait(false);
-            }
-
-            registered = true;
+            _generation++;
+            _ready.TrySetResult(registered);
         }
-        catch (Exception ex)
+
+        if (!registered)
         {
-            _logger.LogWarning(ex, "Failed to re-register worker {Index} after reconnect", registration?.WorkerIndex);
-        }
-        finally
-        {
-            // Publication retries must wait until the master has restored assignment ownership.
-            lock (_reconnectLock)
-            {
-                Interlocked.Increment(ref _connectionGeneration);
-                _lastReconnectSucceeded = registered;
-                _reconnecting = false;
-                connectionTransition.TrySetResult(registered);
-                _connectionTransition = new TaskCompletionSource<bool>(
-                    TaskCreationOptions.RunContinuationsAsynchronously);
-            }
+            await _connection.StopAsync().ConfigureAwait(false);
         }
     }
 
     private Task OnClosedAsync(Exception? exception)
     {
-        lock (_reconnectLock)
+        lock (_stateLock)
         {
-            _reconnecting = false;
-            _lastReconnectSucceeded = false;
-            _connectionTransition.TrySetResult(false);
+            _generation++;
+            if (_ready.Task.IsCompleted)
+            {
+                _ready = CreateReadySignal(completed: false);
+            }
+
+            _ready.TrySetResult(false);
         }
 
         return Task.CompletedTask;
     }
 
-    private async Task<bool> WaitForReconnectAsync(
-        long connectionGeneration,
-        CancellationToken cancellationToken)
+    private static TaskCompletionSource<bool> CreateReadySignal(bool completed)
     {
-        Task<bool> connectionTransitionTask;
-        lock (_reconnectLock)
+        var signal = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        if (completed)
         {
-            if (_connectionGeneration != connectionGeneration)
-            {
-                return _lastReconnectSucceeded;
-            }
-
-            connectionTransitionTask = _connectionTransition.Task;
+            signal.SetResult(true);
         }
 
-        return await connectionTransitionTask.WaitAsync(cancellationToken).ConfigureAwait(false);
+        return signal;
     }
 
-    private bool HasReconnectSince(long connectionGeneration)
-    {
-        lock (_reconnectLock)
-        {
-            return _reconnecting || _connectionGeneration != connectionGeneration;
-        }
-    }
-
-    private void OnReceiveAssignment(ModuleAssignment assignment)
-    {
-        if (_logger.IsEnabled(LogLevel.Debug))
-        {
-            _logger.LogDebug("Received assignment: {Module}", assignment.ModuleId);
-        }
-        Volatile.Write(ref _inFlightAssignment, assignment);
-        _assignmentChannel.Writer.TryWrite(assignment);
-    }
-
-    private void OnSignalCompletion()
-    {
-        _logger.LogInformation("Received completion signal from master");
-        _assignmentChannel.Writer.TryComplete();
-    }
+    private sealed class MasterConnectionClosedException()
+        : InvalidOperationException("The connection to the distributed master is closed.");
 }
