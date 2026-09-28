@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.Modules;
 
@@ -99,11 +98,6 @@ public interface IModuleRegistrationContext
     /// <typeparam name="TModule">The dependency module type.</typeparam>
     void RemoveDependency<TModule>()
         where TModule : IModule;
-
-    /// <summary>
-    /// Gets the service collection when registration occurs before the container is built; otherwise, <see langword="null"/>.
-    /// </summary>
-    IServiceCollection? Services { get; }
 
     /// <summary>
     /// Sets metadata that can be retrieved during module execution.

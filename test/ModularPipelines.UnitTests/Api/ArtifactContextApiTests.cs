@@ -736,7 +736,7 @@ public class ArtifactContextApiTests
 
     private sealed class PublishArtifactOnReadyAttribute : Attribute, IModuleReadyHandler
     {
-        public async Task OnModuleReadyAsync(IModuleHookContext context)
+        public async Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             var path = Path.GetTempFileName();
             try

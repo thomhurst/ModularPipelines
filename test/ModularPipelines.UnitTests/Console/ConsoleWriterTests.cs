@@ -196,7 +196,7 @@ public class ConsoleWriterTests
     [AttributeUsage(AttributeTargets.Class)]
     private sealed class WriteReadyOutputAttribute : Attribute, IModuleReadyHandler
     {
-        public Task OnModuleReadyAsync(IModuleHookContext context)
+        public Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             context.Console.WriteLine("attribute ready output");
             return Task.CompletedTask;
@@ -205,19 +205,19 @@ public class ConsoleWriterTests
 
     private sealed class WriteLifecycleOutputHandler : IModuleEventHandler
     {
-        public Task OnModuleReadyAsync(IModuleHookContext context)
+        public Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             context.Console.WriteLine("receiver ready output");
             return Task.CompletedTask;
         }
 
-        public Task OnModuleStartAsync(IModuleHookContext context)
+        public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             context.Console.WriteLine("receiver start output");
             return Task.CompletedTask;
         }
 
-        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
+        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result, CancellationToken cancellationToken)
         {
             context.Console.WriteLine("receiver end output");
             return Task.CompletedTask;

@@ -97,7 +97,8 @@ internal sealed class ModuleDiscoveryPlanner(
                 planningMetadataRegistry,
                 configuration,
                 environment,
-                planningSafeOnly: true);
+                planningSafeOnly: true,
+                cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
             await registrationEventExecutor.InvokeRegistrationEventsAsync(planningModules)
                 .ConfigureAwait(false);

@@ -24,88 +24,105 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
         IModuleMetadataRegistry metadataRegistry,
         IModuleAttributeEventService attributeEventService)
     {
-        _pipelineEventHandlers = [.. pipelineEventHandlers.OrderBy(static handler => handler.Priority)];
-        _moduleEventHandlers = [.. moduleEventHandlers.OrderBy(static handler => handler.Priority)];
+        _pipelineEventHandlers = [.. pipelineEventHandlers.OrderBy(static handler => handler.Order)];
+        _moduleEventHandlers = [.. moduleEventHandlers.OrderBy(static handler => handler.Order)];
         _eventHandlerInvoker = eventHandlerInvoker;
         _moduleContextProvider = moduleContextProvider;
         _metadataRegistry = metadataRegistry;
         _attributeEventService = attributeEventService;
     }
 
-    public Task OnPipelineStartAsync()
+    public Task OnPipelineStartAsync(CancellationToken cancellationToken)
     {
         return _pipelineEventHandlers.Count == 0
             ? Task.CompletedTask
             : _eventHandlerInvoker.InvokePipelineStartHandlersAsync(
                 _pipelineEventHandlers,
-                GetPipelineContext());
+                GetPipelineContext(),
+                cancellationToken);
     }
 
-    public Task OnPipelineEndAsync(PipelineSummary pipelineSummary)
+    public Task OnPipelineEndAsync(PipelineSummary pipelineSummary, CancellationToken cancellationToken)
     {
         return _pipelineEventHandlers.Count == 0
             ? Task.CompletedTask
             : _eventHandlerInvoker.InvokePipelineEndHandlersAsync(
                 _pipelineEventHandlers,
                 GetPipelineContext(),
-                pipelineSummary);
+                pipelineSummary,
+                cancellationToken);
     }
 
-    public Task OnModuleReadyAsync(ModuleState moduleState, IConsoleWriter consoleWriter)
+    public Task OnModuleReadyAsync(
+        ModuleState moduleState,
+        IConsoleWriter consoleWriter,
+        CancellationToken cancellationToken)
     {
         return _moduleEventHandlers.Count == 0
             ? Task.CompletedTask
             : _eventHandlerInvoker.InvokeReadyHandlersAsync(
                 _moduleEventHandlers,
-                CreateModuleHookContext(moduleState, consoleWriter));
+                CreateModuleHookContext(moduleState, moduleState.Result, consoleWriter),
+                cancellationToken);
     }
 
-    public Task OnModuleStartAsync(ModuleState moduleState, IConsoleWriter consoleWriter)
+    public Task OnModuleStartAsync(
+        ModuleState moduleState,
+        IConsoleWriter consoleWriter,
+        CancellationToken cancellationToken)
     {
         return _moduleEventHandlers.Count == 0
             ? Task.CompletedTask
             : _eventHandlerInvoker.InvokeStartHandlersAsync(
                 _moduleEventHandlers,
-                CreateModuleHookContext(moduleState, consoleWriter));
+                CreateModuleHookContext(moduleState, moduleState.Result, consoleWriter),
+                cancellationToken);
     }
 
     public Task OnModuleEndAsync(
         ModuleState moduleState,
         IModuleResult result,
-        IConsoleWriter consoleWriter)
+        IConsoleWriter consoleWriter,
+        CancellationToken cancellationToken)
     {
         return _moduleEventHandlers.Count == 0
             ? Task.CompletedTask
             : _eventHandlerInvoker.InvokeEndHandlersAsync(
                 _moduleEventHandlers,
-                CreateModuleHookContext(moduleState, consoleWriter),
-                result);
+                CreateModuleHookContext(moduleState, result, consoleWriter),
+                result,
+                cancellationToken);
     }
 
     public Task OnModuleFailureAsync(
         ModuleState moduleState,
         Exception exception,
-        IConsoleWriter consoleWriter)
+        IConsoleWriter consoleWriter,
+        CancellationToken cancellationToken)
     {
         return _moduleEventHandlers.Count == 0
             ? Task.CompletedTask
             : _eventHandlerInvoker.InvokeFailureHandlersAsync(
                 _moduleEventHandlers,
-                CreateModuleHookContext(moduleState, consoleWriter),
-                exception);
+                CreateModuleHookContext(moduleState, moduleState.Result, consoleWriter),
+                exception,
+                cancellationToken);
     }
 
     public Task OnModuleSkippedAsync(
         ModuleState moduleState,
+        IModuleResult result,
         SkipDecision reason,
-        IConsoleWriter consoleWriter)
+        IConsoleWriter consoleWriter,
+        CancellationToken cancellationToken)
     {
         return _moduleEventHandlers.Count == 0
             ? Task.CompletedTask
             : _eventHandlerInvoker.InvokeSkippedHandlersAsync(
                 _moduleEventHandlers,
-                CreateModuleHookContext(moduleState, consoleWriter),
-                reason);
+                CreateModuleHookContext(moduleState, result, consoleWriter),
+                reason,
+                cancellationToken);
     }
 
     private IPipelineContext GetPipelineContext()
@@ -115,6 +132,7 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
 
     private ModuleHookContext CreateModuleHookContext(
         ModuleState moduleState,
+        IModuleResult? result,
         IConsoleWriter consoleWriter)
     {
         var moduleType = moduleState.ModuleType;
@@ -125,7 +143,7 @@ internal class PipelineSetupExecutor : IPipelineSetupExecutor
             moduleState.Module,
             moduleAttributes,
             startTime,
-            moduleState.Result,
+            result,
             GetPipelineContext(),
             _metadataRegistry,
             consoleWriter);

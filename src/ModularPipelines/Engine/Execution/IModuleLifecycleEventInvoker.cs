@@ -3,7 +3,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Engine.Execution;
 
 /// <summary>
-/// Responsible for invoking module lifecycle events (Ready, Start, End, Failed, Skipped).
+/// Responsible for invoking attribute module lifecycle events (Ready, Start, End, Failed, Skipped).
 /// </summary>
 internal interface IModuleLifecycleEventInvoker
 {
@@ -21,19 +21,27 @@ internal interface IModuleLifecycleEventInvoker
 
     /// <summary>
     /// Invokes the OnModuleEnd lifecycle event.
-    /// Called when a module completes successfully.
+    /// Called when a module completes without being skipped.
     /// </summary>
-    Task InvokeEndEventAsync(ModuleLifecycleContext context, ModuleStatus status, IModuleResult result);
+    Task InvokeEndEventAsync(ModuleLifecycleContext context, IModuleResult result, CancellationToken cancellationToken);
 
     /// <summary>
     /// Invokes the OnModuleFailed lifecycle event.
     /// Called when a module throws an exception.
     /// </summary>
-    Task InvokeFailedEventAsync(ModuleLifecycleContext context, IModuleResult result, Exception exception);
+    Task InvokeFailedEventAsync(
+        ModuleLifecycleContext context,
+        IModuleResult result,
+        Exception exception,
+        CancellationToken cancellationToken);
 
     /// <summary>
     /// Invokes the OnModuleSkipped lifecycle event.
     /// Called when a module is skipped.
     /// </summary>
-    Task InvokeSkippedEventAsync(ModuleLifecycleContext context, ModuleStatus status, SkipDecision skipReason);
+    Task InvokeSkippedEventAsync(
+        ModuleLifecycleContext context,
+        IModuleResult result,
+        SkipDecision skipReason,
+        CancellationToken cancellationToken);
 }

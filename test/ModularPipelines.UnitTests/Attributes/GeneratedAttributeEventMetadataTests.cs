@@ -13,9 +13,9 @@ internal sealed class GeneratedStartAttribute(string name) : Attribute, IModuleS
 {
     public string Name { get; } = name;
 
-    public int Priority { get; set; }
+    public int Order { get; set; }
 
-    public Task OnModuleStartAsync(IModuleHookContext context) => Task.CompletedTask;
+    public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken) => Task.CompletedTask;
 }
 
 [AttributeUsage(AttributeTargets.Class, Inherited = true)]
@@ -24,7 +24,7 @@ internal sealed class GeneratedMarkerAttribute(string value) : Attribute
     public string Value { get; } = value;
 }
 
-[GeneratedStart("base", Priority = 20)]
+[GeneratedStart("base", Order = 20)]
 [GeneratedMarker("base-marker")]
 public class GeneratedEventBaseModule : Module<string>
 {
@@ -34,8 +34,8 @@ public class GeneratedEventBaseModule : Module<string>
         => Task.FromResult<string>("base");
 }
 
-[GeneratedStart("derived", Priority = 10)]
-[GeneratedStart("repeated", Priority = 30)]
+[GeneratedStart("derived", Order = 10)]
+[GeneratedStart("repeated", Order = 30)]
 [GeneratedMarker("marker")]
 public sealed class GeneratedEventDerivedModule : GeneratedEventBaseModule
 {
@@ -123,11 +123,11 @@ public class GeneratedAttributeEventMetadataTests
         var handlers = attributes.OfType<GeneratedStartAttribute>().ToArray();
         await Assert.That(handlers.Length).IsEqualTo(3);
         await Assert.That(handlers[0].Name).IsEqualTo("derived");
-        await Assert.That(handlers[0].Priority).IsEqualTo(10);
+        await Assert.That(handlers[0].Order).IsEqualTo(10);
         await Assert.That(handlers[1].Name).IsEqualTo("repeated");
-        await Assert.That(handlers[1].Priority).IsEqualTo(30);
+        await Assert.That(handlers[1].Order).IsEqualTo(30);
         await Assert.That(handlers[2].Name).IsEqualTo("base");
-        await Assert.That(handlers[2].Priority).IsEqualTo(20);
+        await Assert.That(handlers[2].Order).IsEqualTo(20);
         await Assert.That(attributes.OfType<GeneratedMarkerAttribute>().Single().Value)
             .IsEqualTo("marker");
     }
@@ -251,7 +251,7 @@ public class GeneratedAttributeEventMetadataTests
 
     private sealed class ReflectionFallbackStartAttribute : Attribute, IModuleStartHandler
     {
-        public Task OnModuleStartAsync(IModuleHookContext context) => Task.CompletedTask;
+        public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken) => Task.CompletedTask;
     }
 
     [ReflectionFallbackStart]

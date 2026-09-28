@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Modules;
@@ -23,7 +24,8 @@ public class RegistrationEventExecutorTests
             new ModuleDependencyRegistry(),
             Mock.Of<IModuleMetadataRegistry>(),
             Mock.Of<IConfiguration>(),
-            Mock.Of<IHostEnvironment>());
+            Mock.Of<IHostEnvironment>(),
+            new ModularPipelines.Engine.EngineCancellationToken(Mock.Of<IPrimaryExceptionContainer>()));
 
         await executor.InvokeRegistrationEventsAsync([new FirstModule()]);
 

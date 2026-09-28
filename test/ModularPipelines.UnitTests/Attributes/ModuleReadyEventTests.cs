@@ -14,7 +14,7 @@ public class ModuleReadyEventTests : TestBase
 
     public class LogReadyAttribute : Attribute, IModuleReadyHandler
     {
-        public Task OnModuleReadyAsync(IModuleHookContext context)
+        public Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             EventLog.Add($"Ready:{context.ModuleName}");
             return Task.CompletedTask;
@@ -23,7 +23,7 @@ public class ModuleReadyEventTests : TestBase
 
     public class LogReadyWithTimingAttribute : Attribute, IModuleReadyHandler
     {
-        public Task OnModuleReadyAsync(IModuleHookContext context)
+        public Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             EventLog.Add($"Ready:{context.ModuleName}:ElapsedTime:{context.ElapsedTime.TotalMilliseconds >= 0}");
             return Task.CompletedTask;
@@ -32,13 +32,13 @@ public class ModuleReadyEventTests : TestBase
 
     public class LogReadyAndStartAttribute : Attribute, IModuleReadyHandler, IModuleStartHandler
     {
-        public Task OnModuleReadyAsync(IModuleHookContext context)
+        public Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             EventLog.Add($"Ready:{context.ModuleName}");
             return Task.CompletedTask;
         }
 
-        public Task OnModuleStartAsync(IModuleHookContext context)
+        public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             EventLog.Add($"Start:{context.ModuleName}");
             return Task.CompletedTask;
@@ -49,7 +49,7 @@ public class ModuleReadyEventTests : TestBase
     {
         public bool ContinueOnError => true;
 
-        public Task OnModuleReadyAsync(IModuleHookContext context)
+        public Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             throw new InvalidOperationException("Ready event failed");
         }

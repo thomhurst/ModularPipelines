@@ -20,6 +20,7 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
     private readonly IConfiguration _configuration;
     private readonly IHostEnvironment _environment;
     private readonly bool _planningSafeOnly;
+    private readonly CancellationToken _cancellationToken;
     private Task? _invocationTask;
     private HashSet<Type>? _registeredModuleTypes;
 
@@ -29,7 +30,8 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
         IModuleDependencyRegistry dependencyRegistry,
         IModuleMetadataRegistry metadataRegistry,
         IConfiguration configuration,
-        IHostEnvironment environment)
+        IHostEnvironment environment,
+        EngineCancellationToken engineCancellationToken)
         : this(
             attributeEventService,
             eventHandlerInvoker,
@@ -37,7 +39,8 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
             metadataRegistry,
             configuration,
             environment,
-            planningSafeOnly: false)
+            planningSafeOnly: false,
+            engineCancellationToken.Token)
     {
     }
 
@@ -48,7 +51,8 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
         IModuleMetadataRegistry metadataRegistry,
         IConfiguration configuration,
         IHostEnvironment environment,
-        bool planningSafeOnly)
+        bool planningSafeOnly,
+        CancellationToken cancellationToken)
     {
         _attributeEventService = attributeEventService;
         _eventHandlerInvoker = eventHandlerInvoker;
@@ -57,6 +61,7 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
         _configuration = configuration;
         _environment = environment;
         _planningSafeOnly = planningSafeOnly;
+        _cancellationToken = cancellationToken;
     }
 
     public Task InvokeRegistrationEventsAsync(IEnumerable<IModule> modules)
@@ -116,7 +121,10 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
                 _dependencyRegistry,
                 _metadataRegistry);
 
-            await _eventHandlerInvoker.InvokeRegistrationHandlersAsync(handlers, context).ConfigureAwait(false);
+            _cancellationToken.ThrowIfCancellationRequested();
+            await _eventHandlerInvoker
+                .InvokeRegistrationHandlersAsync(handlers, context, _cancellationToken)
+                .ConfigureAwait(false);
         }
     }
 

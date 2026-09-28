@@ -46,6 +46,7 @@ internal class ModuleRunner : IModuleRunner
     private readonly IModuleAttributeEventService _moduleAttributeEventService;
     private readonly IModuleResultRegistrar _resultRegistrar;
     private readonly ISecretObfuscator _secretObfuscator;
+    private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
     private readonly ModulePlanningSkipEvaluator _modulePlanningSkipEvaluator;
     private readonly IModuleResultHistoryProvider _resultHistoryProvider;
     private readonly IPipelineContextProvider _pipelineContextProvider;
@@ -81,7 +82,8 @@ internal class ModuleRunner : IModuleRunner
         ArtifactLifecycleManager artifactLifecycleManager,
         IOptions<DistributedOptions> distributedOptions,
         IEnumerable<IModule> modules,
-        ISecretObfuscator secretObfuscator)
+        ISecretObfuscator secretObfuscator,
+        ISecondaryExceptionContainer secondaryExceptionContainer)
     {
         _serviceProvider = serviceProvider;
         _executionPipeline = executionPipeline;
@@ -99,6 +101,7 @@ internal class ModuleRunner : IModuleRunner
         _moduleAttributeEventService = moduleAttributeEventService;
         _resultRegistrar = resultRegistrar;
         _secretObfuscator = secretObfuscator;
+        _secondaryExceptionContainer = secondaryExceptionContainer;
         _modulePlanningSkipEvaluator = modulePlanningSkipEvaluator;
         _resultHistoryProvider = resultHistoryProvider;
         _pipelineContextProvider = pipelineContextProvider;
@@ -192,9 +195,6 @@ internal class ModuleRunner : IModuleRunner
                             scope.ServiceProvider,
                             cancellationToken);
                         readyLogger = readyLifecycleContext.ConsoleWriter as IInternalModuleLogger;
-                        await _pipelineSetupExecutor
-                            .OnModuleReadyAsync(moduleState, readyLifecycleContext.ConsoleWriter)
-                            .ConfigureAwait(false);
                         await InvokeReadyEventAsync(moduleState, readyLifecycleContext).ConfigureAwait(false);
                     }
 
@@ -393,9 +393,17 @@ internal class ModuleRunner : IModuleRunner
     {
         try
         {
+            // Global handlers run before attribute handlers. A failure in either family fails the
+            // module through the same path, so failure handlers are always notified.
+            await _pipelineSetupExecutor
+                .OnModuleReadyAsync(moduleState, lifecycleContext.ConsoleWriter, lifecycleContext.CancellationToken)
+                .ConfigureAwait(false);
             await _lifecycleEventInvoker.InvokeReadyEventAsync(lifecycleContext).ConfigureAwait(false);
         }
-        catch (Exception exception)
+        catch (Exception exception) when (!IsPipelineCancellation(
+                                              exception,
+                                              lifecycleContext.CancellationToken,
+                                              _engineCancellationToken.IsCancelled))
         {
             var executionContext = CreateExecutionContext(moduleState.Module, moduleState.ModuleType);
             ApplyDependencySkip(moduleState, executionContext);
@@ -1050,18 +1058,22 @@ internal class ModuleRunner : IModuleRunner
             scopedServiceProvider,
             cancellationToken);
 
-        await _pipelineSetupExecutor
-            .OnModuleStartAsync(moduleState, lifecycleContext.ConsoleWriter)
-            .ConfigureAwait(false);
-
-        var estimatedDuration = await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(moduleType).ConfigureAwait(false);
-        await _mediator.Publish(
-                new ModuleStartedNotification(moduleState, estimatedDuration),
-                CancellationToken.None)
-            .ConfigureAwait(false);
-
         try
         {
+            // Estimates are best-effort: the safe provider logs and falls back instead of throwing.
+            var estimatedDuration = await _moduleEstimatedTimeProvider
+                .GetModuleEstimatedTimeAsync(moduleType, cancellationToken)
+                .ConfigureAwait(false);
+            await _mediator.Publish(
+                    new ModuleStartedNotification(moduleState, estimatedDuration),
+                    CancellationToken.None)
+                .ConfigureAwait(false);
+
+            // Global start handlers fail the module through the same path as attribute start handlers.
+            await _pipelineSetupExecutor
+                .OnModuleStartAsync(moduleState, lifecycleContext.ConsoleWriter, cancellationToken)
+                .ConfigureAwait(false);
+
             await ExecuteModuleBodyAsync(
                     moduleState,
                     scheduler,
@@ -1183,9 +1195,22 @@ internal class ModuleRunner : IModuleRunner
 
         try
         {
-            await _lifecycleEventInvoker.InvokeFailedEventAsync(lifecycleContext, result, exception).ConfigureAwait(false);
-            await _pipelineSetupExecutor
-                .OnModuleFailureAsync(moduleState, exception, lifecycleContext.ConsoleWriter)
+            var observerToken = _engineCancellationToken.NonFailureCancellationToken;
+            await InvokeObserverHandlersAsync(
+                    () => _lifecycleEventInvoker.InvokeFailedEventAsync(
+                        lifecycleContext,
+                        result,
+                        exception,
+                        observerToken),
+                    observerToken)
+                .ConfigureAwait(false);
+            await InvokeObserverHandlersAsync(
+                    () => _pipelineSetupExecutor.OnModuleFailureAsync(
+                        moduleState,
+                        exception,
+                        lifecycleContext.ConsoleWriter,
+                        observerToken),
+                    observerToken)
                 .ConfigureAwait(false);
         }
         finally
@@ -1203,35 +1228,53 @@ internal class ModuleRunner : IModuleRunner
         CancellationToken cancellationToken)
     {
         moduleState.Result = result;
+        var observerToken = _engineCancellationToken.NonFailureCancellationToken;
 
         if (executionContext.Status == ModuleStatus.Skipped)
         {
-            await _lifecycleEventInvoker.InvokeSkippedEventAsync(
-                    lifecycleContext,
-                    ModuleStatus.Skipped,
-                    executionContext.SkipResult!)
+            var skipDecision = executionContext.SkipResult!;
+            await InvokeObserverHandlersAsync(
+                    () => _lifecycleEventInvoker.InvokeSkippedEventAsync(
+                        lifecycleContext,
+                        result,
+                        skipDecision,
+                        observerToken),
+                    observerToken)
                 .ConfigureAwait(false);
-            await _pipelineSetupExecutor
-                .OnModuleSkippedAsync(
-                    moduleState,
-                    executionContext.SkipResult!,
-                    lifecycleContext.ConsoleWriter)
+            await InvokeObserverHandlersAsync(
+                    () => _pipelineSetupExecutor.OnModuleSkippedAsync(
+                        moduleState,
+                        result,
+                        skipDecision,
+                        lifecycleContext.ConsoleWriter,
+                        observerToken),
+                    observerToken)
                 .ConfigureAwait(false);
             return;
         }
 
         if (executionContext.Status is ModuleStatus.Succeeded or ModuleStatus.FailureIgnored)
         {
+            // Best-effort: the safe provider logs storage failures instead of failing the module.
             await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(
                     moduleState.ModuleType,
-                    executionContext.Duration)
+                    executionContext.Duration,
+                    observerToken)
                 .ConfigureAwait(false);
         }
 
-        await _pipelineSetupExecutor
-            .OnModuleEndAsync(moduleState, result, lifecycleContext.ConsoleWriter)
+        await InvokeObserverHandlersAsync(
+                () => _pipelineSetupExecutor.OnModuleEndAsync(
+                    moduleState,
+                    result,
+                    lifecycleContext.ConsoleWriter,
+                    observerToken),
+                observerToken)
             .ConfigureAwait(false);
-        await _lifecycleEventInvoker.InvokeEndEventAsync(lifecycleContext, executionContext.Status, result).ConfigureAwait(false);
+        await InvokeObserverHandlersAsync(
+                () => _lifecycleEventInvoker.InvokeEndEventAsync(lifecycleContext, result, observerToken),
+                observerToken)
+            .ConfigureAwait(false);
 
         if (!ManageArtifactsLocally(scheduler)
             || executionContext.Status is not (
@@ -1248,6 +1291,27 @@ internal class ModuleRunner : IModuleRunner
         catch (Exception exception) when (exception is not ModuleFailedException)
         {
             throw new ModuleFailedException(moduleState.ModuleType, exception);
+        }
+    }
+
+    /// <summary>
+    /// Invokes one family of observer handlers (End, Failure or Skipped). Observers never change the
+    /// module outcome: a failure is logged by the handler invoker and recorded as a secondary pipeline
+    /// error, and the next family still runs.
+    /// </summary>
+    private async Task InvokeObserverHandlersAsync(Func<Task> invokeHandlers, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await invokeHandlers().ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            _logger.LogDebug("Module event handlers were cancelled");
+        }
+        catch (Exception exception)
+        {
+            _secondaryExceptionContainer.RegisterException(exception);
         }
     }
 

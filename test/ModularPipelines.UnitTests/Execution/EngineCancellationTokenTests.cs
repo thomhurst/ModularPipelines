@@ -321,7 +321,7 @@ public class EngineCancellationTokenTests : TestBase
 
     private sealed class ThrowingReadyHookHandler : IModuleEventHandler
     {
-        public Task OnModuleReadyAsync(IModuleHookContext context)
+        public Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             if (context.ModuleType == typeof(ReadyHookFailingModule))
             {
@@ -334,7 +334,7 @@ public class EngineCancellationTokenTests : TestBase
 
     private sealed class IndependentlyCancellingReadyHookHandler : IModuleEventHandler
     {
-        public Task OnModuleReadyAsync(IModuleHookContext context)
+        public Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             if (context.ModuleType == typeof(ReadyHookFailingModule))
             {

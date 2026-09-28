@@ -363,6 +363,43 @@ public class PipelineExecutorTests
         await Assert.That(exception!.Message).Contains("matched 2 planned modules");
     }
 
+    [Test]
+    public async Task Pipeline_End_Handler_Failure_Does_Not_Replace_Backend_Exception()
+    {
+        var backendException = new InvalidOperationException("backend failed");
+        var handlerException = new InvalidOperationException("end handler failed");
+        var secondaryExceptions = new Mock<ISecondaryExceptionContainer>();
+        var executor = CreateExecutor(
+            secondaryExceptions.Object,
+            Mock.Of<IExceptionRethrowService>(),
+            new PipelineOptions(),
+            backendException: backendException,
+            pipelineEndException: handlerException);
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            executor.ExecuteAsync([], new OrganizedModules([], [])));
+
+        await Assert.That(exception).IsSameReferenceAs(backendException);
+        secondaryExceptions.Verify(x => x.RegisterException(handlerException), Times.Once);
+    }
+
+    [Test]
+    public async Task Pipeline_End_Handler_Failure_Fails_A_Completed_Pipeline()
+    {
+        var handlerException = new InvalidOperationException("end handler failed");
+        var secondaryExceptions = new SecondaryExceptionContainer();
+        var executor = CreateExecutor(
+            secondaryExceptions,
+            Mock.Of<IExceptionRethrowService>(),
+            new PipelineOptions(),
+            pipelineEndException: handlerException);
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            executor.ExecuteAsync([], new OrganizedModules([], [])));
+
+        await Assert.That(exception).IsSameReferenceAs(handlerException);
+    }
+
     private static PipelineExecutor CreateExecutor(
         ISecondaryExceptionContainer secondaryExceptions,
         IExceptionRethrowService exceptionRethrowService,
@@ -371,25 +408,36 @@ public class PipelineExecutorTests
         IReadOnlyList<IModuleResult>? backendResults = null,
         IExecutionBackendContext? executionBackendContext = null,
         IPipelineSummaryFactory? summaryFactory = null,
-        IMetricsCollector? metricsCollector = null)
+        IMetricsCollector? metricsCollector = null,
+        Exception? backendException = null,
+        Exception? pipelineEndException = null)
     {
         var executionBackend = new Mock<IExecutionBackend>();
         executionBackend.SetupGet(x => x.OwnsEntirePlan).Returns(ownsEntirePlan);
-        executionBackend
+        var backendSetup = executionBackend
             .Setup(x => x.ExecuteAsync(
                 It.IsAny<IReadOnlyList<IModule>>(),
                 It.IsAny<IReadOnlyDictionary<Type, TimeSpan>>(),
                 It.IsAny<IExecutionBackendContext>(),
-                It.IsAny<CancellationToken>()))
-            .ReturnsAsync(backendResults ?? []);
+                It.IsAny<CancellationToken>()));
+        if (backendException is null)
+        {
+            backendSetup.ReturnsAsync(backendResults ?? []);
+        }
+        else
+        {
+            backendSetup.ThrowsAsync(backendException);
+        }
         executionBackendContext ??= Mock.Of<IExecutionBackendContext>();
         var engineCancellationToken = new ModularPipelines.Engine.EngineCancellationToken(
             Mock.Of<IPrimaryExceptionContainer>());
 
         var pipelineSetupExecutor = new Mock<IPipelineSetupExecutor>();
         pipelineSetupExecutor
-            .Setup(x => x.OnPipelineEndAsync(It.IsAny<PipelineSummary>()))
-            .Returns(Task.CompletedTask);
+            .Setup(x => x.OnPipelineEndAsync(It.IsAny<PipelineSummary>(), It.IsAny<CancellationToken>()))
+            .Returns(pipelineEndException is null
+                ? Task.CompletedTask
+                : Task.FromException(pipelineEndException));
 
         if (summaryFactory is null)
         {

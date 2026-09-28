@@ -201,7 +201,7 @@ public class InterfaceVisibilityTests
         }
 
         await Assert.That(typeof(IEventHandler).GetProperty(nameof(IEventHandler.ContinueOnError))).IsNotNull();
-        await Assert.That(typeof(IEventHandler).GetProperty(nameof(IEventHandler.Priority))).IsNotNull();
+        await Assert.That(typeof(IEventHandler).GetProperty(nameof(IEventHandler.Order))).IsNotNull();
         await Assert.That(typeof(IModuleRegistrationHandler)
             .IsAssignableFrom(typeof(IPlanningSafeModuleRegistrationHandler))).IsTrue();
     }

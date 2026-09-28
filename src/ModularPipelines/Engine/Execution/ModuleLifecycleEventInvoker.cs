@@ -1,7 +1,6 @@
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
-using ModularPipelines.Logging;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine.Execution;
@@ -34,18 +33,10 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             return;
         }
 
-        var readyTime = context.ReadyTime ?? context.StartTime;
-
-        var hookContext = new ModuleHookContext(
-            context.Module,
-            context.ModuleAttributes,
-            readyTime,
-            result: null,
-            context.PipelineContext,
-            _metadataRegistry,
-            context.ConsoleWriter);
-
-        await _eventHandlerInvoker.InvokeReadyHandlersAsync(handlers, hookContext).ConfigureAwait(false);
+        var hookContext = CreateHookContext(context, context.ReadyTime ?? context.StartTime, result: null);
+        await _eventHandlerInvoker
+            .InvokeReadyHandlersAsync(handlers, hookContext, context.CancellationToken)
+            .ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -57,20 +48,17 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             return;
         }
 
-        var hookContext = new ModuleHookContext(
-            context.Module,
-            context.ModuleAttributes,
-            context.StartTime,
-            result: null,
-            context.PipelineContext,
-            _metadataRegistry,
-            context.ConsoleWriter);
-
-        await _eventHandlerInvoker.InvokeStartHandlersAsync(handlers, hookContext).ConfigureAwait(false);
+        var hookContext = CreateHookContext(context, context.StartTime, result: null);
+        await _eventHandlerInvoker
+            .InvokeStartHandlersAsync(handlers, hookContext, context.CancellationToken)
+            .ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public async Task InvokeEndEventAsync(ModuleLifecycleContext context, ModuleStatus status, IModuleResult result)
+    public async Task InvokeEndEventAsync(
+        ModuleLifecycleContext context,
+        IModuleResult result,
+        CancellationToken cancellationToken)
     {
         var handlers = _attributeEventService.GetEndHandlers(context.ModuleType);
         if (handlers.Count == 0)
@@ -78,23 +66,18 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             return;
         }
 
-        var hookContext = new ModuleHookContext(
-            context.Module,
-            context.ModuleAttributes,
-            context.StartTime,
-            result,
-            context.PipelineContext,
-            _metadataRegistry,
-            context.ConsoleWriter);
-
-        await _eventHandlerInvoker.InvokeEndHandlersAsync(handlers, hookContext, result).ConfigureAwait(false);
+        var hookContext = CreateHookContext(context, context.StartTime, result);
+        await _eventHandlerInvoker
+            .InvokeEndHandlersAsync(handlers, hookContext, result, cancellationToken)
+            .ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task InvokeFailedEventAsync(
         ModuleLifecycleContext context,
         IModuleResult result,
-        Exception exception)
+        Exception exception,
+        CancellationToken cancellationToken)
     {
         var handlers = _attributeEventService.GetFailureHandlers(context.ModuleType);
         if (handlers.Count == 0)
@@ -102,20 +85,18 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             return;
         }
 
-        var hookContext = new ModuleHookContext(
-            context.Module,
-            context.ModuleAttributes,
-            context.StartTime,
-            result,
-            context.PipelineContext,
-            _metadataRegistry,
-            context.ConsoleWriter);
-
-        await _eventHandlerInvoker.InvokeFailureHandlersAsync(handlers, hookContext, exception).ConfigureAwait(false);
+        var hookContext = CreateHookContext(context, context.StartTime, result);
+        await _eventHandlerInvoker
+            .InvokeFailureHandlersAsync(handlers, hookContext, exception, cancellationToken)
+            .ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public async Task InvokeSkippedEventAsync(ModuleLifecycleContext context, ModuleStatus status, SkipDecision skipReason)
+    public async Task InvokeSkippedEventAsync(
+        ModuleLifecycleContext context,
+        IModuleResult result,
+        SkipDecision skipReason,
+        CancellationToken cancellationToken)
     {
         var handlers = _attributeEventService.GetSkippedHandlers(context.ModuleType);
         if (handlers.Count == 0)
@@ -123,15 +104,22 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             return;
         }
 
-        var hookContext = new ModuleHookContext(
+        var hookContext = CreateHookContext(context, context.StartTime, result);
+        await _eventHandlerInvoker
+            .InvokeSkippedHandlersAsync(handlers, hookContext, skipReason, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    private ModuleHookContext CreateHookContext(
+        ModuleLifecycleContext context,
+        DateTimeOffset startTime,
+        IModuleResult? result) =>
+        new(
             context.Module,
             context.ModuleAttributes,
-            context.StartTime,
-            result: null,
+            startTime,
+            result,
             context.PipelineContext,
             _metadataRegistry,
             context.ConsoleWriter);
-
-        await _eventHandlerInvoker.InvokeSkippedHandlersAsync(handlers, hookContext, skipReason).ConfigureAwait(false);
-    }
 }

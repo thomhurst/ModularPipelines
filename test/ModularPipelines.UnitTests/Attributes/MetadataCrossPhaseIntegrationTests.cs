@@ -22,7 +22,7 @@ public class MetadataCrossPhaseIntegrationTests : TestBase
             _value = value;
         }
 
-        public Task OnRegistrationAsync(IModuleRegistrationContext context)
+        public Task OnRegistrationAsync(IModuleRegistrationContext context, CancellationToken cancellationToken)
         {
             context.SetMetadata(_key, _value);
             EventLog.Add($"Registration:SetMetadata:{_key}={_value}");
@@ -39,7 +39,7 @@ public class MetadataCrossPhaseIntegrationTests : TestBase
             _key = key;
         }
 
-        public Task OnModuleStartAsync(IModuleHookContext context)
+        public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             var value = context.GetMetadata<string>(_key);
             EventLog.Add($"Start:ReadMetadata:{_key}={value ?? "null"}");
@@ -56,7 +56,7 @@ public class MetadataCrossPhaseIntegrationTests : TestBase
             _key = key;
         }
 
-        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
+        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result, CancellationToken cancellationToken)
         {
             var value = context.GetMetadata<string>(_key);
             EventLog.Add($"End:ReadMetadata:{_key}={value ?? "null"}");

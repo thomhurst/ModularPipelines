@@ -18,9 +18,9 @@ public class PipelineSetupExecutorTests
     private sealed class OrderedPipelineHandler(int priority, string name, ICollection<string> calls)
         : IPipelineEventHandler
     {
-        public int Priority => priority;
+        public int Order => priority;
 
-        public Task OnPipelineStartAsync(IPipelineContext context)
+        public Task OnPipelineStartAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             calls.Add(name);
             return Task.CompletedTask;
@@ -30,9 +30,9 @@ public class PipelineSetupExecutorTests
     private sealed class OrderedModuleHandler(int priority, string name, ICollection<string> calls)
         : IModuleEventHandler
     {
-        public int Priority => priority;
+        public int Order => priority;
 
-        public Task OnModuleReadyAsync(IModuleHookContext context)
+        public Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             calls.Add(name);
             return Task.CompletedTask;
@@ -73,7 +73,7 @@ public class PipelineSetupExecutorTests
 
         await executor.OnModuleReadyAsync(
             new ModuleState(module, module.GetType()),
-            Mock.Of<IConsoleWriter>());
+            Mock.Of<IConsoleWriter>(), CancellationToken.None);
 
         await Assert.That(CountingAttribute.InstanceCount).IsEqualTo(0);
     }
@@ -84,8 +84,8 @@ public class PipelineSetupExecutorTests
         var attributeEventService = new ModuleAttributeEventService();
         IReadOnlyList<Attribute>? handlerAttributes = null;
         var handler = new Mock<IModuleEventHandler>();
-        handler.Setup(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>()))
-            .Callback<IModuleHookContext>(context => handlerAttributes = context.ModuleAttributes)
+        handler.Setup(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>(), It.IsAny<CancellationToken>()))
+            .Callback<IModuleHookContext, CancellationToken>((context, _) => handlerAttributes = context.ModuleAttributes)
             .Returns(Task.CompletedTask);
         var executor = new PipelineSetupExecutor(
             [],
@@ -98,7 +98,7 @@ public class PipelineSetupExecutorTests
 
         await executor.OnModuleReadyAsync(
             new ModuleState(module, module.GetType()),
-            Mock.Of<IConsoleWriter>());
+            Mock.Of<IConsoleWriter>(), CancellationToken.None);
 
         await Assert.That(ReferenceEquals(
                 handlerAttributes,
@@ -107,7 +107,7 @@ public class PipelineSetupExecutorTests
     }
 
     [Test]
-    public async Task EventHandlers_Run_In_Priority_Order()
+    public async Task EventHandlers_Run_In_Ascending_Order()
     {
         var calls = new List<string>();
         var pipelineContext = Mock.Of<IPipelineContext>();
@@ -128,10 +128,10 @@ public class PipelineSetupExecutorTests
             new ModuleAttributeEventService());
         var module = new TestModule();
 
-        await executor.OnPipelineStartAsync();
+        await executor.OnPipelineStartAsync(CancellationToken.None);
         await executor.OnModuleReadyAsync(
             new ModuleState(module, module.GetType()),
-            Mock.Of<IConsoleWriter>());
+            Mock.Of<IConsoleWriter>(), CancellationToken.None);
 
         var expected = new[]
         {
@@ -152,11 +152,11 @@ public class PipelineSetupExecutorTests
     public async Task Completion_Arguments_Are_Forwarded_To_Module_Event_Handlers()
     {
         var handler = new Mock<IModuleEventHandler>();
-        handler.Setup(x => x.OnModuleEndAsync(It.IsAny<IModuleHookContext>(), It.IsAny<IModuleResult>()))
+        handler.Setup(x => x.OnModuleEndAsync(It.IsAny<IModuleHookContext>(), It.IsAny<IModuleResult>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        handler.Setup(x => x.OnModuleFailureAsync(It.IsAny<IModuleHookContext>(), It.IsAny<Exception>()))
+        handler.Setup(x => x.OnModuleFailureAsync(It.IsAny<IModuleHookContext>(), It.IsAny<Exception>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        handler.Setup(x => x.OnModuleSkippedAsync(It.IsAny<IModuleHookContext>(), It.IsAny<SkipDecision>()))
+        handler.Setup(x => x.OnModuleSkippedAsync(It.IsAny<IModuleHookContext>(), It.IsAny<SkipDecision>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         var executor = new PipelineSetupExecutor(
             [],
@@ -172,13 +172,13 @@ public class PipelineSetupExecutorTests
         var skipDecision = SkipDecision.Skip("Expected skip");
         var writer = Mock.Of<IConsoleWriter>();
 
-        await executor.OnModuleEndAsync(moduleState, result, writer);
-        await executor.OnModuleFailureAsync(moduleState, exception, writer);
-        await executor.OnModuleSkippedAsync(moduleState, skipDecision, writer);
+        await executor.OnModuleEndAsync(moduleState, result, writer, CancellationToken.None);
+        await executor.OnModuleFailureAsync(moduleState, exception, writer, CancellationToken.None);
+        await executor.OnModuleSkippedAsync(moduleState, result, skipDecision, writer, CancellationToken.None);
 
-        handler.Verify(x => x.OnModuleEndAsync(It.IsAny<IModuleHookContext>(), result), Times.Once);
-        handler.Verify(x => x.OnModuleFailureAsync(It.IsAny<IModuleHookContext>(), exception), Times.Once);
-        handler.Verify(x => x.OnModuleSkippedAsync(It.IsAny<IModuleHookContext>(), skipDecision), Times.Once);
+        handler.Verify(x => x.OnModuleEndAsync(It.IsAny<IModuleHookContext>(), result, It.IsAny<CancellationToken>()), Times.Once);
+        handler.Verify(x => x.OnModuleFailureAsync(It.IsAny<IModuleHookContext>(), exception, It.IsAny<CancellationToken>()), Times.Once);
+        handler.Verify(x => x.OnModuleSkippedAsync(It.IsAny<IModuleHookContext>(), skipDecision, It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Test]
@@ -186,20 +186,20 @@ public class PipelineSetupExecutorTests
     {
         var receivedWriters = new List<IConsoleWriter>();
         var handler = new Mock<IModuleEventHandler>();
-        handler.Setup(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>()))
-            .Callback<IModuleHookContext>(context => receivedWriters.Add(context.Console))
+        handler.Setup(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>(), It.IsAny<CancellationToken>()))
+            .Callback<IModuleHookContext, CancellationToken>((context, _) => receivedWriters.Add(context.Console))
             .Returns(Task.CompletedTask);
-        handler.Setup(x => x.OnModuleStartAsync(It.IsAny<IModuleHookContext>()))
-            .Callback<IModuleHookContext>(context => receivedWriters.Add(context.Console))
+        handler.Setup(x => x.OnModuleStartAsync(It.IsAny<IModuleHookContext>(), It.IsAny<CancellationToken>()))
+            .Callback<IModuleHookContext, CancellationToken>((context, _) => receivedWriters.Add(context.Console))
             .Returns(Task.CompletedTask);
-        handler.Setup(x => x.OnModuleEndAsync(It.IsAny<IModuleHookContext>(), It.IsAny<IModuleResult>()))
-            .Callback<IModuleHookContext, IModuleResult>((context, _) => receivedWriters.Add(context.Console))
+        handler.Setup(x => x.OnModuleEndAsync(It.IsAny<IModuleHookContext>(), It.IsAny<IModuleResult>(), It.IsAny<CancellationToken>()))
+            .Callback<IModuleHookContext, IModuleResult, CancellationToken>((context, _, _) => receivedWriters.Add(context.Console))
             .Returns(Task.CompletedTask);
-        handler.Setup(x => x.OnModuleFailureAsync(It.IsAny<IModuleHookContext>(), It.IsAny<Exception>()))
-            .Callback<IModuleHookContext, Exception>((context, _) => receivedWriters.Add(context.Console))
+        handler.Setup(x => x.OnModuleFailureAsync(It.IsAny<IModuleHookContext>(), It.IsAny<Exception>(), It.IsAny<CancellationToken>()))
+            .Callback<IModuleHookContext, Exception, CancellationToken>((context, _, _) => receivedWriters.Add(context.Console))
             .Returns(Task.CompletedTask);
-        handler.Setup(x => x.OnModuleSkippedAsync(It.IsAny<IModuleHookContext>(), It.IsAny<SkipDecision>()))
-            .Callback<IModuleHookContext, SkipDecision>((context, _) => receivedWriters.Add(context.Console))
+        handler.Setup(x => x.OnModuleSkippedAsync(It.IsAny<IModuleHookContext>(), It.IsAny<SkipDecision>(), It.IsAny<CancellationToken>()))
+            .Callback<IModuleHookContext, SkipDecision, CancellationToken>((context, _, _) => receivedWriters.Add(context.Console))
             .Returns(Task.CompletedTask);
         var executor = new PipelineSetupExecutor(
             [],
@@ -215,11 +215,11 @@ public class PipelineSetupExecutorTests
         var skipDecision = SkipDecision.Skip("Expected skip");
         var writer = Mock.Of<IConsoleWriter>();
 
-        await executor.OnModuleReadyAsync(state, writer);
-        await executor.OnModuleStartAsync(state, writer);
-        await executor.OnModuleEndAsync(state, result, writer);
-        await executor.OnModuleFailureAsync(state, exception, writer);
-        await executor.OnModuleSkippedAsync(state, skipDecision, writer);
+        await executor.OnModuleReadyAsync(state, writer, CancellationToken.None);
+        await executor.OnModuleStartAsync(state, writer, CancellationToken.None);
+        await executor.OnModuleEndAsync(state, result, writer, CancellationToken.None);
+        await executor.OnModuleFailureAsync(state, exception, writer, CancellationToken.None);
+        await executor.OnModuleSkippedAsync(state, result, skipDecision, writer, CancellationToken.None);
 
         await Assert.That(receivedWriters.Count).IsEqualTo(5);
         foreach (var receivedWriter in receivedWriters)
