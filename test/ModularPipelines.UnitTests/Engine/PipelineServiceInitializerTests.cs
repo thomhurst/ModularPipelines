@@ -1,3 +1,4 @@
+using System.Reflection;
 using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.DependencyInjection;
@@ -63,17 +64,19 @@ public class PipelineServiceInitializerTests
         public Task InitializeAsync() => Task.CompletedTask;
     }
 
-    private sealed class NamedInitializer(InitializationLog log, string name) : IInitializer
+    private sealed class LateLoadSignal
     {
-        public Task InitializeAsync()
-        {
-            lock (log)
-            {
-                log.Entries.Add(name);
-            }
+        public bool Loaded { get; set; }
+    }
 
-            return Task.CompletedTask;
+    private sealed class LoadingInitializer : IInitializer
+    {
+        public LoadingInitializer(LateLoadSignal signal)
+        {
+            signal.Loaded = true;
         }
+
+        public Task InitializeAsync() => Task.CompletedTask;
     }
 
     private abstract class InitializerBase(InitializationLog log) : IInitializer
@@ -151,37 +154,6 @@ public class PipelineServiceInitializerTests
     }
 
     [Test]
-    public async Task InitializesEachRegistrationOfASharedServiceTypeOnce()
-    {
-        var log = new InitializationLog();
-        var services = CreateServices();
-        services.AddSingleton<IInitializer>(new NamedInitializer(log, "first"));
-        services.AddSingleton<IInitializer>(_ => new NamedInitializer(log, "second"));
-        services.AddSingleton<IInitializer>(_ => new NamedInitializer(log, "third"));
-
-        await using var serviceProvider = services.BuildServiceProvider();
-        await PipelineServiceInitializer.InitializeAsync(serviceProvider);
-
-        await Assert.That(string.Join(",", log.Entries.Order(StringComparer.Ordinal)))
-            .IsEqualTo("first,second,third");
-    }
-
-    [Test]
-    public async Task InitializesForwardedSingletonOnce()
-    {
-        var log = new InitializationLog();
-        var services = CreateServices();
-        services.AddSingleton(log);
-        services.AddSingleton<TypeInitializer>();
-        services.AddSingleton<IInitializer>(serviceProvider => serviceProvider.GetRequiredService<TypeInitializer>());
-
-        await using var serviceProvider = services.BuildServiceProvider();
-        await PipelineServiceInitializer.InitializeAsync(serviceProvider);
-
-        await Assert.That(log.Entries).HasSingleItem();
-    }
-
-    [Test]
     public async Task InitializesFactoryWhoseInitializerIsInheritedFromABaseClass()
     {
         var log = new InitializationLog();
@@ -195,27 +167,53 @@ public class PipelineServiceInitializerTests
     }
 
     [Test]
-    public async Task ScansLoadedTypesOnceForSeveralFactoryRegistrations()
+    public async Task ReadsEachLoadedAssemblyOnceForSeveralFactoryRegistrations()
     {
         var log = new InitializationLog();
-        var scans = 0;
+        var reads = new Dictionary<Assembly, int>();
+        var loadedInitializerTypes = new PipelineServiceInitializer.LoadedInitializerTypes(assembly =>
+        {
+            lock (reads)
+            {
+                reads[assembly] = reads.GetValueOrDefault(assembly) + 1;
+            }
+
+            return assembly == typeof(PipelineServiceInitializerTests).Assembly
+                ? [typeof(FactoryInitializer), typeof(InheritedFactoryInitializer)]
+                : [];
+        });
         var services = CreateServices();
         services.AddSingleton<IFactoryService>(_ => new FactoryInitializer(log));
         services.AddSingleton<IFactoryService>(_ => new InheritedFactoryInitializer(log));
         services.AddSingleton<IDisposable>(_ => new CancellationTokenSource());
 
         await using var serviceProvider = services.BuildServiceProvider();
-        await PipelineServiceInitializer.InitializeAsync(serviceProvider, () =>
-        {
-            scans++;
-            return [typeof(FactoryInitializer), typeof(InheritedFactoryInitializer)];
-        });
+        await PipelineServiceInitializer.InitializeAsync(serviceProvider, loadedInitializerTypes);
 
         using (Assert.Multiple())
         {
-            await Assert.That(scans).IsEqualTo(1);
+            await Assert.That(reads.Where(read => !read.Key.IsDynamic).All(read => read.Value == 1)).IsTrue();
+            await Assert.That(reads.ContainsKey(typeof(PipelineServiceInitializerTests).Assembly)).IsTrue();
             await Assert.That(log.Entries.Count).IsEqualTo(2);
         }
+    }
+
+    [Test]
+    public async Task ChecksFactoriesAfterResolvingInstanceAndTypeInitializers()
+    {
+        var log = new InitializationLog();
+        var signal = new LateLoadSignal();
+        var loadedInitializerTypes = new PipelineServiceInitializer.LoadedInitializerTypes(
+            _ => signal.Loaded ? [typeof(FactoryInitializer)] : []);
+        var services = CreateServices();
+        services.AddSingleton<IFactoryService>(_ => new FactoryInitializer(log));
+        services.AddSingleton(signal);
+        services.AddSingleton<LoadingInitializer>();
+
+        await using var serviceProvider = services.BuildServiceProvider();
+        await PipelineServiceInitializer.InitializeAsync(serviceProvider, loadedInitializerTypes);
+
+        await Assert.That(string.Join(",", log.Entries)).IsEqualTo(nameof(FactoryInitializer));
     }
 
     [Test]
@@ -223,8 +221,8 @@ public class PipelineServiceInitializerTests
     {
         var pending = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var services = CreateServices();
-        services.AddSingleton<IInitializer>(new PendingInitializer(pending.Task));
-        services.AddSingleton<IInitializer>(new SynchronouslyThrowingInitializer());
+        services.AddSingleton(new PendingInitializer(pending.Task));
+        services.AddSingleton(new SynchronouslyThrowingInitializer());
 
         await using var serviceProvider = services.BuildServiceProvider();
         var initialization = PipelineServiceInitializer.InitializeAsync(serviceProvider);

@@ -11,49 +11,50 @@ namespace ModularPipelines.DependencyInjection;
 /// Runs the <see cref="IInitializer"/> services registered in a pipeline container.
 /// </summary>
 /// <remarks>
-/// This keeps the discovery rules and batch ordering of
-/// <c>Initialization.Microsoft.Extensions.DependencyInjection</c>'s <c>InitializeAsync</c>,
-/// but scans loaded types at most once per pipeline instead of once per factory registration,
-/// and caches the initializer types of each non-dynamic assembly for the life of the process.
-/// The library's per-factory scan made every pipeline build CPU-bound in proportion to
-/// (factory registrations x loaded types).
+/// Mirrors <c>Initialization.Microsoft.Extensions.DependencyInjection</c>'s <c>InitializeAsync</c>
+/// step for step: instance and type initializers are resolved first, then each factory registration
+/// is checked against the currently loaded types and resolved before the next one is checked.
+/// The only difference is that each assembly's <see cref="IInitializer"/> types are cached, so a
+/// factory check no longer enumerates every loaded type. The library's per-factory scan made every
+/// pipeline build CPU-bound in proportion to (factory registrations x loaded types).
 /// </remarks>
 internal static class PipelineServiceInitializer
 {
-    private static readonly ConditionalWeakTable<Assembly, Type[]> InitializerTypesByAssembly = [];
+    private static readonly LoadedInitializerTypes SharedLoadedInitializerTypes = new(FindInitializerTypes);
 
     public static Task InitializeAsync(IServiceProvider serviceProvider) =>
-        InitializeAsync(serviceProvider, GetLoadedInitializerTypes);
+        InitializeAsync(serviceProvider, SharedLoadedInitializerTypes);
 
-    /// <param name="serviceProvider">The pipeline service provider.</param>
-    /// <param name="getLoadedInitializerTypes">
-    /// Returns every loaded type that implements <see cref="IInitializer"/>. Called at most once,
-    /// and only when a factory registration's return type is not itself an initializer.
-    /// </param>
     internal static async Task InitializeAsync(
         IServiceProvider serviceProvider,
-        Func<IReadOnlyList<Type>> getLoadedInitializerTypes)
+        LoadedInitializerTypes loadedInitializerTypes)
     {
         ArgumentNullException.ThrowIfNull(serviceProvider);
-        ArgumentNullException.ThrowIfNull(getLoadedInitializerTypes);
+        ArgumentNullException.ThrowIfNull(loadedInitializerTypes);
 
+        // Keyed descriptors throw on ImplementationType access and can never be resolved by
+        // service type alone, so they cannot be initializers here.
         var descriptors = serviceProvider
             .GetRequiredService<IPipelineServiceContainerWrapper>()
             .ServiceCollection
-            .Where(descriptor => !descriptor.IsKeyedService
-                                 && !descriptor.ServiceType.ContainsGenericParameters)
-            .ToArray();
+            .Where(descriptor => !descriptor.IsKeyedService)
+            .ToList();
 
-        var loadedInitializerTypes = new Lazy<IReadOnlyList<Type>>(getLoadedInitializerTypes);
-        var initializerDescriptors = descriptors
+        var initializers = descriptors
             .Where(descriptor => descriptor.ImplementationInstance is IInitializer)
             .Concat(descriptors.Where(descriptor => descriptor.ImplementationType is { } implementationType
                                                     && IsInitializer(implementationType)))
-            .Concat(descriptors.Where(descriptor => descriptor.ImplementationFactory is { } factory
-                                                    && CanProduceInitializer(factory.Method.ReturnType, loadedInitializerTypes)))
-            .ToArray();
+            .Select(descriptor => GetService(serviceProvider, descriptor))
+            .OfType<IInitializer>()
+            .ToList();
 
-        var initializers = ResolveInitializers(serviceProvider, descriptors, initializerDescriptors);
+        // As in the library, each factory is checked and then resolved before the next check, so
+        // assemblies loaded while resolving earlier services are visible to later checks.
+        initializers.AddRange(descriptors
+            .Where(descriptor => descriptor.ImplementationFactory is { } factory
+                                 && CanProduceInitializer(factory.Method.ReturnType, loadedInitializerTypes))
+            .Select(descriptor => GetService(serviceProvider, descriptor))
+            .OfType<IInitializer>());
 
         foreach (var batch in initializers.GroupBy(initializer => initializer.Order).OrderBy(batch => batch.Key))
         {
@@ -63,66 +64,18 @@ internal static class PipelineServiceInitializer
         }
     }
 
-    private static List<IInitializer> ResolveInitializers(
-        IServiceProvider serviceProvider,
-        ServiceDescriptor[] descriptors,
-        ServiceDescriptor[] initializerDescriptors)
+    private static object? GetService(IServiceProvider serviceProvider, ServiceDescriptor descriptor)
     {
-        // Each descriptor's position among registrations of the same service type, so duplicate
-        // service types resolve to their own implementation rather than the last registration.
-        var registrationIndexes = new Dictionary<ServiceDescriptor, int>(ReferenceEqualityComparer.Instance);
-        var registrationCounts = new Dictionary<Type, int>();
-        foreach (var descriptor in descriptors)
+        if (descriptor.Lifetime != ServiceLifetime.Singleton)
         {
-            registrationCounts.TryGetValue(descriptor.ServiceType, out var index);
-            registrationIndexes[descriptor] = index;
-            registrationCounts[descriptor.ServiceType] = index + 1;
+            var implementationType = descriptor.ImplementationType
+                                     ?? descriptor.ImplementationInstance?.GetType()
+                                     ?? descriptor.ServiceType;
+            throw new InvalidOperationException(
+                $"Service Provider Initializers are only supported for Singletons. {implementationType.Name} is {descriptor.Lifetime}");
         }
 
-        var resolvedServices = new Dictionary<Type, object?[]>();
-        var initializers = new List<IInitializer>();
-        var seen = new HashSet<IInitializer>(ReferenceEqualityComparer.Instance);
-        foreach (var descriptor in initializerDescriptors)
-        {
-            EnsureSingleton(descriptor);
-
-            var service = registrationCounts[descriptor.ServiceType] == 1
-                ? serviceProvider.GetService(descriptor.ServiceType)
-                : ResolveRegistration(serviceProvider, descriptor, registrationIndexes[descriptor], resolvedServices);
-
-            // Forwarding registrations commonly expose one singleton through several service types;
-            // initialize each instance once.
-            if (service is IInitializer initializer && seen.Add(initializer))
-            {
-                initializers.Add(initializer);
-            }
-        }
-
-        return initializers;
-    }
-
-    private static object? ResolveRegistration(
-        IServiceProvider serviceProvider,
-        ServiceDescriptor descriptor,
-        int registrationIndex,
-        Dictionary<Type, object?[]> resolvedServices)
-    {
-        if (!RuntimeFeature.IsDynamicCodeSupported)
-        {
-            // Resolving IEnumerable<T> for a runtime type needs dynamic code; Native AOT keeps the
-            // library's behavior of resolving the last registration.
-            return serviceProvider.GetService(descriptor.ServiceType);
-        }
-
-        if (!resolvedServices.TryGetValue(descriptor.ServiceType, out var services))
-        {
-            services = [.. serviceProvider.GetServices(descriptor.ServiceType)];
-            resolvedServices[descriptor.ServiceType] = services;
-        }
-
-        return registrationIndex < services.Length
-            ? services[registrationIndex]
-            : serviceProvider.GetService(descriptor.ServiceType);
+        return serviceProvider.GetService(descriptor.ServiceType);
     }
 
     private static Task StartInitializer(IInitializer initializer)
@@ -137,41 +90,13 @@ internal static class PipelineServiceInitializer
         }
     }
 
-    private static void EnsureSingleton(ServiceDescriptor descriptor)
-    {
-        if (descriptor.Lifetime == ServiceLifetime.Singleton)
-        {
-            return;
-        }
-
-        var implementationType = descriptor.ImplementationType
-                                 ?? descriptor.ImplementationInstance?.GetType()
-                                 ?? descriptor.ServiceType;
-        throw new InvalidOperationException(
-            $"Service Provider Initializers are only supported for Singletons. {implementationType.Name} is {descriptor.Lifetime}");
-    }
-
-    private static bool CanProduceInitializer(Type factoryReturnType, Lazy<IReadOnlyList<Type>> loadedInitializerTypes)
+    private static bool CanProduceInitializer(Type factoryReturnType, LoadedInitializerTypes loadedInitializerTypes)
     {
         return IsInitializer(factoryReturnType)
-               || loadedInitializerTypes.Value.Any(factoryReturnType.IsAssignableFrom);
+               || loadedInitializerTypes.Get().Any(factoryReturnType.IsAssignableFrom);
     }
 
     private static bool IsInitializer(Type type) => typeof(IInitializer).IsAssignableFrom(type);
-
-    private static IReadOnlyList<Type> GetLoadedInitializerTypes()
-    {
-        var initializerTypes = new List<Type>();
-        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-        {
-            // Dynamic assemblies (for example mocking proxies) can gain types after the first scan.
-            initializerTypes.AddRange(assembly.IsDynamic
-                ? FindInitializerTypes(assembly)
-                : InitializerTypesByAssembly.GetValue(assembly, FindInitializerTypes));
-        }
-
-        return initializerTypes;
-    }
 
     [UnconditionalSuppressMessage(
         "Trimming",
@@ -179,4 +104,27 @@ internal static class PipelineServiceInitializer
         Justification = "Matches the Initialization library's loaded-type scan. A factory can only return a type the trimmer kept, so types removed by trimming cannot affect which factories produce initializers.")]
     private static Type[] FindInitializerTypes(Assembly assembly) =>
         [.. AssemblyTypeLoader.GetLoadableTypes(assembly).Where(IsInitializer)];
+
+    /// <summary>
+    /// Lists the loaded <see cref="IInitializer"/> types, reading each non-dynamic assembly's types once.
+    /// </summary>
+    internal sealed class LoadedInitializerTypes(Func<Assembly, Type[]> findInitializerTypes)
+    {
+        private readonly ConditionalWeakTable<Assembly, Type[]> _typesByAssembly = [];
+
+        public IEnumerable<Type> Get()
+        {
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                // Dynamic assemblies (for example mocking proxies) can gain types after a scan.
+                var types = assembly.IsDynamic
+                    ? findInitializerTypes(assembly)
+                    : _typesByAssembly.GetValue(assembly, key => findInitializerTypes(key));
+                foreach (var type in types)
+                {
+                    yield return type;
+                }
+            }
+        }
+    }
 }
