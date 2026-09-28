@@ -3,14 +3,19 @@ namespace ModularPipelines.Secrets;
 /// <summary>
 /// Provides functionality to obfuscate sensitive information in logs and output.
 /// </summary>
-public interface ISecretObfuscator
+/// <remarks>
+/// Masking is intentionally not a replaceable extension point: console output depends on the tracked
+/// contract (<see cref="ITrackedSecretObfuscator"/>) to mask secrets split across writes. Supply secrets
+/// through <see cref="ISecretRegistry"/>, <see cref="SecretValueAttribute"/> option properties, or
+/// <see cref="SecretMaskingOptions"/> instead.
+/// </remarks>
+internal interface ISecretObfuscator
 {
     /// <summary>
     /// Gets whether any secrets are currently registered for global masking.
     /// </summary>
     /// <remarks>
-    /// This is a performance hint only. Callers must not use it to bypass safety or masking
-    /// behavior that custom implementations may provide.
+    /// This is a performance hint only. Callers must not use it to bypass masking behavior.
     /// </remarks>
     bool HasSecrets => true;
 

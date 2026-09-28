@@ -290,12 +290,14 @@ public class ArtifactContractTests
         public Task SaveResultAsync<T>(
             Module<T> module,
             ModuleResult<T> moduleResult,
-            IPipelineContext pipelineContext) =>
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken) =>
             Task.CompletedTask;
 
         public Task<ModuleResult<T>?> GetResultAsync<T>(
             Module<T> module,
-            IPipelineContext pipelineContext)
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken)
         {
             if (module is not SkippedArtifactValidationDependencyModule)
             {
@@ -453,7 +455,7 @@ public class ArtifactContractTests
 
     private sealed class EndHookArtifactHandler : IModuleEventHandler
     {
-        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result) =>
+        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result, CancellationToken cancellationToken) =>
             context.ModuleType == typeof(AfterHookArtifactProducerModule)
                 ? File.WriteAllTextAsync(AfterHookProducedFile, "end-hook")
                 : Task.CompletedTask;
@@ -463,7 +465,7 @@ public class ArtifactContractTests
     {
         public static ModularPipelines.ModuleStatus? ObservedStatus { get; set; }
 
-        public async Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
+        public async Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result, CancellationToken cancellationToken)
         {
             if (context.ModuleType != typeof(LocalProducerModule))
             {
@@ -1146,12 +1148,14 @@ public class ArtifactContractTests
         public Task SaveResultAsync<T>(
             Module<T> module,
             ModuleResult<T> moduleResult,
-            IPipelineContext pipelineContext) =>
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken) =>
             Task.CompletedTask;
 
         public Task<ModuleResult<T>?> GetResultAsync<T>(
             Module<T> module,
-            IPipelineContext pipelineContext)
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken)
         {
             if (module is not SkippedArtifactProducerModule
                 and not DependencyOrderedSkippedArtifactProducerModule
@@ -1199,7 +1203,8 @@ public class ArtifactContractTests
         public Task SaveResultAsync<T>(
             Module<T> module,
             ModuleResult<T> moduleResult,
-            IPipelineContext pipelineContext)
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken)
         {
             SaveCount++;
             return Task.CompletedTask;
@@ -1207,7 +1212,8 @@ public class ArtifactContractTests
 
         public Task<ModuleResult<T>?> GetResultAsync<T>(
             Module<T> module,
-            IPipelineContext pipelineContext) =>
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken) =>
             Task.FromResult<ModuleResult<T>?>(null);
     }
 
@@ -1218,12 +1224,14 @@ public class ArtifactContractTests
         public Task SaveResultAsync<T>(
             Module<T> module,
             ModuleResult<T> moduleResult,
-            IPipelineContext pipelineContext) =>
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken) =>
             Task.CompletedTask;
 
         public Task<ModuleResult<T>?> GetResultAsync<T>(
             Module<T> module,
-            IPipelineContext pipelineContext)
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken)
         {
             var executionContext = new ModuleExecutionContext(module, module.GetType());
             return Task.FromResult<ModuleResult<T>?>(

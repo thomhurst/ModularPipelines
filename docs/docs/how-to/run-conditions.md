@@ -63,7 +63,10 @@ Fluent dependencies are validated before execution conditions are evaluated. Eve
 declared with `DependsOn<T>()` must therefore be registered, even when an attribute condition
 will skip the consuming module on the current platform or environment.
 
-Built-in conditions include `OnCI`, `OnLocal`, `OnLinux`, `OnWindows`, `OnMacOS`, `OnFreeBSD`, and `OnUnix`:
+Built-in conditions include `OnCI`, `OnLocal`, `OnLinux`, `OnWindows`, `OnMacOS`, `OnFreeBSD`, and `OnUnix`.
+`OnCI` and `OnLocal` use `context.Environment.BuildSystem.IsBuildServer`: a detected build system
+(GitHub Actions, Azure Pipelines, TeamCity, and others) counts as CI, and otherwise a `CI`
+environment variable set to anything other than `false` or `0` does.
 
 ```csharp
 [RunIf<OnLinux>]

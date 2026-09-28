@@ -1,6 +1,5 @@
 // src/ModularPipelines/Context/ModuleRegistrationContext.cs
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Events;
@@ -23,7 +22,6 @@ internal class ModuleRegistrationContext : IModuleRegistrationContext
         IConfiguration configuration,
         IHostEnvironment environment,
         IReadOnlyList<Type> registeredModuleTypes,
-        IServiceCollection services,
         IModuleDependencyRegistry dependencyRegistry,
         IModuleMetadataRegistry metadataRegistry)
     {
@@ -32,29 +30,6 @@ internal class ModuleRegistrationContext : IModuleRegistrationContext
         Configuration = configuration;
         Environment = environment;
         _registeredModuleTypes = registeredModuleTypes;
-        Services = services;
-        _dependencyRegistry = dependencyRegistry;
-        _metadataRegistry = metadataRegistry;
-    }
-
-    /// <summary>
-    /// Initialises a new instance without IServiceCollection (for post-container-build scenarios).
-    /// </summary>
-    public ModuleRegistrationContext(
-        Type moduleType,
-        IReadOnlyList<Attribute> moduleAttributes,
-        IConfiguration configuration,
-        IHostEnvironment environment,
-        IReadOnlyList<Type> registeredModuleTypes,
-        IModuleDependencyRegistry dependencyRegistry,
-        IModuleMetadataRegistry metadataRegistry)
-    {
-        ModuleType = moduleType;
-        ModuleAttributes = moduleAttributes;
-        Configuration = configuration;
-        Environment = environment;
-        _registeredModuleTypes = registeredModuleTypes;
-        Services = null;
         _dependencyRegistry = dependencyRegistry;
         _metadataRegistry = metadataRegistry;
     }
@@ -68,8 +43,6 @@ internal class ModuleRegistrationContext : IModuleRegistrationContext
     public IHostEnvironment Environment { get; }
 
     public IReadOnlyList<Type> RegisteredModuleTypes => _registeredModuleTypes;
-
-    public IServiceCollection? Services { get; }
 
     public bool IsModuleRegistered<TModule>() where TModule : IModule
         => IsModuleRegistered(typeof(TModule));

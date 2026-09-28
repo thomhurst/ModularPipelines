@@ -95,7 +95,6 @@ public class ModuleTesterTests
     public async Task InterceptedCommandFailureObfuscatesExceptionResult()
     {
         var run = await ModuleTester.For<SecretCommandModule, string>()
-            .WithService<ISecretObfuscator>(new TestSecretObfuscator())
             .InterceptCommands(_ => CommandResult.Ok(InterceptedSecret, InterceptedSecret) with
             {
                 ExitCode = 1,
@@ -655,12 +654,13 @@ public class ModuleTesterTests
         }
     }
 
-    public sealed class SecretCommandModule : Module<string>
+    public sealed class SecretCommandModule(ISecretRegistry secretRegistry) : Module<string>
     {
         protected override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
+            secretRegistry.AddSecret(InterceptedSecret);
             var result = await context.Shell.RunAsync(
                 new CommandLineToolOptions("imaginary-tool")
                 {
@@ -677,13 +677,6 @@ public class ModuleTesterTests
 
             return result.StandardOutput;
         }
-    }
-
-    private sealed class TestSecretObfuscator : ISecretObfuscator
-    {
-        public string Obfuscate(string? input, object? optionsObject) =>
-            input?.Replace(InterceptedSecret, "********", StringComparison.Ordinal)
-            ?? string.Empty;
     }
 
     public sealed class ConcurrentCommandModule : Module<string>

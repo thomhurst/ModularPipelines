@@ -143,7 +143,8 @@ public class RunReportTests
 
         public Task OnPipelineEndAsync(
             IPipelineContext context,
-            PipelineSummary pipelineSummary)
+            PipelineSummary pipelineSummary,
+            CancellationToken cancellationToken)
         {
             _secretRegistry.AddSecret(RegisteredSecret);
             throw new InvalidOperationException($"Pipeline end hook failed {RegisteredSecret}");
@@ -154,7 +155,8 @@ public class RunReportTests
     {
         public Task OnPipelineEndAsync(
             IPipelineContext context,
-            PipelineSummary pipelineSummary)
+            PipelineSummary pipelineSummary,
+            CancellationToken cancellationToken)
         {
             var moduleException = pipelineSummary.Results
                 .Select(result => result.ExceptionOrDefault)
@@ -170,7 +172,8 @@ public class RunReportTests
     {
         public Task OnPipelineEndAsync(
             IPipelineContext context,
-            PipelineSummary pipelineSummary)
+            PipelineSummary pipelineSummary,
+            CancellationToken cancellationToken)
         {
             var moduleException = pipelineSummary.Results
                 .Select(result => result.ExceptionOrDefault)
@@ -186,7 +189,8 @@ public class RunReportTests
 
         public async Task OnPipelineEndAsync(
             IPipelineContext context,
-            PipelineSummary pipelineSummary)
+            PipelineSummary pipelineSummary,
+            CancellationToken cancellationToken)
         {
             await Task.Delay(100);
             CompletedAt = DateTimeOffset.UtcNow;

@@ -14,7 +14,7 @@ public class EventHandlerInvokerTests
 
         public bool ContinueOnError => false;
 
-        public Task OnModuleStartAsync(IModuleHookContext context)
+        public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             WasCalled = true;
             return Task.CompletedTask;
@@ -25,7 +25,7 @@ public class EventHandlerInvokerTests
     {
         public bool ContinueOnError => false;
 
-        public Task OnModuleStartAsync(IModuleHookContext context)
+        public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             throw new InvalidOperationException("Test exception");
         }
@@ -35,7 +35,7 @@ public class EventHandlerInvokerTests
     {
         public bool ContinueOnError => true;
 
-        public Task OnModuleStartAsync(IModuleHookContext context)
+        public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             throw new InvalidOperationException("Test exception");
         }
@@ -50,7 +50,7 @@ public class EventHandlerInvokerTests
         var invoker = new EventHandlerInvoker(Mock.Of<ILogger<EventHandlerInvoker>>());
         var context = Mock.Of<IModuleHookContext>();
 
-        await invoker.InvokeStartHandlersAsync(handlers, context);
+        await invoker.InvokeStartHandlersAsync(handlers, context, CancellationToken.None);
 
         await Assert.That(handler1.WasCalled).IsTrue();
         await Assert.That(handler2.WasCalled).IsTrue();
@@ -65,7 +65,7 @@ public class EventHandlerInvokerTests
         var invoker = new EventHandlerInvoker(logger.Object);
         var context = Mock.Of<IModuleHookContext>();
 
-        await Assert.That(async () => await invoker.InvokeStartHandlersAsync(handlers, context))
+        await Assert.That(async () => await invoker.InvokeStartHandlersAsync(handlers, context, CancellationToken.None))
             .ThrowsException()
             .WithMessage("Test exception");
         logger.Verify(x => x.Log(
@@ -85,7 +85,7 @@ public class EventHandlerInvokerTests
         var invoker = new EventHandlerInvoker(Mock.Of<ILogger<EventHandlerInvoker>>());
         var context = Mock.Of<IModuleHookContext>();
 
-        await Assert.That(async () => await invoker.InvokeStartHandlersAsync(handlers, context))
+        await Assert.That(async () => await invoker.InvokeStartHandlersAsync(handlers, context, CancellationToken.None))
             .ThrowsException()
             .WithMessage("Test exception");
         await Assert.That(successHandler.WasCalled).IsTrue();
@@ -98,7 +98,7 @@ public class EventHandlerInvokerTests
         var invoker = new EventHandlerInvoker(Mock.Of<ILogger<EventHandlerInvoker>>());
         var context = Mock.Of<IModuleHookContext>();
 
-        var exception = await Assert.That(async () => await invoker.InvokeStartHandlersAsync(handlers, context))
+        var exception = await Assert.That(async () => await invoker.InvokeStartHandlersAsync(handlers, context, CancellationToken.None))
             .Throws<AggregateException>();
 
         await Assert.That(exception!.InnerExceptions).Count().IsEqualTo(2);
@@ -113,7 +113,7 @@ public class EventHandlerInvokerTests
         var invoker = new EventHandlerInvoker(Mock.Of<ILogger<EventHandlerInvoker>>());
         var context = Mock.Of<IModuleHookContext>();
 
-        await invoker.InvokeStartHandlersAsync(handlers, context);
+        await invoker.InvokeStartHandlersAsync(handlers, context, CancellationToken.None);
 
         await Assert.That(successHandler.WasCalled).IsTrue();
     }

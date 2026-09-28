@@ -17,7 +17,7 @@ public class LifecycleEventIntegrationTests : TestBase
 
     public class LogStartAttribute : Attribute, IModuleStartHandler
     {
-        public Task OnModuleStartAsync(IModuleHookContext context)
+        public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             EventLog.Add($"Start:{context.ModuleName}");
             return Task.CompletedTask;
@@ -26,7 +26,7 @@ public class LifecycleEventIntegrationTests : TestBase
 
     public class LogEndAttribute : Attribute, IModuleEndHandler
     {
-        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
+        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result, CancellationToken cancellationToken)
         {
             EventLog.Add($"End:{context.ModuleName}");
             return Task.CompletedTask;
@@ -37,7 +37,7 @@ public class LifecycleEventIntegrationTests : TestBase
     {
         public bool ContinueOnError => true;
 
-        public Task OnModuleFailureAsync(IModuleHookContext context, Exception exception)
+        public Task OnModuleFailureAsync(IModuleHookContext context, Exception exception, CancellationToken cancellationToken)
         {
             EventLog.Add($"Failed:{context.ModuleName}:{exception.Message}");
             EventLog.Add($"FailedResult:{context.Result?.Status}");
@@ -47,7 +47,7 @@ public class LifecycleEventIntegrationTests : TestBase
 
     public class LogSkippedAttribute : Attribute, IModuleSkippedHandler
     {
-        public Task OnModuleSkippedAsync(IModuleHookContext context, SkipDecision reason)
+        public Task OnModuleSkippedAsync(IModuleHookContext context, SkipDecision reason, CancellationToken cancellationToken)
         {
             EventLog.Add($"Skipped:{context.ModuleName}:{reason.Reason}");
             return Task.CompletedTask;

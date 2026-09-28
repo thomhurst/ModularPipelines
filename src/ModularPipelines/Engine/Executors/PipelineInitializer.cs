@@ -332,7 +332,7 @@ internal class PipelineInitializer(
 
         await _pipelineFileWriter.WritePipelineFiles().ConfigureAwait(false);
 
-        await _pipelineSetupExecutor.OnPipelineStartAsync().ConfigureAwait(false);
+        await _pipelineSetupExecutor.OnPipelineStartAsync(cancellationToken).ConfigureAwait(false);
 
         await _requirementsChecker.CheckRequirementsAsync(cancellationToken).ConfigureAwait(false);
 

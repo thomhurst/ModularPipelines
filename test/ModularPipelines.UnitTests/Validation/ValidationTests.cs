@@ -18,7 +18,7 @@ public class ValidationTests
     {
         public int Order => 0;
 
-        public Task<ValidationResult> ValidateAsync(IServiceProvider services) =>
+        public Task<ValidationResult> ValidateAsync(IServiceProvider services, CancellationToken cancellationToken) =>
             Task.FromResult(ValidationResult.Success());
 
         public ValidationResult ValidateOptions(PipelineOptions options) =>
@@ -178,7 +178,7 @@ public class ValidationTests
 
         public bool IsDisposed { get; private set; }
 
-        public Task<ValidationResult> ValidateAsync(IServiceProvider services) =>
+        public Task<ValidationResult> ValidateAsync(IServiceProvider services, CancellationToken cancellationToken) =>
             Task.FromException<ValidationResult>(new InvalidOperationException("Custom validation failed."));
 
         public ValueTask DisposeAsync()
@@ -192,7 +192,7 @@ public class ValidationTests
     {
         public int Order => int.MaxValue;
 
-        public Task<ValidationResult> ValidateAsync(IServiceProvider services) =>
+        public Task<ValidationResult> ValidateAsync(IServiceProvider services, CancellationToken cancellationToken) =>
             Task.FromException<ValidationResult>(new PipelineException("No modules can be serialized."));
     }
 

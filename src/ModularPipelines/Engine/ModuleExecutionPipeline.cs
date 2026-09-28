@@ -650,14 +650,15 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         IModuleContext moduleContext,
         CancellationToken cancellationToken)
     {
-        await SaveToResultRepository(module, result, moduleContext).ConfigureAwait(false);
+        await SaveToResultRepository(module, result, moduleContext, cancellationToken).ConfigureAwait(false);
         await SaveToModuleCache(module, result, moduleContext, cancellationToken).ConfigureAwait(false);
     }
 
     private async Task SaveToResultRepository<T>(
         Module<T> module,
         ModuleResult<T> result,
-        IModuleContext moduleContext)
+        IModuleContext moduleContext,
+        CancellationToken cancellationToken)
     {
         if (!_resultRepository.IsEnabled)
         {
@@ -666,7 +667,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         try
         {
-            await _resultRepository.SaveResultAsync(module, result, moduleContext).ConfigureAwait(false);
+            await _resultRepository.SaveResultAsync(module, result, moduleContext, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {

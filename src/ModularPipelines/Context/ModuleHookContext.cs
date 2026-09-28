@@ -53,37 +53,6 @@ internal class ModuleHookContext : IModuleHookContext
 
     public IModuleResult? Result { get; }
 
-    // Control flow state (internal for engine to read)
-    public bool RetryRequested { get; private set; }
-
-    public TimeSpan? RetryDelay { get; private set; }
-
-    public bool ShouldSkipDependents { get; private set; }
-
-    public string? SkipDependentsReason { get; private set; }
-
-    public bool ShouldFailPipeline { get; private set; }
-
-    public string? FailPipelineReason { get; private set; }
-
-    public void RequestRetry(TimeSpan? delay = null)
-    {
-        RetryRequested = true;
-        RetryDelay = delay;
-    }
-
-    public void SkipDependentModules(string reason)
-    {
-        ShouldSkipDependents = true;
-        SkipDependentsReason = reason;
-    }
-
-    public void FailPipeline(string reason)
-    {
-        ShouldFailPipeline = true;
-        FailPipelineReason = reason;
-    }
-
     public T? GetMetadata<T>(string key)
         => _metadataRegistry.GetMetadata<T>(ModuleType, key);
 

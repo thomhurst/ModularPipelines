@@ -43,5 +43,36 @@ public class RequirementNotMetException : PipelineException
     /// <param name="message">The message describing which requirements failed.</param>
     public RequirementNotMetException(string? message) : base(message)
     {
+        InnerExceptions = [];
     }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RequirementNotMetException"/> class with a specified error
+    /// message and the exceptions thrown while evaluating requirements.
+    /// </summary>
+    /// <param name="message">The message describing which requirements failed.</param>
+    /// <param name="innerExceptions">The exceptions thrown by requirements that could not be evaluated.</param>
+    public RequirementNotMetException(string? message, IEnumerable<Exception> innerExceptions)
+        : this(message, [.. innerExceptions ?? throw new ArgumentNullException(nameof(innerExceptions))])
+    {
+    }
+
+    private RequirementNotMetException(string? message, Exception[] innerExceptions)
+        : base(
+            message,
+            innerExceptions switch
+            {
+                [] => null,
+                [var single] => single,
+                _ => new AggregateException(innerExceptions),
+            })
+    {
+        InnerExceptions = innerExceptions;
+    }
+
+    /// <summary>
+    /// Gets the exceptions thrown by requirements that could not be evaluated. Empty when every failed
+    /// requirement returned a failed decision.
+    /// </summary>
+    public IReadOnlyList<Exception> InnerExceptions { get; }
 }

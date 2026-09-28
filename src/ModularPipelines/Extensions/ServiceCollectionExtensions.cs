@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Engine;
 using ModularPipelines.Events;
@@ -344,7 +345,9 @@ internal static class ServiceCollectionExtensions
     internal static IServiceCollection AddPipelineEventHandler<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] THandler>(this IServiceCollection services)
         where THandler : class, IPipelineEventHandler
     {
-        return services.AddSingleton<IPipelineEventHandler, THandler>();
+        // One instance per handler type: a class implementing both handler interfaces is shared.
+        services.TryAddSingleton<THandler>();
+        return services.AddSingleton<IPipelineEventHandler>(static provider => provider.GetRequiredService<THandler>());
     }
 
     /// <summary>
@@ -358,7 +361,9 @@ internal static class ServiceCollectionExtensions
         this IServiceCollection services)
         where THandler : class, IModuleEventHandler
     {
-        return services.AddSingleton<IModuleEventHandler, THandler>();
+        // One instance per handler type: a class implementing both handler interfaces is shared.
+        services.TryAddSingleton<THandler>();
+        return services.AddSingleton<IModuleEventHandler>(static provider => provider.GetRequiredService<THandler>());
     }
 
     internal static IServiceCollection AddServiceCollection(this IServiceCollection serviceCollection)

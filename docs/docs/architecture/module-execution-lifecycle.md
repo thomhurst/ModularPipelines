@@ -12,16 +12,16 @@ and global event handlers.
 For a module that runs successfully, the phases are:
 
 1. Dependencies become ready.
-2. Global `IModuleEventHandler.OnModuleReadyAsync` handlers run sequentially by priority.
-3. Attribute `IModuleReadyHandler` handlers run sequentially by priority.
-4. Global `IModuleEventHandler.OnModuleStartAsync` handlers run sequentially by priority.
-5. Attribute `IModuleStartHandler` handlers run sequentially by priority.
+2. Global `IModuleEventHandler.OnModuleReadyAsync` handlers run sequentially in ascending `Order`.
+3. Attribute `IModuleReadyHandler` handlers run sequentially in ascending `Order`.
+4. Global `IModuleEventHandler.OnModuleStartAsync` handlers run sequentially in ascending `Order`.
+5. Attribute `IModuleStartHandler` handlers run sequentially in ascending `Order`.
 6. The module skip condition is evaluated.
 7. `Module<T>.OnBeforeExecuteAsync` runs once.
 8. `Module<T>.ExecuteAsync` runs through timeout handling and the configured resilience shield, which may compose retries with other resilience strategies.
 9. `Module<T>.OnAfterExecuteAsync` runs once.
-10. Global `IModuleEventHandler.OnModuleEndAsync` handlers run sequentially by priority.
-11. Attribute `IModuleEndHandler` handlers run sequentially by priority.
+10. Global `IModuleEventHandler.OnModuleEndAsync` handlers run sequentially in ascending `Order`.
+11. Attribute `IModuleEndHandler` handlers run sequentially in ascending `Order`.
 12. The module result is published and dependants become eligible.
 
 `OnBeforeExecuteAsync` and `OnAfterExecuteAsync` wrap the complete resilience shield, not each
@@ -56,10 +56,21 @@ ignores the failure, the resulting module status reflects that policy.
   failure event handlers are notified, but `OnAfterExecuteAsync` does not run.
 - Exceptions from `OnFailedAsync`, `OnSkippedAsync`, and `OnAfterExecuteAsync` are logged and do
   not replace the module outcome.
-- Attribute and global handlers all run in ascending `Priority` order within their registration
+- Attribute and global handlers all run in ascending `Order` within their registration
   family, even after a handler fails. `ContinueOnError` controls failure propagation: `false`
-  rethrows one recorded failure or aggregates multiple failures after dispatch; `true` suppresses
-  that handler's failure.
+  records the failure (one exception, or an aggregate when several handlers fail); `true` only logs
+  a warning.
+- Ready and Start handler failures fail the module through the normal failure path: the module
+  does not execute, the failure handlers are notified, and the module status is `Failed`. Global
+  and attribute handlers behave the same way.
+- End, Failure, and Skipped handlers observe the outcome and never change it. Each family runs in
+  isolation, so a failing attribute family does not stop the global family (or the reverse). The
+  failure is logged and recorded as a secondary pipeline error, surfaced with the pipeline's other
+  errors.
+- A failing `OnPipelineEndAsync` handler fails the pipeline, but never replaces an exception thrown
+  by execution; in that case it is recorded as a secondary pipeline error.
+- Estimated-time reads and writes are best-effort: provider exceptions are logged and never change
+  the module outcome.
 
 ## Choosing an extension point
 

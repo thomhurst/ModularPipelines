@@ -4,17 +4,12 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Events;
 
 /// <summary>
-/// Extended context for module-level hooks, providing module information and control flow.
+/// Extended context for module-level hooks, providing read-only module information.
 /// </summary>
 /// <remarks>
-/// <para>
 /// This interface extends <see cref="IPipelineContext"/> with module-specific information
-/// for use in module hooks (Ready, Start, End, Success, Failure, Skipped).
-/// </para>
-/// <para>
-/// Module hooks can inspect module state, request retries, skip dependent modules,
-/// or fail the entire pipeline based on module outcomes.
-/// </para>
+/// for use in module hooks (Ready, Start, End, Failure, Skipped). Hooks observe modules:
+/// retries, skips and failure handling are configured through module configuration and conditions.
 /// </remarks>
 public interface IModuleHookContext : IPipelineContext
 {
@@ -52,21 +47,6 @@ public interface IModuleHookContext : IPipelineContext
     /// Gets the module result. Null in Ready/Start hooks, populated in End/Failure/Skipped hooks.
     /// </summary>
     IModuleResult? Result { get; }
-
-    /// <summary>
-    /// Requests that the module be retried.
-    /// </summary>
-    void RequestRetry(TimeSpan? delay = null);
-
-    /// <summary>
-    /// Marks dependent modules to be skipped.
-    /// </summary>
-    void SkipDependentModules(string reason);
-
-    /// <summary>
-    /// Requests that the pipeline fail after current modules complete.
-    /// </summary>
-    void FailPipeline(string reason);
 
     /// <summary>
     /// Gets metadata that was set during registration.

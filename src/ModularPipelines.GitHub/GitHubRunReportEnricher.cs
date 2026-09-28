@@ -1,6 +1,6 @@
-using ModularPipelines.Reporting;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Engine;
+using ModularPipelines.Reporting;
 
 namespace ModularPipelines.GitHub;
 

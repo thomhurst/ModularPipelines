@@ -12,6 +12,11 @@ public interface IModuleFailureHandler : IEventHandler
     /// </summary>
     /// <param name="context">The module hook context.</param>
     /// <param name="exception">The exception that caused the module to fail.</param>
+    /// <param name="cancellationToken">A token cancelled when the pipeline is cancelled by the user or host.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    Task OnModuleFailureAsync(IModuleHookContext context, Exception exception);
+    /// <remarks>
+    /// Failure handlers observe the outcome and cannot change it. A handler failure is logged and
+    /// recorded as a pipeline error; it never replaces the module's exception.
+    /// </remarks>
+    Task OnModuleFailureAsync(IModuleHookContext context, Exception exception, CancellationToken cancellationToken);
 }

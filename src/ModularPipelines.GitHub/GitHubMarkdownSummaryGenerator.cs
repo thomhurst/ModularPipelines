@@ -25,14 +25,15 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineEventHandler
         _dependencyGraphExporter = dependencyGraphExporter;
     }
 
-    public Task OnPipelineStartAsync(IPipelineContext pipelineContext)
+    public Task OnPipelineStartAsync(IPipelineContext pipelineContext, CancellationToken cancellationToken)
     {
         return Task.CompletedTask;
     }
 
     public async Task OnPipelineEndAsync(
         IPipelineContext pipelineContext,
-        PipelineSummary pipelineSummary)
+        PipelineSummary pipelineSummary,
+        CancellationToken cancellationToken)
     {
         var stepSummaryVariable = pipelineContext.Environment.Variables
             .Get("GITHUB_STEP_SUMMARY");
@@ -52,7 +53,8 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineEventHandler
             dependencyGraph,
             mermaid,
             table,
-            exception);
+            exception,
+            cancellationToken).ConfigureAwait(false);
     }
 
     private async Task WriteFile(
@@ -61,7 +63,8 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineEventHandler
         string dependencyGraph,
         string mermaid,
         string table,
-        string exception)
+        string exception,
+        CancellationToken cancellationToken)
     {
         var fileInfo = pipelineContext.Files.GetFile(stepSummaryVariable);
         var currentFileSize = fileInfo.Exists ? fileInfo.Length : 0;
@@ -74,7 +77,9 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineEventHandler
             return;
         }
 
-        await pipelineContext.Files.GetFile(stepSummaryVariable).AppendAsync(contents);
+        await pipelineContext.Files.GetFile(stepSummaryVariable)
+            .AppendAsync(contents, cancellationToken)
+            .ConfigureAwait(false);
     }
 
     private static string? SelectContentsToAppend(

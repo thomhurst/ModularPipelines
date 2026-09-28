@@ -18,7 +18,6 @@ using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
-using ModularPipelines.Plugins;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Engine;
@@ -99,7 +98,7 @@ public class DependencyGraphExporterTests
     private sealed class AddRegistrationDependencyAttribute(Type dependencyType)
         : Attribute, IPlanningSafeModuleRegistrationHandler
     {
-        public Task OnRegistrationAsync(IModuleRegistrationContext context)
+        public Task OnRegistrationAsync(IModuleRegistrationContext context, CancellationToken cancellationToken)
         {
             context.AddDependency(dependencyType);
             return Task.CompletedTask;
@@ -119,7 +118,7 @@ public class DependencyGraphExporterTests
     private sealed class AddDependencyWhenCompanionPresentAttribute(Type dependencyType)
         : Attribute, IPlanningSafeModuleRegistrationHandler
     {
-        public Task OnRegistrationAsync(IModuleRegistrationContext context)
+        public Task OnRegistrationAsync(IModuleRegistrationContext context, CancellationToken cancellationToken)
         {
             if (context.ModuleAttributes.Any(static attribute => attribute is PlanningCompanionAttribute))
             {
@@ -143,7 +142,7 @@ public class DependencyGraphExporterTests
     private sealed class AddStartupDependencyAttribute(Type dependencyType)
         : Attribute, IModuleRegistrationHandler
     {
-        public Task OnRegistrationAsync(IModuleRegistrationContext context)
+        public Task OnRegistrationAsync(IModuleRegistrationContext context, CancellationToken cancellationToken)
         {
             if (_startupDependencyEnabled)
             {
@@ -478,7 +477,7 @@ public class DependencyGraphExporterTests
 
     private sealed class EnableStartupConditionHook : IPipelineEventHandler
     {
-        public Task OnPipelineStartAsync(IPipelineContext context)
+        public Task OnPipelineStartAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             _startupConditionEnabled = true;
             return Task.CompletedTask;
@@ -487,7 +486,7 @@ public class DependencyGraphExporterTests
 
     private sealed class EnableStartupDependencyHook : IPipelineEventHandler
     {
-        public Task OnPipelineStartAsync(IPipelineContext context)
+        public Task OnPipelineStartAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             _startupDependencyEnabled = true;
             return Task.CompletedTask;
@@ -496,7 +495,7 @@ public class DependencyGraphExporterTests
 
     private sealed class EnableStartupConfigurationHook : IPipelineEventHandler
     {
-        public Task OnPipelineStartAsync(IPipelineContext context)
+        public Task OnPipelineStartAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             _startupConfigurationEnabled = true;
             return Task.CompletedTask;
@@ -664,30 +663,21 @@ public class DependencyGraphExporterTests
 
     private sealed class CoreApiConfigurationMutationModule : Module<int>
     {
-        private readonly PlanningMutationPlugin _plugin = new();
+        private static int _configurations;
+
+        public static int Configurations => Volatile.Read(ref _configurations);
+
+        public static void ResetConfigurations() => Volatile.Write(ref _configurations, 0);
 
         protected override void Configure(ModuleConfigurationBuilder module)
         {
-            PluginRegistry.Register(_plugin);
+            Interlocked.Increment(ref _configurations);
         }
 
         protected internal override Task<int> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult(PluginRegistry.Plugins.Count);
-    }
-
-    private sealed class PlanningMutationPlugin : IModularPipelinesPlugin
-    {
-        public string Name => nameof(PlanningMutationPlugin);
-
-        public void ConfigureServices(IServiceCollection services)
-        {
-        }
-
-        public void ConfigurePipeline(PipelineBuilder pipelineBuilder)
-        {
-        }
+            Task.FromResult(Configurations);
     }
 
     private abstract class BodylessPlanningProbe
@@ -1365,7 +1355,7 @@ public class DependencyGraphExporterTests
     private sealed class CountPlanningRegistrationAttribute
         : Attribute, IPlanningSafeModuleRegistrationHandler
     {
-        public Task OnRegistrationAsync(IModuleRegistrationContext context)
+        public Task OnRegistrationAsync(IModuleRegistrationContext context, CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _planningRegistrationEvents);
             return Task.CompletedTask;
@@ -1448,7 +1438,7 @@ public class DependencyGraphExporterTests
             Interlocked.Increment(ref _unsafeRegistrationConstructions);
         }
 
-        public Task OnRegistrationAsync(IModuleRegistrationContext context)
+        public Task OnRegistrationAsync(IModuleRegistrationContext context, CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _planningRegistrationEvents);
             return Task.CompletedTask;
@@ -1467,7 +1457,7 @@ public class DependencyGraphExporterTests
     private sealed class CancelPlanningRegistrationAttribute
         : Attribute, IPlanningSafeModuleRegistrationHandler
     {
-        public Task OnRegistrationAsync(IModuleRegistrationContext context)
+        public Task OnRegistrationAsync(IModuleRegistrationContext context, CancellationToken cancellationToken)
         {
             _planningCancellation!.Cancel();
             return Task.CompletedTask;
@@ -2012,39 +2002,41 @@ public class DependencyGraphExporterTests
 
     private sealed class FixedEstimatedTimeProvider : IModuleEstimatedTimeProvider
     {
-        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType) =>
+        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType, CancellationToken cancellationToken) =>
             Task.FromResult(TimeSpan.FromSeconds(5));
 
-        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration) =>
+        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration, CancellationToken cancellationToken) =>
             Task.CompletedTask;
 
-        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType) =>
+        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType, CancellationToken cancellationToken) =>
             Task.FromResult<IEnumerable<SubModuleEstimation>>([]);
 
         public Task SaveSubModuleTimeAsync(
             Type moduleType,
-            SubModuleEstimation subModuleEstimation) =>
+            SubModuleEstimation subModuleEstimation,
+            CancellationToken cancellationToken) =>
             Task.CompletedTask;
     }
 
     private sealed class CancelingEstimatedTimeProvider(CancellationTokenSource cancellationTokenSource)
         : IModuleEstimatedTimeProvider
     {
-        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)
+        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType, CancellationToken cancellationToken)
         {
             cancellationTokenSource.Cancel();
             return Task.FromResult(TimeSpan.FromSeconds(5));
         }
 
-        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration) =>
+        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration, CancellationToken cancellationToken) =>
             Task.CompletedTask;
 
-        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType) =>
+        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType, CancellationToken cancellationToken) =>
             Task.FromResult<IEnumerable<SubModuleEstimation>>([]);
 
         public Task SaveSubModuleTimeAsync(
             Type moduleType,
-            SubModuleEstimation subModuleEstimation) =>
+            SubModuleEstimation subModuleEstimation,
+            CancellationToken cancellationToken) =>
             Task.CompletedTask;
     }
 
@@ -2055,12 +2047,14 @@ public class DependencyGraphExporterTests
         public Task SaveResultAsync<T>(
             Module<T> module,
             ModuleResult<T> moduleResult,
-            IPipelineContext pipelineContext) =>
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken) =>
             Task.CompletedTask;
 
         public Task<ModuleResult<T>?> GetResultAsync<T>(
             Module<T> module,
-            IPipelineContext pipelineContext)
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken)
         {
             var executionContext = new ModuleExecutionContext(module, module.GetType());
             return Task.FromResult<ModuleResult<T>?>(
@@ -2075,12 +2069,14 @@ public class DependencyGraphExporterTests
         public Task SaveResultAsync<T>(
             Module<T> module,
             ModuleResult<T> moduleResult,
-            IPipelineContext pipelineContext) =>
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken) =>
             Task.CompletedTask;
 
         public Task<ModuleResult<T>?> GetResultAsync<T>(
             Module<T> module,
-            IPipelineContext pipelineContext)
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken)
         {
             if (module.GetType() != moduleType)
             {
@@ -2106,12 +2102,14 @@ public class DependencyGraphExporterTests
         public Task SaveResultAsync<T>(
             Module<T> module,
             ModuleResult<T> moduleResult,
-            IPipelineContext pipelineContext) =>
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken) =>
             Task.CompletedTask;
 
         public Task<ModuleResult<T>?> GetResultAsync<T>(
             Module<T> module,
-            IPipelineContext pipelineContext)
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _readCount);
             if (module.GetType() != moduleType)
@@ -2137,12 +2135,14 @@ public class DependencyGraphExporterTests
         public Task SaveResultAsync<T>(
             Module<T> module,
             ModuleResult<T> moduleResult,
-            IPipelineContext pipelineContext) =>
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken) =>
             Task.CompletedTask;
 
         public Task<ModuleResult<T>?> GetResultAsync<T>(
             Module<T> module,
-            IPipelineContext pipelineContext)
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken)
         {
             var value = $"history-{Interlocked.Increment(ref _readCount)}";
             var executionContext = new ModuleExecutionContext(module, module.GetType());
@@ -2161,12 +2161,14 @@ public class DependencyGraphExporterTests
         public Task SaveResultAsync<T>(
             Module<T> module,
             ModuleResult<T> moduleResult,
-            IPipelineContext pipelineContext) =>
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken) =>
             Task.CompletedTask;
 
         public Task<ModuleResult<T>?> GetResultAsync<T>(
             Module<T> module,
-            IPipelineContext pipelineContext)
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken)
         {
             ReceivedExpectedModule = ReferenceEquals(module, expectedModule);
             if (!ReceivedExpectedModule)
@@ -3565,20 +3567,20 @@ public class DependencyGraphExporterTests
             [new CoreApiConfigurationMutationModule()])!;
         await Assert.That(touchesStaticState).IsTrue();
 
-        using var pluginScope = PluginRegistry.BeginIsolatedScope();
+        CoreApiConfigurationMutationModule.ResetConfigurations();
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<CoreApiConfigurationMutationModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
-        var registrationsAfterActivation = PluginRegistry.Plugins.Count;
-        PluginRegistry.Clear();
+        var configurationsAfterActivation = CoreApiConfigurationMutationModule.Configurations;
+        CoreApiConfigurationMutationModule.ResetConfigurations();
 
         _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
 
         using (Assert.Multiple())
         {
-            await Assert.That(registrationsAfterActivation).IsEqualTo(1);
-            await Assert.That(PluginRegistry.Plugins).Count().IsEqualTo(0);
+            await Assert.That(configurationsAfterActivation).IsEqualTo(1);
+            await Assert.That(CoreApiConfigurationMutationModule.Configurations).IsEqualTo(0);
         }
     }
 

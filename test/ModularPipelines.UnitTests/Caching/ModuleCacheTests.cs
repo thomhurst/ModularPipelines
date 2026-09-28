@@ -82,7 +82,8 @@ public class ModuleCacheTests
         public Task SaveResultAsync<T>(
             Module<T> module,
             ModuleResult<T> moduleResult,
-            IPipelineContext pipelineContext)
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref SaveCount);
             return Task.CompletedTask;
@@ -90,7 +91,8 @@ public class ModuleCacheTests
 
         public Task<ModuleResult<T>?> GetResultAsync<T>(
             Module<T> module,
-            IPipelineContext pipelineContext) => Task.FromResult<ModuleResult<T>?>(null);
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken) => Task.FromResult<ModuleResult<T>?>(null);
     }
 
     [CacheInputs("input.txt")]
