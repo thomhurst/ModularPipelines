@@ -74,6 +74,30 @@ public sealed class FileSystemModuleCache : IModuleCacheStore
         }
     }
 
+    /// <inheritdoc />
+    public Task<bool> ExistsAsync(string fingerprint, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return Task.FromResult(File.Exists(GetEntryPath(fingerprint)));
+    }
+
+    /// <inheritdoc />
+    public Task DeleteAsync(string fingerprint, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        var path = GetEntryPath(fingerprint);
+        try
+        {
+            File.Delete(path);
+        }
+        catch (DirectoryNotFoundException)
+        {
+            // The cache directory does not exist, so neither does the entry.
+        }
+
+        return Task.CompletedTask;
+    }
+
     private string GetEntryPath(string fingerprint)
     {
         ModuleCacheFingerprint.Validate(fingerprint);

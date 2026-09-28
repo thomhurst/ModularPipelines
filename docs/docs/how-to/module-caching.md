@@ -17,6 +17,10 @@ using ModularPipelines.Extensions;
 builder.AddModuleCache<FileSystemModuleCache>();
 ```
 
+A custom backend implements `IModuleCacheStore`: `OpenReadAsync`, `WriteAsync`, and `DeleteAsync`
+(deleting a missing entry does nothing). `ExistsAsync` defaults to opening and disposing the entry;
+override it when the store can check existence more cheaply.
+
 Then declare every file input that can affect a module:
 
 ```csharp

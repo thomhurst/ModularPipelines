@@ -114,6 +114,32 @@ public sealed class S3ModuleCache : IModuleCacheStore, IDisposable
     }
 
     /// <inheritdoc />
+    public async Task<bool> ExistsAsync(string fingerprint, CancellationToken cancellationToken)
+    {
+        ModuleCacheFingerprint.Validate(fingerprint);
+        try
+        {
+            await _client.Value
+                .GetObjectMetadataAsync(_options.BucketName, BuildObjectKey(fingerprint), cancellationToken)
+                .ConfigureAwait(false);
+            return true;
+        }
+        catch (AmazonS3Exception exception) when (exception.StatusCode == HttpStatusCode.NotFound)
+        {
+            return false;
+        }
+    }
+
+    /// <inheritdoc />
+    public async Task DeleteAsync(string fingerprint, CancellationToken cancellationToken)
+    {
+        ModuleCacheFingerprint.Validate(fingerprint);
+        await _client.Value
+            .DeleteObjectAsync(_options.BucketName, BuildObjectKey(fingerprint), cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public void Dispose()
     {
         if (_client.IsValueCreated)
