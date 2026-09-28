@@ -22,6 +22,7 @@ public class CoordinatorCancellationResultPipelineTests
             options.MaxParallelism = 2;
             options.ModuleResultTimeout = TimeSpan.FromSeconds(20);
         });
+        builder.Services.AddSingleton<SlowModuleStarted>();
         builder.AddModule<SlowToStopModule>();
         builder.AddModule<FailingModule>();
 
@@ -44,19 +45,50 @@ public class CoordinatorCancellationResultPipelineTests
         await Assert.That(thrown).IsNotTypeOf<InvalidOperationException>();
         await Assert.That(thrown is ModuleFailedException or PipelineFailedException).IsTrue();
 
+        var resultRegistry = pipeline.Services.GetRequiredService<IModuleResultRegistry>();
+        var failingResult = resultRegistry.GetResult(typeof(FailingModule));
+        await Assert.That(failingResult).IsNotNull();
+        await Assert.That(failingResult!.Status).IsEqualTo(ModuleStatus.Failed);
+        await Assert.That(ContainsSimulatedFailure(failingResult.ExceptionOrDefault)).IsTrue();
+        await Assert.That(ContainsSimulatedFailure(thrown)).IsTrue();
+
         var slowModule = pipeline.Services.GetServices<IModule>().OfType<SlowToStopModule>().Single();
         var resultTask = slowModule.AsInternal().ResultTask;
-        var registeredResult = pipeline.Services.GetRequiredService<IModuleResultRegistry>()
-            .GetResult(typeof(SlowToStopModule));
+        var registeredResult = resultRegistry.GetResult(typeof(SlowToStopModule));
         await Assert.That(resultTask.IsCompletedSuccessfully).IsTrue();
         await Assert.That(registeredResult).IsSameReferenceAs(resultTask.Result);
         await Assert.That(registeredResult!.Status).IsEqualTo(ModuleStatus.Cancelled);
     }
 
-    private sealed class SlowToStopModule : Module<bool>
+    private static bool ContainsSimulatedFailure(Exception? exception)
+    {
+        for (var current = exception; current is not null; current = current.InnerException)
+        {
+            if (current is InvalidDataException { Message: SimulatedFailureMessage })
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private const string SimulatedFailureMessage = "Simulated worker module failure";
+
+    private sealed class SlowModuleStarted
+    {
+        private readonly TaskCompletionSource _started = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public Task Started => _started.Task;
+
+        public void Signal() => _started.TrySetResult();
+    }
+
+    private sealed class SlowToStopModule(SlowModuleStarted started) : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
+            started.Signal();
             try
             {
                 await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
@@ -72,12 +104,13 @@ public class CoordinatorCancellationResultPipelineTests
         }
     }
 
-    private sealed class FailingModule : Module<bool>
+    private sealed class FailingModule(SlowModuleStarted slowModuleStarted) : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromMilliseconds(200), cancellationToken);
-            throw new InvalidDataException("Simulated worker module failure");
+            // Fail only once the slow module is running locally, so cancellation interrupts it.
+            await slowModuleStarted.Started.WaitAsync(cancellationToken);
+            throw new InvalidDataException(SimulatedFailureMessage);
         }
     }
 }

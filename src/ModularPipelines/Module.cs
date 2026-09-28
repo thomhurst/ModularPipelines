@@ -320,6 +320,15 @@ public abstract class Module<T> : IInternalModule, IPlanningModuleCopyProvider
         return CompletionSource.TrySetResult((ModuleResult<T>) result);
     }
 
+    /// <inheritdoc />
+    IModuleResult IInternalModule.CompleteResult(IModuleResult result)
+    {
+        CompletionSource.TrySetResult((ModuleResult<T>) result);
+
+        // Read the completion source directly: a provisional hook result must never be published.
+        return CompletionSource.Task.Result;
+    }
+
     internal ModuleResult<T>? SetProvisionalResult(ModuleResult<T> result)
     {
         var previousResult = _provisionalResult.Value;

@@ -1120,9 +1120,13 @@ internal class ModuleRunner : IModuleRunner
                 cancellationToken)
             .ConfigureAwait(false);
 
-        PublishModuleResult(moduleState, executionContext, result);
+        var publishedResult = PublishModuleResult(moduleState, executionContext, result);
 
-        if (executionContext.Status == ModuleStatus.Skipped)
+        // Report the published outcome, which an execution backend may have decided first.
+        var publishedStatus = ReferenceEquals(publishedResult, result)
+            ? executionContext.Status
+            : publishedResult.Status;
+        if (publishedStatus == ModuleStatus.Skipped)
         {
             await _mediator.Publish(
                     new ModuleSkippedNotification(moduleState, executionContext.SkipResult),
@@ -1131,7 +1135,7 @@ internal class ModuleRunner : IModuleRunner
             return;
         }
 
-        var isSuccessful = executionContext.Status is
+        var isSuccessful = publishedStatus is
             ModuleStatus.Succeeded or ModuleStatus.RestoredFromHistory or ModuleStatus.RestoredFromCache;
         await _mediator.Publish(
                 new ModuleCompletedNotification(moduleState, isSuccessful),
@@ -1251,32 +1255,22 @@ internal class ModuleRunner : IModuleRunner
         }
     }
 
-    private void PublishModuleResult(
+    /// <summary>
+    /// Publishes a module's result and returns the result its awaitable holds, which differs from
+    /// <paramref name="result"/> only when an execution backend completed the module first.
+    /// </summary>
+    private IModuleResult PublishModuleResult(
         ModuleState moduleState,
         ModuleExecutionContext executionContext,
         IModuleResult result)
     {
-        moduleState.Result = result;
         executionContext.SetResult(result);
-        _resultRegistry.RegisterResult(moduleState.ModuleType, result);
-
-        if (GeneratedModuleMetadata.TryGetRuntime(moduleState.ModuleType, out var runtime))
-        {
-            runtime.SetCompletionSource(moduleState.Module, result);
-        }
-        else
-        {
-            CompletionSourceSetterCache.GetOrCreate(moduleState.Module.ResultType)(moduleState.Module, result);
-        }
-
-        // An execution backend may complete the module's awaitable first, for example when a
-        // distributed coordinator stops collecting a module it is still running locally during
-        // cancellation. The awaitable's first result wins, so keep the registry consistent with it.
-        var resultTask = moduleState.Module.AsInternal().ResultTask;
-        if (resultTask.IsCompletedSuccessfully && !ReferenceEquals(resultTask.Result, result))
-        {
-            _resultRegistry.RegisterResult(moduleState.ModuleType, resultTask.Result);
-        }
+        var publishedResult = _resultRegistry.CompleteAndRegister(
+            moduleState.Module,
+            moduleState.ModuleType,
+            result);
+        moduleState.Result = publishedResult;
+        return publishedResult;
     }
 
     private static IModuleResult CreateFailureResult(
