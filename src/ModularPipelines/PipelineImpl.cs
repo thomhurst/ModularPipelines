@@ -1,10 +1,10 @@
 using System.Diagnostics;
 using System.Runtime.ExceptionServices;
-using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
+using ModularPipelines.DependencyInjection;
 using ModularPipelines.Distributed;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
@@ -80,7 +80,7 @@ internal sealed class PipelineImpl : IPipeline
                 or ModuleSelfDependencyException
                 or DependencyCollisionException)
             {
-                await services.InitializeAsync().ConfigureAwait(false);
+                await PipelineServiceInitializer.InitializeAsync(services).ConfigureAwait(false);
                 var runnableModules = await services.GetRequiredService<ModuleRetriever>()
                     .GetRunnableModulesForValidation()
                     .ConfigureAwait(false);
@@ -88,7 +88,7 @@ internal sealed class PipelineImpl : IPipeline
                 return pipeline;
             }
 
-            await services.InitializeAsync().ConfigureAwait(false);
+            await PipelineServiceInitializer.InitializeAsync(services).ConfigureAwait(false);
             return pipeline;
         }
         catch (Exception startupException)
