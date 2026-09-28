@@ -53,16 +53,7 @@ internal class ModuleResultRegistrar : IModuleResultRegistrar
             ? runtime.CreateFailure(exception, executionContext)
             : ModuleResultFactory.CreateException(resultType, exception, executionContext);
 
-        _resultRegistry.RegisterResult(moduleType, result);
-
-        if (hasGeneratedRuntime)
-        {
-            runtime.SetCompletionSource(module, result);
-        }
-        else
-        {
-            CompletionSourceSetterCache.GetOrCreate(resultType)(module, result);
-        }
+        _resultRegistry.CompleteAndRegister(module, moduleType, result);
     }
 
     /// <inheritdoc />

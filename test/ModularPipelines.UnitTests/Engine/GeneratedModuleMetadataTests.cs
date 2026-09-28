@@ -82,6 +82,41 @@ public class GeneratedModuleMetadataTests
     }
 
     [Test]
+    public async Task Terminated_Result_Registration_Keeps_Already_Completed_Result()
+    {
+        var module = new GeneratedMetadataDependencyModule();
+        var registry = new ModuleResultRegistry();
+        var registrar = new ModuleResultRegistrar(
+            registry,
+            NullLogger<ModuleResultRegistrar>.Instance);
+        var now = DateTimeOffset.UtcNow;
+        var completedResult = new ModuleResult<bool>.Success(true)
+        {
+            Name = module.GetType().Name,
+            TypeName = module.GetType().FullName,
+            Duration = TimeSpan.Zero,
+            StartTime = now,
+            EndTime = now,
+            Status = ModuleStatus.Succeeded,
+            ModuleType = module.GetType(),
+        };
+
+        // Another writer completed the module's awaitable before the registrar ran.
+        ((IInternalModule) module).TrySetDistributedResult(completedResult);
+        registrar.RegisterTerminatedResult(
+            module,
+            module.GetType(),
+            new InvalidOperationException("Pipeline terminated"));
+
+        var awaitedResult = await ((IInternalModule) module).ResultTask.WaitAsync(TimeSpan.FromSeconds(1));
+        using (Assert.Multiple())
+        {
+            await Assert.That(awaitedResult).IsSameReferenceAs(completedResult);
+            await Assert.That(registry.GetResult(module.GetType())).IsSameReferenceAs(completedResult);
+        }
+    }
+
+    [Test]
     public async Task Cancelled_Result_Registration_Defers_AlwaysRun_Completion()
     {
         var module = new GeneratedAlwaysRunModule();

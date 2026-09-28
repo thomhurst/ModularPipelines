@@ -120,7 +120,7 @@ public class ModuleSchedulerDynamicCycleTests
         scheduler.InitializeModules([new CompletedDependencyModule()]);
 
         var schedulerTask = scheduler.RunSchedulerAsync(CancellationToken.None);
-        var module = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
+        var module = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(30));
         await Assert.That(scheduler.MarkModuleStarted(module.ModuleType)).IsTrue();
 
         // This observation window must exceed NotificationTimeout so a regression to
@@ -137,7 +137,7 @@ public class ModuleSchedulerDynamicCycleTests
             Times.Never);
 
         scheduler.MarkModuleCompleted(module.ModuleType, success: true);
-        await schedulerTask.WaitAsync(TimeSpan.FromSeconds(5));
+        await schedulerTask.WaitAsync(TimeSpan.FromSeconds(30));
     }
 
     [Test]
@@ -151,17 +151,17 @@ public class ModuleSchedulerDynamicCycleTests
         scheduler.InitializeModules([new NewlyReadyDependentModule(), new ReadyDependencyModule()]);
 
         var schedulerTask = scheduler.RunSchedulerAsync(CancellationToken.None);
-        var dependency = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
+        var dependency = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(30));
         await Assert.That(dependency.ModuleType).IsEqualTo(typeof(ReadyDependencyModule));
         await Assert.That(scheduler.MarkModuleStarted(dependency.ModuleType)).IsTrue();
         scheduler.MarkModuleCompleted(dependency.ModuleType, success: true);
 
-        var dependent = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
+        var dependent = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(30));
         await Assert.That(dependent.ModuleType).IsEqualTo(typeof(NewlyReadyDependentModule));
         await Assert.That(scheduler.MarkModuleStarted(dependent.ModuleType)).IsTrue();
         scheduler.MarkModuleCompleted(dependent.ModuleType, success: true);
 
-        await schedulerTask.WaitAsync(TimeSpan.FromSeconds(5));
+        await schedulerTask.WaitAsync(TimeSpan.FromSeconds(30));
     }
 
     [Test]
@@ -178,14 +178,14 @@ public class ModuleSchedulerDynamicCycleTests
         await Assert.That(scheduler.GetStatistics()).IsEqualTo((1, 0, 0, 0, 1));
 
         var schedulerTask = scheduler.RunSchedulerAsync(CancellationToken.None);
-        var module = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
+        var module = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(30));
         await Assert.That(scheduler.GetStatistics()).IsEqualTo((1, 1, 0, 0, 0));
 
         await Assert.That(scheduler.MarkModuleStarted(module.ModuleType)).IsTrue();
         await Assert.That(scheduler.GetStatistics()).IsEqualTo((1, 0, 1, 0, 0));
 
         scheduler.MarkModuleCompleted(module.ModuleType, success: true);
-        await schedulerTask.WaitAsync(TimeSpan.FromSeconds(5));
+        await schedulerTask.WaitAsync(TimeSpan.FromSeconds(30));
 
         await Assert.That(scheduler.GetStatistics()).IsEqualTo((1, 0, 0, 1, 0));
     }

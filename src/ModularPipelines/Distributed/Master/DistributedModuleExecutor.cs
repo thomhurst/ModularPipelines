@@ -54,6 +54,9 @@ internal class DistributedModuleExecutor(
 
     private static readonly TimeSpan WorkerRegistrationPollInterval = TimeSpan.FromMilliseconds(250);
 
+    // Modules the coordinator is executing itself, mapped to that execution's completion.
+    private readonly ConcurrentDictionary<IModule, Task> _localExecutions = new();
+
     private readonly IHostApplicationLifetime _lifetime = lifetime;
     private readonly IModuleSchedulerFactory _schedulerFactory = schedulerFactory;
     private readonly IAlwaysRunHandler _alwaysRunHandler = alwaysRunHandler;
@@ -785,13 +788,37 @@ internal class DistributedModuleExecutor(
             _logger.LogDebug("Coordinator executing module {Module} locally", assignment.ModuleId);
         }
 
-        await _assignmentExecutor.ExecuteAsync(
-                lease,
-                claimedAt,
-                moduleLookup,
-                dependencyResultCache,
-                executionCancellationToken)
-            .ConfigureAwait(false);
+        if (!moduleLookup.TryGetValue(assignment.ModuleId, out var module))
+        {
+            await _assignmentExecutor.ExecuteAsync(
+                    lease,
+                    claimedAt,
+                    moduleLookup,
+                    dependencyResultCache,
+                    executionCancellationToken)
+                .ConfigureAwait(false);
+            return;
+        }
+
+        // Record the local execution before observing cancellation, so a collector that stops
+        // waiting because of that cancellation defers to this execution's own result.
+        var localExecution = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        _localExecutions[module] = localExecution.Task;
+        try
+        {
+            await _assignmentExecutor.ExecuteAsync(
+                    lease,
+                    claimedAt,
+                    moduleLookup,
+                    dependencyResultCache,
+                    executionCancellationToken)
+                .ConfigureAwait(false);
+        }
+        finally
+        {
+            _localExecutions.TryRemove(new KeyValuePair<IModule, Task>(module, localExecution.Task));
+            localExecution.TrySetResult();
+        }
     }
 
     /// <summary>
@@ -911,7 +938,8 @@ internal class DistributedModuleExecutor(
                 await WithdrawAsync(assignment.ModuleId).ConfigureAwait(false);
             }
 
-            var result = RegisterFailureResult(module, moduleType, exception, ModuleStatus.Cancelled, plan.Context);
+            var result = await GetLocalExecutionResultAsync(module).ConfigureAwait(false)
+                ?? RegisterFailureResult(module, moduleType, exception, ModuleStatus.Cancelled, plan.Context);
             plan.Scheduler.MarkModuleCompleted(
                 moduleType,
                 result is not null && result.ExceptionOrDefault is null,
@@ -1102,6 +1130,30 @@ internal class DistributedModuleExecutor(
         }
 
         _metricsCollector.RecordReportedExecutionDuration(moduleType, result.EndTime - result.StartTime);
+    }
+
+    /// <summary>
+    /// Waits for the coordinator's own execution of <paramref name="module"/>, if one is running,
+    /// and returns the result it produced. That result is authoritative: it may be the failure
+    /// that cancelled the pipeline, which a synthesised cancellation result must not replace.
+    /// </summary>
+    private async Task<IModuleResult?> GetLocalExecutionResultAsync(IModule module)
+    {
+        if (!_localExecutions.TryGetValue(module, out var localExecution))
+        {
+            return null;
+        }
+
+        try
+        {
+            await localExecution.WaitAsync(_lifetime.ApplicationStopping).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (_lifetime.ApplicationStopping.IsCancellationRequested)
+        {
+            return null;
+        }
+
+        return GetCompletedResult(module);
     }
 
     private static IModuleResult? GetCompletedResult(IModule module)
