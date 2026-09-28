@@ -1377,7 +1377,11 @@ ModularPipelines.Configuration.ModuleConfiguration.ExecutionHint.init -> void
 ModularPipelines.Configuration.ModuleConfiguration.IgnoreFailuresCondition.get -> System.Func<ModularPipelines.IModuleContext!, System.Exception!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<bool>>?
 ModularPipelines.Configuration.ModuleConfiguration.Priority.get -> ModularPipelines.ModulePriority?
 ModularPipelines.Configuration.ModuleConfiguration.SkipCondition.get -> System.Func<ModularPipelines.IModuleContext!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<ModularPipelines.SkipDecision!>>?
-ModularPipelines.Context.Domains.Shell.ICommandInterceptor.InterceptAsync(ModularPipelines.Context.Domains.Shell.CommandInvocation! invocation, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<ModularPipelines.CommandResult?>
+ModularPipelines.Context.Domains.Shell.CommandDelegate
+ModularPipelines.Context.Domains.Shell.ICommandInterceptor.InvokeAsync(ModularPipelines.Context.Domains.Shell.CommandInvocation! invocation, ModularPipelines.Context.Domains.Shell.CommandDelegate! next, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<ModularPipelines.CommandResult!>
+virtual ModularPipelines.Context.Domains.Shell.CommandDelegate.Invoke(ModularPipelines.Context.Domains.Shell.CommandInvocation! invocation, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<ModularPipelines.CommandResult!>
+static ModularPipelines.PipelineBuilderExtensions.AddCommandInterceptor(this ModularPipelines.PipelineBuilder! builder, ModularPipelines.Context.Domains.Shell.ICommandInterceptor! interceptor) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.PipelineBuilderExtensions.AddCommandInterceptor<TInterceptor>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 ModularPipelines.Context.HashEncoding
 ModularPipelines.Context.HashEncoding.Base64 = 1 -> ModularPipelines.Context.HashEncoding
 ModularPipelines.Context.HashEncoding.Hex = 0 -> ModularPipelines.Context.HashEncoding
